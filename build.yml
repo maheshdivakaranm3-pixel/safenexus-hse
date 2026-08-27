@@ -1,0 +1,42 @@
+name: Build Flutter APK
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          cache: true
+
+      - name: Organize Files Safely
+        run: |
+          # safenexus-hse ഓേട്ടാമാറ്റിക് ഉള്ളതുകൊണ്ട് വീണ്ടും mkdir ചെയ്യാതെ ഫയലുകൾ മാത്രം ഉള്ളിലേക്ക് നീക്കുന്നു
+          if [ -d "lib" ] && [ -d "safenexus-hse" ]; then mv lib safenexus-hse/; fi
+          if [ -f "pubspec.yaml" ] && [ -d "safenexus-hse" ]; then mv pubspec.yaml safenexus-hse/; fi
+
+      - name: Get Dependencies & Build APK
+        run: |
+          cd safenexus-hse
+          flutter pub get
+          flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: safenexus-hse/build/app/outputs/flutter-apk/app-release.apk
