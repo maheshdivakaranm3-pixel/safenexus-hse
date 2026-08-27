@@ -22,6 +22,10 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
+      - name: Create Android Platform Support
+        run: |
+          flutter create . --platforms=android --org com.safenexus.hse
+
       - name: Get Dependencies
         run: flutter pub get
 
