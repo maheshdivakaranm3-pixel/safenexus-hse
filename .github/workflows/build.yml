@@ -24,12 +24,14 @@ jobs:
 
       - name: Get Dependencies
         run: flutter pub get
+        working-directory: safenexus-hse
 
       - name: Build APK
         run: flutter build apk --release
+        working-directory: safenexus-hse
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: safenexus-hse/build/app/outputs/flutter-apk/app-release.apk
