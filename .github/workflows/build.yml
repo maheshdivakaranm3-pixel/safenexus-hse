@@ -22,14 +22,14 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Get Dependencies & Build APK
-        run: |
-          cd safenexus-hse/safenexus-hse
-          flutter pub get
-          flutter build apk --release
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: safenexus-hse/safenexus-hse/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
