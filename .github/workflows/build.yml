@@ -22,14 +22,15 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Get Dependencies
-        run: flutter pub get
-
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Get Dependencies & Build APK
+        run: |
+          # നിങ്ങളുടെ പ്രോജക്റ്റ് ഫയലുകൾ കിടക്കുന്ന ഫോൾഡർ ഏതാണെന്ന് നോക്കി താഴെയുള്ള 'safenexus-hse' എന്നതിന് പകരം ആ ഫോൾഡറിന്റെ പേര് നൽകുക
+          cd safenexus-hse
+          flutter pub get
+          flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: '**/build/app/outputs/flutter-apk/app-release.apk'
