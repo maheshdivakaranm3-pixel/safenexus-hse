@@ -8,8 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v5
@@ -21,13 +20,14 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.0'
-          cache: true
+          channel: 'stable'
 
-      - name: Organize Files Safely
+      - name: Check files and navigate
         run: |
-          # safenexus-hse ഓേട്ടാമാറ്റിക് ഉള്ളതുകൊണ്ട് വീണ്ടും mkdir ചെയ്യാതെ ഫയലുകൾ മാത്രം ഉള്ളിലേക്ക് നീക്കുന്നു
-          if [ -d "lib" ] && [ -d "safenexus-hse" ]; then mv lib safenexus-hse/; fi
-          if [ -f "pubspec.yaml" ] && [ -d "safenexus-hse" ]; then mv pubspec.yaml safenexus-hse/; fi
+          pwd
+          ls -la
+          cd safenexus-hse
+          ls -la
 
       - name: Get Dependencies & Build APK
         run: |
