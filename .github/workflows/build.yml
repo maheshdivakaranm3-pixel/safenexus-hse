@@ -22,9 +22,12 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Get Dependencies & Build APK
+      - name: Find and Build Flutter Project
         run: |
-          cd safenexus-hse
+          # pubspec.yaml ഫയൽ ഏത് ഫോൾഡറിലാണെന്ന് കണ്ടുപിടിച്ച് അവിടേക്ക് പോയി ബിൽഡ് ചെയ്യുന്നു
+          PROJECT_DIR=$(find . -name "pubspec.yaml" -exec dirname {} \;)
+          echo "Found Flutter project in: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
           flutter pub get
           flutter build apk --release
 
@@ -32,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: safenexus-hse/build/app/outputs/flutter-apk/app-release.apk
+          path: '**/build/app/outputs/flutter-apk/app-release.apk'
