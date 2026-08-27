@@ -23,12 +23,11 @@ jobs:
           flutter-version: '3.19.0'
           cache: true
 
-      - name: Organize Files
+      - name: Organize Files Safely
         run: |
-          mkdir -p safenexus-hse
-          # lib ഫോൾഡറും pubspec.yaml ഫയലും safenexus-hse ഉള്ളിലേക്ക് മാറ്റുന്നു
-          if [ -d "lib" ]; then mv lib safenexus-hse/; fi
-          if [ -f "pubspec.yaml" ]; then mv pubspec.yaml safenexus-hse/; fi
+          # safenexus-hse ഓേട്ടാമാറ്റിക് ഉള്ളതുകൊണ്ട് വീണ്ടും mkdir ചെയ്യാതെ ഫയലുകൾ മാത്രം ഉള്ളിലേക്ക് നീക്കുന്നു
+          if [ -d "lib" ] && [ -d "safenexus-hse" ]; then mv lib safenexus-hse/; fi
+          if [ -f "pubspec.yaml" ] && [ -d "safenexus-hse" ]; then mv pubspec.yaml safenexus-hse/; fi
 
       - name: Get Dependencies & Build APK
         run: |
