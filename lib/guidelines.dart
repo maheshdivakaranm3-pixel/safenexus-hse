@@ -43,20 +43,29 @@ class GuidelinesPage extends StatelessWidget {
         itemCount: uaeGuidelines.length,
         itemBuilder: (context, index) {
           final item = uaeGuidelines[index];
+
           return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 6,
+            ),
             elevation: 2,
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.blueAccent,
                 child: Text(
                   item['letter']!,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               title: Text(
                 item['title']!,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               subtitle: Text(item['desc']!),
             ),
