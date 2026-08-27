@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'guidelines.dart';
-import 'hazard_report.dart'; // ഹസാർഡ് റിപ്പോർട്ട് പേജ് ഇവിടെ കണക്റ്റ് ചെയ്യുന്നു
+import 'hazard_report.dart';
+import 'voice_report.dart'; // വോയ്‌സ് റിപ്പോർട്ട് പേജ് ഇവിടെ കണക്റ്റ് ചെയ്യുന്നു
 
 void main() {
   runApp(const SafeNexusApp());
@@ -133,7 +134,12 @@ class DashboardPage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const HazardReportPage()),
               );
             }),
-            _buildFeatureCard(context, 'Voice Report', Icons.mic, Colors.green, () {}),
+            _buildFeatureCard(context, 'Voice Report', Icons.mic, Colors.green, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const VoiceReportPage()),
+              );
+            }),
             _buildFeatureCard(context, 'UAE A-Z Guidelines', Icons.book, Colors.blue, () {
               Navigator.push(
                 context,
