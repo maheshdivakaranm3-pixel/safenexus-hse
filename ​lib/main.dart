@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'guidelines.dart'; // നമ്മൾ ഉണ്ടാക്കിയ ഗൈഡ്‌ലൈൻസ് പേജ് ഇവിടെ കണക്റ്റ് ചെയ്യുന്നു
+import 'guidelines.dart';
+import 'hazard_report.dart'; // ഹസാർഡ് റിപ്പോർട്ട് പേജ് ഇവിടെ കണക്റ്റ് ചെയ്യുന്നു
 
 void main() {
   runApp(const SafeNexusApp());
@@ -126,7 +127,12 @@ class DashboardPage extends StatelessWidget {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildFeatureCard(context, 'Report Hazard', Icons.camera_alt, Colors.orange, () {}),
+            _buildFeatureCard(context, 'Report Hazard', Icons.camera_alt, Colors.orange, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HazardReportPage()),
+              );
+            }),
             _buildFeatureCard(context, 'Voice Report', Icons.mic, Colors.green, () {}),
             _buildFeatureCard(context, 'UAE A-Z Guidelines', Icons.book, Colors.blue, () {
               Navigator.push(
