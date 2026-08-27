@@ -22,17 +22,14 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Find and Build Flutter Project
-        run: |
-          # pubspec.yaml ഉള്ള ഫോൾഡർ കണ്ടുപിടിച്ച് അവിടേക്ക് മാറുന്നു
-          PROJECT_DIR=$(find . -name "pubspec.yaml" -maxdepth 3 -exec dirname {} \;)
-          echo "Found project in: $PROJECT_DIR"
-          cd "$PROJECT_DIR"
-          flutter pub get
-          flutter build apk --release
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: '**/build/app/outputs/flutter-apk/app-release.apk'
+          path: build/app/outputs/flutter-apk/app-release.apk
