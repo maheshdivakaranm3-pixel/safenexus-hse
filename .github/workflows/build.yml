@@ -7,9 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./safenexus-hse
     steps:
       - uses: actions/checkout@v4
 
@@ -27,13 +24,14 @@ jobs:
 
       - name: Get Dependencies
         run: flutter pub get
+        working-directory: safenexus-hse
 
       - name: Build APK
         run: flutter build apk --release
+        working-directory: safenexus-hse
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: safenexus-hse/build/app/outputs/flutter-apk/app-release.apk
- 
