@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'guidelines.dart'; // നമ്മൾ ഉണ്ടാക്കിയ ഗൈഡ്‌ലൈൻസ് പേജ് ഇവിടെ കണക്റ്റ് ചെയ്യുന്നു
 
 void main() {
   runApp(const SafeNexusApp());
@@ -29,78 +30,78 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        center: true, // simplified layout alignment
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Icon(
-                Icons.security,
-                size: 80,
-                color: Colors.blueAccent,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'SafeNexus HSE',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Icon(
+                  Icons.security,
+                  size: 80,
+                  color: Colors.blueAccent,
                 ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'AI-Powered HSE Safety & Observation App for UAE',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 40),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Worker ID / Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.person),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.lock),
-                ),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to Home Dashboard
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DashboardPage()),
-                  );
-                },
-                style: ElevatedButton.styleOptions(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                const SizedBox(height: 16),
+                const Text(
+                  'SafeNexus HSE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                const SizedBox(height: 8),
+                const Text(
+                  'AI-Powered HSE Safety & Observation App for UAE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 40),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Worker ID / Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: const Icon(Icons.person),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DashboardPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -125,24 +126,27 @@ class DashboardPage extends StatelessWidget {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildFeatureCard(context, 'Report Hazard', Icons.camera_alt, Colors.orange),
-            _buildFeatureCard(context, 'Voice Report', Icons.mic, Colors.green),
-            _buildFeatureCard(context, 'AI Posters', Icons.image, Colors.purple),
-            _buildFeatureCard(context, 'Weather Risk', Icons.wb_sunny, Colors.red),
+            _buildFeatureCard(context, 'Report Hazard', Icons.camera_alt, Colors.orange, () {}),
+            _buildFeatureCard(context, 'Voice Report', Icons.mic, Colors.green, () {}),
+            _buildFeatureCard(context, 'UAE A-Z Guidelines', Icons.book, Colors.blue, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GuidelinesPage()),
+              );
+            }),
+            _buildFeatureCard(context, 'Weather Risk', Icons.wb_sunny, Colors.red, () {}),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, String title, IconData icon, Color color) {
+  Widget _buildFeatureCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
-        onTap: () {
-          // Action for features
-        },
+        onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -150,7 +154,7 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ],
@@ -159,4 +163,3 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
-
