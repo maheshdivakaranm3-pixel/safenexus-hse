@@ -21,16 +21,14 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.0'
-          channel: 'stable'
+          cache: true
 
-      - name: Move pubspec to root or organize files
+      - name: Organize Files
         run: |
-          # safenexus-hse ഉള്ളിലെ lib ഫോൾഡറിനെ പുറത്തേക്ക് കൊണ്ടുവരാൻ അല്ലെങ്കിൽ 
-          # pubspec.yaml-നെ safenexus-hse ഉള്ളിലേക്ക് ഇടാൻ ശ്രദ്ധിക്കുക.
-          # ഏറ്റവും എളുപ്പമുള്ള വഴി താഴെ കൊടുത്തിരിക്കുന്നു:
           mkdir -p safenexus-hse
-          mv lib safenexus-hse/
-          mv pubspec.yaml safenexus-hse/
+          # lib ഫോൾഡറും pubspec.yaml ഫയലും safenexus-hse ഉള്ളിലേക്ക് മാറ്റുന്നു
+          if [ -d "lib" ]; then mv lib safenexus-hse/; fi
+          if [ -f "pubspec.yaml" ]; then mv pubspec.yaml safenexus-hse/; fi
 
       - name: Get Dependencies & Build APK
         run: |
