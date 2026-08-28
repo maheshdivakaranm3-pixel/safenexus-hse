@@ -1,4 +1,4 @@
-name: Build Flutter APK
+name: Build SafeNexus HSE APK
 
 on:
   push:
@@ -21,8 +21,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
           channel: 'stable'
+
+      - name: Show Flutter Version
+        run: flutter --version
 
       - name: Create Android Platform Support
         run: |
@@ -31,14 +33,55 @@ jobs:
             --platforms=android \
             --org=com.safenexus.hse
 
+      - name: Update Android SDK Configuration
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          files = [
+              Path("android/app/build.gradle"),
+              Path("android/app/build.gradle.kts"),
+          ]
+
+          for file in files:
+              if not file.exists():
+                  continue
+
+              text = file.read_text()
+
+              # Groovy
+              text = text.replace(
+                  "compileSdk flutter.compileSdkVersion",
+                  "compileSdk 35"
+              )
+
+              text = text.replace(
+                  "targetSdk flutter.targetSdkVersion",
+                  "targetSdk 35"
+              )
+
+              # Kotlin DSL
+              text = text.replace(
+                  "compileSdk = flutter.compileSdkVersion",
+                  "compileSdk = 35"
+              )
+
+              text = text.replace(
+                  "targetSdk = flutter.targetSdkVersion",
+                  "targetSdk = 35"
+              )
+
+              file.write_text(text)
+          PY
+
       - name: Get Dependencies
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build Release APK
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
+          name: SafeNexus-HSE-APK
           path: build/app/outputs/flutter-apk/app-release.apk
