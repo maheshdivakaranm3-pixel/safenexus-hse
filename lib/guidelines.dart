@@ -16,782 +16,667 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       {
         'letter': 'A',
         'title': 'ADOSH (Abu Dhabi OSH)',
-        'desc': 'Abu Dhabi Occupational Safety and Health requirements.',
+        'desc':
+            'Abu Dhabi Occupational Safety and Health System Framework and workplace safety requirements.',
+
         'English_title': 'ADOSH (Abu Dhabi OSH)',
         'English_what': 'What is ADOSH?',
         'English_whatText':
-            'ADOSH is the Abu Dhabi Occupational Safety and Health system used to manage workplace safety and health risks.',
+            'ADOSH-SF is the Abu Dhabi Occupational Safety and Health System Framework. It provides a structured framework for managing occupational safety and health risks and establishing an effective OSH management system.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To prevent injuries, occupational illness and unsafe working conditions.',
+            'To prevent workplace injuries, occupational illness and unsafe conditions by identifying hazards, assessing risks and implementing effective controls.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Implement applicable OSH requirements, risk assessments, procedures, training and reporting.',
+            'Organizations must identify applicable OSH requirements, establish appropriate policies and procedures, assess workplace risks, provide competent resources, implement controls, monitor performance and maintain required records.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'Employers, supervisors and workers must follow applicable OSH requirements.',
-        'English_checklist': 'Checklist',
+            'Management provides resources and leadership. Supervisors implement safe work practices. Workers follow procedures, use required PPE and report hazards, incidents and unsafe conditions.',
+        'English_checklist': 'HSE Checklist',
         'English_checklistText':
-            'Risk assessment, PPE, training, inspections, emergency arrangements and reporting.',
-        'English_violations': 'Violations',
+            'OSH policy, risk assessment, legal requirements, training and competency, PPE, emergency arrangements, inspections, incident reporting, monitoring and corrective actions.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Failure to control identified hazards can result in unsafe conditions and corrective action.',
+            'Working without required controls, inadequate risk assessment, failure to provide PPE or training, poor housekeeping, unsafe equipment and failure to report incidents.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Maintain documented procedures, inspections, training and continual improvement.',
+            'Use a proactive risk-management approach, conduct regular inspections, involve workers in safety activities, close corrective actions promptly and continuously improve the OSH management system.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Abu Dhabi Occupational Safety and Health System requirements.'
+            'Abu Dhabi Public Health Centre (ADPHC) – Abu Dhabi Occupational Safety and Health System Framework (ADOSH-SF), Version 4.0 and applicable Codes of Practice.',
+
+        'Hindi_title': 'ADOSH (Abu Dhabi OSH)',
+        'Hindi_what': 'ADOSH क्या है?',
+        'Hindi_whatText':
+            'ADOSH-SF अबू धाबी का Occupational Safety and Health System Framework है। यह कार्यस्थल पर सुरक्षा और स्वास्थ्य जोखिमों को व्यवस्थित रूप से प्रबंधित करने के लिए एक ढांचा प्रदान करता है।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'कार्यस्थल की चोटों, व्यावसायिक बीमारी और असुरक्षित परिस्थितियों को रोकना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'लागू OSH आवश्यकताओं की पहचान, जोखिम मूल्यांकन, सुरक्षित प्रक्रियाएँ, प्रशिक्षण, PPE, आपातकालीन व्यवस्था, निरीक्षण और रिकॉर्ड बनाए रखना आवश्यक है।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'प्रबंधन संसाधन और नेतृत्व प्रदान करता है। सुपरवाइजर सुरक्षित कार्य लागू करते हैं। कर्मचारी प्रक्रियाओं का पालन करते और खतरों की रिपोर्ट करते हैं।',
+        'Hindi_checklist': 'HSE चेकलिस्ट',
+        'Hindi_checklistText':
+            'OSH नीति, Risk Assessment, प्रशिक्षण, PPE, Emergency Plan, Inspection, Incident Reporting और Corrective Action की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'बिना नियंत्रण के काम करना, अपर्याप्त Risk Assessment, PPE या प्रशिक्षण की कमी और Incident Reporting में विफलता।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'नियमित निरीक्षण करें, कर्मचारियों को सुरक्षा गतिविधियों में शामिल करें और Corrective Actions को समय पर बंद करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'Abu Dhabi Public Health Centre (ADPHC) – ADOSH-SF Version 4.0 और लागू Codes of Practice।',
+
+        'Malayalam_title': 'ADOSH (Abu Dhabi OSH)',
+        'Malayalam_what': 'ADOSH എന്താണ്?',
+        'Malayalam_whatText':
+            'ADOSH-SF എന്നത് അബുദാബിയിലെ Occupational Safety and Health System Framework ആണ്. ജോലിസ്ഥലത്തെ സുരക്ഷാ, ആരോഗ്യ അപകടസാധ്യതകൾ ക്രമബദ്ധമായി നിയന്ത്രിക്കുന്നതിനുള്ള സംവിധാനമാണിത്.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'ജോലിസ്ഥലത്തെ അപകടങ്ങൾ, തൊഴിൽ സംബന്ധമായ അസുഖങ്ങൾ, സുരക്ഷിതമല്ലാത്ത സാഹചര്യങ്ങൾ എന്നിവ തടയുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'ബാധകമായ OSH ആവശ്യകതകൾ തിരിച്ചറിയുക, Risk Assessment നടത്തുക, സുരക്ഷിതമായ നടപടിക്രമങ്ങൾ, Training, PPE, Emergency Arrangements, Inspection, Reporting എന്നിവ നടപ്പാക്കുക.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Management ആവശ്യമായ വിഭവങ്ങളും നേതൃത്വവും നൽകണം. Supervisors സുരക്ഷിതമായ ജോലി ഉറപ്പാക്കണം. Workers procedures പാലിക്കുകയും hazards report ചെയ്യുകയും വേണം.',
+        'Malayalam_checklist': 'HSE Checklist',
+        'Malayalam_checklistText':
+            'OSH Policy, Risk Assessment, Training, PPE, Emergency Plan, Inspection, Incident Reporting, Monitoring, Corrective Action എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'ആവശ്യമായ നിയന്ത്രണങ്ങളില്ലാതെ ജോലി ചെയ്യൽ, ശരിയായ Risk Assessment ഇല്ലായ്മ, PPE/Training കുറവ്, അപകടങ്ങൾ റിപ്പോർട്ട് ചെയ്യാത്തത്.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'Regular Inspection നടത്തുക, തൊഴിലാളികളെ safety activities-ൽ ഉൾപ്പെടുത്തുക, corrective actions സമയത്ത് close ചെയ്യുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'Abu Dhabi Public Health Centre (ADPHC) – ADOSH-SF Version 4.0 കൂടാതെ ബാധകമായ Codes of Practice.',
+
+        'Tamil_title': 'ADOSH (Abu Dhabi OSH)',
+        'Tamil_what': 'ADOSH என்றால் என்ன?',
+        'Tamil_whatText':
+            'ADOSH-SF என்பது அபுதாபியின் Occupational Safety and Health System Framework ஆகும். பணியிட பாதுகாப்பு மற்றும் சுகாதார அபாயங்களை முறையாக நிர்வகிக்க இது ஒரு கட்டமைப்பை வழங்குகிறது.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'பணியிட விபத்துகள், தொழில் சார்ந்த நோய்கள் மற்றும் பாதுகாப்பற்ற நிலைகளைத் தடுப்பது.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'பொருந்தும் OSH தேவைகளை அடையாளம் காணுதல், Risk Assessment, பாதுகாப்பான நடைமுறைகள், Training, PPE, Emergency Arrangements மற்றும் Inspection ஆகியவை செயல்படுத்தப்பட வேண்டும்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Management வளங்களையும் தலைமையையும் வழங்க வேண்டும். Supervisors பாதுகாப்பான வேலை முறைகளை உறுதி செய்ய வேண்டும். Workers நடைமுறைகளைப் பின்பற்றி hazards-ஐ report செய்ய வேண்டும்.',
+        'Tamil_checklist': 'HSE Checklist',
+        'Tamil_checklistText':
+            'OSH Policy, Risk Assessment, Training, PPE, Emergency Plan, Inspection, Incident Reporting மற்றும் Corrective Action ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'தேவையான controls இல்லாமல் வேலை செய்தல், Risk Assessment குறைபாடு, PPE/Training இல்லாமை மற்றும் incidents report செய்யாதது.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'Regular Inspection செய்யவும், workers-ஐ safety activities-ல் ஈடுபடுத்தவும், corrective actions-ஐ நேரத்தில் close செய்யவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'Abu Dhabi Public Health Centre (ADPHC) – ADOSH-SF Version 4.0 மற்றும் பொருந்தும் Codes of Practice.',
       },
+
       {
         'letter': 'B',
         'title': 'Basic Safety Rules',
-        'desc': 'Essential safety rules for every workplace.',
+        'desc':
+            'Essential workplace safety rules that every worker must follow.',
+
         'English_title': 'Basic Safety Rules',
         'English_what': 'What are Basic Safety Rules?',
         'English_whatText':
-            'Basic safety rules are fundamental precautions that workers must follow to prevent accidents.',
+            'Basic safety rules are fundamental precautions that help workers perform tasks safely and prevent common workplace incidents.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To reduce unsafe acts, unsafe conditions and workplace injuries.',
+            'To prevent injuries, unsafe acts, property damage and avoidable incidents.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Use required PPE, follow procedures, maintain housekeeping and report hazards.',
+            'Follow site procedures, use required PPE, maintain housekeeping, use tools correctly, follow warning signs, keep access routes clear and report hazards immediately.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'Workers and supervisors must actively maintain safe working conditions.',
-        'English_checklist': 'Checklist',
+            'Workers must follow safe work procedures. Supervisors must monitor compliance and correct unsafe acts. Management must provide suitable resources and training.',
+        'English_checklist': 'HSE Checklist',
         'English_checklistText':
-            'PPE, housekeeping, access, tools, electrical safety and emergency routes.',
-        'English_violations': 'Violations',
+            'PPE, housekeeping, access and egress, tools, electrical safety, lifting practices, signage, emergency equipment and hazard reporting.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Ignoring site safety rules may expose workers to serious hazards.',
+            'Failure to wear PPE, horseplay, blocked access, unsafe use of tools, bypassing safety devices and ignoring warning signs.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Stop unsafe work, report hazards and follow approved safe work procedures.',
+            'Stop unsafe work when necessary, follow approved procedures, maintain good housekeeping and report hazards before they become incidents.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Company HSE procedures and applicable UAE requirements.'
+            'Company HSE procedures, applicable ADOSH-SF requirements and relevant UAE legislation.',
+
+        'Hindi_title': 'Basic Safety Rules',
+        'Hindi_what': 'Basic Safety Rules क्या हैं?',
+        'Hindi_whatText':
+            'Basic Safety Rules वे मूल सुरक्षा सावधानियाँ हैं जिनका पालन करके कर्मचारी सुरक्षित रूप से काम कर सकते हैं।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'चोटों, असुरक्षित कार्यों और अनावश्यक घटनाओं को रोकना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'Site procedures का पालन करें, PPE पहनें, housekeeping बनाए रखें, tools सही तरीके से इस्तेमाल करें और hazards की तुरंत रिपोर्ट करें।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'Workers procedures का पालन करें। Supervisors compliance की निगरानी करें। Management training और resources उपलब्ध कराए।',
+        'Hindi_checklist': 'HSE चेकलिस्ट',
+        'Hindi_checklistText':
+            'PPE, housekeeping, access, tools, electrical safety, signage, emergency equipment और hazard reporting की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'PPE न पहनना, unsafe tools, blocked access, safety devices को bypass करना और warning signs को नजरअंदाज करना।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'Unsafe work को रोकें, approved procedures का पालन करें और hazards को तुरंत report करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'Company HSE procedures, ADOSH-SF requirements और लागू UAE legislation।',
+
+        'Malayalam_title': 'Basic Safety Rules',
+        'Malayalam_what': 'Basic Safety Rules എന്താണ്?',
+        'Malayalam_whatText':
+            'ജോലിസ്ഥലത്ത് സുരക്ഷിതമായി ജോലി ചെയ്യാൻ ഓരോ തൊഴിലാളിയും പാലിക്കേണ്ട അടിസ്ഥാന സുരക്ഷാ മുൻകരുതലുകളാണ് Basic Safety Rules.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'പരിക്കുകൾ, unsafe acts, property damage, incidents എന്നിവ തടയുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'Site procedures പാലിക്കുക, ആവശ്യമായ PPE ഉപയോഗിക്കുക, housekeeping maintain ചെയ്യുക, tools ശരിയായി ഉപയോഗിക്കുക, warning signs പാലിക്കുക, hazards ഉടൻ report ചെയ്യുക.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Workers safe procedures പാലിക്കണം. Supervisors compliance പരിശോധിക്കണം. Management ആവശ്യമായ training, resources എന്നിവ നൽകണം.',
+        'Malayalam_checklist': 'HSE Checklist',
+        'Malayalam_checklistText':
+            'PPE, housekeeping, access, tools, electrical safety, signage, emergency equipment, hazard reporting എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'PPE ഉപയോഗിക്കാത്തത്, unsafe tool use, access block ചെയ്യൽ, safety devices bypass ചെയ്യൽ, warning signs അവഗണിക്കൽ.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'Unsafe work ആവശ്യമെങ്കിൽ stop ചെയ്യുക, approved procedures പാലിക്കുക, hazards ഉടൻ report ചെയ്യുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'Company HSE Procedures, ബാധകമായ ADOSH-SF requirements, UAE legislation.',
+
+        'Tamil_title': 'Basic Safety Rules',
+        'Tamil_what': 'Basic Safety Rules என்றால் என்ன?',
+        'Tamil_whatText':
+            'பணியிடத்தில் பாதுகாப்பாக வேலை செய்வதற்காக ஒவ்வொரு தொழிலாளியும் பின்பற்ற வேண்டிய அடிப்படை பாதுகாப்பு விதிகள்.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'காயங்கள், பாதுகாப்பற்ற செயல்கள் மற்றும் தவிர்க்கக்கூடிய சம்பவங்களைத் தடுப்பது.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'Site procedures-ஐ பின்பற்றுதல், PPE பயன்படுத்துதல், housekeeping பராமரித்தல், tools-ஐ சரியாக பயன்படுத்துதல் மற்றும் hazards-ஐ உடனடியாக report செய்தல்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Workers பாதுகாப்பு நடைமுறைகளைப் பின்பற்ற வேண்டும். Supervisors compliance-ஐ கண்காணிக்க வேண்டும். Management training மற்றும் resources வழங்க வேண்டும்.',
+        'Tamil_checklist': 'HSE Checklist',
+        'Tamil_checklistText':
+            'PPE, housekeeping, access, tools, electrical safety, signage, emergency equipment மற்றும் hazard reporting ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'PPE பயன்படுத்தாதது, unsafe tools, access block செய்தல், safety devices bypass செய்தல் மற்றும் warning signs-ஐ புறக்கணித்தல்.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'Unsafe work-ஐ நிறுத்தி, approved procedures-ஐ பின்பற்றி, hazards-ஐ உடனடியாக report செய்யவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'Company HSE Procedures, ADOSH-SF requirements மற்றும் பொருந்தும் UAE legislation.',
       },
+
       {
         'letter': 'C',
-        'title': 'Code of Practice (CoP)',
-        'desc': 'Safety requirements and good practice guidance.',
-        'English_title': 'Code of Practice (CoP)',
+        'title': 'Dubai Code of Practice (CoP)',
+        'desc':
+            'Safety requirements and good practices applicable to construction and workplace activities in Dubai.',
+
+        'English_title': 'Dubai Code of Practice (CoP)',
         'English_what': 'What is a Code of Practice?',
         'English_whatText':
-            'A Code of Practice provides practical guidance for managing specific workplace safety risks.',
+            'A Code of Practice provides practical requirements or guidance for managing specific workplace safety risks. The applicable authority and current edition should always be checked before relying on a specific requirement.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To provide consistent and practical safety controls.',
+            'To provide consistent safety practices and controls for specific activities and hazards.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Identify applicable codes and implement their relevant requirements.',
+            'Identify the applicable authority requirements, use the current approved documents, implement appropriate risk controls and maintain required records.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'HSE personnel and supervisors must ensure applicable requirements are communicated and followed.',
-        'English_checklist': 'Checklist',
+            'Management and HSE personnel must identify applicable requirements. Supervisors must implement them at site level. Workers must follow the approved controls.',
+        'English_checklist': 'HSE Checklist',
         'English_checklistText':
-            'Applicable CoP, risk assessment, procedures, competent persons and inspections.',
-        'English_violations': 'Violations',
+            'Applicable authority identified, current document available, risk assessment completed, controls implemented, workers briefed and inspections recorded.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Failure to follow applicable requirements can create significant safety risks.',
+            'Using outdated requirements, missing risk controls, inadequate worker briefing, poor documentation and failure to inspect work activities.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Keep current copies of applicable standards and review procedures regularly.',
+            'Maintain a legal and regulatory register, verify document revisions and ensure site procedures reflect current applicable requirements.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Applicable UAE authority Codes of Practice and company procedures.'
+            'Applicable Dubai authority requirements and current Codes of Practice. Always verify the latest official publication before compliance decisions.',
+
+        'Hindi_title': 'Dubai Code of Practice (CoP)',
+        'Hindi_what': 'Code of Practice क्या है?',
+        'Hindi_whatText':
+            'Code of Practice किसी विशेष सुरक्षा जोखिम या कार्य के लिए व्यावहारिक आवश्यकताएँ और मार्गदर्शन प्रदान करता है।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'विशिष्ट कार्यों और खतरों के लिए एक समान सुरक्षा नियंत्रण स्थापित करना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'लागू Authority requirements की पहचान करें, वर्तमान दस्तावेजों का उपयोग करें और उचित risk controls लागू करें।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'Management और HSE team applicable requirements पहचानें। Supervisors site पर लागू करें। Workers controls का पालन करें।',
+        'Hindi_checklist': 'HSE चेकलिस्ट',
+        'Hindi_checklistText':
+            'Applicable authority, current document, risk assessment, controls, worker briefing और inspection records की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'पुराने requirements का उपयोग, inadequate controls, worker briefing की कमी और inspection records का अभाव।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'Legal register बनाए रखें और documents के latest revisions को नियमित रूप से verify करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'लागू Dubai authority requirements और current Codes of Practice। Compliance decision से पहले official publication verify करें।',
+
+        'Malayalam_title': 'Dubai Code of Practice (CoP)',
+        'Malayalam_what': 'Code of Practice എന്താണ്?',
+        'Malayalam_whatText':
+            'ഒരു പ്രത്യേക ജോലി അല്ലെങ്കിൽ safety hazard നിയന്ത്രിക്കുന്നതിനുള്ള practical requirements / guidance നൽകുന്ന രേഖയാണ് Code of Practice.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'പ്രത്യേക ജോലികൾക്കും hazards-നും സ്ഥിരതയുള്ള safety controls നൽകുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'ബാധകമായ Authority requirements തിരിച്ചറിയുക, current approved documents ഉപയോഗിക്കുക, Risk Controls നടപ്പാക്കുക, records maintain ചെയ്യുക.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Management/HSE team applicable requirements തിരിച്ചറിയണം. Supervisors site-ൽ implement ചെയ്യണം. Workers controls പാലിക്കണം.',
+        'Malayalam_checklist': 'HSE Checklist',
+        'Malayalam_checklistText':
+            'Applicable authority, current document, Risk Assessment, controls, worker briefing, inspection records എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'പഴയ requirements ഉപയോഗിക്കൽ, risk controls ഇല്ലായ്മ, worker briefing ഇല്ലായ്മ, documentation/inspection കുറവ്.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'Legal/Regulatory Register maintain ചെയ്യുക. Documents-ന്റെ latest revision സ്ഥിരമായി verify ചെയ്യുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'ബാധകമായ Dubai Authority requirements, current Codes of Practice. Compliance decision എടുക്കുന്നതിന് മുമ്പ് official publication പരിശോധിക്കുക.',
+
+        'Tamil_title': 'Dubai Code of Practice (CoP)',
+        'Tamil_what': 'Code of Practice என்றால் என்ன?',
+        'Tamil_whatText':
+            'ஒரு குறிப்பிட்ட வேலை அல்லது பாதுகாப்பு அபாயத்தை நிர்வகிப்பதற்கான நடைமுறை தேவைகள் அல்லது வழிகாட்டுதலை Code of Practice வழங்குகிறது.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'குறிப்பிட்ட பணிகள் மற்றும் அபாயங்களுக்கு ஒரே மாதிரியான பாதுகாப்பு கட்டுப்பாடுகளை வழங்குதல்.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'பொருந்தும் Authority requirements-ஐ கண்டறிந்து, current approved documents பயன்படுத்தி, risk controls செயல்படுத்த வேண்டும்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Management/HSE team requirements-ஐ கண்டறிய வேண்டும். Supervisors site-ல் செயல்படுத்த வேண்டும். Workers controls-ஐ பின்பற்ற வேண்டும்.',
+        'Tamil_checklist': 'HSE Checklist',
+        'Tamil_checklistText':
+            'Authority, current document, Risk Assessment, controls, worker briefing மற்றும் inspection records ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'பழைய requirements பயன்படுத்துதல், risk controls இல்லாமை, worker briefing இல்லாமை மற்றும் inspection records குறைபாடு.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'Legal/Regulatory Register பராமரித்து, documents-ன் latest revision-ஐ தொடர்ந்து verify செய்யவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'பொருந்தும் Dubai Authority requirements மற்றும் current Codes of Practice. Compliance முடிவுகளுக்கு முன் official publication-ஐ சரிபார்க்கவும்.',
       },
+
       {
         'letter': 'D',
         'title': 'Daily Toolbox Talk (TBT)',
-        'desc': 'Daily safety briefing before work starts.',
+        'desc':
+            'Daily safety briefing conducted before work starts.',
+
         'English_title': 'Daily Toolbox Talk (TBT)',
         'English_what': 'What is a Toolbox Talk?',
         'English_whatText':
-            'A Toolbox Talk is a short safety briefing conducted before work to discuss hazards and controls.',
+            'A Toolbox Talk is a short, focused safety briefing conducted before work to discuss the planned activity, hazards, controls and relevant lessons.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To make workers aware of task-specific hazards before starting work.',
+            'To ensure workers understand the day’s tasks, hazards, controls, emergency arrangements and expected safe behaviour.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Discuss the work scope, hazards, controls, PPE and emergency arrangements.',
+            'Discuss the actual task, hazards and controls. Confirm worker understanding and competency where necessary. Record attendance and important observations.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'Supervisors should conduct the briefing and workers should actively participate.',
-        'English_checklist': 'Checklist',
+            'Supervisor or competent person leads the briefing. Workers participate, ask questions and raise hazards or concerns.',
+        'English_checklist': 'TBT Checklist',
         'English_checklistText':
-            'Work scope, hazards, controls, PPE, equipment, weather and emergency arrangements.',
-        'English_violations': 'Violations',
+            'Task discussed, hazards identified, controls explained, PPE confirmed, equipment checked, emergency arrangements discussed and attendance recorded.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Starting work without appropriate briefing can leave workers unaware of hazards.',
+            'Conducting TBT only as a formality, discussing irrelevant topics, poor attendance, no worker participation and missing records.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Keep the discussion short, practical and specific to the planned task.',
+            'Keep the briefing task-specific and interactive. Use recent incidents, site observations and lessons learned to improve awareness.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Company HSE procedures and task-specific risk assessments.'
+            'Company HSE procedures, applicable ADOSH-SF requirements and site-specific risk assessments.',
+
+        'Hindi_title': 'Daily Toolbox Talk (TBT)',
+        'Hindi_what': 'Toolbox Talk क्या है?',
+        'Hindi_whatText':
+            'Toolbox Talk काम शुरू होने से पहले किया जाने वाला छोटा और focused safety briefing है जिसमें task, hazards और controls पर चर्चा होती है।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'Workers को दिन के कार्य, hazards, controls और emergency arrangements समझाना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'Actual task, hazards, controls, PPE और emergency arrangements पर चर्चा करें तथा attendance record करें।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'Supervisor या competent person briefing lead करे। Workers भाग लें और hazards report करें।',
+        'Hindi_checklist': 'TBT चेकलिस्ट',
+        'Hindi_checklistText':
+            'Task, hazards, controls, PPE, equipment, emergency arrangements और attendance की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'केवल formality के लिए TBT करना, worker participation न होना और attendance records का अभाव।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'Briefing को task-specific और interactive रखें। Recent incidents और site observations का उपयोग करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'Company HSE procedures, applicable ADOSH-SF requirements और site risk assessments।',
+
+        'Malayalam_title': 'Daily Toolbox Talk (TBT)',
+        'Malayalam_what': 'Toolbox Talk എന്താണ്?',
+        'Malayalam_whatText':
+            'ജോലി തുടങ്ങുന്നതിന് മുമ്പ് planned task, hazards, controls, PPE, emergency arrangements എന്നിവ ചർച്ച ചെയ്യുന്ന ചെറിയ safety briefing ആണ് Toolbox Talk.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'ദിവസത്തെ ജോലി, hazards, controls, emergency arrangements എന്നിവ തൊഴിലാളികൾക്ക് വ്യക്തമായി മനസ്സിലാക്കുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'Actual task, hazards, controls, PPE, equipment, emergency arrangements എന്നിവ ചർച്ച ചെയ്യുകയും attendance record ചെയ്യുകയും വേണം.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Supervisor/competent person briefing നടത്തണം. Workers പങ്കെടുക്കുകയും hazards/concerns report ചെയ്യുകയും വേണം.',
+        'Malayalam_checklist': 'TBT Checklist',
+        'Malayalam_checklistText':
+            'Task, hazards, controls, PPE, equipment, emergency arrangements, attendance എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'Formality ആയി മാത്രം TBT നടത്തുക, worker participation ഇല്ലായ്മ, attendance record ഇല്ലായ്മ.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'TBT task-specific, interactive ആക്കുക. Recent incidents, site observations, lessons learned എന്നിവ ഉപയോഗിക്കുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'Company HSE procedures, ബാധകമായ ADOSH-SF requirements, site-specific Risk Assessments.',
+
+        'Tamil_title': 'Daily Toolbox Talk (TBT)',
+        'Tamil_what': 'Toolbox Talk என்றால் என்ன?',
+        'Tamil_whatText':
+            'வேலை தொடங்குவதற்கு முன் planned task, hazards, controls, PPE மற்றும் emergency arrangements குறித்து நடத்தப்படும் குறுகிய safety briefing.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'அன்றைய வேலை, hazards, controls மற்றும் emergency arrangements குறித்து workers புரிந்துகொள்ளச் செய்வது.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'Task, hazards, controls, PPE மற்றும் emergency arrangements பற்றி விவாதித்து attendance record செய்ய வேண்டும்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Supervisor/competent person briefing நடத்த வேண்டும். Workers கலந்து கொண்டு hazards-ஐ report செய்ய வேண்டும்.',
+        'Tamil_checklist': 'TBT Checklist',
+        'Tamil_checklistText':
+            'Task, hazards, controls, PPE, equipment, emergency arrangements மற்றும் attendance ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'Formality-க்காக மட்டும் TBT நடத்துதல், worker participation இல்லாமை மற்றும் records இல்லாமை.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'TBT-ஐ task-specific மற்றும் interactive ஆக வைத்துக்கொள்ளவும். Recent incidents மற்றும் site observations பயன்படுத்தவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'Company HSE procedures, applicable ADOSH-SF requirements மற்றும் site-specific Risk Assessments.',
       },
+
       {
         'letter': 'E',
         'title': 'Emergency Preparedness',
-        'desc': 'Preparation for emergencies and accidents.',
+        'desc':
+            'Planning and preparation for fires, accidents and other emergency situations.',
+
         'English_title': 'Emergency Preparedness',
         'English_what': 'What is Emergency Preparedness?',
         'English_whatText':
-            'Emergency preparedness means planning and preparing for fires, medical emergencies, spills and other incidents.',
+            'Emergency preparedness is the process of planning, organizing and preparing people and resources to respond effectively to foreseeable emergencies.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To reduce harm and ensure a quick and coordinated response.',
+            'To protect life, reduce injuries and property damage, and enable an organized emergency response.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Maintain emergency plans, alarms, evacuation routes, assembly points and trained responders.',
+            'Identify credible emergencies, establish emergency procedures, provide alarms and communication methods, maintain suitable emergency equipment, identify assembly points and provide training and drills as required.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'Workers must know emergency procedures and supervisors must ensure arrangements are maintained.',
-        'English_checklist': 'Checklist',
+            'Management provides resources. Emergency teams and competent persons respond according to their roles. Workers follow alarms, evacuation instructions and assembly procedures.',
+        'English_checklist': 'Emergency Checklist',
         'English_checklistText':
-            'Emergency numbers, alarms, exits, assembly points, first aid and fire equipment.',
-        'English_violations': 'Violations',
+            'Emergency plan, alarm system, emergency contacts, evacuation routes, assembly point, fire equipment, first aid, emergency lighting, access for emergency services and drill records.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Blocked exits, missing equipment or lack of training can increase emergency consequences.',
+            'Blocked emergency exits, unavailable extinguishers, unclear assembly points, outdated contact lists, untrained personnel and poor emergency access.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Conduct drills and regularly inspect emergency equipment and routes.',
+            'Review emergency plans regularly, conduct suitable drills, investigate drill findings and close corrective actions.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Site emergency plan and applicable UAE emergency requirements.'
+            'Applicable UAE and local authority emergency requirements, company emergency response plan and relevant ADOSH-SF requirements.',
+
+        'Hindi_title': 'Emergency Preparedness',
+        'Hindi_what': 'Emergency Preparedness क्या है?',
+        'Hindi_whatText':
+            'आपातकाल के लिए लोगों, प्रक्रियाओं और संसाधनों को पहले से तैयार करने की प्रक्रिया Emergency Preparedness है।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'जीवन की रक्षा करना, चोटों और property damage को कम करना तथा व्यवस्थित emergency response सुनिश्चित करना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'संभावित emergencies की पहचान, emergency procedures, alarms, communication, equipment, assembly point और training/drills की व्यवस्था करें।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'Management resources प्रदान करे। Emergency team अपने roles के अनुसार response करे। Workers evacuation instructions का पालन करें।',
+        'Hindi_checklist': 'Emergency Checklist',
+        'Hindi_checklistText':
+            'Emergency plan, alarm, contacts, evacuation route, assembly point, fire equipment, first aid और drill records की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'Blocked exits, unavailable extinguishers, unclear assembly points, outdated contacts और untrained workers।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'Emergency plans की नियमित समीक्षा करें, drills करें और drill findings पर corrective actions बंद करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'लागू UAE/local authority emergency requirements, company emergency response plan और ADOSH-SF requirements।',
+
+        'Malayalam_title': 'Emergency Preparedness',
+        'Malayalam_what': 'Emergency Preparedness എന്താണ്?',
+        'Malayalam_whatText':
+            'Fire, accident, medical emergency തുടങ്ങിയ സാഹചര്യങ്ങളിൽ ഫലപ്രദമായി പ്രതികരിക്കാൻ ആളുകളെയും സംവിധാനങ്ങളെയും ഉപകരണങ്ങളെയും മുൻകൂട്ടി തയ്യാറാക്കുന്ന പ്രക്രിയയാണ് Emergency Preparedness.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'ജീവൻ സംരക്ഷിക്കുക, പരിക്കുകളും property damage-ഉം കുറയ്ക്കുക, organized emergency response ഉറപ്പാക്കുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'Credible emergencies തിരിച്ചറിയുക, Emergency Plan, alarm, communication, emergency equipment, assembly point, training, drills എന്നിവ ഒരുക്കുക.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Management resources നൽകണം. Emergency team സ്വന്തം roles അനുസരിച്ച് പ്രവർത്തിക്കണം. Workers alarm, evacuation instructions, assembly procedure എന്നിവ പാലിക്കണം.',
+        'Malayalam_checklist': 'Emergency Checklist',
+        'Malayalam_checklistText':
+            'Emergency Plan, alarm, emergency contacts, evacuation routes, assembly point, fire equipment, first aid, emergency access, drill records എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'Emergency exit block ചെയ്യൽ, extinguisher unavailable, assembly point വ്യക്തമല്ലാത്തത്, outdated contacts, training ഇല്ലായ്മ.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'Emergency Plan regular ആയി review ചെയ്യുക, drills നടത്തുക, drill findings പരിശോധിച്ച് corrective actions close ചെയ്യുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'ബാധകമായ UAE/local authority emergency requirements, Company Emergency Response Plan, ADOSH-SF requirements.',
+
+        'Tamil_title': 'Emergency Preparedness',
+        'Tamil_what': 'Emergency Preparedness என்றால் என்ன?',
+        'Tamil_whatText':
+            'தீ, விபத்து மற்றும் பிற அவசரநிலைகளுக்கு முன்கூட்டியே மக்கள், நடைமுறைகள் மற்றும் வளங்களைத் தயார்படுத்தும் செயல்முறை.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'உயிர்களைப் பாதுகாத்தல், காயங்கள் மற்றும் சொத்து சேதத்தை குறைத்தல் மற்றும் ஒழுங்கான emergency response உறுதி செய்தல்.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'Possible emergencies, emergency procedures, alarms, communication, equipment, assembly point மற்றும் training/drills ஏற்பாடு செய்ய வேண்டும்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Management resources வழங்க வேண்டும். Emergency team தங்கள் roles-க்கு ஏற்ப செயல்பட வேண்டும். Workers evacuation instructions-ஐ பின்பற்ற வேண்டும்.',
+        'Tamil_checklist': 'Emergency Checklist',
+        'Tamil_checklistText':
+            'Emergency plan, alarm, contacts, evacuation routes, assembly point, fire equipment, first aid மற்றும் drill records ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'Emergency exits block செய்தல், extinguishers இல்லாமை, assembly point தெளிவில்லாமை மற்றும் training இல்லாமை.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'Emergency plans-ஐ தொடர்ந்து review செய்து drills நடத்தி corrective actions-ஐ close செய்யவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'பொருந்தும் UAE/local authority emergency requirements, Company Emergency Response Plan மற்றும் ADOSH-SF requirements.',
       },
+
       {
         'letter': 'F',
         'title': 'Fire Safety & Prevention',
-        'desc': 'Fire prevention and fire protection controls.',
+        'desc':
+            'Fire prevention, fire protection equipment and hot-work safety controls.',
+
         'English_title': 'Fire Safety & Prevention',
         'English_what': 'What is Fire Safety?',
         'English_whatText':
-            'Fire safety involves preventing ignition, controlling fire hazards and preparing for emergency response.',
+            'Fire safety involves preventing fires, detecting them early, protecting people and property, and ensuring a safe emergency response.',
         'English_purpose': 'Purpose',
         'English_purposeText':
-            'To prevent fires and reduce loss of life, property and equipment.',
+            'To prevent fire incidents, limit fire spread and protect workers, visitors, assets and the environment.',
         'English_requirements': 'Requirements',
         'English_requirementsText':
-            'Control ignition sources, maintain fire extinguishers and follow hot work controls.',
+            'Control ignition sources and combustible materials, maintain suitable fire extinguishers and fire systems, keep exits clear, control hot work and follow approved permit requirements where applicable.',
         'English_responsibilities': 'Responsibilities',
         'English_responsibilitiesText':
-            'Workers must follow fire prevention procedures and report fire hazards immediately.',
-        'English_checklist': 'Checklist',
+            'Management provides fire protection arrangements. Supervisors control fire hazards and hot work. Workers follow fire procedures and report fire hazards immediately.',
+        'English_checklist': 'Fire Safety Checklist',
         'English_checklistText':
-            'Extinguishers, fire points, hot work permit, combustible materials and emergency access.',
-        'English_violations': 'Violations',
+            'Fire extinguishers accessible and suitable, emergency exits clear, fire alarm systems maintained, combustible materials controlled, electrical equipment safe, hot-work controls in place and emergency contacts available.',
+        'English_violations': 'Common Violations',
         'English_violationsText':
-            'Uncontrolled hot work, blocked fire equipment or poor storage can increase fire risk.',
+            'Blocked exits, inaccessible extinguishers, uncontrolled ignition sources, poor housekeeping, unsafe electrical connections and hot work without required controls.',
         'English_bestPractice': 'Best Practice',
         'English_bestPracticeText':
-            'Keep ignition sources controlled and inspect fire protection equipment regularly.',
+            'Apply the hierarchy of controls, maintain good housekeeping, inspect fire equipment, separate ignition sources from combustibles and use a proper hot-work control system.',
         'English_reference': 'Reference',
         'English_referenceText':
-            'Applicable UAE fire and civil defence requirements.'
-      },
-      {
-        'letter': 'G',
-        'title': 'Green Building Regulations',
-        'desc': 'Sustainable construction and environmental protection.',
-        'English_title': 'Green Building Regulations',
-        'English_what': 'What are Green Building Regulations?',
-        'English_whatText':
-            'Green building requirements promote efficient use of energy, water and materials and reduce environmental impact.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To improve sustainability and reduce environmental impacts from construction and operation.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Follow applicable sustainability, waste, energy, water and environmental requirements.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Project teams must implement approved environmental and sustainability controls.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Waste segregation, water conservation, energy efficiency, dust and pollution control.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Poor environmental controls can cause pollution and regulatory non-compliance.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Monitor environmental performance and minimize waste and resource consumption.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE environmental and green building requirements.'
-      },
-      {
-        'letter': 'H',
-        'title': 'Heat Stress Management',
-        'desc': 'Protection against heat-related illness.',
-        'English_title': 'Heat Stress Management',
-        'English_what': 'What is Heat Stress?',
-        'English_whatText':
-            'Heat stress occurs when the body cannot adequately control its temperature during hot working conditions.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent heat exhaustion, heat stroke and other heat-related illnesses.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Provide drinking water, shaded rest areas, acclimatization, monitoring and applicable midday work restrictions.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Supervisors must monitor workers and workers should report heat-related symptoms immediately.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Water, shade, rest breaks, acclimatization, weather monitoring and worker awareness.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Ignoring heat controls can result in serious heat-related illness.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Plan heavy work during cooler periods and monitor workers continuously.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE occupational heat stress and midday break requirements.'
-      },
-      {
-        'letter': 'I',
-        'title': 'Incident Investigation',
-        'desc': 'Finding causes of incidents and near misses.',
-        'English_title': 'Incident Investigation',
-        'English_what': 'What is Incident Investigation?',
-        'English_whatText':
-            'Incident investigation is a structured process used to identify immediate, underlying and root causes.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent recurrence and improve safety controls.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Secure the scene, collect evidence, interview relevant persons and identify corrective actions.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Investigators should remain objective and focus on system improvements.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Scene evidence, photographs, statements, documents, root cause and corrective actions.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Poor investigation can allow the same incident to happen again.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Focus on root causes rather than blaming individuals.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company incident investigation procedure.'
-      },
-      {
-        'letter': 'J',
-        'title': 'Job Safety Analysis (JSA)',
-        'desc': 'Identify hazards and controls before a job.',
-        'English_title': 'Job Safety Analysis (JSA)',
-        'English_what': 'What is JSA?',
-        'English_whatText':
-            'JSA breaks a job into steps and identifies hazards and controls for each step.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent incidents by controlling hazards before work starts.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Identify job steps, hazards, risk levels and appropriate control measures.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Supervisors and workers should participate in task hazard identification.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Job steps, hazards, risk rating, controls, PPE and responsible persons.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Starting high-risk work without adequate assessment may expose workers to uncontrolled hazards.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Review the JSA whenever the task, equipment or conditions change.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company risk assessment and JSA procedures.'
-      },
-      {
-        'letter': 'K',
-        'title': 'Key Performance Indicators',
-        'desc': 'Measures used to monitor HSE performance.',
-        'English_title': 'Key Performance Indicators',
-        'English_what': 'What are KPIs?',
-        'English_whatText':
-            'HSE KPIs are measurable indicators used to monitor safety performance.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To identify trends, weaknesses and opportunities for improvement.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Collect reliable data and review relevant leading and lagging indicators.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Management and HSE teams should review performance and implement improvements.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Inspections, observations, training, incidents, near misses and corrective actions.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Poor data quality can hide important safety trends.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Use leading indicators to identify risks before incidents occur.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company HSE performance management system.'
-      },
-      {
-        'letter': 'L',
-        'title': 'Lifting Operations',
-        'desc': 'Safe crane and lifting activities.',
-        'English_title': 'Lifting Operations',
-        'English_what': 'What are Lifting Operations?',
-        'English_whatText':
-            'Lifting operations involve moving loads using cranes, hoists or other lifting equipment.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent dropped loads, equipment failure and struck-by incidents.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Use competent personnel, inspected equipment, suitable lifting accessories and approved lifting plans where required.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Operators, riggers, signalers and supervisors must perform their assigned duties safely.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Crane inspection, lifting accessories, load weight, exclusion zone and communication.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Overloading, defective accessories and unauthorized lifting can cause serious incidents.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Inspect equipment before use and maintain a controlled lifting zone.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE lifting equipment requirements and company procedures.'
-      },
-      {
-        'letter': 'M',
-        'title': 'Manual Handling',
-        'desc': 'Safe handling of materials.',
-        'English_title': 'Manual Handling',
-        'English_what': 'What is Manual Handling?',
-        'English_whatText':
-            'Manual handling includes lifting, carrying, pushing, pulling or moving objects by physical effort.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent strains, sprains and musculoskeletal injuries.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Assess heavy or awkward loads and use mechanical assistance where appropriate.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Workers should use safe lifting techniques and ask for assistance when needed.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Load weight, posture, route, grip, assistance and mechanical aids.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Improper lifting techniques can result in serious musculoskeletal injuries.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Plan the lift and avoid twisting while carrying loads.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company manual handling procedure.'
-      },
-      {
-        'letter': 'N',
-        'title': 'Near Miss Reporting',
-        'desc': 'Report events that could have caused harm.',
-        'English_title': 'Near Miss Reporting',
-        'English_what': 'What is a Near Miss?',
-        'English_whatText':
-            'A near miss is an event that did not cause injury or damage but had the potential to do so.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To identify hazards before they result in actual incidents.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Report near misses promptly and investigate significant events.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'All workers should report near misses without fear of blame.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Location, activity, hazard, potential consequence, immediate action and corrective action.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Failure to report near misses can allow hazards to remain uncontrolled.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Use near misses as learning opportunities and share lessons learned.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company incident and near miss reporting procedure.'
-      },
-      {
-        'letter': 'O',
-        'title': 'OSHA & ISO Standards',
-        'desc': 'International occupational safety references.',
-        'English_title': 'OSHA & ISO Standards',
-        'English_what': 'What are OSHA and ISO Standards?',
-        'English_whatText':
-            'OSHA provides occupational safety guidance and regulations in the United States, while ISO 45001 is an international occupational health and safety management system standard.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To support systematic management of occupational health and safety.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Apply the standards or guidance relevant to the organization and legal requirements.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Management and HSE teams should maintain effective safety management systems.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Policy, risk assessment, objectives, training, monitoring and continual improvement.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Incorrectly applying standards can create gaps in safety management.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Use applicable legal requirements as the primary compliance basis and standards as appropriate.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'ISO 45001 and applicable occupational safety requirements.'
-      },
-      {
-        'letter': 'P',
-        'title': 'PPE Compliance',
-        'desc': 'Correct use of personal protective equipment.',
-        'English_title': 'PPE Compliance',
-        'English_what': 'What is PPE?',
-        'English_whatText':
-            'Personal Protective Equipment protects workers from specific workplace hazards when properly selected and used.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To reduce exposure to hazards that cannot be adequately controlled by other means.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Select suitable PPE, inspect it, maintain it and use it correctly.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Employers provide appropriate PPE and workers use it as instructed.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Helmet, safety footwear, eye protection, gloves, hearing protection and task-specific PPE.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Incorrect or missing PPE can increase exposure to workplace hazards.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Choose PPE based on the hazard assessment and ensure proper fit.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company PPE procedure and applicable UAE requirements.'
-      },
-      {
-        'letter': 'Q',
-        'title': 'HSE Auditing',
-        'desc': 'Systematic checking of HSE compliance.',
-        'English_title': 'HSE Auditing',
-        'English_what': 'What is HSE Auditing?',
-        'English_whatText':
-            'An HSE audit systematically evaluates whether safety systems and requirements are being implemented effectively.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To identify compliance gaps and opportunities for improvement.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Use an audit plan, objective evidence, findings and corrective actions.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Auditors should be competent and objective, while responsible managers should close findings.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Documents, site conditions, training, permits, inspections and corrective actions.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Repeated unresolved findings indicate weaknesses in the HSE management system.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Track findings to closure and verify corrective actions.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company HSE audit procedure and applicable management system requirements.'
-      },
-      {
-        'letter': 'R',
-        'title': 'Risk Assessment',
-        'desc': 'Identify hazards and control workplace risks.',
-        'English_title': 'Risk Assessment',
-        'English_what': 'What is Risk Assessment?',
-        'English_whatText':
-            'Risk assessment is the process of identifying hazards, evaluating risks and selecting appropriate controls.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent harm by controlling risks before and during work.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Identify hazards, assess risk, apply controls and review when conditions change.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Competent persons should conduct assessments with input from workers.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Hazards, people at risk, risk rating, hierarchy of controls and residual risk.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Failure to identify significant hazards can result in uncontrolled risk.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Use the hierarchy of controls and review assessments after changes or incidents.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company risk assessment procedure and applicable UAE requirements.'
-      },
-      {
-        'letter': 'S',
-        'title': 'Scaffolding Safety',
-        'desc': 'Safe erection, inspection and use of scaffolds.',
-        'English_title': 'Scaffolding Safety',
-        'English_what': 'What is Scaffolding Safety?',
-        'English_whatText':
-            'Scaffolding safety covers the design, erection, inspection, access and safe use of scaffolds.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent falls, scaffold collapse and falling-object incidents.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Use competent persons, proper access, guardrails, platforms, inspection and applicable tagging systems.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Only authorized and competent personnel should erect, modify or inspect scaffolds.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Foundation, structure, access ladder, guardrails, toe boards, platform gaps and inspection status.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Missing guardrails, unsafe access, excessive gaps or unauthorized modification can cause falls.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Inspect scaffolds before use and after significant changes or events.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE scaffolding requirements and approved company procedures.'
-      },
-      {
-        'letter': 'T',
-        'title': 'Training & Induction',
-        'desc': 'Safety training for workers and new personnel.',
-        'English_title': 'Training & Induction',
-        'English_what': 'What is Safety Induction?',
-        'English_whatText':
-            'Safety induction introduces workers to site hazards, rules, emergency procedures and responsibilities.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To ensure workers understand the hazards and controls before starting work.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Provide appropriate induction and task-specific training before work begins.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Management must provide suitable training and workers must participate and follow instructions.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Site rules, PPE, emergency arrangements, hazards, permits and competency requirements.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Untrained workers may not recognize or properly control workplace hazards.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Keep training records and refresh training when risks or work activities change.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company training matrix and HSE procedures.'
-      },
-      {
-        'letter': 'U',
-        'title': 'UAE Labour Law',
-        'desc': 'Worker rights, welfare and workplace safety requirements.',
-        'English_title': 'UAE Labour Law',
-        'English_what': 'What is UAE Labour Law?',
-        'English_whatText':
-            'UAE labour legislation establishes requirements governing employment relationships and worker protections.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To establish legal protections and responsibilities in the workplace.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Organizations must comply with applicable UAE labour and occupational safety legislation.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Employers and workers must understand and comply with their applicable legal obligations.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Working conditions, welfare, safety arrangements, records and applicable legal requirements.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Non-compliance with applicable labour requirements can lead to legal and safety consequences.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Maintain current legal registers and regularly review compliance.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE labour legislation and official requirements.'
-      },
-      {
-        'letter': 'V',
-        'title': 'Ventilation & Confined Space',
-        'desc': 'Safe ventilation and confined-space entry.',
-        'English_title': 'Ventilation & Confined Space',
-        'English_what': 'What is a Confined Space?',
-        'English_whatText':
-            'A confined space is an enclosed or partially enclosed area that may present specific hazards and is not intended for continuous occupancy.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent toxic exposure, oxygen deficiency, engulfment and other confined-space hazards.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Assess hazards, control access, test the atmosphere and use an approved entry system where required.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Only trained and authorized personnel should perform confined-space work.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Atmospheric testing, ventilation, permit, communication, standby person and rescue plan.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Uncontrolled entry can expose workers to life-threatening atmospheric hazards.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Use continuous monitoring when required and maintain an effective rescue arrangement.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company confined-space procedure and applicable UAE requirements.'
-      },
-      {
-        'letter': 'W',
-        'title': 'Waste Management',
-        'desc': 'Safe handling and disposal of workplace waste.',
-        'English_title': 'Waste Management',
-        'English_what': 'What is Waste Management?',
-        'English_whatText':
-            'Waste management includes segregation, storage, handling, transport and disposal of waste.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent pollution, injuries and unsafe workplace conditions.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Segregate waste, use suitable containers and dispose of waste through approved methods.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Workers must use designated waste containers and report improper disposal.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Waste segregation, containers, labels, storage area, housekeeping and approved disposal.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Poor waste management can cause trips, fire hazards and environmental pollution.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Segregate waste at source and maintain clean designated storage areas.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE environmental and waste-management requirements.'
-      },
-      {
-        'letter': 'X',
-        'title': 'Radiation Safety',
-        'desc': 'Safety controls for radiation and radiography work.',
-        'English_title': 'Radiation Safety',
-        'English_what': 'What is Radiation Safety?',
-        'English_whatText':
-            'Radiation safety controls exposure to ionizing radiation during activities such as industrial radiography.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent harmful radiation exposure to workers and the public.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Use authorized personnel, controlled areas, warning signs, monitoring and approved procedures.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Radiation workers must follow approved procedures and access restrictions.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Controlled area, warning signs, monitoring, equipment checks and emergency arrangements.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Unauthorized access or inadequate controls can result in radiation exposure.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Minimize exposure using appropriate time, distance and shielding principles.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Applicable UAE radiation protection requirements and approved procedures.'
-      },
-      {
-        'letter': 'Y',
-        'title': 'Yard & Traffic Safety',
-        'desc': 'Safe vehicle and pedestrian movement.',
-        'English_title': 'Yard & Traffic Safety',
-        'English_what': 'What is Yard & Traffic Safety?',
-        'English_whatText':
-            'Yard and traffic safety controls the movement of vehicles, mobile equipment and pedestrians.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To prevent vehicle collisions, struck-by incidents and pedestrian injuries.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Use traffic routes, speed controls, designated parking and pedestrian segregation.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Drivers, pedestrians and supervisors must follow site traffic rules.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Speed limits, signage, lighting, reversing controls, pedestrian routes and parking.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Speeding, unsafe reversing and poor segregation can result in serious incidents.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Separate pedestrians from vehicles wherever reasonably practicable.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Site traffic management plan and company HSE procedures.'
-      },
-      {
-        'letter': 'Z',
-        'title': 'Zero Accident Goal',
-        'desc': 'Continuous improvement towards accident prevention.',
-        'English_title': 'Zero Accident Goal',
-        'English_what': 'What is the Zero Accident Goal?',
-        'English_whatText':
-            'The zero accident goal represents a commitment to preventing workplace injuries and improving safety performance.',
-        'English_purpose': 'Purpose',
-        'English_purposeText':
-            'To build a strong safety culture and continuously reduce workplace risks.',
-        'English_requirements': 'Requirements',
-        'English_requirementsText':
-            'Identify hazards, control risks, report incidents and continuously improve safety systems.',
-        'English_responsibilities': 'Responsibilities',
-        'English_responsibilitiesText':
-            'Everyone has a role in identifying hazards and preventing incidents.',
-        'English_checklist': 'Checklist',
-        'English_checklistText':
-            'Risk assessment, inspections, observations, training, reporting and corrective actions.',
-        'English_violations': 'Violations',
-        'English_violationsText':
-            'Ignoring hazards or unsafe behavior undermines accident prevention efforts.',
-        'English_bestPractice': 'Best Practice',
-        'English_bestPracticeText':
-            'Promote reporting, learning, worker involvement and proactive hazard control.',
-        'English_reference': 'Reference',
-        'English_referenceText':
-            'Company HSE policy and applicable occupational safety requirements.'
+            'Applicable UAE Civil Defence/fire safety requirements, local authority requirements, company fire safety procedures and relevant ADOSH-SF requirements.',
+
+        'Hindi_title': 'Fire Safety & Prevention',
+        'Hindi_what': 'Fire Safety क्या है?',
+        'Hindi_whatText':
+            'Fire Safety में आग को रोकना, आग का जल्दी पता लगाना, लोगों और संपत्ति की सुरक्षा तथा सुरक्षित emergency response शामिल है।',
+        'Hindi_purpose': 'उद्देश्य',
+        'Hindi_purposeText':
+            'आग की घटनाओं को रोकना, आग के फैलाव को सीमित करना और लोगों की सुरक्षा करना।',
+        'Hindi_requirements': 'आवश्यकताएँ',
+        'Hindi_requirementsText':
+            'Ignition sources और combustible materials को नियंत्रित करें, suitable extinguishers रखें, exits clear रखें और hot work के लिए आवश्यक controls/permit लागू करें।',
+        'Hindi_responsibilities': 'जिम्मेदारियाँ',
+        'Hindi_responsibilitiesText':
+            'Management fire protection उपलब्ध कराए। Supervisors fire hazards और hot work control करें। Workers fire procedures का पालन करें।',
+        'Hindi_checklist': 'Fire Safety Checklist',
+        'Hindi_checklistText':
+            'Extinguishers, exits, alarms, combustible materials, electrical equipment, hot-work controls और emergency contacts की जाँच करें।',
+        'Hindi_violations': 'सामान्य उल्लंघन',
+        'Hindi_violationsText':
+            'Blocked exits, inaccessible extinguishers, uncontrolled ignition sources, poor housekeeping और unsafe electrical connections।',
+        'Hindi_bestPractice': 'Best Practice',
+        'Hindi_bestPracticeText':
+            'Good housekeeping रखें, fire equipment inspect करें, ignition sources को combustibles से अलग रखें और proper hot-work control लागू करें।',
+        'Hindi_reference': 'संदर्भ',
+        'Hindi_referenceText':
+            'लागू UAE Civil Defence/fire safety requirements, local authority requirements, company fire procedures और ADOSH-SF requirements।',
+
+        'Malayalam_title': 'Fire Safety & Prevention',
+        'Malayalam_what': 'Fire Safety എന്താണ്?',
+        'Malayalam_whatText':
+            'തീ ഉണ്ടാകുന്നത് തടയുക, തീ നേരത്തെ കണ്ടെത്തുക, ആളുകളെയും property-യെയും സംരക്ഷിക്കുക, സുരക്ഷിതമായ emergency response ഉറപ്പാക്കുക എന്നിവയാണ് Fire Safety.',
+        'Malayalam_purpose': 'ഉദ്ദേശ്യം',
+        'Malayalam_purposeText':
+            'തീപിടിത്തം തടയുക, തീ പടരുന്നത് നിയന്ത്രിക്കുക, workers, visitors, assets എന്നിവ സംരക്ഷിക്കുക.',
+        'Malayalam_requirements': 'ആവശ്യകതകൾ',
+        'Malayalam_requirementsText':
+            'Ignition sources, combustible materials നിയന്ത്രിക്കുക, fire extinguishers/fire systems maintain ചെയ്യുക, exits clear ആക്കുക, hot work controls/permit ആവശ്യമായിടത്ത് നടപ്പാക്കുക.',
+        'Malayalam_responsibilities': 'ഉത്തരവാദിത്തങ്ങൾ',
+        'Malayalam_responsibilitiesText':
+            'Management fire protection arrangements നൽകണം. Supervisors fire hazards, hot work നിയന്ത്രിക്കണം. Workers fire procedures പാലിക്കണം.',
+        'Malayalam_checklist': 'Fire Safety Checklist',
+        'Malayalam_checklistText':
+            'Fire extinguisher access, emergency exits, fire alarm, combustible materials, electrical safety, hot-work controls, emergency contacts എന്നിവ പരിശോധിക്കുക.',
+        'Malayalam_violations': 'സാധാരണ ലംഘനങ്ങൾ',
+        'Malayalam_violationsText':
+            'Exit block ചെയ്യൽ, extinguisher access ഇല്ലായ്മ, uncontrolled ignition source, poor housekeeping, unsafe electrical connection, required hot-work controls ഇല്ലായ്മ.',
+        'Malayalam_bestPractice': 'Best Practice',
+        'Malayalam_bestPracticeText':
+            'Good housekeeping maintain ചെയ്യുക, fire equipment inspect ചെയ്യുക, ignition sources combustibles-ൽ നിന്ന് വേർതിരിക്കുക, proper hot-work control system ഉപയോഗിക്കുക.',
+        'Malayalam_reference': 'Reference',
+        'Malayalam_referenceText':
+            'ബാധകമായ UAE Civil Defence/fire safety requirements, local authority requirements, Company Fire Safety Procedures, ADOSH-SF requirements.',
+
+        'Tamil_title': 'Fire Safety & Prevention',
+        'Tamil_what': 'Fire Safety என்றால் என்ன?',
+        'Tamil_whatText':
+            'தீ ஏற்படுவதைத் தடுப்பது, தீயை ஆரம்பத்திலேயே கண்டறிதல், மக்கள் மற்றும் சொத்துக்களைப் பாதுகாத்தல் மற்றும் பாதுகாப்பான emergency response ஆகியவை Fire Safety ஆகும்.',
+        'Tamil_purpose': 'நோக்கம்',
+        'Tamil_purposeText':
+            'தீ விபத்துகளைத் தடுப்பது, தீ பரவலைக் கட்டுப்படுத்துவது மற்றும் workers/visitors/assets-ஐ பாதுகாப்பது.',
+        'Tamil_requirements': 'தேவைகள்',
+        'Tamil_requirementsText':
+            'Ignition sources மற்றும் combustible materials-ஐ கட்டுப்படுத்தவும், fire extinguishers/fire systems பராமரிக்கவும், exits clear வைத்திருக்கவும், hot work controls/permit தேவையான இடங்களில் பயன்படுத்தவும்.',
+        'Tamil_responsibilities': 'பொறுப்புகள்',
+        'Tamil_responsibilitiesText':
+            'Management fire protection ஏற்பாடுகளை வழங்க வேண்டும். Supervisors fire hazards மற்றும் hot work-ஐ கட்டுப்படுத்த வேண்டும். Workers fire procedures-ஐ பின்பற்ற வேண்டும்.',
+        'Tamil_checklist': 'Fire Safety Checklist',
+        'Tamil_checklistText':
+            'Fire extinguishers, exits, alarms, combustible materials, electrical safety, hot-work controls மற்றும் emergency contacts ஆகியவற்றைச் சரிபார்க்கவும்.',
+        'Tamil_violations': 'பொதுவான மீறல்கள்',
+        'Tamil_violationsText':
+            'Exits block செய்தல், extinguishers access இல்லாமை, uncontrolled ignition sources, poor housekeeping மற்றும் unsafe electrical connections.',
+        'Tamil_bestPractice': 'Best Practice',
+        'Tamil_bestPracticeText':
+            'Good housekeeping பராமரிக்கவும், fire equipment inspect செய்யவும், ignition sources-ஐ combustibles-இலிருந்து பிரிக்கவும், proper hot-work control பயன்படுத்தவும்.',
+        'Tamil_reference': 'Reference',
+        'Tamil_referenceText':
+            'பொருந்தும் UAE Civil Defence/fire safety requirements, local authority requirements, Company Fire Safety Procedures மற்றும் ADOSH-SF requirements.',
       },
     ],
   };
@@ -826,7 +711,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentGuidelines = guidelines['English'] ?? [];
+    final currentGuidelines = guidelines[_language] ?? [];
 
     return Scaffold(
       appBar: AppBar(
