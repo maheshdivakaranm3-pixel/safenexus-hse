@@ -55,9 +55,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 16),
-
                 ListTile(
                   leading: const CircleAvatar(
                     child: Icon(Icons.camera_alt),
@@ -69,7 +67,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     _pickImage(ImageSource.camera);
                   },
                 ),
-
                 ListTile(
                   leading: const CircleAvatar(
                     child: Icon(Icons.photo_library),
@@ -159,13 +156,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
         backgroundColor: Colors.orange.shade800,
         foregroundColor: Colors.white,
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-
         child: Form(
           key: _formKey,
-
           child: ListView(
             children: [
               const Text(
@@ -183,7 +177,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
               TextFormField(
                 controller: _locationController,
                 textInputAction: TextInputAction.next,
-
                 decoration: InputDecoration(
                   labelText: 'Location / Area in Site',
                   border: OutlineInputBorder(
@@ -191,12 +184,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
                   ),
                   prefixIcon: const Icon(Icons.location_on),
                 ),
-
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter location';
                   }
-
                   return null;
                 },
               ),
@@ -205,22 +196,17 @@ class _HazardReportPageState extends State<HazardReportPage> {
 
               // Severity
               DropdownButtonFormField<String>(
-                - initialValue: _selectedSeverity,
-+ value: _selectedSeverity,
-
+                value: _selectedSeverity,
                 decoration: InputDecoration(
                   labelText: 'Severity Level',
-
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-
                   prefixIcon: const Icon(
                     Icons.warning,
                     color: Colors.orange,
                   ),
                 ),
-
                 items: const [
                   DropdownMenuItem(
                     value: 'Low',
@@ -239,7 +225,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     child: Text('Critical'),
                   ),
                 ],
-
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
@@ -256,16 +241,13 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 controller: _descController,
                 maxLines: 4,
                 textInputAction: TextInputAction.newline,
-
                 decoration: InputDecoration(
                   labelText: 'Description of Hazard',
                   alignLabelWithHint: true,
-
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please describe the hazard';
@@ -284,20 +266,16 @@ class _HazardReportPageState extends State<HazardReportPage> {
               // Attach Photo
               OutlinedButton.icon(
                 onPressed: _showImageSourceDialog,
-
                 icon: const Icon(Icons.camera_alt),
-
                 label: Text(
                   _selectedImage == null
                       ? 'Attach Photo / Evidence'
                       : 'Change Photo',
                 ),
-
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     vertical: 14,
                   ),
-
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -307,12 +285,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
               // Photo Preview
               if (_selectedImage != null) ...[
                 const SizedBox(height: 16),
-
                 Stack(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-
                       child: Image.file(
                         _selectedImage!,
                         width: double.infinity,
@@ -320,15 +296,12 @@ class _HazardReportPageState extends State<HazardReportPage> {
                         fit: BoxFit.cover,
                       ),
                     ),
-
                     Positioned(
                       top: 8,
                       right: 8,
-
                       child: Material(
                         color: Colors.black54,
                         shape: const CircleBorder(),
-
                         child: IconButton(
                           onPressed: _removeImage,
                           icon: const Icon(
@@ -368,9 +341,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
               // Submit Report
               ElevatedButton.icon(
                 onPressed: _submitReport,
-
                 icon: const Icon(Icons.send),
-
                 label: const Text(
                   'Submit Report',
                   style: TextStyle(
@@ -378,15 +349,12 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange.shade800,
                   foregroundColor: Colors.white,
-
                   padding: const EdgeInsets.symmetric(
                     vertical: 16,
                   ),
-
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
