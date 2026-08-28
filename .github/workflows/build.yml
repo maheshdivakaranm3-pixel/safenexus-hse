@@ -52,23 +52,23 @@ jobs:
               # Groovy
               text = text.replace(
                   "compileSdk flutter.compileSdkVersion",
-                  "compileSdk 35"
+                  "compileSdk 36"
               )
 
               text = text.replace(
                   "targetSdk flutter.targetSdkVersion",
-                  "targetSdk 35"
+                  "targetSdk 36"
               )
 
               # Kotlin DSL
               text = text.replace(
                   "compileSdk = flutter.compileSdkVersion",
-                  "compileSdk = 35"
+                  "compileSdk = 36"
               )
 
               text = text.replace(
                   "targetSdk = flutter.targetSdkVersion",
-                  "targetSdk = 35"
+                  "targetSdk = 36"
               )
 
               file.write_text(text)
