@@ -205,7 +205,8 @@ class _HazardReportPageState extends State<HazardReportPage> {
 
               // Severity
               DropdownButtonFormField<String>(
-                initialValue: _selectedSeverity,
+                - initialValue: _selectedSeverity,
++ value: _selectedSeverity,
 
                 decoration: InputDecoration(
                   labelText: 'Severity Level',
