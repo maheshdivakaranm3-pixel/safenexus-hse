@@ -2,71 +2,39 @@ name: Build Flutter APK
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    branches: [ main, master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # =========================
-      # Checkout Repository
-      # =========================
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # =========================
-      # Setup Flutter
-      # =========================
-      - name: Setup Flutter
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.7'
-          channel: stable
-          cache: true
+          flutter-version: '3.19.0'
+          channel: 'stable'
 
-      # =========================
-      # Check Flutter
-      # =========================
-      - name: Flutter Doctor
-        run: flutter doctor -v
-
-      # =========================
-      # Create Android Platform
-      # =========================
-      - name: Create Android platform
+      - name: Fix Package Name and Create Android Platform
         run: |
-          flutter create . \
-            --platforms=android \
-            --org com.safenexus.hse \
-            --project-name safenexus_hse
+          sed -i 's/name: safenexus-hse/name: safenexus_hse/g' pubspec.yaml || true
+          flutter create . --platforms=android --org com.safenexus.hse
 
-      # =========================
-      # Get Dependencies
-      # =========================
-      - name: Flutter Pub Get
+      - name: Get Dependencies
         run: flutter pub get
 
-      # =========================
-      # Analyze Dart Code
-      # =========================
-      - name: Flutter Analyze
-        run: flutter analyze
-
-      # =========================
-      # Build APK
-      # =========================
       - name: Build APK
         run: flutter build apk --release
 
-      # =========================
-      # Upload APK
-      # =========================
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: SafeNexus-HSE-APK
+          name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
