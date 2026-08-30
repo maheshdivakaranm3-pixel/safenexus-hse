@@ -22,11 +22,6 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Fix Package Name and Create Android Platform
-        run: |
-          sed -i 's/name: safenexus-hse/name: safenexus_hse/g' pubspec.yaml || true
-          flutter create . --platforms=android --org com.safenexus.hse
-
       - name: Get Dependencies
         run: flutter pub get
 
