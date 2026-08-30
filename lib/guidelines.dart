@@ -8,10 +8,8 @@ class GuidelinesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // ആപ്പിന്റെ ടൈറ്റിൽ അല്ലെങ്കിൽ പേജിന്റെ പേര്
         title: Text('guidelines'.tr()),
         actions: [
-          // ഈ പേജിൽ നിന്നും ഭാഷ മാറ്റാൻ വേണമെങ്കിൽ ഒരു ബട്ടൺ
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               context.setLocale(locale);
