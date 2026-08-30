@@ -1,165 +1,101 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:safenexus_hse/guidelines.dart'; // നിങ്ങളുടെ പ്രോജക്റ്റിലെ മറ്റ് പേജുകൾ
+import 'package:safenexus_hse/hazard_report.dart';
+import 'package:safenexus_hse/voice_report.dart';
 
-void main() {
-  runApp(const SafeNexusApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ml', 'IN'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class SafeNexusApp extends StatelessWidget {
-  const SafeNexusApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       title: 'SafeNexus HSE',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.grey[100],
+        primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  // Current selected language: 'en' for English, 'ml' for Malayalam
-  String currentLang = 'en';
-
-  final Map<String, Map<String, String>> localizedTexts = {
-    'en': {
-      'title': 'SafeNexus HSE',
-      'subtitle': 'AI-Powered Safety for UAE',
-      'hazard': 'Smart Hazard Observation',
-      'poster': 'AI Poster Studio',
-      'sos': 'Emergency SOS',
-      'weather': 'UAE Weather: 42°C - Heat Alert Active',
-    },
-    'ml': {
-      'title': 'സേഫ്നെക്സസ് എച്ച്.എസ്.ഇ.',
-      'subtitle': 'യു.എ.ഇ. സുരക്ഷാ ആപ്പ്',
-      'hazard': 'അപകടസാധ്യത റിപ്പോർട്ട് ചെയ്യുക',
-      'poster': 'എ.ഐ. പോസ്റ്റർ സ്റ്റുഡിയോ',
-      'sos': 'അടിയന്തിര സഹായം (SOS)',
-      'weather': 'യു.എ.ഇ. കാലാവസ്ഥ: 42°C - ചൂട് മുന്നറിയിപ്പ്',
-    },
-  };
+// സാമ്പിൾ ഹോം പേജ് (നിങ്ങളുടെ മെയിൻ പേജ് ഇതിലേക്ക് മാറ്റാം അല്ലെങ്കിൽ ഇതിലുള്ളതുപോലെ ലാംഗ്വേജ് മാറ്റാനുള്ള ബട്ടൺ ചേർക്കാം)
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final t = localizedTexts[currentLang]!;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(t['title']!),
-        backgroundColor: Colors.green[700],
+        title: Text('title'.tr()),
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: DropdownButton<String>(
-              value: currentLang,
-              dropdownColor: Colors.green[800],
-              icon: const Icon(Icons.language, color: Colors.white),
-              underline: const SizedBox(),
-              items: const [
-                DropdownMenuItem(value: 'en', child: Text('English', style: TextStyle(color: Colors.white))),
-                DropdownMenuItem(value: 'ml', child: Text('മലയാളം', style: TextStyle(color: Colors.white))),
-              ],
-              onChanged: (String? newLang) {
-                if (newLang != null) {
-                  setState(() {
-                    currentLang = newLang;
-                  });
-                }
-              },
-            ),
+          // ഭാഷ മാറ്റാനുള്ള ബട്ടൺ (Dropdown അല്ലെങ്കിൽ Text Button)
+          PopupMenuButton<Locale>(
+            onSelected: (Locale locale) {
+              context.setLocale(locale);
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
+              const PopupMenuItem(
+                value: Locale('en', 'US'),
+                child: Text('English'),
+              ),
+              const PopupMenuItem(
+                value: Locale('ml', 'IN'),
+                child: Text('മലയാളം'),
+              ),
+            ],
+            icon: const Icon(Icons.language),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Weather Alert Card
-            Card(
-              color: Colors.orange[100],
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    const Icon(Icons.wb_sunny, color: Colors.orange, size: 30),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        t['weather']!,
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                // hazard_report.dart-ലേക്ക് പോകാൻ
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HazardReportPage()),
+                );
+              },
+              child: Text('hazard_report'.tr()),
             ),
-            const SizedBox(height: 20),
-            
-            // Subtitle
-            Center(
-              child: Text(
-                t['subtitle']!,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[700]),
-              ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // voice_report.dart-ലേക്ക് പോകാൻ
+              },
+              child: Text('voice_report'.tr()),
             ),
-            const SizedBox(height: 30),
-
-            // Feature 1: Hazard Observation
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.camera_alt, size: 28),
-              label: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Text(t['hazard']!, style: const TextStyle(fontSize: 16)),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[600],
-                foregroundColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Feature 2: AI Poster Studio
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.photo_size_select_actual, size: 28),
-              label: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Text(t['poster']!, style: const TextStyle(fontSize: 16)),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[600],
-                foregroundColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Feature 3: Emergency SOS
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.warning, size: 28),
-              label: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Text(t['sos']!, style: const TextStyle(fontSize: 16)),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red[600],
-                foregroundColor: Colors.white,
-              ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // guidelines.dart-ലേക്ക് പോകാൻ
+              },
+              child: Text('guidelines'.tr()),
             ),
           ],
         ),
