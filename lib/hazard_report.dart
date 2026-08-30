@@ -67,7 +67,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // സബ്മിറ്റ് ചെയ്യുമ്പോൾ കാണിക്കുന്ന മെസ്സേജ്
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('success_message'.tr())),
                       );
