@@ -1,4 +1,14 @@
 pluginManagement {
+    def flutterSdkPath = System.getenv("FLUTTER_ROOT")
+
+    if (flutterSdkPath == null) {
+        throw new GradleException(
+            "FLUTTER_ROOT is not set. Flutter SDK could not be found."
+        )
+    }
+
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+
     repositories {
         google()
         mavenCentral()
@@ -6,8 +16,15 @@ pluginManagement {
     }
 }
 
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    id "com.android.application" version "8.6.1" apply false
+    id "org.jetbrains.kotlin.android" version "2.1.0" apply false
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
     repositories {
         google()
         mavenCentral()
@@ -17,13 +34,3 @@ dependencyResolutionManagement {
 rootProject.name = "safenexus_hse"
 
 include ":app"
-
-def flutterSdkPath = System.getenv("FLUTTER_ROOT")
-
-if (flutterSdkPath == null) {
-    throw new GradleException(
-        "FLUTTER_ROOT is not set. Flutter SDK could not be found."
-    )
-}
-
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
