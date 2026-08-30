@@ -1,6 +1,6 @@
 name: safenexus_hse
-description: "AI-Powered HSE Safety & Observation App for UAE"
-publish_to: 'none'
+description: "A new Flutter project."
+publish_to: 'none' 
 version: 1.0.0+1
 
 environment:
@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.2
-  image_picker: ^1.1.2
+  flutter_localizations:
+    sdk: flutter
+  easy_localization: ^3.0.7
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +20,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/translations/
