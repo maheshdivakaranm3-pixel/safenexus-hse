@@ -50,6 +50,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _descriptionController,
+                maxLines: 4,
                 decoration: InputDecoration(
                   hintText: 'hazard_hint'.tr(),
                   border: const OutlineInputBorder(),
@@ -70,6 +71,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('success_message'.tr())),
                       );
+                      _descriptionController.clear();
                     }
                   },
                   child: Text('submit_button'.tr()),
