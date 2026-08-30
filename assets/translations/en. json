@@ -1,7 +1,6 @@
 {
-  "hazard_desc_label": "Hazard Description",
-  "hazard_hint": "Enter details about the hazard...",
-  "hazard_validation": "Please enter hazard details",
-  "submit_button": "Submit Report",
-  "success_message": "Report submitted successfully!"
+  "recording_status": "Recording in progress...",
+  "press_to_record": "Tap the microphone to record your voice report",
+  "tap_to_stop": "Tap to stop recording",
+  "tap_to_start": "Tap to start recording"
 }
