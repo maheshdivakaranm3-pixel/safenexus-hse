@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:safenexus_hse/guidelines.dart'; // നിങ്ങളുടെ പ്രോജക്റ്റിലെ മറ്റ് പേജുകൾ
+import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/voice_report.dart';
 
@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// സാമ്പിൾ ഹോം പേജ് (നിങ്ങളുടെ മെയിൻ പേജ് ഇതിലേക്ക് മാറ്റാം അല്ലെങ്കിൽ ഇതിലുള്ളതുപോലെ ലാംഗ്വേജ് മാറ്റാനുള്ള ബട്ടൺ ചേർക്കാം)
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -50,7 +49,6 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('title'.tr()),
         actions: [
-          // ഭാഷ മാറ്റാനുള്ള ബട്ടൺ (Dropdown അല്ലെങ്കിൽ Text Button)
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               context.setLocale(locale);
@@ -75,7 +73,6 @@ class HomeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // hazard_report.dart-ലേക്ക് പോകാൻ
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HazardReportPage()),
@@ -86,14 +83,22 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // voice_report.dart-ലേക്ക് പോകാൻ
+                // VoiceReportPage-ലേക്ക് 네비ഗേഷൻ ചേർത്തു
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const VoiceReportPage()),
+                );
               },
               child: Text('voice_report'.tr()),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // guidelines.dart-ലേക്ക് പോകാൻ
+                // GuidelinesPage-ലേക്ക് 네비ഗേഷൻ ചേർത്തു
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GuidelinesPage()),
+                );
               },
               child: Text('guidelines'.tr()),
             ),
