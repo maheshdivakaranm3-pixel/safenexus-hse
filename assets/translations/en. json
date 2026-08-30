@@ -1,9 +1,7 @@
 {
-  "title": "SafeNexus HSE",
-  "hazard_report": "Hazard Report",
-  "voice_report": "Voice Report",
-  "guidelines": "Guidelines",
-  "guidelines_heading": "Safety Instructions",
-  "guidelines_content_1": "1. Always wear Personal Protective Equipment (PPE) while working on-site.",
-  "guidelines_content_2": "2. Report any hazards or accidents immediately to the supervisor."
+  "hazard_desc_label": "Hazard Description",
+  "hazard_hint": "Enter details about the hazard...",
+  "hazard_validation": "Please enter hazard details",
+  "submit_button": "Submit Report",
+  "success_message": "Report submitted successfully!"
 }
