@@ -9,5 +9,5 @@ Preview
 Code
 
 Blame
-# safenexus-hse
+# safenexus_hse
 AI-Powered HSE Safety &amp; Observation App for UAE
