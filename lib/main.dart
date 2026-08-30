@@ -68,41 +68,49 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HazardReportPage()),
-                );
-              },
-              child: Text('hazard_report'.tr()),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // VoiceReportPage-ലേക്ക് 네비ഗേഷൻ ചേർത്തു
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const VoiceReportPage()),
-                );
-              },
-              child: Text('voice_report'.tr()),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // GuidelinesPage-ലേക്ക് 네비ഗേഷൻ ചേർത്തു
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GuidelinesPage()),
-                );
-              },
-              child: Text('guidelines'.tr()),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HazardReportPage()),
+                  );
+                },
+                icon: const Icon(Icons.report_problem),
+                label: Text('hazard_report'.tr()),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const VoiceReportPage()),
+                  );
+                },
+                icon: const Icon(Icons.mic),
+                label: Text('voice_report'.tr()),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const GuidelinesPage()),
+                  );
+                },
+                icon: const Icon(Icons.menu_book),
+                label: Text('guidelines'.tr()),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+              ),
+            ],
+          ),
         ),
       ),
     );
