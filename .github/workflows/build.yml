@@ -1,87 +1,87 @@
-name: Build SafeNexus HSE APK
+name: SafeNexus HSE - Signed APK Build
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # 1. Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
+      # 2. Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          flutter-version: '3.35.7'
+          channel: stable
+          cache: true
 
-      - name: Show Flutter Version
-        run: flutter --version
+      # 3. Java
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
 
-      - name: Create Android Platform Support
-        run: |
-          flutter create . \
-            --project-name=safenexus_hse \
-            --platforms=android \
-            --org=com.safenexus.hse
-
-      - name: Update Android SDK Configuration
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-
-          files = [
-              Path("android/app/build.gradle"),
-              Path("android/app/build.gradle.kts"),
-          ]
-
-          for file in files:
-              if not file.exists():
-                  continue
-
-              text = file.read_text()
-
-              # Groovy
-              text = text.replace(
-                  "compileSdk flutter.compileSdkVersion",
-                  "compileSdk 36"
-              )
-
-              text = text.replace(
-                  "targetSdk flutter.targetSdkVersion",
-                  "targetSdk 36"
-              )
-
-              # Kotlin DSL
-              text = text.replace(
-                  "compileSdk = flutter.compileSdkVersion",
-                  "compileSdk = 36"
-              )
-
-              text = text.replace(
-                  "targetSdk = flutter.targetSdkVersion",
-                  "targetSdk = 36"
-              )
-
-              file.write_text(text)
-          PY
-
-      - name: Get Dependencies
+      # 4. Flutter packages
+      - name: Flutter Pub Get
         run: flutter pub get
 
-      - name: Build Release APK
+      # 5. Create release keystore
+      - name: Create release keystore
+        run: |
+          keytool -genkeypair \
+            -v \
+            -keystore android/app/upload-keystore.jks \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -alias upload \
+            -storepass android \
+            -keypass android \
+            -dname "CN=SafeNexus HSE, OU=Safety, O=SafeNexus, L=Kerala, ST=Kerala, C=IN"
+
+      # 6. Create key.properties
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=android
+          keyPassword=android
+          keyAlias=upload
+          storeFile=upload-keystore.jks
+          EOF
+
+      # 7. Build signed APK
+      - name: Build Signed Release APK
         run: flutter build apk --release
 
-      - name: Upload APK
+      # 8. Verify APK
+      - name: Verify APK
+        run: |
+          APK="build/app/outputs/flutter-apk/app-release.apk"
+
+          if [ ! -f "$APK" ]; then
+            echo "APK not found!"
+            exit 1
+          fi
+
+          echo "APK created successfully:"
+          ls -lh "$APK"
+
+          echo "Checking APK signature..."
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)/apksigner verify --verbose "$APK"
+
+      # 9. Upload APK
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: SafeNexus-HSE-APK
+          name: SafeNexus-HSE-Signed-APK
           path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
