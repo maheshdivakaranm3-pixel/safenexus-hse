@@ -19,12 +19,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          flutter-version: '3.19.6'
           channel: 'stable'
-
-      - name: Fix Android Platform and Setup
-        run: |
-          flutter create . --platforms=android --org com.safenexus.hse
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
 
       - name: Get Dependencies
         run: flutter pub get
