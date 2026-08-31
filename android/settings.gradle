@@ -7,7 +7,7 @@ pluginManagement {
         return flutterSdkPath
     }()
 
-    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+    includeBuild("${flutterSdkPath}/packages/flutter_tools/gradle")
 
     repositories {
         google()
@@ -22,6 +22,13 @@ plugins {
     id "org.jetbrains.kotlin.android" version "2.2.20" apply false
 }
 
-rootProject.name = "safenexus_hse"
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
+rootProject.name = "safenexus-hse"
 include ":app"
