@@ -1,6 +1,6 @@
 name: safenexus_hse
-description: "A new Flutter project."
-publish_to: 'none' 
+description: "AI-Powered HSE Safety & Observation App for UAE"
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
