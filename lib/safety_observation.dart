@@ -27,8 +27,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       Localizations.localeOf(context).languageCode == 'ml';
 
   List<String> get _observationTypes => _isMalayalam
-      ? ['Unsafe Act', 'Unsafe Condition', 'Positive Observation']
-      : ['Unsafe Act', 'Unsafe Condition', 'Positive Observation'];
+      ? [
+          'Unsafe Act',
+          'Unsafe Condition',
+          'Positive Observation',
+        ]
+      : [
+          'Unsafe Act',
+          'Unsafe Condition',
+          'Positive Observation',
+        ];
 
   List<String> get _categories => _isMalayalam
       ? [
@@ -60,7 +68,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           'Vehicle & Traffic Safety',
         ];
 
-  List<String> get _riskLevels => ['Low', 'Medium', 'High', 'Critical'];
+  List<String> get _riskLevels => [
+        'Low',
+        'Medium',
+        'High',
+        'Critical',
+      ];
 
   @override
   void dispose() {
@@ -79,7 +92,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       );
 
       if (image != null && mounted) {
-        setState(() => _photo = image);
+        setState(() {
+          _photo = image;
+        });
       }
     } catch (_) {
       if (!mounted) return;
@@ -127,7 +142,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
                 onTap: () {
                   Navigator.pop(sheetContext);
-                  setState(() => _photo = null);
+
+                  setState(() {
+                    _photo = null;
+                  });
                 },
               ),
           ],
@@ -140,7 +158,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     final now = DateTime.now();
 
     final stamp =
-        '${now.year}${now.month.toString().padLeft(2, '0')}'
+        '${now.year}'
+        '${now.month.toString().padLeft(2, '0')}'
         '${now.day.toString().padLeft(2, '0')}'
         '${now.hour.toString().padLeft(2, '0')}'
         '${now.minute.toString().padLeft(2, '0')}'
@@ -150,23 +169,32 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   void _submitObservation() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-    setState(() => _submitting = true);
+    setState(() {
+      _submitting = true;
+    });
 
     final observationId = _generateObservationId();
     final submittedAt = DateTime.now();
 
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (!mounted) return;
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () {
+        if (!mounted) return;
 
-      setState(() => _submitting = false);
+        setState(() {
+          _submitting = false;
+        });
 
-      _showSuccessDialog(
-        observationId,
-        submittedAt,
-      );
-    });
+        _showSuccessDialog(
+          observationId,
+          submittedAt,
+        );
+      },
+    );
   }
 
   Future<void> _showSuccessDialog(
@@ -204,20 +232,26 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   : 'The safety observation has been recorded successfully.',
             ),
             const SizedBox(height: 16),
+
+            // Observation ID - patched to stay on one line
             _infoRow(
-              'Observation ID',
+              _isMalayalam ? 'Observation ID' : 'Observation ID',
               id,
+              compactValue: true,
             ),
+
             _infoRow(
-              'Type',
+              _isMalayalam ? 'Type' : 'Type',
               _observationType,
             ),
+
             _infoRow(
-              'Risk',
+              _isMalayalam ? 'Risk' : 'Risk',
               _riskLevel,
             ),
+
             _infoRow(
-              'Date & Time',
+              _isMalayalam ? 'Date & Time' : 'Date & Time',
               date,
             ),
           ],
@@ -239,8 +273,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
   Widget _infoRow(
     String label,
-    String value,
-  ) {
+    String value, {
+    bool compactValue = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
@@ -256,7 +291,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ),
           ),
           Expanded(
-            child: Text(value),
+            child: compactValue
+                ? FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      value,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  )
+                : Text(value),
           ),
         ],
       ),
@@ -265,6 +310,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
   void _resetForm() {
     _formKey.currentState?.reset();
+
     _descriptionController.clear();
     _actionController.clear();
     _locationController.clear();
@@ -337,9 +383,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 18),
 
             DropdownButtonFormField<String>(
-              initialValue: _observationType,
+              value: _observationType,
               decoration: _decoration(
-                'Observation Type',
+                ml ? 'Observation Type' : 'Observation Type',
                 icon: Icons.visibility,
               ),
               items: _observationTypes
@@ -351,18 +397,20 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   )
                   .toList(),
               onChanged: (value) {
-                if (value != null) {
-                  setState(() => _observationType = value);
-                }
+                if (value == null) return;
+
+                setState(() {
+                  _observationType = value;
+                });
               },
             ),
 
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              initialValue: _category,
+              value: _category,
               decoration: _decoration(
-                'Category',
+                ml ? 'Category' : 'Category',
                 icon: Icons.category,
               ),
               items: _categories
@@ -374,18 +422,20 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   )
                   .toList(),
               onChanged: (value) {
-                if (value != null) {
-                  setState(() => _category = value);
-                }
+                if (value == null) return;
+
+                setState(() {
+                  _category = value;
+                });
               },
             ),
 
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              initialValue: _riskLevel,
+              value: _riskLevel,
               decoration: _decoration(
-                'Risk Level',
+                ml ? 'Risk Level' : 'Risk Level',
                 icon: Icons.warning_amber,
               ),
               items: _riskLevels
@@ -397,9 +447,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   )
                   .toList(),
               onChanged: (value) {
-                if (value != null) {
-                  setState(() => _riskLevel = value);
-                }
+                if (value == null) return;
+
+                setState(() {
+                  _riskLevel = value;
+                });
               },
             ),
 
@@ -410,7 +462,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               minLines: 4,
               maxLines: 6,
               decoration: _decoration(
-                'Observation Description',
+                ml
+                    ? 'Observation Description'
+                    : 'Observation Description',
                 hint: ml
                     ? 'എന്താണ് കണ്ടത് എന്ന് വിശദീകരിക്കുക'
                     : 'Describe what you observed',
@@ -434,7 +488,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               minLines: 2,
               maxLines: 4,
               decoration: _decoration(
-                'Immediate Action',
+                ml ? 'Immediate Action' : 'Immediate Action',
                 hint: ml
                     ? 'എടുത്ത ഉടൻ നടപടികൾ'
                     : 'Action taken immediately',
@@ -447,7 +501,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             TextFormField(
               controller: _locationController,
               decoration: _decoration(
-                'Location / Area',
+                ml ? 'Location / Area' : 'Location / Area',
                 hint: ml
                     ? 'ഉദാ: Workshop / Block A'
                     : 'e.g. Workshop / Block A',
@@ -477,8 +531,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                     : const Icon(Icons.send),
                 label: Text(
                   _submitting
-                      ? 'Submitting...'
-                      : 'Submit Observation',
+                      ? (ml ? 'Submitting...' : 'Submitting...')
+                      : (ml
+                          ? 'Submit Observation'
+                          : 'Submit Observation'),
                 ),
               ),
             ),
@@ -533,7 +589,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Photo Evidence (Optional)',
+          ml
+              ? 'Photo Evidence (Optional)'
+              : 'Photo Evidence (Optional)',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -589,9 +647,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                             color: Colors.white,
                             icon: const Icon(Icons.close),
                             onPressed: () {
-                              setState(
-                                () => _photo = null,
-                              );
+                              setState(() {
+                                _photo = null;
+                              });
                             },
                           ),
                         ),
