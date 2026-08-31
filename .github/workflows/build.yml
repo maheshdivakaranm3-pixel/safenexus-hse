@@ -1,4 +1,4 @@
-name: SafeNexus HSE APK Build
+name: SafeNexus HSE APK ബിൽഡ്
 
 on:
   push:
