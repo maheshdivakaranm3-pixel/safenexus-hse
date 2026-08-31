@@ -1,29 +1,35 @@
-name: SafeNexus HSE - APK Build
+name: SafeNexus HSE - Android Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: safenexus-android-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    name: Build SafeNexus HSE APK
+    name: Analyze and Build APK
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout source code
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Setup Java 17
       - name: Setup Java 17
         uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: '17'
+          cache: gradle
 
-      # 3. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -31,103 +37,51 @@ jobs:
           channel: stable
           cache: true
 
-      # 4. Show Flutter information
+      # The source archive did not contain the Gradle wrapper JAR/scripts.
+      # Generate the wrapper deterministically in CI before Flutter invokes Gradle.
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14'
+
+      - name: Generate Gradle Wrapper
+        working-directory: android
+        run: gradle wrapper --gradle-version 8.14 --distribution-type bin
+
       - name: Flutter Doctor
         run: flutter doctor -v
 
-      # 5. Clean previous build files
-      - name: Flutter Clean
-        run: flutter clean
-
-      # 6. Get Flutter dependencies
-      - name: Flutter Pub Get
+      - name: Get Dependencies
         run: flutter pub get
 
-      # 7. Check Dart/Flutter code
-      - name: Flutter Analyze
+      - name: Static Analysis
         run: flutter analyze
 
-      # 8. Build Release APK
       - name: Build Release APK
         run: flutter build apk --release
 
-      # 9. Verify APK
       - name: Verify APK
+        shell: bash
         run: |
-          echo "===== APK OUTPUT ====="
-          ls -lh build/app/outputs/flutter-apk/
-
+          set -euo pipefail
           APK="build/app/outputs/flutter-apk/app-release.apk"
 
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: APK not found!"
-            exit 1
-          fi
-
-          echo "===== APK FOUND ====="
+          test -f "$APK"
+          echo "APK: $APK"
           ls -lh "$APK"
-
-          echo "===== APK INFORMATION ====="
-
-          AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt | sort -V | tail -1)
-
-          if [ -n "$AAPT" ]; then
-            "$AAPT" dump badging "$APK" | head -30
-          else
-            echo "aapt not found, skipping APK metadata check."
-          fi
-
-          echo "===== APK SHA256 ====="
+          echo "SHA256:"
           sha256sum "$APK"
 
-      # 10. Upload APK
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: SafeNexus-HSE-APK-v1.0.1
-          path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
-      # 5. Get Flutter dependencies
-      - name: Flutter Pub Get
-        run: flutter pub get
-
-      # 6. Check Dart/Flutter code
-      - name: Flutter Analyze
-        run: flutter analyze
-
-      # 7. Build Release APK
-      - name: Build Release APK
-        run: flutter build apk --release
-
-      # 8. Verify APK
-      - name: Verify APK
-        run: |
-          echo "===== APK OUTPUT ====="
-          ls -lh build/app/outputs/flutter-apk/
-
-          APK="build/app/outputs/flutter-apk/app-release.apk"
-
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: APK not found!"
-            exit 1
-          fi
-
-          echo "===== APK FOUND ====="
-          ls -lh "$APK"
-
-          echo "===== APK INFORMATION ====="
-          AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt | sort -V | tail -1)
-
+          AAPT=$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1 || true)
           if [ -n "$AAPT" ]; then
-            "$AAPT" dump badging "$APK" | head -20
-          else
-            echo "aapt not found, skipping APK metadata check."
+            echo "APK metadata:"
+            "$AAPT" dump badging "$APK" | head -30
           fi
 
-      # 9. Upload APK as GitHub Actions artifact
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SafeNexus-HSE-APK
+          name: SafeNexus-HSE-APK-v1.0.1-build-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
+          retention-days: 14
