@@ -15,6 +15,7 @@ void main() async {
         Locale('ml', 'IN'),
       ],
       path: 'assets/translations',
+      useOnlyLangCode: true,
       fallbackLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
@@ -78,36 +79,48 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const HazardReportPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const HazardReportPage(),
+                    ),
                   );
                 },
                 icon: const Icon(Icons.report_problem),
                 label: Text('hazard_report'.tr()),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(14),
+                ),
               ),
               const SizedBox(height: 15),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const VoiceReportPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const VoiceReportPage(),
+                    ),
                   );
                 },
                 icon: const Icon(Icons.mic),
                 label: Text('voice_report'.tr()),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(14),
+                ),
               ),
               const SizedBox(height: 15),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const GuidelinesPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const GuidelinesPage(),
+                    ),
                   );
                 },
                 icon: const Icon(Icons.menu_book),
                 label: Text('guidelines'.tr()),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(14),
+                ),
               ),
             ],
           ),
