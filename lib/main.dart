@@ -30,11 +30,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SafeNexus HSE',
       debugShowCheckedModeBanner: false,
-
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -42,15 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xFFF5F7FA),
         appBarTheme: const AppBarTheme(
-          centerTitle: false,
           elevation: 0,
         ),
-        cardTheme: const CardThemeData(
-          elevation: 2,
-          margin: EdgeInsets.zero,
-        ),
       ),
-
       home: const HomeScreen(),
     );
   }
@@ -68,6 +60,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  void _showComingSoon(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'This module will be added in the next development phase.',
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,46 +83,45 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
             onSelected: (Locale locale) {
               context.setLocale(locale);
             },
-            icon: const Icon(Icons.language),
-            itemBuilder: (BuildContext context) =>
-                const <PopupMenuEntry<Locale>>[
-              PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
-              ),
-              PopupMenuItem(
-                value: Locale('ml', 'IN'),
-                child: Text('മലയാളം'),
-              ),
-            ],
+            itemBuilder: (BuildContext context) {
+              return const [
+                PopupMenuItem<Locale>(
+                  value: Locale('en', 'US'),
+                  child: Text('English'),
+                ),
+                PopupMenuItem<Locale>(
+                  value: Locale('ml', 'IN'),
+                  child: Text('മലയാളം'),
+                ),
+              ];
+            },
           ),
         ],
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome / Header Card
-              _buildWelcomeCard(context),
+              _buildWelcomeCard(),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              Text(
+              const Text(
                 'Safety Management',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
               const SizedBox(height: 12),
 
-              // Main Action Grid
               GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 12,
@@ -129,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _buildDashboardCard(
-                    context: context,
+                    context,
                     icon: Icons.report_problem,
                     title: 'Hazard Report',
                     subtitle: 'Report unsafe conditions',
@@ -140,9 +142,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-
                   _buildDashboardCard(
-                    context: context,
+                    context,
                     icon: Icons.mic,
                     title: 'Voice Report',
                     subtitle: 'Report using your voice',
@@ -153,9 +154,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-
                   _buildDashboardCard(
-                    context: context,
+                    context,
                     icon: Icons.menu_book,
                     title: 'HSE Guidelines',
                     subtitle: 'Safety knowledge A-Z',
@@ -166,9 +166,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-
                   _buildDashboardCard(
-                    context: context,
+                    context,
                     icon: Icons.visibility,
                     title: 'Safety Observation',
                     subtitle: 'Coming soon',
@@ -181,11 +180,12 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              Text(
+              const Text(
                 'Quick Access',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
               const SizedBox(height: 12),
@@ -194,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                 context,
                 icon: Icons.assignment,
                 title: 'Inspections',
-                subtitle: 'Site inspection & checklist',
+                subtitle: 'Site inspection and checklist',
               ),
 
               const SizedBox(height: 10),
@@ -217,10 +217,9 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // Safety Reminder
-              _buildSafetyReminder(context),
+              _buildSafetyReminder(),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
 
               Center(
                 child: Text(
@@ -238,7 +237,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWelcomeCard(BuildContext context) {
+  Widget _buildWelcomeCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -253,28 +252,22 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          Container(
-            width: 58,
-            height: 58,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.18),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
+          CircleAvatar(
+            radius: 29,
+            backgroundColor: Colors.white24,
+            child: Icon(
               Icons.health_and_safety,
               color: Colors.white,
               size: 34,
             ),
           ),
-
-          const SizedBox(width: 16),
-
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Welcome to SafeNexus HSE',
                   style: TextStyle(
@@ -287,97 +280,4 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   'Safety • Observation • Compliance',
                   style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDashboardCard({
-    required BuildContext context,
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(
-                  icon,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 28,
-                ),
-              ),
-
-              const Spacer(),
-
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 4),
-
-              Text(
-                subtitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickAction(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 4,
-        ),
-        leading: Container(
-          width: 46,
-          height: 46,
-          decoration: BoxDecoration(
-            color: Theme.of(context)
-                .colorScheme
-                .primary
-                .withValues(alpha: 0.10),
-            borderRadius: BorderRadius.circular(12
+                   
