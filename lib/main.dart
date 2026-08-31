@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
+import 'package:safenexus_hse/safety_observation.dart';
 import 'package:safenexus_hse/voice_report.dart';
 
 void main() async {
@@ -168,9 +169,12 @@ class HomeScreen extends StatelessWidget {
                   child: _menuCard(
                     icon: Icons.visibility,
                     title: 'Safety Observation',
-                    subtitle: 'Coming soon',
+                    subtitle: 'Record safety observation',
                     onTap: () {
-                      showComingSoon(context);
+                      openPage(
+                        context,
+                        const SafetyObservationPage(),
+                      );
                     },
                   ),
                 ),
