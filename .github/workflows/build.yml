@@ -2,17 +2,9 @@ name: SafeNexus HSE - Android Build
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
-
-permissions:
-  contents: read
-
-concurrency:
-  group: safenexus-android-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -20,68 +12,70 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # 1. Checkout source code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Setup Java
       - name: Setup Java 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
-          distribution: zulu
+          distribution: temurin
           java-version: '17'
-          cache: gradle
 
+      # 3. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.47.2'
           channel: stable
+          flutter-version: '3.47.2'
           cache: true
 
-      # The source archive did not contain the Gradle wrapper JAR/scripts.
-      # Generate the wrapper deterministically in CI before Flutter invokes Gradle.
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.14'
+      # 4. Show versions
+      - name: Check Flutter and Dart versions
+        run: |
+          flutter --version
+          dart --version
+          java -version
 
-      - name: Generate Gradle Wrapper
-        working-directory: android
-        run: gradle wrapper --gradle-version 8.14 --distribution-type bin
+      # 5. Create Android local.properties
+      # This prevents the "android/local.properties not found" error.
+      - name: Create Android local.properties
+        run: |
+          echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
+          echo "sdk.dir=$ANDROID_SDK_ROOT" >> android/local.properties
+          cat android/local.properties
 
-      - name: Flutter Doctor
-        run: flutter doctor -v
-
-      - name: Get Dependencies
+      # 6. Get Flutter dependencies
+      - name: Flutter Pub Get
         run: flutter pub get
 
-      - name: Static Analysis
+      # 7. Clean previous build files
+      - name: Flutter Clean
+        run: flutter clean
+
+      # 8. Get dependencies again after clean
+      - name: Flutter Pub Get After Clean
+        run: flutter pub get
+
+      # 9. Analyze Dart code
+      - name: Analyze Project
         run: flutter analyze
 
+      # 10. Build Release APK
       - name: Build Release APK
         run: flutter build apk --release
 
+      # 11. Verify APK
       - name: Verify APK
-        shell: bash
         run: |
-          set -euo pipefail
-          APK="build/app/outputs/flutter-apk/app-release.apk"
+          ls -lh build/app/outputs/flutter-apk/
+          test -f build/app/outputs/flutter-apk/app-release.apk
 
-          test -f "$APK"
-          echo "APK: $APK"
-          ls -lh "$APK"
-          echo "SHA256:"
-          sha256sum "$APK"
-
-          AAPT=$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1 || true)
-          if [ -n "$AAPT" ]; then
-            echo "APK metadata:"
-            "$AAPT" dump badging "$APK" | head -30
-          fi
-
+      # 12. Upload APK
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SafeNexus-HSE-APK-v1.0.1-build-${{ github.run_number }}
+          name: SafeNexus-HSE-APK
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
-          retention-days: 14
