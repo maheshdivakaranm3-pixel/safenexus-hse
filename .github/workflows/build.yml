@@ -35,6 +35,58 @@ jobs:
       - name: Flutter Doctor
         run: flutter doctor -v
 
+      # 5. Clean previous build files
+      - name: Flutter Clean
+        run: flutter clean
+
+      # 6. Get Flutter dependencies
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      # 7. Check Dart/Flutter code
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      # 8. Build Release APK
+      - name: Build Release APK
+        run: flutter build apk --release
+
+      # 9. Verify APK
+      - name: Verify APK
+        run: |
+          echo "===== APK OUTPUT ====="
+          ls -lh build/app/outputs/flutter-apk/
+
+          APK="build/app/outputs/flutter-apk/app-release.apk"
+
+          if [ ! -f "$APK" ]; then
+            echo "ERROR: APK not found!"
+            exit 1
+          fi
+
+          echo "===== APK FOUND ====="
+          ls -lh "$APK"
+
+          echo "===== APK INFORMATION ====="
+
+          AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt | sort -V | tail -1)
+
+          if [ -n "$AAPT" ]; then
+            "$AAPT" dump badging "$APK" | head -30
+          else
+            echo "aapt not found, skipping APK metadata check."
+          fi
+
+          echo "===== APK SHA256 ====="
+          sha256sum "$APK"
+
+      # 10. Upload APK
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SafeNexus-HSE-APK-v1.0.1
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
       # 5. Get Flutter dependencies
       - name: Flutter Pub Get
         run: flutter pub get
