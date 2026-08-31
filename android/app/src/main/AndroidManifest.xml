@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Internet access for HSE app services -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Voice Report -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Camera access for hazard photos -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:label="SafeNexus HSE"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:usesCleartextTraffic="false">
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -27,6 +35,7 @@
 
         </activity>
 
+        <!-- Flutter plugin registration -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
