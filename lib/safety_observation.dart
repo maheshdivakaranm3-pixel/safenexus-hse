@@ -1,16 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SafetyObservationPage extends StatefulWidget {
   const SafetyObservationPage({super.key});
 
   @override
-  State<SafetyObservationPage> createState() => _SafetyObservationPageState();
+  State<SafetyObservationPage> createState() =>
+      _SafetyObservationPageState();
 }
 
 class _SafetyObservationPageState extends State<SafetyObservationPage> {
+  static const String _storageKey = 'safety_observations';
+
   final _formKey = GlobalKey<FormState>();
   final _descriptionController = TextEditingController();
   final _actionController = TextEditingController();
@@ -143,7 +148,40 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     return 'OBS-$stamp';
   }
 
-  void _submitObservation() {
+  // ------------------------------------------------------------
+  // SAVE OBSERVATION LOCALLY
+  // ------------------------------------------------------------
+
+  Future<void> _saveObservation({
+    required String observationId,
+    required DateTime submittedAt,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final existingData =
+        prefs.getStringList(_storageKey) ?? <String>[];
+
+    final observation = <String, dynamic>{
+      'id': observationId,
+      'type': _observationType,
+      'category': _category,
+      'risk': _riskLevel,
+      'description': _descriptionController.text.trim(),
+      'action': _actionController.text.trim(),
+      'location': _locationController.text.trim(),
+      'dateTime': submittedAt.toIso8601String(),
+      'photoPath': _photo?.path ?? '',
+    };
+
+    existingData.add(jsonEncode(observation));
+
+    await prefs.setStringList(
+      _storageKey,
+      existingData,
+    );
+  }
+
+  Future<void> _submitObservation() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -155,21 +193,36 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     final observationId = _generateObservationId();
     final submittedAt = DateTime.now();
 
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () {
-        if (!mounted) return;
+    try {
+      // Save observation before showing success message.
+      await _saveObservation(
+        observationId: observationId,
+        submittedAt: submittedAt,
+      );
 
-        setState(() {
-          _submitting = false;
-        });
+      if (!mounted) return;
 
-        _showSuccessDialog(
-          observationId,
-          submittedAt,
-        );
-      },
-    );
+      setState(() {
+        _submitting = false;
+      });
+
+      await _showSuccessDialog(
+        observationId,
+        submittedAt,
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _submitting = false;
+      });
+
+      _showMessage(
+        _isMalayalam
+            ? 'Observation save ചെയ്യാൻ കഴിഞ്ഞില്ല.'
+            : 'Unable to save observation.',
+      );
+    }
   }
 
   Future<void> _showSuccessDialog(
@@ -203,23 +256,19 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   : 'The safety observation has been recorded successfully.',
             ),
             const SizedBox(height: 16),
-
             _infoRow(
               'Observation ID',
               id,
               compactValue: true,
             ),
-
             _infoRow(
               'Type',
               _observationType,
             ),
-
             _infoRow(
               'Risk',
               _riskLevel,
             ),
-
             _infoRow(
               'Date & Time',
               date,
@@ -345,7 +394,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           padding: const EdgeInsets.all(16),
           children: [
             _headerCard(ml),
-
             const SizedBox(height: 18),
 
             DropdownButtonFormField<String>(
@@ -550,14 +598,13 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Photo Evidence (Optional)',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
         ),
-
         const SizedBox(height: 8),
 
         InkWell(
