@@ -34,14 +34,8 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+        primarySwatch: Colors.blue,
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF5F7FA),
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-        ),
       ),
       home: const HomeScreen(),
     );
@@ -51,22 +45,19 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void _openPage(BuildContext context, Widget page) {
+  void openPage(BuildContext context, Widget page) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => page,
+        builder: (context) => page,
       ),
     );
   }
 
-  void _showComingSoon(BuildContext context) {
+  void showComingSoon(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text(
-          'This module will be added in the next development phase.',
-        ),
-        duration: Duration(seconds: 2),
+        content: Text('Coming soon'),
       ),
     );
   }
@@ -102,150 +93,162 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildWelcomeCard(),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            _welcomeCard(),
 
-              const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-              const Text(
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
                 'Safety Management',
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
 
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-              GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 1.15,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  _buildDashboardCard(
-                    context,
+            Row(
+              children: [
+                Expanded(
+                  child: _menuCard(
                     icon: Icons.report_problem,
                     title: 'Hazard Report',
-                    subtitle: 'Report unsafe conditions',
+                    subtitle: 'Report hazard',
                     onTap: () {
-                      _openPage(
+                      openPage(
                         context,
                         const HazardReportPage(),
                       );
                     },
                   ),
-                  _buildDashboardCard(
-                    context,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _menuCard(
                     icon: Icons.mic,
                     title: 'Voice Report',
-                    subtitle: 'Report using your voice',
+                    subtitle: 'Voice reporting',
                     onTap: () {
-                      _openPage(
+                      openPage(
                         context,
                         const VoiceReportPage(),
                       );
                     },
                   ),
-                  _buildDashboardCard(
-                    context,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _menuCard(
                     icon: Icons.menu_book,
                     title: 'HSE Guidelines',
-                    subtitle: 'Safety knowledge A-Z',
+                    subtitle: 'A-Z safety guide',
                     onTap: () {
-                      _openPage(
+                      openPage(
                         context,
                         const GuidelinesPage(),
                       );
                     },
                   ),
-                  _buildDashboardCard(
-                    context,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _menuCard(
                     icon: Icons.visibility,
                     title: 'Safety Observation',
                     subtitle: 'Coming soon',
                     onTap: () {
-                      _showComingSoon(context);
+                      showComingSoon(context);
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-              const Text(
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
                 'Quick Access',
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
 
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-              _buildQuickAction(
-                context,
-                icon: Icons.assignment,
-                title: 'Inspections',
-                subtitle: 'Site inspection and checklist',
+            _quickItem(
+              icon: Icons.assignment,
+              title: 'Inspections',
+              subtitle: 'Site inspection and checklist',
+              onTap: () {
+                showComingSoon(context);
+              },
+            ),
+
+            const SizedBox(height: 10),
+
+            _quickItem(
+              icon: Icons.assessment,
+              title: 'Risk Assessment',
+              subtitle: 'Identify hazards and controls',
+              onTap: () {
+                showComingSoon(context);
+              },
+            ),
+
+            const SizedBox(height: 10),
+
+            _quickItem(
+              icon: Icons.history,
+              title: 'Reports & History',
+              subtitle: 'View safety reports',
+              onTap: () {
+                showComingSoon(context);
+              },
+            ),
+
+            const SizedBox(height: 24),
+
+            _safetyReminder(),
+
+            const SizedBox(height: 20),
+
+            Text(
+              'SafeNexus HSE • Safety First',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 13,
               ),
-
-              const SizedBox(height: 10),
-
-              _buildQuickAction(
-                context,
-                icon: Icons.assessment,
-                title: 'Risk Assessment',
-                subtitle: 'Identify hazards and controls',
-              ),
-
-              const SizedBox(height: 10),
-
-              _buildQuickAction(
-                context,
-                icon: Icons.history,
-                title: 'Reports & History',
-                subtitle: 'View submitted safety reports',
-              ),
-
-              const SizedBox(height: 24),
-
-              _buildSafetyReminder(),
-
-              const SizedBox(height: 20),
-
-              Center(
-                child: Text(
-                  'SafeNexus HSE • Safety First',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildWelcomeCard() {
+  Widget _welcomeCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
           colors: [
             Color(0xFF1565C0),
             Color(0xFF1976D2),
@@ -255,7 +258,7 @@ class HomeScreen extends StatelessWidget {
       child: const Row(
         children: [
           CircleAvatar(
-            radius: 29,
+            radius: 30,
             backgroundColor: Colors.white24,
             child: Icon(
               Icons.health_and_safety,
@@ -272,7 +275,7 @@ class HomeScreen extends StatelessWidget {
                   'Welcome to SafeNexus HSE',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 19,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -280,4 +283,114 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   'Safety • Observation • Compliance',
                   style: TextStyle(
-                   
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menuCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                size: 32,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _quickItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      child: ListTile(
+        onTap: onTap,
+        leading: Icon(
+          icon,
+          color: Colors.blue,
+          size: 30,
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          size: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _safetyReminder() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Icon(
+              Icons.info_outline,
+              color: Colors.blue,
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'If you identify an unsafe condition, report it promptly and follow the applicable site safety controls.',
+                style: TextStyle(
+                  fontSize: 13,
+                  height: 1.4,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
