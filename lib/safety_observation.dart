@@ -26,47 +26,26 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   bool get _isMalayalam =>
       Localizations.localeOf(context).languageCode == 'ml';
 
-  List<String> get _observationTypes => _isMalayalam
-      ? [
-          'Unsafe Act',
-          'Unsafe Condition',
-          'Positive Observation',
-        ]
-      : [
-          'Unsafe Act',
-          'Unsafe Condition',
-          'Positive Observation',
-        ];
+  List<String> get _observationTypes => [
+        'Unsafe Act',
+        'Unsafe Condition',
+        'Positive Observation',
+      ];
 
-  List<String> get _categories => _isMalayalam
-      ? [
-          'General Safety',
-          'PPE',
-          'Work at Height',
-          'Scaffolding',
-          'Lifting & Rigging',
-          'Electrical Safety',
-          'Fire Safety',
-          'Housekeeping',
-          'Permit to Work',
-          'Environmental Safety',
-          'Heat Stress',
-          'Vehicle & Traffic Safety',
-        ]
-      : [
-          'General Safety',
-          'PPE',
-          'Work at Height',
-          'Scaffolding',
-          'Lifting & Rigging',
-          'Electrical Safety',
-          'Fire Safety',
-          'Housekeeping',
-          'Permit to Work',
-          'Environmental Safety',
-          'Heat Stress',
-          'Vehicle & Traffic Safety',
-        ];
+  List<String> get _categories => [
+        'General Safety',
+        'PPE',
+        'Work at Height',
+        'Scaffolding',
+        'Lifting & Rigging',
+        'Electrical Safety',
+        'Fire Safety',
+        'Housekeeping',
+        'Permit to Work',
+        'Environmental Safety',
+        'Heat Stress',
+        'Vehicle & Traffic Safety',
+      ];
 
   List<String> get _riskLevels => [
         'Low',
@@ -116,9 +95,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: Text(
-                _isMalayalam ? 'Camera' : 'Camera',
-              ),
+              title: const Text('Camera'),
               onTap: () {
                 Navigator.pop(sheetContext);
                 _pickPhoto(ImageSource.camera);
@@ -126,9 +103,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: Text(
-                _isMalayalam ? 'Gallery' : 'Gallery',
-              ),
+              title: const Text('Gallery'),
               onTap: () {
                 Navigator.pop(sheetContext);
                 _pickPhoto(ImageSource.gallery);
@@ -217,11 +192,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           color: Colors.green,
           size: 56,
         ),
-        title: Text(
-          _isMalayalam
-              ? 'Observation Submitted'
-              : 'Observation Submitted',
-        ),
+        title: const Text('Observation Submitted'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,25 +204,24 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ),
             const SizedBox(height: 16),
 
-            // Observation ID - patched to stay on one line
             _infoRow(
-              _isMalayalam ? 'Observation ID' : 'Observation ID',
+              'Observation ID',
               id,
               compactValue: true,
             ),
 
             _infoRow(
-              _isMalayalam ? 'Type' : 'Type',
+              'Type',
               _observationType,
             ),
 
             _infoRow(
-              _isMalayalam ? 'Risk' : 'Risk',
+              'Risk',
               _riskLevel,
             ),
 
             _infoRow(
-              _isMalayalam ? 'Date & Time' : 'Date & Time',
+              'Date & Time',
               date,
             ),
           ],
@@ -262,9 +232,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               Navigator.pop(dialogContext);
               _resetForm();
             },
-            child: Text(
-              _isMalayalam ? 'Done' : 'Done',
-            ),
+            child: const Text('Done'),
           ),
         ],
       ),
@@ -353,9 +321,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          ml ? 'Safety Observation' : 'Safety Observation',
-        ),
+        title: const Text('Safety Observation'),
         actions: [
           PopupMenuButton<Locale>(
             icon: const Icon(Icons.language),
@@ -383,9 +349,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 18),
 
             DropdownButtonFormField<String>(
-              value: _observationType,
+              initialValue: _observationType,
               decoration: _decoration(
-                ml ? 'Observation Type' : 'Observation Type',
+                'Observation Type',
                 icon: Icons.visibility,
               ),
               items: _observationTypes
@@ -408,9 +374,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               decoration: _decoration(
-                ml ? 'Category' : 'Category',
+                'Category',
                 icon: Icons.category,
               ),
               items: _categories
@@ -433,9 +399,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _riskLevel,
+              initialValue: _riskLevel,
               decoration: _decoration(
-                ml ? 'Risk Level' : 'Risk Level',
+                'Risk Level',
                 icon: Icons.warning_amber,
               ),
               items: _riskLevels
@@ -462,9 +428,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               minLines: 4,
               maxLines: 6,
               decoration: _decoration(
-                ml
-                    ? 'Observation Description'
-                    : 'Observation Description',
+                'Observation Description',
                 hint: ml
                     ? 'എന്താണ് കണ്ടത് എന്ന് വിശദീകരിക്കുക'
                     : 'Describe what you observed',
@@ -488,7 +452,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               minLines: 2,
               maxLines: 4,
               decoration: _decoration(
-                ml ? 'Immediate Action' : 'Immediate Action',
+                'Immediate Action',
                 hint: ml
                     ? 'എടുത്ത ഉടൻ നടപടികൾ'
                     : 'Action taken immediately',
@@ -501,7 +465,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             TextFormField(
               controller: _locationController,
               decoration: _decoration(
-                ml ? 'Location / Area' : 'Location / Area',
+                'Location / Area',
                 hint: ml
                     ? 'ഉദാ: Workshop / Block A'
                     : 'e.g. Workshop / Block A',
@@ -531,10 +495,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                     : const Icon(Icons.send),
                 label: Text(
                   _submitting
-                      ? (ml ? 'Submitting...' : 'Submitting...')
-                      : (ml
-                          ? 'Submit Observation'
-                          : 'Submit Observation'),
+                      ? 'Submitting...'
+                      : 'Submit Observation',
                 ),
               ),
             ),
@@ -589,9 +551,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          ml
-              ? 'Photo Evidence (Optional)'
-              : 'Photo Evidence (Optional)',
+          'Photo Evidence (Optional)',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
