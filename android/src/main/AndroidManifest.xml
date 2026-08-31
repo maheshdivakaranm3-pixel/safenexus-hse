@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet access for HSE app services -->
+    <!-- Internet access -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Voice Report -->
@@ -35,7 +35,6 @@
 
         </activity>
 
-        <!-- Flutter plugin registration -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
