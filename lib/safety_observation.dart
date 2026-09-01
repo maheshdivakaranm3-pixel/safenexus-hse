@@ -105,9 +105,7 @@ class _SafetyObservationPageState
             children: [
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: Text(
-                  _isMalayalam ? 'Camera' : 'Camera',
-                ),
+                title: const Text('Camera'),
                 onTap: () {
                   Navigator.pop(sheetContext);
                   _pickPhoto(ImageSource.camera);
@@ -115,9 +113,7 @@ class _SafetyObservationPageState
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: Text(
-                  _isMalayalam ? 'Gallery' : 'Gallery',
-                ),
+                title: const Text('Gallery'),
                 onTap: () {
                   Navigator.pop(sheetContext);
                   _pickPhoto(ImageSource.gallery);
@@ -125,14 +121,8 @@ class _SafetyObservationPageState
               ),
               if (_photo != null)
                 ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline,
-                  ),
-                  title: Text(
-                    _isMalayalam
-                        ? 'Remove Photo'
-                        : 'Remove Photo',
-                  ),
+                  leading: const Icon(Icons.delete_outline),
+                  title: const Text('Remove Photo'),
                   onTap: () {
                     Navigator.pop(sheetContext);
 
@@ -175,8 +165,7 @@ class _SafetyObservationPageState
     final submittedAt = DateTime.now();
 
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final existingData =
           prefs.getString(_storageKey);
@@ -311,9 +300,7 @@ class _SafetyObservationPageState
                 Navigator.pop(dialogContext);
                 _resetForm();
               },
-              child: Text(
-                _isMalayalam ? 'Done' : 'Done',
-              ),
+              child: const Text('Done'),
             ),
           ],
         );
@@ -326,9 +313,7 @@ class _SafetyObservationPageState
     String value,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 6,
-      ),
+      padding: const EdgeInsets.only(bottom: 6),
       child: Row(
         crossAxisAlignment:
             CrossAxisAlignment.start,
@@ -396,11 +381,7 @@ class _SafetyObservationPageState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          ml
-              ? 'Safety Observation'
-              : 'Safety Observation',
-        ),
+        title: const Text('Safety Observation'),
         actions: [
           PopupMenuButton<Locale>(
             icon: const Icon(Icons.language),
@@ -428,15 +409,14 @@ class _SafetyObservationPageState
             const SizedBox(height: 18),
 
             DropdownButtonFormField<String>(
-              value: _observationType,
+              initialValue: _observationType,
               decoration: _decoration(
                 'Observation Type',
                 icon: Icons.visibility,
               ),
               items: _observationTypes
                   .map(
-                    (value) =>
-                        DropdownMenuItem<String>(
+                    (value) => DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
                     ),
@@ -454,15 +434,14 @@ class _SafetyObservationPageState
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               decoration: _decoration(
                 'Category',
                 icon: Icons.category,
               ),
               items: _categories
                   .map(
-                    (value) =>
-                        DropdownMenuItem<String>(
+                    (value) => DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
                     ),
@@ -480,15 +459,14 @@ class _SafetyObservationPageState
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _riskLevel,
+              initialValue: _riskLevel,
               decoration: _decoration(
                 'Risk Level',
                 icon: Icons.warning_amber,
               ),
               items: _riskLevels
                   .map(
-                    (value) =>
-                        DropdownMenuItem<String>(
+                    (value) => DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
                     ),
