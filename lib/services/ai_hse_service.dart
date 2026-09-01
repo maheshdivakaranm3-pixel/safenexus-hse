@@ -41,16 +41,13 @@ class AiHseResult {
           json['risk_level']?.toString() ??
               'Medium',
       potentialConsequence:
-          json['potential_consequence']
-                  ?.toString() ??
+          json['potential_consequence']?.toString() ??
               'Injury',
       correctiveAction:
-          json['corrective_action']
-                  ?.toString() ??
+          json['corrective_action']?.toString() ??
               '',
       confidence:
-          (json['confidence'] as num?)
-                  ?.toDouble() ??
+          (json['confidence'] as num?)?.toDouble() ??
               0.0,
       explanation:
           json['explanation']?.toString() ??
@@ -61,34 +58,47 @@ class AiHseResult {
 
 class AiHseService {
   // ============================================================
-  // IMPORTANT
+  // SAFE BACKEND ENDPOINT
   // ============================================================
   //
-  // Replace this with your deployed Cloudflare Worker URL.
+  // IMPORTANT:
+  // Do NOT put your OpenAI API key here.
+  //
+  // After deploying Cloudflare Worker, replace only the URL below.
   //
   // Example:
-  // https://safenexus-hse-ai.yourname.workers.dev
+  //
+  // https://safenexus-hse-ai.example.workers.dev/analyze-hse
   //
   static const String endpoint =
       'https://YOUR-WORKER-URL.workers.dev/analyze-hse';
+
+  // ============================================================
+  // ANALYZE PHOTO
+  // ============================================================
 
   Future<AiHseResult> analyzePhoto({
     required File imageFile,
     String description = '',
     String location = '',
   }) async {
+    // Read image bytes.
     final List<int> bytes =
         await imageFile.readAsBytes();
 
+    // Convert image to Base64.
     final String base64Image =
         base64Encode(bytes);
 
+    // Detect MIME type.
     final String mimeType =
         _mimeType(imageFile.path);
 
-    final response = await http.post(
+    // Send photo to secure backend.
+    final http.Response response =
+        await http.post(
       Uri.parse(endpoint),
-      headers: {
+      headers: const {
         'Content-Type':
             'application/json',
       },
@@ -100,26 +110,55 @@ class AiHseService {
       }),
     );
 
+    // ==========================================================
+    // HTTP ERROR
+    // ==========================================================
+
     if (response.statusCode < 200 ||
         response.statusCode >= 300) {
+      String message =
+          'AI analysis failed.';
+
       try {
-        final Map<String, dynamic> error =
+        final dynamic decoded =
             jsonDecode(response.body);
 
-        throw Exception(
-          error['error']?.toString() ??
-              'AI analysis failed.',
-        );
+        if (decoded is Map &&
+            decoded['error'] != null) {
+          message =
+              decoded['error'].toString();
+        }
       } catch (_) {
-        throw Exception(
-          'AI analysis failed '
-          '(${response.statusCode}).',
-        );
+        // Keep default message.
       }
+
+      throw Exception(
+        '$message '
+        'HTTP ${response.statusCode}',
+      );
+    }
+
+    // ==========================================================
+    // DECODE RESPONSE
+    // ==========================================================
+
+    final dynamic decoded =
+        jsonDecode(response.body);
+
+    if (decoded is! Map) {
+      throw Exception(
+        'Invalid AI server response.',
+      );
     }
 
     final Map<String, dynamic> data =
-        jsonDecode(response.body);
+        Map<String, dynamic>.from(
+      decoded,
+    );
+
+    // ==========================================================
+    // SERVER ERROR
+    // ==========================================================
 
     if (data['success'] != true) {
       throw Exception(
@@ -128,19 +167,32 @@ class AiHseService {
       );
     }
 
-    final result =
+    // ==========================================================
+    // RESULT
+    // ==========================================================
+
+    final dynamic rawResult =
         data['result'];
 
-    if (result is! Map) {
+    if (rawResult is! Map) {
       throw Exception(
-        'Invalid AI response.',
+        'AI result is missing.',
       );
     }
 
+    final Map<String, dynamic> result =
+        Map<String, dynamic>.from(
+      rawResult,
+    );
+
     return AiHseResult.fromJson(
-      Map<String, dynamic>.from(result),
+      result,
     );
   }
+
+  // ============================================================
+  // MIME TYPE
+  // ============================================================
 
   String _mimeType(String path) {
     final String lower =
@@ -158,6 +210,12 @@ class AiHseService {
       return 'image/gif';
     }
 
+    if (lower.endsWith('.jpg') ||
+        lower.endsWith('.jpeg')) {
+      return 'image/jpeg';
+    }
+
+    // Default for camera photos.
     return 'image/jpeg';
   }
 }
