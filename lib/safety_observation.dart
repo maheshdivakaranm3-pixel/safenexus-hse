@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SafetyObservationPage extends StatefulWidget {
@@ -14,552 +13,425 @@ class SafetyObservationPage extends StatefulWidget {
       _SafetyObservationPageState();
 }
 
-class _SafetyObservationPageState
-    extends State<SafetyObservationPage> {
-  static const String _storageKey =
-      'safety_observations';
-
-  final _formKey = GlobalKey<FormState>();
-
-  final _descriptionController =
-      TextEditingController();
-
-  final _actionController =
-      TextEditingController();
-
-  final _locationController =
-      TextEditingController();
+class _SafetyObservationPageState extends State<SafetyObservationPage> {
+  static const String _storageKey = 'safety_observations';
 
   final ImagePicker _picker = ImagePicker();
 
-  String _observationType =
-      'Unsafe Condition';
+  final TextEditingController _locationController =
+      TextEditingController();
+  final TextEditingController _descriptionController =
+      TextEditingController();
+  final TextEditingController _immediateActionController =
+      TextEditingController();
+  final TextEditingController _correctiveActionController =
+      TextEditingController();
+  final TextEditingController _responsibleController =
+      TextEditingController();
+  final TextEditingController _closureRemarksController =
+      TextEditingController();
 
-  String _category =
-      'General Safety';
+  File? _beforePhoto;
+  File? _afterPhoto;
 
-  String _riskLevel =
-      'Medium';
+  DateTime _observationDateTime = DateTime.now();
+  DateTime? _targetDate;
 
-  XFile? _photo;
+  String _category = 'Unsafe Act';
+  String _riskLevel = 'Medium';
+  String _status = 'Open';
 
-  bool _submitting = false;
-
-  bool get _isMalayalam =>
-      Localizations.localeOf(context)
-          .languageCode ==
-      'ml';
-
-  List<String> get _observationTypes => [
-        'Unsafe Act',
-        'Unsafe Condition',
-        'Positive Observation',
-      ];
-
-  // ============================================================
-  // HSE CATEGORIES
-  // ============================================================
-
-  List<String> get _categories => [
-        'General Safety',
-        'PPE',
-        'Excavation',
-        'Scaffolding',
-        'Working at Height',
-        'Power Tools',
-        'Formwork',
-        'Permit to Work',
-        'Working in Hot & Humid Climate',
-        'Heat Stress',
-        'Confined Space',
-        'Working Near Live Road',
-        'Concreting',
-        'Barricading of Hazards',
-        'Worker Welfare',
-        'Electrical Safety',
-        'Electrical Tools',
-        'Temporary Works',
-        'Manual Handling',
-        'Hot Works',
-        'Lifting & Rigging',
-        'Fire Safety',
-        'Housekeeping',
-        'Environmental Safety',
-        'Vehicle & Traffic Safety',
-      ];
-
-  List<String> get _riskLevels => [
-        'Low',
-        'Medium',
-        'High',
-        'Critical',
-      ];
+  bool _isSaving = false;
+  bool _isAnalyzing = false;
 
   @override
   void dispose() {
-    _descriptionController.dispose();
-    _actionController.dispose();
     _locationController.dispose();
+    _descriptionController.dispose();
+    _immediateActionController.dispose();
+    _correctiveActionController.dispose();
+    _responsibleController.dispose();
+    _closureRemarksController.dispose();
     super.dispose();
   }
 
-  // ============================================================
-  // PICK PHOTO
-  // ============================================================
+  // ------------------------------------------------------------
+  // PHOTO PICKING
+  // ------------------------------------------------------------
 
-  Future<void> _pickPhoto(
-    ImageSource source,
-  ) async {
+  Future<void> _pickBeforePhoto(ImageSource source) async {
     try {
-      final image =
-          await _picker.pickImage(
+      final XFile? pickedFile = await _picker.pickImage(
         source: source,
-        imageQuality: 80,
+        imageQuality: 85,
         maxWidth: 1600,
       );
 
-      if (image != null && mounted) {
-        setState(() {
-          _photo = image;
-        });
-      }
-    } catch (_) {
-      if (!mounted) return;
+      if (pickedFile == null) return;
 
-      _showMessage(
-        _isMalayalam
-            ? 'Photo എടുക്കാൻ കഴിഞ്ഞില്ല.'
-            : 'Unable to select photo.',
-      );
+      setState(() {
+        _beforePhoto = File(pickedFile.path);
+      });
+
+      // Prepare the observation form after photo selection.
+      await _prepareObservationFromPhoto();
+    } catch (e) {
+      _showMessage('Unable to select photo.');
     }
   }
 
-  // ============================================================
-  // PHOTO OPTIONS
-  // ============================================================
-
-  Future<void> _showPhotoOptions() async {
-    await showModalBottomSheet<void>(
-      context: context,
-      builder: (sheetContext) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(
-                  Icons.camera_alt,
-                ),
-                title: const Text(
-                  'Camera',
-                ),
-                onTap: () {
-                  Navigator.pop(
-                    sheetContext,
-                  );
-
-                  _pickPhoto(
-                    ImageSource.camera,
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.photo_library,
-                ),
-                title: const Text(
-                  'Gallery',
-                ),
-                onTap: () {
-                  Navigator.pop(
-                    sheetContext,
-                  );
-
-                  _pickPhoto(
-                    ImageSource.gallery,
-                  );
-                },
-              ),
-              if (_photo != null)
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline,
-                  ),
-                  title: const Text(
-                    'Remove Photo',
-                  ),
-                  onTap: () {
-                    Navigator.pop(
-                      sheetContext,
-                    );
-
-                    setState(() {
-                      _photo = null;
-                    });
-                  },
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ============================================================
-  // SAVE PHOTO PERMANENTLY
-  // ============================================================
-
-  Future<String?> _savePhotoPermanently() async {
-    if (_photo == null) {
-      return null;
-    }
-
+  Future<void> _pickAfterPhoto(ImageSource source) async {
     try {
-      final appDirectory =
-          await getApplicationDocumentsDirectory();
-
-      final photoDirectory =
-          Directory(
-        '${appDirectory.path}/safety_observations',
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1600,
       );
 
-      if (!await photoDirectory.exists()) {
-        await photoDirectory.create(
-          recursive: true,
-        );
-      }
+      if (pickedFile == null) return;
 
-      final extension =
-          _photo!.path.contains('.')
-              ? _photo!.path
-                  .split('.')
-                  .last
-              : 'jpg';
-
-      final fileName =
-          'observation_${DateTime.now().millisecondsSinceEpoch}.$extension';
-
-      final savedPath =
-          '${photoDirectory.path}/$fileName';
-
-      final sourceFile =
-          File(_photo!.path);
-
-      await sourceFile.copy(
-        savedPath,
-      );
-
-      return savedPath;
-    } catch (_) {
-      return null;
+      setState(() {
+        _afterPhoto = File(pickedFile.path);
+      });
+    } catch (e) {
+      _showMessage('Unable to select after photo.');
     }
   }
 
-  // ============================================================
-  // OBSERVATION ID
-  // ============================================================
+  // ------------------------------------------------------------
+  // PHOTO ANALYSIS PLACEHOLDER
+  // ------------------------------------------------------------
 
-  String _generateObservationId() {
-    final now = DateTime.now();
+  Future<void> _prepareObservationFromPhoto() async {
+    if (_beforePhoto == null) return;
 
-    final stamp =
-        '${now.year}'
-        '${now.month.toString().padLeft(2, '0')}'
-        '${now.day.toString().padLeft(2, '0')}'
-        '${now.hour.toString().padLeft(2, '0')}'
-        '${now.minute.toString().padLeft(2, '0')}'
-        '${now.second.toString().padLeft(2, '0')}';
+    setState(() {
+      _isAnalyzing = true;
+    });
 
-    return 'OBS-$stamp';
+    /*
+      IMPORTANT:
+      This is the AI integration point.
+
+      A real AI Vision API can later analyze _beforePhoto and return:
+
+      - Unsafe Act / Unsafe Condition
+      - Observation description
+      - Risk level
+      - Immediate Action
+      - Corrective Action
+
+      No fake AI result is inserted here.
+    */
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!mounted) return;
+
+    setState(() {
+      _isAnalyzing = false;
+
+      if (_descriptionController.text.trim().isEmpty) {
+        _descriptionController.text =
+            'Photo selected. Review and enter the unsafe act or unsafe condition identified in the photo.';
+      }
+
+      if (_immediateActionController.text.trim().isEmpty) {
+        _immediateActionController.text =
+            'Control the immediate hazard and prevent exposure to workers.';
+      }
+
+      if (_correctiveActionController.text.trim().isEmpty) {
+        _correctiveActionController.text =
+            'Implement corrective measures and provide appropriate safety briefing or training where required.';
+      }
+    });
   }
 
-  // ============================================================
-  // SUBMIT OBSERVATION
-  // ============================================================
+  // ------------------------------------------------------------
+  // DATE / TIME
+  // ------------------------------------------------------------
 
-  Future<void> _submitObservation() async {
-    if (!_formKey.currentState!
-        .validate()) {
+  Future<void> _selectObservationDateTime() async {
+    final DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: _observationDateTime,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+
+    if (date == null || !mounted) return;
+
+    final TimeOfDay? time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_observationDateTime),
+    );
+
+    if (time == null) return;
+
+    setState(() {
+      _observationDateTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
+    });
+  }
+
+  Future<void> _selectTargetDate() async {
+    final DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: _targetDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (date == null) return;
+
+    setState(() {
+      _targetDate = date;
+    });
+  }
+
+  // ------------------------------------------------------------
+  // SAVE
+  // ------------------------------------------------------------
+
+  Future<void> _saveObservation() async {
+    if (_beforePhoto == null) {
+      _showMessage('Please add a Before Photo.');
+      return;
+    }
+
+    if (_locationController.text.trim().isEmpty) {
+      _showMessage('Please enter the location.');
+      return;
+    }
+
+    if (_descriptionController.text.trim().isEmpty) {
+      _showMessage('Please enter the observation description.');
+      return;
+    }
+
+    if (_responsibleController.text.trim().isEmpty) {
+      _showMessage('Please assign a responsible person.');
+      return;
+    }
+
+    if (_targetDate == null) {
+      _showMessage('Please select a target date.');
       return;
     }
 
     setState(() {
-      _submitting = true;
+      _isSaving = true;
     });
 
-    final observationId =
-        _generateObservationId();
-
-    final submittedAt =
-        DateTime.now();
-
     try {
-      // --------------------------------------------------------
-      // SAVE PHOTO FIRST
-      // --------------------------------------------------------
+      final prefs = await SharedPreferences.getInstance();
 
-      final savedPhotoPath =
-          await _savePhotoPermanently();
+      final List<String> existing =
+          prefs.getStringList(_storageKey) ?? <String>[];
 
-      // --------------------------------------------------------
-      // LOAD EXISTING OBSERVATIONS
-      // --------------------------------------------------------
-
-      final prefs =
-          await SharedPreferences
-              .getInstance();
-
-      final existingData =
-          prefs.getString(
-        _storageKey,
-      );
-
-      List<Map<String, dynamic>>
-          observations = [];
-
-      if (existingData != null &&
-          existingData.isNotEmpty) {
-        final decoded =
-            jsonDecode(
-          existingData,
-        );
-
-        if (decoded is List) {
-          observations = decoded
-              .whereType<Map>()
-              .map(
-                (item) =>
-                    Map<String, dynamic>.from(
-                  item,
-                ),
-              )
-              .toList();
-        }
-      }
-
-      // --------------------------------------------------------
-      // CREATE OBSERVATION
-      // --------------------------------------------------------
-
-      final observation =
-          <String, dynamic>{
-        'id': observationId,
-
-        'observation_type':
-            _observationType,
-
-        'category':
-            _category,
-
-        'severity':
-            _riskLevel,
-
-        'description':
-            _descriptionController
-                .text
-                .trim(),
-
-        'immediate_action':
-            _actionController
-                .text
-                .trim(),
-
-        'location':
-            _locationController
-                .text
-                .trim(),
-
-        'date':
-            submittedAt
-                .toIso8601String(),
-
-        'created_at':
-            submittedAt
-                .toIso8601String(),
-
-        // ------------------------------------------------------
-        // PHOTO PATH
-        // ------------------------------------------------------
-
-        'photo_path':
-            savedPhotoPath ?? '',
+      final Map<String, dynamic> observation = {
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'location': _locationController.text.trim(),
+        'dateTime': _observationDateTime.toIso8601String(),
+        'description': _descriptionController.text.trim(),
+        'category': _category,
+        'riskLevel': _riskLevel,
+        'beforePhoto': _beforePhoto?.path ?? '',
+        'immediateAction': _immediateActionController.text.trim(),
+        'correctiveAction': _correctiveActionController.text.trim(),
+        'responsiblePerson': _responsibleController.text.trim(),
+        'targetDate': _targetDate?.toIso8601String(),
+        'afterPhoto': _afterPhoto?.path ?? '',
+        'status': _status,
+        'closureRemarks': _closureRemarksController.text.trim(),
+        'createdAt': DateTime.now().toIso8601String(),
+        'updatedAt': DateTime.now().toIso8601String(),
       };
 
-      observations.add(
-        observation,
-      );
+      existing.insert(0, jsonEncode(observation));
 
-      // --------------------------------------------------------
-      // SAVE OBSERVATION
-      // --------------------------------------------------------
-
-      await prefs.setString(
-        _storageKey,
-        jsonEncode(
-          observations,
-        ),
-      );
+      await prefs.setStringList(_storageKey, existing);
 
       if (!mounted) return;
 
-      setState(() {
-        _submitting = false;
-      });
+      _showMessage('Safety observation saved successfully.');
 
-      await _showSuccessDialog(
-        observationId,
-        submittedAt,
-        savedPhotoPath != null,
-      );
+      _clearForm();
     } catch (e) {
-      if (!mounted) return;
-
-      setState(() {
-        _submitting = false;
-      });
-
-      _showMessage(
-        _isMalayalam
-            ? 'Observation save ചെയ്യാൻ കഴിഞ്ഞില്ല.'
-            : 'Unable to save observation.',
-      );
+      _showMessage('Unable to save observation.');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
     }
   }
 
-  // ============================================================
-  // SUCCESS DIALOG
-  // ============================================================
+  // ------------------------------------------------------------
+  // CLEAR FORM
+  // ------------------------------------------------------------
 
-  Future<void> _showSuccessDialog(
-    String id,
-    DateTime submittedAt,
-    bool photoSaved,
-  ) async {
-    final date =
-        '${submittedAt.day.toString().padLeft(2, '0')}/'
-        '${submittedAt.month.toString().padLeft(2, '0')}/'
-        '${submittedAt.year} '
-        '${submittedAt.hour.toString().padLeft(2, '0')}:'
-        '${submittedAt.minute.toString().padLeft(2, '0')}';
+  void _clearForm() {
+    setState(() {
+      _beforePhoto = null;
+      _afterPhoto = null;
 
-    await showDialog<void>(
+      _locationController.clear();
+      _descriptionController.clear();
+      _immediateActionController.clear();
+      _correctiveActionController.clear();
+      _responsibleController.clear();
+      _closureRemarksController.clear();
+
+      _observationDateTime = DateTime.now();
+      _targetDate = null;
+
+      _category = 'Unsafe Act';
+      _riskLevel = 'Medium';
+      _status = 'Open';
+    });
+  }
+
+  // ------------------------------------------------------------
+  // UI HELPERS
+  // ------------------------------------------------------------
+
+  void _showMessage(String message) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) return 'Select Target Date';
+
+    return '${date.day.toString().padLeft(2, '0')}/'
+        '${date.month.toString().padLeft(2, '0')}/'
+        '${date.year}';
+  }
+
+  String _formatDateTime(DateTime date) {
+    final String hour = date.hour.toString().padLeft(2, '0');
+    final String minute = date.minute.toString().padLeft(2, '0');
+
+    return '${date.day.toString().padLeft(2, '0')}/'
+        '${date.month.toString().padLeft(2, '0')}/'
+        '${date.year} $hour:$minute';
+  }
+
+  // ------------------------------------------------------------
+  // PHOTO SOURCE SHEET
+  // ------------------------------------------------------------
+
+  void _showBeforePhotoOptions() {
+    showModalBottomSheet(
       context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          icon: const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-            size: 56,
-          ),
-
-          title: Text(
-            _isMalayalam
-                ? 'Observation Submitted'
-                : 'Observation Submitted',
-          ),
-
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
             children: [
-              Text(
-                _isMalayalam
-                    ? 'Safety observation വിജയകരമായി രേഖപ്പെടുത്തി.'
-                    : 'The safety observation has been recorded successfully.',
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take Photo'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickBeforePhoto(ImageSource.camera);
+                },
               ),
-
-              const SizedBox(
-                height: 16,
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Upload from Gallery'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickBeforePhoto(ImageSource.gallery);
+                },
               ),
-
-              _infoRow(
-                'Observation ID',
-                id,
-              ),
-
-              _infoRow(
-                'Type',
-                _observationType,
-              ),
-
-              _infoRow(
-                'Category',
-                _category,
-              ),
-
-              _infoRow(
-                'Risk',
-                _riskLevel,
-              ),
-
-              _infoRow(
-                'Date & Time',
-                date,
-              ),
-
-              if (photoSaved)
-                _infoRow(
-                  'Photo',
-                  'Saved',
-                ),
             ],
           ),
-
-          actions: [
-            FilledButton(
-              onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                );
-
-                _resetForm();
-              },
-              child: const Text(
-                'Done',
-              ),
-            ),
-          ],
         );
       },
     );
   }
 
-  // ============================================================
-  // INFO ROW
-  // ============================================================
+  void _showAfterPhotoOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take After Photo'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickAfterPhoto(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Upload from Gallery'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickAfterPhoto(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
-  Widget _infoRow(
-    String label,
-    String value,
-  ) {
+  // ------------------------------------------------------------
+  // SECTION HEADER
+  // ------------------------------------------------------------
+
+  Widget _sectionHeader(
+    String title,
+    IconData icon, {
+    Color? color,
+  }) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
-        bottom: 6,
+      padding: const EdgeInsets.only(
+        top: 22,
+        bottom: 12,
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 105,
-            child: Text(
-              label,
-              style:
-                  const TextStyle(
-                fontWeight:
-                    FontWeight.w600,
-              ),
+          CircleAvatar(
+            radius: 19,
+            backgroundColor:
+                (color ?? Theme.of(context).colorScheme.primary)
+                    .withOpacity(0.12),
+            child: Icon(
+              icon,
+              size: 21,
+              color: color ?? Theme.of(context).colorScheme.primary,
             ),
           ),
-
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              value,
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -567,636 +439,561 @@ class _SafetyObservationPageState
     );
   }
 
-  // ============================================================
-  // RESET FORM
-  // ============================================================
+  // ------------------------------------------------------------
+  // TEXT FIELD
+  // ------------------------------------------------------------
 
-  void _resetForm() {
-    _formKey.currentState?.reset();
-
-    _descriptionController.clear();
-    _actionController.clear();
-    _locationController.clear();
-
-    setState(() {
-      _observationType =
-          'Unsafe Condition';
-
-      _category =
-          'General Safety';
-
-      _riskLevel =
-          'Medium';
-
-      _photo = null;
-    });
-  }
-
-  // ============================================================
-  // MESSAGE
-  // ============================================================
-
-  void _showMessage(
-    String message,
-  ) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // INPUT DECORATION
-  // ============================================================
-
-  InputDecoration _decoration(
-    String label, {
-    String? hint,
+  Widget _textField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
     IconData? icon,
+    int maxLines = 1,
   }) {
-    return InputDecoration(
-      labelText: label,
-      hintText: hint,
-
-      prefixIcon:
-          icon == null
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: TextFormField(
+        controller: controller,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: icon == null
               ? null
               : Icon(icon),
-
-      border:
-          OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(
-          12,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          filled: true,
         ),
       ),
-
-      filled: true,
     );
   }
 
-  // ============================================================
+  // ------------------------------------------------------------
+  // PHOTO CARD
+  // ------------------------------------------------------------
+
+  Widget _photoCard({
+    required String title,
+    required String subtitle,
+    required File? file,
+    required VoidCallback onTap,
+    required IconData icon,
+  }) {
+    return Card(
+      elevation: 1,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 220,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: file == null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 55,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                )
+              : Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.file(
+                      file,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      left: 10,
+                      bottom: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 7,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.65),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          'Photo selected',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+
+  // ------------------------------------------------------------
   // BUILD
-  // ============================================================
+  // ------------------------------------------------------------
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final ml =
-        _isMalayalam;
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Safety Observation',
-        ),
-
-        actions: [
-          PopupMenuButton<Locale>(
-            icon: const Icon(
-              Icons.language,
-            ),
-
-            onSelected: (_) {},
-
-            itemBuilder: (_) => const [
-              PopupMenuItem(
-                value:
-                    Locale('en', 'US'),
-                child:
-                    Text('English'),
-              ),
-
-              PopupMenuItem(
-                value:
-                    Locale('ml', 'IN'),
-                child:
-                    Text('മലയാളം'),
-              ),
-            ],
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
+        centerTitle: true,
       ),
-
-      body: Form(
-        key: _formKey,
-
-        child: ListView(
-          padding:
-              const EdgeInsets.all(
-            16,
-          ),
-
-          children: [
-            _headerCard(ml),
-
-            const SizedBox(
-              height: 18,
+      body: SafeArea(
+        child: Form(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              8,
+              16,
+              30,
             ),
+            children: [
+              // ==================================================
+              // BEFORE PHOTO
+              // ==================================================
 
-            // --------------------------------------------------
-            // OBSERVATION TYPE
-            // --------------------------------------------------
-
-            DropdownButtonFormField<
-                String>(
-              initialValue:
-                  _observationType,
-
-              decoration:
-                  _decoration(
-                'Observation Type',
-                icon:
-                    Icons.visibility,
+              _sectionHeader(
+                'Before Photo',
+                Icons.camera_alt,
+                color: Colors.blue,
               ),
 
-              items:
-                  _observationTypes
-                      .map(
-                        (
-                          value,
-                        ) =>
-                            DropdownMenuItem<
-                                String>(
-                          value: value,
-                          child:
-                              Text(value),
-                        ),
-                      )
-                      .toList(),
-
-              onChanged:
-                  (value) {
-                if (value ==
-                    null) {
-                  return;
-                }
-
-                setState(() {
-                  _observationType =
-                      value;
-                });
-              },
-            ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
-            // --------------------------------------------------
-            // CATEGORY
-            // --------------------------------------------------
-
-            DropdownButtonFormField<
-                String>(
-              initialValue:
-                  _category,
-
-              decoration:
-                  _decoration(
-                'Category',
-                icon:
-                    Icons.category,
+              _photoCard(
+                title: 'Add Unsafe Work Photo',
+                subtitle:
+                    'Take a photo or upload an existing photo',
+                file: _beforePhoto,
+                onTap: _showBeforePhotoOptions,
+                icon: Icons.add_a_photo,
               ),
 
-              items:
-                  _categories
-                      .map(
-                        (
-                          value,
-                        ) =>
-                            DropdownMenuItem<
-                                String>(
-                          value: value,
-                          child:
-                              Text(value),
-                        ),
-                      )
-                      .toList(),
-
-              onChanged:
-                  (value) {
-                if (value ==
-                    null) {
-                  return;
-                }
-
-                setState(() {
-                  _category =
-                      value;
-                });
-              },
-            ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
-            // --------------------------------------------------
-            // RISK LEVEL
-            // --------------------------------------------------
-
-            DropdownButtonFormField<
-                String>(
-              initialValue:
-                  _riskLevel,
-
-              decoration:
-                  _decoration(
-                'Risk Level',
-                icon:
-                    Icons.warning_amber,
-              ),
-
-              items:
-                  _riskLevels
-                      .map(
-                        (
-                          value,
-                        ) =>
-                            DropdownMenuItem<
-                                String>(
-                          value: value,
-                          child:
-                              Text(value),
-                        ),
-                      )
-                      .toList(),
-
-              onChanged:
-                  (value) {
-                if (value ==
-                    null) {
-                  return;
-                }
-
-                setState(() {
-                  _riskLevel =
-                      value;
-                });
-              },
-            ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
-            // --------------------------------------------------
-            // DESCRIPTION
-            // --------------------------------------------------
-
-            TextFormField(
-              controller:
-                  _descriptionController,
-
-              minLines: 4,
-              maxLines: 6,
-
-              decoration:
-                  _decoration(
-                'Observation Description',
-
-                hint: ml
-                    ? 'എന്താണ് കണ്ടത് എന്ന് വിശദീകരിക്കുക'
-                    : 'Describe what you observed',
-
-                icon:
-                    Icons.description,
-              ),
-
-              validator:
-                  (value) {
-                if (value ==
-                        null ||
-                    value
-                        .trim()
-                        .isEmpty) {
-                  return ml
-                      ? 'Description നൽകുക'
-                      : 'Please enter a description';
-                }
-
-                return null;
-              },
-            ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
-            // --------------------------------------------------
-            // IMMEDIATE ACTION
-            // --------------------------------------------------
-
-            TextFormField(
-              controller:
-                  _actionController,
-
-              minLines: 2,
-              maxLines: 4,
-
-              decoration:
-                  _decoration(
-                'Immediate Action',
-
-                hint: ml
-                    ? 'എടുത്ത ഉടൻ നടപടികൾ'
-                    : 'Action taken immediately',
-
-                icon:
-                    Icons.build_circle_outlined,
-              ),
-            ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
-            // --------------------------------------------------
-            // LOCATION
-            // --------------------------------------------------
-
-            TextFormField(
-              controller:
-                  _locationController,
-
-              decoration:
-                  _decoration(
-                'Location / Area',
-
-                hint: ml
-                    ? 'ഉദാ: Workshop / Block A'
-                    : 'e.g. Workshop / Block A',
-
-                icon:
-                    Icons.location_on_outlined,
-              ),
-            ),
-
-            const SizedBox(
-              height: 18,
-            ),
-
-            // --------------------------------------------------
-            // PHOTO
-            // --------------------------------------------------
-
-            _photoSection(ml),
-
-            const SizedBox(
-              height: 24,
-            ),
-
-            // --------------------------------------------------
-            // SUBMIT
-            // --------------------------------------------------
-
-            SizedBox(
-              height: 52,
-
-              child:
-                  FilledButton.icon(
-                onPressed:
-                    _submitting
-                        ? null
-                        : _submitObservation,
-
-                icon: _submitting
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child:
-                            CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : const Icon(
-                        Icons.send,
-                      ),
-
-                label: Text(
-                  _submitting
-                      ? 'Submitting...'
-                      : 'Submit Observation',
-                ),
-              ),
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // HEADER CARD
-  // ============================================================
-
-  Widget _headerCard(
-    bool ml,
-  ) {
-    return Card(
-      elevation: 0,
-
-      child: Container(
-        padding:
-            const EdgeInsets.all(
-          16,
-        ),
-
-        decoration:
-            BoxDecoration(
-          borderRadius:
-              BorderRadius.circular(
-            16,
-          ),
-
-          color: Theme.of(context)
-              .colorScheme
-              .primaryContainer,
-        ),
-
-        child: Row(
-          children: [
-            Icon(
-              Icons.health_and_safety,
-              size: 42,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary,
-            ),
-
-            const SizedBox(
-              width: 12,
-            ),
-
-            Expanded(
-              child: Text(
-                ml
-                    ? 'സുരക്ഷിതമായ പ്രവൃത്തികൾ പ്രോത്സാഹിപ്പിക്കുകയും അപകടസാധ്യതകൾ ഉടൻ റിപ്പോർട്ട് ചെയ്യുകയും ചെയ്യുക.'
-                    : 'Record unsafe acts, unsafe conditions and positive safety observations.',
-
-                style:
-                    const TextStyle(
-                  fontSize: 14,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // PHOTO SECTION
-  // ============================================================
-
-  Widget _photoSection(
-    bool ml,
-  ) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-
-      children: [
-        Text(
-          ml
-              ? 'Photo Evidence (Optional)'
-              : 'Photo Evidence (Optional)',
-
-          style:
-              const TextStyle(
-            fontWeight:
-                FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-
-        const SizedBox(
-          height: 8,
-        ),
-
-        InkWell(
-          onTap:
-              _showPhotoOptions,
-
-          borderRadius:
-              BorderRadius.circular(
-            14,
-          ),
-
-          child: Container(
-            width:
-                double.infinity,
-
-            height: 150,
-
-            decoration:
-                BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(
-                14,
-              ),
-
-              border:
-                  Border.all(
-                color:
-                    Colors.grey.shade400,
-              ),
-            ),
-
-            clipBehavior:
-                Clip.antiAlias,
-
-            child: _photo == null
-                ? Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment
-                            .center,
-
+              const SizedBox(height: 10),
+
+              if (_beforePhoto != null)
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.blue.withOpacity(0.08),
+                  ),
+                  child: Row(
                     children: [
-                      Icon(
-                        Icons
-                            .add_a_photo_outlined,
-
-                        size: 40,
-
-                        color:
-                            Colors.grey
-                                .shade600,
+                      const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.blue,
                       ),
-
-                      const SizedBox(
-                        height: 8,
-                      ),
-
-                      Text(
-                        ml
-                            ? 'Tap to add photo'
-                            : 'Tap to add photo',
-                      ),
-                    ],
-                  )
-                : Stack(
-                    fit:
-                        StackFit.expand,
-
-                    children: [
-                      Image.file(
-                        File(
-                          _photo!.path,
-                        ),
-
-                        fit:
-                            BoxFit.cover,
-                      ),
-
-                      Positioned(
-                        right: 8,
-                        top: 8,
-
-                        child:
-                            CircleAvatar(
-                          backgroundColor:
-                              Colors.black54,
-
-                          child:
-                              IconButton(
-                            color:
-                                Colors.white,
-
-                            icon:
-                                const Icon(
-                              Icons.close,
-                            ),
-
-                            onPressed:
-                                () {
-                              setState(
-                                () {
-                                  _photo =
-                                      null;
-                                },
-                              );
-                            },
-                          ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          _isAnalyzing
+                              ? 'Preparing observation analysis...'
+                              : 'Review the observation details generated from the photo.',
                         ),
                       ),
                     ],
                   ),
+                ),
+
+              // ==================================================
+              // OBSERVATION DETAILS
+              // ==================================================
+
+              _sectionHeader(
+                'Observation Details',
+                Icons.visibility,
+              ),
+
+              _textField(
+                controller: _locationController,
+                label: 'Location',
+                hint: 'Enter exact location',
+                icon: Icons.location_on,
+              ),
+
+              InkWell(
+                onTap: _selectObservationDateTime,
+                borderRadius: BorderRadius.circular(12),
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: 'Date & Time',
+                    prefixIcon: const Icon(
+                      Icons.calendar_month,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                  ),
+                  child: Text(
+                    _formatDateTime(
+                      _observationDateTime,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              _textField(
+                controller: _descriptionController,
+                label: 'Observation Description',
+                hint:
+                    'Describe the unsafe act or unsafe condition',
+                icon: Icons.description,
+                maxLines: 5,
+              ),
+
+              DropdownButtonFormField<String>(
+                value: _category,
+                decoration: InputDecoration(
+                  labelText: 'Category',
+                  prefixIcon: const Icon(
+                    Icons.category,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'Unsafe Act',
+                    child: Text('Unsafe Act'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Unsafe Condition',
+                    child: Text('Unsafe Condition'),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _category = value;
+                  });
+                },
+              ),
+
+              // ==================================================
+              // RISK ASSESSMENT
+              // ==================================================
+
+              _sectionHeader(
+                'Risk Assessment',
+                Icons.warning_amber_rounded,
+                color: Colors.orange,
+              ),
+
+              DropdownButtonFormField<String>(
+                value: _riskLevel,
+                decoration: InputDecoration(
+                  labelText: 'Risk Level',
+                  prefixIcon: const Icon(
+                    Icons.warning,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'High',
+                    child: Text('🔴 High Risk'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Medium',
+                    child: Text('🟠 Medium Risk'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Low',
+                    child: Text('🟢 Low Risk'),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _riskLevel = value;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 8),
+
+              _riskDescription(),
+
+              // ==================================================
+              // ACTION PLAN
+              // ==================================================
+
+              _sectionHeader(
+                'Rectification & Action Plan',
+                Icons.build_circle,
+                color: Colors.green,
+              ),
+
+              _textField(
+                controller: _immediateActionController,
+                label: 'Immediate Action',
+                hint:
+                    'What was done immediately to control the hazard?',
+                icon: Icons.flash_on,
+                maxLines: 4,
+              ),
+
+              _textField(
+                controller: _correctiveActionController,
+                label: 'Corrective Action',
+                hint:
+                    'What should be done to prevent recurrence?',
+                icon: Icons.check_circle,
+                maxLines: 4,
+              ),
+
+              _textField(
+                controller: _responsibleController,
+                label: 'Assign Responsibility',
+                hint:
+                    'Supervisor / Engineer / Responsible Person',
+                icon: Icons.person,
+              ),
+
+              InkWell(
+                onTap: _selectTargetDate,
+                borderRadius: BorderRadius.circular(12),
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: 'Target Date',
+                    prefixIcon: const Icon(
+                      Icons.event,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                  ),
+                  child: Text(
+                    _targetDate == null
+                        ? 'Select Target Date'
+                        : _formatDate(_targetDate),
+                  ),
+                ),
+              ),
+
+              // ==================================================
+              // CLOSURE
+              // ==================================================
+
+              _sectionHeader(
+                'Closure & Follow-up',
+                Icons.lock_open,
+                color: Colors.deepPurple,
+              ),
+
+              _photoCard(
+                title: 'Add After Photo',
+                subtitle:
+                    'Take or upload photo after rectification',
+                file: _afterPhoto,
+                onTap: _showAfterPhotoOptions,
+                icon: Icons.add_photo_alternate,
+              ),
+
+              const SizedBox(height: 12),
+
+              DropdownButtonFormField<String>(
+                value: _status,
+                decoration: InputDecoration(
+                  labelText: 'Status',
+                  prefixIcon: const Icon(
+                    Icons.track_changes,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'Open',
+                    child: Text('🔴 Open'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'In Progress',
+                    child: Text('🟠 In Progress'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Closed',
+                    child: Text('🟢 Closed'),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _status = value;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 12),
+
+              _textField(
+                controller: _closureRemarksController,
+                label: 'Closure Remarks',
+                hint:
+                    'Enter verification / closure remarks',
+                icon: Icons.notes,
+                maxLines: 4,
+              ),
+
+              // ==================================================
+              // SAVE BUTTON
+              // ==================================================
+
+              const SizedBox(height: 25),
+
+              SizedBox(
+                height: 55,
+                child: FilledButton.icon(
+                  onPressed:
+                      _isSaving ? null : _saveObservation,
+                  icon: _isSaving
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Icon(
+                          Icons.save,
+                        ),
+                  label: Text(
+                    _isSaving
+                        ? 'Saving...'
+                        : 'Save Safety Observation',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              OutlinedButton.icon(
+                onPressed: _isSaving
+                    ? null
+                    : () {
+                        _clearForm();
+                      },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Clear Form'),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
+    );
+  }
+
+  // ------------------------------------------------------------
+  // RISK DESCRIPTION
+  // ------------------------------------------------------------
+
+  Widget _riskDescription() {
+    String title;
+    String description;
+    IconData icon;
+
+    if (_riskLevel == 'High') {
+      title = 'High Risk';
+      description =
+          'Potential for fatality, serious injury or major incident. '
+          'Immediate control and work stoppage may be required.';
+      icon = Icons.dangerous;
+    } else if (_riskLevel == 'Medium') {
+      title = 'Medium Risk';
+      description =
+          'Potential for injury or property/environmental damage. '
+          'Corrective action should be completed within the target date.';
+      icon = Icons.warning_amber;
+    } else {
+      title = 'Low Risk';
+      description =
+          'Minor issue with limited potential consequences. '
+          'Corrective action should still be recorded and followed up.';
+      icon = Icons.info_outline;
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: _riskLevel == 'High'
+              ? Colors.red
+              : _riskLevel == 'Medium'
+                  ? Colors.orange
+                  : Colors.green,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(description),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
