@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
+import 'package:safenexus_hse/observation_history.dart';
 import 'package:safenexus_hse/safety_observation.dart';
 import 'package:safenexus_hse/voice_report.dart';
 
@@ -218,12 +219,16 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
+            // Reports & History
             _quickItem(
               icon: Icons.history,
               title: 'Reports & History',
               subtitle: 'View safety reports',
               onTap: () {
-                showComingSoon(context);
+                openPage(
+                  context,
+                  const ObservationHistoryPage(),
+                );
               },
             ),
 
