@@ -19,9 +19,14 @@ class _SafetyObservationPageState
 
   final _formKey = GlobalKey<FormState>();
 
-  final _descriptionController = TextEditingController();
-  final _actionController = TextEditingController();
-  final _locationController = TextEditingController();
+  final _descriptionController =
+      TextEditingController();
+
+  final _actionController =
+      TextEditingController();
+
+  final _locationController =
+      TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
 
@@ -41,18 +46,35 @@ class _SafetyObservationPageState
         'Positive Observation',
       ];
 
+  // ============================================================
+  // HSE CATEGORIES
+  // ============================================================
+
   List<String> get _categories => [
         'General Safety',
         'PPE',
-        'Work at Height',
+        'Excavation',
         'Scaffolding',
-        'Lifting & Rigging',
+        'Working at Height',
+        'Power Tools',
+        'Formwork',
+        'Permit to Work',
+        'Working in Hot & Humid Climate',
+        'Heat Stress',
+        'Confined Space',
+        'Working Near Live Road',
+        'Concreting',
+        'Barricading of Hazards',
+        'Worker Welfare',
         'Electrical Safety',
+        'Electrical Tools',
+        'Temporary Works',
+        'Manual Handling',
+        'Hot Works',
+        'Lifting & Rigging',
         'Fire Safety',
         'Housekeeping',
-        'Permit to Work',
         'Environmental Safety',
-        'Heat Stress',
         'Vehicle & Traffic Safety',
       ];
 
@@ -71,7 +93,13 @@ class _SafetyObservationPageState
     super.dispose();
   }
 
-  Future<void> _pickPhoto(ImageSource source) async {
+  // ============================================================
+  // PHOTO PICKER
+  // ============================================================
+
+  Future<void> _pickPhoto(
+    ImageSource source,
+  ) async {
     try {
       final image = await _picker.pickImage(
         source: source,
@@ -104,25 +132,37 @@ class _SafetyObservationPageState
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
+                leading:
+                    const Icon(Icons.camera_alt),
+                title:
+                    const Text('Camera'),
                 onTap: () {
                   Navigator.pop(sheetContext);
-                  _pickPhoto(ImageSource.camera);
+                  _pickPhoto(
+                    ImageSource.camera,
+                  );
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                leading: const Icon(
+                  Icons.photo_library,
+                ),
+                title:
+                    const Text('Gallery'),
                 onTap: () {
                   Navigator.pop(sheetContext);
-                  _pickPhoto(ImageSource.gallery);
+                  _pickPhoto(
+                    ImageSource.gallery,
+                  );
                 },
               ),
               if (_photo != null)
                 ListTile(
-                  leading: const Icon(Icons.delete_outline),
-                  title: const Text('Remove Photo'),
+                  leading: const Icon(
+                    Icons.delete_outline,
+                  ),
+                  title:
+                      const Text('Remove Photo'),
                   onTap: () {
                     Navigator.pop(sheetContext);
 
@@ -138,6 +178,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // OBSERVATION ID
+  // ============================================================
+
   String _generateObservationId() {
     final now = DateTime.now();
 
@@ -152,6 +196,10 @@ class _SafetyObservationPageState
     return 'OBS-$stamp';
   }
 
+  // ============================================================
+  // SAVE OBSERVATION
+  // ============================================================
+
   Future<void> _submitObservation() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -161,44 +209,62 @@ class _SafetyObservationPageState
       _submitting = true;
     });
 
-    final observationId = _generateObservationId();
+    final observationId =
+        _generateObservationId();
+
     final submittedAt = DateTime.now();
 
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs =
+          await SharedPreferences.getInstance();
 
       final existingData =
           prefs.getString(_storageKey);
 
-      List<Map<String, dynamic>> observations = [];
+      List<Map<String, dynamic>> observations =
+          [];
 
       if (existingData != null &&
           existingData.isNotEmpty) {
-        final decoded = jsonDecode(existingData);
+        final decoded =
+            jsonDecode(existingData);
 
         if (decoded is List) {
           observations = decoded
               .whereType<Map>()
               .map(
                 (item) =>
-                    Map<String, dynamic>.from(item),
+                    Map<String, dynamic>.from(
+                  item,
+                ),
               )
               .toList();
         }
       }
 
-      final observation = <String, dynamic>{
+      final observation =
+          <String, dynamic>{
         'id': observationId,
-        'observation_type': _observationType,
+
+        'observation_type':
+            _observationType,
+
         'category': _category,
+
         'severity': _riskLevel,
+
         'description':
             _descriptionController.text.trim(),
+
         'immediate_action':
             _actionController.text.trim(),
+
         'location':
             _locationController.text.trim(),
-        'date': submittedAt.toIso8601String(),
+
+        'date':
+            submittedAt.toIso8601String(),
+
         'created_at':
             submittedAt.toIso8601String(),
       };
@@ -235,6 +301,10 @@ class _SafetyObservationPageState
     }
   }
 
+  // ============================================================
+  // SUCCESS DIALOG
+  // ============================================================
+
   Future<void> _showSuccessDialog(
     String id,
     DateTime submittedAt,
@@ -256,11 +326,13 @@ class _SafetyObservationPageState
             color: Colors.green,
             size: 56,
           ),
+
           title: Text(
             _isMalayalam
                 ? 'Observation Submitted'
                 : 'Observation Submitted',
           ),
+
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment:
@@ -271,33 +343,43 @@ class _SafetyObservationPageState
                     ? 'Safety observation വിജയകരമായി രേഖപ്പെടുത്തി.'
                     : 'The safety observation has been recorded successfully.',
               ),
+
               const SizedBox(height: 16),
+
               _infoRow(
                 'Observation ID',
                 id,
               ),
+
               _infoRow(
                 'Type',
                 _observationType,
               ),
+
               _infoRow(
                 'Category',
                 _category,
               ),
+
               _infoRow(
                 'Risk',
                 _riskLevel,
               ),
+
               _infoRow(
                 'Date & Time',
                 date,
               ),
             ],
           ),
+
           actions: [
             FilledButton(
               onPressed: () {
-                Navigator.pop(dialogContext);
+                Navigator.pop(
+                  dialogContext,
+                );
+
                 _resetForm();
               },
               child: const Text('Done'),
@@ -308,12 +390,17 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // INFO ROW
+  // ============================================================
+
   Widget _infoRow(
     String label,
     String value,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
+      padding:
+          const EdgeInsets.only(bottom: 6),
       child: Row(
         crossAxisAlignment:
             CrossAxisAlignment.start,
@@ -323,10 +410,12 @@ class _SafetyObservationPageState
             child: Text(
               label,
               style: const TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight:
+                    FontWeight.w600,
               ),
             ),
           ),
+
           Expanded(
             child: Text(value),
           ),
@@ -334,6 +423,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // RESET FORM
+  // ============================================================
 
   void _resetForm() {
     _formKey.currentState?.reset();
@@ -343,20 +436,37 @@ class _SafetyObservationPageState
     _locationController.clear();
 
     setState(() {
-      _observationType = 'Unsafe Condition';
-      _category = 'General Safety';
-      _riskLevel = 'Medium';
+      _observationType =
+          'Unsafe Condition';
+
+      _category =
+          'General Safety';
+
+      _riskLevel =
+          'Medium';
+
       _photo = null;
     });
   }
 
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
+  // ============================================================
+  // MESSAGE
+  // ============================================================
+
+  void _showMessage(
+    String message,
+  ) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
       SnackBar(
         content: Text(message),
       ),
     );
   }
+
+  // ============================================================
+  // INPUT DECORATION
+  // ============================================================
 
   InputDecoration _decoration(
     String label, {
@@ -367,13 +477,20 @@ class _SafetyObservationPageState
       labelText: label,
       hintText: hint,
       prefixIcon:
-          icon == null ? null : Icon(icon),
+          icon == null
+              ? null
+              : Icon(icon),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius:
+            BorderRadius.circular(12),
       ),
       filled: true,
     );
   }
+
+  // ============================================================
+  // BUILD
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -381,74 +498,122 @@ class _SafetyObservationPageState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Safety Observation'),
+        title: const Text(
+          'Safety Observation',
+        ),
+
         actions: [
           PopupMenuButton<Locale>(
-            icon: const Icon(Icons.language),
+            icon: const Icon(
+              Icons.language,
+            ),
+
             onSelected: (_) {},
+
             itemBuilder: (_) => const [
               PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
+                value:
+                    Locale('en', 'US'),
+                child:
+                    Text('English'),
               ),
+
               PopupMenuItem(
-                value: Locale('ml', 'IN'),
-                child: Text('മലയാളം'),
+                value:
+                    Locale('ml', 'IN'),
+                child:
+                    Text('മലയാളം'),
               ),
             ],
           ),
         ],
       ),
+
       body: Form(
         key: _formKey,
+
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding:
+              const EdgeInsets.all(16),
+
           children: [
             _headerCard(ml),
 
             const SizedBox(height: 18),
 
+            // --------------------------------------------------
+            // OBSERVATION TYPE
+            // --------------------------------------------------
+
             DropdownButtonFormField<String>(
-              initialValue: _observationType,
-              decoration: _decoration(
+              initialValue:
+                  _observationType,
+
+              decoration:
+                  _decoration(
                 'Observation Type',
-                icon: Icons.visibility,
+                icon:
+                    Icons.visibility,
               ),
-              items: _observationTypes
-                  .map(
-                    (value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+
+              items:
+                  _observationTypes
+                      .map(
+                        (value) =>
+                            DropdownMenuItem<
+                                String>(
+                          value: value,
+                          child:
+                              Text(value),
+                        ),
+                      )
+                      .toList(),
+
               onChanged: (value) {
-                if (value == null) return;
+                if (value == null) {
+                  return;
+                }
 
                 setState(() {
-                  _observationType = value;
+                  _observationType =
+                      value;
                 });
               },
             ),
 
             const SizedBox(height: 14),
 
+            // --------------------------------------------------
+            // CATEGORY
+            // --------------------------------------------------
+
             DropdownButtonFormField<String>(
               initialValue: _category,
-              decoration: _decoration(
+
+              decoration:
+                  _decoration(
                 'Category',
-                icon: Icons.category,
+                icon:
+                    Icons.category,
               ),
-              items: _categories
-                  .map(
-                    (value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+
+              items:
+                  _categories
+                      .map(
+                        (value) =>
+                            DropdownMenuItem<
+                                String>(
+                          value: value,
+                          child:
+                              Text(value),
+                        ),
+                      )
+                      .toList(),
+
               onChanged: (value) {
-                if (value == null) return;
+                if (value == null) {
+                  return;
+                }
 
                 setState(() {
                   _category = value;
@@ -458,22 +623,38 @@ class _SafetyObservationPageState
 
             const SizedBox(height: 14),
 
+            // --------------------------------------------------
+            // RISK LEVEL
+            // --------------------------------------------------
+
             DropdownButtonFormField<String>(
-              initialValue: _riskLevel,
-              decoration: _decoration(
+              initialValue:
+                  _riskLevel,
+
+              decoration:
+                  _decoration(
                 'Risk Level',
-                icon: Icons.warning_amber,
+                icon:
+                    Icons.warning_amber,
               ),
-              items: _riskLevels
-                  .map(
-                    (value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+
+              items:
+                  _riskLevels
+                      .map(
+                        (value) =>
+                            DropdownMenuItem<
+                                String>(
+                          value: value,
+                          child:
+                              Text(value),
+                        ),
+                      )
+                      .toList(),
+
               onChanged: (value) {
-                if (value == null) return;
+                if (value == null) {
+                  return;
+                }
 
                 setState(() {
                   _riskLevel = value;
@@ -483,17 +664,29 @@ class _SafetyObservationPageState
 
             const SizedBox(height: 14),
 
+            // --------------------------------------------------
+            // DESCRIPTION
+            // --------------------------------------------------
+
             TextFormField(
-              controller: _descriptionController,
+              controller:
+                  _descriptionController,
+
               minLines: 4,
               maxLines: 6,
-              decoration: _decoration(
+
+              decoration:
+                  _decoration(
                 'Observation Description',
+
                 hint: ml
                     ? 'എന്താണ് കണ്ടത് എന്ന് വിശദീകരിക്കുക'
                     : 'Describe what you observed',
-                icon: Icons.description,
+
+                icon:
+                    Icons.description,
               ),
+
               validator: (value) {
                 if (value == null ||
                     value.trim().isEmpty) {
@@ -508,45 +701,77 @@ class _SafetyObservationPageState
 
             const SizedBox(height: 14),
 
+            // --------------------------------------------------
+            // IMMEDIATE ACTION
+            // --------------------------------------------------
+
             TextFormField(
-              controller: _actionController,
+              controller:
+                  _actionController,
+
               minLines: 2,
               maxLines: 4,
-              decoration: _decoration(
+
+              decoration:
+                  _decoration(
                 'Immediate Action',
+
                 hint: ml
                     ? 'എടുത്ത ഉടൻ നടപടികൾ'
                     : 'Action taken immediately',
-                icon: Icons.build_circle_outlined,
+
+                icon:
+                    Icons.build_circle_outlined,
               ),
             ),
 
             const SizedBox(height: 14),
 
+            // --------------------------------------------------
+            // LOCATION
+            // --------------------------------------------------
+
             TextFormField(
-              controller: _locationController,
-              decoration: _decoration(
+              controller:
+                  _locationController,
+
+              decoration:
+                  _decoration(
                 'Location / Area',
+
                 hint: ml
                     ? 'ഉദാ: Workshop / Block A'
                     : 'e.g. Workshop / Block A',
-                icon: Icons.location_on_outlined,
+
+                icon:
+                    Icons.location_on_outlined,
               ),
             ),
 
             const SizedBox(height: 18),
 
+            // --------------------------------------------------
+            // PHOTO
+            // --------------------------------------------------
+
             _photoSection(ml),
 
             const SizedBox(height: 24),
 
+            // --------------------------------------------------
+            // SUBMIT
+            // --------------------------------------------------
+
             SizedBox(
               height: 52,
-              child: FilledButton.icon(
+
+              child:
+                  FilledButton.icon(
                 onPressed:
                     _submitting
                         ? null
                         : _submitObservation,
+
                 icon: _submitting
                     ? const SizedBox(
                         width: 20,
@@ -556,7 +781,10 @@ class _SafetyObservationPageState
                           strokeWidth: 2,
                         ),
                       )
-                    : const Icon(Icons.send),
+                    : const Icon(
+                        Icons.send,
+                      ),
+
                 label: Text(
                   _submitting
                       ? 'Submitting...'
@@ -572,18 +800,28 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // HEADER CARD
+  // ============================================================
+
   Widget _headerCard(bool ml) {
     return Card(
       elevation: 0,
+
       child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
+        padding:
+            const EdgeInsets.all(16),
+
+        decoration:
+            BoxDecoration(
           borderRadius:
               BorderRadius.circular(16),
+
           color: Theme.of(context)
               .colorScheme
               .primaryContainer,
         ),
+
         child: Row(
           children: [
             Icon(
@@ -593,13 +831,17 @@ class _SafetyObservationPageState
                   .colorScheme
                   .primary,
             ),
+
             const SizedBox(width: 12),
+
             Expanded(
               child: Text(
                 ml
                     ? 'സുരക്ഷിതമായ പ്രവൃത്തികൾ പ്രോത്സാഹിപ്പിക്കുകയും അപകടസാധ്യതകൾ ഉടൻ റിപ്പോർട്ട് ചെയ്യുകയും ചെയ്യുക.'
                     : 'Record unsafe acts, unsafe conditions and positive safety observations.',
-                style: const TextStyle(
+
+                style:
+                    const TextStyle(
                   fontSize: 14,
                   height: 1.4,
                 ),
@@ -611,17 +853,25 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // PHOTO SECTION
+  // ============================================================
+
   Widget _photoSection(bool ml) {
     return Column(
       crossAxisAlignment:
           CrossAxisAlignment.start,
+
       children: [
         Text(
           ml
               ? 'Photo Evidence (Optional)'
               : 'Photo Evidence (Optional)',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+
+          style:
+              const TextStyle(
+            fontWeight:
+                FontWeight.bold,
             fontSize: 16,
           ),
         ),
@@ -629,34 +879,52 @@ class _SafetyObservationPageState
         const SizedBox(height: 8),
 
         InkWell(
-          onTap: _showPhotoOptions,
+          onTap:
+              _showPhotoOptions,
+
           borderRadius:
               BorderRadius.circular(14),
+
           child: Container(
-            width: double.infinity,
+            width:
+                double.infinity,
+
             height: 150,
-            decoration: BoxDecoration(
+
+            decoration:
+                BoxDecoration(
               borderRadius:
                   BorderRadius.circular(14),
+
               border: Border.all(
-                color: Colors.grey.shade400,
+                color:
+                    Colors.grey.shade400,
               ),
             ),
+
             clipBehavior:
                 Clip.antiAlias,
+
             child: _photo == null
                 ? Column(
                     mainAxisAlignment:
                         MainAxisAlignment.center,
+
                     children: [
                       Icon(
                         Icons
                             .add_a_photo_outlined,
+
                         size: 40,
+
                         color:
                             Colors.grey.shade600,
                       ),
-                      const SizedBox(height: 8),
+
+                      const SizedBox(
+                        height: 8,
+                      ),
+
                       Text(
                         ml
                             ? 'Tap to add photo'
@@ -665,23 +933,37 @@ class _SafetyObservationPageState
                     ],
                   )
                 : Stack(
-                    fit: StackFit.expand,
+                    fit:
+                        StackFit.expand,
+
                     children: [
                       Image.file(
-                        File(_photo!.path),
-                        fit: BoxFit.cover,
+                        File(
+                          _photo!.path,
+                        ),
+                        fit:
+                            BoxFit.cover,
                       ),
+
                       Positioned(
                         right: 8,
                         top: 8,
-                        child: CircleAvatar(
+
+                        child:
+                            CircleAvatar(
                           backgroundColor:
                               Colors.black54,
-                          child: IconButton(
-                            color: Colors.white,
-                            icon: const Icon(
+
+                          child:
+                              IconButton(
+                            color:
+                                Colors.white,
+
+                            icon:
+                                const Icon(
                               Icons.close,
                             ),
+
                             onPressed: () {
                               setState(() {
                                 _photo = null;
