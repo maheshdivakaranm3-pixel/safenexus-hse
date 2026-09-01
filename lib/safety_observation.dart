@@ -69,11 +69,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       if (pickedFile == null) return;
 
+      if (!mounted) return;
+
       setState(() {
         _beforePhoto = File(pickedFile.path);
       });
 
-      // Prepare the observation form after photo selection.
       await _prepareObservationFromPhoto();
     } catch (e) {
       _showMessage('Unable to select photo.');
@@ -90,6 +91,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       if (pickedFile == null) return;
 
+      if (!mounted) return;
+
       setState(() {
         _afterPhoto = File(pickedFile.path);
       });
@@ -104,6 +107,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
   Future<void> _prepareObservationFromPhoto() async {
     if (_beforePhoto == null) return;
+
+    if (!mounted) return;
 
     setState(() {
       _isAnalyzing = true;
@@ -167,7 +172,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       initialTime: TimeOfDay.fromDateTime(_observationDateTime),
     );
 
-    if (time == null) return;
+    if (time == null || !mounted) return;
 
     setState(() {
       _observationDateTime = DateTime(
@@ -188,7 +193,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       lastDate: DateTime(2100),
     );
 
-    if (date == null) return;
+    if (date == null || !mounted) return;
 
     setState(() {
       _targetDate = date;
@@ -225,12 +230,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       return;
     }
 
+    if (!mounted) return;
+
     setState(() {
       _isSaving = true;
     });
 
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs =
+          await SharedPreferences.getInstance();
 
       final List<String> existing =
           prefs.getStringList(_storageKey) ?? <String>[];
@@ -243,13 +251,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         'category': _category,
         'riskLevel': _riskLevel,
         'beforePhoto': _beforePhoto?.path ?? '',
-        'immediateAction': _immediateActionController.text.trim(),
-        'correctiveAction': _correctiveActionController.text.trim(),
-        'responsiblePerson': _responsibleController.text.trim(),
+        'immediateAction':
+            _immediateActionController.text.trim(),
+        'correctiveAction':
+            _correctiveActionController.text.trim(),
+        'responsiblePerson':
+            _responsibleController.text.trim(),
         'targetDate': _targetDate?.toIso8601String(),
         'afterPhoto': _afterPhoto?.path ?? '',
         'status': _status,
-        'closureRemarks': _closureRemarksController.text.trim(),
+        'closureRemarks':
+            _closureRemarksController.text.trim(),
         'createdAt': DateTime.now().toIso8601String(),
         'updatedAt': DateTime.now().toIso8601String(),
       };
@@ -279,6 +291,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ------------------------------------------------------------
 
   void _clearForm() {
+    if (!mounted) return;
+
     setState(() {
       _beforePhoto = null;
       _afterPhoto = null;
@@ -296,6 +310,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       _category = 'Unsafe Act';
       _riskLevel = 'Medium';
       _status = 'Open';
+
+      _isAnalyzing = false;
     });
   }
 
@@ -326,7 +342,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
   String _formatDateTime(DateTime date) {
     final String hour = date.hour.toString().padLeft(2, '0');
-    final String minute = date.minute.toString().padLeft(2, '0');
+    final String minute =
+        date.minute.toString().padLeft(2, '0');
 
     return '${date.day.toString().padLeft(2, '0')}/'
         '${date.month.toString().padLeft(2, '0')}/'
@@ -406,6 +423,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     IconData icon, {
     Color? color,
   }) {
+    final Color primaryColor =
+        color ?? Theme.of(context).colorScheme.primary;
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 22,
@@ -416,12 +436,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           CircleAvatar(
             radius: 19,
             backgroundColor:
-                (color ?? Theme.of(context).colorScheme.primary)
-                    .withOpacity(0.12),
+                primaryColor.withValues(alpha: 0.12),
             child: Icon(
               icon,
               size: 21,
-              color: color ?? Theme.of(context).colorScheme.primary,
+              color: primaryColor,
             ),
           ),
           const SizedBox(width: 10),
@@ -458,9 +477,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,
-          prefixIcon: icon == null
-              ? null
-              : Icon(icon),
+          prefixIcon: icon == null ? null : Icon(icon),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -534,8 +551,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                           vertical: 7,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.65),
-                          borderRadius: BorderRadius.circular(20),
+                          color:
+                              Colors.black.withValues(alpha: 0.65),
+                          borderRadius:
+                              BorderRadius.circular(20),
                         ),
                         child: const Text(
                           'Photo selected',
@@ -550,6 +569,119 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
         ),
       ),
+    );
+  }
+
+  // ------------------------------------------------------------
+  // CATEGORY DROPDOWN
+  // ------------------------------------------------------------
+
+  Widget _categoryDropdown() {
+    return DropdownButtonFormField<String>(
+      initialValue: _category,
+      decoration: InputDecoration(
+        labelText: 'Category',
+        prefixIcon: const Icon(Icons.category),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        filled: true,
+      ),
+      items: const [
+        DropdownMenuItem(
+          value: 'Unsafe Act',
+          child: Text('Unsafe Act'),
+        ),
+        DropdownMenuItem(
+          value: 'Unsafe Condition',
+          child: Text('Unsafe Condition'),
+        ),
+      ],
+      onChanged: (value) {
+        if (value == null || value == _category) return;
+
+        setState(() {
+          _category = value;
+        });
+      },
+    );
+  }
+
+  // ------------------------------------------------------------
+  // RISK LEVEL DROPDOWN
+  // ------------------------------------------------------------
+
+  Widget _riskLevelDropdown() {
+    return DropdownButtonFormField<String>(
+      initialValue: _riskLevel,
+      decoration: InputDecoration(
+        labelText: 'Risk Level',
+        prefixIcon: const Icon(Icons.warning),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        filled: true,
+      ),
+      items: const [
+        DropdownMenuItem(
+          value: 'High',
+          child: Text('🔴 High Risk'),
+        ),
+        DropdownMenuItem(
+          value: 'Medium',
+          child: Text('🟠 Medium Risk'),
+        ),
+        DropdownMenuItem(
+          value: 'Low',
+          child: Text('🟢 Low Risk'),
+        ),
+      ],
+      onChanged: (value) {
+        if (value == null || value == _riskLevel) return;
+
+        setState(() {
+          _riskLevel = value;
+        });
+      },
+    );
+  }
+
+  // ------------------------------------------------------------
+  // STATUS DROPDOWN
+  // ------------------------------------------------------------
+
+  Widget _statusDropdown() {
+    return DropdownButtonFormField<String>(
+      initialValue: _status,
+      decoration: InputDecoration(
+        labelText: 'Status',
+        prefixIcon: const Icon(Icons.track_changes),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        filled: true,
+      ),
+      items: const [
+        DropdownMenuItem(
+          value: 'Open',
+          child: Text('🔴 Open'),
+        ),
+        DropdownMenuItem(
+          value: 'In Progress',
+          child: Text('🟠 In Progress'),
+        ),
+        DropdownMenuItem(
+          value: 'Closed',
+          child: Text('🟢 Closed'),
+        ),
+      ],
+      onChanged: (value) {
+        if (value == null || value == _status) return;
+
+        setState(() {
+          _status = value;
+        });
+      },
     );
   }
 
@@ -605,7 +737,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Colors.blue.withOpacity(0.08),
+                    color:
+                        Colors.blue.withValues(alpha: 0.08),
                   ),
                   child: Row(
                     children: [
@@ -647,18 +780,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 child: InputDecorator(
                   decoration: InputDecoration(
                     labelText: 'Date & Time',
-                    prefixIcon: const Icon(
-                      Icons.calendar_month,
-                    ),
+                    prefixIcon:
+                        const Icon(Icons.calendar_month),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     filled: true,
                   ),
                   child: Text(
-                    _formatDateTime(
-                      _observationDateTime,
-                    ),
+                    _formatDateTime(_observationDateTime),
                   ),
                 ),
               ),
@@ -674,35 +804,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 maxLines: 5,
               ),
 
-              DropdownButtonFormField<String>(
-                value: _category,
-                decoration: InputDecoration(
-                  labelText: 'Category',
-                  prefixIcon: const Icon(
-                    Icons.category,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'Unsafe Act',
-                    child: Text('Unsafe Act'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Unsafe Condition',
-                    child: Text('Unsafe Condition'),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value == null) return;
-                  setState(() {
-                    _category = value;
-                  });
-                },
-              ),
+              _categoryDropdown(),
 
               // ==================================================
               // RISK ASSESSMENT
@@ -714,39 +816,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 color: Colors.orange,
               ),
 
-              DropdownButtonFormField<String>(
-                value: _riskLevel,
-                decoration: InputDecoration(
-                  labelText: 'Risk Level',
-                  prefixIcon: const Icon(
-                    Icons.warning,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'High',
-                    child: Text('🔴 High Risk'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Medium',
-                    child: Text('🟠 Medium Risk'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Low',
-                    child: Text('🟢 Low Risk'),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value == null) return;
-                  setState(() {
-                    _riskLevel = value;
-                  });
-                },
-              ),
+              _riskLevelDropdown(),
 
               const SizedBox(height: 8),
 
@@ -794,9 +864,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 child: InputDecorator(
                   decoration: InputDecoration(
                     labelText: 'Target Date',
-                    prefixIcon: const Icon(
-                      Icons.event,
-                    ),
+                    prefixIcon: const Icon(Icons.event),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -831,39 +899,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
               const SizedBox(height: 12),
 
-              DropdownButtonFormField<String>(
-                value: _status,
-                decoration: InputDecoration(
-                  labelText: 'Status',
-                  prefixIcon: const Icon(
-                    Icons.track_changes,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'Open',
-                    child: Text('🔴 Open'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'In Progress',
-                    child: Text('🟠 In Progress'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Closed',
-                    child: Text('🟢 Closed'),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value == null) return;
-                  setState(() {
-                    _status = value;
-                  });
-                },
-              ),
+              _statusDropdown(),
 
               const SizedBox(height: 12),
 
@@ -895,9 +931,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                             strokeWidth: 2,
                           ),
                         )
-                      : const Icon(
-                          Icons.save,
-                        ),
+                      : const Icon(Icons.save),
                   label: Text(
                     _isSaving
                         ? 'Saving...'
@@ -915,9 +949,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               OutlinedButton.icon(
                 onPressed: _isSaving
                     ? null
-                    : () {
-                        _clearForm();
-                      },
+                    : _clearForm,
                 icon: const Icon(Icons.refresh),
                 label: const Text('Clear Form'),
               ),
@@ -957,17 +989,19 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       icon = Icons.info_outline;
     }
 
+    final Color borderColor = _riskLevel == 'High'
+        ? Colors.red
+        : _riskLevel == 'Medium'
+            ? Colors.orange
+            : Colors.green;
+
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: _riskLevel == 'High'
-              ? Colors.red
-              : _riskLevel == 'Medium'
-                  ? Colors.orange
-                  : Colors.green,
+          color: borderColor,
         ),
       ),
       child: Row(
