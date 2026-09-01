@@ -66,10 +66,7 @@ class _ObservationHistoryPageState
   }
 
   Future<void> _deleteObservation(int index) async {
-    final actualIndex = _observations.length - 1 - index;
-
-    if (actualIndex < 0 ||
-        actualIndex >= _observations.length) {
+    if (index < 0 || index >= _observations.length) {
       return;
     }
 
@@ -117,6 +114,79 @@ class _ObservationHistoryPageState
     return '';
   }
 
+  // ------------------------------------------------------------
+  // DATE / TIME FORMATTER
+  // ------------------------------------------------------------
+
+  String _formatDateTime(String value) {
+    if (value.trim().isEmpty) {
+      return value;
+    }
+
+    try {
+      final dateTime = DateTime.parse(value);
+
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
+
+      final hour = dateTime.hour % 12 == 0
+          ? 12
+          : dateTime.hour % 12;
+
+      final minute =
+          dateTime.minute.toString().padLeft(2, '0');
+
+      final period =
+          dateTime.hour >= 12 ? 'PM' : 'AM';
+
+      return '${dateTime.day.toString().padLeft(2, '0')} '
+          '${months[dateTime.month - 1]} '
+          '${dateTime.year} • '
+          '$hour:$minute $period';
+    } catch (_) {
+      return value;
+    }
+  }
+
+  bool _isDateKey(String key) {
+    final normalized = key
+        .toLowerCase()
+        .replaceAll('_', '')
+        .replaceAll('-', '')
+        .replaceAll(' ', '');
+
+    return normalized == 'date' ||
+        normalized == 'createdat' ||
+        normalized == 'timestamp' ||
+        normalized == 'submittedat';
+  }
+
+  String _formatValue(String key, dynamic value) {
+    final text = value.toString();
+
+    if (_isDateKey(key)) {
+      return _formatDateTime(text);
+    }
+
+    return text;
+  }
+
+  // ------------------------------------------------------------
+  // OBSERVATION DETAILS
+  // ------------------------------------------------------------
+
   void _showObservationDetails(
     BuildContext context,
     Map<String, dynamic> observation,
@@ -143,7 +213,8 @@ class _ObservationHistoryPageState
             ),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Observation Details',
@@ -152,7 +223,9 @@ class _ObservationHistoryPageState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 20),
+
                   ...entries.map(
                     (entry) => Padding(
                       padding: const EdgeInsets.only(
@@ -170,15 +243,32 @@ class _ObservationHistoryPageState
                               color: Colors.grey.shade600,
                             ),
                           ),
+
                           const SizedBox(height: 4),
+
                           Text(
-                            entry.value.toString(),
+                            _formatValue(
+                              entry.key,
+                              entry.value,
+                            ),
                             style: const TextStyle(
                               fontSize: 15,
                             ),
                           ),
                         ],
                       ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Close'),
                     ),
                   ),
                 ],
@@ -259,14 +349,17 @@ class _ObservationHistoryPageState
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Icon(
               Icons.history,
               size: 72,
               color: Colors.grey.shade400,
             ),
+
             const SizedBox(height: 20),
+
             const Text(
               'No Safety Observations',
               style: TextStyle(
@@ -275,7 +368,9 @@ class _ObservationHistoryPageState
               ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 8),
+
             Text(
               'Submitted safety observations will appear here.',
               style: TextStyle(
@@ -323,18 +418,26 @@ class _ObservationHistoryPageState
       ],
     );
 
-    final date = _getValue(
+    final dateKey = [
+      'date',
+      'created_at',
+      'timestamp',
+      'submitted_at',
+    ];
+
+    final rawDate = _getValue(
       observation,
-      [
-        'date',
-        'created_at',
-        'timestamp',
-        'submitted_at',
-      ],
+      dateKey,
     );
 
+    final date = rawDate.isNotEmpty
+        ? _formatDateTime(rawDate)
+        : '';
+
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+      ),
       child: InkWell(
         onTap: () {
           _showObservationDetails(
@@ -342,7 +445,8 @@ class _ObservationHistoryPageState
             observation,
           );
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius:
+            BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -354,7 +458,8 @@ class _ObservationHistoryPageState
                     CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding:
+                        const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.blue.withValues(
                         alpha: 0.10,
@@ -367,7 +472,9 @@ class _ObservationHistoryPageState
                       color: Colors.blue,
                     ),
                   ),
+
                   const SizedBox(width: 12),
+
                   Expanded(
                     child: Text(
                       title.isNotEmpty
@@ -378,16 +485,19 @@ class _ObservationHistoryPageState
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      overflow:
+                          TextOverflow.ellipsis,
                     ),
                   ),
+
                   PopupMenuButton<String>(
                     onSelected: (value) {
                       if (value == 'delete') {
                         _deleteObservation(index);
                       }
                     },
-                    itemBuilder: (context) => const [
+                    itemBuilder: (context) =>
+                        const [
                       PopupMenuItem<String>(
                         value: 'delete',
                         child: Row(
@@ -432,7 +542,8 @@ class _ObservationHistoryPageState
               const SizedBox(height: 8),
 
               Align(
-                alignment: Alignment.centerRight,
+                alignment:
+                    Alignment.centerRight,
                 child: Text(
                   'Tap to view details',
                   style: TextStyle(
@@ -454,7 +565,9 @@ class _ObservationHistoryPageState
     String value,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
       child: Row(
         crossAxisAlignment:
             CrossAxisAlignment.start,
@@ -464,13 +577,16 @@ class _ObservationHistoryPageState
             size: 18,
             color: Colors.grey.shade600,
           ),
+
           const SizedBox(width: 8),
+
           Text(
             '$label: ',
             style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
+
           Expanded(
             child: Text(value),
           ),
