@@ -1,67 +1,206 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:safenexus_hse/guidelines.dart';
-import 'package:safenexus_hse/hazard_report.dart';
-import 'package:safenexus_hse/observation_history.dart';
-import 'package:safenexus_hse/safety_observation.dart';
-import 'package:safenexus_hse/voice_report.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('ml', 'IN'),
-      ],
-      path: 'assets/translations',
-      useOnlyLangCode: true,
-      fallbackLocale: const Locale('en', 'US'),
-      child: const MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ObservationHistoryPage extends StatefulWidget {
+  const ObservationHistoryPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SafeNexus HSE',
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
-    );
-  }
+  State<ObservationHistoryPage> createState() =>
+      _ObservationHistoryPageState();
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class _ObservationHistoryPageState
+    extends State<ObservationHistoryPage> {
+  static const String _storageKey = 'safety_observations';
 
-  void openPage(BuildContext context, Widget page) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => page,
+  List<Map<String, dynamic>> _observations = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadObservations();
+  }
+
+  Future<void> _loadObservations() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final storedData = prefs.getString(_storageKey);
+
+      if (storedData == null || storedData.isEmpty) {
+        setState(() {
+          _observations = [];
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final decoded = jsonDecode(storedData);
+
+      if (decoded is List) {
+        final loaded = decoded
+            .whereType<Map>()
+            .map(
+              (item) => Map<String, dynamic>.from(item),
+            )
+            .toList();
+
+        setState(() {
+          _observations = loaded.reversed.toList();
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _observations = [];
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _observations = [];
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _deleteObservation(int index) async {
+    final actualIndex = _observations.length - 1 - index;
+
+    if (actualIndex < 0 ||
+        actualIndex >= _observations.length) {
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+
+    final updated = List<Map<String, dynamic>>.from(
+      _observations,
+    );
+
+    updated.removeAt(index);
+
+    final storageList = updated.reversed.toList();
+
+    await prefs.setString(
+      _storageKey,
+      jsonEncode(storageList),
+    );
+
+    setState(() {
+      _observations = updated;
+    });
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Observation deleted'),
       ),
     );
   }
 
-  void showComingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Coming soon'),
-      ),
+  String _getValue(
+    Map<String, dynamic> observation,
+    List<String> keys,
+  ) {
+    for (final key in keys) {
+      final value = observation[key];
+
+      if (value != null &&
+          value.toString().trim().isNotEmpty) {
+        return value.toString();
+      }
+    }
+
+    return '';
+  }
+
+  void _showObservationDetails(
+    BuildContext context,
+    Map<String, dynamic> observation,
+  ) {
+    final entries = observation.entries.where((entry) {
+      final value = entry.value;
+
+      return value != null &&
+          value.toString().trim().isNotEmpty;
+    }).toList();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              20,
+              8,
+              20,
+              24,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Observation Details',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ...entries.map(
+                    (entry) => Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 14,
+                      ),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _formatKey(entry.key),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            entry.value.toString(),
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
+  }
+
+  String _formatKey(String key) {
+    final formatted = key
+        .replaceAll('_', ' ')
+        .replaceAll('-', ' ');
+
+    if (formatted.isEmpty) {
+      return key;
+    }
+
+    return formatted[0].toUpperCase() +
+        formatted.substring(1);
   }
 
   @override
@@ -69,181 +208,81 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'SafeNexus HSE',
+          'Reports & History',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
-          PopupMenuButton<Locale>(
-            icon: const Icon(Icons.language),
-            onSelected: (Locale locale) {
-              context.setLocale(locale);
-            },
-            itemBuilder: (BuildContext context) {
-              return const [
-                PopupMenuItem<Locale>(
-                  value: Locale('en', 'US'),
-                  child: Text('English'),
-                ),
-                PopupMenuItem<Locale>(
-                  value: Locale('ml', 'IN'),
-                  child: Text('മലയാളം'),
-                ),
-              ];
-            },
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _loadObservations,
+            tooltip: 'Refresh',
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (_observations.isEmpty) {
+      return _emptyState();
+    }
+
+    return RefreshIndicator(
+      onRefresh: _loadObservations,
+      child: ListView.builder(
         padding: const EdgeInsets.all(16),
+        itemCount: _observations.length,
+        itemBuilder: (context, index) {
+          final observation = _observations[index];
+
+          return _observationCard(
+            context,
+            observation,
+            index,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _emptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _welcomeCard(),
-
-            const SizedBox(height: 24),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Safety Management',
-                style: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            Icon(
+              Icons.history,
+              size: 72,
+              color: Colors.grey.shade400,
             ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _menuCard(
-                    icon: Icons.report_problem,
-                    title: 'Hazard Report',
-                    subtitle: 'Report hazard',
-                    onTap: () {
-                      openPage(
-                        context,
-                        const HazardReportPage(),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _menuCard(
-                    icon: Icons.mic,
-                    title: 'Voice Report',
-                    subtitle: 'Voice reporting',
-                    onTap: () {
-                      openPage(
-                        context,
-                        const VoiceReportPage(),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _menuCard(
-                    icon: Icons.menu_book,
-                    title: 'HSE Guidelines',
-                    subtitle: 'A-Z safety guide',
-                    onTap: () {
-                      openPage(
-                        context,
-                        const GuidelinesPage(),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _menuCard(
-                    icon: Icons.visibility,
-                    title: 'Safety Observation',
-                    subtitle: 'Record safety observation',
-                    onTap: () {
-                      openPage(
-                        context,
-                        const SafetyObservationPage(),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Quick Access',
-                style: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            _quickItem(
-              icon: Icons.assignment,
-              title: 'Inspections',
-              subtitle: 'Site inspection and checklist',
-              onTap: () {
-                showComingSoon(context);
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            _quickItem(
-              icon: Icons.assessment,
-              title: 'Risk Assessment',
-              subtitle: 'Identify hazards and controls',
-              onTap: () {
-                showComingSoon(context);
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            // Reports & History
-            _quickItem(
-              icon: Icons.history,
-              title: 'Reports & History',
-              subtitle: 'View safety reports',
-              onTap: () {
-                openPage(
-                  context,
-                  const ObservationHistoryPage(),
-                );
-              },
-            ),
-
-            const SizedBox(height: 24),
-
-            _safetyReminder(),
-
             const SizedBox(height: 20),
-
+            const Text(
+              'No Safety Observations',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
             Text(
-              'SafeNexus HSE • Safety First',
+              'Submitted safety observations will appear here.',
               style: TextStyle(
                 color: Colors.grey.shade600,
-                fontSize: 13,
+                fontSize: 14,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -251,93 +290,155 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _welcomeCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF1565C0),
-            Color(0xFF1976D2),
-          ],
-        ),
-      ),
-      child: const Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.white24,
-            child: Icon(
-              Icons.health_and_safety,
-              color: Colors.white,
-              size: 34,
-            ),
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome to SafeNexus HSE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  'Safety • Observation • Compliance',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+  Widget _observationCard(
+    BuildContext context,
+    Map<String, dynamic> observation,
+    int index,
+  ) {
+    final title = _getValue(
+      observation,
+      [
+        'title',
+        'observation',
+        'description',
+        'finding',
+      ],
     );
-  }
 
-  Widget _menuCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
+    final category = _getValue(
+      observation,
+      [
+        'category',
+        'type',
+        'observation_type',
+      ],
+    );
+
+    final severity = _getValue(
+      observation,
+      [
+        'severity',
+        'risk_level',
+        'risk',
+      ],
+    );
+
+    final date = _getValue(
+      observation,
+      [
+        'date',
+        'created_at',
+        'timestamp',
+        'submitted_at',
+      ],
+    );
+
     return Card(
+      margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
-        onTap: onTap,
+        onTap: () {
+          _showObservationDetails(
+            context,
+            observation,
+          );
+        },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
-              Icon(
-                icon,
-                size: 32,
-                color: Colors.blue,
+              Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withValues(
+                        alpha: 0.10,
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.visibility,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      title.isNotEmpty
+                          ? title
+                          : 'Safety Observation',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'delete') {
+                        _deleteObservation(index);
+                      }
+                    },
+                    itemBuilder: (context) => const [
+                      PopupMenuItem<String>(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 8),
+                            Text('Delete'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
+
+              const SizedBox(height: 14),
+
+              if (category.isNotEmpty)
+                _infoRow(
+                  Icons.category_outlined,
+                  'Category',
+                  category,
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
+
+              if (severity.isNotEmpty)
+                _infoRow(
+                  Icons.warning_amber_outlined,
+                  'Severity',
+                  severity,
+                ),
+
+              if (date.isNotEmpty)
+                _infoRow(
+                  Icons.calendar_today_outlined,
+                  'Date',
+                  date,
+                ),
+
+              const SizedBox(height: 8),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Tap to view details',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                  ),
                 ),
               ),
             ],
@@ -347,58 +448,33 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _quickItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      child: ListTile(
-        onTap: onTap,
-        leading: Icon(
-          icon,
-          color: Colors.blue,
-          size: 30,
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
+  Widget _infoRow(
+    IconData icon,
+    String label,
+    String value,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 18,
+            color: Colors.grey.shade600,
           ),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-        ),
-      ),
-    );
-  }
-
-  Widget _safetyReminder() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Icon(
-              Icons.info_outline,
-              color: Colors.blue,
+          const SizedBox(width: 8),
+          Text(
+            '$label: ',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'If you identify an unsafe condition, report it promptly and follow the applicable site safety controls.',
-                style: TextStyle(
-                  fontSize: 13,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: Text(value),
+          ),
+        ],
       ),
     );
   }
