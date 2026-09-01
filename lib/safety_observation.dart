@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:safenexus_hse/services/ai_hse_service.dart';
+
 class SafetyObservationPage extends StatefulWidget {
   const SafetyObservationPage({super.key});
 
@@ -13,36 +15,65 @@ class SafetyObservationPage extends StatefulWidget {
       _SafetyObservationPageState();
 }
 
-class _SafetyObservationPageState extends State<SafetyObservationPage> {
-  static const String _storageKey = 'safenexus_observations';
+class _SafetyObservationPageState
+    extends State<SafetyObservationPage> {
+  static const String _storageKey =
+      'safenexus_observations';
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey =
+      GlobalKey<FormState>();
 
-  final TextEditingController _descriptionController =
+  final TextEditingController
+      _descriptionController =
       TextEditingController();
 
-  final TextEditingController _actionController =
+  final TextEditingController
+      _actionController =
       TextEditingController();
 
-  final TextEditingController _locationController =
+  final TextEditingController
+      _locationController =
       TextEditingController();
 
-  final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker =
+      ImagePicker();
 
-  String _observationType = 'Unsafe Condition';
-  String _category = 'General Safety';
-  String _hazardType = 'Slip, Trip & Fall';
-  String _riskLevel = 'Medium';
-  String _potentialConsequence = 'Injury';
+  final AiHseService _aiHseService =
+      AiHseService();
+
+  String _observationType =
+      'Unsafe Condition';
+
+  String _category =
+      'General Safety';
+
+  String _hazardType =
+      'Slip, Trip & Fall';
+
+  String _riskLevel =
+      'Medium';
+
+  String _potentialConsequence =
+      'Injury';
 
   XFile? _photo;
 
   bool _submitting = false;
   bool _analyzing = false;
+  bool _aiPhotoAnalyzing = false;
   bool _smartAnalysisDone = false;
 
-  bool get _isMalayalam =>
-      Localizations.localeOf(context).languageCode == 'ml';
+  AiHseResult? _aiResult;
+
+  // ============================================================
+  // LANGUAGE
+  // ============================================================
+
+  bool get _isMalayalam {
+    return Localizations.localeOf(context)
+            .languageCode ==
+        'ml';
+  }
 
   // ============================================================
   // OPTIONS
@@ -90,6 +121,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     _descriptionController.dispose();
     _actionController.dispose();
     _locationController.dispose();
+
     super.dispose();
   }
 
@@ -97,36 +129,49 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // PHOTO PICKER
   // ============================================================
 
-  Future<void> _pickPhoto(ImageSource source) async {
+  Future<void> _pickPhoto(
+    ImageSource source,
+  ) async {
     try {
-      final XFile? image = await _picker.pickImage(
+      final XFile? image =
+          await _picker.pickImage(
         source: source,
         imageQuality: 80,
         maxWidth: 1600,
       );
 
-      if (image == null || !mounted) {
+      if (image == null ||
+          !mounted) {
         return;
       }
 
       setState(() {
         _photo = image;
         _smartAnalysisDone = false;
+        _aiResult = null;
       });
-
-      if (_descriptionController.text.trim().isNotEmpty) {
-        await _analyzeObservation();
-      }
-    } catch (_) {
-      if (!mounted) return;
 
       _showMessage(
         _isMalayalam
-            ? 'Photo എടുക്കാൻ കഴിഞ്ഞില്ല.'
+            ? 'Photo selected.'
+            : 'Photo selected.',
+      );
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      _showMessage(
+        _isMalayalam
+            ? 'Photo തിരഞ്ഞെടുക്കാൻ കഴിഞ്ഞില്ല.'
             : 'Unable to select photo.',
       );
     }
   }
+
+  // ============================================================
+  // PHOTO OPTIONS
+  // ============================================================
 
   Future<void> _showPhotoOptions() async {
     await showModalBottomSheet<void>(
@@ -134,38 +179,67 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       builder: (sheetContext) {
         return SafeArea(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize:
+                MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
+                leading: const Icon(
+                  Icons.camera_alt,
+                ),
+                title: Text(
+                  _isMalayalam
+                      ? 'Camera'
+                      : 'Camera',
+                ),
                 onTap: () {
-                  Navigator.pop(sheetContext);
-                  _pickPhoto(ImageSource.camera);
+                  Navigator.pop(
+                    sheetContext,
+                  );
+
+                  _pickPhoto(
+                    ImageSource.camera,
+                  );
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                leading: const Icon(
+                  Icons.photo_library,
+                ),
+                title: Text(
+                  _isMalayalam
+                      ? 'Gallery'
+                      : 'Gallery',
+                ),
                 onTap: () {
-                  Navigator.pop(sheetContext);
-                  _pickPhoto(ImageSource.gallery);
+                  Navigator.pop(
+                    sheetContext,
+                  );
+
+                  _pickPhoto(
+                    ImageSource.gallery,
+                  );
                 },
               ),
               if (_photo != null)
                 ListTile(
-                  leading: const Icon(Icons.delete_outline),
+                  leading: const Icon(
+                    Icons.delete_outline,
+                  ),
                   title: Text(
                     _isMalayalam
                         ? 'Photo നീക്കം ചെയ്യുക'
                         : 'Remove Photo',
                   ),
                   onTap: () {
-                    Navigator.pop(sheetContext);
+                    Navigator.pop(
+                      sheetContext,
+                    );
 
                     setState(() {
                       _photo = null;
-                      _smartAnalysisDone = false;
+                      _aiResult = null;
+                      _smartAnalysisDone =
+                          false;
                     });
                   },
                 ),
@@ -177,12 +251,148 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   // ============================================================
-  // SMART ANALYSIS
+  // REAL AI PHOTO ANALYSIS
   // ============================================================
 
-  Future<void> _analyzeObservation() async {
+  Future<void>
+      _analyzePhotoWithAI() async {
+    if (_photo == null) {
+      _showMessage(
+        _isMalayalam
+            ? 'ആദ്യം ഒരു photo തിരഞ്ഞെടുക്കുക.'
+            : 'Please select a photo first.',
+      );
+
+      return;
+    }
+
+    if (_aiPhotoAnalyzing) {
+      return;
+    }
+
+    setState(() {
+      _aiPhotoAnalyzing = true;
+    });
+
+    try {
+      final AiHseResult result =
+          await _aiHseService.analyzePhoto(
+        imageFile: File(
+          _photo!.path,
+        ),
+        description:
+            _descriptionController.text
+                .trim(),
+        location:
+            _locationController.text
+                .trim(),
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _aiResult = result;
+
+        _observationType =
+            _safeObservationType(
+          result.observationType,
+        );
+
+        _category =
+            _safeCategory(
+          result.category,
+        );
+
+        _hazardType =
+            result.hazard;
+
+        _riskLevel =
+            _safeRiskLevel(
+          result.riskLevel,
+        );
+
+        _potentialConsequence =
+            result.potentialConsequence;
+
+        _actionController.text =
+            result.correctiveAction;
+
+        _smartAnalysisDone = true;
+
+        _aiPhotoAnalyzing = false;
+      });
+
+      _showMessage(
+        _isMalayalam
+            ? 'AI Photo Analysis പൂർത്തിയായി.'
+            : 'AI Photo Analysis completed.',
+      );
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _aiPhotoAnalyzing = false;
+      });
+
+      _showMessage(
+        _isMalayalam
+            ? 'AI analysis പരാജയപ്പെട്ടു. Server/API പരിശോധിക്കുക.'
+            : 'AI analysis failed. Check the server/API.',
+      );
+    }
+  }
+
+  // ============================================================
+  // SAFE VALUES
+  // ============================================================
+
+  String _safeObservationType(
+    String value,
+  ) {
+    if (_observationTypes
+        .contains(value)) {
+      return value;
+    }
+
+    return 'Unsafe Condition';
+  }
+
+  String _safeCategory(
+    String value,
+  ) {
+    if (_categories
+        .contains(value)) {
+      return value;
+    }
+
+    return 'General Safety';
+  }
+
+  String _safeRiskLevel(
+    String value,
+  ) {
+    if (_riskLevels
+        .contains(value)) {
+      return value;
+    }
+
+    return 'Medium';
+  }
+
+  // ============================================================
+  // TEXT SMART ANALYSIS
+  // ============================================================
+
+  Future<void>
+      _analyzeObservation() async {
     final String text =
-        _descriptionController.text.trim().toLowerCase();
+        _descriptionController.text
+            .trim()
+            .toLowerCase();
 
     if (text.isEmpty) {
       _showMessage(
@@ -190,6 +400,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ? 'ആദ്യം observation description നൽകുക.'
             : 'Enter an observation description first.',
       );
+
       return;
     }
 
@@ -202,25 +413,48 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     });
 
     await Future<void>.delayed(
-      const Duration(milliseconds: 350),
+      const Duration(
+        milliseconds: 350,
+      ),
     );
 
-    final _HazardResult result = _classifyHazard(text);
+    final _HazardResult result =
+        _classifyHazard(text);
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
-      _observationType = result.type;
-      _category = result.category;
-      _hazardType = result.hazard;
-      _riskLevel = result.risk;
-      _potentialConsequence = result.consequence;
-      _smartAnalysisDone = true;
+      _observationType =
+          result.type;
+
+      _category =
+          result.category;
+
+      _hazardType =
+          result.hazard;
+
+      _riskLevel =
+          result.risk;
+
+      _potentialConsequence =
+          result.consequence;
+
+      _smartAnalysisDone =
+          true;
+
       _analyzing = false;
 
-      if (_actionController.text.trim().isEmpty) {
-        _actionController.text = result.action;
+      if (_actionController
+          .text
+          .trim()
+          .isEmpty) {
+        _actionController.text =
+            result.action;
       }
+
+      _aiResult = null;
     });
 
     _showMessage(
@@ -231,14 +465,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   // ============================================================
-  // HAZARD CLASSIFICATION
+  // LOCAL HAZARD CLASSIFICATION
   // ============================================================
 
-  _HazardResult _classifyHazard(String text) {
-    // ----------------------------------------------------------
-    // WORK AT HEIGHT
-    // ----------------------------------------------------------
-
+  _HazardResult _classifyHazard(
+    String text,
+  ) {
     if (_containsAny(text, [
       'fall from height',
       'fell from height',
@@ -256,7 +488,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       'scaffold',
       'scaffolding',
     ])) {
-      final bool critical = _containsAny(text, [
+      final bool critical =
+          _containsAny(text, [
         'fell from height',
         'fall from height',
         'no fall protection',
@@ -266,23 +499,29 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       return _HazardResult(
         type: 'Unsafe Act',
-        category: text.contains('scaffold') ||
-                text.contains('scaffolding')
-            ? 'Scaffolding'
-            : 'Work at Height',
-        hazard: text.contains('ladder')
-            ? 'Unsafe Ladder Use'
-            : 'Fall from Height',
-        risk: critical ? 'Critical' : 'High',
-        consequence: critical ? 'Fatality' : 'Serious injury',
+        category:
+            text.contains('scaffold') ||
+                    text.contains(
+                      'scaffolding',
+                    )
+                ? 'Scaffolding'
+                : 'Work at Height',
+        hazard:
+            text.contains('ladder')
+                ? 'Unsafe Ladder Use'
+                : 'Fall from Height',
+        risk:
+            critical
+                ? 'Critical'
+                : 'High',
+        consequence:
+            critical
+                ? 'Fatality'
+                : 'Serious injury',
         action:
             'Stop the unsafe work, barricade the area, provide suitable fall protection, and allow work to resume only after the control measures are verified.',
       );
     }
-
-    // ----------------------------------------------------------
-    // PPE
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'no helmet',
@@ -301,17 +540,14 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       return const _HazardResult(
         type: 'Unsafe Act',
         category: 'PPE',
-        hazard: 'Inadequate / Missing PPE',
+        hazard:
+            'Inadequate / Missing PPE',
         risk: 'Medium',
         consequence: 'Injury',
         action:
             'Stop the task where necessary and ensure the worker wears the required PPE before continuing the work.',
       );
     }
-
-    // ----------------------------------------------------------
-    // ELECTRICAL
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'electric',
@@ -325,7 +561,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       'electric shock',
       'shock',
     ])) {
-      final bool critical = _containsAny(text, [
+      final bool critical =
+          _containsAny(text, [
         'live wire',
         'exposed wire',
         'electric shock',
@@ -333,18 +570,22 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       return _HazardResult(
         type: 'Unsafe Condition',
-        category: 'Electrical Safety',
-        hazard: 'Electrical Exposure',
-        risk: critical ? 'Critical' : 'High',
-        consequence: critical ? 'Fatality' : 'Serious injury',
+        category:
+            'Electrical Safety',
+        hazard:
+            'Electrical Exposure',
+        risk:
+            critical
+                ? 'Critical'
+                : 'High',
+        consequence:
+            critical
+                ? 'Fatality'
+                : 'Serious injury',
         action:
             'Isolate the electrical source by an authorized competent person, barricade the area, and rectify the electrical defect before work resumes.',
       );
     }
-
-    // ----------------------------------------------------------
-    // FIRE
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'fire',
@@ -360,17 +601,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       return const _HazardResult(
         type: 'Unsafe Condition',
         category: 'Fire Safety',
-        hazard: 'Fire / Ignition Hazard',
+        hazard:
+            'Fire / Ignition Hazard',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Remove or control the ignition source, keep combustible materials away, maintain required fire protection, and verify the area before continuing work.',
       );
     }
-
-    // ----------------------------------------------------------
-    // LIFTING & RIGGING
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'lifting',
@@ -383,7 +622,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       'shackle',
       'hoist',
     ])) {
-      final bool critical = _containsAny(text, [
+      final bool critical =
+          _containsAny(text, [
         'person under load',
         'standing under load',
         'suspended load over person',
@@ -391,18 +631,22 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       return _HazardResult(
         type: 'Unsafe Act',
-        category: 'Lifting & Rigging',
-        hazard: 'Lifting / Suspended Load Hazard',
-        risk: critical ? 'Critical' : 'High',
-        consequence: critical ? 'Fatality' : 'Serious injury',
+        category:
+            'Lifting & Rigging',
+        hazard:
+            'Lifting / Suspended Load Hazard',
+        risk:
+            critical
+                ? 'Critical'
+                : 'High',
+        consequence:
+            critical
+                ? 'Fatality'
+                : 'Serious injury',
         action:
             'Stop the lifting operation, establish an exclusion zone, keep personnel clear of suspended loads, and verify lifting equipment and the lifting plan before restarting.',
       );
     }
-
-    // ----------------------------------------------------------
-    // VEHICLE & TRAFFIC
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'vehicle',
@@ -419,18 +663,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category: 'Vehicle & Traffic Safety',
-        hazard: 'Vehicle / Pedestrian Interaction',
+        category:
+            'Vehicle & Traffic Safety',
+        hazard:
+            'Vehicle / Pedestrian Interaction',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Stop the unsafe movement, separate pedestrians and vehicles, use designated routes and a trained banksman where required, and verify traffic controls.',
       );
     }
-
-    // ----------------------------------------------------------
-    // CHEMICAL
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'chemical',
@@ -444,18 +687,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category: 'Chemical Safety',
-        hazard: 'Chemical Exposure / Spill',
+        category:
+            'Chemical Safety',
+        hazard:
+            'Chemical Exposure / Spill',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Isolate the affected area, prevent exposure, use the required PPE and spill controls, and clean up or contain the material using the approved procedure.',
       );
     }
-
-    // ----------------------------------------------------------
-    // CONFINED SPACE
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'confined space',
@@ -467,18 +709,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category: 'Confined Space',
-        hazard: 'Confined Space Entry Hazard',
+        category:
+            'Confined Space',
+        hazard:
+            'Confined Space Entry Hazard',
         risk: 'Critical',
         consequence: 'Fatality',
         action:
             'Stop entry, secure the space, verify the permit, atmospheric testing, isolation, ventilation, communication and rescue arrangements before entry.',
       );
     }
-
-    // ----------------------------------------------------------
-    // SLIP / TRIP / HOUSEKEEPING
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'slip',
@@ -496,7 +736,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       'debris',
       'loose material',
     ])) {
-      final bool serious = _containsAny(text, [
+      final bool serious =
+          _containsAny(text, [
         'fell',
         'fallen',
         'lying on floor',
@@ -508,18 +749,23 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       return _HazardResult(
         type: 'Unsafe Condition',
         category:
-            serious ? 'Slip, Trip & Fall' : 'Housekeeping',
-        hazard: 'Slip, Trip & Fall Hazard',
-        risk: serious ? 'High' : 'Medium',
-        consequence: serious ? 'Serious injury' : 'Injury',
+            serious
+                ? 'Slip, Trip & Fall'
+                : 'Housekeeping',
+        hazard:
+            'Slip, Trip & Fall Hazard',
+        risk:
+            serious
+                ? 'High'
+                : 'Medium',
+        consequence:
+            serious
+                ? 'Serious injury'
+                : 'Injury',
         action:
             'Secure the area, remove the slip/trip hazard, provide warning or barricading where required, and inspect the area before allowing normal work to continue.',
       );
     }
-
-    // ----------------------------------------------------------
-    // MANUAL HANDLING
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'manual handling',
@@ -533,18 +779,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category: 'Manual Handling',
-        hazard: 'Manual Handling / Ergonomic Hazard',
+        category:
+            'Manual Handling',
+        hazard:
+            'Manual Handling / Ergonomic Hazard',
         risk: 'Medium',
         consequence: 'Injury',
         action:
             'Use suitable mechanical assistance where practicable, apply correct lifting technique, and reduce the load or improve the handling method.',
       );
     }
-
-    // ----------------------------------------------------------
-    // MACHINERY
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'machine',
@@ -559,18 +803,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category: 'Machinery Safety',
-        hazard: 'Machine Guarding / Moving Parts',
+        category:
+            'Machinery Safety',
+        hazard:
+            'Machine Guarding / Moving Parts',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Stop the machine if there is immediate danger, isolate it as required, restore the guarding and verify the machine is safe before operation.',
       );
     }
-
-    // ----------------------------------------------------------
-    // HEAT STRESS
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'heat stress',
@@ -585,17 +828,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       return const _HazardResult(
         type: 'Unsafe Condition',
         category: 'Heat Stress',
-        hazard: 'Heat Stress Exposure',
+        hazard:
+            'Heat Stress Exposure',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Move the worker to a cool or shaded area, provide drinking water and rest, follow heat-stress controls, and assess the worker if symptoms are present.',
       );
     }
-
-    // ----------------------------------------------------------
-    // ENVIRONMENT
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'environment',
@@ -607,18 +848,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category: 'Environmental Safety',
-        hazard: 'Environmental Exposure',
+        category:
+            'Environmental Safety',
+        hazard:
+            'Environmental Exposure',
         risk: 'Medium',
-        consequence: 'Environmental impact',
+        consequence:
+            'Environmental impact',
         action:
             'Control the environmental hazard, prevent unnecessary exposure, maintain housekeeping and waste controls, and verify the area is compliant.',
       );
     }
-
-    // ----------------------------------------------------------
-    // PERMIT TO WORK
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'permit',
@@ -629,18 +869,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category: 'Permit to Work',
-        hazard: 'Permit / Authorization Deficiency',
+        category:
+            'Permit to Work',
+        hazard:
+            'Permit / Authorization Deficiency',
         risk: 'High',
-        consequence: 'Serious injury',
+        consequence:
+            'Serious injury',
         action:
             'Stop the affected work, verify the applicable permit and controls with the responsible authority, and resume only after authorization is confirmed.',
       );
     }
-
-    // ----------------------------------------------------------
-    // POSITIVE OBSERVATION
-    // ----------------------------------------------------------
 
     if (_containsAny(text, [
       'safe work',
@@ -655,23 +894,24 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ])) {
       return const _HazardResult(
         type: 'Positive Observation',
-        category: 'General Safety',
-        hazard: 'Positive Safety Practice',
+        category:
+            'General Safety',
+        hazard:
+            'Positive Safety Practice',
         risk: 'Low',
-        consequence: 'Minor injury',
+        consequence:
+            'Minor injury',
         action:
             'Recognize the positive behavior and encourage the team to maintain the same safe practice.',
       );
     }
 
-    // ----------------------------------------------------------
-    // DEFAULT
-    // ----------------------------------------------------------
-
     return const _HazardResult(
       type: 'Unsafe Condition',
-      category: 'General Safety',
-      hazard: 'General Workplace Hazard',
+      category:
+          'General Safety',
+      hazard:
+          'General Workplace Hazard',
       risk: 'Medium',
       consequence: 'Injury',
       action:
@@ -683,31 +923,44 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     String text,
     List<String> words,
   ) {
-    return words.any(text.contains);
+    return words.any(
+      text.contains,
+    );
   }
 
   // ============================================================
   // RISK
   // ============================================================
 
-  void _applyManualRisk(String value) {
+  void _applyManualRisk(
+    String value,
+  ) {
     setState(() {
       _riskLevel = value;
+
       _potentialConsequence =
-          _consequenceForRisk(value);
+          _consequenceForRisk(
+        value,
+      );
     });
   }
 
-  String _consequenceForRisk(String risk) {
+  String _consequenceForRisk(
+    String risk,
+  ) {
     switch (risk) {
       case 'Low':
         return 'Minor injury';
+
       case 'Medium':
         return 'Injury';
+
       case 'High':
         return 'Serious injury';
+
       case 'Critical':
         return 'Fatality';
+
       default:
         return 'Injury';
     }
@@ -718,7 +971,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   String _generateObservationId() {
-    final DateTime now = DateTime.now();
+    final DateTime now =
+        DateTime.now();
 
     final String stamp =
         '${now.year}'
@@ -732,7 +986,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   // ============================================================
-  // SAVE OBSERVATION
+  // SAVE
   // ============================================================
 
   Future<void> _saveObservation({
@@ -741,32 +995,58 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }) async {
     try {
       final SharedPreferences prefs =
-          await SharedPreferences.getInstance();
+          await SharedPreferences
+              .getInstance();
 
       final List<String> existing =
-          prefs.getStringList(_storageKey) ??
+          prefs.getStringList(
+                _storageKey,
+              ) ??
               <String>[];
 
-      final Map<String, dynamic> observation = {
+      final Map<String, dynamic>
+          observation = {
         'id': id,
-        'dateTime': submittedAt.toIso8601String(),
-        'type': _observationType,
-        'category': _category,
-        'hazard': _hazardType,
-        'risk': _riskLevel,
-        'consequence': _potentialConsequence,
+        'dateTime':
+            submittedAt.toIso8601String(),
+        'type':
+            _observationType,
+        'category':
+            _category,
+        'hazard':
+            _hazardType,
+        'risk':
+            _riskLevel,
+        'consequence':
+            _potentialConsequence,
         'description':
-            _descriptionController.text.trim(),
-        'action': _actionController.text.trim(),
+            _descriptionController
+                .text
+                .trim(),
+        'action':
+            _actionController
+                .text
+                .trim(),
         'location':
-            _locationController.text.trim(),
-        'photoPath': _photo?.path ?? '',
+            _locationController
+                .text
+                .trim(),
+        'photoPath':
+            _photo?.path ?? '',
         'status': 'Open',
+        'aiAnalyzed':
+            _aiResult != null,
+        'aiConfidence':
+            _aiResult?.confidence ?? 0,
+        'aiExplanation':
+            _aiResult?.explanation ?? '',
       };
 
       existing.insert(
         0,
-        jsonEncode(observation),
+        jsonEncode(
+          observation,
+        ),
       );
 
       await prefs.setStringList(
@@ -774,8 +1054,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         existing,
       );
     } catch (_) {
-      // Submission should not fail
-      // because of local storage.
+      // Keep submission flow alive
+      // even if local storage fails.
     }
   }
 
@@ -783,40 +1063,47 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // SUBMIT
   // ============================================================
 
-  Future<void> _submitObservation() async {
+  Future<void>
+      _submitObservation() async {
     if (_submitting) {
       return;
     }
 
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!
+        .validate()) {
       return;
     }
 
-    if (_descriptionController.text
-        .trim()
-        .isEmpty) {
+    final String description =
+        _descriptionController
+            .text
+            .trim();
+
+    if (description.isEmpty) {
       _showMessage(
         _isMalayalam
             ? 'Observation Description നൽകുക.'
             : 'Please enter an observation description.',
       );
+
       return;
     }
 
-    FocusScope.of(context).unfocus();
+    FocusScope.of(context)
+        .unfocus();
 
     setState(() {
       _submitting = true;
     });
 
-    final String observationId =
+    final String id =
         _generateObservationId();
 
     final DateTime submittedAt =
         DateTime.now();
 
     await _saveObservation(
-      id: observationId,
+      id: id,
       submittedAt: submittedAt,
     );
 
@@ -829,7 +1116,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     });
 
     await _showSuccessDialog(
-      observationId,
+      id,
       submittedAt,
     );
   }
@@ -838,7 +1125,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // SUCCESS DIALOG
   // ============================================================
 
-  Future<void> _showSuccessDialog(
+  Future<void>
+      _showSuccessDialog(
     String id,
     DateTime submittedAt,
   ) async {
@@ -864,18 +1152,23 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ? 'Observation Submitted'
                 : 'Observation Submitted',
           ),
-          content: SingleChildScrollView(
+          content:
+              SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize:
+                  MainAxisSize.min,
               crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  CrossAxisAlignment
+                      .start,
               children: [
                 Text(
                   _isMalayalam
                       ? 'Safety observation വിജയകരമായി രേഖപ്പെടുത്തി.'
                       : 'The safety observation has been recorded successfully.',
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(
+                  height: 16,
+                ),
                 _infoRow(
                   'Observation ID',
                   id,
@@ -904,16 +1197,26 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   'Date & Time',
                   date,
                 ),
+                if (_aiResult != null)
+                  _infoRow(
+                    'AI Confidence',
+                    '${(_aiResult!.confidence * 100).round()}%',
+                  ),
               ],
             ),
           ),
           actions: [
             FilledButton(
               onPressed: () {
-                Navigator.pop(dialogContext);
+                Navigator.pop(
+                  dialogContext,
+                );
+
                 _resetForm();
               },
-              child: const Text('Done'),
+              child: const Text(
+                'Done',
+              ),
             ),
           ],
         );
@@ -927,17 +1230,22 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   ) {
     return Padding(
       padding:
-          const EdgeInsets.only(bottom: 7),
+          const EdgeInsets.only(
+        bottom: 7,
+      ),
       child: Row(
         crossAxisAlignment:
-            CrossAxisAlignment.start,
+            CrossAxisAlignment
+                .start,
         children: [
           SizedBox(
             width: 105,
             child: Text(
               label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
+              style:
+                  const TextStyle(
+                fontWeight:
+                    FontWeight.w600,
               ),
             ),
           ),
@@ -954,25 +1262,44 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   void _resetForm() {
-    _formKey.currentState?.reset();
+    _formKey.currentState
+        ?.reset();
 
-    _descriptionController.clear();
+    _descriptionController
+        .clear();
+
     _actionController.clear();
+
     _locationController.clear();
 
     setState(() {
       _observationType =
           'Unsafe Condition';
-      _category = 'General Safety';
+
+      _category =
+          'General Safety';
+
       _hazardType =
           'Slip, Trip & Fall';
-      _riskLevel = 'Medium';
-      _potentialConsequence = 'Injury';
+
+      _riskLevel =
+          'Medium';
+
+      _potentialConsequence =
+          'Injury';
 
       _photo = null;
 
-      _smartAnalysisDone = false;
+      _aiResult = null;
+
+      _smartAnalysisDone =
+          false;
+
       _analyzing = false;
+
+      _aiPhotoAnalyzing =
+          false;
+
       _submitting = false;
     });
   }
@@ -981,7 +1308,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // MESSAGE
   // ============================================================
 
-  void _showMessage(String message) {
+  void _showMessage(
+    String message,
+  ) {
     if (!mounted) {
       return;
     }
@@ -989,9 +1318,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     ScaffoldMessenger.of(context)
         .showSnackBar(
       SnackBar(
-        content: Text(message),
+        content:
+            Text(message),
         behavior:
-            SnackBarBehavior.floating,
+            SnackBarBehavior
+                .floating,
       ),
     );
   }
@@ -1009,24 +1340,35 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       labelText: label,
       hintText: hint,
       prefixIcon:
-          icon == null ? null : Icon(icon),
-      border: OutlineInputBorder(
+          icon == null
+              ? null
+              : Icon(icon),
+      border:
+          OutlineInputBorder(
         borderRadius:
-            BorderRadius.circular(14),
+            BorderRadius.circular(
+          14,
+        ),
       ),
       enabledBorder:
           OutlineInputBorder(
         borderRadius:
-            BorderRadius.circular(14),
+            BorderRadius.circular(
+          14,
+        ),
       ),
       focusedBorder:
           OutlineInputBorder(
         borderRadius:
-            BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: Theme.of(context)
-              .colorScheme
-              .primary,
+            BorderRadius.circular(
+          14,
+        ),
+        borderSide:
+            BorderSide(
+          color:
+              Theme.of(context)
+                  .colorScheme
+                  .primary,
           width: 2,
         ),
       ),
@@ -1054,11 +1396,14 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 : null,
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(
+          width: 12,
+        ),
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(
+            style:
+                const TextStyle(
               fontSize: 21,
               fontWeight:
                   FontWeight.bold,
@@ -1070,71 +1415,53 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   // ============================================================
-  // ANALYSIS STATUS
+  // HEADER
   // ============================================================
 
-  Widget _analysisStatus() {
-    if (!_smartAnalysisDone) {
-      return const SizedBox.shrink();
-    }
-
-    return Card(
-      elevation: 0,
-      child: ListTile(
-        leading: const Icon(
-          Icons.auto_awesome,
-          color: Colors.green,
-        ),
-        title: const Text(
-          'Smart HSE Analysis Applied',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          _isMalayalam
-              ? 'Category, hazard, risk, consequence, corrective action എന്നിവ observation അനുസരിച്ച് update ചെയ്തു.'
-              : 'Category, hazard, risk, consequence and corrective action were matched to the observation.',
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // HEADER CARD
-  // ============================================================
-
-  Widget _headerCard(bool ml) {
+  Widget _headerCard(
+    bool ml,
+  ) {
     return Card(
       elevation: 0,
       child: Container(
         padding:
-            const EdgeInsets.all(16),
-        decoration: BoxDecoration(
+            const EdgeInsets.all(
+          16,
+        ),
+        decoration:
+            BoxDecoration(
           borderRadius:
-              BorderRadius.circular(16),
-          color: Theme.of(context)
-              .colorScheme
-              .primaryContainer,
+              BorderRadius.circular(
+            16,
+          ),
+          color:
+              Theme.of(context)
+                  .colorScheme
+                  .primaryContainer,
         ),
         child: Row(
           crossAxisAlignment:
-              CrossAxisAlignment.start,
+              CrossAxisAlignment
+                  .start,
           children: [
             Icon(
               Icons.health_and_safety,
               size: 42,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary,
+              color:
+                  Theme.of(context)
+                      .colorScheme
+                      .primary,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(
+              width: 12,
+            ),
             Expanded(
               child: Text(
                 ml
                     ? 'Unsafe act, unsafe condition, positive observation എന്നിവ രേഖപ്പെടുത്തി HSE details ശരിയായി classify ചെയ്യുക.'
-                    : 'Record unsafe acts, unsafe conditions and positive safety observations. Smart analysis will match the HSE details.',
-                style: const TextStyle(
+                    : 'Record unsafe acts, unsafe conditions and positive safety observations. AI can analyze the selected photo.',
+                style:
+                    const TextStyle(
                   fontSize: 14,
                   height: 1.4,
                 ),
@@ -1156,13 +1483,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     required IconData icon,
   }) {
     return InputDecorator(
-      decoration: _decoration(
+      decoration:
+          _decoration(
         label,
         icon: icon,
       ),
       child: Text(
         value,
-        style: const TextStyle(
+        style:
+            const TextStyle(
           fontSize: 16,
           fontWeight:
               FontWeight.w600,
@@ -1175,30 +1504,45 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // PHOTO SECTION
   // ============================================================
 
-  Widget _photoSection(bool ml) {
+  Widget _photoSection(
+    bool ml,
+  ) {
     return Column(
       crossAxisAlignment:
-          CrossAxisAlignment.start,
+          CrossAxisAlignment
+              .start,
       children: [
         Text(
           'Photo Evidence (Optional)',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+          style:
+              const TextStyle(
+            fontWeight:
+                FontWeight.bold,
             fontSize: 16,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(
+          height: 8,
+        ),
         InkWell(
-          onTap: _showPhotoOptions,
+          onTap:
+              _showPhotoOptions,
           borderRadius:
-              BorderRadius.circular(14),
+              BorderRadius.circular(
+            14,
+          ),
           child: Container(
-            width: double.infinity,
-            height: 170,
-            decoration: BoxDecoration(
+            width:
+                double.infinity,
+            height: 190,
+            decoration:
+                BoxDecoration(
               borderRadius:
-                  BorderRadius.circular(14),
-              border: Border.all(
+                  BorderRadius.circular(
+                14,
+              ),
+              border:
+                  Border.all(
                 color:
                     Colors.grey.shade400,
               ),
@@ -1229,11 +1573,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                     ],
                   )
                 : Stack(
-                    fit: StackFit.expand,
+                    fit:
+                        StackFit.expand,
                     children: [
                       Image.file(
-                        File(_photo!.path),
-                        fit: BoxFit.cover,
+                        File(
+                          _photo!.path,
+                        ),
+                        fit:
+                            BoxFit.cover,
                         errorBuilder:
                             (
                           context,
@@ -1241,7 +1589,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                           stackTrace,
                         ) {
                           return const Center(
-                            child: Icon(
+                            child:
+                                Icon(
                               Icons
                                   .broken_image_outlined,
                               size: 48,
@@ -1252,12 +1601,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       Positioned(
                         left: 10,
                         bottom: 10,
-                        child: Container(
+                        child:
+                            Container(
                           padding:
                               const EdgeInsets
                                   .symmetric(
-                            horizontal: 14,
-                            vertical: 8,
+                            horizontal:
+                                14,
+                            vertical:
+                                8,
                           ),
                           decoration:
                               BoxDecoration(
@@ -1269,13 +1621,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                               20,
                             ),
                           ),
-                          child: const Text(
+                          child:
+                              const Text(
                             'Photo selected',
-                            style: TextStyle(
+                            style:
+                                TextStyle(
                               color:
                                   Colors.white,
                               fontWeight:
-                                  FontWeight.w600,
+                                  FontWeight
+                                      .w600,
                             ),
                           ),
                         ),
@@ -1283,21 +1638,30 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       Positioned(
                         right: 8,
                         top: 8,
-                        child: CircleAvatar(
+                        child:
+                            CircleAvatar(
                           backgroundColor:
                               Colors.black54,
-                          child: IconButton(
+                          child:
+                              IconButton(
                             color:
                                 Colors.white,
-                            icon: const Icon(
+                            icon:
+                                const Icon(
                               Icons.close,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _photo = null;
-                                _smartAnalysisDone =
-                                    false;
-                              });
+                            onPressed:
+                                () {
+                              setState(
+                                () {
+                                  _photo =
+                                      null;
+                                  _aiResult =
+                                      null;
+                                  _smartAnalysisDone =
+                                      false;
+                                },
+                              );
                             },
                           ),
                         ),
@@ -1306,7 +1670,196 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   ),
           ),
         ),
+
+        // ======================================================
+        // AI BUTTON
+        // ======================================================
+
+        if (_photo != null) ...[
+          const SizedBox(
+            height: 12,
+          ),
+          SizedBox(
+            width:
+                double.infinity,
+            height: 52,
+            child:
+                FilledButton.icon(
+              onPressed:
+                  _aiPhotoAnalyzing
+                      ? null
+                      : _analyzePhotoWithAI,
+              icon:
+                  _aiPhotoAnalyzing
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child:
+                              CircularProgressIndicator(
+                            strokeWidth:
+                                2,
+                          ),
+                        )
+                      : const Icon(
+                          Icons
+                              .auto_awesome,
+                        ),
+              label: Text(
+                _aiPhotoAnalyzing
+                    ? 'AI Analyzing Photo...'
+                    : 'Analyze Photo with AI',
+              ),
+            ),
+          ),
+        ],
       ],
+    );
+  }
+
+  // ============================================================
+  // AI RESULT CARD
+  // ============================================================
+
+  Widget _aiResultCard() {
+    if (_aiResult == null) {
+      return const SizedBox
+          .shrink();
+    }
+
+    final AiHseResult result =
+        _aiResult!;
+
+    final int confidence =
+        (result.confidence * 100)
+            .round()
+            .clamp(
+              0,
+              100,
+            );
+
+    return Card(
+      margin:
+          const EdgeInsets.only(
+        top: 14,
+      ),
+      child: Padding(
+        padding:
+            const EdgeInsets.all(
+          16,
+        ),
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment
+                  .start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.auto_awesome,
+                  color:
+                      Colors.green,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Expanded(
+                  child: Text(
+                    'AI HSE Analysis',
+                    style:
+                        TextStyle(
+                      fontSize: 18,
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  '$confidence%',
+                  style:
+                      const TextStyle(
+                    fontWeight:
+                        FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(
+              height: 24,
+            ),
+            _aiRow(
+              'Observation Type',
+              result.observationType,
+            ),
+            _aiRow(
+              'Category',
+              result.category,
+            ),
+            _aiRow(
+              'Hazard',
+              result.hazard,
+            ),
+            _aiRow(
+              'Risk',
+              result.riskLevel,
+            ),
+            _aiRow(
+              'Consequence',
+              result.potentialConsequence,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              'AI Explanation',
+              style:
+                  TextStyle(
+                fontWeight:
+                    FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              result.explanation,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _aiRow(
+    String label,
+    String value,
+  ) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .start,
+        children: [
+          SizedBox(
+            width: 105,
+            child: Text(
+              label,
+              style:
+                  const TextStyle(
+                fontWeight:
+                    FontWeight.w600,
+              ),
+            ),
+          ),
+          Expanded(
+            child:
+                Text(value),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1315,39 +1868,28 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   @override
-  Widget build(BuildContext context) {
-    final bool ml = _isMalayalam;
+  Widget build(
+    BuildContext context,
+  ) {
+    final bool ml =
+        _isMalayalam;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: Text(
           ml
               ? 'Safety Observation'
               : 'Safety Observation',
         ),
-        actions: [
-          PopupMenuButton<Locale>(
-            icon:
-                const Icon(Icons.language),
-            onSelected: (_) {},
-            itemBuilder: (_) => const [
-              PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
-              ),
-              PopupMenuItem(
-                value: Locale('ml', 'IN'),
-                child: Text('മലയാളം'),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Form(
         key: _formKey,
         child: ListView(
           padding:
-              const EdgeInsets.all(16),
+              const EdgeInsets.all(
+            16,
+          ),
           children: [
             // ==================================================
             // HEADER
@@ -1355,10 +1897,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
             _headerCard(ml),
 
-            const SizedBox(height: 18),
+            const SizedBox(
+              height: 18,
+            ),
 
             // ==================================================
-            // OBSERVATION DETAILS
+            // OBSERVATION
             // ==================================================
 
             _sectionTitle(
@@ -1366,27 +1910,37 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               Icons.visibility,
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
-            DropdownButtonFormField<String>(
+            DropdownButtonFormField<
+                String>(
               key: ValueKey(
                 'observation_$_observationType',
               ),
               initialValue:
                   _observationType,
-              decoration: _decoration(
+              decoration:
+                  _decoration(
                 'Observation Type',
-                icon: Icons.visibility,
+                icon:
+                    Icons.visibility,
               ),
-              items: _observationTypes
-                  .map(
-                    (String value) =>
-                        DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+              items:
+                  _observationTypes
+                      .map(
+                (
+                  String value,
+                ) =>
+                    DropdownMenuItem<
+                        String>(
+                  value:
+                      value,
+                  child:
+                      Text(value),
+                ),
+              ).toList(),
               onChanged:
                   (String? value) {
                 if (value == null) {
@@ -1400,7 +1954,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
             // ==================================================
             // LOCATION
@@ -1410,8 +1966,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               controller:
                   _locationController,
               textInputAction:
-                  TextInputAction.next,
-              decoration: _decoration(
+                  TextInputAction
+                      .next,
+              decoration:
+                  _decoration(
                 'Location / Area',
                 hint:
                     'e.g. Workshop / Block A',
@@ -1420,7 +1978,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               ),
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
             // ==================================================
             // DESCRIPTION
@@ -1432,7 +1992,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               minLines: 4,
               maxLines: 7,
               textInputAction:
-                  TextInputAction.newline,
+                  TextInputAction
+                      .newline,
               onChanged: (_) {
                 if (_smartAnalysisDone) {
                   setState(() {
@@ -1441,14 +2002,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   });
                 }
               },
-              decoration: _decoration(
+              decoration:
+                  _decoration(
                 'Observation Description',
                 hint:
                     'Describe the unsafe act or unsafe condition',
                 icon:
                     Icons.description,
               ),
-              validator: (String? value) {
+              validator:
+                  (String? value) {
                 if (value == null ||
                     value.trim().isEmpty) {
                   return 'Please enter a description';
@@ -1458,66 +2021,79 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               },
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 10,
+            ),
 
             // ==================================================
-            // ANALYZE
+            // TEXT ANALYSIS
             // ==================================================
 
             SizedBox(
               height: 48,
-              child: OutlinedButton.icon(
-                onPressed: _analyzing
-                    ? null
-                    : _analyzeObservation,
+              child:
+                  OutlinedButton.icon(
+                onPressed:
+                    _analyzing
+                        ? null
+                        : _analyzeObservation,
                 icon: _analyzing
                     ? const SizedBox(
                         width: 18,
                         height: 18,
                         child:
                             CircularProgressIndicator(
-                          strokeWidth: 2,
+                          strokeWidth:
+                              2,
                         ),
                       )
                     : const Icon(
-                        Icons.auto_awesome,
+                        Icons
+                            .auto_awesome,
                       ),
                 label: Text(
                   _analyzing
                       ? 'Analyzing...'
-                      : 'Analyze & Auto-Fill HSE Details',
+                      : 'Analyze Description',
                 ),
               ),
             ),
 
-            const SizedBox(height: 14),
-
-            _analysisStatus(),
-
-            const SizedBox(height: 4),
+            const SizedBox(
+              height: 14,
+            ),
 
             // ==================================================
             // CATEGORY
             // ==================================================
 
-            DropdownButtonFormField<String>(
+            DropdownButtonFormField<
+                String>(
               key: ValueKey(
                 'category_$_category',
               ),
-              initialValue: _category,
-              decoration: _decoration(
+              initialValue:
+                  _category,
+              decoration:
+                  _decoration(
                 'Category',
-                icon: Icons.category,
+                icon:
+                    Icons.category,
               ),
-              items: _categories
-                  .map(
-                    (String value) =>
-                        DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+              items:
+                  _categories
+                      .map(
+                (
+                  String value,
+                ) =>
+                    DropdownMenuItem<
+                        String>(
+                  value:
+                      value,
+                  child:
+                      Text(value),
+                ),
+              ).toList(),
               onChanged:
                   (String? value) {
                 if (value == null) {
@@ -1525,12 +2101,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 }
 
                 setState(() {
-                  _category = value;
+                  _category =
+                      value;
                 });
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
             // ==================================================
             // HAZARD
@@ -1539,15 +2118,18 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             _readOnlyField(
               label:
                   'Hazard / Unsafe Work',
-              value: _hazardType,
+              value:
+                  _hazardType,
               icon: Icons
                   .report_problem_outlined,
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(
+              height: 18,
+            ),
 
             // ==================================================
-            // RISK ASSESSMENT
+            // RISK
             // ==================================================
 
             _sectionTitle(
@@ -1556,42 +2138,52 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               warning: true,
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
-            DropdownButtonFormField<String>(
+            DropdownButtonFormField<
+                String>(
               key: ValueKey(
                 'risk_$_riskLevel',
               ),
-              initialValue: _riskLevel,
-              decoration: _decoration(
+              initialValue:
+                  _riskLevel,
+              decoration:
+                  _decoration(
                 'Risk Level',
                 icon:
                     Icons.warning_amber,
               ),
-              items: _riskLevels
-                  .map(
-                    (String value) =>
-                        DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
+              items:
+                  _riskLevels
+                      .map(
+                (
+                  String value,
+                ) =>
+                    DropdownMenuItem<
+                        String>(
+                  value:
+                      value,
+                  child:
+                      Text(value),
+                ),
+              ).toList(),
               onChanged:
                   (String? value) {
                 if (value == null) {
                   return;
                 }
 
-                _applyManualRisk(value);
+                _applyManualRisk(
+                  value,
+                );
               },
             ),
 
-            const SizedBox(height: 14),
-
-            // ==================================================
-            // CONSEQUENCE
-            // ==================================================
+            const SizedBox(
+              height: 14,
+            ),
 
             _readOnlyField(
               label:
@@ -1602,7 +2194,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   .health_and_safety_outlined,
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
             // ==================================================
             // CORRECTIVE ACTION
@@ -1613,16 +2207,19 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   _actionController,
               minLines: 3,
               maxLines: 6,
-              decoration: _decoration(
+              decoration:
+                  _decoration(
                 'Corrective / Immediate Action',
                 hint:
-                    'Recommended action will be generated automatically.',
+                    'Recommended action will appear here.',
                 icon: Icons
                     .build_circle_outlined,
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(
+              height: 18,
+            ),
 
             // ==================================================
             // PHOTO
@@ -1630,7 +2227,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
             _photoSection(ml),
 
-            const SizedBox(height: 24),
+            // ==================================================
+            // AI RESULT
+            // ==================================================
+
+            _aiResultCard(),
+
+            const SizedBox(
+              height: 24,
+            ),
 
             // ==================================================
             // SUBMIT
@@ -1638,17 +2243,20 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
             SizedBox(
               height: 54,
-              child: FilledButton.icon(
-                onPressed: _submitting
-                    ? null
-                    : _submitObservation,
+              child:
+                  FilledButton.icon(
+                onPressed:
+                    _submitting
+                        ? null
+                        : _submitObservation,
                 icon: _submitting
                     ? const SizedBox(
                         width: 20,
                         height: 20,
                         child:
                             CircularProgressIndicator(
-                          strokeWidth: 2,
+                          strokeWidth:
+                              2,
                         ),
                       )
                     : const Icon(
@@ -1662,7 +2270,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(
+              height: 24,
+            ),
           ],
         ),
       ),
@@ -1671,7 +2281,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 }
 
 // ================================================================
-// HAZARD RESULT MODEL
+// HAZARD RESULT
 // ================================================================
 
 class _HazardResult {
