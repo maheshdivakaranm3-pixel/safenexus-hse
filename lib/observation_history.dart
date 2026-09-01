@@ -146,8 +146,7 @@ class _ObservationHistoryPageState
     final location =
         observation['location']?.toString() ?? '';
 
-    final dateTime =
-        DateTime.tryParse(
+    final dateTime = DateTime.tryParse(
       observation['dateTime']?.toString() ?? '',
     );
 
@@ -215,7 +214,7 @@ class _ObservationHistoryPageState
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: _riskColor(risk).withOpacity(0.15),
+        color: _riskColor(risk).withValues(alpha: 0.15),
       ),
       child: Text(
         risk,
@@ -263,6 +262,22 @@ class _ObservationHistoryPageState
         '${dateTime.year} '
         '${dateTime.hour.toString().padLeft(2, '0')}:'
         '${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _formatSavedDate(dynamic value) {
+    if (value == null) {
+      return '';
+    }
+
+    final dateTime = DateTime.tryParse(
+      value.toString(),
+    );
+
+    if (dateTime == null) {
+      return value.toString();
+    }
+
+    return _formatDateTime(dateTime);
   }
 
   void _showDetails(
@@ -351,4 +366,32 @@ class _ObservationHistoryPageState
         value?.toString().trim() ?? '';
 
     if (text.isEmpty) {
-      return
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
