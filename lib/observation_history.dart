@@ -1,204 +1,345 @@
-import 'dart:convert';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safenexus_hse/guidelines.dart';
+import 'package:safenexus_hse/hazard_report.dart';
+import 'package:safenexus_hse/observation_history.dart';
+import 'package:safenexus_hse/safety_observation.dart';
+import 'package:safenexus_hse/voice_report.dart';
 
-class ObservationHistoryPage extends StatefulWidget {
-  const ObservationHistoryPage({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
-  @override
-  State<ObservationHistoryPage> createState() =>
-      _ObservationHistoryPageState();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ml', 'IN'),
+      ],
+      path: 'assets/translations',
+      useOnlyLangCode: true,
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class _ObservationHistoryPageState
-    extends State<ObservationHistoryPage> {
-  static const String _storageKey = 'safety_observations';
-
-  List<Map<String, dynamic>> _observations = [];
-  bool _loading = true;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    _loadObservations();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'SafeNexus HSE',
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  void openPage(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
   }
 
-  Future<void> _loadObservations() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final savedData =
-          prefs.getStringList(_storageKey) ?? <String>[];
-
-      final loaded = <Map<String, dynamic>>[];
-
-      for (final item in savedData) {
-        try {
-          final decoded = jsonDecode(item);
-
-          if (decoded is Map) {
-            loaded.add(
-              Map<String, dynamic>.from(decoded),
-            );
-          }
-        } catch (_) {
-          // Ignore invalid records.
-        }
-      }
-
-      loaded.sort((a, b) {
-        final aDate = DateTime.tryParse(
-              a['dateTime']?.toString() ?? '',
-            ) ??
-            DateTime.fromMillisecondsSinceEpoch(0);
-
-        final bDate = DateTime.tryParse(
-              b['dateTime']?.toString() ?? '',
-            ) ??
-            DateTime.fromMillisecondsSinceEpoch(0);
-
-        return bDate.compareTo(aDate);
-      });
-
-      if (!mounted) return;
-
-      setState(() {
-        _observations = loaded;
-        _loading = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-
-      setState(() {
-        _observations = [];
-        _loading = false;
-      });
-    }
+  void showComingSoon(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Coming soon'),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Observation History'),
-      ),
-      body: _buildBody(),
-    );
-  }
-
-  Widget _buildBody() {
-    if (_loading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (_observations.isEmpty) {
-      return RefreshIndicator(
-        onRefresh: _loadObservations,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: const [
-            SizedBox(height: 220),
-            Center(
-              child: Text(
-                'No observations found.',
-                style: TextStyle(
-                  fontSize: 16,
+        title: const Text(
+          'SafeNexus HSE',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
+            onSelected: (Locale locale) {
+              context.setLocale(locale);
+            },
+            itemBuilder: (BuildContext context) {
+              return const [
+                PopupMenuItem<Locale>(
+                  value: Locale('en', 'US'),
+                  child: Text('English'),
                 ),
+                PopupMenuItem<Locale>(
+                  value: Locale('ml', 'IN'),
+                  child: Text('മലയാളം'),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            _welcomeCard(),
+
+            const SizedBox(height: 24),
+
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Safety Management',
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _menuCard(
+                    icon: Icons.report_problem,
+                    title: 'Hazard Report',
+                    subtitle: 'Report hazard',
+                    onTap: () {
+                      openPage(
+                        context,
+                        const HazardReportPage(),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _menuCard(
+                    icon: Icons.mic,
+                    title: 'Voice Report',
+                    subtitle: 'Voice reporting',
+                    onTap: () {
+                      openPage(
+                        context,
+                        const VoiceReportPage(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _menuCard(
+                    icon: Icons.menu_book,
+                    title: 'HSE Guidelines',
+                    subtitle: 'A-Z safety guide',
+                    onTap: () {
+                      openPage(
+                        context,
+                        const GuidelinesPage(),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _menuCard(
+                    icon: Icons.visibility,
+                    title: 'Safety Observation',
+                    subtitle: 'Record safety observation',
+                    onTap: () {
+                      openPage(
+                        context,
+                        const SafetyObservationPage(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
+
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Quick Access',
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            _quickItem(
+              icon: Icons.assignment,
+              title: 'Inspections',
+              subtitle: 'Site inspection and checklist',
+              onTap: () {
+                showComingSoon(context);
+              },
+            ),
+
+            const SizedBox(height: 10),
+
+            _quickItem(
+              icon: Icons.assessment,
+              title: 'Risk Assessment',
+              subtitle: 'Identify hazards and controls',
+              onTap: () {
+                showComingSoon(context);
+              },
+            ),
+
+            const SizedBox(height: 10),
+
+            // Reports & History
+            _quickItem(
+              icon: Icons.history,
+              title: 'Reports & History',
+              subtitle: 'View safety reports',
+              onTap: () {
+                openPage(
+                  context,
+                  const ObservationHistoryPage(),
+                );
+              },
+            ),
+
+            const SizedBox(height: 24),
+
+            _safetyReminder(),
+
+            const SizedBox(height: 20),
+
+            Text(
+              'SafeNexus HSE • Safety First',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 13,
               ),
             ),
           ],
         ),
-      );
-    }
-
-    return RefreshIndicator(
-      onRefresh: _loadObservations,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: _observations.length,
-        itemBuilder: (context, index) {
-          return _observationCard(
-            _observations[index],
-          );
-        },
       ),
     );
   }
 
-  Widget _observationCard(
-    Map<String, dynamic> observation,
-  ) {
-    final id =
-        observation['id']?.toString() ?? '';
-
-    final type =
-        observation['type']?.toString() ?? 'Observation';
-
-    final category =
-        observation['category']?.toString() ?? '';
-
-    final risk =
-        observation['risk']?.toString() ?? 'Medium';
-
-    final location =
-        observation['location']?.toString() ?? '';
-
-    final dateTime = DateTime.tryParse(
-      observation['dateTime']?.toString() ?? '',
+  Widget _welcomeCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF1565C0),
+            Color(0xFF1976D2),
+          ],
+        ),
+      ),
+      child: const Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white24,
+            child: Icon(
+              Icons.health_and_safety,
+              color: Colors.white,
+              size: 34,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome to SafeNexus HSE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'Safety • Observation • Compliance',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
+  }
 
-    final dateText = dateTime == null
-        ? ''
-        : _formatDateTime(dateTime);
-
+  Widget _menuCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          _showDetails(observation);
-        },
         child: Padding(
           padding: const EdgeInsets.all(14),
-          child: Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 24,
-                child: Icon(
-                  _riskIcon(risk),
+              Icon(
+                icon,
+                size: 32,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      type,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text('ID: $id'),
-                    if (category.isNotEmpty)
-                      Text('Category: $category'),
-                    if (location.isNotEmpty)
-                      Text('Location: $location'),
-                    if (dateText.isNotEmpty)
-                      Text('Date: $dateText'),
-                  ],
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
                 ),
               ),
-              const SizedBox(width: 8),
-              _riskBadge(risk),
             ],
           ),
         ),
@@ -206,191 +347,58 @@ class _ObservationHistoryPageState
     );
   }
 
-  Widget _riskBadge(String risk) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 9,
-        vertical: 6,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: _riskColor(risk).withValues(alpha: 0.15),
-      ),
-      child: Text(
-        risk,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          color: _riskColor(risk),
+  Widget _quickItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      child: ListTile(
+        onTap: onTap,
+        leading: Icon(
+          icon,
+          color: Colors.blue,
+          size: 30,
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          size: 16,
         ),
       ),
     );
   }
 
-  Color _riskColor(String risk) {
-    switch (risk) {
-      case 'Critical':
-        return Colors.red;
-      case 'High':
-        return Colors.deepOrange;
-      case 'Medium':
-        return Colors.orange;
-      case 'Low':
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  IconData _riskIcon(String risk) {
-    switch (risk) {
-      case 'Critical':
-      case 'High':
-        return Icons.warning_amber;
-      case 'Medium':
-        return Icons.health_and_safety;
-      case 'Low':
-        return Icons.check_circle_outline;
-      default:
-        return Icons.health_and_safety;
-    }
-  }
-
-  String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.day.toString().padLeft(2, '0')}/'
-        '${dateTime.month.toString().padLeft(2, '0')}/'
-        '${dateTime.year} '
-        '${dateTime.hour.toString().padLeft(2, '0')}:'
-        '${dateTime.minute.toString().padLeft(2, '0')}';
-  }
-
-  String _formatSavedDate(dynamic value) {
-    if (value == null) {
-      return '';
-    }
-
-    final dateTime = DateTime.tryParse(
-      value.toString(),
-    );
-
-    if (dateTime == null) {
-      return value.toString();
-    }
-
-    return _formatDateTime(dateTime);
-  }
-
-  void _showDetails(
-    Map<String, dynamic> observation,
-  ) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (sheetContext) {
-        return SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              20,
-              8,
-              20,
-              30,
+  Widget _safetyReminder() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Icon(
+              Icons.info_outline,
+              color: Colors.blue,
             ),
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Observation Details',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'If you identify an unsafe condition, report it promptly and follow the applicable site safety controls.',
+                style: TextStyle(
+                  fontSize: 13,
+                  height: 1.4,
                 ),
-                const SizedBox(height: 20),
-
-                _detailRow(
-                  'Observation ID',
-                  observation['id'],
-                ),
-
-                _detailRow(
-                  'Observation Type',
-                  observation['type'],
-                ),
-
-                _detailRow(
-                  'Category',
-                  observation['category'],
-                ),
-
-                _detailRow(
-                  'Risk Level',
-                  observation['risk'],
-                ),
-
-                _detailRow(
-                  'Location / Area',
-                  observation['location'],
-                ),
-
-                _detailRow(
-                  'Description',
-                  observation['description'],
-                ),
-
-                _detailRow(
-                  'Immediate Action',
-                  observation['action'],
-                ),
-
-                _detailRow(
-                  'Date & Time',
-                  _formatSavedDate(
-                    observation['dateTime'],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _detailRow(
-    String label,
-    dynamic value,
-  ) {
-    final text =
-        value?.toString().trim() ?? '';
-
-    if (text.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
