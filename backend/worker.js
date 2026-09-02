@@ -62,24 +62,16 @@ export default {
 
       const body = await request.json();
 
-      const imageBase64 =
-        body.image_base64;
-
-      const mimeType =
-        body.mime_type || "image/jpeg";
-
-      const description =
-        body.description || "";
-
-      const location =
-        body.location || "";
+      const imageBase64 = body.image_base64;
+      const mimeType = body.mime_type || "image/jpeg";
+      const description = body.description || "";
+      const location = body.location || "";
 
       if (!imageBase64) {
         return jsonResponse(
           {
             success: false,
-            error:
-              "image_base64 is required.",
+            error: "image_base64 is required.",
           },
           400
         );
@@ -89,39 +81,34 @@ export default {
       // IMAGE DATA URL
       // --------------------------------------------------------
 
-      const imageUrl =
-        `data:${mimeType};base64,${imageBase64}`;
+      const imageUrl = `data:${mimeType};base64,${imageBase64}`;
 
       // --------------------------------------------------------
       // OPENAI RESPONSES API
       // --------------------------------------------------------
 
-      const openAIResponse =
-        await fetch(
-          "https://api.openai.com/v1/responses",
-          {
-            method: "POST",
+      const openAIResponse = await fetch(
+        "https://api.openai.com/v1/responses",
+        {
+          method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+          },
 
-              "Authorization":
-                `Bearer ${env.OPENAI_API_KEY}`,
-            },
+          body: JSON.stringify({
+            model: "gpt-5-mini",
 
-            body: JSON.stringify({
-              model: "gpt-5.6",
+            input: [
+              {
+                role: "user",
 
-              input: [
-                {
-                  role: "user",
+                content: [
+                  {
+                    type: "input_text",
 
-                  content: [
-                    {
-                      type: "input_text",
-
-                      text: `
+                    text: `
 You are an expert HSE safety observation analyst.
 
 Analyze this workplace photo for safety hazards.
@@ -159,105 +146,101 @@ ${description}
 
 Location:
 ${location}
-                      `,
+                    `,
+                  },
+
+                  {
+                    type: "input_image",
+                    image_url: imageUrl,
+                  },
+                ],
+              },
+            ],
+
+            // --------------------------------------------------
+            // STRUCTURED JSON OUTPUT
+            // --------------------------------------------------
+
+            text: {
+              format: {
+                type: "json_schema",
+
+                name: "hse_observation",
+
+                strict: true,
+
+                schema: {
+                  type: "object",
+
+                  additionalProperties: false,
+
+                  properties: {
+                    observation_type: {
+                      type: "string",
+                      enum: [
+                        "Unsafe Act",
+                        "Unsafe Condition",
+                        "Positive Observation",
+                      ],
                     },
 
-                    {
-                      type: "input_image",
-                      image_url: imageUrl,
+                    category: {
+                      type: "string",
                     },
+
+                    hazard: {
+                      type: "string",
+                    },
+
+                    risk_level: {
+                      type: "string",
+                      enum: [
+                        "Low",
+                        "Medium",
+                        "High",
+                        "Critical",
+                      ],
+                    },
+
+                    potential_consequence: {
+                      type: "string",
+                    },
+
+                    corrective_action: {
+                      type: "string",
+                    },
+
+                    confidence: {
+                      type: "number",
+                    },
+
+                    explanation: {
+                      type: "string",
+                    },
+                  },
+
+                  required: [
+                    "observation_type",
+                    "category",
+                    "hazard",
+                    "risk_level",
+                    "potential_consequence",
+                    "corrective_action",
+                    "confidence",
+                    "explanation",
                   ],
                 },
-              ],
-
-              // ------------------------------------------------
-              // STRUCTURED JSON OUTPUT
-              // ------------------------------------------------
-
-              text: {
-                format: {
-                  type: "json_schema",
-
-                  name: "hse_observation",
-
-                  strict: true,
-
-                  schema: {
-                    type: "object",
-
-                    additionalProperties:
-                      false,
-
-                    properties: {
-                      observation_type: {
-                        type: "string",
-
-                        enum: [
-                          "Unsafe Act",
-                          "Unsafe Condition",
-                          "Positive Observation",
-                        ],
-                      },
-
-                      category: {
-                        type: "string",
-                      },
-
-                      hazard: {
-                        type: "string",
-                      },
-
-                      risk_level: {
-                        type: "string",
-
-                        enum: [
-                          "Low",
-                          "Medium",
-                          "High",
-                          "Critical",
-                        ],
-                      },
-
-                      potential_consequence: {
-                        type: "string",
-                      },
-
-                      corrective_action: {
-                        type: "string",
-                      },
-
-                      confidence: {
-                        type: "number",
-                      },
-
-                      explanation: {
-                        type: "string",
-                      },
-                    },
-
-                    required: [
-                      "observation_type",
-                      "category",
-                      "hazard",
-                      "risk_level",
-                      "potential_consequence",
-                      "corrective_action",
-                      "confidence",
-                      "explanation",
-                    ],
-                  },
-                },
               },
-            }),
-          }
-        );
+            },
+          }),
+        }
+      );
 
       // --------------------------------------------------------
       // OPENAI RESPONSE
       // --------------------------------------------------------
 
-      const data =
-        await openAIResponse.json();
+      const data = await openAIResponse.json();
 
       if (!openAIResponse.ok) {
         return jsonResponse(
@@ -275,15 +258,13 @@ ${location}
       // EXTRACT TEXT
       // --------------------------------------------------------
 
-      const outputText =
-        extractOutputText(data);
+      const outputText = extractOutputText(data);
 
       if (!outputText) {
         return jsonResponse(
           {
             success: false,
-            error:
-              "No AI output was returned.",
+            error: "No AI output was returned.",
           },
           502
         );
@@ -296,14 +277,12 @@ ${location}
       let result;
 
       try {
-        result =
-          JSON.parse(outputText);
+        result = JSON.parse(outputText);
       } catch (_) {
         return jsonResponse(
           {
             success: false,
-            error:
-              "AI returned invalid JSON.",
+            error: "AI returned invalid JSON.",
           },
           502
         );
@@ -382,13 +361,9 @@ function corsHeaders() {
 // JSON RESPONSE
 // ============================================================
 
-function jsonResponse(
-  data,
-  status = 200
-) {
+function jsonResponse(data, status = 200) {
   return new Response(
     JSON.stringify(data),
-
     {
       status: status,
 
@@ -400,4 +375,4 @@ function jsonResponse(
       },
     }
   );
-}
+                      }
