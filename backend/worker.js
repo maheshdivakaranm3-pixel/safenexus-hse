@@ -1,6 +1,12 @@
 export default {
   async fetch(request, env) {
     // ============================================================
+    // URL
+    // ============================================================
+
+    const url = new URL(request.url);
+
+    // ============================================================
     // CORS / PREFLIGHT
     // ============================================================
 
@@ -12,26 +18,46 @@ export default {
     }
 
     // ============================================================
-    // POST ONLY
+    // HEALTH CHECK
+    // GET /
     // ============================================================
 
-    if (request.method !== "POST") {
+    if (
+      request.method === "GET" &&
+      (url.pathname === "/" || url.pathname === "")
+    ) {
+      return jsonResponse({
+        success: true,
+        message: "SafeNexus HSE Worker is running",
+        status: "online",
+      });
+    }
+
+    // ============================================================
+    // ANALYZE HSE ENDPOINT
+    // POST /analyze-hse
+    // POST /analyze-hse/
+    // ============================================================
+
+    const isAnalyzeEndpoint =
+      url.pathname === "/analyze-hse" ||
+      url.pathname === "/analyze-hse/";
+
+    if (isAnalyzeEndpoint && request.method !== "POST") {
       return jsonResponse(
         {
           success: false,
-          error: "Only POST requests are allowed.",
+          error: "Only POST requests are allowed for /analyze-hse.",
         },
         405
       );
     }
 
-    const url = new URL(request.url);
-
     // ============================================================
-    // ENDPOINT
+    // UNKNOWN ENDPOINT
     // ============================================================
 
-    if (url.pathname !== "/analyze-hse") {
+    if (!isAnalyzeEndpoint) {
       return jsonResponse(
         {
           success: false,
@@ -42,7 +68,7 @@ export default {
     }
 
     // ============================================================
-    // API KEY
+    // API KEY CHECK
     // ============================================================
 
     if (!env.OPENAI_API_KEY) {
@@ -74,11 +100,15 @@ export default {
         );
       }
 
+      // ==========================================================
+      // INPUT VALUES
+      // ==========================================================
+
       const imageBase64 = body?.image_base64;
 
       const mimeType =
         typeof body?.mime_type === "string"
-          ? body.mime_type
+          ? body.mime_type.toLowerCase().trim()
           : "image/jpeg";
 
       const description =
@@ -93,7 +123,7 @@ export default {
 
       const language =
         typeof body?.language === "string"
-          ? body.language.toLowerCase()
+          ? body.language.toLowerCase().trim()
           : "en";
 
       // ==========================================================
@@ -113,8 +143,12 @@ export default {
         );
       }
 
+      // ==========================================================
+      // CLEAN BASE64
+      // ==========================================================
+
       const cleanBase64 = imageBase64
-        .replace(/^data:[^;]+;base64,/, "")
+        .replace(/^data:[^;]+;base64,/i, "")
         .replace(/\s/g, "")
         .trim();
 
@@ -197,7 +231,7 @@ export default {
         `data:${mimeType};base64,${cleanBase64}`;
 
       // ==========================================================
-      // LANGUAGE
+      // RESPONSE LANGUAGE
       // ==========================================================
 
       const responseLanguage =
@@ -222,7 +256,7 @@ IMPORTANT SAFETY RULES:
 3. Do not infer sensitive personal information.
 4. Do not invent hazards.
 5. Only report hazards reasonably supported by visible evidence.
-6. If the image is unclear, state the limitation.
+6. If the image is unclear, clearly state the limitation.
 7. Give practical and realistic HSE corrective actions.
 8. Risk level must be exactly:
    Low, Medium, High, or Critical.
@@ -336,6 +370,7 @@ Return one structured HSE observation based only on visible evidence.
                     type: "input_text",
                     text: userPrompt,
                   },
+
                   {
                     type: "input_image",
                     image_url: imageUrl,
@@ -422,7 +457,7 @@ Return one structured HSE observation based only on visible evidence.
       );
 
       // ==========================================================
-      // OPENAI RESPONSE BODY
+      // READ OPENAI RESPONSE
       // ==========================================================
 
       const data =
@@ -450,7 +485,7 @@ Return one structured HSE observation based only on visible evidence.
       }
 
       // ==========================================================
-      // OUTPUT TEXT
+      // EXTRACT OUTPUT TEXT
       // ==========================================================
 
       const outputText =
@@ -473,7 +508,7 @@ Return one structured HSE observation based only on visible evidence.
       }
 
       // ==========================================================
-      // PARSE JSON
+      // PARSE AI JSON
       // ==========================================================
 
       let result;
@@ -498,13 +533,18 @@ Return one structured HSE observation based only on visible evidence.
       }
 
       // ==========================================================
-      // VALIDATE RESULT
+      // VALIDATE AI RESULT
       // ==========================================================
 
       const validationError =
         validateHSEResult(result);
 
       if (validationError) {
+        console.error(
+          "HSE Result Validation Error:",
+          validationError
+        );
+
         return jsonResponse(
           {
             success: false,
@@ -525,9 +565,13 @@ Return one structured HSE observation based only on visible evidence.
       });
 
     } catch (error) {
+      // ==========================================================
+      // UNEXPECTED ERROR
+      // ==========================================================
+
       console.error(
         "SafeNexus HSE Worker Error:",
-        error
+        error?.stack || error
       );
 
       return jsonResponse(
@@ -548,12 +592,20 @@ Return one structured HSE observation based only on visible evidence.
 // ================================================================
 
 function extractOutputText(data) {
+  // --------------------------------------------------------------
+  // Preferred Responses API output_text
+  // --------------------------------------------------------------
+
   if (
     typeof data?.output_text === "string" &&
     data.output_text.trim()
   ) {
     return data.output_text.trim();
   }
+
+  // --------------------------------------------------------------
+  // Fallback: inspect output messages
+  // --------------------------------------------------------------
 
   if (
     !data?.output ||
@@ -590,6 +642,10 @@ function extractOutputText(data) {
 // ================================================================
 
 function validateHSEResult(result) {
+  // --------------------------------------------------------------
+  // Object validation
+  // --------------------------------------------------------------
+
   if (
     !result ||
     typeof result !== "object" ||
@@ -598,11 +654,19 @@ function validateHSEResult(result) {
     return "Result is not an object.";
   }
 
+  // --------------------------------------------------------------
+  // Allowed observation types
+  // --------------------------------------------------------------
+
   const allowedObservationTypes = [
     "Unsafe Act",
     "Unsafe Condition",
     "Positive Observation",
   ];
+
+  // --------------------------------------------------------------
+  // Allowed risk levels
+  // --------------------------------------------------------------
 
   const allowedRiskLevels = [
     "Low",
@@ -610,6 +674,10 @@ function validateHSEResult(result) {
     "High",
     "Critical",
   ];
+
+  // --------------------------------------------------------------
+  // Observation type
+  // --------------------------------------------------------------
 
   if (
     !allowedObservationTypes.includes(
@@ -619,6 +687,10 @@ function validateHSEResult(result) {
     return "Invalid observation_type.";
   }
 
+  // --------------------------------------------------------------
+  // Risk level
+  // --------------------------------------------------------------
+
   if (
     !allowedRiskLevels.includes(
       result.risk_level
@@ -626,6 +698,10 @@ function validateHSEResult(result) {
   ) {
     return "Invalid risk_level.";
   }
+
+  // --------------------------------------------------------------
+  // Required string fields
+  // --------------------------------------------------------------
 
   const requiredStringFields = [
     "category",
@@ -644,6 +720,10 @@ function validateHSEResult(result) {
     }
   }
 
+  // --------------------------------------------------------------
+  // Confidence
+  // --------------------------------------------------------------
+
   if (
     typeof result.confidence !== "number" ||
     !Number.isFinite(result.confidence) ||
@@ -657,16 +737,19 @@ function validateHSEResult(result) {
 }
 
 // ================================================================
-// CORS
+// CORS HEADERS
 // ================================================================
 
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
+
     "Access-Control-Allow-Methods":
-      "POST, OPTIONS",
+      "POST, OPTIONS, GET",
+
     "Access-Control-Allow-Headers":
-      "Content-Type",
+      "Content-Type, Accept",
+
     "Access-Control-Max-Age":
       "86400",
   };
@@ -688,8 +771,9 @@ function jsonResponse(
       headers: {
         "Content-Type":
           "application/json; charset=utf-8",
+
         ...corsHeaders(),
       },
     }
   );
-}
+  }
