@@ -37,35 +37,182 @@ class _HazardReportPageState
     super.dispose();
   }
 
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
+  // ----------------------------------------------------------
+  // PHOTO PICKER
+  // Camera + Gallery
+  // ----------------------------------------------------------
+
+  Future<void> _showPhotoOptions() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(22),
+        ),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 12,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Text(
+                    'Select Hazard Photo',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                // CAMERA
+                ListTile(
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.camera_alt),
+                  ),
+                  title: const Text(
+                    'Take Photo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Capture a hazard using camera',
+                  ),
+                  onTap: () {
+                    Navigator.pop(sheetContext);
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+
+                // GALLERY
+                ListTile(
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.photo_library),
+                  ),
+                  title: const Text(
+                    'Choose from Gallery',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Select an existing hazard photo',
+                  ),
+                  onTap: () {
+                    Navigator.pop(sheetContext);
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+
+                // REMOVE PHOTO
+                if (_selectedImage != null)
+                  ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.delete_outline),
+                    ),
+                    title: const Text(
+                      'Remove Photo',
+                    ),
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+
+                      setState(() {
+                        _selectedImage = null;
+                        _analysisResult = null;
+                      });
+                    },
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
-
-    if (image == null) {
-      return;
-    }
-
-    setState(() {
-      _selectedImage = File(image.path);
-      _analysisResult = null;
-    });
   }
 
-  Future<void> _analyzeHazard() async {
-    if (!_formKey.currentState!.validate()) {
+  // ----------------------------------------------------------
+  // PICK IMAGE
+  // ----------------------------------------------------------
+
+  Future<void> _pickImage(
+    ImageSource source,
+  ) async {
+    if (_isAnalyzing) {
       return;
     }
 
-    if (_selectedImage == null) {
+    try {
+      final XFile? image =
+          await _picker.pickImage(
+        source: source,
+        imageQuality: 80,
+        maxWidth: 1600,
+      );
+
+      if (image == null) {
+        return;
+      }
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _selectedImage = File(image.path);
+        _analysisResult = null;
+      });
+
+      // ------------------------------------------------------
+      // IMPORTANT:
+      // PHOTO SELECTED -> AUTOMATIC AI ANALYSIS
+      // ------------------------------------------------------
+
+      await _analyzeHazard(
+        automatic: true,
+      );
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Please select a hazard photo first.',
+            'Unable to select photo: $e',
           ),
         ),
       );
+    }
+  }
+
+  // ----------------------------------------------------------
+  // AI HAZARD ANALYSIS
+  // ----------------------------------------------------------
+
+  Future<void> _analyzeHazard({
+    bool automatic = false,
+  }) async {
+    if (_selectedImage == null) {
+      if (!automatic) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Please select a hazard photo first.',
+            ),
+          ),
+        );
+      }
+
+      return;
+    }
+
+    if (_isAnalyzing) {
       return;
     }
 
@@ -96,12 +243,37 @@ class _HazardReportPageState
 
       setState(() {
         _analysisResult = result;
+
+        // ----------------------------------------------------
+        // AUTO-FILL DESCRIPTION
+        // Only fill it if user has not typed anything.
+        // ----------------------------------------------------
+
+        if (_descriptionController.text
+            .trim()
+            .isEmpty) {
+          final explanation =
+              result.explanation.trim();
+
+          final hazard =
+              result.hazard.trim();
+
+          if (explanation.isNotEmpty) {
+            _descriptionController.text =
+                explanation;
+          } else if (hazard.isNotEmpty) {
+            _descriptionController.text =
+                hazard;
+          }
+        }
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'AI HSE analysis completed successfully.',
+            language == 'ml'
+                ? 'AI HSE വിശകലനം പൂർത്തിയായി.'
+                : 'AI HSE analysis completed successfully.',
           ),
         ),
       );
@@ -112,8 +284,11 @@ class _HazardReportPageState
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          backgroundColor: Colors.red.shade700,
           content: Text(
-            'AI analysis failed: $e',
+            language == 'ml'
+                ? 'AI വിശകലനം പരാജയപ്പെട്ടു: $e'
+                : 'AI analysis failed: $e',
           ),
         ),
       );
@@ -126,6 +301,10 @@ class _HazardReportPageState
     }
   }
 
+  // ----------------------------------------------------------
+  // RESULT ROW
+  // ----------------------------------------------------------
+
   Widget _resultRow(
     String title,
     String value,
@@ -136,7 +315,7 @@ class _HazardReportPageState
 
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: 12,
+        bottom: 14,
       ),
       child: Column(
         crossAxisAlignment:
@@ -146,20 +325,53 @@ class _HazardReportPageState
             title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 15,
+          const SizedBox(height: 5),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius:
+                  BorderRadius.circular(10),
+            ),
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 15,
+                height: 1.4,
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+  // ----------------------------------------------------------
+  // RISK COLOR
+  // ----------------------------------------------------------
+
+  Color _riskColor(String risk) {
+    switch (risk.toLowerCase()) {
+      case 'critical':
+        return Colors.deepPurple;
+      case 'high':
+        return Colors.red;
+      case 'medium':
+        return Colors.orange;
+      case 'low':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  // ----------------------------------------------------------
+  // AI RESULT CARD
+  // ----------------------------------------------------------
 
   Widget _buildAnalysisResult() {
     final result = _analysisResult;
@@ -168,57 +380,166 @@ class _HazardReportPageState
       return const SizedBox.shrink();
     }
 
+    final riskColor =
+        _riskColor(result.riskLevel);
+
     return Card(
       margin: const EdgeInsets.only(
         top: 20,
       ),
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(18),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start,
           children: [
-            const Text(
-              'AI HSE Analysis',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            // ------------------------------------------------
+            // HEADER
+            // ------------------------------------------------
+
+            Row(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color:
+                        Colors.green.shade50,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.auto_awesome,
+                    color:
+                        Colors.green.shade700,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'AI HSE Analysis',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
 
-            const Divider(
-              height: 24,
-            ),
+            const SizedBox(height: 16),
+
+            const Divider(),
+
+            const SizedBox(height: 16),
+
+            // ------------------------------------------------
+            // OBSERVATION TYPE
+            // ------------------------------------------------
 
             _resultRow(
               'Observation Type',
               result.observationType,
             ),
 
+            // ------------------------------------------------
+            // CATEGORY
+            // ------------------------------------------------
+
             _resultRow(
               'Category',
               result.category,
             ),
+
+            // ------------------------------------------------
+            // HAZARD
+            // ------------------------------------------------
 
             _resultRow(
               'Hazard',
               result.hazard,
             ),
 
-            _resultRow(
-              'Risk Level',
-              result.riskLevel,
-            ),
+            // ------------------------------------------------
+            // RISK LEVEL
+            // ------------------------------------------------
+
+            if (result.riskLevel
+                .trim()
+                .isNotEmpty)
+              Padding(
+                padding:
+                    const EdgeInsets.only(
+                  bottom: 14,
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Risk Level',
+                      style: TextStyle(
+                        fontWeight:
+                            FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding:
+                          const EdgeInsets
+                              .symmetric(
+                        horizontal: 14,
+                        vertical: 7,
+                      ),
+                      decoration:
+                          BoxDecoration(
+                        color:
+                            riskColor,
+                        borderRadius:
+                            BorderRadius
+                                .circular(
+                          20,
+                        ),
+                      ),
+                      child: Text(
+                        result.riskLevel,
+                        style:
+                            const TextStyle(
+                          color: Colors.white,
+                          fontWeight:
+                              FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // ------------------------------------------------
+            // CONSEQUENCE
+            // ------------------------------------------------
 
             _resultRow(
               'Potential Consequence',
               result.potentialConsequence,
             ),
 
+            // ------------------------------------------------
+            // CORRECTIVE ACTION
+            // ------------------------------------------------
+
             _resultRow(
               'Corrective Action',
               result.correctiveAction,
             ),
+
+            // ------------------------------------------------
+            // AI EXPLANATION
+            // ------------------------------------------------
 
             _resultRow(
               'AI Explanation',
@@ -227,22 +548,74 @@ class _HazardReportPageState
 
             const SizedBox(height: 8),
 
-            Text(
-              'AI Confidence: '
-              '${(result.confidence * 100).toStringAsFixed(0)}%',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
+            // ------------------------------------------------
+            // CONFIDENCE
+            // ------------------------------------------------
+
+            Container(
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius:
+                    BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.verified,
+                    color:
+                        Colors.green.shade700,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'AI Confidence: '
+                    '${(result.confidence * 100).toStringAsFixed(0)}%',
+                    style: const TextStyle(
+                      fontWeight:
+                          FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
-            const Text(
-              'AI result must be reviewed by the HSE '
-              'officer before taking action.',
-              style: TextStyle(
-                fontSize: 12,
-                fontStyle: FontStyle.italic,
+            // ------------------------------------------------
+            // HSE REVIEW WARNING
+            // ------------------------------------------------
+
+            Container(
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius:
+                    BorderRadius.circular(12),
+              ),
+              child: const Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.warning_amber,
+                    color: Colors.orange,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'AI result must be reviewed by the HSE officer before taking action.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle:
+                            FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -250,6 +623,10 @@ class _HazardReportPageState
       ),
     );
   }
+
+  // ----------------------------------------------------------
+  // BUILD
+  // ----------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -292,19 +669,29 @@ class _HazardReportPageState
         ],
       ),
 
+      // ------------------------------------------------------
+      // BODY
+      // ------------------------------------------------------
+
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:
+            const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
+              // ------------------------------------------------
+              // DESCRIPTION
+              // ------------------------------------------------
+
               Text(
                 'hazard_desc_label'.tr(),
                 style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
 
@@ -322,14 +709,25 @@ class _HazardReportPageState
                       'hazard_hint'.tr(),
                   border:
                       const OutlineInputBorder(),
+                  suffixIcon:
+                      _isAnalyzing
+                          ? const Padding(
+                              padding:
+                                  EdgeInsets.all(
+                                12,
+                              ),
+                              child:
+                                  CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : null,
                 ),
-                validator: (value) {
-                  if (value == null ||
-                      value.trim().isEmpty) {
-                    return 'hazard_validation'
-                        .tr();
-                  }
 
+                // IMPORTANT:
+                // Description is now OPTIONAL.
+                // AI can analyze the photo directly.
+                validator: (_) {
                   return null;
                 },
               ),
@@ -338,18 +736,25 @@ class _HazardReportPageState
                 height: 16,
               ),
 
+              // ------------------------------------------------
+              // PHOTO BUTTON
+              // ------------------------------------------------
+
               SizedBox(
                 width: double.infinity,
                 child:
                     OutlinedButton.icon(
-                  onPressed: _isAnalyzing
-                      ? null
-                      : _pickImage,
+                  onPressed:
+                      _isAnalyzing
+                          ? null
+                          : _showPhotoOptions,
                   icon: const Icon(
-                    Icons.photo_camera,
+                    Icons.add_a_photo,
                   ),
-                  label: const Text(
-                    'Select Hazard Photo',
+                  label: Text(
+                    _selectedImage == null
+                        ? 'Select Hazard Photo'
+                        : 'Change Hazard Photo',
                   ),
                 ),
               ),
@@ -358,18 +763,119 @@ class _HazardReportPageState
                 height: 12,
               ),
 
+              // ------------------------------------------------
+              // SELECTED PHOTO
+              // ------------------------------------------------
+
               if (_selectedImage != null)
                 ClipRRect(
                   borderRadius:
                       BorderRadius.circular(
-                    12,
+                    14,
                   ),
-                  child: Image.file(
-                    _selectedImage!,
-                    width:
-                        double.infinity,
-                    height: 220,
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      Image.file(
+                        _selectedImage!,
+                        width:
+                            double.infinity,
+                        height: 240,
+                        fit: BoxFit.cover,
+                      ),
+
+                      // AI ANALYZING BADGE
+                      if (_isAnalyzing)
+                        Positioned.fill(
+                          child: Container(
+                            color:
+                                Colors.black45,
+                            child: Center(
+                              child:
+                                  Container(
+                                padding:
+                                    const EdgeInsets
+                                        .symmetric(
+                                  horizontal: 18,
+                                  vertical: 12,
+                                ),
+                                decoration:
+                                    BoxDecoration(
+                                  color:
+                                      Colors.white,
+                                  borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                    30,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize:
+                                      MainAxisSize
+                                          .min,
+                                  children: [
+                                    const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child:
+                                          CircularProgressIndicator(
+                                        strokeWidth:
+                                            2,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      context.locale
+                                                  .languageCode ==
+                                              'ml'
+                                          ? 'AI പരിശോധിക്കുന്നു...'
+                                          : 'AI Analyzing...',
+                                      style:
+                                          const TextStyle(
+                                        fontWeight:
+                                            FontWeight
+                                                .w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      // REMOVE BUTTON
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              Colors.black54,
+                          child: IconButton(
+                            color:
+                                Colors.white,
+                            icon:
+                                const Icon(
+                              Icons.close,
+                            ),
+                            onPressed:
+                                _isAnalyzing
+                                    ? null
+                                    : () {
+                                        setState(
+                                          () {
+                                            _selectedImage =
+                                                null;
+                                            _analysisResult =
+                                                null;
+                                          },
+                                        );
+                                      },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -377,13 +883,23 @@ class _HazardReportPageState
                 height: 20,
               ),
 
+              // ------------------------------------------------
+              // MANUAL AI BUTTON
+              // ------------------------------------------------
+
               SizedBox(
                 width: double.infinity,
                 child:
                     ElevatedButton.icon(
-                  onPressed: _isAnalyzing
-                      ? null
-                      : _analyzeHazard,
+                  onPressed:
+                      _isAnalyzing ||
+                              _selectedImage ==
+                                  null
+                          ? null
+                          : () =>
+                              _analyzeHazard(
+                                automatic: false,
+                              ),
                   icon: _isAnalyzing
                       ? const SizedBox(
                           width: 20,
@@ -391,10 +907,11 @@ class _HazardReportPageState
                           child:
                               CircularProgressIndicator(
                             strokeWidth: 2,
+                            color: Colors.white,
                           ),
                         )
                       : const Icon(
-                          Icons.analytics,
+                          Icons.auto_awesome,
                         ),
                   label: Text(
                     _isAnalyzing
@@ -404,7 +921,15 @@ class _HazardReportPageState
                 ),
               ),
 
+              // ------------------------------------------------
+              // AI RESULT
+              // ------------------------------------------------
+
               _buildAnalysisResult(),
+
+              const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
