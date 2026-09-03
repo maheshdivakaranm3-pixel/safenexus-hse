@@ -1,33 +1,35 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
+import 'services/ai_hse_service.dart';
 
 class HazardReportPage extends StatefulWidget {
   const HazardReportPage({super.key});
 
   @override
-  State<HazardReportPage> createState() => _HazardReportPageState();
+  State<HazardReportPage> createState() =>
+      _HazardReportPageState();
 }
 
-class _HazardReportPageState extends State<HazardReportPage> {
+class _HazardReportPageState
+    extends State<HazardReportPage> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _descriptionController =
       TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
 
+  final AiHseService _aiService = AiHseService();
+
   File? _selectedImage;
+
   bool _isAnalyzing = false;
 
-  Map<String, dynamic>? _analysisResult;
-
-  // SafeNexus HSE Cloudflare Worker
-  static const String apiUrl =
-      'https://safenexus-hse-v2.maheshdivakar-m3.workers.dev/analyze-hse';
+  AiHseResult? _analysisResult;
 
   @override
   void dispose() {
@@ -41,7 +43,9 @@ class _HazardReportPageState extends State<HazardReportPage> {
       imageQuality: 80,
     );
 
-    if (image == null) return;
+    if (image == null) {
+      return;
+    }
 
     setState(() {
       _selectedImage = File(image.path);
@@ -57,7 +61,9 @@ class _HazardReportPageState extends State<HazardReportPage> {
     if (_selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please select a hazard photo first.'),
+          content: Text(
+            'Please select a hazard photo first.',
+          ),
         ),
       );
       return;
@@ -69,68 +75,46 @@ class _HazardReportPageState extends State<HazardReportPage> {
     });
 
     try {
-      final bytes = await _selectedImage!.readAsBytes();
-      final base64Image = base64Encode(bytes);
-
-      final extension =
-          _selectedImage!.path.split('.').last.toLowerCase();
-
-      String mimeType = 'image/jpeg';
-
-      if (extension == 'png') {
-        mimeType = 'image/png';
-      } else if (extension == 'webp') {
-        mimeType = 'image/webp';
-      }
-
       final language =
-          context.locale.languageCode.toLowerCase().startsWith('ml')
+          context.locale.languageCode
+                  .toLowerCase()
+                  .startsWith('ml')
               ? 'ml'
               : 'en';
 
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'imageBase64': base64Image,
-          'mimeType': mimeType,
-          'language': language,
-          'siteContext': _descriptionController.text.trim(),
-        }),
+      final AiHseResult result =
+          await _aiService.analyzePhoto(
+        imageFile: _selectedImage!,
+        description:
+            _descriptionController.text.trim(),
+        language: language,
       );
 
-      if (!mounted) return;
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        if (data['ok'] == true) {
-          setState(() {
-            _analysisResult =
-                Map<String, dynamic>.from(data['analysis'] ?? {});
-          });
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('AI HSE analysis completed successfully.'),
-            ),
-          );
-        } else {
-          throw Exception(data['error'] ?? 'Analysis failed');
-        }
-      } else {
-        throw Exception(
-          'Server error: ${response.statusCode}',
-        );
+      if (!mounted) {
+        return;
       }
+
+      setState(() {
+        _analysisResult = result;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'AI HSE analysis completed successfully.',
+          ),
+        ),
+      );
     } catch (e) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('AI analysis failed: $e'),
+          content: Text(
+            'AI analysis failed: $e',
+          ),
         ),
       );
     } finally {
@@ -142,15 +126,21 @@ class _HazardReportPageState extends State<HazardReportPage> {
     }
   }
 
-  Widget _resultRow(String title, dynamic value) {
-    if (value == null || value.toString().trim().isEmpty) {
+  Widget _resultRow(
+    String title,
+    String value,
+  ) {
+    if (value.trim().isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(
+        bottom: 12,
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -161,8 +151,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
           ),
           const SizedBox(height: 4),
           Text(
-            value.toString(),
-            style: const TextStyle(fontSize: 15),
+            value,
+            style: const TextStyle(
+              fontSize: 15,
+            ),
           ),
         ],
       ),
@@ -170,16 +162,21 @@ class _HazardReportPageState extends State<HazardReportPage> {
   }
 
   Widget _buildAnalysisResult() {
-    if (_analysisResult == null) {
+    final result = _analysisResult;
+
+    if (result == null) {
       return const SizedBox.shrink();
     }
 
     return Card(
-      margin: const EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(
+        top: 20,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
           children: [
             const Text(
               'AI HSE Analysis',
@@ -188,36 +185,65 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Divider(height: 24),
 
-            _resultRow(
-              'Category',
-              _analysisResult!['category'],
+            const Divider(
+              height: 24,
             ),
 
             _resultRow(
-              'Observation',
-              _analysisResult!['observation'],
+              'Observation Type',
+              result.observationType,
+            ),
+
+            _resultRow(
+              'Category',
+              result.category,
             ),
 
             _resultRow(
               'Hazard',
-              _analysisResult!['hazard'],
+              result.hazard,
             ),
 
             _resultRow(
               'Risk Level',
-              _analysisResult!['riskLevel'],
+              result.riskLevel,
             ),
 
             _resultRow(
-              'Recommendation',
-              _analysisResult!['recommendation'],
+              'Potential Consequence',
+              result.potentialConsequence,
             ),
 
             _resultRow(
-              'Immediate Action',
-              _analysisResult!['immediateAction'],
+              'Corrective Action',
+              result.correctiveAction,
+            ),
+
+            _resultRow(
+              'AI Explanation',
+              result.explanation,
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              'AI Confidence: '
+              '${(result.confidence * 100).toStringAsFixed(0)}%',
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'AI result must be reviewed by the HSE '
+              'officer before taking action.',
+              style: TextStyle(
+                fontSize: 12,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),
@@ -229,33 +255,50 @@ class _HazardReportPageState extends State<HazardReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('hazard_report'.tr()),
+        title: Text(
+          'hazard_report'.tr(),
+        ),
         actions: [
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               context.setLocale(locale);
             },
-            itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<Locale>>[
+            itemBuilder:
+                (BuildContext context) =>
+                    <PopupMenuEntry<Locale>>[
               const PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
+                value: Locale(
+                  'en',
+                  'US',
+                ),
+                child: Text(
+                  'English',
+                ),
               ),
               const PopupMenuItem(
-                value: Locale('ml', 'IN'),
-                child: Text('മലയാളം'),
+                value: Locale(
+                  'ml',
+                  'IN',
+                ),
+                child: Text(
+                  'മലയാളം',
+                ),
               ),
             ],
-            icon: const Icon(Icons.language),
+            icon: const Icon(
+              Icons.language,
+            ),
           ),
         ],
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Text(
                 'hazard_desc_label'.tr(),
@@ -265,54 +308,79 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(
+                height: 10,
+              ),
 
               TextFormField(
-                controller: _descriptionController,
+                controller:
+                    _descriptionController,
                 maxLines: 4,
-                decoration: InputDecoration(
-                  hintText: 'hazard_hint'.tr(),
-                  border: const OutlineInputBorder(),
+                decoration:
+                    InputDecoration(
+                  hintText:
+                      'hazard_hint'.tr(),
+                  border:
+                      const OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'hazard_validation'.tr();
+                  if (value == null ||
+                      value.trim().isEmpty) {
+                    return 'hazard_validation'
+                        .tr();
                   }
+
                   return null;
                 },
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
 
               SizedBox(
                 width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: _isAnalyzing ? null : _pickImage,
-                  icon: const Icon(Icons.photo_camera),
+                child:
+                    OutlinedButton.icon(
+                  onPressed: _isAnalyzing
+                      ? null
+                      : _pickImage,
+                  icon: const Icon(
+                    Icons.photo_camera,
+                  ),
                   label: const Text(
                     'Select Hazard Photo',
                   ),
                 ),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(
+                height: 12,
+              ),
 
               if (_selectedImage != null)
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius:
+                      BorderRadius.circular(
+                    12,
+                  ),
                   child: Image.file(
                     _selectedImage!,
-                    width: double.infinity,
+                    width:
+                        double.infinity,
                     height: 220,
                     fit: BoxFit.cover,
                   ),
                 ),
 
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 20,
+              ),
 
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton.icon(
+                child:
+                    ElevatedButton.icon(
                   onPressed: _isAnalyzing
                       ? null
                       : _analyzeHazard,
@@ -320,11 +388,14 @@ class _HazardReportPageState extends State<HazardReportPage> {
                       ? const SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(
+                          child:
+                              CircularProgressIndicator(
                             strokeWidth: 2,
                           ),
                         )
-                      : const Icon(Icons.analytics),
+                      : const Icon(
+                          Icons.analytics,
+                        ),
                   label: Text(
                     _isAnalyzing
                         ? 'Analyzing...'
