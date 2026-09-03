@@ -1,16 +1,63 @@
 {
   "title": "SafeNexus HSE",
-  "hazard_report": "Hazard Report",
-  "voice_report": "Voice Report",
+
+  "language": "Language",
+  "english": "English",
+  "malayalam": "Malayalam",
+
+  "home": "Home",
+  "reports": "Reports",
+  "dashboard": "Dashboard",
+  "settings": "Settings",
+
+  "quick_actions": "QUICK ACTIONS",
+
+  "safety_starts_with_you": "Safety Starts With You",
+  "observe_report_prevent": "Observe • Report • Prevent",
+  "together_for_a_safer_workplace": "Together for a safer workplace",
+
+  "report": "REPORT",
+
+  "safety_observation": "Safety\nObservation",
+  "hazard_report_short": "Hazard\nReport",
+  "photo_ai_analysis": "Photo / AI\nAnalysis",
+  "voice_report_short": "Voice\nReport",
+  "risk_assessment": "Risk\nAssessment",
+  "hse_guidelines": "HSE\nGuidelines",
+
+  "my_safety_overview": "MY SAFETY OVERVIEW",
+  "this_month": "This Month",
+
+  "observations_reported": "Observations\nReported",
+  "hazard_reports_raised": "Hazard Reports\nRaised",
+  "issues_resolved": "Issues\nResolved",
+  "safety_score": "Safety Score",
+
+  "safety_is_everyones": "Safety is Everyone's",
+  "responsibility": "Responsibility",
+
+  "see_it_report_it_stop_it_change_it": "See it. Report it. Stop it. Change it.",
+
+  "reports_history": "Reports & History",
+  "view_your_safety_reports": "View your safety reports",
+
+  "is_coming_soon": "is coming soon",
+
   "guidelines": "Guidelines",
   "guidelines_heading": "Safety Instructions",
+
   "guidelines_content_1": "1. Always wear Personal Protective Equipment (PPE) while working on-site.",
   "guidelines_content_2": "2. Report any hazards or accidents immediately to the supervisor.",
+
+  "hazard_report": "Hazard Report",
   "hazard_desc_label": "Hazard Description",
   "hazard_hint": "Enter details about the hazard...",
   "hazard_validation": "Please enter hazard details",
+
   "submit_button": "Submit Report",
   "success_message": "Report submitted successfully!",
+
+  "voice_report": "Voice Report",
   "recording_status": "Recording in progress...",
   "press_to_record": "Tap the microphone to record your voice report",
   "tap_to_stop": "Tap to stop recording",
