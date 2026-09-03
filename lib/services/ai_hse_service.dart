@@ -24,126 +24,72 @@ class AiHseResult {
     required this.explanation,
   });
 
-  factory AiHseResult.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory AiHseResult.fromJson(Map<String, dynamic> json) {
     return AiHseResult(
       observationType:
-          json['observation_type']?.toString() ??
-              'Unsafe Condition',
+          json['observation_type']?.toString() ?? 'Unsafe Condition',
       category:
-          json['category']?.toString() ??
-              'General Safety',
+          json['category']?.toString() ?? 'General Safety',
       hazard:
-          json['hazard']?.toString() ??
-              'General Workplace Hazard',
+          json['hazard']?.toString() ?? 'General Workplace Hazard',
       riskLevel:
-          json['risk_level']?.toString() ??
-              'Medium',
+          json['risk_level']?.toString() ?? 'Medium',
       potentialConsequence:
-          json['potential_consequence']?.toString() ??
-              'Injury',
+          json['potential_consequence']?.toString() ?? 'Injury',
       correctiveAction:
-          json['corrective_action']?.toString() ??
-              '',
+          json['corrective_action']?.toString() ?? '',
       confidence:
-          (json['confidence'] as num?)?.toDouble() ??
-              0.0,
+          (json['confidence'] as num?)?.toDouble() ?? 0.0,
       explanation:
-          json['explanation']?.toString() ??
-              '',
+          json['explanation']?.toString() ?? '',
     );
   }
 }
 
 class AiHseService {
-  // ============================================================
-  // SAFE BACKEND ENDPOINT
-  // ============================================================
-  //
-  // IMPORTANT:
-  // Do NOT put your OpenAI API key here.
-  //
-  // After deploying Cloudflare Worker, replace only the URL below.
-  //
-  // Example:
-  //
-  // https://safenexus-hse-ai.example.workers.dev/analyze-hse
-  //
+  /// SafeNexus HSE Cloudflare Worker
+  ///
+  /// IMPORTANT:
+  /// OpenAI API key must NEVER be placed inside the Flutter app.
+  /// The key stays securely inside the Cloudflare Worker.
   static const String endpoint =
-      'https://YOUR-WORKER-URL.workers.dev/analyze-hse';
-
-  // ============================================================
-  // ANALYZE PHOTO
-  // ============================================================
+      'https://safenexus-hse-v2.maheshdivakar-m3.workers.dev/analyze-hse';
 
   Future<AiHseResult> analyzePhoto({
     required File imageFile,
     String description = '',
     String location = '',
+    String language = 'en',
   }) async {
-    // Read image bytes.
-    final List<int> bytes =
-        await imageFile.readAsBytes();
+    final List<int> bytes = await imageFile.readAsBytes();
+    final String base64Image = base64Encode(bytes);
+    final String mimeType = _mimeType(imageFile.path);
 
-    // Convert image to Base64.
-    final String base64Image =
-        base64Encode(bytes);
+    final response = await http
+        .post(
+          Uri.parse(endpoint),
+          headers: const {
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode({
+            'image_base64': base64Image,
+            'mime_type': mimeType,
+            'description': description,
+            'location': location,
+            'language': language,
+          }),
+        )
+        .timeout(const Duration(seconds: 90));
 
-    // Detect MIME type.
-    final String mimeType =
-        _mimeType(imageFile.path);
+    dynamic decoded;
 
-    // Send photo to secure backend.
-    final http.Response response =
-        await http.post(
-      Uri.parse(endpoint),
-      headers: const {
-        'Content-Type':
-            'application/json',
-      },
-      body: jsonEncode({
-        'image_base64': base64Image,
-        'mime_type': mimeType,
-        'description': description,
-        'location': location,
-      }),
-    );
-
-    // ==========================================================
-    // HTTP ERROR
-    // ==========================================================
-
-    if (response.statusCode < 200 ||
-        response.statusCode >= 300) {
-      String message =
-          'AI analysis failed.';
-
-      try {
-        final dynamic decoded =
-            jsonDecode(response.body);
-
-        if (decoded is Map &&
-            decoded['error'] != null) {
-          message =
-              decoded['error'].toString();
-        }
-      } catch (_) {
-        // Keep default message.
-      }
-
+    try {
+      decoded = jsonDecode(response.body);
+    } catch (_) {
       throw Exception(
-        '$message '
-        'HTTP ${response.statusCode}',
+        'Invalid response received from HSE AI server.',
       );
     }
-
-    // ==========================================================
-    // DECODE RESPONSE
-    // ==========================================================
-
-    final dynamic decoded =
-        jsonDecode(response.body);
 
     if (decoded is! Map) {
       throw Exception(
@@ -152,13 +98,15 @@ class AiHseService {
     }
 
     final Map<String, dynamic> data =
-        Map<String, dynamic>.from(
-      decoded,
-    );
+        Map<String, dynamic>.from(decoded);
 
-    // ==========================================================
-    // SERVER ERROR
-    // ==========================================================
+    if (response.statusCode < 200 ||
+        response.statusCode >= 300) {
+      throw Exception(
+        data['error']?.toString() ??
+            'AI analysis failed. HTTP ${response.statusCode}',
+      );
+    }
 
     if (data['success'] != true) {
       throw Exception(
@@ -167,12 +115,7 @@ class AiHseService {
       );
     }
 
-    // ==========================================================
-    // RESULT
-    // ==========================================================
-
-    final dynamic rawResult =
-        data['result'];
+    final dynamic rawResult = data['result'];
 
     if (rawResult is! Map) {
       throw Exception(
@@ -180,23 +123,13 @@ class AiHseService {
       );
     }
 
-    final Map<String, dynamic> result =
-        Map<String, dynamic>.from(
-      rawResult,
-    );
-
     return AiHseResult.fromJson(
-      result,
+      Map<String, dynamic>.from(rawResult),
     );
   }
 
-  // ============================================================
-  // MIME TYPE
-  // ============================================================
-
   String _mimeType(String path) {
-    final String lower =
-        path.toLowerCase();
+    final String lower = path.toLowerCase();
 
     if (lower.endsWith('.png')) {
       return 'image/png';
@@ -215,7 +148,6 @@ class AiHseService {
       return 'image/jpeg';
     }
 
-    // Default for camera photos.
     return 'image/jpeg';
   }
 }
