@@ -1,16 +1,63 @@
 {
   "title": "സേഫ് നെക്സസ് എച്ച്.എസ്.ഇ",
-  "hazard_report": "അപകട സാധ്യത റിപ്പോർട്ട്",
-  "voice_report": "ശബ്ദ റിപ്പോർട്ട്",
+
+  "language": "ഭാഷ",
+  "english": "ഇംഗ്ലീഷ്",
+  "malayalam": "മലയാളം",
+
+  "home": "ഹോം",
+  "reports": "റിപ്പോർട്ടുകൾ",
+  "dashboard": "ഡാഷ്ബോർഡ്",
+  "settings": "ക്രമീകരണങ്ങൾ",
+
+  "quick_actions": "ദ്രുത പ്രവർത്തനങ്ങൾ",
+
+  "safety_starts_with_you": "സുരക്ഷ നിങ്ങളിൽ നിന്ന് ആരംഭിക്കുന്നു",
+  "observe_report_prevent": "നിരീക്ഷിക്കുക • റിപ്പോർട്ട് ചെയ്യുക • തടയുക",
+  "together_for_a_safer_workplace": "കൂടുതൽ സുരക്ഷിതമായ ജോലിസ്ഥലത്തിനായി ഒരുമിച്ച്",
+
+  "report": "റിപ്പോർട്ട്",
+
+  "safety_observation": "സുരക്ഷാ\nനിരീക്ഷണം",
+  "hazard_report_short": "അപകടസാധ്യത\nറിപ്പോർട്ട്",
+  "photo_ai_analysis": "ഫോട്ടോ / AI\nവിശകലനം",
+  "voice_report_short": "വോയിസ്\nറിപ്പോർട്ട്",
+  "risk_assessment": "അപകടസാധ്യതാ\nവിലയിരുത്തൽ",
+  "hse_guidelines": "HSE\nമാർഗ്ഗനിർദ്ദേശങ്ങൾ",
+
+  "my_safety_overview": "എന്റെ സുരക്ഷാ അവലോകനം",
+  "this_month": "ഈ മാസം",
+
+  "observations_reported": "റിപ്പോർട്ട് ചെയ്ത\nനിരീക്ഷണങ്ങൾ",
+  "hazard_reports_raised": "ഉന്നയിച്ച അപകടസാധ്യതാ\nറിപ്പോർട്ടുകൾ",
+  "issues_resolved": "പരിഹരിച്ച\nപ്രശ്നങ്ങൾ",
+  "safety_score": "സുരക്ഷാ സ്കോർ",
+
+  "safety_is_everyones": "സുരക്ഷ എല്ലാവരുടെയും",
+  "responsibility": "ഉത്തരവാദിത്തം",
+
+  "see_it_report_it_stop_it_change_it": "കാണുക. റിപ്പോർട്ട് ചെയ്യുക. നിർത്തുക. മാറ്റം വരുത്തുക.",
+
+  "reports_history": "റിപ്പോർട്ടുകളും ചരിത്രവും",
+  "view_your_safety_reports": "നിങ്ങളുടെ സുരക്ഷാ റിപ്പോർട്ടുകൾ കാണുക",
+
+  "is_coming_soon": "ഉടൻ ലഭ്യമാകും",
+
   "guidelines": "മാർഗ്ഗനിർദ്ദേശങ്ങൾ",
   "guidelines_heading": "സുരക്ഷാ നിർദ്ദേശങ്ങൾ",
+
   "guidelines_content_1": "1. ജോലിസ്ഥലത്ത് എപ്പോഴും വ്യക്തിഗത സംരക്ഷണ ഉപാധികൾ (PPE) ധരിക്കുക.",
   "guidelines_content_2": "2. എന്തെങ്കിലും അപകടസാധ്യതയോ അപകടങ്ങളോ ഉണ്ടായാൽ ഉടൻ സൂപ്പർവൈസറെ അറിയിക്കുക.",
+
+  "hazard_report": "അപകടസാധ്യത റിപ്പോർട്ട്",
   "hazard_desc_label": "അപകടസാധ്യതയുടെ വിവരണം",
   "hazard_hint": "അപകടസാധ്യതയെക്കുറിച്ചുള്ള വിവരങ്ങൾ ഇവിടെ നൽകുക...",
-  "hazard_validation": "ദയവായി വിവരങ്ങൾ നൽകുക",
+  "hazard_validation": "ദയവായി അപകടസാധ്യതയുടെ വിവരങ്ങൾ നൽകുക",
+
   "submit_button": "റിപ്പോർട്ട് സമർപ്പിക്കുക",
   "success_message": "റിപ്പോർട്ട് വിജയകരമായി സമർപ്പിച്ചു!",
+
+  "voice_report": "വോയിസ് റിപ്പോർട്ട്",
   "recording_status": "റെക്കോർഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു...",
   "press_to_record": "നിങ്ങളുടെ വോയിസ് റിപ്പോർട്ട് റെക്കോർഡ് ചെയ്യാൻ മൈക്രോഫോണിൽ ടാപ്പ് ചെയ്യുക",
   "tap_to_stop": "നിർത്താൻ ടാപ്പ് ചെയ്യുക",
