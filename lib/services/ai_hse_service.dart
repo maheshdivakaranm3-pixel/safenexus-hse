@@ -24,24 +24,42 @@ class AiHseResult {
     required this.explanation,
   });
 
-  factory AiHseResult.fromJson(Map<String, dynamic> json) {
+  factory AiHseResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return AiHseResult(
       observationType:
-          json['observation_type']?.toString() ?? 'Unsafe Condition',
+          json['observation_type']?.toString() ??
+              'Unsafe Condition',
+
       category:
-          json['category']?.toString() ?? 'General Safety',
+          json['category']?.toString() ??
+              'General Safety',
+
       hazard:
-          json['hazard']?.toString() ?? 'General Workplace Hazard',
+          json['hazard']?.toString() ??
+              'General Workplace Hazard',
+
       riskLevel:
-          json['risk_level']?.toString() ?? 'Medium',
+          json['risk_level']?.toString() ??
+              'Medium',
+
       potentialConsequence:
-          json['potential_consequence']?.toString() ?? 'Injury',
+          json['potential_consequence']?.toString() ??
+              'Injury',
+
       correctiveAction:
-          json['corrective_action']?.toString() ?? '',
+          json['corrective_action']?.toString() ??
+              '',
+
       confidence:
-          (json['confidence'] as num?)?.toDouble() ?? 0.0,
+          (json['confidence'] as num?)
+                  ?.toDouble() ??
+              0.0,
+
       explanation:
-          json['explanation']?.toString() ?? '',
+          json['explanation']?.toString() ??
+              '',
     );
   }
 }
@@ -50,8 +68,8 @@ class AiHseService {
   /// SafeNexus HSE Cloudflare Worker
   ///
   /// IMPORTANT:
-  /// OpenAI API key must NEVER be placed inside the Flutter app.
-  /// The key stays securely inside the Cloudflare Worker.
+  /// OpenAI API key must NEVER be stored
+  /// inside the Flutter application.
   static const String endpoint =
       'https://safenexus-hse-v2.maheshdivakar-m3.workers.dev/analyze-hse';
 
@@ -61,33 +79,93 @@ class AiHseService {
     String location = '',
     String language = 'en',
   }) async {
-    final List<int> bytes = await imageFile.readAsBytes();
-    final String base64Image = base64Encode(bytes);
-    final String mimeType = _mimeType(imageFile.path);
+    if (!await imageFile.exists()) {
+      throw Exception(
+        'Selected image file does not exist.',
+      );
+    }
 
-    final response = await http
-        .post(
-          Uri.parse(endpoint),
-          headers: const {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode({
-            'image_base64': base64Image,
-            'mime_type': mimeType,
-            'description': description,
-            'location': location,
-            'language': language,
-          }),
-        )
-        .timeout(const Duration(seconds: 90));
+    final List<int> bytes =
+        await imageFile.readAsBytes();
+
+    if (bytes.isEmpty) {
+      throw Exception(
+        'Selected image is empty.',
+      );
+    }
+
+    final String base64Image =
+        base64Encode(bytes);
+
+    final String mimeType =
+        _mimeType(imageFile.path);
+
+    final Uri uri =
+        Uri.parse(endpoint);
+
+    http.Response response;
+
+    try {
+      response = await http
+          .post(
+            uri,
+
+            headers: const {
+              'Content-Type':
+                  'application/json',
+              'Accept':
+                  'application/json',
+            },
+
+            body: jsonEncode({
+              'image_base64':
+                  base64Image,
+
+              'mime_type':
+                  mimeType,
+
+              'description':
+                  description.trim(),
+
+              'location':
+                  location.trim(),
+
+              'language':
+                  language.toLowerCase(),
+            }),
+          )
+          .timeout(
+            const Duration(
+              seconds: 90,
+            ),
+          );
+    } on SocketException {
+      throw Exception(
+        'Unable to connect to the HSE AI server.',
+      );
+    } on HttpException {
+      throw Exception(
+        'HSE AI server connection failed.',
+      );
+    } on FormatException {
+      throw Exception(
+        'Invalid HSE AI server address.',
+      );
+    } catch (e) {
+      throw Exception(
+        'Network error: $e',
+      );
+    }
 
     dynamic decoded;
 
     try {
-      decoded = jsonDecode(response.body);
+      decoded =
+          jsonDecode(response.body);
     } catch (_) {
       throw Exception(
-        'Invalid response received from HSE AI server.',
+        'Invalid response received from HSE AI server '
+        '(HTTP ${response.statusCode}).',
       );
     }
 
@@ -98,15 +176,29 @@ class AiHseService {
     }
 
     final Map<String, dynamic> data =
-        Map<String, dynamic>.from(decoded);
+        Map<String, dynamic>.from(
+      decoded,
+    );
+
+    // ==========================================================
+    // SERVER ERROR
+    // ==========================================================
 
     if (response.statusCode < 200 ||
         response.statusCode >= 300) {
+      final String serverError =
+          data['error']?.toString() ??
+              'AI analysis failed.';
+
       throw Exception(
-        data['error']?.toString() ??
-            'AI analysis failed. HTTP ${response.statusCode}',
+        '$serverError '
+        '(HTTP ${response.statusCode})',
       );
     }
+
+    // ==========================================================
+    // SUCCESS CHECK
+    // ==========================================================
 
     if (data['success'] != true) {
       throw Exception(
@@ -115,7 +207,12 @@ class AiHseService {
       );
     }
 
-    final dynamic rawResult = data['result'];
+    // ==========================================================
+    // RESULT
+    // ==========================================================
+
+    final dynamic rawResult =
+        data['result'];
 
     if (rawResult is! Map) {
       throw Exception(
@@ -124,12 +221,19 @@ class AiHseService {
     }
 
     return AiHseResult.fromJson(
-      Map<String, dynamic>.from(rawResult),
+      Map<String, dynamic>.from(
+        rawResult,
+      ),
     );
   }
 
+  // ============================================================
+  // MIME TYPE
+  // ============================================================
+
   String _mimeType(String path) {
-    final String lower = path.toLowerCase();
+    final String lower =
+        path.toLowerCase();
 
     if (lower.endsWith('.png')) {
       return 'image/png';
@@ -139,15 +243,13 @@ class AiHseService {
       return 'image/webp';
     }
 
-    if (lower.endsWith('.gif')) {
-      return 'image/gif';
-    }
-
     if (lower.endsWith('.jpg') ||
         lower.endsWith('.jpeg')) {
       return 'image/jpeg';
     }
 
+    // image_picker normally gives JPEG
+    // when imageQuality is used.
     return 'image/jpeg';
   }
 }
