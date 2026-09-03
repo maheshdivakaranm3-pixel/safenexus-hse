@@ -33,11 +33,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SafeNexus HSE',
       debugShowCheckedModeBanner: false,
-
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFFF7F8FA),
@@ -50,22 +48,13 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-
       home: const HomeScreen(),
     );
   }
 }
 
-// ============================================================
-// HOME SCREEN
-// ============================================================
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  // ----------------------------------------------------------
-  // Navigation
-  // ----------------------------------------------------------
 
   void openPage(BuildContext context, Widget page) {
     Navigator.push(
@@ -85,16 +74,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ----------------------------------------------------------
-  // BUILD
-  // ----------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 18,
-
         title: const Row(
           children: [
             Icon(
@@ -112,15 +96,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-
         actions: [
           PopupMenuButton<Locale>(
             icon: const Icon(Icons.language),
-
             onSelected: (Locale locale) {
               context.setLocale(locale);
             },
-
             itemBuilder: (BuildContext context) {
               return const [
                 PopupMenuItem<Locale>(
@@ -134,29 +115,18 @@ class HomeScreen extends StatelessWidget {
               ];
             },
           ),
-
           const SizedBox(width: 8),
         ],
       ),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
-            // ------------------------------------------------
-            // SAFETY HERO CARD
-            // ------------------------------------------------
-
             _safetyHeroCard(),
 
             const SizedBox(height: 24),
-
-            // ------------------------------------------------
-            // MAIN ACTIONS
-            // ------------------------------------------------
 
             const Text(
               'Safety Actions',
@@ -185,9 +155,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   child: _actionCard(
                     icon: Icons.warning_amber_rounded,
@@ -225,9 +193,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   child: _actionCard(
                     icon: Icons.camera_alt_outlined,
@@ -244,10 +210,6 @@ class HomeScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 24),
-
-            // ------------------------------------------------
-            // SAFETY TOOLS
-            // ------------------------------------------------
 
             const Text(
               'Safety Tools',
@@ -313,17 +275,9 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // ------------------------------------------------
-            // SAFETY REMINDER
-            // ------------------------------------------------
-
             _safetyReminder(),
 
             const SizedBox(height: 22),
-
-            // ------------------------------------------------
-            // FOOTER
-            // ------------------------------------------------
 
             Center(
               child: Text(
@@ -341,49 +295,37 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
-  // SAFETY HERO CARD
-  // ==========================================================
-
   Widget _safetyHeroCard() {
     return Container(
       width: double.infinity,
-
       padding: const EdgeInsets.all(22),
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-
           colors: [
             Color(0xFF16A34A),
             Color(0xFF7C3AED),
           ],
         ),
-
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.10),
+            color: Colors.black.withValues(alpha: 0.10),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
         ],
       ),
-
       child: Row(
         children: [
           Container(
             width: 64,
             height: 64,
-
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.18),
+              color: Colors.white.withValues(alpha: 0.18),
               shape: BoxShape.circle,
             ),
-
             child: const Icon(
               Icons.shield_outlined,
               color: Colors.white,
@@ -396,7 +338,6 @@ class HomeScreen extends StatelessWidget {
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 Text(
                   'Safety Starts With You',
@@ -406,9 +347,7 @@ class HomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 SizedBox(height: 7),
-
                 Text(
                   'Observe • Report • Prevent',
                   style: TextStyle(
@@ -416,9 +355,7 @@ class HomeScreen extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-
                 SizedBox(height: 4),
-
                 Text(
                   'Together for a safer workplace',
                   style: TextStyle(
@@ -434,10 +371,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
-  // ACTION CARD
-  // ==========================================================
-
   Widget _actionCard({
     required IconData icon,
     required String title,
@@ -448,44 +381,32 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 0,
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
-
       child: InkWell(
         onTap: onTap,
-
         borderRadius: BorderRadius.circular(18),
-
         child: Container(
           height: 155,
-
           padding: const EdgeInsets.all(16),
-
           decoration: BoxDecoration(
             color: Colors.white,
-
             borderRadius: BorderRadius.circular(18),
-
             border: Border.all(
               color: Colors.grey.shade200,
             ),
           ),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               Container(
                 width: 48,
                 height: 48,
-
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(14),
                 ),
-
                 child: Icon(
                   icon,
                   color: iconColor,
@@ -519,10 +440,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
-  // TOOL ITEM
-  // ==========================================================
-
   Widget _toolItem({
     required IconData icon,
     required String title,
@@ -532,35 +449,27 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 0,
-
       margin: EdgeInsets.zero,
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(17),
       ),
-
       child: InkWell(
         onTap: onTap,
-
         borderRadius: BorderRadius.circular(17),
-
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 14,
           ),
-
           child: Row(
             children: [
               Container(
                 width: 48,
                 height: 48,
-
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.10),
+                  color: iconColor.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
                 ),
-
                 child: Icon(
                   icon,
                   color: iconColor,
@@ -573,7 +482,6 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Text(
                       title,
@@ -582,9 +490,7 @@ class HomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 4),
-
                     Text(
                       subtitle,
                       style: TextStyle(
@@ -608,29 +514,19 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
-  // SAFETY REMINDER
-  // ==========================================================
-
   Widget _safetyReminder() {
     return Container(
       width: double.infinity,
-
       padding: const EdgeInsets.all(16),
-
       decoration: BoxDecoration(
         color: const Color(0xFFF1EAFE),
-
         borderRadius: BorderRadius.circular(18),
-
         border: Border.all(
           color: const Color(0xFFE4D7FC),
         ),
       ),
-
       child: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
           Icon(
             Icons.info_outline_rounded,
