@@ -14,6 +14,9 @@ class HazardReportPage extends StatefulWidget {
 }
 
 class _HazardReportPageState extends State<HazardReportPage> {
+  static const Color primaryGreen = Color(0xFF16835B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _descriptionController =
@@ -81,7 +84,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 Text(
                   _text(
                     'Select Hazard Photo',
@@ -92,9 +94,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 Text(
                   _text(
                     'Take a new photo or choose from gallery',
@@ -106,9 +106,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     fontSize: 13,
                   ),
                 ),
-
                 const SizedBox(height: 18),
-
                 _photoOptionTile(
                   icon: Icons.camera_alt_rounded,
                   title: _text(
@@ -124,9 +122,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     _pickImage(ImageSource.camera);
                   },
                 ),
-
                 const SizedBox(height: 10),
-
                 _photoOptionTile(
                   icon: Icons.photo_library_rounded,
                   title: _text(
@@ -142,7 +138,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     _pickImage(ImageSource.gallery);
                   },
                 ),
-
                 if (_selectedImage != null) ...[
                   const SizedBox(height: 10),
                   _photoOptionTile(
@@ -182,7 +177,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
     required VoidCallback onTap,
     Color? iconColor,
   }) {
-    final color = iconColor ?? const Color(0xFF16835B);
+    final color = iconColor ?? primaryGreen;
 
     return InkWell(
       onTap: onTap,
@@ -190,10 +185,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.06),
+          color: color.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
           ),
         ),
         child: Row(
@@ -202,7 +197,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -273,7 +268,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
         _analysisError = null;
       });
 
-      // Automatically analyse after selecting photo.
       await _analyzeHazard(
         automatic: true,
       );
@@ -420,12 +414,12 @@ class _HazardReportPageState extends State<HazardReportPage> {
           width: 42,
           height: 42,
           decoration: BoxDecoration(
-            color: const Color(0xFF16835B).withOpacity(0.10),
+            color: primaryGreen.withValues(alpha: 0.10),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: const Icon(
-            Icons.description_outlined,
-            color: Color(0xFF16835B),
+          child: Icon(
+            icon,
+            color: primaryGreen,
           ),
         ),
         const SizedBox(width: 12),
@@ -468,10 +462,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
           width: double.infinity,
           height: 190,
           decoration: BoxDecoration(
-            color: const Color(0xFF16835B).withOpacity(0.04),
+            color: primaryGreen.withValues(alpha: 0.04),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: const Color(0xFF16835B).withOpacity(0.20),
+              color: primaryGreen.withValues(alpha: 0.20),
               width: 1.5,
             ),
           ),
@@ -482,13 +476,13 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 width: 62,
                 height: 62,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF16835B).withOpacity(0.10),
+                  color: primaryGreen.withValues(alpha: 0.10),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.add_a_photo_rounded,
                   size: 30,
-                  color: Color(0xFF16835B),
+                  color: primaryGreen,
                 ),
               ),
               const SizedBox(height: 12),
@@ -539,7 +533,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 vertical: 7,
               ),
               decoration: BoxDecoration(
-                color: Colors.black54,
+                color: Colors.black.withValues(alpha: 0.54),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -571,7 +565,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
             right: 12,
             top: 12,
             child: Material(
-              color: Colors.black54,
+              color: Colors.black.withValues(alpha: 0.54),
               shape: const CircleBorder(),
               child: IconButton(
                 color: Colors.white,
@@ -592,7 +586,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
           if (_isAnalyzing)
             Positioned.fill(
               child: Container(
-                color: Colors.black45,
+                color: Colors.black.withValues(alpha: 0.45),
                 child: Center(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -611,7 +605,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.5,
-                            color: Color(0xFF16835B),
+                            color: primaryGreen,
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -708,7 +702,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
             Icon(
               icon,
               size: 19,
-              color: const Color(0xFF16835B),
+              color: primaryGreen,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -798,11 +792,11 @@ class _HazardReportPageState extends State<HazardReportPage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFF16835B).withOpacity(0.18),
+          color: primaryGreen.withValues(alpha: 0.18),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 18,
             offset: const Offset(0, 7),
           ),
@@ -818,12 +812,12 @@ class _HazardReportPageState extends State<HazardReportPage> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF16835B).withOpacity(0.10),
+                  color: primaryGreen.withValues(alpha: 0.10),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.auto_awesome_rounded,
-                  color: Color(0xFF16835B),
+                  color: primaryGreen,
                 ),
               ),
               const SizedBox(width: 12),
@@ -866,10 +860,10 @@ class _HazardReportPageState extends State<HazardReportPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: riskColor.withOpacity(0.08),
+                color: riskColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: riskColor.withOpacity(0.25),
+                  color: riskColor.withValues(alpha: 0.25),
                 ),
               ),
               child: Row(
@@ -967,14 +961,14 @@ class _HazardReportPageState extends State<HazardReportPage> {
             width: double.infinity,
             padding: const EdgeInsets.all(13),
             decoration: BoxDecoration(
-              color: const Color(0xFF16835B).withOpacity(0.07),
+              color: primaryGreen.withValues(alpha: 0.07),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               children: [
                 const Icon(
                   Icons.verified_rounded,
-                  color: Color(0xFF16835B),
+                  color: primaryGreen,
                 ),
                 const SizedBox(width: 9),
                 Expanded(
@@ -992,7 +986,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                   '${(result.confidence * 100).toStringAsFixed(0)}%',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF16835B),
+                    color: primaryGreen,
                   ),
                 ),
               ],
@@ -1048,10 +1042,8 @@ class _HazardReportPageState extends State<HazardReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryGreen = Color(0xFF16835B);
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
+      backgroundColor: pageBackground,
 
       // ======================================================
       // APP BAR
@@ -1079,7 +1071,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
               ),
               style: TextStyle(
                 fontSize: 10,
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.white.withValues(alpha: 0.85),
               ),
             ),
           ],
@@ -1140,16 +1132,11 @@ class _HazardReportPageState extends State<HazardReportPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        primaryGreen,
-                        primaryGreen.withOpacity(0.82),
-                      ],
-                    ),
+                    color: primaryGreen,
                     borderRadius: BorderRadius.circular(22),
                     boxShadow: [
                       BoxShadow(
-                        color: primaryGreen.withOpacity(0.20),
+                        color: primaryGreen.withValues(alpha: 0.20),
                         blurRadius: 16,
                         offset: const Offset(0, 7),
                       ),
@@ -1161,7 +1148,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                         width: 56,
                         height: 56,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
+                          color: Colors.white.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -1194,7 +1181,8 @@ class _HazardReportPageState extends State<HazardReportPage> {
                                 'Hazard വിവരങ്ങൾ നൽകുകയും AI Assessment നായി ഫോട്ടോ ചേർക്കുകയും ചെയ്യുക.',
                               ),
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.90),
+                                color:
+                                    Colors.white.withValues(alpha: 0.90),
                                 fontSize: 12,
                                 height: 1.35,
                               ),
@@ -1233,9 +1221,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                           'നിങ്ങൾ കണ്ട അപകടത്തെക്കുറിച്ച് വിശദമായി എഴുതുക.',
                         ),
                       ),
-
                       const SizedBox(height: 16),
-
                       TextFormField(
                         controller: _descriptionController,
                         maxLines: 5,
@@ -1268,7 +1254,8 @@ class _HazardReportPageState extends State<HazardReportPage> {
                               width: 1.5,
                             ),
                           ),
-                          contentPadding: const EdgeInsets.all(15),
+                          contentPadding:
+                              const EdgeInsets.all(15),
                         ),
                       ),
                     ],
@@ -1305,15 +1292,13 @@ class _HazardReportPageState extends State<HazardReportPage> {
                           'Unsafe condition വ്യക്തമായി കാണുന്ന ഫോട്ടോ ചേർക്കുക.',
                         ),
                       ),
-
                       const SizedBox(height: 16),
-
                       _buildPhotoPreview(),
-
                       if (_selectedImage != null &&
                           !_isAnalyzing)
                         Padding(
-                          padding: const EdgeInsets.only(top: 12),
+                          padding:
+                              const EdgeInsets.only(top: 12),
                           child: SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
@@ -1365,7 +1350,8 @@ class _HazardReportPageState extends State<HazardReportPage> {
                   height: 54,
                   child: FilledButton.icon(
                     onPressed:
-                        _isAnalyzing || _selectedImage == null
+                        _isAnalyzing ||
+                                _selectedImage == null
                             ? null
                             : () => _analyzeHazard(
                                   automatic: false,
