@@ -1,8 +1,8 @@
 export default {
   async fetch(request, env) {
-    // ----------------------------------------------------------
-    // CORS
-    // ----------------------------------------------------------
+    // ============================================================
+    // CORS / PREFLIGHT
+    // ============================================================
 
     if (request.method === "OPTIONS") {
       return new Response(null, {
@@ -11,9 +11,9 @@ export default {
       });
     }
 
-    // ----------------------------------------------------------
+    // ============================================================
     // POST ONLY
-    // ----------------------------------------------------------
+    // ============================================================
 
     if (request.method !== "POST") {
       return jsonResponse(
@@ -27,9 +27,9 @@ export default {
 
     const url = new URL(request.url);
 
-    // ----------------------------------------------------------
+    // ============================================================
     // ENDPOINT
-    // ----------------------------------------------------------
+    // ============================================================
 
     if (url.pathname !== "/analyze-hse") {
       return jsonResponse(
@@ -41,9 +41,9 @@ export default {
       );
     }
 
-    // ----------------------------------------------------------
-    // OPENAI KEY CHECK
-    // ----------------------------------------------------------
+    // ============================================================
+    // OPENAI API KEY
+    // ============================================================
 
     if (!env.OPENAI_API_KEY) {
       return jsonResponse(
@@ -56,18 +56,43 @@ export default {
     }
 
     try {
-      // --------------------------------------------------------
+      // ==========================================================
       // REQUEST BODY
-      // --------------------------------------------------------
+      // ==========================================================
 
-      const body = await request.json();
+      let body;
 
-      const imageBase64 = body.image_base64;
-      const mimeType = body.mime_type || "image/jpeg";
-      const description = body.description || "";
-      const location = body.location || "";
+      try {
+        body = await request.json();
+      } catch (_) {
+        return jsonResponse(
+          {
+            success: false,
+            error: "Invalid JSON request body.",
+          },
+          400
+        );
+      }
 
-      if (!imageBase64) {
+      const imageBase64 = body?.image_base64;
+      const mimeType = body?.mime_type || "image/jpeg";
+      const description =
+        typeof body?.description === "string"
+          ? body.description.trim()
+          : "";
+      const location =
+        typeof body?.location === "string"
+          ? body.location.trim()
+          : "";
+
+      // ==========================================================
+      // IMAGE VALIDATION
+      // ==========================================================
+
+      if (
+        !imageBase64 ||
+        typeof imageBase64 !== "string"
+      ) {
         return jsonResponse(
           {
             success: false,
@@ -77,43 +102,120 @@ export default {
         );
       }
 
-      // --------------------------------------------------------
-      // IMAGE DATA URL
-      // --------------------------------------------------------
+      // Remove accidental data URL prefix if Flutter sends one.
+      const cleanBase64 = imageBase64
+        .replace(/^data:[^;]+;base64,/, "")
+        .trim();
 
-      const imageUrl = `data:${mimeType};base64,${imageBase64}`;
-
-      // --------------------------------------------------------
-      // OPENAI RESPONSES API
-      // --------------------------------------------------------
-
-      const openAIResponse = await fetch(
-        "https://api.openai.com/v1/responses",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+      if (!cleanBase64) {
+        return jsonResponse(
+          {
+            success: false,
+            error: "Image data is empty.",
           },
+          400
+        );
+      }
 
-          body: JSON.stringify({
-            model: "gpt-5-mini",
+      // ==========================================================
+      // MIME TYPE VALIDATION
+      // ==========================================================
 
-            input: [
-              {
-                role: "user",
+      const allowedMimeTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ];
 
-                content: [
-                  {
-                    type: "input_text",
+      if (!allowedMimeTypes.includes(mimeType)) {
+        return jsonResponse(
+          {
+            success: false,
+            error:
+              "Unsupported image type. Use JPEG, PNG or WebP.",
+          },
+          400
+        );
+      }
 
-                    text: `
-You are an expert HSE safety observation analyst.
+      // ==========================================================
+      // BASIC BASE64 VALIDATION
+      // ==========================================================
 
-Analyze this workplace photo for safety hazards.
+      const base64Pattern =
+        /^[A-Za-z0-9+/]+={0,2}$/;
 
-Focus on:
+      if (!base64Pattern.test(cleanBase64)) {
+        return jsonResponse(
+          {
+            success: false,
+            error: "Invalid base64 image data.",
+          },
+          400
+        );
+      }
+
+      // ==========================================================
+      // IMAGE SIZE PROTECTION
+      // ==========================================================
+
+      // Approximate decoded size.
+      const estimatedBytes =
+        Math.floor(
+          (cleanBase64.length * 3) / 4
+        );
+
+      // 10 MB maximum.
+      const maxImageBytes = 10 * 1024 * 1024;
+
+      if (estimatedBytes > maxImageBytes) {
+        return jsonResponse(
+          {
+            success: false,
+            error:
+              "Image is too large. Maximum allowed size is 10 MB.",
+          },
+          413
+        );
+      }
+
+      // ==========================================================
+      // IMAGE DATA URL
+      // ==========================================================
+
+      const imageUrl =
+        `data:${mimeType};base64,${cleanBase64}`;
+
+      // ==========================================================
+      // HSE SYSTEM INSTRUCTIONS
+      // ==========================================================
+
+      const systemPrompt = `
+You are an expert HSE Safety Observation Analyst.
+
+Your job is to analyze workplace images for visible occupational
+health, safety and environmental hazards.
+
+IMPORTANT SAFETY RULES:
+
+1. Do not identify people.
+2. Do not guess personal identity.
+3. Do not infer sensitive personal information.
+4. Do not invent hazards that cannot reasonably be seen.
+5. Only report hazards reasonably supported by the image.
+6. If the image is unclear, state the limitation.
+7. Give practical and realistic HSE corrective actions.
+8. Risk level must be exactly:
+   Low, Medium, High, or Critical.
+9. Observation type must be exactly:
+   Unsafe Act, Unsafe Condition, or Positive Observation.
+10. Confidence must be a number from 0 to 1.
+11. The HSE officer must review the AI result before taking action.
+12. Do not claim that an unsafe condition is definitely present when
+    the image does not provide enough evidence.
+
+CHECK THE IMAGE FOR:
+
 - PPE
 - Work at height
 - Scaffolding
@@ -130,23 +232,86 @@ Focus on:
 - Heat stress
 - Environmental safety
 - Permit to work
+- Barricading
+- Access and egress
+- Emergency preparedness
+- Fall protection
+- Excavation safety
+- Tools and equipment
+- General workplace safety
 
-Rules:
-1. Do not identify people.
-2. Do not guess personal identity.
-3. Do not invent hazards that cannot reasonably be seen.
-4. If the image is unclear, explain the limitation.
-5. Give practical HSE corrective actions.
-6. Risk must be Low, Medium, High or Critical.
-7. Observation type must be Unsafe Act, Unsafe Condition or Positive Observation.
-8. The HSE officer must review the AI result before taking action.
+RISK GUIDANCE:
+
+Low:
+Minor issue with limited potential consequence.
+
+Medium:
+Potential for injury or moderate operational consequence.
+
+High:
+Significant potential for serious injury, major incident or serious
+property/environmental impact.
+
+Critical:
+Immediate and severe danger with potential for fatality, multiple
+serious injuries or major catastrophic consequence.
+
+IMPORTANT:
+Do not automatically assign High or Critical simply because a hazard
+category exists. Base the risk assessment on the visible conditions.
+`;
+
+      // ==========================================================
+      // USER PROMPT
+      // ==========================================================
+
+      const userPrompt = `
+Analyze the provided workplace image.
 
 Additional observation description:
-${description}
+${description || "No additional description provided."}
 
 Location:
-${location}
-                    `,
+${location || "Location not provided."}
+
+Return one structured HSE observation based on the visible evidence.
+`;
+
+      // ==========================================================
+      // OPENAI RESPONSES API
+      // ==========================================================
+
+      const openAIResponse = await fetch(
+        "https://api.openai.com/v1/responses",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization":
+              `Bearer ${env.OPENAI_API_KEY}`,
+          },
+
+          body: JSON.stringify({
+            model: "gpt-5-mini",
+
+            input: [
+              {
+                role: "system",
+                content: [
+                  {
+                    type: "input_text",
+                    text: systemPrompt,
+                  },
+                ],
+              },
+
+              {
+                role: "user",
+                content: [
+                  {
+                    type: "input_text",
+                    text: userPrompt,
                   },
 
                   {
@@ -157,9 +322,9 @@ ${location}
               },
             ],
 
-            // --------------------------------------------------
+            // ====================================================
             // STRUCTURED JSON OUTPUT
-            // --------------------------------------------------
+            // ====================================================
 
             text: {
               format: {
@@ -212,6 +377,8 @@ ${location}
 
                     confidence: {
                       type: "number",
+                      minimum: 0,
+                      maximum: 1,
                     },
 
                     explanation: {
@@ -236,9 +403,9 @@ ${location}
         }
       );
 
-      // --------------------------------------------------------
+      // ==========================================================
       // OPENAI RESPONSE
-      // --------------------------------------------------------
+      // ==========================================================
 
       const data = await openAIResponse.json();
 
@@ -254,25 +421,27 @@ ${location}
         );
       }
 
-      // --------------------------------------------------------
-      // EXTRACT TEXT
-      // --------------------------------------------------------
+      // ==========================================================
+      // EXTRACT OUTPUT TEXT
+      // ==========================================================
 
-      const outputText = extractOutputText(data);
+      const outputText =
+        extractOutputText(data);
 
       if (!outputText) {
         return jsonResponse(
           {
             success: false,
-            error: "No AI output was returned.",
+            error:
+              "No AI output was returned.",
           },
           502
         );
       }
 
-      // --------------------------------------------------------
+      // ==========================================================
       // PARSE JSON
-      // --------------------------------------------------------
+      // ==========================================================
 
       let result;
 
@@ -282,21 +451,50 @@ ${location}
         return jsonResponse(
           {
             success: false,
-            error: "AI returned invalid JSON.",
+            error:
+              "AI returned invalid JSON.",
           },
           502
         );
       }
 
-      // --------------------------------------------------------
-      // SUCCESS
-      // --------------------------------------------------------
+      // ==========================================================
+      // RESULT VALIDATION
+      // ==========================================================
+
+      const validationError =
+        validateHSEResult(result);
+
+      if (validationError) {
+        return jsonResponse(
+          {
+            success: false,
+            error:
+              `Invalid AI result: ${validationError}`,
+          },
+          502
+        );
+      }
+
+      // ==========================================================
+      // SUCCESS RESPONSE
+      // ==========================================================
 
       return jsonResponse({
         success: true,
-        result: result,
+        result,
       });
+
     } catch (error) {
+      // ==========================================================
+      // UNEXPECTED ERROR
+      // ==========================================================
+
+      console.error(
+        "SafeNexus HSE Worker Error:",
+        error
+      );
+
       return jsonResponse(
         {
           success: false,
@@ -310,17 +508,17 @@ ${location}
   },
 };
 
-// ============================================================
+// ================================================================
 // EXTRACT OPENAI OUTPUT TEXT
-// ============================================================
+// ================================================================
 
 function extractOutputText(data) {
-  if (!data?.output) {
+  if (!data?.output || !Array.isArray(data.output)) {
     return null;
   }
 
   for (const item of data.output) {
-    if (item.type !== "message") {
+    if (item?.type !== "message") {
       continue;
     }
 
@@ -330,10 +528,11 @@ function extractOutputText(data) {
 
     for (const content of item.content) {
       if (
-        content.type === "output_text" &&
-        content.text
+        content?.type === "output_text" &&
+        typeof content.text === "string" &&
+        content.text.trim()
       ) {
-        return content.text;
+        return content.text.trim();
       }
     }
   }
@@ -341,9 +540,76 @@ function extractOutputText(data) {
   return null;
 }
 
-// ============================================================
+// ================================================================
+// VALIDATE HSE RESULT
+// ================================================================
+
+function validateHSEResult(result) {
+  if (!result || typeof result !== "object") {
+    return "Result is not an object.";
+  }
+
+  const allowedObservationTypes = [
+    "Unsafe Act",
+    "Unsafe Condition",
+    "Positive Observation",
+  ];
+
+  const allowedRiskLevels = [
+    "Low",
+    "Medium",
+    "High",
+    "Critical",
+  ];
+
+  if (
+    !allowedObservationTypes.includes(
+      result.observation_type
+    )
+  ) {
+    return "Invalid observation_type.";
+  }
+
+  if (
+    !allowedRiskLevels.includes(
+      result.risk_level
+    )
+  ) {
+    return "Invalid risk_level.";
+  }
+
+  const requiredStringFields = [
+    "category",
+    "hazard",
+    "potential_consequence",
+    "corrective_action",
+    "explanation",
+  ];
+
+  for (const field of requiredStringFields) {
+    if (
+      typeof result[field] !== "string" ||
+      !result[field].trim()
+    ) {
+      return `${field} is missing or invalid.`;
+    }
+  }
+
+  if (
+    typeof result.confidence !== "number" ||
+    !Number.isFinite(result.confidence) ||
+    result.confidence < 0 ||
+    result.confidence > 1
+  ) {
+    return "Confidence must be a number between 0 and 1.";
+  }
+
+  return null;
+}
+
+// ================================================================
 // CORS HEADERS
-// ============================================================
+// ================================================================
 
 function corsHeaders() {
   return {
@@ -354,25 +620,31 @@ function corsHeaders() {
 
     "Access-Control-Allow-Headers":
       "Content-Type",
+
+    "Access-Control-Max-Age":
+      "86400",
   };
 }
 
-// ============================================================
+// ================================================================
 // JSON RESPONSE
-// ============================================================
+// ================================================================
 
-function jsonResponse(data, status = 200) {
+function jsonResponse(
+  data,
+  status = 200
+) {
   return new Response(
     JSON.stringify(data),
     {
-      status: status,
+      status,
 
       headers: {
         "Content-Type":
-          "application/json",
+          "application/json; charset=utf-8",
 
         ...corsHeaders(),
       },
     }
   );
-                      }
+  }
