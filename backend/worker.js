@@ -42,7 +42,7 @@ export default {
     }
 
     // ============================================================
-    // OPENAI API KEY
+    // API KEY
     // ============================================================
 
     if (!env.OPENAI_API_KEY) {
@@ -75,15 +75,26 @@ export default {
       }
 
       const imageBase64 = body?.image_base64;
-      const mimeType = body?.mime_type || "image/jpeg";
+
+      const mimeType =
+        typeof body?.mime_type === "string"
+          ? body.mime_type
+          : "image/jpeg";
+
       const description =
         typeof body?.description === "string"
           ? body.description.trim()
           : "";
+
       const location =
         typeof body?.location === "string"
           ? body.location.trim()
           : "";
+
+      const language =
+        typeof body?.language === "string"
+          ? body.language.toLowerCase()
+          : "en";
 
       // ==========================================================
       // IMAGE VALIDATION
@@ -102,9 +113,9 @@ export default {
         );
       }
 
-      // Remove accidental data URL prefix if Flutter sends one.
       const cleanBase64 = imageBase64
         .replace(/^data:[^;]+;base64,/, "")
+        .replace(/\s/g, "")
         .trim();
 
       if (!cleanBase64) {
@@ -118,7 +129,7 @@ export default {
       }
 
       // ==========================================================
-      // MIME TYPE VALIDATION
+      // MIME VALIDATION
       // ==========================================================
 
       const allowedMimeTypes = [
@@ -139,11 +150,11 @@ export default {
       }
 
       // ==========================================================
-      // BASIC BASE64 VALIDATION
+      // BASE64 VALIDATION
       // ==========================================================
 
       const base64Pattern =
-        /^[A-Za-z0-9+/]+={0,2}$/;
+        /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
       if (!base64Pattern.test(cleanBase64)) {
         return jsonResponse(
@@ -159,14 +170,13 @@ export default {
       // IMAGE SIZE PROTECTION
       // ==========================================================
 
-      // Approximate decoded size.
       const estimatedBytes =
         Math.floor(
           (cleanBase64.length * 3) / 4
         );
 
-      // 10 MB maximum.
-      const maxImageBytes = 10 * 1024 * 1024;
+      const maxImageBytes =
+        10 * 1024 * 1024;
 
       if (estimatedBytes > maxImageBytes) {
         return jsonResponse(
@@ -187,22 +197,31 @@ export default {
         `data:${mimeType};base64,${cleanBase64}`;
 
       // ==========================================================
-      // HSE SYSTEM INSTRUCTIONS
+      // LANGUAGE
+      // ==========================================================
+
+      const responseLanguage =
+        language.startsWith("ml")
+          ? "Malayalam"
+          : "English";
+
+      // ==========================================================
+      // SYSTEM PROMPT
       // ==========================================================
 
       const systemPrompt = `
 You are an expert HSE Safety Observation Analyst.
 
-Your job is to analyze workplace images for visible occupational
-health, safety and environmental hazards.
+Analyze workplace images for visible occupational health,
+safety and environmental hazards.
 
 IMPORTANT SAFETY RULES:
 
 1. Do not identify people.
 2. Do not guess personal identity.
 3. Do not infer sensitive personal information.
-4. Do not invent hazards that cannot reasonably be seen.
-5. Only report hazards reasonably supported by the image.
+4. Do not invent hazards.
+5. Only report hazards reasonably supported by visible evidence.
 6. If the image is unclear, state the limitation.
 7. Give practical and realistic HSE corrective actions.
 8. Risk level must be exactly:
@@ -211,10 +230,10 @@ IMPORTANT SAFETY RULES:
    Unsafe Act, Unsafe Condition, or Positive Observation.
 10. Confidence must be a number from 0 to 1.
 11. The HSE officer must review the AI result before taking action.
-12. Do not claim that an unsafe condition is definitely present when
+12. Do not claim an unsafe condition is definitely present when
     the image does not provide enough evidence.
 
-CHECK THE IMAGE FOR:
+CHECK FOR:
 
 - PPE
 - Work at height
@@ -256,9 +275,10 @@ Critical:
 Immediate and severe danger with potential for fatality, multiple
 serious injuries or major catastrophic consequence.
 
-IMPORTANT:
 Do not automatically assign High or Critical simply because a hazard
-category exists. Base the risk assessment on the visible conditions.
+category exists. Base the risk assessment on visible conditions.
+
+Return the explanation and corrective action in ${responseLanguage}.
 `;
 
       // ==========================================================
@@ -274,7 +294,10 @@ ${description || "No additional description provided."}
 Location:
 ${location || "Location not provided."}
 
-Return one structured HSE observation based on the visible evidence.
+Language:
+${responseLanguage}
+
+Return one structured HSE observation based only on visible evidence.
 `;
 
       // ==========================================================
@@ -313,7 +336,6 @@ Return one structured HSE observation based on the visible evidence.
                     type: "input_text",
                     text: userPrompt,
                   },
-
                   {
                     type: "input_image",
                     image_url: imageUrl,
@@ -321,10 +343,6 @@ Return one structured HSE observation based on the visible evidence.
                 ],
               },
             ],
-
-            // ====================================================
-            // STRUCTURED JSON OUTPUT
-            // ====================================================
 
             text: {
               format: {
@@ -404,12 +422,22 @@ Return one structured HSE observation based on the visible evidence.
       );
 
       // ==========================================================
-      // OPENAI RESPONSE
+      // OPENAI RESPONSE BODY
       // ==========================================================
 
-      const data = await openAIResponse.json();
+      const data =
+        await openAIResponse.json();
+
+      // ==========================================================
+      // OPENAI ERROR
+      // ==========================================================
 
       if (!openAIResponse.ok) {
+        console.error(
+          "OpenAI API Error:",
+          JSON.stringify(data)
+        );
+
         return jsonResponse(
           {
             success: false,
@@ -422,13 +450,18 @@ Return one structured HSE observation based on the visible evidence.
       }
 
       // ==========================================================
-      // EXTRACT OUTPUT TEXT
+      // OUTPUT TEXT
       // ==========================================================
 
       const outputText =
         extractOutputText(data);
 
       if (!outputText) {
+        console.error(
+          "OpenAI response did not contain output text:",
+          JSON.stringify(data)
+        );
+
         return jsonResponse(
           {
             success: false,
@@ -446,8 +479,14 @@ Return one structured HSE observation based on the visible evidence.
       let result;
 
       try {
-        result = JSON.parse(outputText);
+        result =
+          JSON.parse(outputText);
       } catch (_) {
+        console.error(
+          "Invalid AI JSON:",
+          outputText
+        );
+
         return jsonResponse(
           {
             success: false,
@@ -459,7 +498,7 @@ Return one structured HSE observation based on the visible evidence.
       }
 
       // ==========================================================
-      // RESULT VALIDATION
+      // VALIDATE RESULT
       // ==========================================================
 
       const validationError =
@@ -477,7 +516,7 @@ Return one structured HSE observation based on the visible evidence.
       }
 
       // ==========================================================
-      // SUCCESS RESPONSE
+      // SUCCESS
       // ==========================================================
 
       return jsonResponse({
@@ -486,10 +525,6 @@ Return one structured HSE observation based on the visible evidence.
       });
 
     } catch (error) {
-      // ==========================================================
-      // UNEXPECTED ERROR
-      // ==========================================================
-
       console.error(
         "SafeNexus HSE Worker Error:",
         error
@@ -509,11 +544,21 @@ Return one structured HSE observation based on the visible evidence.
 };
 
 // ================================================================
-// EXTRACT OPENAI OUTPUT TEXT
+// EXTRACT OUTPUT TEXT
 // ================================================================
 
 function extractOutputText(data) {
-  if (!data?.output || !Array.isArray(data.output)) {
+  if (
+    typeof data?.output_text === "string" &&
+    data.output_text.trim()
+  ) {
+    return data.output_text.trim();
+  }
+
+  if (
+    !data?.output ||
+    !Array.isArray(data.output)
+  ) {
     return null;
   }
 
@@ -545,7 +590,11 @@ function extractOutputText(data) {
 // ================================================================
 
 function validateHSEResult(result) {
-  if (!result || typeof result !== "object") {
+  if (
+    !result ||
+    typeof result !== "object" ||
+    Array.isArray(result)
+  ) {
     return "Result is not an object.";
   }
 
@@ -608,19 +657,16 @@ function validateHSEResult(result) {
 }
 
 // ================================================================
-// CORS HEADERS
+// CORS
 // ================================================================
 
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-
     "Access-Control-Allow-Methods":
       "POST, OPTIONS",
-
     "Access-Control-Allow-Headers":
       "Content-Type",
-
     "Access-Control-Max-Age":
       "86400",
   };
@@ -642,9 +688,8 @@ function jsonResponse(
       headers: {
         "Content-Type":
           "application/json; charset=utf-8",
-
         ...corsHeaders(),
       },
     }
   );
-  }
+}
