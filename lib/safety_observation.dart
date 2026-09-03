@@ -1,248 +1,218 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:safenexus_hse/services/ai_hse_service.dart';
 
 class SafetyObservationPage extends StatefulWidget {
   const SafetyObservationPage({super.key});
 
   @override
-  State<SafetyObservationPage> createState() =>
-      _SafetyObservationPageState();
+  State<SafetyObservationPage> createState() => _SafetyObservationPageState();
 }
 
-class _SafetyObservationPageState
-    extends State<SafetyObservationPage> {
-  static const String _storageKey =
-      'safenexus_observations';
+class _SafetyObservationPageState extends State<SafetyObservationPage> {
+  final _formKey = GlobalKey<FormState>();
 
-  final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>();
+  final _descriptionController = TextEditingController();
+  final _actionController = TextEditingController();
+  final _locationController = TextEditingController();
 
-  final TextEditingController
-      _descriptionController =
-      TextEditingController();
+  final ImagePicker _picker = ImagePicker();
 
-  final TextEditingController
-      _actionController =
-      TextEditingController();
-
-  final TextEditingController
-      _locationController =
-      TextEditingController();
-
-  final ImagePicker _picker =
-      ImagePicker();
-
-  final AiHseService _aiHseService =
-      AiHseService();
-
-  String _observationType =
-      'Unsafe Condition';
-
-  String _category =
-      'General Safety';
-
-  String _hazardType =
-      'Slip, Trip & Fall';
-
-  String _riskLevel =
-      'Medium';
-
-  String _potentialConsequence =
-      'Injury';
+  String _observationType = 'Unsafe Condition';
+  String _category = 'General Safety';
+  String _hazardType = 'General Workplace Hazard';
+  String _riskLevel = 'Medium';
+  String _potentialConsequence = 'Injury';
 
   XFile? _photo;
 
   bool _submitting = false;
   bool _analyzing = false;
-  bool _aiPhotoAnalyzing = false;
   bool _smartAnalysisDone = false;
 
-  AiHseResult? _aiResult;
+  bool get _isMalayalam =>
+      Localizations.localeOf(context).languageCode == 'ml';
 
-  // ============================================================
-  // LANGUAGE
-  // ============================================================
+  final List<String> _observationTypes = const [
+    'Unsafe Act',
+    'Unsafe Condition',
+    'Positive Observation',
+  ];
 
-  bool get _isMalayalam {
-    return Localizations.localeOf(context)
-            .languageCode ==
-        'ml';
-  }
+  final List<String> _categories = const [
+    'General Safety',
+    'PPE',
+    'Work at Height',
+    'Scaffolding',
+    'Lifting & Rigging',
+    'Electrical Safety',
+    'Fire Safety',
+    'Housekeeping',
+    'Permit to Work',
+    'Environmental Safety',
+    'Heat Stress',
+    'Vehicle & Traffic Safety',
+    'Slip, Trip & Fall',
+    'Chemical Safety',
+    'Confined Space',
+    'Manual Handling',
+    'Machinery Safety',
+  ];
 
-  // ============================================================
-  // OPTIONS
-  // ============================================================
-
-  List<String> get _observationTypes => const [
-        'Unsafe Act',
-        'Unsafe Condition',
-        'Positive Observation',
-      ];
-
-  List<String> get _categories => const [
-        'General Safety',
-        'PPE',
-        'Work at Height',
-        'Scaffolding',
-        'Lifting & Rigging',
-        'Electrical Safety',
-        'Fire Safety',
-        'Housekeeping',
-        'Permit to Work',
-        'Environmental Safety',
-        'Heat Stress',
-        'Vehicle & Traffic Safety',
-        'Slip, Trip & Fall',
-        'Chemical Safety',
-        'Confined Space',
-        'Manual Handling',
-        'Machinery Safety',
-      ];
-
-  List<String> get _riskLevels => const [
-        'Low',
-        'Medium',
-        'High',
-        'Critical',
-      ];
-
-  // ============================================================
-  // DISPOSE
-  // ============================================================
+  final List<String> _riskLevels = const [
+    'Low',
+    'Medium',
+    'High',
+    'Critical',
+  ];
 
   @override
   void dispose() {
     _descriptionController.dispose();
     _actionController.dispose();
     _locationController.dispose();
-
     super.dispose();
   }
 
-  // ============================================================
-  // PHOTO PICKER
-  // ============================================================
+  // ---------------------------------------------------------------------------
+  // RISK UI
+  // ---------------------------------------------------------------------------
 
-  Future<void> _pickPhoto(
-    ImageSource source,
-  ) async {
+  Color _riskColor(String risk) {
+    switch (risk) {
+      case 'Low':
+        return Colors.green.shade700;
+      case 'Medium':
+        return Colors.orange.shade800;
+      case 'High':
+        return Colors.red.shade700;
+      case 'Critical':
+        return Colors.red.shade900;
+      default:
+        return Theme.of(context).colorScheme.primary;
+    }
+  }
+
+  Color _riskBackground(String risk) {
+    switch (risk) {
+      case 'Low':
+        return Colors.green.withOpacity(0.10);
+      case 'Medium':
+        return Colors.orange.withOpacity(0.12);
+      case 'High':
+        return Colors.red.withOpacity(0.10);
+      case 'Critical':
+        return Colors.red.withOpacity(0.16);
+      default:
+        return Theme.of(context).colorScheme.surfaceContainerHighest;
+    }
+  }
+
+  IconData _riskIcon(String risk) {
+    switch (risk) {
+      case 'Low':
+        return Icons.check_circle_outline;
+      case 'Medium':
+        return Icons.warning_amber_rounded;
+      case 'High':
+        return Icons.error_outline;
+      case 'Critical':
+        return Icons.dangerous_outlined;
+      default:
+        return Icons.warning_amber_rounded;
+    }
+  }
+
+  String _consequenceForRisk(String risk) {
+    switch (risk) {
+      case 'Low':
+        return 'Minor injury';
+      case 'Medium':
+        return 'Injury';
+      case 'High':
+        return 'Serious injury';
+      case 'Critical':
+        return 'Fatality';
+      default:
+        return 'Injury';
+    }
+  }
+
+  void _applyManualRisk(String value) {
+    setState(() {
+      _riskLevel = value;
+      _potentialConsequence = _consequenceForRisk(value);
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // PHOTO
+  // ---------------------------------------------------------------------------
+
+  Future<void> _pickPhoto(ImageSource source) async {
     try {
-      final XFile? image =
-          await _picker.pickImage(
+      final image = await _picker.pickImage(
         source: source,
         imageQuality: 80,
         maxWidth: 1600,
       );
 
-      if (image == null ||
-          !mounted) {
-        return;
-      }
+      if (image == null || !mounted) return;
 
       setState(() {
         _photo = image;
         _smartAnalysisDone = false;
-        _aiResult = null;
       });
-
-      _showMessage(
-        _isMalayalam
-            ? 'Photo selected.'
-            : 'Photo selected.',
-      );
     } catch (_) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       _showMessage(
         _isMalayalam
-            ? 'Photo തിരഞ്ഞെടുക്കാൻ കഴിഞ്ഞില്ല.'
+            ? 'Photo എടുക്കാൻ കഴിഞ്ഞില്ല.'
             : 'Unable to select photo.',
       );
     }
   }
 
-  // ============================================================
-  // PHOTO OPTIONS
-  // ============================================================
-
   Future<void> _showPhotoOptions() async {
     await showModalBottomSheet<void>(
       context: context,
+      showDragHandle: true,
       builder: (sheetContext) {
         return SafeArea(
           child: Column(
-            mainAxisSize:
-                MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(
-                  Icons.camera_alt,
-                ),
-                title: Text(
-                  _isMalayalam
-                      ? 'Camera'
-                      : 'Camera',
-                ),
+                leading: const Icon(Icons.camera_alt_outlined),
+                title: const Text('Camera'),
                 onTap: () {
-                  Navigator.pop(
-                    sheetContext,
-                  );
-
-                  _pickPhoto(
-                    ImageSource.camera,
-                  );
+                  Navigator.pop(sheetContext);
+                  _pickPhoto(ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: const Icon(
-                  Icons.photo_library,
-                ),
-                title: Text(
-                  _isMalayalam
-                      ? 'Gallery'
-                      : 'Gallery',
-                ),
+                leading: const Icon(Icons.photo_library_outlined),
+                title: const Text('Gallery'),
                 onTap: () {
-                  Navigator.pop(
-                    sheetContext,
-                  );
-
-                  _pickPhoto(
-                    ImageSource.gallery,
-                  );
+                  Navigator.pop(sheetContext);
+                  _pickPhoto(ImageSource.gallery);
                 },
               ),
               if (_photo != null)
                 ListTile(
                   leading: const Icon(
                     Icons.delete_outline,
+                    color: Colors.red,
                   ),
-                  title: Text(
-                    _isMalayalam
-                        ? 'Photo നീക്കം ചെയ്യുക'
-                        : 'Remove Photo',
-                  ),
+                  title: const Text('Remove Photo'),
                   onTap: () {
-                    Navigator.pop(
-                      sheetContext,
-                    );
-
-                    setState(() {
-                      _photo = null;
-                      _aiResult = null;
-                      _smartAnalysisDone =
-                          false;
-                    });
+                    Navigator.pop(sheetContext);
+                    _removePhoto();
                   },
                 ),
+              const SizedBox(height: 8),
             ],
           ),
         );
@@ -250,149 +220,19 @@ class _SafetyObservationPageState
     );
   }
 
-  // ============================================================
-  // REAL AI PHOTO ANALYSIS
-  // ============================================================
-
-  Future<void>
-      _analyzePhotoWithAI() async {
-    if (_photo == null) {
-      _showMessage(
-        _isMalayalam
-            ? 'ആദ്യം ഒരു photo തിരഞ്ഞെടുക്കുക.'
-            : 'Please select a photo first.',
-      );
-
-      return;
-    }
-
-    if (_aiPhotoAnalyzing) {
-      return;
-    }
-
+  void _removePhoto() {
     setState(() {
-      _aiPhotoAnalyzing = true;
+      _photo = null;
+      _smartAnalysisDone = false;
     });
-
-    try {
-      final AiHseResult result =
-          await _aiHseService.analyzePhoto(
-        imageFile: File(
-          _photo!.path,
-        ),
-        description:
-            _descriptionController.text
-                .trim(),
-        location:
-            _locationController.text
-                .trim(),
-      );
-
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _aiResult = result;
-
-        _observationType =
-            _safeObservationType(
-          result.observationType,
-        );
-
-        _category =
-            _safeCategory(
-          result.category,
-        );
-
-        _hazardType =
-            result.hazard;
-
-        _riskLevel =
-            _safeRiskLevel(
-          result.riskLevel,
-        );
-
-        _potentialConsequence =
-            result.potentialConsequence;
-
-        _actionController.text =
-            result.correctiveAction;
-
-        _smartAnalysisDone = true;
-
-        _aiPhotoAnalyzing = false;
-      });
-
-      _showMessage(
-        _isMalayalam
-            ? 'AI Photo Analysis പൂർത്തിയായി.'
-            : 'AI Photo Analysis completed.',
-      );
-    } catch (e) {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _aiPhotoAnalyzing = false;
-      });
-
-      _showMessage(
-        _isMalayalam
-            ? 'AI analysis പരാജയപ്പെട്ടു. Server/API പരിശോധിക്കുക.'
-            : 'AI analysis failed. Check the server/API.',
-      );
-    }
   }
 
-  // ============================================================
-  // SAFE VALUES
-  // ============================================================
+  // ---------------------------------------------------------------------------
+  // LOCAL SMART HSE ANALYSIS
+  // ---------------------------------------------------------------------------
 
-  String _safeObservationType(
-    String value,
-  ) {
-    if (_observationTypes
-        .contains(value)) {
-      return value;
-    }
-
-    return 'Unsafe Condition';
-  }
-
-  String _safeCategory(
-    String value,
-  ) {
-    if (_categories
-        .contains(value)) {
-      return value;
-    }
-
-    return 'General Safety';
-  }
-
-  String _safeRiskLevel(
-    String value,
-  ) {
-    if (_riskLevels
-        .contains(value)) {
-      return value;
-    }
-
-    return 'Medium';
-  }
-
-  // ============================================================
-  // TEXT SMART ANALYSIS
-  // ============================================================
-
-  Future<void>
-      _analyzeObservation() async {
-    final String text =
-        _descriptionController.text
-            .trim()
-            .toLowerCase();
+  Future<void> _analyzeObservation() async {
+    final text = _descriptionController.text.trim().toLowerCase();
 
     if (text.isEmpty) {
       _showMessage(
@@ -400,152 +240,92 @@ class _SafetyObservationPageState
             ? 'ആദ്യം observation description നൽകുക.'
             : 'Enter an observation description first.',
       );
-
       return;
     }
 
-    if (_analyzing) {
-      return;
-    }
-
-    setState(() {
-      _analyzing = true;
-    });
+    setState(() => _analyzing = true);
 
     await Future<void>.delayed(
-      const Duration(
-        milliseconds: 350,
-      ),
+      const Duration(milliseconds: 350),
     );
 
-    final _HazardResult result =
-        _classifyHazard(text);
+    final result = _classifyHazard(text);
 
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     setState(() {
-      _observationType =
-          result.type;
-
-      _category =
-          result.category;
-
-      _hazardType =
-          result.hazard;
-
-      _riskLevel =
-          result.risk;
-
-      _potentialConsequence =
-          result.consequence;
-
-      _smartAnalysisDone =
-          true;
-
+      _observationType = result.type;
+      _category = result.category;
+      _hazardType = result.hazard;
+      _riskLevel = result.risk;
+      _potentialConsequence = result.consequence;
+      _smartAnalysisDone = true;
       _analyzing = false;
 
-      if (_actionController
-          .text
-          .trim()
-          .isEmpty) {
-        _actionController.text =
-            result.action;
+      if (_actionController.text.trim().isEmpty) {
+        _actionController.text = result.action;
       }
-
-      _aiResult = null;
     });
 
     _showMessage(
       _isMalayalam
-          ? 'Observation അനുസരിച്ച് HSE details update ചെയ്തു.'
-          : 'HSE details updated from the observation.',
+          ? 'Category, Risk, Hazard & Action update ചെയ്തു.'
+          : 'Category, Risk, Hazard and Action updated.',
     );
   }
 
-  // ============================================================
-  // LOCAL HAZARD CLASSIFICATION
-  // ============================================================
-
-  _HazardResult _classifyHazard(
-    String text,
-  ) {
+  _HazardResult _classifyHazard(String text) {
     if (_containsAny(text, [
       'fall from height',
       'fell from height',
       'working at height',
-      'work at height',
       'height',
-      'roof',
       'ladder',
-      'edge',
+      'roof',
       'unguarded edge',
       'no harness',
       'without harness',
-      'no fall protection',
-      'without fall protection',
       'scaffold',
       'scaffolding',
     ])) {
-      final bool critical =
-          _containsAny(text, [
+      final critical = _containsAny(text, [
         'fell from height',
         'fall from height',
-        'no fall protection',
-        'without fall protection',
         'unguarded edge',
+        'no fall protection',
       ]);
 
       return _HazardResult(
         type: 'Unsafe Act',
         category:
-            text.contains('scaffold') ||
-                    text.contains(
-                      'scaffolding',
-                    )
-                ? 'Scaffolding'
-                : 'Work at Height',
-        hazard:
-            text.contains('ladder')
-                ? 'Unsafe Ladder Use'
-                : 'Fall from Height',
-        risk:
-            critical
-                ? 'Critical'
-                : 'High',
-        consequence:
-            critical
-                ? 'Fatality'
-                : 'Serious injury',
+            text.contains('scaffold') ? 'Scaffolding' : 'Work at Height',
+        hazard: 'Fall from Height',
+        risk: critical ? 'Critical' : 'High',
+        consequence: critical ? 'Fatality' : 'Serious injury',
         action:
-            'Stop the unsafe work, barricade the area, provide suitable fall protection, and allow work to resume only after the control measures are verified.',
+            'Stop the unsafe work, barricade the area, provide suitable fall protection and verify controls before restarting.',
       );
     }
 
     if (_containsAny(text, [
       'no helmet',
       'without helmet',
-      'helmet not worn',
-      'no safety helmet',
       'no gloves',
       'without gloves',
       'no goggles',
       'without goggles',
       'no safety shoes',
       'without safety shoes',
-      'ppe not worn',
       'ppe',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
         category: 'PPE',
-        hazard:
-            'Inadequate / Missing PPE',
+        hazard: 'Inadequate / Missing PPE',
         risk: 'Medium',
         consequence: 'Injury',
         action:
-            'Stop the task where necessary and ensure the worker wears the required PPE before continuing the work.',
+            'Ensure the required PPE is worn correctly before continuing the task.',
       );
     }
 
@@ -559,10 +339,8 @@ class _SafetyObservationPageState
       'electrical panel',
       'open panel',
       'electric shock',
-      'shock',
     ])) {
-      final bool critical =
-          _containsAny(text, [
+      final critical = _containsAny(text, [
         'live wire',
         'exposed wire',
         'electric shock',
@@ -570,20 +348,12 @@ class _SafetyObservationPageState
 
       return _HazardResult(
         type: 'Unsafe Condition',
-        category:
-            'Electrical Safety',
-        hazard:
-            'Electrical Exposure',
-        risk:
-            critical
-                ? 'Critical'
-                : 'High',
-        consequence:
-            critical
-                ? 'Fatality'
-                : 'Serious injury',
+        category: 'Electrical Safety',
+        hazard: 'Electrical Exposure',
+        risk: critical ? 'Critical' : 'High',
+        consequence: critical ? 'Fatality' : 'Serious injury',
         action:
-            'Isolate the electrical source by an authorized competent person, barricade the area, and rectify the electrical defect before work resumes.',
+            'Isolate the electrical source by an authorized competent person and rectify the defect before work resumes.',
       );
     }
 
@@ -592,22 +362,17 @@ class _SafetyObservationPageState
       'flammable',
       'hot work',
       'gas cylinder',
-      'oxygen cylinder',
-      'fire extinguisher',
-      'blocked extinguisher',
       'combustible',
-      'ignition',
+      'fire extinguisher',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
         category: 'Fire Safety',
-        hazard:
-            'Fire / Ignition Hazard',
+        hazard: 'Fire / Ignition Hazard',
         risk: 'High',
-        consequence:
-            'Serious injury',
+        consequence: 'Serious injury',
         action:
-            'Remove or control the ignition source, keep combustible materials away, maintain required fire protection, and verify the area before continuing work.',
+            'Control the ignition source, remove combustible materials and verify required fire protection.',
       );
     }
 
@@ -617,13 +382,11 @@ class _SafetyObservationPageState
       'rigging',
       'sling',
       'suspended load',
-      'load suspended',
       'lifting gear',
       'shackle',
       'hoist',
     ])) {
-      final bool critical =
-          _containsAny(text, [
+      final critical = _containsAny(text, [
         'person under load',
         'standing under load',
         'suspended load over person',
@@ -631,20 +394,12 @@ class _SafetyObservationPageState
 
       return _HazardResult(
         type: 'Unsafe Act',
-        category:
-            'Lifting & Rigging',
-        hazard:
-            'Lifting / Suspended Load Hazard',
-        risk:
-            critical
-                ? 'Critical'
-                : 'High',
-        consequence:
-            critical
-                ? 'Fatality'
-                : 'Serious injury',
+        category: 'Lifting & Rigging',
+        hazard: 'Lifting / Suspended Load Hazard',
+        risk: critical ? 'Critical' : 'High',
+        consequence: critical ? 'Fatality' : 'Serious injury',
         action:
-            'Stop the lifting operation, establish an exclusion zone, keep personnel clear of suspended loads, and verify lifting equipment and the lifting plan before restarting.',
+            'Stop the lifting operation, establish an exclusion zone and keep personnel clear of suspended loads.',
       );
     }
 
@@ -657,21 +412,15 @@ class _SafetyObservationPageState
       'pedestrian',
       'traffic',
       'mobile equipment',
-      'seat belt',
-      'seatbelt',
-      'banksman',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category:
-            'Vehicle & Traffic Safety',
-        hazard:
-            'Vehicle / Pedestrian Interaction',
+        category: 'Vehicle & Traffic Safety',
+        hazard: 'Vehicle / Pedestrian Interaction',
         risk: 'High',
-        consequence:
-            'Serious injury',
+        consequence: 'Serious injury',
         action:
-            'Stop the unsafe movement, separate pedestrians and vehicles, use designated routes and a trained banksman where required, and verify traffic controls.',
+            'Separate pedestrians and vehicles and verify traffic controls before continuing.',
       );
     }
 
@@ -680,22 +429,17 @@ class _SafetyObservationPageState
       'acid',
       'solvent',
       'chemical spill',
-      'spill',
       'toxic',
       'corrosive',
-      'chemical exposure',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category:
-            'Chemical Safety',
-        hazard:
-            'Chemical Exposure / Spill',
+        category: 'Chemical Safety',
+        hazard: 'Chemical Exposure / Spill',
         risk: 'High',
-        consequence:
-            'Serious injury',
+        consequence: 'Serious injury',
         action:
-            'Isolate the affected area, prevent exposure, use the required PPE and spill controls, and clean up or contain the material using the approved procedure.',
+            'Isolate the affected area, prevent exposure and control the spill using the approved procedure.',
       );
     }
 
@@ -705,28 +449,21 @@ class _SafetyObservationPageState
       'manhole',
       'vessel entry',
       'confined',
-      'entry into tank',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category:
-            'Confined Space',
-        hazard:
-            'Confined Space Entry Hazard',
+        category: 'Confined Space',
+        hazard: 'Confined Space Entry Hazard',
         risk: 'Critical',
         consequence: 'Fatality',
         action:
-            'Stop entry, secure the space, verify the permit, atmospheric testing, isolation, ventilation, communication and rescue arrangements before entry.',
+            'Stop entry and verify permit, atmospheric testing, isolation, ventilation and rescue arrangements.',
       );
     }
 
     if (_containsAny(text, [
       'slip',
       'trip',
-      'fallen',
-      'fell',
-      'lying on floor',
-      'lying on the floor',
       'wet floor',
       'slippery',
       'obstruction',
@@ -734,59 +471,33 @@ class _SafetyObservationPageState
       'poor housekeeping',
       'housekeeping',
       'debris',
-      'loose material',
     ])) {
-      final bool serious =
-          _containsAny(text, [
-        'fell',
-        'fallen',
-        'lying on floor',
-        'lying on the floor',
-        'person fell',
-        'worker fell',
-      ]);
-
-      return _HazardResult(
+      return const _HazardResult(
         type: 'Unsafe Condition',
-        category:
-            serious
-                ? 'Slip, Trip & Fall'
-                : 'Housekeeping',
-        hazard:
-            'Slip, Trip & Fall Hazard',
-        risk:
-            serious
-                ? 'High'
-                : 'Medium',
-        consequence:
-            serious
-                ? 'Serious injury'
-                : 'Injury',
+        category: 'Housekeeping',
+        hazard: 'Slip, Trip & Fall Hazard',
+        risk: 'Medium',
+        consequence: 'Injury',
         action:
-            'Secure the area, remove the slip/trip hazard, provide warning or barricading where required, and inspect the area before allowing normal work to continue.',
+            'Secure the area, remove the hazard and verify the walkway is safe.',
       );
     }
 
     if (_containsAny(text, [
       'manual handling',
-      'lifting by hand',
       'heavy lifting',
       'heavy object',
       'awkward lifting',
-      'manual lift',
-      'back posture',
-      'ergonomic',
+      'lifting by hand',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Act',
-        category:
-            'Manual Handling',
-        hazard:
-            'Manual Handling / Ergonomic Hazard',
+        category: 'Manual Handling',
+        hazard: 'Manual Handling / Ergonomic Hazard',
         risk: 'Medium',
         consequence: 'Injury',
         action:
-            'Use suitable mechanical assistance where practicable, apply correct lifting technique, and reduce the load or improve the handling method.',
+            'Use mechanical assistance where practicable and apply correct lifting technique.',
       );
     }
 
@@ -799,19 +510,15 @@ class _SafetyObservationPageState
       'moving parts',
       'rotating',
       'conveyor',
-      'machine guarding',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
-        category:
-            'Machinery Safety',
-        hazard:
-            'Machine Guarding / Moving Parts',
+        category: 'Machinery Safety',
+        hazard: 'Machine Guarding / Moving Parts',
         risk: 'High',
-        consequence:
-            'Serious injury',
+        consequence: 'Serious injury',
         action:
-            'Stop the machine if there is immediate danger, isolate it as required, restore the guarding and verify the machine is safe before operation.',
+            'Stop the machine where necessary, isolate it and restore the required guarding.',
       );
     }
 
@@ -819,162 +526,43 @@ class _SafetyObservationPageState
       'heat stress',
       'hot weather',
       'dehydration',
-      'heat',
       'working in sun',
       'working under sun',
-      'sun exposure',
-      'high temperature',
     ])) {
       return const _HazardResult(
         type: 'Unsafe Condition',
         category: 'Heat Stress',
-        hazard:
-            'Heat Stress Exposure',
+        hazard: 'Heat Stress Exposure',
         risk: 'High',
-        consequence:
-            'Serious injury',
+        consequence: 'Serious injury',
         action:
-            'Move the worker to a cool or shaded area, provide drinking water and rest, follow heat-stress controls, and assess the worker if symptoms are present.',
-      );
-    }
-
-    if (_containsAny(text, [
-      'environment',
-      'dust',
-      'air pollution',
-      'noise',
-      'waste',
-      'environmental',
-    ])) {
-      return const _HazardResult(
-        type: 'Unsafe Condition',
-        category:
-            'Environmental Safety',
-        hazard:
-            'Environmental Exposure',
-        risk: 'Medium',
-        consequence:
-            'Environmental impact',
-        action:
-            'Control the environmental hazard, prevent unnecessary exposure, maintain housekeeping and waste controls, and verify the area is compliant.',
-      );
-    }
-
-    if (_containsAny(text, [
-      'permit',
-      'ptw',
-      'permit to work',
-      'work permit',
-      'expired permit',
-    ])) {
-      return const _HazardResult(
-        type: 'Unsafe Condition',
-        category:
-            'Permit to Work',
-        hazard:
-            'Permit / Authorization Deficiency',
-        risk: 'High',
-        consequence:
-            'Serious injury',
-        action:
-            'Stop the affected work, verify the applicable permit and controls with the responsible authority, and resume only after authorization is confirmed.',
-      );
-    }
-
-    if (_containsAny(text, [
-      'safe work',
-      'good practice',
-      'good safety',
-      'proper ppe',
-      'wearing ppe',
-      'safety compliance',
-      'safe behavior',
-      'safe behaviour',
-      'excellent housekeeping',
-    ])) {
-      return const _HazardResult(
-        type: 'Positive Observation',
-        category:
-            'General Safety',
-        hazard:
-            'Positive Safety Practice',
-        risk: 'Low',
-        consequence:
-            'Minor injury',
-        action:
-            'Recognize the positive behavior and encourage the team to maintain the same safe practice.',
+            'Move the worker to a cool area, provide water and rest and follow heat-stress controls.',
       );
     }
 
     return const _HazardResult(
       type: 'Unsafe Condition',
-      category:
-          'General Safety',
-      hazard:
-          'General Workplace Hazard',
+      category: 'General Safety',
+      hazard: 'General Workplace Hazard',
       risk: 'Medium',
       consequence: 'Injury',
       action:
-          'Make the area safe, control the identified hazard, communicate the corrective action to the responsible person, and verify closure.',
+          'Make the area safe, control the hazard and verify the corrective action.',
     );
   }
 
-  bool _containsAny(
-    String text,
-    List<String> words,
-  ) {
-    return words.any(
-      text.contains,
-    );
+  bool _containsAny(String text, List<String> words) {
+    return words.any(text.contains);
   }
 
-  // ============================================================
-  // RISK
-  // ============================================================
-
-  void _applyManualRisk(
-    String value,
-  ) {
-    setState(() {
-      _riskLevel = value;
-
-      _potentialConsequence =
-          _consequenceForRisk(
-        value,
-      );
-    });
-  }
-
-  String _consequenceForRisk(
-    String risk,
-  ) {
-    switch (risk) {
-      case 'Low':
-        return 'Minor injury';
-
-      case 'Medium':
-        return 'Injury';
-
-      case 'High':
-        return 'Serious injury';
-
-      case 'Critical':
-        return 'Fatality';
-
-      default:
-        return 'Injury';
-    }
-  }
-
-  // ============================================================
-  // OBSERVATION ID
-  // ============================================================
+  // ---------------------------------------------------------------------------
+  // SUBMIT
+  // ---------------------------------------------------------------------------
 
   String _generateObservationId() {
-    final DateTime now =
-        DateTime.now();
+    final now = DateTime.now();
 
-    final String stamp =
+    final stamp =
         '${now.year}'
         '${now.month.toString().padLeft(2, '0')}'
         '${now.day.toString().padLeft(2, '0')}'
@@ -985,152 +573,31 @@ class _SafetyObservationPageState
     return 'OBS-$stamp';
   }
 
-  // ============================================================
-  // SAVE
-  // ============================================================
+  void _submitObservation() {
+    if (!_formKey.currentState!.validate()) return;
 
-  Future<void> _saveObservation({
-    required String id,
-    required DateTime submittedAt,
-  }) async {
-    try {
-      final SharedPreferences prefs =
-          await SharedPreferences
-              .getInstance();
+    setState(() => _submitting = true);
 
-      final List<String> existing =
-          prefs.getStringList(
-                _storageKey,
-              ) ??
-              <String>[];
+    final id = _generateObservationId();
+    final submittedAt = DateTime.now();
 
-      final Map<String, dynamic>
-          observation = {
-        'id': id,
-        'dateTime':
-            submittedAt.toIso8601String(),
-        'type':
-            _observationType,
-        'category':
-            _category,
-        'hazard':
-            _hazardType,
-        'risk':
-            _riskLevel,
-        'consequence':
-            _potentialConsequence,
-        'description':
-            _descriptionController
-                .text
-                .trim(),
-        'action':
-            _actionController
-                .text
-                .trim(),
-        'location':
-            _locationController
-                .text
-                .trim(),
-        'photoPath':
-            _photo?.path ?? '',
-        'status': 'Open',
-        'aiAnalyzed':
-            _aiResult != null,
-        'aiConfidence':
-            _aiResult?.confidence ?? 0,
-        'aiExplanation':
-            _aiResult?.explanation ?? '',
-      };
+    Future<void>.delayed(
+      const Duration(milliseconds: 500),
+      () {
+        if (!mounted) return;
 
-      existing.insert(
-        0,
-        jsonEncode(
-          observation,
-        ),
-      );
+        setState(() => _submitting = false);
 
-      await prefs.setStringList(
-        _storageKey,
-        existing,
-      );
-    } catch (_) {
-      // Keep submission flow alive
-      // even if local storage fails.
-    }
-  }
-
-  // ============================================================
-  // SUBMIT
-  // ============================================================
-
-  Future<void>
-      _submitObservation() async {
-    if (_submitting) {
-      return;
-    }
-
-    if (!_formKey.currentState!
-        .validate()) {
-      return;
-    }
-
-    final String description =
-        _descriptionController
-            .text
-            .trim();
-
-    if (description.isEmpty) {
-      _showMessage(
-        _isMalayalam
-            ? 'Observation Description നൽകുക.'
-            : 'Please enter an observation description.',
-      );
-
-      return;
-    }
-
-    FocusScope.of(context)
-        .unfocus();
-
-    setState(() {
-      _submitting = true;
-    });
-
-    final String id =
-        _generateObservationId();
-
-    final DateTime submittedAt =
-        DateTime.now();
-
-    await _saveObservation(
-      id: id,
-      submittedAt: submittedAt,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _submitting = false;
-    });
-
-    await _showSuccessDialog(
-      id,
-      submittedAt,
+        _showSuccessDialog(id, submittedAt);
+      },
     );
   }
 
-  // ============================================================
-  // SUCCESS DIALOG
-  // ============================================================
-
-  Future<void>
-      _showSuccessDialog(
+  Future<void> _showSuccessDialog(
     String id,
     DateTime submittedAt,
   ) async {
-    final String date =
+    final date =
         '${submittedAt.day.toString().padLeft(2, '0')}/'
         '${submittedAt.month.toString().padLeft(2, '0')}/'
         '${submittedAt.year} '
@@ -1142,81 +609,44 @@ class _SafetyObservationPageState
       barrierDismissible: false,
       builder: (dialogContext) {
         return AlertDialog(
-          icon: const Icon(
+          icon: Icon(
             Icons.check_circle,
-            color: Colors.green,
-            size: 58,
+            color: Colors.green.shade700,
+            size: 56,
           ),
           title: Text(
             _isMalayalam
                 ? 'Observation Submitted'
                 : 'Observation Submitted',
           ),
-          content:
-              SingleChildScrollView(
+          content: SingleChildScrollView(
             child: Column(
-              mainAxisSize:
-                  MainAxisSize.min,
-              crossAxisAlignment:
-                  CrossAxisAlignment
-                      .start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   _isMalayalam
                       ? 'Safety observation വിജയകരമായി രേഖപ്പെടുത്തി.'
                       : 'The safety observation has been recorded successfully.',
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                _infoRow(
-                  'Observation ID',
-                  id,
-                ),
-                _infoRow(
-                  'Type',
-                  _observationType,
-                ),
-                _infoRow(
-                  'Category',
-                  _category,
-                ),
-                _infoRow(
-                  'Hazard',
-                  _hazardType,
-                ),
-                _infoRow(
-                  'Risk',
-                  _riskLevel,
-                ),
-                _infoRow(
-                  'Consequence',
-                  _potentialConsequence,
-                ),
-                _infoRow(
-                  'Date & Time',
-                  date,
-                ),
-                if (_aiResult != null)
-                  _infoRow(
-                    'AI Confidence',
-                    '${(_aiResult!.confidence * 100).round()}%',
-                  ),
+                const SizedBox(height: 18),
+                _infoRow('Observation ID', id),
+                _infoRow('Type', _observationType),
+                _infoRow('Category', _category),
+                _infoRow('Hazard', _hazardType),
+                _infoRow('Risk', _riskLevel),
+                _infoRow('Consequence', _potentialConsequence),
+                _infoRow('Date & Time', date),
               ],
             ),
           ),
           actions: [
             FilledButton(
               onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                );
-
+                Navigator.pop(dialogContext);
                 _resetForm();
               },
-              child: const Text(
-                'Done',
-              ),
+              child: const Text('Done'),
             ),
           ],
         );
@@ -1224,112 +654,57 @@ class _SafetyObservationPageState
     );
   }
 
-  Widget _infoRow(
-    String label,
-    String value,
-  ) {
+  Widget _infoRow(String label, String value) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
-        bottom: 7,
-      ),
+      padding: const EdgeInsets.only(bottom: 7),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment
-                .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 105,
             child: Text(
               label,
-              style:
-                  const TextStyle(
-                fontWeight:
-                    FontWeight.w600,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
-          Expanded(
-            child: Text(value),
-          ),
+          Expanded(child: Text(value)),
         ],
       ),
     );
   }
 
-  // ============================================================
-  // RESET
-  // ============================================================
-
   void _resetForm() {
-    _formKey.currentState
-        ?.reset();
+    _formKey.currentState?.reset();
 
-    _descriptionController
-        .clear();
-
+    _descriptionController.clear();
     _actionController.clear();
-
     _locationController.clear();
 
     setState(() {
-      _observationType =
-          'Unsafe Condition';
-
-      _category =
-          'General Safety';
-
-      _hazardType =
-          'Slip, Trip & Fall';
-
-      _riskLevel =
-          'Medium';
-
-      _potentialConsequence =
-          'Injury';
-
+      _observationType = 'Unsafe Condition';
+      _category = 'General Safety';
+      _hazardType = 'General Workplace Hazard';
+      _riskLevel = 'Medium';
+      _potentialConsequence = 'Injury';
       _photo = null;
-
-      _aiResult = null;
-
-      _smartAnalysisDone =
-          false;
-
-      _analyzing = false;
-
-      _aiPhotoAnalyzing =
-          false;
-
-      _submitting = false;
+      _smartAnalysisDone = false;
     });
   }
 
-  // ============================================================
-  // MESSAGE
-  // ============================================================
-
-  void _showMessage(
-    String message,
-  ) {
-    if (!mounted) {
-      return;
-    }
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content:
-            Text(message),
-        behavior:
-            SnackBarBehavior
-                .floating,
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
-  // ============================================================
-  // INPUT DECORATION
-  // ============================================================
+  // ---------------------------------------------------------------------------
+  // UI HELPERS
+  // ---------------------------------------------------------------------------
 
   InputDecoration _decoration(
     String label, {
@@ -1339,143 +714,68 @@ class _SafetyObservationPageState
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      prefixIcon:
-          icon == null
-              ? null
-              : Icon(icon),
-      border:
-          OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(
-          14,
-        ),
+      prefixIcon: icon == null ? null : Icon(icon),
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
       ),
-      enabledBorder:
-          OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(
-          14,
-        ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
       ),
-      focusedBorder:
-          OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(
-          14,
-        ),
-        borderSide:
-            BorderSide(
-          color:
-              Theme.of(context)
-                  .colorScheme
-                  .primary,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.primary,
           width: 2,
         ),
       ),
-      filled: true,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 15,
+      ),
     );
   }
-
-  // ============================================================
-  // SECTION TITLE
-  // ============================================================
 
   Widget _sectionTitle(
     String title,
     IconData icon, {
     bool warning = false,
   }) {
+    final color = warning
+        ? _riskColor(_riskLevel)
+        : Theme.of(context).colorScheme.primary;
+
+    final background = warning
+        ? _riskBackground(_riskLevel)
+        : Theme.of(context).colorScheme.primaryContainer;
+
     return Row(
       children: [
-        CircleAvatar(
-          radius: 24,
+        Container(
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(
+            color: background,
+            shape: BoxShape.circle,
+          ),
           child: Icon(
             icon,
-            color: warning
-                ? Colors.orange.shade800
-                : null,
+            color: color,
           ),
         ),
-        const SizedBox(
-          width: 12,
-        ),
+        const SizedBox(width: 12),
         Expanded(
           child: Text(
             title,
-            style:
-                const TextStyle(
+            style: const TextStyle(
               fontSize: 21,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ],
     );
   }
-
-  // ============================================================
-  // HEADER
-  // ============================================================
-
-  Widget _headerCard(
-    bool ml,
-  ) {
-    return Card(
-      elevation: 0,
-      child: Container(
-        padding:
-            const EdgeInsets.all(
-          16,
-        ),
-        decoration:
-            BoxDecoration(
-          borderRadius:
-              BorderRadius.circular(
-            16,
-          ),
-          color:
-              Theme.of(context)
-                  .colorScheme
-                  .primaryContainer,
-        ),
-        child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
-          children: [
-            Icon(
-              Icons.health_and_safety,
-              size: 42,
-              color:
-                  Theme.of(context)
-                      .colorScheme
-                      .primary,
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            Expanded(
-              child: Text(
-                ml
-                    ? 'Unsafe act, unsafe condition, positive observation എന്നിവ രേഖപ്പെടുത്തി HSE details ശരിയായി classify ചെയ്യുക.'
-                    : 'Record unsafe acts, unsafe conditions and positive safety observations. AI can analyze the selected photo.',
-                style:
-                    const TextStyle(
-                  fontSize: 14,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // READ ONLY FIELD
-  // ============================================================
 
   Widget _readOnlyField({
     required String label,
@@ -1483,345 +783,54 @@ class _SafetyObservationPageState
     required IconData icon,
   }) {
     return InputDecorator(
-      decoration:
-          _decoration(
+      decoration: _decoration(
         label,
         icon: icon,
       ),
       child: Text(
         value,
-        style:
-            const TextStyle(
+        style: const TextStyle(
           fontSize: 16,
-          fontWeight:
-              FontWeight.w600,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
 
-  // ============================================================
-  // PHOTO SECTION
-  // ============================================================
-
-  Widget _photoSection(
-    bool ml,
-  ) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment
-              .start,
-      children: [
-        Text(
-          'Photo Evidence (Optional)',
-          style:
-              const TextStyle(
-            fontWeight:
-                FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        InkWell(
-          onTap:
-              _showPhotoOptions,
-          borderRadius:
-              BorderRadius.circular(
-            14,
-          ),
-          child: Container(
-            width:
-                double.infinity,
-            height: 190,
-            decoration:
-                BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(
-                14,
-              ),
-              border:
-                  Border.all(
-                color:
-                    Colors.grey.shade400,
-              ),
-            ),
-            clipBehavior:
-                Clip.antiAlias,
-            child: _photo == null
-                ? Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment
-                            .center,
-                    children: [
-                      Icon(
-                        Icons
-                            .add_a_photo_outlined,
-                        size: 42,
-                        color:
-                            Colors.grey.shade600,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        ml
-                            ? 'Photo ചേർക്കാൻ tap ചെയ്യുക'
-                            : 'Tap to add photo',
-                      ),
-                    ],
-                  )
-                : Stack(
-                    fit:
-                        StackFit.expand,
-                    children: [
-                      Image.file(
-                        File(
-                          _photo!.path,
-                        ),
-                        fit:
-                            BoxFit.cover,
-                        errorBuilder:
-                            (
-                          context,
-                          error,
-                          stackTrace,
-                        ) {
-                          return const Center(
-                            child:
-                                Icon(
-                              Icons
-                                  .broken_image_outlined,
-                              size: 48,
-                            ),
-                          );
-                        },
-                      ),
-                      Positioned(
-                        left: 10,
-                        bottom: 10,
-                        child:
-                            Container(
-                          padding:
-                              const EdgeInsets
-                                  .symmetric(
-                            horizontal:
-                                14,
-                            vertical:
-                                8,
-                          ),
-                          decoration:
-                              BoxDecoration(
-                            color:
-                                Colors.black87,
-                            borderRadius:
-                                BorderRadius
-                                    .circular(
-                              20,
-                            ),
-                          ),
-                          child:
-                              const Text(
-                            'Photo selected',
-                            style:
-                                TextStyle(
-                              color:
-                                  Colors.white,
-                              fontWeight:
-                                  FontWeight
-                                      .w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 8,
-                        top: 8,
-                        child:
-                            CircleAvatar(
-                          backgroundColor:
-                              Colors.black54,
-                          child:
-                              IconButton(
-                            color:
-                                Colors.white,
-                            icon:
-                                const Icon(
-                              Icons.close,
-                            ),
-                            onPressed:
-                                () {
-                              setState(
-                                () {
-                                  _photo =
-                                      null;
-                                  _aiResult =
-                                      null;
-                                  _smartAnalysisDone =
-                                      false;
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
-        ),
-
-        // ======================================================
-        // AI BUTTON
-        // ======================================================
-
-        if (_photo != null) ...[
-          const SizedBox(
-            height: 12,
-          ),
-          SizedBox(
-            width:
-                double.infinity,
-            height: 52,
-            child:
-                FilledButton.icon(
-              onPressed:
-                  _aiPhotoAnalyzing
-                      ? null
-                      : _analyzePhotoWithAI,
-              icon:
-                  _aiPhotoAnalyzing
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child:
-                              CircularProgressIndicator(
-                            strokeWidth:
-                                2,
-                          ),
-                        )
-                      : const Icon(
-                          Icons
-                              .auto_awesome,
-                        ),
-              label: Text(
-                _aiPhotoAnalyzing
-                    ? 'AI Analyzing Photo...'
-                    : 'Analyze Photo with AI',
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  // ============================================================
-  // AI RESULT CARD
-  // ============================================================
-
-  Widget _aiResultCard() {
-    if (_aiResult == null) {
-      return const SizedBox
-          .shrink();
-    }
-
-    final AiHseResult result =
-        _aiResult!;
-
-    final int confidence =
-        (result.confidence * 100)
-            .round()
-            .clamp(
-              0,
-              100,
-            );
+  Widget _headerCard() {
+    final ml = _isMalayalam;
 
     return Card(
-      margin:
-          const EdgeInsets.only(
-        top: 14,
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
       ),
-      child: Padding(
-        padding:
-            const EdgeInsets.all(
-          16,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18),
+          color: Theme.of(context).colorScheme.primaryContainer,
         ),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.auto_awesome,
-                  color:
-                      Colors.green,
+            Icon(
+              Icons.health_and_safety,
+              size: 42,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                ml
+                    ? 'കണ്ട unsafe act / unsafe condition രേഖപ്പെടുത്തി HSE details ശരിയായി classify ചെയ്യുക.'
+                    : 'Record the unsafe act or unsafe condition and match the HSE category, hazard, risk and corrective action.',
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.45,
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-                const Expanded(
-                  child: Text(
-                    'AI HSE Analysis',
-                    style:
-                        TextStyle(
-                      fontSize: 18,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Text(
-                  '$confidence%',
-                  style:
-                      const TextStyle(
-                    fontWeight:
-                        FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 24,
-            ),
-            _aiRow(
-              'Observation Type',
-              result.observationType,
-            ),
-            _aiRow(
-              'Category',
-              result.category,
-            ),
-            _aiRow(
-              'Hazard',
-              result.hazard,
-            ),
-            _aiRow(
-              'Risk',
-              result.riskLevel,
-            ),
-            _aiRow(
-              'Consequence',
-              result.potentialConsequence,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'AI Explanation',
-              style:
-                  TextStyle(
-                fontWeight:
-                    FontWeight.bold,
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              result.explanation,
             ),
           ],
         ),
@@ -1829,439 +838,471 @@ class _SafetyObservationPageState
     );
   }
 
-  Widget _aiRow(
-    String label,
-    String value,
-  ) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(
-        bottom: 8,
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment
-                .start,
-        children: [
-          SizedBox(
-            width: 105,
-            child: Text(
-              label,
-              style:
-                  const TextStyle(
-                fontWeight:
-                    FontWeight.w600,
-              ),
-            ),
+  Widget _analysisStatus() {
+    if (!_smartAnalysisDone) {
+      return const SizedBox.shrink();
+    }
+
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 8),
+      child: ListTile(
+        leading: const Icon(
+          Icons.auto_awesome,
+          color: Colors.green,
+        ),
+        title: const Text(
+          'Smart HSE Analysis Applied',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          Expanded(
-            child:
-                Text(value),
-          ),
-        ],
+        ),
+        subtitle: const Text(
+          'Category, hazard, risk and corrective action are linked to the observation.',
+        ),
       ),
     );
   }
 
-  // ============================================================
+  Widget _riskCard() {
+    final color = _riskColor(_riskLevel);
+
+    return Card(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      color: _riskBackground(_riskLevel),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: color.withOpacity(0.35),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          children: [
+            Icon(
+              _riskIcon(_riskLevel),
+              color: color,
+              size: 30,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Current Risk Level',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _riskLevel,
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              _potentialConsequence,
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _photoSection() {
+    final ml = _isMalayalam;
+
+    return Card(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.photo_camera_outlined),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    ml
+                        ? 'Photo Evidence (Optional)'
+                        : 'Photo Evidence (Optional)',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            if (_photo == null)
+              InkWell(
+                onTap: _showPhotoOptions,
+                borderRadius: BorderRadius.circular(14),
+                child: Container(
+                  width: double.infinity,
+                  height: 160,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .outline
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_a_photo_outlined,
+                        size: 42,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        ml
+                            ? 'Photo ചേർക്കാൻ tap ചെയ്യുക'
+                            : 'Tap to add photo',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'Camera or Gallery',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: Image.file(
+                      File(_photo!.path),
+                      width: double.infinity,
+                      height: 190,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Material(
+                      color: Colors.black87,
+                      shape: const CircleBorder(),
+                      child: IconButton(
+                        tooltip: 'Remove Photo',
+                        onPressed: _removePhoto,
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 10,
+                    bottom: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'Photo selected',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
   // BUILD
-  // ============================================================
+  // ---------------------------------------------------------------------------
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final bool ml =
-        _isMalayalam;
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(
-        title: Text(
-          ml
-              ? 'Safety Observation'
-              : 'Safety Observation',
-        ),
+      appBar: AppBar(
+        title: const Text('Safety Observation'),
+        centerTitle: false,
       ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding:
-              const EdgeInsets.all(
-            16,
-          ),
+          padding: const EdgeInsets.all(16),
           children: [
-            // ==================================================
-            // HEADER
-            // ==================================================
-
-            _headerCard(ml),
-
-            const SizedBox(
-              height: 18,
-            ),
-
-            // ==================================================
-            // OBSERVATION
-            // ==================================================
+            _headerCard(),
+            const SizedBox(height: 22),
 
             _sectionTitle(
               'Observation Details',
-              Icons.visibility,
+              Icons.visibility_outlined,
             ),
+            const SizedBox(height: 14),
 
-            const SizedBox(
-              height: 14,
-            ),
-
-            DropdownButtonFormField<
-                String>(
-              key: ValueKey(
-                'observation_$_observationType',
-              ),
-              initialValue:
-                  _observationType,
-              decoration:
-                  _decoration(
+            DropdownButtonFormField<String>(
+              value: _observationType,
+              decoration: _decoration(
                 'Observation Type',
-                icon:
-                    Icons.visibility,
+                icon: Icons.visibility_outlined,
               ),
-              items:
-                  _observationTypes
-                      .map(
-                (
-                  String value,
-                ) =>
-                    DropdownMenuItem<
-                        String>(
-                  value:
-                      value,
-                  child:
-                      Text(value),
-                ),
-              ).toList(),
-              onChanged:
-                  (String? value) {
-                if (value == null) {
-                  return;
-                }
-
-                setState(() {
-                  _observationType =
-                      value;
-                });
+              items: _observationTypes
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() => _observationType = value);
               },
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
-
-            // ==================================================
-            // LOCATION
-            // ==================================================
+            const SizedBox(height: 14),
 
             TextFormField(
-              controller:
-                  _locationController,
-              textInputAction:
-                  TextInputAction
-                      .next,
-              decoration:
-                  _decoration(
+              controller: _locationController,
+              decoration: _decoration(
                 'Location / Area',
-                hint:
-                    'e.g. Workshop / Block A',
-                icon: Icons
-                    .location_on_outlined,
+                hint: 'e.g. Workshop / Block A',
+                icon: Icons.location_on_outlined,
               ),
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
-
-            // ==================================================
-            // DESCRIPTION
-            // ==================================================
+            const SizedBox(height: 14),
 
             TextFormField(
-              controller:
-                  _descriptionController,
+              controller: _descriptionController,
               minLines: 4,
               maxLines: 7,
-              textInputAction:
-                  TextInputAction
-                      .newline,
               onChanged: (_) {
                 if (_smartAnalysisDone) {
-                  setState(() {
-                    _smartAnalysisDone =
-                        false;
-                  });
+                  setState(() => _smartAnalysisDone = false);
                 }
               },
-              decoration:
-                  _decoration(
+              decoration: _decoration(
                 'Observation Description',
-                hint:
-                    'Describe the unsafe act or unsafe condition',
-                icon:
-                    Icons.description,
+                hint: _isMalayalam
+                    ? 'എന്താണ് കണ്ടത് എന്ന് വിശദീകരിക്കുക'
+                    : 'Describe what you observed',
+                icon: Icons.description_outlined,
               ),
-              validator:
-                  (String? value) {
-                if (value == null ||
-                    value.trim().isEmpty) {
-                  return 'Please enter a description';
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return _isMalayalam
+                      ? 'Description നൽകുക'
+                      : 'Please enter a description';
                 }
-
                 return null;
               },
             ),
 
-            const SizedBox(
-              height: 10,
-            ),
-
-            // ==================================================
-            // TEXT ANALYSIS
-            // ==================================================
+            const SizedBox(height: 12),
 
             SizedBox(
               height: 48,
-              child:
-                  OutlinedButton.icon(
-                onPressed:
-                    _analyzing
-                        ? null
-                        : _analyzeObservation,
+              child: OutlinedButton.icon(
+                onPressed: _analyzing ? null : _analyzeObservation,
                 icon: _analyzing
                     ? const SizedBox(
                         width: 18,
                         height: 18,
-                        child:
-                            CircularProgressIndicator(
-                          strokeWidth:
-                              2,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
                         ),
                       )
-                    : const Icon(
-                        Icons
-                            .auto_awesome,
-                      ),
+                    : const Icon(Icons.auto_awesome),
                 label: Text(
                   _analyzing
                       ? 'Analyzing...'
-                      : 'Analyze Description',
+                      : 'Analyze & Auto-Fill HSE Details',
                 ),
               ),
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
+            const SizedBox(height: 14),
 
-            // ==================================================
-            // CATEGORY
-            // ==================================================
+            _analysisStatus(),
 
-            DropdownButtonFormField<
-                String>(
-              key: ValueKey(
-                'category_$_category',
-              ),
-              initialValue:
-                  _category,
-              decoration:
-                  _decoration(
+            DropdownButtonFormField<String>(
+              value: _category,
+              decoration: _decoration(
                 'Category',
-                icon:
-                    Icons.category,
+                icon: Icons.category_outlined,
               ),
-              items:
-                  _categories
-                      .map(
-                (
-                  String value,
-                ) =>
-                    DropdownMenuItem<
-                        String>(
-                  value:
-                      value,
-                  child:
-                      Text(value),
-                ),
-              ).toList(),
-              onChanged:
-                  (String? value) {
-                if (value == null) {
-                  return;
-                }
-
-                setState(() {
-                  _category =
-                      value;
-                });
+              items: _categories
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() => _category = value);
               },
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
-
-            // ==================================================
-            // HAZARD
-            // ==================================================
+            const SizedBox(height: 14),
 
             _readOnlyField(
-              label:
-                  'Hazard / Unsafe Work',
-              value:
-                  _hazardType,
-              icon: Icons
-                  .report_problem_outlined,
+              label: 'Hazard / Unsafe Work',
+              value: _hazardType,
+              icon: Icons.report_problem_outlined,
             ),
 
-            const SizedBox(
-              height: 18,
-            ),
-
-            // ==================================================
-            // RISK
-            // ==================================================
+            const SizedBox(height: 22),
 
             _sectionTitle(
               'Risk Assessment',
-              Icons.warning_amber,
+              _riskIcon(_riskLevel),
               warning: true,
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
+            const SizedBox(height: 14),
 
-            DropdownButtonFormField<
-                String>(
-              key: ValueKey(
-                'risk_$_riskLevel',
-              ),
-              initialValue:
-                  _riskLevel,
-              decoration:
-                  _decoration(
+            DropdownButtonFormField<String>(
+              value: _riskLevel,
+              decoration: _decoration(
                 'Risk Level',
-                icon:
-                    Icons.warning_amber,
+                icon: _riskIcon(_riskLevel),
+              ).copyWith(
+                filled: true,
+                fillColor: _riskBackground(_riskLevel),
+                prefixIconColor: _riskColor(_riskLevel),
               ),
-              items:
-                  _riskLevels
-                      .map(
-                (
-                  String value,
-                ) =>
-                    DropdownMenuItem<
-                        String>(
-                  value:
-                      value,
-                  child:
-                      Text(value),
-                ),
+              selectedItemBuilder: (context) {
+                return _riskLevels.map(
+                  (value) {
+                    return Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          color: _riskColor(value),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    );
+                  },
+                ).toList();
+              },
+              items: _riskLevels.map(
+                (value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Row(
+                      children: [
+                        Icon(
+                          _riskIcon(value),
+                          size: 20,
+                          color: _riskColor(value),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          value,
+                          style: TextStyle(
+                            color: _riskColor(value),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ).toList(),
-              onChanged:
-                  (String? value) {
-                if (value == null) {
-                  return;
-                }
-
-                _applyManualRisk(
-                  value,
-                );
+              onChanged: (value) {
+                if (value == null) return;
+                _applyManualRisk(value);
               },
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
+            const SizedBox(height: 10),
+
+            _riskCard(),
+
+            const SizedBox(height: 14),
 
             _readOnlyField(
-              label:
-                  'Potential Consequence',
-              value:
-                  _potentialConsequence,
-              icon: Icons
-                  .health_and_safety_outlined,
+              label: 'Potential Consequence',
+              value: _potentialConsequence,
+              icon: Icons.health_and_safety_outlined,
             ),
 
-            const SizedBox(
-              height: 14,
-            ),
-
-            // ==================================================
-            // CORRECTIVE ACTION
-            // ==================================================
+            const SizedBox(height: 14),
 
             TextFormField(
-              controller:
-                  _actionController,
+              controller: _actionController,
               minLines: 3,
               maxLines: 6,
-              decoration:
-                  _decoration(
+              decoration: _decoration(
                 'Corrective / Immediate Action',
-                hint:
-                    'Recommended action will appear here.',
-                icon: Icons
-                    .build_circle_outlined,
+                hint: 'Recommended action will appear here.',
+                icon: Icons.build_circle_outlined,
               ),
             ),
 
-            const SizedBox(
-              height: 18,
-            ),
+            const SizedBox(height: 18),
 
-            // ==================================================
-            // PHOTO
-            // ==================================================
+            _photoSection(),
 
-            _photoSection(ml),
-
-            // ==================================================
-            // AI RESULT
-            // ==================================================
-
-            _aiResultCard(),
-
-            const SizedBox(
-              height: 24,
-            ),
-
-            // ==================================================
-            // SUBMIT
-            // ==================================================
+            const SizedBox(height: 24),
 
             SizedBox(
               height: 54,
-              child:
-                  FilledButton.icon(
-                onPressed:
-                    _submitting
-                        ? null
-                        : _submitObservation,
+              child: FilledButton.icon(
+                onPressed: _submitting ? null : _submitObservation,
                 icon: _submitting
                     ? const SizedBox(
                         width: 20,
                         height: 20,
-                        child:
-                            CircularProgressIndicator(
-                          strokeWidth:
-                              2,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
                         ),
                       )
-                    : const Icon(
-                        Icons.send,
-                      ),
+                    : const Icon(Icons.send),
                 label: Text(
                   _submitting
                       ? 'Submitting...'
@@ -2270,19 +1311,13 @@ class _SafetyObservationPageState
               ),
             ),
 
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 28),
           ],
         ),
       ),
     );
   }
 }
-
-// ================================================================
-// HAZARD RESULT
-// ================================================================
 
 class _HazardResult {
   final String type;
