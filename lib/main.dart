@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:safenexus_hse/certificate.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/observation_history.dart';
 import 'package:safenexus_hse/safety_observation.dart';
 import 'package:safenexus_hse/voice_report.dart';
+import 'package:safenexus_hse/certificate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -171,11 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: color,
-              size: 24,
-            ),
+            Icon(icon, color: color, size: 24),
             const SizedBox(height: 3),
             Text(
               label,
@@ -207,9 +203,7 @@ class _HomeContent extends StatelessWidget {
 
   void openPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => page,
-      ),
+      MaterialPageRoute(builder: (_) => page),
     );
   }
 
@@ -438,71 +432,62 @@ class _HomeContent extends StatelessWidget {
           title: 'Hazard Report',
           subtitle: 'Report a workplace hazard',
           color: orange,
-          onTap: () {
-            openPage(
-              context,
-              const HazardReportPage(),
-            );
-          },
+          onTap: () => openPage(
+            context,
+            const HazardReportPage(),
+          ),
         ),
         _actionCard(
           icon: Icons.visibility_rounded,
           title: 'Safety Observation',
           subtitle: 'Record a safety observation',
           color: green,
-          onTap: () {
-            openPage(
-              context,
-              const SafetyObservationPage(),
-            );
-          },
+          onTap: () => openPage(
+            context,
+            const SafetyObservationPage(),
+          ),
         ),
         _actionCard(
           icon: Icons.mic_rounded,
           title: 'Voice Report',
           subtitle: 'Report using your voice',
           color: purple,
-          onTap: () {
-            openPage(
-              context,
-              const VoiceReportPage(),
-            );
-          },
+          onTap: () => openPage(
+            context,
+            const VoiceReportPage(),
+          ),
         ),
         _actionCard(
           icon: Icons.menu_book_rounded,
           title: 'HSE Guidelines',
           subtitle: 'UAE safety guidance',
           color: darkGreen,
-          onTap: () {
-            openPage(
-              context,
-              const GuidelinesPage(),
-            );
-          },
+          onTap: () => openPage(
+            context,
+            const GuidelinesPage(),
+          ),
         ),
         _actionCard(
           icon: Icons.shield_rounded,
           title: 'Risk Assessment',
           subtitle: 'Coming soon',
           color: red,
-          onTap: () {
-            showComingSoon(context, 'Risk Assessment');
-          },
           comingSoon: true,
+          onTap: () => showComingSoon(
+            context,
+            'Risk Assessment',
+          ),
         ),
         _actionCard(
           icon: Icons.auto_awesome_rounded,
           title: 'AI Safety',
           subtitle: 'Smart safety assistance',
           color: purple,
-          onTap: () {
-            showComingSoon(
-              context,
-              'AI Safety Assistant',
-            );
-          },
           comingSoon: true,
+          onTap: () => showComingSoon(
+            context,
+            'AI Safety Assistant',
+          ),
         ),
       ],
     );
@@ -594,12 +579,10 @@ class _HomeContent extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          openPage(
-            context,
-            const CertificatePage(),
-          );
-        },
+        onTap: () => openPage(
+          context,
+          const CertificatePage(),
+        ),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(17),
@@ -615,23 +598,11 @@ class _HomeContent extends StatelessWidget {
               ],
             ),
           ),
-          child: Row(
+          child: const Row(
             children: [
-              Container(
-                width: 55,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: green.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(
-                  Icons.workspace_premium_rounded,
-                  color: green,
-                  size: 31,
-                ),
-              ),
-              const SizedBox(width: 13),
-              const Expanded(
+              _CertificateIcon(),
+              SizedBox(width: 13),
+              Expanded(
                 child: Column(
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
@@ -655,7 +626,7 @@ class _HomeContent extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: green,
                 size: 17,
@@ -698,12 +669,10 @@ class _HomeContent extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  openPage(
-                    context,
-                    const ObservationHistoryPage(),
-                  );
-                },
+                onPressed: () => openPage(
+                  context,
+                  const ObservationHistoryPage(),
+                ),
                 child: const Text('View Reports'),
               ),
             ],
@@ -752,11 +721,7 @@ class _HomeContent extends StatelessWidget {
   ) {
     return Column(
       children: [
-        Icon(
-          icon,
-          color: color,
-          size: 23,
-        ),
+        Icon(icon, color: color, size: 23),
         const SizedBox(height: 5),
         Text(
           value,
@@ -827,12 +792,10 @@ class _HomeContent extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          openPage(
-            context,
-            const GuidelinesPage(),
-          );
-        },
+        onTap: () => openPage(
+          context,
+          const GuidelinesPage(),
+        ),
         child: Container(
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -894,12 +857,10 @@ class _HomeContent extends StatelessWidget {
 
   Widget _aiBanner(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showComingSoon(
-          context,
-          'AI Safety Assistant',
-        );
-      },
+      onTap: () => showComingSoon(
+        context,
+        'AI Safety Assistant',
+      ),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(17),
@@ -961,12 +922,10 @@ class _HomeContent extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          openPage(
-            context,
-            const ObservationHistoryPage(),
-          );
-        },
+        onTap: () => openPage(
+          context,
+          const ObservationHistoryPage(),
+        ),
         child: Container(
           padding: const EdgeInsets.all(17),
           decoration: BoxDecoration(
@@ -1019,6 +978,27 @@ class _HomeContent extends StatelessWidget {
   }
 }
 
+class _CertificateIcon extends StatelessWidget {
+  const _CertificateIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 55,
+      height: 55,
+      decoration: BoxDecoration(
+        color: _HomeContent.green.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Icon(
+        Icons.workspace_premium_rounded,
+        color: _HomeContent.green,
+        size: 31,
+      ),
+    );
+  }
+}
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
@@ -1042,87 +1022,66 @@ class SettingsPage extends StatelessWidget {
         children: [
           _settingsHeader(),
           const SizedBox(height: 18),
-
           _sectionLabel('APP SETTINGS'),
           const SizedBox(height: 8),
-
           _settingsTile(
             icon: Icons.language_rounded,
             title: 'Language',
             subtitle: 'English',
             onTap: () {},
           ),
-
           _settingsTile(
             icon: Icons.notifications_outlined,
             title: 'Notifications',
             subtitle: 'Coming soon',
-            onTap: () {
-              _showComingSoon(
-                context,
-                'Notifications',
-              );
-            },
+            onTap: () => _showComingSoon(
+              context,
+              'Notifications',
+            ),
           ),
-
           const SizedBox(height: 18),
-
           _sectionLabel('SAFETY & DATA'),
           const SizedBox(height: 8),
-
           _settingsTile(
             icon: Icons.security_rounded,
             title: 'Privacy & Data',
             subtitle: 'Your safety information',
-            onTap: () {
-              _showInfo(
-                context,
-                'Privacy & Data',
-                'SafeNexus HSE stores safety information locally on the device unless a feature specifically sends data to a configured service.',
-              );
-            },
+            onTap: () => _showInfo(
+              context,
+              'Privacy & Data',
+              'SafeNexus HSE stores safety information locally on the device unless a feature specifically sends data to a configured service.',
+            ),
           ),
-
           _settingsTile(
             icon: Icons.cloud_done_outlined,
             title: 'AI Service',
             subtitle: 'Configured through secure backend',
-            onTap: () {
-              _showInfo(
-                context,
-                'AI Service',
-                'AI requests are handled through the SafeNexus backend service. API credentials should not be stored directly inside the mobile application.',
-              );
-            },
+            onTap: () => _showInfo(
+              context,
+              'AI Service',
+              'AI requests are handled through the SafeNexus backend service. API credentials should not be stored directly inside the mobile application.',
+            ),
           ),
-
           const SizedBox(height: 18),
-
           _sectionLabel('ABOUT'),
           const SizedBox(height: 8),
-
           _settingsTile(
             icon: Icons.info_outline_rounded,
             title: 'About SafeNexus HSE',
             subtitle: 'UAE-focused HSE safety application',
-            onTap: () {
-              _showInfo(
-                context,
-                'About SafeNexus HSE',
-                'SafeNexus HSE is designed to support workplace hazard reporting, safety observations, HSE guidance and practical safety management.',
-              );
-            },
+            onTap: () => _showInfo(
+              context,
+              'About SafeNexus HSE',
+              'SafeNexus HSE is designed to support workplace hazard reporting, safety observations, HSE guidance and practical safety management.',
+            ),
           ),
-
           _settingsTile(
             icon: Icons.verified_outlined,
             title: 'App Version',
             subtitle: 'Version 1.0.1',
             onTap: () {},
           ),
-
           const SizedBox(height: 25),
-
           Center(
             child: Column(
               children: [
