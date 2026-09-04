@@ -18,7 +18,8 @@ class _CertificatePageState extends State<CertificatePage> {
   final TextEditingController _nameController =
       TextEditingController(text: 'Employee Name');
 
-  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _idController =
+      TextEditingController();
 
   final TextEditingController _departmentController =
       TextEditingController();
@@ -204,9 +205,8 @@ class _CertificatePageState extends State<CertificatePage> {
   Future<File> _createCertificatePdf() async {
     final pw.Document pdf = pw.Document();
 
-    // Flutter-compatible ARGB conversion.
     final PdfColor pdfPrimaryColor =
-        PdfColor.fromInt(primaryColor.value);
+        PdfColor.fromInt(primaryColor.toARGB32());
 
     final String employeeName = _cleanText(
       _nameController.text,
@@ -245,11 +245,13 @@ class _CertificatePageState extends State<CertificatePage> {
           'and for actively contributing to a safe and sustainable workplace.',
     );
 
-    final String employeeId =
-        _cleanText(_idController.text);
+    final String employeeId = _cleanText(
+      _idController.text,
+    );
 
-    final String department =
-        _cleanText(_departmentController.text);
+    final String department = _cleanText(
+      _departmentController.text,
+    );
 
     pdf.addPage(
       pw.Page(
@@ -305,11 +307,7 @@ class _CertificatePageState extends State<CertificatePage> {
                             );
                           }
 
-                          for (
-                            double y = 20;
-                            y < 140;
-                            y += 22
-                          ) {
+                          for (double y = 20; y < 140; y += 22) {
                             canvas.drawLine(
                               0,
                               y,
@@ -322,7 +320,6 @@ class _CertificatePageState extends State<CertificatePage> {
                         },
                       ),
                     ),
-
                     pw.Padding(
                       padding: const pw.EdgeInsets.symmetric(
                         horizontal: 32,
@@ -479,7 +476,6 @@ class _CertificatePageState extends State<CertificatePage> {
                           if (employeeId.isNotEmpty ||
                               department.isNotEmpty) ...[
                             pw.SizedBox(height: 9),
-
                             pw.Row(
                               mainAxisAlignment:
                                   pw.MainAxisAlignment.center,
@@ -499,11 +495,9 @@ class _CertificatePageState extends State<CertificatePage> {
                                       ),
                                     ),
                                   ),
-
                                 if (employeeId.isNotEmpty &&
                                     department.isNotEmpty)
                                   pw.SizedBox(width: 18),
-
                                 if (department.isNotEmpty)
                                   pw.Flexible(
                                     child: pw.Text(
@@ -564,11 +558,9 @@ class _CertificatePageState extends State<CertificatePage> {
                                 'Date',
                                 pdfPrimaryColor,
                               ),
-
                               _pdfPriorityBadge(
                                 pdfPrimaryColor,
                               ),
-
                               _pdfSignatureBlock(
                                 signatory,
                                 'Authorized Signatory',
@@ -650,8 +642,7 @@ class _CertificatePageState extends State<CertificatePage> {
     });
 
     try {
-      final File file =
-          await _createCertificatePdf();
+      final File file = await _createCertificatePdf();
 
       _lastSavedPath = file.path;
 
@@ -760,13 +751,10 @@ class _CertificatePageState extends State<CertificatePage> {
     switch (alignment) {
       case TextAlign.left:
         return pw.TextAlign.left;
-
       case TextAlign.right:
         return pw.TextAlign.right;
-
       case TextAlign.center:
       case TextAlign.justify:
-      default:
         return pw.TextAlign.center;
     }
   }
@@ -810,9 +798,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               pw.SizedBox(height: 4),
-
               pw.Text(
                 label,
                 style: pw.TextStyle(
@@ -871,9 +857,7 @@ class _CertificatePageState extends State<CertificatePage> {
             height: 1,
             color: PdfColors.grey700,
           ),
-
           pw.SizedBox(height: 5),
-
           pw.Text(
             value,
             textAlign: pw.TextAlign.center,
@@ -882,9 +866,7 @@ class _CertificatePageState extends State<CertificatePage> {
               fontSize: 8,
             ),
           ),
-
           pw.SizedBox(height: 3),
-
           pw.Text(
             label,
             textAlign: pw.TextAlign.center,
@@ -897,57 +879,6 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
         ],
       ),
-    );
-  }
-
-  void _editText({
-    required String title,
-    required TextEditingController controller,
-    int maxLines = 1,
-  }) {
-    final TextEditingController tempController =
-        TextEditingController(
-      text: controller.text,
-    );
-
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(
-            controller: tempController,
-            maxLines: maxLines,
-            autofocus: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                tempController.dispose();
-                Navigator.pop(dialogContext);
-              },
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                setState(() {
-                  controller.text =
-                      tempController.text;
-
-                  _lastSavedPath = null;
-                });
-
-                tempController.dispose();
-                Navigator.pop(dialogContext);
-              },
-              child: const Text('Apply'),
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -1027,7 +958,7 @@ class _CertificatePageState extends State<CertificatePage> {
               const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: isSelected
-                ? primaryColor.withOpacity(0.08)
+                ? primaryColor.withValues(alpha: 0.08)
                 : Colors.white,
             borderRadius:
                 BorderRadius.circular(12),
@@ -1049,7 +980,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       LinearGradient(
                     colors: [
                       themeColors[index]
-                          .withOpacity(0.18),
+                          .withValues(alpha: 0.18),
                       Colors.white,
                     ],
                   ),
@@ -1073,9 +1004,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 7),
-
               Text(
                 templateNames[index],
                 textAlign:
@@ -1110,8 +1039,7 @@ class _CertificatePageState extends State<CertificatePage> {
       fallback: 'CERTIFICATE',
     );
 
-    final String previewSubtitle =
-        _cleanText(
+    final String previewSubtitle = _cleanText(
       _subtitleController.text,
       fallback: 'OF APPRECIATION',
     );
@@ -1120,9 +1048,7 @@ class _CertificatePageState extends State<CertificatePage> {
         _cleanText(_idController.text);
 
     final String previewDepartment =
-        _cleanText(
-      _departmentController.text,
-    );
+        _cleanText(_departmentController.text);
 
     final String previewAchievement =
         _cleanMultilineText(
@@ -1171,7 +1097,7 @@ class _CertificatePageState extends State<CertificatePage> {
               BoxDecoration(
             border: Border.all(
               color: primaryColor
-                  .withOpacity(0.6),
+                  .withValues(alpha: 0.6),
               width: 2,
             ),
           ),
@@ -1271,8 +1197,7 @@ class _CertificatePageState extends State<CertificatePage> {
                               TextAlign.center,
                           maxLines: 2,
                           overflow:
-                              TextOverflow
-                                  .ellipsis,
+                              TextOverflow.ellipsis,
                           style:
                               const TextStyle(
                             color:
@@ -1312,8 +1237,7 @@ class _CertificatePageState extends State<CertificatePage> {
                             BoxDecoration(
                           border: Border.all(
                             color: primaryColor
-                                .withOpacity(
-                                    0.35),
+                                .withValues(alpha: 0.35),
                           ),
                           borderRadius:
                               BorderRadius
@@ -1345,8 +1269,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       Container(
                         height: 1,
                         color: primaryColor
-                            .withOpacity(
-                                0.35),
+                            .withValues(alpha: 0.35),
                       ),
 
                       if (previewId.isNotEmpty ||
@@ -1920,7 +1843,7 @@ class _CertificatePageState extends State<CertificatePage> {
             OutlinedButton.styleFrom(
           backgroundColor: selected
               ? primaryColor
-                  .withOpacity(0.10)
+                  .withValues(alpha: 0.10)
               : null,
           side: BorderSide(
             color: selected
@@ -2336,7 +2259,7 @@ class _ConstructionBackgroundPainter
   ) {
     final Paint paint = Paint()
       ..color =
-          color.withOpacity(0.06)
+          color.withValues(alpha: 0.06)
       ..style =
           PaintingStyle.stroke
       ..strokeWidth = 1;
