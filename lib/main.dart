@@ -112,16 +112,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            tooltip: 'Settings',
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () {
-              openPage(context, const SettingsPage());
-            },
-          ),
-          const SizedBox(width: 6),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -391,7 +381,7 @@ class HomeScreen extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
