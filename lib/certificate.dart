@@ -13,8 +13,7 @@ class _CertificatePageState extends State<CertificatePage> {
 
   final _idController = TextEditingController();
 
-  final _departmentController =
-      TextEditingController();
+  final _departmentController = TextEditingController();
 
   final _achievementController = TextEditingController(
     text:
@@ -154,9 +153,7 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
+              onPressed: () => Navigator.pop(dialogContext),
               child: const Text('Cancel'),
             ),
             FilledButton(
@@ -164,7 +161,6 @@ class _CertificatePageState extends State<CertificatePage> {
                 setState(() {
                   controller.text = tempController.text;
                 });
-
                 Navigator.pop(dialogContext);
               },
               child: const Text('Apply'),
@@ -183,10 +179,7 @@ class _CertificatePageState extends State<CertificatePage> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: primaryColor,
-          ),
+          Icon(icon, color: primaryColor),
           const SizedBox(width: 8),
           Text(
             title,
@@ -344,9 +337,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   child: Column(
                     children: [
                       _certificateLogo(),
-
                       const SizedBox(height: 8),
-
                       Text(
                         _companyController.text,
                         textAlign: TextAlign.center,
@@ -356,7 +347,6 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-
                       const Text(
                         'AI-Powered HSE Safety & Observation App',
                         textAlign: TextAlign.center,
@@ -365,9 +355,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: Colors.black54,
                         ),
                       ),
-
                       const SizedBox(height: 18),
-
                       Text(
                         _titleController.text,
                         textAlign: TextAlign.center,
@@ -378,9 +366,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: primaryColor,
                         ),
                       ),
-
                       const SizedBox(height: 5),
-
                       Container(
                         padding:
                             const EdgeInsets.symmetric(
@@ -400,16 +386,12 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 15),
-
                       const Text(
                         'This certificate is proudly presented to',
                         style: TextStyle(fontSize: 9),
                       ),
-
                       const SizedBox(height: 5),
-
                       GestureDetector(
                         onTap: () => _editText(
                           title: 'Edit Employee Name',
@@ -436,23 +418,18 @@ class _CertificatePageState extends State<CertificatePage> {
                               fontFamily: 'cursive',
                               fontSize: nameFontSize,
                               color: primaryColor,
-                              fontWeight:
-                                  FontWeight.w500,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 5),
-
                       Container(
                         height: 1,
                         color: primaryColor
                             .withValues(alpha: 0.35),
                       ),
-
                       const SizedBox(height: 12),
-
                       Expanded(
                         child: Column(
                           children: [
@@ -464,14 +441,11 @@ class _CertificatePageState extends State<CertificatePage> {
                                 height: 1.5,
                               ),
                             ),
-
                             const SizedBox(height: 14),
-
                             _safetyBadges(),
                           ],
                         ),
                       ),
-
                       Row(
                         mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
@@ -489,49 +463,30 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 8),
-
                       Container(
                         width: double.infinity,
                         padding:
                             const EdgeInsets.symmetric(
                           vertical: 6,
                         ),
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
                           borderRadius:
-                              BorderRadius.only(
+                              const BorderRadius.only(
                             bottomLeft:
                                 Radius.circular(20),
                             bottomRight:
                                 Radius.circular(20),
                           ),
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius:
-                                const BorderRadius.only(
-                              bottomLeft:
-                                  Radius.circular(12),
-                              bottomRight:
-                                  Radius.circular(12),
-                            ),
-                          ),
-                          padding:
-                              const EdgeInsets.symmetric(
-                            vertical: 6,
-                          ),
-                          child: Text(
-                            _footerController.text,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight:
-                                  FontWeight.bold,
-                              fontSize: 10,
-                            ),
+                        child: Text(
+                          _footerController.text,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
                           ),
                         ),
                       ),
@@ -667,9 +622,7 @@ class _CertificatePageState extends State<CertificatePage> {
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 7,
-            ),
+            style: const TextStyle(fontSize: 7),
           ),
           const SizedBox(height: 2),
           Text(
@@ -695,62 +648,52 @@ class _CertificatePageState extends State<CertificatePage> {
           Icons.edit,
           'Edit Certificate',
         ),
-
         _inputField(
           label: 'Certificate Title',
           controller: _titleController,
           icon: Icons.title,
         ),
-
         _inputField(
           label: 'Subtitle',
           controller: _subtitleController,
           icon: Icons.label_outline,
         ),
-
         _inputField(
           label: 'Employee Name',
           controller: _nameController,
           icon: Icons.person,
         ),
-
         _inputField(
           label: 'Employee ID',
           controller: _idController,
           icon: Icons.badge_outlined,
         ),
-
         _inputField(
           label: 'Department',
           controller: _departmentController,
           icon: Icons.business,
         ),
-
         _inputField(
           label: 'Achievement / Reason',
           controller: _achievementController,
           icon: Icons.workspace_premium,
           maxLines: 4,
         ),
-
         _inputField(
           label: 'Company Name',
           controller: _companyController,
           icon: Icons.business_center,
         ),
-
         _inputField(
           label: 'Authorized Signatory',
           controller: _signatoryController,
           icon: Icons.draw,
         ),
-
         _inputField(
           label: 'Footer Text',
           controller: _footerController,
           icon: Icons.short_text,
         ),
-
         InkWell(
           onTap: _selectDate,
           child: InputDecorator(
@@ -763,9 +706,7 @@ class _CertificatePageState extends State<CertificatePage> {
             child: Text(formattedDate),
           ),
         ),
-
         const SizedBox(height: 18),
-
         Text(
           'Name Font Size',
           style: TextStyle(
@@ -773,7 +714,6 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         Slider(
           min: 20,
           max: 48,
@@ -786,7 +726,6 @@ class _CertificatePageState extends State<CertificatePage> {
             });
           },
         ),
-
         Text(
           'Name Alignment',
           style: TextStyle(
@@ -794,7 +733,6 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         Row(
           children: [
             _alignmentButton(
@@ -811,9 +749,7 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
           ],
         ),
-
         const SizedBox(height: 15),
-
         Text(
           'Certificate Theme',
           style: TextStyle(
@@ -821,9 +757,7 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         const SizedBox(height: 8),
-
         Row(
           children: List.generate(
             themeColors.length,
@@ -922,9 +856,7 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
             Text(
               'Certificate Designer',
-              style: TextStyle(
-                fontSize: 12,
-              ),
+              style: TextStyle(fontSize: 12),
             ),
           ],
         ),
@@ -975,9 +907,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 18),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1001,9 +931,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1012,9 +940,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   child: _editTools(),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1033,9 +959,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Row(
                 children: [
                   Expanded(
@@ -1077,7 +1001,6 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
             ],
           ),
@@ -1101,8 +1024,7 @@ class _ConstructionBackgroundPainter
     Size size,
   ) {
     final paint = Paint()
-      ..color =
-          color.withValues(alpha: 0.06)
+      ..color = color.withValues(alpha: 0.06)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
@@ -1133,9 +1055,8 @@ class _ConstructionBackgroundPainter
 
   @override
   bool shouldRepaint(
-    covariant
-        _ConstructionBackgroundPainter
-            oldDelegate,
+    covariant _ConstructionBackgroundPainter
+        oldDelegate,
   ) {
     return oldDelegate.color != color;
   }
