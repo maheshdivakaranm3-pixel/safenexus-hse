@@ -24,17 +24,14 @@ class _CertificatePageState extends State<CertificatePage> {
         'and for actively contributing to a safe and sustainable workplace.',
   );
 
-  final _companyController = TextEditingController(
-    text: 'SafeNexus HSE',
-  );
+  final _companyController =
+      TextEditingController(text: 'SafeNexus HSE');
 
-  final _signatoryController = TextEditingController(
-    text: 'HSE Manager',
-  );
+  final _signatoryController =
+      TextEditingController(text: 'HSE Manager');
 
-  final _footerController = TextEditingController(
-    text: 'Identify. Report. Stay Safe.',
-  );
+  final _footerController =
+      TextEditingController(text: 'Identify. Report. Stay Safe.');
 
   DateTime selectedDate = DateTime.now();
 
@@ -47,7 +44,6 @@ class _CertificatePageState extends State<CertificatePage> {
   static const Color _green = Color(0xFF006B3C);
   static const Color _darkGreen = Color(0xFF004D2B);
   static const Color _gold = Color(0xFFC79A28);
-  static const Color _cream = Color(0xFFF9F7F0);
   static const Color _ink = Color(0xFF17352A);
 
   final List<String> templateNames = const [
@@ -70,14 +66,7 @@ class _CertificatePageState extends State<CertificatePage> {
     super.dispose();
   }
 
-  // ---------------------------------------------------------------------------
-  // TEXT HELPERS
-  // ---------------------------------------------------------------------------
-
-  String _clean(
-    String value, {
-    String fallback = '',
-  }) {
+  String _clean(String value, {String fallback = ''}) {
     final cleaned = value
         .replaceAll(
           RegExp(r'[\u0000-\u001F\u007F\u200B-\u200D\uFEFF]'),
@@ -104,18 +93,9 @@ class _CertificatePageState extends State<CertificatePage> {
         .trim();
   }
 
-  String _pdfSafeText(String value) {
-    return value
-        .replaceAll('鈽�', '*')
-        .replaceAll('鉁�', '*')
-        .replaceAll('鈥�', '|')
-        .replaceAll('�', '');
-  }
-
   String get formattedDate {
     return '${selectedDate.day.toString().padLeft(2, '0')} '
-        '${_month(selectedDate.month)} '
-        '${selectedDate.year}';
+        '${_month(selectedDate.month)} ${selectedDate.year}';
   }
 
   String _month(int month) {
@@ -137,21 +117,6 @@ class _CertificatePageState extends State<CertificatePage> {
     return months[month - 1];
   }
 
-  String _safeFileName(String value) {
-    final result = value
-        .trim()
-        .replaceAll(RegExp(r'[\\/:*?"<>|]'), '_')
-        .replaceAll(RegExp(r'\s+'), '_');
-
-    if (result.isEmpty) {
-      return 'Employee';
-    }
-
-    return result.length > 50
-        ? result.substring(0, 50)
-        : result;
-  }
-
   void _markDirty() {
     if (_lastSavedPath != null) {
       setState(() {
@@ -159,10 +124,6 @@ class _CertificatePageState extends State<CertificatePage> {
       });
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // DATE
-  // ---------------------------------------------------------------------------
 
   Future<void> _selectDate() async {
     final date = await showDatePicker(
@@ -179,10 +140,6 @@ class _CertificatePageState extends State<CertificatePage> {
       });
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // RESET
-  // ---------------------------------------------------------------------------
 
   void _resetCertificate() {
     setState(() {
@@ -204,14 +161,7 @@ class _CertificatePageState extends State<CertificatePage> {
     });
   }
 
-  // ---------------------------------------------------------------------------
-  // MESSAGE
-  // ---------------------------------------------------------------------------
-
-  void _message(
-    String message, {
-    bool error = false,
-  }) {
+  void _message(String message, {bool error = false}) {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context)
@@ -220,14 +170,27 @@ class _CertificatePageState extends State<CertificatePage> {
         SnackBar(
           content: Text(message),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: error ? Colors.red.shade700 : null,
+          backgroundColor:
+              error ? Colors.red.shade700 : null,
         ),
       );
   }
 
-  // ---------------------------------------------------------------------------
-  // PDF TEXT STYLE
-  // ---------------------------------------------------------------------------
+  String _safeFileName(String value) {
+    final result = value
+        .trim()
+        .replaceAll(RegExp(r'[\\/:*?"<>|]'), '_')
+        .replaceAll(RegExp(r'\s+'), '_');
+
+    if (result.isEmpty) {
+      return 'Employee';
+    }
+
+    return result.substring(
+      0,
+      result.length > 50 ? 50 : result.length,
+    );
+  }
 
   pw.TextStyle _pdfText({
     double size = 10,
@@ -243,14 +206,7 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PDF LOGO
-  // ---------------------------------------------------------------------------
-
-  pw.Widget _pdfLogo(
-    PdfColor color, {
-    bool darkMode = false,
-  }) {
+  pw.Widget _pdfLogo(PdfColor color) {
     return pw.Container(
       width: 58,
       height: 58,
@@ -267,9 +223,7 @@ class _CertificatePageState extends State<CertificatePage> {
           'S',
           style: _pdfText(
             size: 27,
-            color: darkMode
-                ? PdfColors.black
-                : PdfColors.white,
+            color: PdfColors.white,
             weight: pw.FontWeight.bold,
           ),
         ),
@@ -277,36 +231,26 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PDF BRAND
-  // ---------------------------------------------------------------------------
-
   pw.Widget _pdfBrand(
     String company,
     PdfColor color, {
     bool light = false,
     bool compact = false,
   }) {
-    final safeCompany = _pdfSafeText(company);
-
-    final textColor = light
-        ? PdfColors.white
-        : color;
+    final textColor =
+        light ? PdfColors.white : color;
 
     return pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.center,
       children: [
-        _pdfLogo(
-          light ? PdfColors.amber800 : color,
-          darkMode: light,
-        ),
+        _pdfLogo(color),
         pw.SizedBox(width: 10),
         pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          crossAxisAlignment:
+              pw.CrossAxisAlignment.start,
           children: [
             pw.Text(
-              safeCompany,
-              maxLines: 2,
+              company,
               style: _pdfText(
                 size: compact ? 15 : 18,
                 color: textColor,
@@ -314,7 +258,7 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
             ),
             pw.Text(
-              'AI-Powered HSE Safety & Observation App',
+              'HSE Safety & Observation App',
               style: _pdfText(
                 size: 6.5,
                 color: light
@@ -327,10 +271,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ],
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PDF META
-  // ---------------------------------------------------------------------------
 
   pw.Widget _pdfMeta(
     String value,
@@ -351,7 +291,7 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
           pw.SizedBox(height: 5),
           pw.Text(
-            _pdfSafeText(value),
+            value,
             textAlign: pw.TextAlign.center,
             maxLines: 2,
             style: _pdfText(
@@ -363,7 +303,7 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
           pw.SizedBox(height: 3),
           pw.Text(
-            _pdfSafeText(label).toUpperCase(),
+            label.toUpperCase(),
             textAlign: pw.TextAlign.center,
             style: _pdfText(
               size: 6.5,
@@ -379,17 +319,12 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PDF SEAL
-  // ---------------------------------------------------------------------------
-
   pw.Widget _pdfSeal(
     PdfColor color, {
     bool gold = false,
   }) {
-    final sealColor = gold
-        ? PdfColors.amber800
-        : color;
+    final sealColor =
+        gold ? PdfColors.amber800 : color;
 
     return pw.Container(
       width: 76,
@@ -430,11 +365,11 @@ class _CertificatePageState extends State<CertificatePage> {
                 weight: pw.FontWeight.bold,
               ),
             ),
-            pw.SizedBox(height: 4),
+            pw.SizedBox(height: 3),
             pw.Text(
-              '***',
+              'HSE',
               style: _pdfText(
-                size: 7,
+                size: 6,
                 color: PdfColors.white,
                 weight: pw.FontWeight.bold,
               ),
@@ -444,10 +379,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PDF BADGES
-  // ---------------------------------------------------------------------------
 
   pw.Widget _pdfBadges(
     PdfColor color, {
@@ -463,55 +394,51 @@ class _CertificatePageState extends State<CertificatePage> {
     return pw.Row(
       mainAxisAlignment:
           pw.MainAxisAlignment.spaceEvenly,
-      children: labels.map(
-        (label) {
-          final badgeColor = light
-              ? PdfColors.white
-              : color;
-
-          return pw.Column(
-            children: [
-              pw.Container(
-                width: 34,
-                height: 34,
-                decoration: pw.BoxDecoration(
-                  shape: pw.BoxShape.circle,
-                  border: pw.Border.all(
-                    color: badgeColor,
-                    width: 1.2,
-                  ),
+      children: labels.map((label) {
+        return pw.Column(
+          children: [
+            pw.Container(
+              width: 34,
+              height: 34,
+              decoration: pw.BoxDecoration(
+                shape: pw.BoxShape.circle,
+                border: pw.Border.all(
+                  color: light
+                      ? PdfColors.white
+                      : color,
+                  width: 1.2,
                 ),
-                child: pw.Center(
-                  child: pw.Text(
-                    'OK',
-                    style: _pdfText(
-                      size: 8,
-                      color: badgeColor,
-                      weight: pw.FontWeight.bold,
-                    ),
+              ),
+              child: pw.Center(
+                child: pw.Text(
+                  '✓',
+                  style: _pdfText(
+                    size: 15,
+                    color: light
+                        ? PdfColors.white
+                        : color,
+                    weight: pw.FontWeight.bold,
                   ),
                 ),
               ),
-              pw.SizedBox(height: 3),
-              pw.Text(
-                label,
-                style: _pdfText(
-                  size: 5.5,
-                  color: badgeColor,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
+            ),
+            pw.SizedBox(height: 3),
+            pw.Text(
+              label,
+              style: _pdfText(
+                size: 5.5,
+                color: light
+                    ? PdfColors.white
+                    : color,
+                weight: pw.FontWeight.bold,
+                letterSpacing: 0.5,
               ),
-            ],
-          );
-        },
-      ).toList(),
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PDF RECIPIENT
-  // ---------------------------------------------------------------------------
 
   pw.Widget _pdfRecipient(
     String name,
@@ -535,7 +462,7 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
         pw.SizedBox(height: 7),
         pw.Text(
-          _pdfSafeText(name),
+          name,
           textAlign: pw.TextAlign.center,
           maxLines: 2,
           style: _pdfText(
@@ -558,10 +485,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PDF ACHIEVEMENT
-  // ---------------------------------------------------------------------------
-
   pw.Widget _pdfAchievement(
     String achievement, {
     bool light = false,
@@ -573,9 +496,9 @@ class _CertificatePageState extends State<CertificatePage> {
         vertical: 12,
       ),
       child: pw.Text(
-        _pdfSafeText(achievement),
+        achievement,
         textAlign: pw.TextAlign.center,
-        maxLines: 6,
+        maxLines: 5,
         style: _pdfText(
           size: 9.5,
           color: light
@@ -585,10 +508,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PDF FOOTER
-  // ---------------------------------------------------------------------------
 
   pw.Widget _pdfFooter(
     String footer,
@@ -607,7 +526,7 @@ class _CertificatePageState extends State<CertificatePage> {
             : color,
       ),
       child: pw.Text(
-        _pdfSafeText(footer),
+        footer,
         textAlign: pw.TextAlign.center,
         maxLines: 2,
         style: _pdfText(
@@ -621,10 +540,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // TEMPLATE 1 - CLASSIC
-  // ---------------------------------------------------------------------------
 
   pw.Widget _template1({
     required String company,
@@ -745,10 +660,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // TEMPLATE 2 - MODERN MINIMAL
-  // ---------------------------------------------------------------------------
-
   pw.Widget _template2({
     required String company,
     required String name,
@@ -836,7 +747,7 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
               pw.SizedBox(height: 8),
               pw.Text(
-                _pdfSafeText(name),
+                name,
                 maxLines: 2,
                 style: _pdfText(
                   size: 27,
@@ -854,8 +765,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   department.isNotEmpty)
                 pw.Text(
                   [
-                    if (id.isNotEmpty)
-                      'ID: $id',
+                    if (id.isNotEmpty) 'ID: $id',
                     if (department.isNotEmpty)
                       'Department: $department',
                   ].join('  |  '),
@@ -897,10 +807,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // TEMPLATE 3 - ELEGANT BORDER
-  // ---------------------------------------------------------------------------
-
   pw.Widget _template3({
     required String company,
     required String name,
@@ -936,9 +842,9 @@ class _CertificatePageState extends State<CertificatePage> {
           child: pw.Column(
             children: [
               pw.Text(
-                '***',
+                'HSE  •  SAFETY  •  EXCELLENCE',
                 style: _pdfText(
-                  size: 10,
+                  size: 7,
                   color: PdfColors.amber800,
                   weight: pw.FontWeight.bold,
                 ),
@@ -1027,10 +933,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // TEMPLATE 4 - CONTEMPORARY UAE
-  // ---------------------------------------------------------------------------
-
   pw.Widget _template4({
     required String company,
     required String name,
@@ -1056,8 +958,7 @@ class _CertificatePageState extends State<CertificatePage> {
           children: [
             pw.Container(
               width: double.infinity,
-              padding:
-                  const pw.EdgeInsets.symmetric(
+              padding: const pw.EdgeInsets.symmetric(
                 vertical: 18,
               ),
               color: green,
@@ -1068,8 +969,7 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
             ),
             pw.Padding(
-              padding:
-                  const pw.EdgeInsets.symmetric(
+              padding: const pw.EdgeInsets.symmetric(
                 horizontal: 30,
                 vertical: 18,
               ),
@@ -1096,8 +996,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   pw.SizedBox(height: 16),
                   pw.Container(
                     width: double.infinity,
-                    padding:
-                        const pw.EdgeInsets.all(13),
+                    padding: const pw.EdgeInsets.all(13),
                     decoration: pw.BoxDecoration(
                       border: pw.Border.all(
                         color: green,
@@ -1187,10 +1086,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // TEMPLATE 5 - PREMIUM DARK
-  // ---------------------------------------------------------------------------
 
   pw.Widget _template5({
     required String company,
@@ -1323,10 +1218,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // CREATE PDF
-  // ---------------------------------------------------------------------------
-
   Future<File> _createCertificatePdf() async {
     final pdf = pw.Document();
 
@@ -1340,15 +1231,13 @@ class _CertificatePageState extends State<CertificatePage> {
       fallback: 'Employee Name',
     );
 
-    final id = _clean(
-      _idController.text,
-    );
+    final id = _clean(_idController.text);
 
-    final department = _clean(
-      _departmentController.text,
-    );
+    final department =
+        _clean(_departmentController.text);
 
-    final achievement = _cleanMultiline(
+    final achievement =
+        _cleanMultiline(
       _achievementController.text,
     );
 
@@ -1362,11 +1251,10 @@ class _CertificatePageState extends State<CertificatePage> {
       fallback: 'Identify. Report. Stay Safe.',
     );
 
-    final green = PdfColor.fromInt(
-      _green.toARGB32(),
-    );
+    final green =
+        PdfColor.fromInt(_green.toARGB32());
 
-    pw.Widget page;
+    late pw.Widget page;
 
     switch (selectedTemplate) {
       case 1:
@@ -1454,9 +1342,8 @@ class _CertificatePageState extends State<CertificatePage> {
         'SafeNexus_Certificate_'
         '${_safeFileName(name)}_$datePart.pdf';
 
-    final file = File(
-      '${directory.path}/$fileName',
-    );
+    final file =
+        File('${directory.path}/$fileName');
 
     final bytes = await pdf.save();
 
@@ -1468,10 +1355,6 @@ class _CertificatePageState extends State<CertificatePage> {
     return file;
   }
 
-  // ---------------------------------------------------------------------------
-  // SAVE PDF
-  // ---------------------------------------------------------------------------
-
   Future<void> _saveCertificatePdf() async {
     if (_isGeneratingPdf) return;
 
@@ -1480,7 +1363,8 @@ class _CertificatePageState extends State<CertificatePage> {
     });
 
     try {
-      final file = await _createCertificatePdf();
+      final file =
+          await _createCertificatePdf();
 
       _lastSavedPath = file.path;
 
@@ -1503,7 +1387,8 @@ class _CertificatePageState extends State<CertificatePage> {
               ],
             ),
             content: const Text(
-              'Your certificate PDF has been generated successfully. '
+              'Your certificate PDF has been '
+              'generated successfully. '
               'You can now share it.',
             ),
             actions: [
@@ -1539,10 +1424,6 @@ class _CertificatePageState extends State<CertificatePage> {
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // SHARE PDF
-  // ---------------------------------------------------------------------------
-
   Future<void> _shareCertificatePdf() async {
     if (_isGeneratingPdf) return;
 
@@ -1557,7 +1438,9 @@ class _CertificatePageState extends State<CertificatePage> {
           await File(_lastSavedPath!).exists()) {
         file = File(_lastSavedPath!);
       } else {
-        file = await _createCertificatePdf();
+        file =
+            await _createCertificatePdf();
+
         _lastSavedPath = file.path;
       }
 
@@ -1569,8 +1452,10 @@ class _CertificatePageState extends State<CertificatePage> {
             mimeType: 'application/pdf',
           ),
         ],
-        subject: 'SafeNexus HSE Certificate',
-        text: 'Certificate generated by SafeNexus HSE.',
+        subject:
+            'SafeNexus HSE Certificate',
+        text:
+            'Certificate generated by SafeNexus HSE.',
       );
     } catch (e) {
       _message(
@@ -1586,10 +1471,6 @@ class _CertificatePageState extends State<CertificatePage> {
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // FIELD
-  // ---------------------------------------------------------------------------
-
   Widget _field({
     required String label,
     required TextEditingController controller,
@@ -1597,9 +1478,8 @@ class _CertificatePageState extends State<CertificatePage> {
     int maxLines = 1,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 10,
-      ),
+      padding:
+          const EdgeInsets.only(bottom: 10),
       child: TextField(
         controller: controller,
         maxLines: maxLines,
@@ -1616,29 +1496,18 @@ class _CertificatePageState extends State<CertificatePage> {
             borderRadius:
                 BorderRadius.circular(12),
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder:
+              OutlineInputBorder(
             borderRadius:
                 BorderRadius.circular(12),
             borderSide: BorderSide(
               color: Colors.grey.shade300,
             ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius:
-                BorderRadius.circular(12),
-            borderSide: const BorderSide(
-              color: _green,
-              width: 1.5,
-            ),
-          ),
         ),
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // SECTION TITLE
-  // ---------------------------------------------------------------------------
 
   Widget _sectionTitle(
     IconData icon,
@@ -1651,9 +1520,8 @@ class _CertificatePageState extends State<CertificatePage> {
           width: 42,
           height: 42,
           decoration: BoxDecoration(
-            color: _green.withValues(
-              alpha: .1,
-            ),
+            color:
+                _green.withValues(alpha: .1),
             borderRadius:
                 BorderRadius.circular(12),
           ),
@@ -1672,7 +1540,8 @@ class _CertificatePageState extends State<CertificatePage> {
                 title,
                 style: const TextStyle(
                   fontSize: 17,
-                  fontWeight: FontWeight.w800,
+                  fontWeight:
+                      FontWeight.w800,
                   color: _ink,
                 ),
               ),
@@ -1689,10 +1558,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ],
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // TEMPLATE CARD
-  // ---------------------------------------------------------------------------
 
   Widget _templateCard(int index) {
     final selected =
@@ -1723,9 +1588,8 @@ class _CertificatePageState extends State<CertificatePage> {
               const EdgeInsets.all(7),
           decoration: BoxDecoration(
             color: selected
-                ? colors[index][0].withValues(
-                    alpha: .08,
-                  )
+                ? colors[index][0]
+                    .withValues(alpha: .08)
                 : Colors.white,
             borderRadius:
                 BorderRadius.circular(14),
@@ -1748,8 +1612,10 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
               const SizedBox(height: 7),
               Text(
-                '${index + 1}. ${templateNames[index]}',
-                textAlign: TextAlign.center,
+                '${index + 1}. '
+                '${templateNames[index]}',
+                textAlign:
+                    TextAlign.center,
                 maxLines: 2,
                 style: TextStyle(
                   fontSize: 9.5,
@@ -1767,10 +1633,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // MINI TEMPLATE
-  // ---------------------------------------------------------------------------
 
   Widget _miniTemplate(
     int index,
@@ -1853,9 +1715,8 @@ class _CertificatePageState extends State<CertificatePage> {
         child: Text(
           'CERTIFICATE',
           style: TextStyle(
-            color: index == 2
-                ? accent
-                : primary,
+            color:
+                index == 2 ? accent : primary,
             fontWeight:
                 FontWeight.w900,
             fontSize: 8,
@@ -1864,10 +1725,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PREVIEW BRAND
-  // ---------------------------------------------------------------------------
 
   Widget _previewBrand() {
     return Row(
@@ -1895,47 +1752,34 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
         ),
         const SizedBox(width: 9),
-        Flexible(
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text(
-                _clean(
-                  _companyController.text,
-                  fallback:
-                      'SafeNexus HSE',
-                ),
-                maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: _green,
-                  fontSize: 15,
-                  fontWeight:
-                      FontWeight.w900,
-                ),
+        Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+          children: [
+            Text(
+              _clean(
+                _companyController.text,
+                fallback: 'SafeNexus HSE',
               ),
-              const Text(
-                'AI-Powered HSE Safety & Observation App',
-                maxLines: 1,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 6.5,
-                  color: Colors.black54,
-                ),
+              style: const TextStyle(
+                color: _green,
+                fontSize: 15,
+                fontWeight:
+                    FontWeight.w900,
               ),
-            ],
-          ),
+            ),
+            const Text(
+              'HSE Safety & Observation App',
+              style: TextStyle(
+                fontSize: 6.5,
+                color: Colors.black54,
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PREVIEW META
-  // ---------------------------------------------------------------------------
 
   Widget _previewMeta(
     String value,
@@ -1964,9 +1808,6 @@ class _CertificatePageState extends State<CertificatePage> {
           Text(
             label,
             textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow:
-                TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 5.5,
               color: _green,
@@ -1979,10 +1820,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW SEAL
-  // ---------------------------------------------------------------------------
-
   Widget _previewSeal({
     bool dark = false,
   }) {
@@ -1990,9 +1827,7 @@ class _CertificatePageState extends State<CertificatePage> {
       width: 54,
       height: 54,
       decoration: BoxDecoration(
-        color: dark
-            ? _gold
-            : _green,
+        color: dark ? _gold : _green,
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
@@ -2015,13 +1850,12 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW BADGES
-  // ---------------------------------------------------------------------------
-
   Widget _previewBadges({
     bool dark = false,
   }) {
+    final color =
+        dark ? _gold : _green;
+
     return Row(
       mainAxisAlignment:
           MainAxisAlignment.spaceEvenly,
@@ -2030,48 +1864,39 @@ class _CertificatePageState extends State<CertificatePage> {
         'REPORT',
         'PROTECT',
         'BUILD',
-      ].map(
-        (label) {
-          final color =
-              dark ? _gold : _green;
-
-          return Column(
-            children: [
-              Container(
-                width: 27,
-                height: 27,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: color,
-                  ),
-                ),
-                child: Icon(
-                  Icons.check,
-                  size: 14,
+      ].map((label) {
+        return Column(
+          children: [
+            Container(
+              width: 27,
+              height: 27,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
                   color: color,
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 4.5,
-                  color: color,
-                  fontWeight:
-                      FontWeight.bold,
-                ),
+              child: Icon(
+                Icons.check,
+                size: 14,
+                color: color,
               ),
-            ],
-          );
-        },
-      ).toList(),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 4.5,
+                color: color,
+                fontWeight:
+                    FontWeight.bold,
+              ),
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // BASE PREVIEW
-  // ---------------------------------------------------------------------------
 
   Widget _basePreview({
     required Widget child,
@@ -2120,9 +1945,86 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW CLASSIC
-  // ---------------------------------------------------------------------------
+  Widget _preview() {
+    final name = _clean(
+      _nameController.text,
+      fallback: 'Employee Name',
+    );
+
+    final achievement =
+        _cleanMultiline(
+      _achievementController.text,
+    );
+
+    final id =
+        _clean(_idController.text);
+
+    final department =
+        _clean(_departmentController.text);
+
+    final signatory = _clean(
+      _signatoryController.text,
+      fallback: 'HSE Manager',
+    );
+
+    final footer = _clean(
+      _footerController.text,
+      fallback:
+          'Identify. Report. Stay Safe.',
+    );
+
+    switch (selectedTemplate) {
+      case 1:
+        return _previewMinimal(
+          name,
+          achievement,
+          id,
+          department,
+          signatory,
+          footer,
+        );
+
+      case 2:
+        return _previewElegant(
+          name,
+          achievement,
+          id,
+          department,
+          signatory,
+          footer,
+        );
+
+      case 3:
+        return _previewUae(
+          name,
+          achievement,
+          id,
+          department,
+          signatory,
+          footer,
+        );
+
+      case 4:
+        return _previewDark(
+          name,
+          achievement,
+          id,
+          department,
+          signatory,
+          footer,
+        );
+
+      default:
+        return _previewClassic(
+          name,
+          achievement,
+          id,
+          department,
+          signatory,
+          footer,
+        );
+    }
+  }
 
   Widget _previewClassic(
     String name,
@@ -2166,7 +2068,6 @@ class _CertificatePageState extends State<CertificatePage> {
             const SizedBox(height: 11),
             const Text(
               'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 5.5,
                 fontWeight:
@@ -2180,7 +2081,8 @@ class _CertificatePageState extends State<CertificatePage> {
               maxLines: 2,
               overflow:
                   TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+              textAlign:
+                  TextAlign.center,
               style: const TextStyle(
                 fontSize: 23,
                 color: _green,
@@ -2202,10 +2104,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     'ID: $id',
                   if (department.isNotEmpty)
                     'Department: $department',
-                ].join(' | '),
-                maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
+                ].join('  |  '),
                 style: const TextStyle(
                   fontSize: 5.5,
                   color: Colors.black54,
@@ -2276,10 +2175,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PREVIEW MINIMAL
-  // ---------------------------------------------------------------------------
 
   Widget _previewMinimal(
     String name,
@@ -2401,14 +2296,10 @@ class _CertificatePageState extends State<CertificatePage> {
                           'ID: $id',
                         if (department.isNotEmpty)
                           'Department: $department',
-                      ].join(' | '),
-                      maxLines: 2,
-                      overflow:
-                          TextOverflow.ellipsis,
+                      ].join('  |  '),
                       style: const TextStyle(
                         fontSize: 5.5,
-                        color:
-                            Colors.black54,
+                        color: Colors.black54,
                       ),
                     ),
                   ],
@@ -2475,10 +2366,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW ELEGANT
-  // ---------------------------------------------------------------------------
-
   Widget _previewElegant(
     String name,
     String achievement,
@@ -2497,10 +2384,10 @@ class _CertificatePageState extends State<CertificatePage> {
         child: Column(
           children: [
             const Text(
-              '***',
+              'HSE  •  SAFETY  •  EXCELLENCE',
               style: TextStyle(
                 color: _gold,
-                fontSize: 9,
+                fontSize: 7,
                 fontWeight:
                     FontWeight.bold,
               ),
@@ -2530,7 +2417,6 @@ class _CertificatePageState extends State<CertificatePage> {
             const SizedBox(height: 10),
             const Text(
               'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 5.5,
                 fontWeight:
@@ -2543,7 +2429,8 @@ class _CertificatePageState extends State<CertificatePage> {
               maxLines: 2,
               overflow:
                   TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+              textAlign:
+                  TextAlign.center,
               style: const TextStyle(
                 fontSize: 22,
                 color: _green,
@@ -2564,10 +2451,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     'Employee ID: $id',
                   if (department.isNotEmpty)
                     'Department: $department',
-                ].join(' | '),
-                maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
+                ].join('  |  '),
                 style: const TextStyle(
                   fontSize: 5,
                   color: Colors.black54,
@@ -2635,10 +2519,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW UAE
-  // ---------------------------------------------------------------------------
-
   Widget _previewUae(
     String name,
     String achievement,
@@ -2696,31 +2576,24 @@ class _CertificatePageState extends State<CertificatePage> {
                       width: double.infinity,
                       padding:
                           const EdgeInsets.all(8),
-                      decoration:
-                          BoxDecoration(
+                      decoration: BoxDecoration(
                         border: Border.all(
                           color: _green,
                         ),
                         borderRadius:
-                            BorderRadius.circular(
-                          8,
-                        ),
+                            BorderRadius.circular(8),
                       ),
                       child: Column(
                         children: [
                           const Text(
                             'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-                            textAlign:
-                                TextAlign.center,
                             style: TextStyle(
                               fontSize: 5,
                               fontWeight:
                                   FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(
-                            height: 2,
-                          ),
+                          const SizedBox(height: 2),
                           Text(
                             name,
                             maxLines: 2,
@@ -2728,8 +2601,7 @@ class _CertificatePageState extends State<CertificatePage> {
                                 TextOverflow.ellipsis,
                             textAlign:
                                 TextAlign.center,
-                            style:
-                                const TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               color: _green,
                               fontWeight:
@@ -2748,15 +2620,10 @@ class _CertificatePageState extends State<CertificatePage> {
                             'ID: $id',
                           if (department.isNotEmpty)
                             'Department: $department',
-                        ].join(' | '),
-                        maxLines: 2,
-                        overflow:
-                            TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(
+                        ].join('  |  '),
+                        style: const TextStyle(
                           fontSize: 5.5,
-                          color:
-                              Colors.black54,
+                          color: Colors.black54,
                         ),
                       ),
                     ],
@@ -2769,8 +2636,7 @@ class _CertificatePageState extends State<CertificatePage> {
                               TextOverflow.ellipsis,
                           textAlign:
                               TextAlign.center,
-                          style:
-                              const TextStyle(
+                          style: const TextStyle(
                             fontSize: 7.2,
                             height: 1.3,
                           ),
@@ -2785,15 +2651,12 @@ class _CertificatePageState extends State<CertificatePage> {
                         color:
                             Colors.grey.shade100,
                         borderRadius:
-                            BorderRadius.circular(
-                          8,
-                        ),
+                            BorderRadius.circular(8),
                       ),
                       child: const Center(
                         child: Text(
                           'TOGETHER FOR A SAFER UAE',
-                          style:
-                              TextStyle(
+                          style: TextStyle(
                             fontSize: 8,
                             color: _green,
                             fontWeight:
@@ -2855,10 +2718,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW DARK
-  // ---------------------------------------------------------------------------
-
   Widget _previewDark(
     String name,
     String achievement,
@@ -2902,7 +2761,6 @@ class _CertificatePageState extends State<CertificatePage> {
             const SizedBox(height: 12),
             const Text(
               'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white70,
                 fontSize: 5.5,
@@ -2938,10 +2796,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     'Employee ID: $id',
                   if (department.isNotEmpty)
                     'Department: $department',
-                ].join(' | '),
-                maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
+                ].join('  |  '),
                 style: const TextStyle(
                   fontSize: 5,
                   color: Colors.white70,
@@ -3016,10 +2871,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // PREVIEW DARK BRAND
-  // ---------------------------------------------------------------------------
-
   Widget _previewBrandDark() {
     return Row(
       mainAxisAlignment:
@@ -3046,47 +2897,34 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
         ),
         const SizedBox(width: 8),
-        Flexible(
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text(
-                _clean(
-                  _companyController.text,
-                  fallback:
-                      'SafeNexus HSE',
-                ),
-                maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight:
-                      FontWeight.w900,
-                ),
+        Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+          children: [
+            Text(
+              _clean(
+                _companyController.text,
+                fallback: 'SafeNexus HSE',
               ),
-              const Text(
-                'AI-Powered HSE Safety & Observation App',
-                maxLines: 1,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 6,
-                  color: Colors.white70,
-                ),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight:
+                    FontWeight.w900,
               ),
-            ],
-          ),
+            ),
+            const Text(
+              'HSE Safety & Observation App',
+              style: TextStyle(
+                fontSize: 6,
+                color: Colors.white70,
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PREVIEW DARK META
-  // ---------------------------------------------------------------------------
 
   Widget _previewMetaDark(
     String value,
@@ -3103,7 +2941,8 @@ class _CertificatePageState extends State<CertificatePage> {
           const SizedBox(height: 4),
           Text(
             value,
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             maxLines: 2,
             overflow:
                 TextOverflow.ellipsis,
@@ -3115,10 +2954,8 @@ class _CertificatePageState extends State<CertificatePage> {
           const SizedBox(height: 2),
           Text(
             label,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow:
-                TextOverflow.ellipsis,
+            textAlign:
+                TextAlign.center,
             style: const TextStyle(
               fontSize: 5.5,
               color: _gold,
@@ -3130,159 +2967,6 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // PREVIEW SWITCH
-  // ---------------------------------------------------------------------------
-
-  Widget _preview() {
-    final name = _clean(
-      _nameController.text,
-      fallback: 'Employee Name',
-    );
-
-    final achievement =
-        _cleanMultiline(
-      _achievementController.text,
-    );
-
-    final id = _clean(
-      _idController.text,
-    );
-
-    final department = _clean(
-      _departmentController.text,
-    );
-
-    final signatory = _clean(
-      _signatoryController.text,
-      fallback: 'HSE Manager',
-    );
-
-    final footer = _clean(
-      _footerController.text,
-      fallback: 'Identify. Report. Stay Safe.',
-    );
-
-    switch (selectedTemplate) {
-      case 1:
-        return _previewMinimal(
-          name,
-          achievement,
-          id,
-          department,
-          signatory,
-          footer,
-        );
-
-      case 2:
-        return _previewElegant(
-          name,
-          achievement,
-          id,
-          department,
-          signatory,
-          footer,
-        );
-
-      case 3:
-        return _previewUae(
-          name,
-          achievement,
-          id,
-          department,
-          signatory,
-          footer,
-        );
-
-      case 4:
-        return _previewDark(
-          name,
-          achievement,
-          id,
-          department,
-          signatory,
-          footer,
-        );
-
-      default:
-        return _previewClassic(
-          name,
-          achievement,
-          id,
-          department,
-          signatory,
-          footer,
-        );
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // EDIT TEXT DIALOG
-  // ---------------------------------------------------------------------------
-
-  void _editText({
-    required String title,
-    required TextEditingController controller,
-    int maxLines = 1,
-  }) {
-    final tempController =
-        TextEditingController(
-      text: controller.text,
-    );
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(
-            controller: tempController,
-            autofocus: true,
-            maxLines: maxLines,
-            decoration:
-                const InputDecoration(
-              border:
-                  OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                tempController.dispose();
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child:
-                  const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                setState(() {
-                  controller.text =
-                      tempController.text;
-                  _lastSavedPath = null;
-                });
-
-                tempController.dispose();
-
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child:
-                  const Text('Apply'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // ---------------------------------------------------------------------------
-  // ACTION BUTTONS
-  // ---------------------------------------------------------------------------
 
   Widget _actions() {
     return Column(
@@ -3352,10 +3036,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // BUILD
-  // ---------------------------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -3401,9 +3081,8 @@ class _CertificatePageState extends State<CertificatePage> {
                 _isGeneratingPdf
                     ? null
                     : _shareCertificatePdf,
-            icon: const Icon(
-              Icons.share,
-            ),
+            icon:
+                const Icon(Icons.share),
           ),
         ],
       ),
@@ -3422,16 +3101,13 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
               const SizedBox(height: 15),
 
-              // DESIGN CARD
               Card(
                 elevation: 0,
                 color: Colors.white,
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(
-                    16,
-                  ),
+                      BorderRadius.circular(16),
                   side: BorderSide(
                     color:
                         Colors.grey.shade200,
@@ -3439,9 +3115,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.all(
-                    13,
-                  ),
+                      const EdgeInsets.all(13),
                   child: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -3464,9 +3138,7 @@ class _CertificatePageState extends State<CertificatePage> {
                               Colors.black54,
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Row(
                         children:
                             List.generate(
@@ -3481,16 +3153,13 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 14),
 
-              // DETAILS CARD
               Card(
                 elevation: 0,
                 color: Colors.white,
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(
-                    16,
-                  ),
+                      BorderRadius.circular(16),
                   side: BorderSide(
                     color:
                         Colors.grey.shade200,
@@ -3498,9 +3167,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.all(
-                    14,
-                  ),
+                      const EdgeInsets.all(14),
                   child: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -3514,9 +3181,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: _ink,
                         ),
                       ),
-                      const SizedBox(
-                        height: 11,
-                      ),
+                      const SizedBox(height: 11),
 
                       _field(
                         label:
@@ -3550,8 +3215,8 @@ class _CertificatePageState extends State<CertificatePage> {
                             'Achievement / Reason',
                         controller:
                             _achievementController,
-                        icon:
-                            Icons.workspace_premium_outlined,
+                        icon: Icons
+                            .workspace_premium_outlined,
                         maxLines: 4,
                       ),
 
@@ -3585,10 +3250,6 @@ class _CertificatePageState extends State<CertificatePage> {
                       InkWell(
                         onTap:
                             _selectDate,
-                        borderRadius:
-                            BorderRadius.circular(
-                          12,
-                        ),
                         child:
                             InputDecorator(
                           decoration:
@@ -3597,13 +3258,15 @@ class _CertificatePageState extends State<CertificatePage> {
                                 'Certificate Date',
                             prefixIcon:
                                 const Icon(
-                              Icons.calendar_today,
+                              Icons
+                                  .calendar_today,
                               color: _green,
                             ),
                             border:
                                 OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.circular(
+                                  BorderRadius
+                                      .circular(
                                 12,
                               ),
                             ),
@@ -3620,16 +3283,13 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 14),
 
-              // PREVIEW CARD
               Card(
                 elevation: 0,
                 color: Colors.white,
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(
-                    16,
-                  ),
+                      BorderRadius.circular(16),
                   side: BorderSide(
                     color:
                         Colors.grey.shade200,
@@ -3637,9 +3297,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.all(
-                    12,
-                  ),
+                      const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -3649,9 +3307,7 @@ class _CertificatePageState extends State<CertificatePage> {
                         'Live Preview',
                         'The selected design is reflected here.',
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const SizedBox(height: 12),
                       _preview(),
                     ],
                   ),
@@ -3697,7 +3353,6 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 12),
 
-              // RESET / EXPORT
               Row(
                 children: [
                   Expanded(
@@ -3710,18 +3365,17 @@ class _CertificatePageState extends State<CertificatePage> {
                       ),
                       label:
                           const Text('Reset'),
-                      style: OutlinedButton
-                          .styleFrom(
+                      style:
+                          OutlinedButton.styleFrom(
                         padding:
-                            const EdgeInsets.symmetric(
+                            const EdgeInsets
+                                .symmetric(
                           vertical: 14,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
                     child:
                         FilledButton.icon(
@@ -3732,16 +3386,16 @@ class _CertificatePageState extends State<CertificatePage> {
                       icon: const Icon(
                         Icons.picture_as_pdf,
                       ),
-                      label:
-                          const Text(
+                      label: const Text(
                         'Export PDF',
                       ),
-                      style: FilledButton
-                          .styleFrom(
+                      style:
+                          FilledButton.styleFrom(
                         backgroundColor:
                             _green,
                         padding:
-                            const EdgeInsets.symmetric(
+                            const EdgeInsets
+                                .symmetric(
                           vertical: 14,
                         ),
                       ),
