@@ -172,7 +172,6 @@ class AiHseService {
     required File imageFile,
     String description = '',
     String location = '',
-    String language = 'en',
   }) async {
     // ----------------------------------------------------------
     // FILE VALIDATION
@@ -211,9 +210,6 @@ class AiHseService {
     final String mimeType =
         _mimeType(imageFile.path);
 
-    final String normalizedLanguage =
-        _normalizeLanguage(language);
-
     // ----------------------------------------------------------
     // REQUEST BODY
     // ----------------------------------------------------------
@@ -223,7 +219,7 @@ class AiHseService {
       'mime_type': mimeType,
       'description': description.trim(),
       'location': location.trim(),
-      'language': normalizedLanguage,
+      'language': 'en',
     };
 
     final Uri uri;
@@ -401,21 +397,6 @@ class AiHseService {
     }
 
     return 'AI analysis failed. Please try again.';
-  }
-
-  // ============================================================
-  // LANGUAGE
-  // ============================================================
-
-  String _normalizeLanguage(String language) {
-    final String value =
-        language.trim().toLowerCase();
-
-    if (value.startsWith('ml')) {
-      return 'ml';
-    }
-
-    return 'en';
   }
 
   // ============================================================
