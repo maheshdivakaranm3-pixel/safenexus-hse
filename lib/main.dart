@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:safenexus_hse/certificate.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/observation_history.dart';
@@ -59,6 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const HazardReportPage(),
+      ),
+    );
+  }
+
+  void _openCertificates() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const CertificatePage(),
       ),
     );
   }
@@ -220,6 +229,7 @@ class _HomeContent extends StatelessWidget {
   static const Color purple = Color(0xFF6736C8);
   static const Color orange = Color(0xFFFF8A00);
   static const Color red = Color(0xFFD93636);
+  static const Color blue = Color(0xFF1677C8);
 
   void openPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
@@ -327,6 +337,13 @@ class _HomeContent extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _uaeSafetySection(context),
+              const SizedBox(height: 22),
+
+              // ---------------------------------------------------------
+              // CERTIFICATE SECTION
+              // ---------------------------------------------------------
+              _certificateCard(context),
+
               const SizedBox(height: 22),
               _aiBanner(context),
               const SizedBox(height: 22),
@@ -614,6 +631,88 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
+  // ---------------------------------------------------------------------
+  // CERTIFICATE MENU CARD
+  // ---------------------------------------------------------------------
+
+  Widget _certificateCard(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          openPage(
+            context,
+            const CertificatePage(),
+          );
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(17),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: green.withValues(alpha: 0.25),
+            ),
+            gradient: LinearGradient(
+              colors: [
+                green.withValues(alpha: 0.07),
+                Colors.white,
+              ],
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 55,
+                height: 55,
+                decoration: BoxDecoration(
+                  color: green.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.workspace_premium_rounded,
+                  color: green,
+                  size: 31,
+                ),
+              ),
+              const SizedBox(width: 13),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Certificates',
+                      style: TextStyle(
+                        color: darkGreen,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Create, edit and customize HSE certificates',
+                      style: TextStyle(
+                        color: Color(0xFF777777),
+                        fontSize: 11.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: green,
+                size: 17,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _safetyOverview(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -748,7 +847,7 @@ class _HomeContent extends StatelessWidget {
           icon: Icons.location_city_rounded,
           title: 'Dubai HSE Safety',
           subtitle: 'Dubai safety guidance',
-          color: const Color(0xFF1677C8),
+          color: blue,
         ),
         const SizedBox(height: 10),
         _regionCard(
@@ -1162,9 +1261,9 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _sectionLabel(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
+    return const Text(
+      'APP SETTINGS',
+      style: TextStyle(
         color: Color(0xFF087A38),
         fontSize: 13,
         fontWeight: FontWeight.w800,
