@@ -11,11 +11,22 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Image capture / selection
   image_picker: ^1.1.2
+
+  # Local app data
   shared_preferences: ^2.5.3
+
+  # API / AI communication
   http: ^1.5.0
+
+  # File storage
   path_provider: ^2.1.5
+
+  # Share generated PDF / files
   share_plus: ^10.1.4
+
+  # PDF generation
   pdf: ^3.11.3
 
 dev_dependencies:
