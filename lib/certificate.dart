@@ -233,37 +233,62 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
                 child: pw.Stack(
                   children: [
-                    // Safe PDF background decoration.
-                    // Replaces the incompatible pw.CustomPaint callback.
-                    pw.Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      height: 145,
-                      child: pw.Container(
-                        decoration: pw.BoxDecoration(
-                          color: PdfColor(
+                    /*
+                     * IMPORTANT:
+                     * pdf package CustomPaint uses:
+                     * (PdfGraphics canvas, PdfPoint size)
+                     *
+                     * NOT:
+                     * (pw.Context context, PdfGraphics canvas)
+                     */
+                    pw.Positioned.fill(
+                      child: pw.CustomPaint(
+                        painter: (
+                          PdfGraphics canvas,
+                          PdfPoint size,
+                        ) {
+                          final double width = size.x;
+                          final double height = size.y;
+
+                          final PdfColor backgroundColor = PdfColor(
                             pdfPrimaryColor.red,
                             pdfPrimaryColor.green,
                             pdfPrimaryColor.blue,
-                            0.025,
-                          ),
-                        ),
-                      ),
-                    ),
+                            0.06,
+                          );
 
-                    pw.Positioned(
-                      left: 0,
-                      right: 0,
-                      top: 0,
-                      height: 8,
-                      child: pw.Container(
-                        color: PdfColor(
-                          pdfPrimaryColor.red,
-                          pdfPrimaryColor.green,
-                          pdfPrimaryColor.blue,
-                          0.10,
-                        ),
+                          canvas
+                            ..setColor(backgroundColor)
+                            ..setLineWidth(0.5);
+
+                          for (
+                            double x = 0;
+                            x < width;
+                            x += 45
+                          ) {
+                            canvas.drawLine(
+                              x,
+                              height,
+                              x + 30,
+                              height - 100,
+                            );
+                          }
+
+                          for (
+                            double y = 20;
+                            y < 140;
+                            y += 22
+                          ) {
+                            canvas.drawLine(
+                              0,
+                              y,
+                              width,
+                              y,
+                            );
+                          }
+
+                          canvas.strokePath();
+                        },
                       ),
                     ),
 
