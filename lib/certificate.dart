@@ -15,32 +15,35 @@ class CertificatePage extends StatefulWidget {
 }
 
 class _CertificatePageState extends State<CertificatePage> {
-  final _nameController =
+  final TextEditingController _nameController =
       TextEditingController(text: 'Employee Name');
 
-  final _idController = TextEditingController();
+  final TextEditingController _idController =
+      TextEditingController();
 
-  final _departmentController = TextEditingController();
+  final TextEditingController _departmentController =
+      TextEditingController();
 
-  final _achievementController = TextEditingController(
+  final TextEditingController _achievementController =
+      TextEditingController(
     text:
         'for your outstanding commitment to Health, Safety & Environment\n'
         'and for actively contributing to a safe and sustainable workplace.',
   );
 
-  final _companyController =
+  final TextEditingController _companyController =
       TextEditingController(text: 'SafeNexus HSE');
 
-  final _titleController =
+  final TextEditingController _titleController =
       TextEditingController(text: 'CERTIFICATE');
 
-  final _subtitleController =
+  final TextEditingController _subtitleController =
       TextEditingController(text: 'OF APPRECIATION');
 
-  final _footerController =
+  final TextEditingController _footerController =
       TextEditingController(text: 'Identify. Report. Stay Safe.');
 
-  final _signatoryController =
+  final TextEditingController _signatoryController =
       TextEditingController(text: 'Authorized Signatory');
 
   DateTime selectedDate = DateTime.now();
@@ -67,6 +70,14 @@ class _CertificatePageState extends State<CertificatePage> {
     'Employee Recognition',
   ];
 
+  Color get primaryColor => themeColors[selectedColor];
+
+  String get formattedDate {
+    return '${selectedDate.day.toString().padLeft(2, '0')}/'
+        '${selectedDate.month.toString().padLeft(2, '0')}/'
+        '${selectedDate.year}';
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -81,16 +92,8 @@ class _CertificatePageState extends State<CertificatePage> {
     super.dispose();
   }
 
-  Color get primaryColor => themeColors[selectedColor];
-
-  String get formattedDate {
-    return '${selectedDate.day.toString().padLeft(2, '0')}/'
-        '${selectedDate.month.toString().padLeft(2, '0')}/'
-        '${selectedDate.year}';
-  }
-
   Future<void> _selectDate() async {
-    final date = await showDatePicker(
+    final DateTime? date = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2020),
@@ -141,14 +144,13 @@ class _CertificatePageState extends State<CertificatePage> {
         SnackBar(
           content: Text(message),
           behavior: SnackBarBehavior.floating,
-          backgroundColor:
-              error ? Colors.red.shade700 : null,
+          backgroundColor: error ? Colors.red.shade700 : null,
         ),
       );
   }
 
   String _safeFileName(String value) {
-    final cleaned = value
+    final String cleaned = value
         .trim()
         .replaceAll(RegExp(r'[\\/:*?"<>|]'), '_')
         .replaceAll(RegExp(r'\s+'), '_');
@@ -163,57 +165,53 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   Future<File> _createCertificatePdf() async {
-    final pdf = pw.Document();
+    final pw.Document pdf = pw.Document();
 
-    final pdfPrimaryColor = PdfColor.fromInt(
-      primaryColor.value,
-    );
+    final PdfColor pdfPrimaryColor =
+        PdfColor.fromInt(primaryColor.toARGB32());
 
-    final employeeName =
+    final String employeeName =
         _nameController.text.trim().isEmpty
             ? 'Employee Name'
             : _nameController.text.trim();
 
-    final companyName =
+    final String companyName =
         _companyController.text.trim().isEmpty
             ? 'SafeNexus HSE'
             : _companyController.text.trim();
 
-    final certificateTitle =
+    final String certificateTitle =
         _titleController.text.trim().isEmpty
             ? 'CERTIFICATE'
             : _titleController.text.trim();
 
-    final certificateSubtitle =
+    final String certificateSubtitle =
         _subtitleController.text.trim().isEmpty
             ? 'OF APPRECIATION'
             : _subtitleController.text.trim();
 
-    final signatory =
+    final String signatory =
         _signatoryController.text.trim().isEmpty
             ? 'Authorized Signatory'
             : _signatoryController.text.trim();
 
-    final footer =
+    final String footer =
         _footerController.text.trim().isEmpty
             ? 'Identify. Report. Stay Safe.'
             : _footerController.text.trim();
 
-    final achievement =
+    final String achievement =
         _achievementController.text.trim().isEmpty
             ? 'For your valuable contribution to Health, Safety & Environment and for actively contributing to a safe and sustainable workplace.'
             : _achievementController.text.trim();
 
-    final employeeId =
-        _idController.text.trim();
-
-    final department =
-        _departmentController.text.trim();
+    final String employeeId = _idController.text.trim();
+    final String department = _departmentController.text.trim();
 
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(0),
+        margin: pw.EdgeInsets.zero,
         build: (pw.Context context) {
           return pw.Container(
             color: PdfColor.fromInt(0xFFFDFEF9),
@@ -237,14 +235,61 @@ class _CertificatePageState extends State<CertificatePage> {
                   children: [
                     pw.Positioned.fill(
                       child: pw.CustomPaint(
-                        painter: _PdfBackgroundPainter(
-                          color: pdfPrimaryColor,
-                        ),
+                        painter: (
+                          pw.Context painterContext,
+                          PdfGraphics canvas,
+                        ) {
+                          final double width =
+                              painterContext.page.pageFormat.width;
+
+                          final double height =
+                              painterContext.page.pageFormat.height;
+
+                          final PdfColor backgroundColor =
+                              PdfColor(
+                            pdfPrimaryColor.red,
+                            pdfPrimaryColor.green,
+                            pdfPrimaryColor.blue,
+                            0.06,
+                          );
+
+                          canvas
+                            ..setColor(backgroundColor)
+                            ..setLineWidth(0.5);
+
+                          for (
+                            double x = 0;
+                            x < width;
+                            x += 45
+                          ) {
+                            canvas.drawLine(
+                              x,
+                              height,
+                              x + 30,
+                              height - 100,
+                            );
+                          }
+
+                          for (
+                            double y = 20;
+                            y < 140;
+                            y += 22
+                          ) {
+                            canvas.drawLine(
+                              0,
+                              y,
+                              width,
+                              y,
+                            );
+                          }
+
+                          canvas.strokePath();
+                        },
                       ),
                     ),
+
                     pw.Padding(
-                      padding:
-                          const pw.EdgeInsets.symmetric(
+                      padding: const pw.EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 28,
                       ),
@@ -253,33 +298,29 @@ class _CertificatePageState extends State<CertificatePage> {
                           pw.Container(
                             width: 62,
                             height: 62,
-                            decoration:
-                                pw.BoxDecoration(
+                            decoration: pw.BoxDecoration(
                               color: pdfPrimaryColor,
                               shape: pw.BoxShape.circle,
                             ),
                             child: pw.Center(
                               child: pw.Column(
                                 mainAxisAlignment:
-                                    pw.MainAxisAlignment
-                                        .center,
+                                    pw.MainAxisAlignment.center,
                                 children: [
                                   pw.Text(
-                                    '⚙',
-                                    style:
-                                        pw.TextStyle(
-                                      color:
-                                          PdfColors.white,
-                                      fontSize: 23,
+                                    'S',
+                                    style: pw.TextStyle(
+                                      color: PdfColors.white,
+                                      fontSize: 26,
+                                      fontWeight:
+                                          pw.FontWeight.bold,
                                     ),
                                   ),
                                   pw.Text(
-                                    'S',
-                                    style:
-                                        pw.TextStyle(
-                                      color:
-                                          PdfColors.white,
-                                      fontSize: 14,
+                                    'HSE',
+                                    style: pw.TextStyle(
+                                      color: PdfColors.white,
+                                      fontSize: 7,
                                       fontWeight:
                                           pw.FontWeight.bold,
                                     ),
@@ -293,13 +334,11 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Text(
                             companyName,
-                            textAlign:
-                                pw.TextAlign.center,
+                            textAlign: pw.TextAlign.center,
                             style: pw.TextStyle(
                               color: pdfPrimaryColor,
                               fontSize: 18,
-                              fontWeight:
-                                  pw.FontWeight.bold,
+                              fontWeight: pw.FontWeight.bold,
                             ),
                           ),
 
@@ -307,12 +346,10 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Text(
                             'AI-Powered HSE Safety & Observation App',
-                            textAlign:
-                                pw.TextAlign.center,
+                            textAlign: pw.TextAlign.center,
                             style: const pw.TextStyle(
                               fontSize: 7,
-                              color:
-                                  PdfColors.grey700,
+                              color: PdfColors.grey700,
                             ),
                           ),
 
@@ -320,36 +357,29 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Text(
                             certificateTitle,
-                            textAlign:
-                                pw.TextAlign.center,
+                            textAlign: pw.TextAlign.center,
                             style: pw.TextStyle(
                               color: pdfPrimaryColor,
                               fontSize: 29,
-                              fontWeight:
-                                  pw.FontWeight.bold,
+                              fontWeight: pw.FontWeight.bold,
                             ),
                           ),
 
                           pw.SizedBox(height: 6),
 
                           pw.Container(
-                            padding:
-                                const pw.EdgeInsets
-                                    .symmetric(
+                            padding: const pw.EdgeInsets.symmetric(
                               horizontal: 18,
                               vertical: 7,
                             ),
                             color: pdfPrimaryColor,
                             child: pw.Text(
                               certificateSubtitle,
-                              textAlign:
-                                  pw.TextAlign.center,
+                              textAlign: pw.TextAlign.center,
                               style: pw.TextStyle(
-                                color:
-                                    PdfColors.white,
+                                color: PdfColors.white,
                                 fontSize: 11,
-                                fontWeight:
-                                    pw.FontWeight.bold,
+                                fontWeight: pw.FontWeight.bold,
                                 letterSpacing: 1.2,
                               ),
                             ),
@@ -359,8 +389,7 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Text(
                             'This certificate is proudly presented to',
-                            textAlign:
-                                pw.TextAlign.center,
+                            textAlign: pw.TextAlign.center,
                             style: const pw.TextStyle(
                               fontSize: 10,
                             ),
@@ -370,33 +399,26 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Container(
                             width: double.infinity,
-                            padding:
-                                const pw.EdgeInsets
-                                    .symmetric(
+                            padding: const pw.EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 5,
                             ),
-                            decoration:
-                                pw.BoxDecoration(
+                            decoration: pw.BoxDecoration(
                               border: pw.Border.all(
                                 color: pdfPrimaryColor,
                                 width: 0.7,
                               ),
                               borderRadius:
-                                  pw.BorderRadius
-                                      .circular(5),
+                                  pw.BorderRadius.circular(5),
                             ),
                             child: pw.Text(
                               employeeName,
                               textAlign:
-                                  _pdfTextAlign(
-                                nameAlignment,
-                              ),
+                                  _pdfTextAlign(nameAlignment),
                               maxLines: 2,
                               style: pw.TextStyle(
                                 color: pdfPrimaryColor,
-                                fontSize:
-                                    math.min(
+                                fontSize: math.min(
                                   nameFontSize,
                                   40,
                                 ),
@@ -418,11 +440,9 @@ class _CertificatePageState extends State<CertificatePage> {
                             pw.SizedBox(height: 9),
                             pw.Row(
                               mainAxisAlignment:
-                                  pw.MainAxisAlignment
-                                      .center,
+                                  pw.MainAxisAlignment.center,
                               children: [
-                                if (employeeId
-                                    .isNotEmpty)
+                                if (employeeId.isNotEmpty)
                                   pw.Text(
                                     'Employee ID: $employeeId',
                                     style:
@@ -430,13 +450,10 @@ class _CertificatePageState extends State<CertificatePage> {
                                       fontSize: 8,
                                     ),
                                   ),
-                                if (employeeId
-                                        .isNotEmpty &&
-                                    department
-                                        .isNotEmpty)
+                                if (employeeId.isNotEmpty &&
+                                    department.isNotEmpty)
                                   pw.SizedBox(width: 18),
-                                if (department
-                                    .isNotEmpty)
+                                if (department.isNotEmpty)
                                   pw.Text(
                                     'Department: $department',
                                     style:
@@ -459,10 +476,8 @@ class _CertificatePageState extends State<CertificatePage> {
                             child: pw.Center(
                               child: pw.Text(
                                 achievement,
-                                textAlign:
-                                    pw.TextAlign.center,
-                                style:
-                                    const pw.TextStyle(
+                                textAlign: pw.TextAlign.center,
+                                style: const pw.TextStyle(
                                   fontSize: 11,
                                   lineSpacing: 5,
                                 ),
@@ -480,11 +495,9 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Row(
                             crossAxisAlignment:
-                                pw.CrossAxisAlignment
-                                    .end,
+                                pw.CrossAxisAlignment.end,
                             mainAxisAlignment:
-                                pw.MainAxisAlignment
-                                    .spaceBetween,
+                                pw.MainAxisAlignment.spaceBetween,
                             children: [
                               _pdfSignatureBlock(
                                 formattedDate,
@@ -507,33 +520,24 @@ class _CertificatePageState extends State<CertificatePage> {
                           pw.Container(
                             width: double.infinity,
                             padding:
-                                const pw.EdgeInsets
-                                    .symmetric(
+                                const pw.EdgeInsets.symmetric(
                               vertical: 8,
                             ),
-                            decoration:
-                                pw.BoxDecoration(
+                            decoration: pw.BoxDecoration(
                               color: pdfPrimaryColor,
                               borderRadius:
-                                  const pw.BorderRadius
-                                      .only(
+                                  const pw.BorderRadius.only(
                                 bottomLeft:
-                                    pw.Radius.circular(
-                                  12,
-                                ),
+                                    pw.Radius.circular(12),
                                 bottomRight:
-                                    pw.Radius.circular(
-                                  12,
-                                ),
+                                    pw.Radius.circular(12),
                               ),
                             ),
                             child: pw.Text(
                               footer,
-                              textAlign:
-                                  pw.TextAlign.center,
+                              textAlign: pw.TextAlign.center,
                               style: pw.TextStyle(
-                                color:
-                                    PdfColors.white,
+                                color: PdfColors.white,
                                 fontSize: 10,
                                 fontWeight:
                                     pw.FontWeight.bold,
@@ -552,17 +556,20 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
 
-    final directory =
+    final Directory directory =
         await getApplicationDocumentsDirectory();
 
-    final fileName =
-        'SafeNexus_Certificate_${_safeFileName(employeeName)}_${selectedDate.year}${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}.pdf';
+    final String fileName =
+        'SafeNexus_Certificate_${_safeFileName(employeeName)}_'
+        '${selectedDate.year}'
+        '${selectedDate.month.toString().padLeft(2, '0')}'
+        '${selectedDate.day.toString().padLeft(2, '0')}.pdf';
 
-    final file = File(
+    final File file = File(
       '${directory.path}/$fileName',
     );
 
-    final bytes = await pdf.save();
+    final List<int> bytes = await pdf.save();
 
     await file.writeAsBytes(
       bytes,
@@ -580,7 +587,7 @@ class _CertificatePageState extends State<CertificatePage> {
     });
 
     try {
-      final file = await _createCertificatePdf();
+      final File file = await _createCertificatePdf();
 
       _lastSavedPath = file.path;
 
@@ -592,7 +599,7 @@ class _CertificatePageState extends State<CertificatePage> {
 
       await showDialog<void>(
         context: context,
-        builder: (dialogContext) {
+        builder: (BuildContext dialogContext) {
           return AlertDialog(
             title: const Row(
               children: [
@@ -650,7 +657,7 @@ class _CertificatePageState extends State<CertificatePage> {
     });
 
     try {
-      File file;
+      late File file;
 
       if (_lastSavedPath != null &&
           await File(_lastSavedPath!).exists()) {
@@ -669,8 +676,7 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
         ],
         subject: 'SafeNexus HSE Certificate',
-        text:
-            'Certificate generated by SafeNexus HSE.',
+        text: 'Certificate generated by SafeNexus HSE.',
       );
     } catch (e) {
       _showMessage(
@@ -703,7 +709,7 @@ class _CertificatePageState extends State<CertificatePage> {
   pw.Widget _pdfSafetyBadges(
     PdfColor color,
   ) {
-    const labels = [
+    const List<String> labels = [
       'BE SAFE',
       'WORK SAFE',
       'STAY SAFE',
@@ -713,7 +719,7 @@ class _CertificatePageState extends State<CertificatePage> {
     return pw.Row(
       mainAxisAlignment:
           pw.MainAxisAlignment.spaceEvenly,
-      children: labels.map((label) {
+      children: labels.map((String label) {
         return pw.Column(
           children: [
             pw.Container(
@@ -829,8 +835,8 @@ class _CertificatePageState extends State<CertificatePage> {
   }) {
     showDialog<void>(
       context: context,
-      builder: (dialogContext) {
-        final tempController =
+      builder: (BuildContext dialogContext) {
+        final TextEditingController tempController =
             TextEditingController(
           text: controller.text,
         );
@@ -841,8 +847,7 @@ class _CertificatePageState extends State<CertificatePage> {
             controller: tempController,
             maxLines: maxLines,
             autofocus: true,
-            decoration:
-                const InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
             ),
           ),
@@ -857,8 +862,7 @@ class _CertificatePageState extends State<CertificatePage> {
             FilledButton(
               onPressed: () {
                 setState(() {
-                  controller.text =
-                      tempController.text;
+                  controller.text = tempController.text;
                 });
 
                 tempController.dispose();
@@ -877,8 +881,7 @@ class _CertificatePageState extends State<CertificatePage> {
     String title,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
           Icon(
@@ -890,8 +893,7 @@ class _CertificatePageState extends State<CertificatePage> {
             title,
             style: TextStyle(
               fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
               color: primaryColor,
             ),
           ),
@@ -907,8 +909,7 @@ class _CertificatePageState extends State<CertificatePage> {
     int maxLines = 1,
   }) {
     return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: TextField(
         controller: controller,
         maxLines: maxLines,
@@ -917,11 +918,9 @@ class _CertificatePageState extends State<CertificatePage> {
         },
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: icon == null
-              ? null
-              : Icon(icon),
-          border:
-              const OutlineInputBorder(),
+          prefixIcon:
+              icon == null ? null : Icon(icon),
+          border: const OutlineInputBorder(),
           isDense: true,
         ),
       ),
@@ -929,7 +928,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   Widget _templateCard(int index) {
-    final isSelected =
+    final bool isSelected =
         selectedTemplate == index;
 
     return Expanded(
@@ -940,15 +939,11 @@ class _CertificatePageState extends State<CertificatePage> {
           });
         },
         child: Container(
-          margin:
-              const EdgeInsets.only(right: 8),
-          padding:
-              const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(right: 8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: isSelected
-                ? primaryColor.withValues(
-                    alpha: 0.08,
-                  )
+                ? primaryColor.withValues(alpha: 0.08)
                 : Colors.white,
             borderRadius:
                 BorderRadius.circular(12),
@@ -956,42 +951,32 @@ class _CertificatePageState extends State<CertificatePage> {
               color: isSelected
                   ? primaryColor
                   : Colors.grey.shade300,
-              width:
-                  isSelected ? 2 : 1,
+              width: isSelected ? 2 : 1,
             ),
           ),
           child: Column(
             children: [
               Container(
                 height: 80,
-                decoration:
-                    BoxDecoration(
-                  gradient:
-                      LinearGradient(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
                     colors: [
                       themeColors[index]
-                          .withValues(
-                        alpha: 0.18,
-                      ),
+                          .withValues(alpha: 0.18),
                       Colors.white,
                     ],
                   ),
-                  border:
-                      Border.all(
-                    color:
-                        themeColors[index],
+                  border: Border.all(
+                    color: themeColors[index],
                   ),
                   borderRadius:
-                      BorderRadius.circular(
-                    8,
-                  ),
+                      BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text(
                     'CERTIFICATE',
                     style: TextStyle(
-                      color:
-                          themeColors[index],
+                      color: themeColors[index],
                       fontWeight:
                           FontWeight.bold,
                       fontSize: 9,
@@ -999,18 +984,13 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 7,
-              ),
+              const SizedBox(height: 7),
               Text(
                 templateNames[index],
-                textAlign:
-                    TextAlign.center,
-                style:
-                    const TextStyle(
+                textAlign: TextAlign.center,
+                style: const TextStyle(
                   fontSize: 11,
-                  fontWeight:
-                      FontWeight.w600,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -1024,39 +1004,26 @@ class _CertificatePageState extends State<CertificatePage> {
     return AspectRatio(
       aspectRatio: 0.707,
       child: Container(
-        margin:
-            const EdgeInsets.all(4),
-        decoration:
-            BoxDecoration(
-          color:
-              const Color(0xFFFDFEF9),
-          border:
-              Border.all(
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFDFEF9),
+          border: Border.all(
             color: primaryColor,
             width: 8,
           ),
-          boxShadow:
-              const [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 12,
-              color:
-                  Colors.black12,
-              offset:
-                  Offset(0, 5),
+              color: Colors.black12,
+              offset: Offset(0, 5),
             ),
           ],
         ),
         child: Container(
-          margin:
-              const EdgeInsets.all(7),
-          decoration:
-              BoxDecoration(
-            border:
-                Border.all(
-              color: primaryColor
-                  .withValues(
-                alpha: 0.6,
-              ),
+          margin: const EdgeInsets.all(7),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: primaryColor.withValues(alpha: 0.6),
               width: 2,
             ),
           ),
@@ -1068,224 +1035,147 @@ class _CertificatePageState extends State<CertificatePage> {
                 right: 0,
                 height: 120,
                 child: CustomPaint(
-                  painter:
-                      _ConstructionBackgroundPainter(
-                    color:
-                        primaryColor,
+                  painter: _ConstructionBackgroundPainter(
+                    color: primaryColor,
                   ),
                 ),
               ),
               Positioned.fill(
                 child: Padding(
-                  padding:
-                      const EdgeInsets
-                          .symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 22,
                     vertical: 18,
                   ),
                   child: Column(
                     children: [
                       _certificateLogo(),
-
-                      const SizedBox(
-                        height: 8,
-                      ),
+                      const SizedBox(height: 8),
 
                       Text(
-                        _companyController
-                            .text,
-                        textAlign:
-                            TextAlign
-                                .center,
+                        _companyController.text,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          color:
-                              primaryColor,
+                          color: primaryColor,
                           fontSize: 17,
-                          fontWeight:
-                              FontWeight
-                                  .w800,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
 
                       const Text(
                         'AI-Powered HSE Safety & Observation App',
-                        textAlign:
-                            TextAlign
-                                .center,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 7,
-                          color:
-                              Colors.black54,
+                          color: Colors.black54,
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 18,
-                      ),
+                      const SizedBox(height: 18),
 
                       Text(
-                        _titleController
-                            .text,
-                        textAlign:
-                            TextAlign
-                                .center,
+                        _titleController.text,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily:
-                              'serif',
+                          fontFamily: 'serif',
                           fontSize: 27,
-                          fontWeight:
-                              FontWeight
-                                  .bold,
-                          color:
-                              primaryColor,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColor,
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
 
                       Container(
                         padding:
-                            const EdgeInsets
-                                .symmetric(
+                            const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 5,
                         ),
-                        decoration:
-                            BoxDecoration(
-                          color:
-                              primaryColor,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
                         ),
                         child: Text(
-                          _subtitleController
-                              .text,
-                          style:
-                              const TextStyle(
-                            color:
-                                Colors.white,
+                          _subtitleController.text,
+                          style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 11,
                             fontWeight:
-                                FontWeight
-                                    .bold,
+                                FontWeight.bold,
                             letterSpacing: 1,
                           ),
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      const SizedBox(height: 15),
 
                       const Text(
                         'This certificate is proudly presented to',
-                        style:
-                            TextStyle(
-                          fontSize: 9,
-                        ),
+                        style: TextStyle(fontSize: 9),
                       ),
 
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
 
                       GestureDetector(
-                        onTap: () =>
-                            _editText(
-                          title:
-                              'Edit Employee Name',
-                          controller:
-                              _nameController,
+                        onTap: () => _editText(
+                          title: 'Edit Employee Name',
+                          controller: _nameController,
                         ),
-                        child:
-                            Container(
+                        child: Container(
                           padding:
-                              const EdgeInsets
-                                  .symmetric(
+                              const EdgeInsets.symmetric(
                             horizontal: 6,
                             vertical: 3,
                           ),
-                          decoration:
-                              BoxDecoration(
-                            border:
-                                Border.all(
-                              color:
-                                  primaryColor
-                                      .withValues(
-                                alpha: 0.35,
-                              ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: primaryColor
+                                  .withValues(alpha: 0.35),
                             ),
                             borderRadius:
-                                BorderRadius
-                                    .circular(
-                              5,
-                            ),
+                                BorderRadius.circular(5),
                           ),
                           child: Text(
-                            _nameController
-                                .text,
-                            textAlign:
-                                nameAlignment,
+                            _nameController.text,
+                            textAlign: nameAlignment,
                             maxLines: 2,
                             overflow:
-                                TextOverflow
-                                    .ellipsis,
-                            style:
-                                TextStyle(
-                              fontFamily:
-                                  'cursive',
-                              fontSize:
-                                  nameFontSize,
-                              color:
-                                  primaryColor,
+                                TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: 'cursive',
+                              fontSize: nameFontSize,
+                              color: primaryColor,
                               fontWeight:
-                                  FontWeight
-                                      .w500,
+                                  FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
 
                       Container(
                         height: 1,
-                        color:
-                            primaryColor
-                                .withValues(
-                          alpha: 0.35,
-                        ),
+                        color: primaryColor
+                            .withValues(alpha: 0.35),
                       ),
 
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const SizedBox(height: 12),
 
                       Expanded(
-                        child:
-                            Column(
+                        child: Column(
                           children: [
                             Text(
-                              _achievementController
-                                  .text,
-                              textAlign:
-                                  TextAlign
-                                      .center,
+                              _achievementController.text,
+                              textAlign: TextAlign.center,
                               maxLines: 5,
                               overflow:
-                                  TextOverflow
-                                      .ellipsis,
-                              style:
-                                  const TextStyle(
+                                  TextOverflow.ellipsis,
+                              style: const TextStyle(
                                 fontSize: 10,
                                 height: 1.5,
                               ),
                             ),
-                            const SizedBox(
-                              height: 14,
-                            ),
+                            const SizedBox(height: 14),
                             _safetyBadges(),
                           ],
                         ),
@@ -1293,11 +1183,9 @@ class _CertificatePageState extends State<CertificatePage> {
 
                       Row(
                         mainAxisAlignment:
-                            MainAxisAlignment
-                                .spaceBetween,
+                            MainAxisAlignment.spaceBetween,
                         crossAxisAlignment:
-                            CrossAxisAlignment
-                                .end,
+                            CrossAxisAlignment.end,
                         children: [
                           _signatureBlock(
                             formattedDate,
@@ -1305,59 +1193,40 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                           _priorityBadge(),
                           _signatureBlock(
-                            _signatoryController
-                                .text,
+                            _signatoryController.text,
                             'Authorized Signatory',
                           ),
                         ],
                       ),
 
-                      const SizedBox(
-                        height: 8,
-                      ),
+                      const SizedBox(height: 8),
 
                       Container(
-                        width:
-                            double.infinity,
+                        width: double.infinity,
                         padding:
-                            const EdgeInsets
-                                .symmetric(
+                            const EdgeInsets.symmetric(
                           vertical: 6,
                         ),
-                        decoration:
-                            BoxDecoration(
-                          color:
-                              primaryColor,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
                           borderRadius:
-                              const BorderRadius
-                                  .only(
+                              const BorderRadius.only(
                             bottomLeft:
-                                Radius.circular(
-                              20,
-                            ),
+                                Radius.circular(20),
                             bottomRight:
-                                Radius.circular(
-                              20,
-                            ),
+                                Radius.circular(20),
                           ),
                         ),
                         child: Text(
-                          _footerController
-                              .text,
-                          textAlign:
-                              TextAlign
-                                  .center,
+                          _footerController.text,
+                          textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow:
-                              TextOverflow
-                                  .ellipsis,
-                          style:
-                              const TextStyle(
-                            color:
-                                Colors.white,
+                              TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
                             fontWeight:
-                                FontWeight
-                                    .bold,
+                                FontWeight.bold,
                             fontSize: 10,
                           ),
                         ),
@@ -1377,16 +1246,14 @@ class _CertificatePageState extends State<CertificatePage> {
     return Container(
       width: 54,
       height: 54,
-      decoration:
-          BoxDecoration(
+      decoration: BoxDecoration(
         color: primaryColor,
         shape: BoxShape.circle,
       ),
       child: const Center(
         child: Column(
           mainAxisAlignment:
-              MainAxisAlignment
-                  .center,
+              MainAxisAlignment.center,
           children: [
             Icon(
               Icons.engineering,
@@ -1395,13 +1262,10 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
             Text(
               'S',
-              style:
-                  TextStyle(
-                color:
-                    Colors.white,
+              style: TextStyle(
+                color: Colors.white,
                 fontSize: 17,
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
@@ -1411,7 +1275,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   Widget _safetyBadges() {
-    final badges = [
+    final List<List<Object>> badges = [
       [
         Icons.verified_user,
         'BE SAFE',
@@ -1432,44 +1296,32 @@ class _CertificatePageState extends State<CertificatePage> {
 
     return Row(
       mainAxisAlignment:
-          MainAxisAlignment
-              .spaceEvenly,
-      children:
-          badges.map((badge) {
+          MainAxisAlignment.spaceEvenly,
+      children: badges.map((List<Object> badge) {
         return Column(
           children: [
             Container(
               width: 38,
               height: 38,
-              decoration:
-                  BoxDecoration(
-                shape:
-                    BoxShape.circle,
-                border:
-                    Border.all(
-                  color:
-                      primaryColor,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: primaryColor,
                 ),
               ),
               child: Icon(
                 badge[0] as IconData,
-                color:
-                    primaryColor,
+                color: primaryColor,
                 size: 21,
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
+            const SizedBox(height: 4),
             Text(
               badge[1] as String,
-              style:
-                  TextStyle(
+              style: TextStyle(
                 fontSize: 6,
-                color:
-                    primaryColor,
-                fontWeight:
-                    FontWeight.bold,
+                color: primaryColor,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
@@ -1482,31 +1334,22 @@ class _CertificatePageState extends State<CertificatePage> {
     return Container(
       width: 66,
       height: 66,
-      decoration:
-          BoxDecoration(
-        shape:
-            BoxShape.circle,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
         color: primaryColor,
-        border:
-            Border.all(
-          color:
-              Colors.white,
+        border: Border.all(
+          color: Colors.white,
           width: 3,
         ),
       ),
-      child:
-          const Center(
+      child: const Center(
         child: Text(
           'SAFETY\nIS OUR\nPRIORITY',
-          textAlign:
-              TextAlign.center,
-          style:
-              TextStyle(
-            color:
-                Colors.white,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
             fontSize: 8,
-            fontWeight:
-                FontWeight.bold,
+            fontWeight: FontWeight.bold,
             height: 1.2,
           ),
         ),
@@ -1524,38 +1367,26 @@ class _CertificatePageState extends State<CertificatePage> {
         children: [
           Container(
             height: 1,
-            color:
-                Colors.black54,
+            color: Colors.black54,
           ),
-          const SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           Text(
             value,
-            textAlign:
-                TextAlign.center,
+            textAlign: TextAlign.center,
             maxLines: 2,
-            overflow:
-                TextOverflow.ellipsis,
-            style:
-                const TextStyle(
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
               fontSize: 7,
             ),
           ),
-          const SizedBox(
-            height: 2,
-          ),
+          const SizedBox(height: 2),
           Text(
             label,
-            textAlign:
-                TextAlign.center,
-            style:
-                TextStyle(
+            textAlign: TextAlign.center,
+            style: TextStyle(
               fontSize: 6,
-              fontWeight:
-                  FontWeight.bold,
-              color:
-                  primaryColor,
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
             ),
           ),
         ],
@@ -1566,8 +1397,7 @@ class _CertificatePageState extends State<CertificatePage> {
   Widget _editTools() {
     return Column(
       crossAxisAlignment:
-          CrossAxisAlignment
-              .start,
+          CrossAxisAlignment.start,
       children: [
         _sectionTitle(
           Icons.edit,
@@ -1575,116 +1405,80 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
 
         _inputField(
-          label:
-              'Certificate Title',
-          controller:
-              _titleController,
+          label: 'Certificate Title',
+          controller: _titleController,
           icon: Icons.title,
         ),
 
         _inputField(
           label: 'Subtitle',
-          controller:
-              _subtitleController,
-          icon:
-              Icons.label_outline,
+          controller: _subtitleController,
+          icon: Icons.label_outline,
         ),
 
         _inputField(
-          label:
-              'Employee Name',
-          controller:
-              _nameController,
-          icon:
-              Icons.person,
+          label: 'Employee Name',
+          controller: _nameController,
+          icon: Icons.person,
         ),
 
         _inputField(
-          label:
-              'Employee ID',
-          controller:
-              _idController,
-          icon:
-              Icons.badge_outlined,
+          label: 'Employee ID',
+          controller: _idController,
+          icon: Icons.badge_outlined,
         ),
 
         _inputField(
-          label:
-              'Department',
-          controller:
-              _departmentController,
-          icon:
-              Icons.business,
+          label: 'Department',
+          controller: _departmentController,
+          icon: Icons.business,
         ),
 
         _inputField(
-          label:
-              'Achievement / Reason',
-          controller:
-              _achievementController,
+          label: 'Achievement / Reason',
+          controller: _achievementController,
           icon: Icons.workspace_premium,
           maxLines: 4,
         ),
 
         _inputField(
-          label:
-              'Company Name',
-          controller:
-              _companyController,
-          icon:
-              Icons.business_center,
+          label: 'Company Name',
+          controller: _companyController,
+          icon: Icons.business_center,
         ),
 
         _inputField(
-          label:
-              'Authorized Signatory',
-          controller:
-              _signatoryController,
+          label: 'Authorized Signatory',
+          controller: _signatoryController,
           icon: Icons.draw,
         ),
 
         _inputField(
-          label:
-              'Footer Text',
-          controller:
-              _footerController,
-          icon:
-              Icons.short_text,
+          label: 'Footer Text',
+          controller: _footerController,
+          icon: Icons.short_text,
         ),
 
         InkWell(
-          onTap:
-              _selectDate,
-          child:
-              InputDecorator(
-            decoration:
-                const InputDecoration(
-              labelText:
-                  'Certificate Date',
-              border:
-                  OutlineInputBorder(),
+          onTap: _selectDate,
+          child: InputDecorator(
+            decoration: const InputDecoration(
+              labelText: 'Certificate Date',
+              border: OutlineInputBorder(),
               prefixIcon:
-                  Icon(
-                Icons.calendar_today,
-              ),
+                  Icon(Icons.calendar_today),
             ),
-            child:
-                Text(formattedDate),
+            child: Text(formattedDate),
           ),
         ),
 
-        const SizedBox(
-          height: 18,
-        ),
+        const SizedBox(height: 18),
 
         Text(
           'Name Font Size',
-          style:
-              TextStyle(
-            fontWeight:
-                FontWeight.bold,
-            color:
-                primaryColor,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
           ),
         ),
 
@@ -1692,29 +1486,20 @@ class _CertificatePageState extends State<CertificatePage> {
           min: 20,
           max: 48,
           divisions: 14,
-          value:
-              nameFontSize,
-          label:
-              nameFontSize
-                  .round()
-                  .toString(),
-          onChanged:
-              (value) {
+          value: nameFontSize,
+          label: nameFontSize.round().toString(),
+          onChanged: (double value) {
             setState(() {
-              nameFontSize =
-                  value;
+              nameFontSize = value;
             });
           },
         ),
 
         Text(
           'Name Alignment',
-          style:
-              TextStyle(
-            fontWeight:
-                FontWeight.bold,
-            color:
-                primaryColor,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
           ),
         ),
 
@@ -1735,72 +1520,53 @@ class _CertificatePageState extends State<CertificatePage> {
           ],
         ),
 
-        const SizedBox(
-          height: 15,
-        ),
+        const SizedBox(height: 15),
 
         Text(
           'Certificate Theme',
-          style:
-              TextStyle(
-            fontWeight:
-                FontWeight.bold,
-            color:
-                primaryColor,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
           ),
         ),
 
-        const SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
 
         Row(
           children:
               List.generate(
             themeColors.length,
-            (index) {
-              final selected =
-                  selectedColor ==
-                      index;
+            (int index) {
+              final bool selected =
+                  selectedColor == index;
 
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    selectedColor =
-                        index;
+                    selectedColor = index;
                   });
                 },
-                child:
-                    Container(
+                child: Container(
                   margin:
-                      const EdgeInsets
-                          .only(
+                      const EdgeInsets.only(
                     right: 12,
                   ),
                   width: 42,
                   height: 42,
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        themeColors[
-                            index],
-                    shape:
-                        BoxShape.circle,
-                    border:
-                        Border.all(
+                  decoration: BoxDecoration(
+                    color: themeColors[index],
+                    shape: BoxShape.circle,
+                    border: Border.all(
                       color: selected
-                          ? Colors
-                              .black
-                          : Colors
-                              .transparent,
+                          ? Colors.black
+                          : Colors.transparent,
                       width: 3,
                     ),
                   ),
                   child: selected
                       ? const Icon(
                           Icons.check,
-                          color:
-                              Colors.white,
+                          color: Colors.white,
                         )
                       : null,
                 ),
@@ -1816,45 +1582,31 @@ class _CertificatePageState extends State<CertificatePage> {
     IconData icon,
     TextAlign alignment,
   ) {
-    final selected =
-        nameAlignment ==
-            alignment;
+    final bool selected =
+        nameAlignment == alignment;
 
     return Padding(
-      padding:
-          const EdgeInsets
-              .only(
+      padding: const EdgeInsets.only(
         right: 8,
         top: 8,
       ),
-      child:
-          OutlinedButton(
+      child: OutlinedButton(
         onPressed: () {
           setState(() {
-            nameAlignment =
-                alignment;
+            nameAlignment = alignment;
           });
         },
-        style:
-            OutlinedButton
-                .styleFrom(
-          backgroundColor:
-              selected
-                  ? primaryColor
-                      .withValues(
-                      alpha: 0.10,
-                    )
-                  : null,
-          side:
-              BorderSide(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: selected
+              ? primaryColor.withValues(alpha: 0.10)
+              : null,
+          side: BorderSide(
             color: selected
                 ? primaryColor
-                : Colors.grey
-                    .shade300,
+                : Colors.grey.shade300,
           ),
         ),
-        child:
-            Icon(
+        child: Icon(
           icon,
           color: selected
               ? primaryColor
@@ -1868,81 +1620,58 @@ class _CertificatePageState extends State<CertificatePage> {
     return Column(
       children: [
         SizedBox(
-          width:
-              double.infinity,
-          child:
-              FilledButton.icon(
-            onPressed:
-                _isGeneratingPdf
-                    ? null
-                    : _saveCertificatePdf,
-            icon:
-                _isGeneratingPdf
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child:
-                            CircularProgressIndicator(
-                          strokeWidth:
-                              2,
-                          color:
-                              Colors.white,
-                        ),
-                      )
-                    : const Icon(
-                        Icons.picture_as_pdf,
-                      ),
-            label:
-                Text(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: _isGeneratingPdf
+                ? null
+                : _saveCertificatePdf,
+            icon: _isGeneratingPdf
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child:
+                        CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(
+                    Icons.picture_as_pdf,
+                  ),
+            label: Text(
               _isGeneratingPdf
                   ? 'Creating PDF...'
                   : 'Save Certificate PDF',
             ),
-            style:
-                FilledButton.styleFrom(
-              backgroundColor:
-                  primaryColor,
+            style: FilledButton.styleFrom(
+              backgroundColor: primaryColor,
               padding:
-                  const EdgeInsets
-                      .symmetric(
+                  const EdgeInsets.symmetric(
                 vertical: 15,
               ),
             ),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+
+        const SizedBox(height: 10),
+
         SizedBox(
-          width:
-              double.infinity,
-          child:
-              OutlinedButton.icon(
-            onPressed:
-                _isGeneratingPdf
-                    ? null
-                    : _shareCertificatePdf,
-            icon:
-                const Icon(
-              Icons.share,
-            ),
-            label:
-                const Text(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: _isGeneratingPdf
+                ? null
+                : _shareCertificatePdf,
+            icon: const Icon(Icons.share),
+            label: const Text(
               'Share Certificate PDF',
             ),
-            style:
-                OutlinedButton
-                    .styleFrom(
-              foregroundColor:
-                  primaryColor,
-              side:
-                  BorderSide(
-                color:
-                    primaryColor,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: primaryColor,
+              side: BorderSide(
+                color: primaryColor,
               ),
               padding:
-                  const EdgeInsets
-                      .symmetric(
+                  const EdgeInsets.symmetric(
                 vertical: 14,
               ),
             ),
@@ -1953,39 +1682,27 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          const Color(
-        0xFFF4F8F5,
-      ),
-      appBar:
-          AppBar(
-        backgroundColor:
-            primaryColor,
-        foregroundColor:
-            Colors.white,
-        title:
-            const Column(
+          const Color(0xFFF4F8F5),
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        title: const Column(
           crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+              CrossAxisAlignment.start,
           children: [
             Text(
               'SAFENEXUS HSE',
-              style:
-                  TextStyle(
+              style: TextStyle(
                 fontSize: 18,
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               'Certificate Designer',
-              style:
-                  TextStyle(
+              style: TextStyle(
                 fontSize: 12,
               ),
             ),
@@ -1993,82 +1710,58 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
         actions: [
           IconButton(
-            tooltip:
-                'Save PDF',
-            onPressed:
-                _isGeneratingPdf
-                    ? null
-                    : _saveCertificatePdf,
-            icon:
-                const Icon(
+            tooltip: 'Save PDF',
+            onPressed: _isGeneratingPdf
+                ? null
+                : _saveCertificatePdf,
+            icon: const Icon(
               Icons.picture_as_pdf,
             ),
           ),
           IconButton(
-            tooltip:
-                'Share PDF',
-            onPressed:
-                _isGeneratingPdf
-                    ? null
-                    : _shareCertificatePdf,
-            icon:
-                const Icon(
+            tooltip: 'Share PDF',
+            onPressed: _isGeneratingPdf
+                ? null
+                : _shareCertificatePdf,
+            icon: const Icon(
               Icons.share,
             ),
           ),
         ],
       ),
-      body:
-          SafeArea(
-        child:
-            SingleChildScrollView(
-          padding:
-              const EdgeInsets.all(
-            14,
-          ),
-          child:
-              Column(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(14),
+          child: Column(
             crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+                CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Icon(
                     Icons.workspace_premium,
                     size: 36,
-                    color:
-                        primaryColor,
+                    color: primaryColor,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child:
-                        Column(
+                    child: Column(
                       crossAxisAlignment:
-                          CrossAxisAlignment
-                              .start,
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Certificate Designer',
-                          style:
-                              TextStyle(
-                            fontSize:
-                                24,
+                          style: TextStyle(
+                            fontSize: 24,
                             fontWeight:
-                                FontWeight
-                                    .bold,
-                            color:
-                                primaryColor,
+                                FontWeight.bold,
+                            color: primaryColor,
                           ),
                         ),
                         const Text(
                           'Create • Edit • Customize • Export • Share',
-                          style:
-                              TextStyle(
-                            color:
-                                Colors.black54,
+                          style: TextStyle(
+                            color: Colors.black54,
                           ),
                         ),
                       ],
@@ -2077,35 +1770,24 @@ class _CertificatePageState extends State<CertificatePage> {
                 ],
               ),
 
-              const SizedBox(
-                height: 18,
-              ),
+              const SizedBox(height: 18),
 
               Card(
                 elevation: 1,
-                child:
-                    Padding(
+                child: Padding(
                   padding:
-                      const EdgeInsets
-                          .all(
-                    14,
-                  ),
-                  child:
-                      Column(
+                      const EdgeInsets.all(14),
+                  child: Column(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
+                        CrossAxisAlignment.start,
                     children: [
                       _sectionTitle(
-                        Icons
-                            .dashboard_customize,
+                        Icons.dashboard_customize,
                         'Choose Template',
                       ),
                       Row(
-                        children:
-                            List.generate(
-                          templateNames
-                              .length,
+                        children: List.generate(
+                          templateNames.length,
                           _templateCard,
                         ),
                       ),
@@ -2114,42 +1796,27 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
               ),
 
-              const SizedBox(
-                height: 14,
-              ),
+              const SizedBox(height: 14),
 
               Card(
                 elevation: 1,
-                child:
-                    Padding(
+                child: Padding(
                   padding:
-                      const EdgeInsets
-                          .all(
-                    14,
-                  ),
-                  child:
-                      _editTools(),
+                      const EdgeInsets.all(14),
+                  child: _editTools(),
                 ),
               ),
 
-              const SizedBox(
-                height: 14,
-              ),
+              const SizedBox(height: 14),
 
               Card(
                 elevation: 1,
-                child:
-                    Padding(
+                child: Padding(
                   padding:
-                      const EdgeInsets
-                          .all(
-                    12,
-                  ),
-                  child:
-                      Column(
+                      const EdgeInsets.all(12),
+                  child: Column(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
+                        CrossAxisAlignment.start,
                     children: [
                       _sectionTitle(
                         Icons.visibility,
@@ -2161,43 +1828,28 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
               ),
 
-              const SizedBox(
-                height: 14,
-              ),
+              const SizedBox(height: 14),
 
               _pdfActionButton(),
 
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
 
               if (_lastSavedPath != null)
                 Card(
-                  child:
-                      Padding(
+                  child: Padding(
                     padding:
-                        const EdgeInsets
-                            .all(
-                      12,
-                    ),
-                    child:
-                        Row(
+                        const EdgeInsets.all(12),
+                    child: Row(
                       children: [
                         Icon(
-                          Icons
-                              .check_circle,
-                          color:
-                              primaryColor,
+                          Icons.check_circle,
+                          color: primaryColor,
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
+                        const SizedBox(width: 8),
                         const Expanded(
-                          child:
-                              Text(
+                          child: Text(
                             'Certificate PDF is ready to share.',
-                            style:
-                                TextStyle(
+                            style: TextStyle(
                               fontWeight:
                                   FontWeight.w600,
                             ),
@@ -2208,67 +1860,48 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
 
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
 
               Row(
                 children: [
                   Expanded(
-                    child:
-                        OutlinedButton
-                            .icon(
+                    child: OutlinedButton.icon(
                       onPressed:
                           _resetCertificate,
-                      icon:
-                          const Icon(
+                      icon: const Icon(
                         Icons.refresh,
                       ),
                       label:
-                          const Text(
-                        'Reset',
-                      ),
+                          const Text('Reset'),
                       style:
-                          OutlinedButton
-                              .styleFrom(
+                          OutlinedButton.styleFrom(
                         padding:
-                            const EdgeInsets
-                                .symmetric(
-                          vertical:
-                              14,
+                            const EdgeInsets.symmetric(
+                          vertical: 14,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+
+                  const SizedBox(width: 10),
+
                   Expanded(
-                    child:
-                        FilledButton
-                            .icon(
-                      onPressed:
-                          _isGeneratingPdf
-                              ? null
-                              : _saveCertificatePdf,
-                      icon:
-                          const Icon(
+                    child: FilledButton.icon(
+                      onPressed: _isGeneratingPdf
+                          ? null
+                          : _saveCertificatePdf,
+                      icon: const Icon(
                         Icons.picture_as_pdf,
                       ),
                       label:
-                          const Text(
-                        'Export PDF',
-                      ),
+                          const Text('Export PDF'),
                       style:
-                          FilledButton
-                              .styleFrom(
+                          FilledButton.styleFrom(
                         backgroundColor:
                             primaryColor,
                         padding:
-                            const EdgeInsets
-                                .symmetric(
-                          vertical:
-                              14,
+                            const EdgeInsets.symmetric(
+                          vertical: 14,
                         ),
                       ),
                     ),
@@ -2276,9 +1909,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 ],
               ),
 
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -2300,15 +1931,10 @@ class _ConstructionBackgroundPainter
     Canvas canvas,
     Size size,
   ) {
-    final paint =
-        Paint()
-          ..color =
-              color.withValues(
-            alpha: 0.06,
-          )
-          ..style =
-              PaintingStyle.stroke
-          ..strokeWidth = 1;
+    final Paint paint = Paint()
+      ..color = color.withValues(alpha: 0.06)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
 
     for (
       double x = 10;
@@ -2346,68 +1972,9 @@ class _ConstructionBackgroundPainter
 
   @override
   bool shouldRepaint(
-    covariant
-        _ConstructionBackgroundPainter
-            oldDelegate,
+    covariant _ConstructionBackgroundPainter
+        oldDelegate,
   ) {
-    return oldDelegate.color !=
-        color;
-  }
-}
-
-class _PdfBackgroundPainter
-    extends pw.CustomPainter {
-  final PdfColor color;
-
-  _PdfBackgroundPainter({
-    required this.color,
-  });
-
-  @override
-  void paint(
-    pw.Context context,
-    PdfGraphics canvas,
-  ) {
-    canvas
-      ..setColor(
-        color,
-      )
-      ..setLineWidth(
-        0.5,
-      );
-
-    final width =
-        context.page.pageFormat.width;
-
-    final height =
-        context.page.pageFormat.height;
-
-    for (
-      double x = 0;
-      x < width;
-      x += 45
-    ) {
-      canvas.drawLine(
-        x,
-        height,
-        x + 30,
-        height - 100,
-      );
-    }
-
-    for (
-      double y = 20;
-      y < 140;
-      y += 22
-    ) {
-      canvas.drawLine(
-        0,
-        y,
-        width,
-        y,
-      );
-    }
-
-    canvas.strokePath();
+    return oldDelegate.color != color;
   }
 }
