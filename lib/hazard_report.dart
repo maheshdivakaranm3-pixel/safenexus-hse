@@ -100,7 +100,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
                     child: Icon(Icons.description_outlined),
                   ),
                   filled: true,
-                  fillColor: scheme.surfaceContainerHighest.withOpacity(0.45),
+                  fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.45),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.outlineVariant)),
                   focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.primary, width: 2)),
