@@ -63,40 +63,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCurrentPage() {
-    switch (_selectedIndex) {
-      case 0:
-        return const _HomeContent();
-
-      case 1:
-        return const ObservationHistoryPage();
-
-      case 2:
-        return const SizedBox.shrink();
-
-      case 3:
-        return const GuidelinesPage();
-
-      case 4:
-        return const SettingsPage();
-
-      default:
-        return const _HomeContent();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
       body: IndexedStack(
         index: _selectedIndex,
-        children: [
-          const _HomeContent(),
-          const ObservationHistoryPage(),
-          const SizedBox.shrink(),
-          const GuidelinesPage(),
-          const SettingsPage(),
+        children: const [
+          _HomeContent(),
+          ObservationHistoryPage(),
+          SizedBox.shrink(),
+          GuidelinesPage(),
+          SettingsPage(),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
@@ -134,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectTab(0);
               },
             ),
-
             _bottomItem(
               icon: Icons.description_outlined,
               label: 'Reports',
@@ -143,7 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectTab(1);
               },
             ),
-
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _openHazardReport,
@@ -171,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-
             _bottomItem(
               icon: Icons.menu_book_outlined,
               label: 'Guides',
@@ -180,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectTab(3);
               },
             ),
-
             _bottomItem(
               icon: Icons.settings_outlined,
               label: 'Settings',
@@ -333,37 +307,29 @@ class _HomeContent extends StatelessWidget {
             children: [
               _heroBanner(),
               const SizedBox(height: 22),
-
               _sectionTitle(
                 'QUICK ACTIONS',
                 'Report and manage workplace safety issues',
               ),
               const SizedBox(height: 12),
-
               _quickActions(context),
               const SizedBox(height: 22),
-
               _sectionTitle(
                 'SAFETY OVERVIEW',
                 'Your current safety activity',
               ),
               const SizedBox(height: 12),
-
               _safetyOverview(context),
               const SizedBox(height: 22),
-
               _sectionTitle(
                 'UAE HSE SAFETY',
                 'Choose UAE, Dubai or Abu Dhabi safety guidance',
               ),
               const SizedBox(height: 12),
-
               _uaeSafetySection(context),
               const SizedBox(height: 22),
-
               _aiBanner(context),
               const SizedBox(height: 22),
-
               _reportsButton(context),
             ],
           ),
