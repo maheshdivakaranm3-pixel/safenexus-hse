@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class VoiceReportPage extends StatefulWidget {
@@ -15,25 +14,7 @@ class _VoiceReportPageState extends State<VoiceReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('voice_report'.tr()),
-        actions: [
-          PopupMenuButton<Locale>(
-            onSelected: (Locale locale) {
-              context.setLocale(locale);
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
-              const PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
-              ),
-              const PopupMenuItem(
-                value: Locale('ml', 'IN'),
-                child: Text('മലയാളം'),
-              ),
-            ],
-            icon: const Icon(Icons.language),
-          ),
-        ],
+        title: const Text('Voice Report'),
       ),
       body: Center(
         child: Padding(
@@ -42,7 +23,7 @@ class _VoiceReportPageState extends State<VoiceReportPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                isRecording ? 'recording_status'.tr() : 'press_to_record'.tr(),
+                isRecording ? 'Recording in progress...' : 'Tap the microphone to record your voice report',
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -65,7 +46,7 @@ class _VoiceReportPageState extends State<VoiceReportPage> {
               ),
               const SizedBox(height: 20),
               Text(
-                isRecording ? 'tap_to_stop'.tr() : 'tap_to_start'.tr(),
+                isRecording ? 'Tap to stop recording' : 'Tap to start recording',
                 style: const TextStyle(color: Colors.grey),
               ),
             ],
