@@ -97,13 +97,13 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   Color _riskBackground(String risk) {
     switch (risk) {
       case 'Low':
-        return Colors.green.withOpacity(0.10);
+        return Colors.green.withValues(alpha: 0.10);
       case 'Medium':
-        return Colors.orange.withOpacity(0.12);
+        return Colors.orange.withValues(alpha: 0.12);
       case 'High':
-        return Colors.red.withOpacity(0.10);
+        return Colors.red.withValues(alpha: 0.10);
       case 'Critical':
-        return Colors.red.withOpacity(0.16);
+        return Colors.red.withValues(alpha: 0.16);
       default:
         return Theme.of(context).colorScheme.surfaceContainerHighest;
     }
@@ -874,7 +874,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: color.withOpacity(0.35),
+          color: color.withValues(alpha: 0.35),
         ),
       ),
       child: Padding(
@@ -965,7 +965,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       color: Theme.of(context)
                           .colorScheme
                           .outline
-                          .withOpacity(0.5),
+                          .withValues(alpha: 0.5),
                     ),
                   ),
                   child: Column(
@@ -1079,7 +1079,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _observationType,
+              initialValue: _observationType,
               decoration: _decoration(
                 'Observation Type',
                 icon: Icons.visibility_outlined,
@@ -1165,7 +1165,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             _analysisStatus(),
 
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               decoration: _decoration(
                 'Category',
                 icon: Icons.category_outlined,
@@ -1203,7 +1203,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _riskLevel,
+              initialValue: _riskLevel,
               decoration: _decoration(
                 'Risk Level',
                 icon: _riskIcon(_riskLevel),
