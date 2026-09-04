@@ -37,8 +37,209 @@ class SafeNexusApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  static const Color green = Color(0xFF159447);
+
+  int _selectedIndex = 0;
+
+  void _selectTab(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _openHazardReport() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const HazardReportPage(),
+      ),
+    );
+  }
+
+  Widget _buildCurrentPage() {
+    switch (_selectedIndex) {
+      case 0:
+        return const _HomeContent();
+
+      case 1:
+        return const ObservationHistoryPage();
+
+      case 2:
+        return const SizedBox.shrink();
+
+      case 3:
+        return const GuidelinesPage();
+
+      case 4:
+        return const SettingsPage();
+
+      default:
+        return const _HomeContent();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F8F7),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          const _HomeContent(),
+          const ObservationHistoryPage(),
+          const SizedBox.shrink(),
+          const GuidelinesPage(),
+          const SettingsPage(),
+        ],
+      ),
+      bottomNavigationBar: _buildBottomNavigation(),
+    );
+  }
+
+  Widget _buildBottomNavigation() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(
+        8,
+        8,
+        8,
+        9,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x18000000),
+            blurRadius: 14,
+            offset: Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _bottomItem(
+              icon: Icons.home_rounded,
+              label: 'Home',
+              active: _selectedIndex == 0,
+              onTap: () {
+                _selectTab(0);
+              },
+            ),
+
+            _bottomItem(
+              icon: Icons.description_outlined,
+              label: 'Reports',
+              active: _selectedIndex == 1,
+              onTap: () {
+                _selectTab(1);
+              },
+            ),
+
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _openHazardReport,
+              child: Container(
+                width: 58,
+                height: 58,
+                margin: const EdgeInsets.only(
+                  top: -27,
+                ),
+                decoration: const BoxDecoration(
+                  color: green,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x30000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.add_rounded,
+                  color: Colors.white,
+                  size: 35,
+                ),
+              ),
+            ),
+
+            _bottomItem(
+              icon: Icons.menu_book_outlined,
+              label: 'Guides',
+              active: _selectedIndex == 3,
+              onTap: () {
+                _selectTab(3);
+              },
+            ),
+
+            _bottomItem(
+              icon: Icons.settings_outlined,
+              label: 'Settings',
+              active: _selectedIndex == 4,
+              onTap: () {
+                _selectTab(4);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomItem({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    required bool active,
+  }) {
+    final color = active
+        ? green
+        : const Color(0xFF555555);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: SizedBox(
+        width: 62,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 24,
+            ),
+            const SizedBox(height: 3),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: color,
+                fontSize: 10,
+                fontWeight: active
+                    ? FontWeight.w700
+                    : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeContent extends StatelessWidget {
+  const _HomeContent();
 
   static const Color green = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF087A38);
@@ -51,12 +252,6 @@ class HomeScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => page,
       ),
-    );
-  }
-
-  void goHome(BuildContext context) {
-    Navigator.of(context).popUntil(
-      (route) => route.isFirst,
     );
   }
 
@@ -131,7 +326,7 @@ class HomeScreen extends StatelessWidget {
             16,
             14,
             16,
-            105,
+            30,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +369,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: _bottomNavigation(context),
     );
   }
 
@@ -801,156 +995,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _bottomNavigation(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(
-        8,
-        8,
-        8,
-        9,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x18000000),
-            blurRadius: 14,
-            offset: Offset(0, -4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // HOME
-            _bottomItem(
-              icon: Icons.home_rounded,
-              label: 'Home',
-              active: true,
-              onTap: () {
-                goHome(context);
-              },
-            ),
-
-            // REPORTS
-            _bottomItem(
-              icon: Icons.description_outlined,
-              label: 'Reports',
-              onTap: () {
-                openPage(
-                  context,
-                  const ObservationHistoryPage(),
-                );
-              },
-            ),
-
-            // ADD / HAZARD REPORT
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                openPage(
-                  context,
-                  const HazardReportPage(),
-                );
-              },
-              child: Container(
-                width: 58,
-                height: 58,
-                margin: const EdgeInsets.only(
-                  top: -27,
-                ),
-                decoration: const BoxDecoration(
-                  color: green,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x30000000),
-                      blurRadius: 12,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.white,
-                  size: 35,
-                ),
-              ),
-            ),
-
-            // GUIDES
-            _bottomItem(
-              icon: Icons.menu_book_outlined,
-              label: 'Guides',
-              onTap: () {
-                openPage(
-                  context,
-                  const GuidelinesPage(),
-                );
-              },
-            ),
-
-            // SETTINGS
-            _bottomItem(
-              icon: Icons.settings_outlined,
-              label: 'Settings',
-              onTap: () {
-                openPage(
-                  context,
-                  const SettingsPage(),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _bottomItem({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-    bool active = false,
-  }) {
-    final color = active
-        ? green
-        : const Color(0xFF555555);
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: SizedBox(
-        width: 62,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 24,
-            ),
-            const SizedBox(height: 3),
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: color,
-                fontSize: 10,
-                fontWeight: active
-                    ? FontWeight.w700
-                    : FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class SettingsPage extends StatelessWidget {
@@ -963,6 +1007,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'Settings',
           style: TextStyle(
