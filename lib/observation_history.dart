@@ -923,8 +923,7 @@ class _ObservationHistoryPageState
             const SizedBox(height: 8),
 
             Text(
-              'Your submitted safety observations will appear here.
-Create an observation to start building your HSE record.',
+              'Your submitted safety observations will appear here.\nCreate an observation to start building your HSE record.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey.shade600,
