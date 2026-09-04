@@ -1,9 +1,11 @@
-import 'dart:typed_data';
+import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CertificatePage extends StatefulWidget {
   const CertificatePage({super.key});
@@ -13,35 +15,32 @@ class CertificatePage extends StatefulWidget {
 }
 
 class _CertificatePageState extends State<CertificatePage> {
-  final TextEditingController _nameController =
+  final _nameController =
       TextEditingController(text: 'Employee Name');
 
-  final TextEditingController _idController =
-      TextEditingController();
+  final _idController = TextEditingController();
 
-  final TextEditingController _departmentController =
-      TextEditingController();
+  final _departmentController = TextEditingController();
 
-  final TextEditingController _achievementController =
-      TextEditingController(
+  final _achievementController = TextEditingController(
     text:
         'for your outstanding commitment to Health, Safety & Environment\n'
         'and for actively contributing to a safe and sustainable workplace.',
   );
 
-  final TextEditingController _companyController =
+  final _companyController =
       TextEditingController(text: 'SafeNexus HSE');
 
-  final TextEditingController _titleController =
+  final _titleController =
       TextEditingController(text: 'CERTIFICATE');
 
-  final TextEditingController _subtitleController =
+  final _subtitleController =
       TextEditingController(text: 'OF APPRECIATION');
 
-  final TextEditingController _footerController =
+  final _footerController =
       TextEditingController(text: 'Identify. Report. Stay Safe.');
 
-  final TextEditingController _signatoryController =
+  final _signatoryController =
       TextEditingController(text: 'Authorized Signatory');
 
   DateTime selectedDate = DateTime.now();
@@ -52,7 +51,9 @@ class _CertificatePageState extends State<CertificatePage> {
   double nameFontSize = 34;
   TextAlign nameAlignment = TextAlign.center;
 
-  bool _isExporting = false;
+  bool _isGeneratingPdf = false;
+
+  String? _lastSavedPath;
 
   final List<Color> themeColors = const [
     Color(0xFF087A3D),
@@ -88,28 +89,8 @@ class _CertificatePageState extends State<CertificatePage> {
         '${selectedDate.year}';
   }
 
-  String get safeFileName {
-    String name = _nameController.text.trim();
-
-    if (name.isEmpty) {
-      name = 'Employee';
-    }
-
-    name = name
-        .replaceAll(RegExp(r'[^a-zA-Z0-9]+'), '_')
-        .replaceAll(RegExp(r'_+'), '_');
-
-    name = name.replaceAll(RegExp(r'^_|_$'), '');
-
-    if (name.isEmpty) {
-      name = 'Employee';
-    }
-
-    return 'SafeNexus_Certificate_$name.pdf';
-  }
-
   Future<void> _selectDate() async {
-    final DateTime? date = await showDatePicker(
+    final date = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2020),
@@ -144,157 +125,95 @@ class _CertificatePageState extends State<CertificatePage> {
       nameFontSize = 34;
       nameAlignment = TextAlign.center;
       selectedDate = DateTime.now();
+      _lastSavedPath = null;
     });
   }
 
-  Future<void> _saveCertificate() async {
-    if (_isExporting) {
-      return;
-    }
+  void _showMessage(
+    String message, {
+    bool error = false,
+  }) {
+    if (!mounted) return;
 
-    setState(() {
-      _isExporting = true;
-    });
-
-    try {
-      final Uint8List pdfBytes = await _generatePdf();
-
-      if (!mounted) {
-        return;
-      }
-
-      await Printing.sharePdf(
-        bytes: pdfBytes,
-        filename: safeFileName,
-      );
-
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Certificate PDF created successfully.',
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-    } catch (e) {
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              'PDF export failed: $e',
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isExporting = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _openPdfPreview() async {
-    if (_isExporting) {
-      return;
-    }
-
-    try {
-      final Uint8List pdfBytes = await _generatePdf();
-
-      if (!mounted) {
-        return;
-      }
-
-      await Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (context) {
-            return _CertificatePdfPreview(
-              pdfBytes: pdfBytes,
-              fileName: safeFileName,
-            );
-          },
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor:
+              error ? Colors.red.shade700 : null,
         ),
       );
-    } catch (e) {
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              'Could not create PDF preview: $e',
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-    }
   }
 
-  Future<Uint8List> _generatePdf() async {
-    final pw.Document document = pw.Document();
+  String _safeFileName(String value) {
+    final cleaned = value
+        .trim()
+        .replaceAll(RegExp(r'[\\/:*?"<>|]'), '_')
+        .replaceAll(RegExp(r'\s+'), '_');
 
-    final PdfColor pdfPrimaryColor =
-        PdfColor.fromInt(themeColors[selectedColor].value);
+    if (cleaned.isEmpty) {
+      return 'Employee';
+    }
 
-    final String name = _nameController.text.trim().isEmpty
-        ? 'Employee Name'
-        : _nameController.text.trim();
+    return cleaned.length > 50
+        ? cleaned.substring(0, 50)
+        : cleaned;
+  }
 
-    final String company = _companyController.text.trim().isEmpty
-        ? 'SafeNexus HSE'
-        : _companyController.text.trim();
+  Future<File> _createCertificatePdf() async {
+    final pdf = pw.Document();
 
-    final String title = _titleController.text.trim().isEmpty
-        ? 'CERTIFICATE'
-        : _titleController.text.trim();
+    final pdfPrimaryColor = PdfColor.fromInt(
+      primaryColor.value,
+    );
 
-    final String subtitle =
+    final employeeName =
+        _nameController.text.trim().isEmpty
+            ? 'Employee Name'
+            : _nameController.text.trim();
+
+    final companyName =
+        _companyController.text.trim().isEmpty
+            ? 'SafeNexus HSE'
+            : _companyController.text.trim();
+
+    final certificateTitle =
+        _titleController.text.trim().isEmpty
+            ? 'CERTIFICATE'
+            : _titleController.text.trim();
+
+    final certificateSubtitle =
         _subtitleController.text.trim().isEmpty
             ? 'OF APPRECIATION'
             : _subtitleController.text.trim();
 
-    final String achievement =
-        _achievementController.text.trim().isEmpty
-            ? 'for your outstanding commitment to Health, Safety & Environment\n'
-              'and for actively contributing to a safe and sustainable workplace.'
-            : _achievementController.text.trim();
-
-    final String signatory =
+    final signatory =
         _signatoryController.text.trim().isEmpty
             ? 'Authorized Signatory'
             : _signatoryController.text.trim();
 
-    final String footer =
+    final footer =
         _footerController.text.trim().isEmpty
             ? 'Identify. Report. Stay Safe.'
             : _footerController.text.trim();
 
-    final String employeeId =
+    final achievement =
+        _achievementController.text.trim().isEmpty
+            ? 'For your valuable contribution to Health, Safety & Environment and for actively contributing to a safe and sustainable workplace.'
+            : _achievementController.text.trim();
+
+    final employeeId =
         _idController.text.trim();
 
-    final String department =
+    final department =
         _departmentController.text.trim();
 
-    document.addPage(
+    pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.zero,
+        margin: const pw.EdgeInsets.all(0),
         build: (pw.Context context) {
           return pw.Container(
             color: PdfColor.fromInt(0xFFFDFEF9),
@@ -303,49 +222,84 @@ class _CertificatePageState extends State<CertificatePage> {
               decoration: pw.BoxDecoration(
                 border: pw.Border.all(
                   color: pdfPrimaryColor,
-                  width: 6,
+                  width: 5,
                 ),
               ),
-              padding: const pw.EdgeInsets.all(8),
+              padding: const pw.EdgeInsets.all(9),
               child: pw.Container(
                 decoration: pw.BoxDecoration(
                   border: pw.Border.all(
                     color: pdfPrimaryColor,
-                    width: 1.5,
+                    width: 1.2,
                   ),
                 ),
                 child: pw.Stack(
                   children: [
-                    pw.Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 120,
-                      child: _pdfBackground(
-                        pdfPrimaryColor,
+                    pw.Positioned.fill(
+                      child: pw.CustomPaint(
+                        painter: _PdfBackgroundPainter(
+                          color: pdfPrimaryColor,
+                        ),
                       ),
                     ),
                     pw.Padding(
-                      padding: const pw.EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 24,
+                      padding:
+                          const pw.EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 28,
                       ),
                       child: pw.Column(
-                        crossAxisAlignment:
-                            pw.CrossAxisAlignment.center,
                         children: [
-                          _pdfLogo(pdfPrimaryColor),
+                          pw.Container(
+                            width: 62,
+                            height: 62,
+                            decoration:
+                                pw.BoxDecoration(
+                              color: pdfPrimaryColor,
+                              shape: pw.BoxShape.circle,
+                            ),
+                            child: pw.Center(
+                              child: pw.Column(
+                                mainAxisAlignment:
+                                    pw.MainAxisAlignment
+                                        .center,
+                                children: [
+                                  pw.Text(
+                                    '⚙',
+                                    style:
+                                        pw.TextStyle(
+                                      color:
+                                          PdfColors.white,
+                                      fontSize: 23,
+                                    ),
+                                  ),
+                                  pw.Text(
+                                    'S',
+                                    style:
+                                        pw.TextStyle(
+                                      color:
+                                          PdfColors.white,
+                                      fontSize: 14,
+                                      fontWeight:
+                                          pw.FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
 
-                          pw.SizedBox(height: 8),
+                          pw.SizedBox(height: 10),
 
                           pw.Text(
-                            company,
-                            textAlign: pw.TextAlign.center,
-                            maxLines: 2,
+                            companyName,
+                            textAlign:
+                                pw.TextAlign.center,
                             style: pw.TextStyle(
                               color: pdfPrimaryColor,
-                              fontSize: 19,
-                              fontWeight: pw.FontWeight.bold,
+                              fontSize: 18,
+                              fontWeight:
+                                  pw.FontWeight.bold,
                             ),
                           ),
 
@@ -353,23 +307,26 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Text(
                             'AI-Powered HSE Safety & Observation App',
-                            textAlign: pw.TextAlign.center,
+                            textAlign:
+                                pw.TextAlign.center,
                             style: const pw.TextStyle(
-                              fontSize: 8,
-                              color: PdfColors.grey700,
+                              fontSize: 7,
+                              color:
+                                  PdfColors.grey700,
                             ),
                           ),
 
                           pw.SizedBox(height: 20),
 
                           pw.Text(
-                            title,
-                            textAlign: pw.TextAlign.center,
-                            maxLines: 2,
+                            certificateTitle,
+                            textAlign:
+                                pw.TextAlign.center,
                             style: pw.TextStyle(
                               color: pdfPrimaryColor,
                               fontSize: 29,
-                              fontWeight: pw.FontWeight.bold,
+                              fontWeight:
+                                  pw.FontWeight.bold,
                             ),
                           ),
 
@@ -377,120 +334,157 @@ class _CertificatePageState extends State<CertificatePage> {
 
                           pw.Container(
                             padding:
-                                const pw.EdgeInsets.symmetric(
+                                const pw.EdgeInsets
+                                    .symmetric(
                               horizontal: 18,
                               vertical: 7,
                             ),
-                            decoration: pw.BoxDecoration(
-                              color: pdfPrimaryColor,
-                              borderRadius:
-                                  pw.BorderRadius.circular(3),
-                            ),
+                            color: pdfPrimaryColor,
                             child: pw.Text(
-                              subtitle,
-                              textAlign: pw.TextAlign.center,
-                              maxLines: 2,
+                              certificateSubtitle,
+                              textAlign:
+                                  pw.TextAlign.center,
                               style: pw.TextStyle(
-                                color: PdfColors.white,
+                                color:
+                                    PdfColors.white,
                                 fontSize: 11,
                                 fontWeight:
                                     pw.FontWeight.bold,
-                                letterSpacing: 1,
+                                letterSpacing: 1.2,
                               ),
                             ),
                           ),
 
-                          pw.SizedBox(height: 18),
+                          pw.SizedBox(height: 22),
 
                           pw.Text(
                             'This certificate is proudly presented to',
-                            textAlign: pw.TextAlign.center,
+                            textAlign:
+                                pw.TextAlign.center,
                             style: const pw.TextStyle(
                               fontSize: 10,
                             ),
                           ),
 
-                          pw.SizedBox(height: 7),
+                          pw.SizedBox(height: 8),
 
                           pw.Container(
                             width: double.infinity,
                             padding:
-                                const pw.EdgeInsets.symmetric(
+                                const pw.EdgeInsets
+                                    .symmetric(
                               horizontal: 8,
-                              vertical: 4,
+                              vertical: 5,
+                            ),
+                            decoration:
+                                pw.BoxDecoration(
+                              border: pw.Border.all(
+                                color: pdfPrimaryColor,
+                                width: 0.7,
+                              ),
+                              borderRadius:
+                                  pw.BorderRadius
+                                      .circular(5),
                             ),
                             child: pw.Text(
-                              name,
-                              textAlign: pw.TextAlign.center,
+                              employeeName,
+                              textAlign:
+                                  _pdfTextAlign(
+                                nameAlignment,
+                              ),
                               maxLines: 2,
-                              overflow: pw.TextOverflow.clip,
                               style: pw.TextStyle(
                                 color: pdfPrimaryColor,
-                                fontSize: _pdfNameFontSize,
+                                fontSize:
+                                    math.min(
+                                  nameFontSize,
+                                  40,
+                                ),
                                 fontWeight:
                                     pw.FontWeight.bold,
                               ),
                             ),
                           ),
 
+                          pw.SizedBox(height: 5),
+
                           pw.Container(
-                            width: double.infinity,
                             height: 1,
                             color: pdfPrimaryColor,
                           ),
 
                           if (employeeId.isNotEmpty ||
                               department.isNotEmpty) ...[
-                            pw.SizedBox(height: 8),
-                            pw.Text(
-                              [
-                                if (employeeId.isNotEmpty)
-                                  'Employee ID: $employeeId',
-                                if (department.isNotEmpty)
-                                  'Department: $department',
-                              ].join('   •   '),
-                              textAlign: pw.TextAlign.center,
-                              maxLines: 2,
-                              style: const pw.TextStyle(
-                                fontSize: 8,
-                                color: PdfColors.grey700,
-                              ),
+                            pw.SizedBox(height: 9),
+                            pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment
+                                      .center,
+                              children: [
+                                if (employeeId
+                                    .isNotEmpty)
+                                  pw.Text(
+                                    'Employee ID: $employeeId',
+                                    style:
+                                        const pw.TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                if (employeeId
+                                        .isNotEmpty &&
+                                    department
+                                        .isNotEmpty)
+                                  pw.SizedBox(width: 18),
+                                if (department
+                                    .isNotEmpty)
+                                  pw.Text(
+                                    'Department: $department',
+                                    style:
+                                        const pw.TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
 
-                          pw.SizedBox(height: 16),
+                          pw.SizedBox(height: 22),
 
                           pw.Container(
-                            width: double.infinity,
                             constraints:
                                 const pw.BoxConstraints(
-                              minHeight: 92,
+                              minHeight: 90,
                             ),
-                            alignment: pw.Alignment.center,
-                            child: pw.Text(
-                              achievement,
-                              textAlign: pw.TextAlign.center,
-                              style: const pw.TextStyle(
-                                fontSize: 10,
-                                lineSpacing: 4,
+                            width: double.infinity,
+                            child: pw.Center(
+                              child: pw.Text(
+                                achievement,
+                                textAlign:
+                                    pw.TextAlign.center,
+                                style:
+                                    const pw.TextStyle(
+                                  fontSize: 11,
+                                  lineSpacing: 5,
+                                ),
                               ),
                             ),
                           ),
 
-                          pw.SizedBox(height: 12),
+                          pw.SizedBox(height: 18),
 
                           _pdfSafetyBadges(
                             pdfPrimaryColor,
                           ),
 
-                          pw.SizedBox(height: 24),
+                          pw.Spacer(),
 
                           pw.Row(
+                            crossAxisAlignment:
+                                pw.CrossAxisAlignment
+                                    .end,
                             mainAxisAlignment:
                                 pw.MainAxisAlignment
                                     .spaceBetween,
-                            crossAxisAlignment:
-                                pw.CrossAxisAlignment.end,
                             children: [
                               _pdfSignatureBlock(
                                 formattedDate,
@@ -508,31 +502,38 @@ class _CertificatePageState extends State<CertificatePage> {
                             ],
                           ),
 
-                          pw.SizedBox(height: 14),
+                          pw.SizedBox(height: 16),
 
                           pw.Container(
                             width: double.infinity,
                             padding:
-                                const pw.EdgeInsets.symmetric(
+                                const pw.EdgeInsets
+                                    .symmetric(
                               vertical: 8,
-                              horizontal: 8,
                             ),
-                            decoration: pw.BoxDecoration(
+                            decoration:
+                                pw.BoxDecoration(
                               color: pdfPrimaryColor,
                               borderRadius:
-                                  const pw.BorderRadius.only(
+                                  const pw.BorderRadius
+                                      .only(
                                 bottomLeft:
-                                    pw.Radius.circular(14),
+                                    pw.Radius.circular(
+                                  12,
+                                ),
                                 bottomRight:
-                                    pw.Radius.circular(14),
+                                    pw.Radius.circular(
+                                  12,
+                                ),
                               ),
                             ),
                             child: pw.Text(
                               footer,
-                              textAlign: pw.TextAlign.center,
-                              maxLines: 2,
+                              textAlign:
+                                  pw.TextAlign.center,
                               style: pw.TextStyle(
-                                color: PdfColors.white,
+                                color:
+                                    PdfColors.white,
                                 fontSize: 10,
                                 fontWeight:
                                     pw.FontWeight.bold,
@@ -551,21 +552,324 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
 
-    return document.save();
+    final directory =
+        await getApplicationDocumentsDirectory();
+
+    final fileName =
+        'SafeNexus_Certificate_${_safeFileName(employeeName)}_${selectedDate.year}${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}.pdf';
+
+    final file = File(
+      '${directory.path}/$fileName',
+    );
+
+    final bytes = await pdf.save();
+
+    await file.writeAsBytes(
+      bytes,
+      flush: true,
+    );
+
+    return file;
   }
 
-  double get _pdfNameFontSize {
-    final double size = nameFontSize;
+  Future<void> _saveCertificatePdf() async {
+    if (_isGeneratingPdf) return;
 
-    if (size < 20) {
-      return 20;
+    setState(() {
+      _isGeneratingPdf = true;
+    });
+
+    try {
+      final file = await _createCertificatePdf();
+
+      _lastSavedPath = file.path;
+
+      if (!mounted) return;
+
+      _showMessage(
+        'PDF saved successfully.',
+      );
+
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: const Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text('PDF Created'),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Your certificate PDF has been generated successfully. You can now share it.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                },
+                child: const Text('Close'),
+              ),
+              FilledButton.icon(
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                  _shareCertificatePdf();
+                },
+                icon: const Icon(Icons.share),
+                label: const Text('Share PDF'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      _showMessage(
+        'Could not create PDF: $e',
+        error: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isGeneratingPdf = false;
+        });
+      }
     }
+  }
 
-    if (size > 40) {
-      return 40;
+  Future<void> _shareCertificatePdf() async {
+    if (_isGeneratingPdf) return;
+
+    setState(() {
+      _isGeneratingPdf = true;
+    });
+
+    try {
+      File file;
+
+      if (_lastSavedPath != null &&
+          await File(_lastSavedPath!).exists()) {
+        file = File(_lastSavedPath!);
+      } else {
+        file = await _createCertificatePdf();
+        _lastSavedPath = file.path;
+      }
+
+      await Share.shareXFiles(
+        [
+          XFile(
+            file.path,
+            name: file.uri.pathSegments.last,
+            mimeType: 'application/pdf',
+          ),
+        ],
+        subject: 'SafeNexus HSE Certificate',
+        text:
+            'Certificate generated by SafeNexus HSE.',
+      );
+    } catch (e) {
+      _showMessage(
+        'Could not share PDF: $e',
+        error: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isGeneratingPdf = false;
+        });
+      }
     }
+  }
 
-    return size * 0.72;
+  pw.TextAlign _pdfTextAlign(
+    TextAlign alignment,
+  ) {
+    switch (alignment) {
+      case TextAlign.left:
+        return pw.TextAlign.left;
+      case TextAlign.right:
+        return pw.TextAlign.right;
+      case TextAlign.center:
+      default:
+        return pw.TextAlign.center;
+    }
+  }
+
+  pw.Widget _pdfSafetyBadges(
+    PdfColor color,
+  ) {
+    const labels = [
+      'BE SAFE',
+      'WORK SAFE',
+      'STAY SAFE',
+      'GO HOME SAFE',
+    ];
+
+    return pw.Row(
+      mainAxisAlignment:
+          pw.MainAxisAlignment.spaceEvenly,
+      children: labels.map((label) {
+        return pw.Column(
+          children: [
+            pw.Container(
+              width: 38,
+              height: 38,
+              decoration: pw.BoxDecoration(
+                shape: pw.BoxShape.circle,
+                border: pw.Border.all(
+                  color: color,
+                  width: 1,
+                ),
+              ),
+              child: pw.Center(
+                child: pw.Text(
+                  '✓',
+                  style: pw.TextStyle(
+                    color: color,
+                    fontSize: 17,
+                    fontWeight:
+                        pw.FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(
+              label,
+              style: pw.TextStyle(
+                color: color,
+                fontSize: 6,
+                fontWeight:
+                    pw.FontWeight.bold,
+              ),
+            ),
+          ],
+        );
+      }).toList(),
+    );
+  }
+
+  pw.Widget _pdfPriorityBadge(
+    PdfColor color,
+  ) {
+    return pw.Container(
+      width: 68,
+      height: 68,
+      decoration: pw.BoxDecoration(
+        color: color,
+        shape: pw.BoxShape.circle,
+        border: pw.Border.all(
+          color: PdfColors.white,
+          width: 3,
+        ),
+      ),
+      child: pw.Center(
+        child: pw.Text(
+          'SAFETY\nIS OUR\nPRIORITY',
+          textAlign: pw.TextAlign.center,
+          style: pw.TextStyle(
+            color: PdfColors.white,
+            fontSize: 8,
+            fontWeight:
+                pw.FontWeight.bold,
+            lineSpacing: 1,
+          ),
+        ),
+      ),
+    );
+  }
+
+  pw.Widget _pdfSignatureBlock(
+    String value,
+    String label,
+    PdfColor color,
+  ) {
+    return pw.SizedBox(
+      width: 125,
+      child: pw.Column(
+        children: [
+          pw.Container(
+            height: 1,
+            color: PdfColors.grey700,
+          ),
+          pw.SizedBox(height: 5),
+          pw.Text(
+            value,
+            textAlign: pw.TextAlign.center,
+            maxLines: 2,
+            style: const pw.TextStyle(
+              fontSize: 8,
+            ),
+          ),
+          pw.SizedBox(height: 3),
+          pw.Text(
+            label,
+            textAlign: pw.TextAlign.center,
+            style: pw.TextStyle(
+              color: color,
+              fontSize: 7,
+              fontWeight:
+                  pw.FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _editText({
+    required String title,
+    required TextEditingController controller,
+    int maxLines = 1,
+  }) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final tempController =
+            TextEditingController(
+          text: controller.text,
+        );
+
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: tempController,
+            maxLines: maxLines,
+            autofocus: true,
+            decoration:
+                const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                tempController.dispose();
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                setState(() {
+                  controller.text =
+                      tempController.text;
+                });
+
+                tempController.dispose();
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Apply'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _sectionTitle(
@@ -573,7 +877,8 @@ class _CertificatePageState extends State<CertificatePage> {
     String title,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding:
+          const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
           Icon(
@@ -585,7 +890,8 @@ class _CertificatePageState extends State<CertificatePage> {
             title,
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight:
+                  FontWeight.bold,
               color: primaryColor,
             ),
           ),
@@ -601,7 +907,8 @@ class _CertificatePageState extends State<CertificatePage> {
     int maxLines = 1,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding:
+          const EdgeInsets.only(bottom: 12),
       child: TextField(
         controller: controller,
         maxLines: maxLines,
@@ -610,9 +917,11 @@ class _CertificatePageState extends State<CertificatePage> {
         },
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon:
-              icon == null ? null : Icon(icon),
-          border: const OutlineInputBorder(),
+          prefixIcon: icon == null
+              ? null
+              : Icon(icon),
+          border:
+              const OutlineInputBorder(),
           isDense: true,
         ),
       ),
@@ -620,7 +929,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   Widget _templateCard(int index) {
-    final bool isSelected =
+    final isSelected =
         selectedTemplate == index;
 
     return Expanded(
@@ -631,11 +940,15 @@ class _CertificatePageState extends State<CertificatePage> {
           });
         },
         child: Container(
-          margin: const EdgeInsets.only(right: 8),
-          padding: const EdgeInsets.all(8),
+          margin:
+              const EdgeInsets.only(right: 8),
+          padding:
+              const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: isSelected
-                ? primaryColor.withValues(alpha: 0.08)
+                ? primaryColor.withValues(
+                    alpha: 0.08,
+                  )
                 : Colors.white,
             borderRadius:
                 BorderRadius.circular(12),
@@ -643,45 +956,61 @@ class _CertificatePageState extends State<CertificatePage> {
               color: isSelected
                   ? primaryColor
                   : Colors.grey.shade300,
-              width: isSelected ? 2 : 1,
+              width:
+                  isSelected ? 2 : 1,
             ),
           ),
           child: Column(
             children: [
               Container(
                 height: 80,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                decoration:
+                    BoxDecoration(
+                  gradient:
+                      LinearGradient(
                     colors: [
                       themeColors[index]
-                          .withValues(alpha: 0.18),
+                          .withValues(
+                        alpha: 0.18,
+                      ),
                       Colors.white,
                     ],
                   ),
-                  border: Border.all(
-                    color: themeColors[index],
+                  border:
+                      Border.all(
+                    color:
+                        themeColors[index],
                   ),
                   borderRadius:
-                      BorderRadius.circular(8),
+                      BorderRadius.circular(
+                    8,
+                  ),
                 ),
                 child: Center(
                   child: Text(
                     'CERTIFICATE',
                     style: TextStyle(
-                      color: themeColors[index],
-                      fontWeight: FontWeight.bold,
+                      color:
+                          themeColors[index],
+                      fontWeight:
+                          FontWeight.bold,
                       fontSize: 9,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 7),
+              const SizedBox(
+                height: 7,
+              ),
               Text(
                 templateNames[index],
-                textAlign: TextAlign.center,
-                style: const TextStyle(
+                textAlign:
+                    TextAlign.center,
+                style:
+                    const TextStyle(
                   fontSize: 11,
-                  fontWeight: FontWeight.w600,
+                  fontWeight:
+                      FontWeight.w600,
                 ),
               ),
             ],
@@ -695,27 +1024,39 @@ class _CertificatePageState extends State<CertificatePage> {
     return AspectRatio(
       aspectRatio: 0.707,
       child: Container(
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: const Color(0xFFFDFEF9),
-          border: Border.all(
+        margin:
+            const EdgeInsets.all(4),
+        decoration:
+            BoxDecoration(
+          color:
+              const Color(0xFFFDFEF9),
+          border:
+              Border.all(
             color: primaryColor,
             width: 8,
           ),
-          boxShadow: const [
+          boxShadow:
+              const [
             BoxShadow(
               blurRadius: 12,
-              color: Colors.black12,
-              offset: Offset(0, 5),
+              color:
+                  Colors.black12,
+              offset:
+                  Offset(0, 5),
             ),
           ],
         ),
         child: Container(
-          margin: const EdgeInsets.all(7),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color:
-                  primaryColor.withValues(alpha: 0.6),
+          margin:
+              const EdgeInsets.all(7),
+          decoration:
+              BoxDecoration(
+            border:
+                Border.all(
+              color: primaryColor
+                  .withValues(
+                alpha: 0.6,
+              ),
               width: 2,
             ),
           ),
@@ -729,14 +1070,16 @@ class _CertificatePageState extends State<CertificatePage> {
                 child: CustomPaint(
                   painter:
                       _ConstructionBackgroundPainter(
-                    color: primaryColor,
+                    color:
+                        primaryColor,
                   ),
                 ),
               ),
               Positioned.fill(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(
+                      const EdgeInsets
+                          .symmetric(
                     horizontal: 22,
                     vertical: 18,
                   ),
@@ -744,189 +1087,205 @@ class _CertificatePageState extends State<CertificatePage> {
                     children: [
                       _certificateLogo(),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(
+                        height: 8,
+                      ),
 
                       Text(
-                        _companyController.text,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow:
-                            TextOverflow.ellipsis,
+                        _companyController
+                            .text,
+                        textAlign:
+                            TextAlign
+                                .center,
                         style: TextStyle(
-                          color: primaryColor,
+                          color:
+                              primaryColor,
                           fontSize: 17,
                           fontWeight:
-                              FontWeight.w800,
+                              FontWeight
+                                  .w800,
                         ),
                       ),
 
                       const Text(
                         'AI-Powered HSE Safety & Observation App',
-                        textAlign: TextAlign.center,
+                        textAlign:
+                            TextAlign
+                                .center,
                         style: TextStyle(
                           fontSize: 7,
-                          color: Colors.black54,
+                          color:
+                              Colors.black54,
                         ),
                       ),
 
-                      const SizedBox(height: 18),
+                      const SizedBox(
+                        height: 18,
+                      ),
 
                       Text(
-                        _titleController.text,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow:
-                            TextOverflow.ellipsis,
+                        _titleController
+                            .text,
+                        textAlign:
+                            TextAlign
+                                .center,
                         style: TextStyle(
-                          fontFamily: 'serif',
+                          fontFamily:
+                              'serif',
                           fontSize: 27,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
+                          fontWeight:
+                              FontWeight
+                                  .bold,
+                          color:
+                              primaryColor,
                         ),
                       ),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(
+                        height: 5,
+                      ),
 
                       Container(
-                        constraints:
-                            const BoxConstraints(
-                          maxWidth: 220,
-                        ),
                         padding:
-                            const EdgeInsets.symmetric(
+                            const EdgeInsets
+                                .symmetric(
                           horizontal: 16,
                           vertical: 5,
                         ),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
+                        decoration:
+                            BoxDecoration(
+                          color:
+                              primaryColor,
                         ),
                         child: Text(
-                          _subtitleController.text,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow:
-                              TextOverflow.ellipsis,
+                          _subtitleController
+                              .text,
                           style:
                               const TextStyle(
-                            color: Colors.white,
+                            color:
+                                Colors.white,
                             fontSize: 11,
                             fontWeight:
-                                FontWeight.bold,
+                                FontWeight
+                                    .bold,
                             letterSpacing: 1,
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(
+                        height: 15,
+                      ),
 
                       const Text(
                         'This certificate is proudly presented to',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 9),
+                        style:
+                            TextStyle(
+                          fontSize: 9,
+                        ),
                       ),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(
+                        height: 5,
+                      ),
 
                       GestureDetector(
-                        onTap: () => _editText(
+                        onTap: () =>
+                            _editText(
                           title:
                               'Edit Employee Name',
                           controller:
                               _nameController,
                         ),
-                        child: Container(
-                          width: double.infinity,
+                        child:
+                            Container(
                           padding:
-                              const EdgeInsets.symmetric(
+                              const EdgeInsets
+                                  .symmetric(
                             horizontal: 6,
                             vertical: 3,
                           ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: primaryColor
-                                  .withValues(
+                          decoration:
+                              BoxDecoration(
+                            border:
+                                Border.all(
+                              color:
+                                  primaryColor
+                                      .withValues(
                                 alpha: 0.35,
                               ),
                             ),
                             borderRadius:
-                                BorderRadius.circular(5),
+                                BorderRadius
+                                    .circular(
+                              5,
+                            ),
                           ),
                           child: Text(
-                            _nameController.text,
-                            textAlign: nameAlignment,
+                            _nameController
+                                .text,
+                            textAlign:
+                                nameAlignment,
                             maxLines: 2,
                             overflow:
-                                TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: 'cursive',
+                                TextOverflow
+                                    .ellipsis,
+                            style:
+                                TextStyle(
+                              fontFamily:
+                                  'cursive',
                               fontSize:
                                   nameFontSize,
-                              color: primaryColor,
+                              color:
+                                  primaryColor,
                               fontWeight:
-                                  FontWeight.w500,
+                                  FontWeight
+                                      .w500,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(
+                        height: 5,
+                      ),
 
                       Container(
                         height: 1,
-                        color: primaryColor
-                            .withValues(
+                        color:
+                            primaryColor
+                                .withValues(
                           alpha: 0.35,
                         ),
                       ),
 
-                      const SizedBox(height: 8),
-
-                      if (_idController.text.isNotEmpty ||
-                          _departmentController
-                              .text
-                              .isNotEmpty)
-                        Text(
-                          [
-                            if (_idController
-                                .text
-                                .isNotEmpty)
-                              'ID: ${_idController.text}',
-                            if (_departmentController
-                                .text
-                                .isNotEmpty)
-                              'Department: ${_departmentController.text}',
-                          ].join('  •  '),
-                          textAlign:
-                              TextAlign.center,
-                          maxLines: 2,
-                          overflow:
-                              TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 7,
-                            color: Colors.black54,
-                          ),
-                        ),
-
-                      const SizedBox(height: 10),
+                      const SizedBox(
+                        height: 12,
+                      ),
 
                       Expanded(
-                        child: Column(
+                        child:
+                            Column(
                           children: [
                             Text(
                               _achievementController
                                   .text,
                               textAlign:
-                                  TextAlign.center,
+                                  TextAlign
+                                      .center,
                               maxLines: 5,
                               overflow:
-                                  TextOverflow.ellipsis,
+                                  TextOverflow
+                                      .ellipsis,
                               style:
                                   const TextStyle(
                                 fontSize: 10,
                                 height: 1.5,
                               ),
                             ),
-                            const SizedBox(height: 14),
+                            const SizedBox(
+                              height: 14,
+                            ),
                             _safetyBadges(),
                           ],
                         ),
@@ -937,7 +1296,8 @@ class _CertificatePageState extends State<CertificatePage> {
                             MainAxisAlignment
                                 .spaceBetween,
                         crossAxisAlignment:
-                            CrossAxisAlignment.end,
+                            CrossAxisAlignment
+                                .end,
                         children: [
                           _signatureBlock(
                             formattedDate,
@@ -952,36 +1312,52 @@ class _CertificatePageState extends State<CertificatePage> {
                         ],
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(
+                        height: 8,
+                      ),
 
                       Container(
-                        width: double.infinity,
+                        width:
+                            double.infinity,
                         padding:
-                            const EdgeInsets.symmetric(
+                            const EdgeInsets
+                                .symmetric(
                           vertical: 6,
-                          horizontal: 5,
                         ),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
+                        decoration:
+                            BoxDecoration(
+                          color:
+                              primaryColor,
                           borderRadius:
-                              const BorderRadius.only(
+                              const BorderRadius
+                                  .only(
                             bottomLeft:
-                                Radius.circular(20),
+                                Radius.circular(
+                              20,
+                            ),
                             bottomRight:
-                                Radius.circular(20),
+                                Radius.circular(
+                              20,
+                            ),
                           ),
                         ),
                         child: Text(
-                          _footerController.text,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
+                          _footerController
+                              .text,
+                          textAlign:
+                              TextAlign
+                                  .center,
+                          maxLines: 1,
                           overflow:
-                              TextOverflow.ellipsis,
+                              TextOverflow
+                                  .ellipsis,
                           style:
                               const TextStyle(
-                            color: Colors.white,
+                            color:
+                                Colors.white,
                             fontWeight:
-                                FontWeight.bold,
+                                FontWeight
+                                    .bold,
                             fontSize: 10,
                           ),
                         ),
@@ -1001,14 +1377,16 @@ class _CertificatePageState extends State<CertificatePage> {
     return Container(
       width: 54,
       height: 54,
-      decoration: BoxDecoration(
+      decoration:
+          BoxDecoration(
         color: primaryColor,
         shape: BoxShape.circle,
       ),
       child: const Center(
         child: Column(
           mainAxisAlignment:
-              MainAxisAlignment.center,
+              MainAxisAlignment
+                  .center,
           children: [
             Icon(
               Icons.engineering,
@@ -1017,10 +1395,13 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
             Text(
               'S',
-              style: TextStyle(
-                color: Colors.white,
+              style:
+                  TextStyle(
+                color:
+                    Colors.white,
                 fontSize: 17,
-                fontWeight: FontWeight.bold,
+                fontWeight:
+                    FontWeight.bold,
               ),
             ),
           ],
@@ -1030,41 +1411,65 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   Widget _safetyBadges() {
-    final List<List<Object>> badges = [
-      [Icons.verified_user, 'BE SAFE'],
-      [Icons.construction, 'WORK SAFE'],
-      [Icons.groups, 'STAY SAFE'],
-      [Icons.eco, 'GO HOME SAFE'],
+    final badges = [
+      [
+        Icons.verified_user,
+        'BE SAFE',
+      ],
+      [
+        Icons.construction,
+        'WORK SAFE',
+      ],
+      [
+        Icons.groups,
+        'STAY SAFE',
+      ],
+      [
+        Icons.eco,
+        'GO HOME SAFE',
+      ],
     ];
 
     return Row(
       mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly,
-      children: badges.map((badge) {
+          MainAxisAlignment
+              .spaceEvenly,
+      children:
+          badges.map((badge) {
         return Column(
           children: [
             Container(
               width: 38,
               height: 38,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: primaryColor,
+              decoration:
+                  BoxDecoration(
+                shape:
+                    BoxShape.circle,
+                border:
+                    Border.all(
+                  color:
+                      primaryColor,
                 ),
               ),
               child: Icon(
                 badge[0] as IconData,
-                color: primaryColor,
+                color:
+                    primaryColor,
                 size: 21,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(
+              height: 4,
+            ),
             Text(
               badge[1] as String,
-              style: TextStyle(
+              style:
+                  TextStyle(
                 fontSize: 6,
-                color: primaryColor,
-                fontWeight: FontWeight.bold,
+                color:
+                    primaryColor,
+                fontWeight:
+                    FontWeight.bold,
               ),
             ),
           ],
@@ -1077,22 +1482,31 @@ class _CertificatePageState extends State<CertificatePage> {
     return Container(
       width: 66,
       height: 66,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
+      decoration:
+          BoxDecoration(
+        shape:
+            BoxShape.circle,
         color: primaryColor,
-        border: Border.all(
-          color: Colors.white,
+        border:
+            Border.all(
+          color:
+              Colors.white,
           width: 3,
         ),
       ),
-      child: const Center(
+      child:
+          const Center(
         child: Text(
           'SAFETY\nIS OUR\nPRIORITY',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
+          textAlign:
+              TextAlign.center,
+          style:
+              TextStyle(
+            color:
+                Colors.white,
             fontSize: 8,
-            fontWeight: FontWeight.bold,
+            fontWeight:
+                FontWeight.bold,
             height: 1.2,
           ),
         ),
@@ -1110,29 +1524,38 @@ class _CertificatePageState extends State<CertificatePage> {
         children: [
           Container(
             height: 1,
-            color: Colors.black54,
+            color:
+                Colors.black54,
           ),
-          const SizedBox(height: 5),
+          const SizedBox(
+            height: 5,
+          ),
           Text(
             value,
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             maxLines: 2,
             overflow:
                 TextOverflow.ellipsis,
             style:
-                const TextStyle(fontSize: 7),
+                const TextStyle(
+              fontSize: 7,
+            ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(
+            height: 2,
+          ),
           Text(
             label,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow:
-                TextOverflow.ellipsis,
-            style: TextStyle(
+            textAlign:
+                TextAlign.center,
+            style:
+                TextStyle(
               fontSize: 6,
-              fontWeight: FontWeight.bold,
-              color: primaryColor,
+              fontWeight:
+                  FontWeight.bold,
+              color:
+                  primaryColor,
             ),
           ),
         ],
@@ -1143,7 +1566,8 @@ class _CertificatePageState extends State<CertificatePage> {
   Widget _editTools() {
     return Column(
       crossAxisAlignment:
-          CrossAxisAlignment.start,
+          CrossAxisAlignment
+              .start,
       children: [
         _sectionTitle(
           Icons.edit,
@@ -1151,38 +1575,51 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
 
         _inputField(
-          label: 'Certificate Title',
-          controller: _titleController,
+          label:
+              'Certificate Title',
+          controller:
+              _titleController,
           icon: Icons.title,
         ),
 
         _inputField(
           label: 'Subtitle',
-          controller: _subtitleController,
-          icon: Icons.label_outline,
+          controller:
+              _subtitleController,
+          icon:
+              Icons.label_outline,
         ),
 
         _inputField(
-          label: 'Employee Name',
-          controller: _nameController,
-          icon: Icons.person,
+          label:
+              'Employee Name',
+          controller:
+              _nameController,
+          icon:
+              Icons.person,
         ),
 
         _inputField(
-          label: 'Employee ID',
-          controller: _idController,
-          icon: Icons.badge_outlined,
+          label:
+              'Employee ID',
+          controller:
+              _idController,
+          icon:
+              Icons.badge_outlined,
         ),
 
         _inputField(
-          label: 'Department',
+          label:
+              'Department',
           controller:
               _departmentController,
-          icon: Icons.business,
+          icon:
+              Icons.business,
         ),
 
         _inputField(
-          label: 'Achievement / Reason',
+          label:
+              'Achievement / Reason',
           controller:
               _achievementController,
           icon: Icons.workspace_premium,
@@ -1190,29 +1627,36 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
 
         _inputField(
-          label: 'Company Name',
+          label:
+              'Company Name',
           controller:
               _companyController,
-          icon: Icons.business_center,
+          icon:
+              Icons.business_center,
         ),
 
         _inputField(
-          label: 'Authorized Signatory',
+          label:
+              'Authorized Signatory',
           controller:
               _signatoryController,
           icon: Icons.draw,
         ),
 
         _inputField(
-          label: 'Footer Text',
+          label:
+              'Footer Text',
           controller:
               _footerController,
-          icon: Icons.short_text,
+          icon:
+              Icons.short_text,
         ),
 
         InkWell(
-          onTap: _selectDate,
-          child: InputDecorator(
+          onTap:
+              _selectDate,
+          child:
+              InputDecorator(
             decoration:
                 const InputDecoration(
               labelText:
@@ -1220,19 +1664,27 @@ class _CertificatePageState extends State<CertificatePage> {
               border:
                   OutlineInputBorder(),
               prefixIcon:
-                  Icon(Icons.calendar_today),
+                  Icon(
+                Icons.calendar_today,
+              ),
             ),
-            child: Text(formattedDate),
+            child:
+                Text(formattedDate),
           ),
         ),
 
-        const SizedBox(height: 18),
+        const SizedBox(
+          height: 18,
+        ),
 
         Text(
           'Name Font Size',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: primaryColor,
+          style:
+              TextStyle(
+            fontWeight:
+                FontWeight.bold,
+            color:
+                primaryColor,
           ),
         ),
 
@@ -1240,21 +1692,29 @@ class _CertificatePageState extends State<CertificatePage> {
           min: 20,
           max: 48,
           divisions: 14,
-          value: nameFontSize,
+          value:
+              nameFontSize,
           label:
-              nameFontSize.round().toString(),
-          onChanged: (value) {
+              nameFontSize
+                  .round()
+                  .toString(),
+          onChanged:
+              (value) {
             setState(() {
-              nameFontSize = value;
+              nameFontSize =
+                  value;
             });
           },
         ),
 
         Text(
           'Name Alignment',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: primaryColor,
+          style:
+              TextStyle(
+            fontWeight:
+                FontWeight.bold,
+            color:
+                primaryColor,
           ),
         ),
 
@@ -1275,34 +1735,46 @@ class _CertificatePageState extends State<CertificatePage> {
           ],
         ),
 
-        const SizedBox(height: 15),
+        const SizedBox(
+          height: 15,
+        ),
 
         Text(
           'Certificate Theme',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: primaryColor,
+          style:
+              TextStyle(
+            fontWeight:
+                FontWeight.bold,
+            color:
+                primaryColor,
           ),
         ),
 
-        const SizedBox(height: 8),
+        const SizedBox(
+          height: 8,
+        ),
 
         Row(
-          children: List.generate(
+          children:
+              List.generate(
             themeColors.length,
             (index) {
-              final bool selected =
-                  selectedColor == index;
+              final selected =
+                  selectedColor ==
+                      index;
 
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    selectedColor = index;
+                    selectedColor =
+                        index;
                   });
                 },
-                child: Container(
+                child:
+                    Container(
                   margin:
-                      const EdgeInsets.only(
+                      const EdgeInsets
+                          .only(
                     right: 12,
                   ),
                   width: 42,
@@ -1310,13 +1782,17 @@ class _CertificatePageState extends State<CertificatePage> {
                   decoration:
                       BoxDecoration(
                     color:
-                        themeColors[index],
+                        themeColors[
+                            index],
                     shape:
                         BoxShape.circle,
-                    border: Border.all(
+                    border:
+                        Border.all(
                       color: selected
-                          ? Colors.black
-                          : Colors.transparent,
+                          ? Colors
+                              .black
+                          : Colors
+                              .transparent,
                       width: 3,
                     ),
                   ),
@@ -1340,35 +1816,45 @@ class _CertificatePageState extends State<CertificatePage> {
     IconData icon,
     TextAlign alignment,
   ) {
-    final bool selected =
-        nameAlignment == alignment;
+    final selected =
+        nameAlignment ==
+            alignment;
 
     return Padding(
       padding:
-          const EdgeInsets.only(
+          const EdgeInsets
+              .only(
         right: 8,
         top: 8,
       ),
-      child: OutlinedButton(
+      child:
+          OutlinedButton(
         onPressed: () {
           setState(() {
-            nameAlignment = alignment;
+            nameAlignment =
+                alignment;
           });
         },
         style:
-            OutlinedButton.styleFrom(
-          backgroundColor: selected
-              ? primaryColor.withValues(
-                  alpha: 0.10,
-                )
-              : null,
-          side: BorderSide(
+            OutlinedButton
+                .styleFrom(
+          backgroundColor:
+              selected
+                  ? primaryColor
+                      .withValues(
+                      alpha: 0.10,
+                    )
+                  : null,
+          side:
+              BorderSide(
             color: selected
                 ? primaryColor
-                : Colors.grey.shade300,
+                : Colors.grey
+                    .shade300,
           ),
         ),
-        child: Icon(
+        child:
+            Icon(
           icon,
           color: selected
               ? primaryColor
@@ -1378,83 +1864,119 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  void _editText({
-    required String title,
-    required TextEditingController
-        controller,
-    int maxLines = 1,
-  }) {
-    final TextEditingController
-        tempController =
-        TextEditingController(
-      text: controller.text,
-    );
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(
-            controller: tempController,
-            maxLines: maxLines,
-            autofocus: true,
-            decoration:
-                const InputDecoration(
-              border:
-                  OutlineInputBorder(),
+  Widget _pdfActionButton() {
+    return Column(
+      children: [
+        SizedBox(
+          width:
+              double.infinity,
+          child:
+              FilledButton.icon(
+            onPressed:
+                _isGeneratingPdf
+                    ? null
+                    : _saveCertificatePdf,
+            icon:
+                _isGeneratingPdf
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child:
+                            CircularProgressIndicator(
+                          strokeWidth:
+                              2,
+                          color:
+                              Colors.white,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.picture_as_pdf,
+                      ),
+            label:
+                Text(
+              _isGeneratingPdf
+                  ? 'Creating PDF...'
+                  : 'Save Certificate PDF',
+            ),
+            style:
+                FilledButton.styleFrom(
+              backgroundColor:
+                  primaryColor,
+              padding:
+                  const EdgeInsets
+                      .symmetric(
+                vertical: 15,
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                tempController.dispose();
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child:
-                  const Text('Cancel'),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          width:
+              double.infinity,
+          child:
+              OutlinedButton.icon(
+            onPressed:
+                _isGeneratingPdf
+                    ? null
+                    : _shareCertificatePdf,
+            icon:
+                const Icon(
+              Icons.share,
             ),
-            FilledButton(
-              onPressed: () {
-                setState(() {
-                  controller.text =
-                      tempController.text;
-                });
-
-                tempController.dispose();
-
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child:
-                  const Text('Apply'),
+            label:
+                const Text(
+              'Share Certificate PDF',
             ),
-          ],
-        );
-      },
+            style:
+                OutlinedButton
+                    .styleFrom(
+              foregroundColor:
+                  primaryColor,
+              side:
+                  BorderSide(
+                color:
+                    primaryColor,
+              ),
+              padding:
+                  const EdgeInsets
+                      .symmetric(
+                vertical: 14,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       backgroundColor:
-          const Color(0xFFF4F8F5),
-      appBar: AppBar(
+          const Color(
+        0xFFF4F8F5,
+      ),
+      appBar:
+          AppBar(
         backgroundColor:
             primaryColor,
         foregroundColor:
             Colors.white,
-        title: const Column(
+        title:
+            const Column(
           crossAxisAlignment:
-              CrossAxisAlignment.start,
+              CrossAxisAlignment
+                  .start,
           children: [
             Text(
               'SAFENEXUS HSE',
-              style: TextStyle(
+              style:
+                  TextStyle(
                 fontSize: 18,
                 fontWeight:
                     FontWeight.bold,
@@ -1462,7 +1984,8 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
             Text(
               'Certificate Designer',
-              style: TextStyle(
+              style:
+                  TextStyle(
                 fontSize: 12,
               ),
             ),
@@ -1470,33 +1993,41 @@ class _CertificatePageState extends State<CertificatePage> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Export PDF',
-            onPressed: _isExporting
-                ? null
-                : _saveCertificate,
-            icon: _isExporting
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child:
-                        CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color:
-                          Colors.white,
-                    ),
-                  )
-                : const Icon(
-                    Icons.picture_as_pdf,
-                  ),
+            tooltip:
+                'Save PDF',
+            onPressed:
+                _isGeneratingPdf
+                    ? null
+                    : _saveCertificatePdf,
+            icon:
+                const Icon(
+              Icons.picture_as_pdf,
+            ),
+          ),
+          IconButton(
+            tooltip:
+                'Share PDF',
+            onPressed:
+                _isGeneratingPdf
+                    ? null
+                    : _shareCertificatePdf,
+            icon:
+                const Icon(
+              Icons.share,
+            ),
           ),
         ],
       ),
-      body: SafeArea(
+      body:
+          SafeArea(
         child:
             SingleChildScrollView(
           padding:
-              const EdgeInsets.all(14),
-          child: Column(
+              const EdgeInsets.all(
+            14,
+          ),
+          child:
+              Column(
             crossAxisAlignment:
                 CrossAxisAlignment
                     .start,
@@ -1504,8 +2035,7 @@ class _CertificatePageState extends State<CertificatePage> {
               Row(
                 children: [
                   Icon(
-                    Icons
-                        .workspace_premium,
+                    Icons.workspace_premium,
                     size: 36,
                     color:
                         primaryColor,
@@ -1514,7 +2044,8 @@ class _CertificatePageState extends State<CertificatePage> {
                     width: 10,
                   ),
                   Expanded(
-                    child: Column(
+                    child:
+                        Column(
                       crossAxisAlignment:
                           CrossAxisAlignment
                               .start,
@@ -1523,7 +2054,8 @@ class _CertificatePageState extends State<CertificatePage> {
                           'Certificate Designer',
                           style:
                               TextStyle(
-                            fontSize: 24,
+                            fontSize:
+                                24,
                             fontWeight:
                                 FontWeight
                                     .bold,
@@ -1532,7 +2064,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                         const Text(
-                          'Create • Edit • Customize • Export',
+                          'Create • Edit • Customize • Export • Share',
                           style:
                               TextStyle(
                             color:
@@ -1551,12 +2083,15 @@ class _CertificatePageState extends State<CertificatePage> {
 
               Card(
                 elevation: 1,
-                child: Padding(
+                child:
+                    Padding(
                   padding:
-                      const EdgeInsets.all(
+                      const EdgeInsets
+                          .all(
                     14,
                   ),
-                  child: Column(
+                  child:
+                      Column(
                     crossAxisAlignment:
                         CrossAxisAlignment
                             .start,
@@ -1585,9 +2120,11 @@ class _CertificatePageState extends State<CertificatePage> {
 
               Card(
                 elevation: 1,
-                child: Padding(
+                child:
+                    Padding(
                   padding:
-                      const EdgeInsets.all(
+                      const EdgeInsets
+                          .all(
                     14,
                   ),
                   child:
@@ -1601,12 +2138,15 @@ class _CertificatePageState extends State<CertificatePage> {
 
               Card(
                 elevation: 1,
-                child: Padding(
+                child:
+                    Padding(
                   padding:
-                      const EdgeInsets.all(
+                      const EdgeInsets
+                          .all(
                     12,
                   ),
-                  child: Column(
+                  child:
+                      Column(
                     crossAxisAlignment:
                         CrossAxisAlignment
                             .start,
@@ -1625,11 +2165,59 @@ class _CertificatePageState extends State<CertificatePage> {
                 height: 14,
               ),
 
+              _pdfActionButton(),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              if (_lastSavedPath != null)
+                Card(
+                  child:
+                      Padding(
+                    padding:
+                        const EdgeInsets
+                            .all(
+                      12,
+                    ),
+                    child:
+                        Row(
+                      children: [
+                        Icon(
+                          Icons
+                              .check_circle,
+                          color:
+                              primaryColor,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Expanded(
+                          child:
+                              Text(
+                            'Certificate PDF is ready to share.',
+                            style:
+                                TextStyle(
+                              fontWeight:
+                                  FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
               Row(
                 children: [
                   Expanded(
                     child:
-                        OutlinedButton.icon(
+                        OutlinedButton
+                            .icon(
                       onPressed:
                           _resetCertificate,
                       icon:
@@ -1646,7 +2234,8 @@ class _CertificatePageState extends State<CertificatePage> {
                         padding:
                             const EdgeInsets
                                 .symmetric(
-                          vertical: 14,
+                          vertical:
+                              14,
                         ),
                       ),
                     ),
@@ -1656,62 +2245,35 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                   Expanded(
                     child:
-                        FilledButton.icon(
+                        FilledButton
+                            .icon(
                       onPressed:
-                          _isExporting
+                          _isGeneratingPdf
                               ? null
-                              : _saveCertificate,
-                      icon: _isExporting
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child:
-                                  CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Icon(
-                              Icons
-                                  .picture_as_pdf,
-                            ),
-                      label: Text(
-                        _isExporting
-                            ? 'Creating PDF...'
-                            : 'Save & Share PDF',
+                              : _saveCertificatePdf,
+                      icon:
+                          const Icon(
+                        Icons.picture_as_pdf,
+                      ),
+                      label:
+                          const Text(
+                        'Export PDF',
                       ),
                       style:
-                          FilledButton.styleFrom(
+                          FilledButton
+                              .styleFrom(
                         backgroundColor:
                             primaryColor,
                         padding:
                             const EdgeInsets
                                 .symmetric(
-                          vertical: 14,
+                          vertical:
+                              14,
                         ),
                       ),
                     ),
                   ),
                 ],
-              ),
-
-              const SizedBox(
-                height: 10,
-              ),
-
-              SizedBox(
-                width: double.infinity,
-                child:
-                    OutlinedButton.icon(
-                  onPressed:
-                      _openPdfPreview,
-                  icon: const Icon(
-                    Icons.preview,
-                  ),
-                  label:
-                      const Text(
-                    'Preview PDF',
-                  ),
-                ),
               ),
 
               const SizedBox(
@@ -1724,262 +2286,6 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 }
-
-/* -------------------------------------------------------------------------- */
-/* PDF HELPERS                                                                */
-/* -------------------------------------------------------------------------- */
-
-pw.Widget _pdfBackground(
-  PdfColor color,
-) {
-  return pw.Container(
-    width: double.infinity,
-    height: double.infinity,
-    child: pw.Column(
-      children: List.generate(
-        5,
-        (index) {
-          return pw.Expanded(
-            child: pw.Container(
-              decoration:
-                  pw.BoxDecoration(
-                border: pw.Border(
-                  bottom: pw.BorderSide(
-                    color: color,
-                    width: 0.4,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    ),
-  );
-}
-
-pw.Widget _pdfLogo(
-  PdfColor color,
-) {
-  return pw.Container(
-    width: 55,
-    height: 55,
-    decoration:
-        pw.BoxDecoration(
-      color: color,
-      shape: pw.BoxShape.circle,
-    ),
-    child: pw.Center(
-      child: pw.Column(
-        mainAxisAlignment:
-            pw.MainAxisAlignment
-                .center,
-        children: [
-          pw.Text(
-            'S',
-            style: pw.TextStyle(
-              color:
-                  PdfColors.white,
-              fontSize: 23,
-              fontWeight:
-                  pw.FontWeight.bold,
-            ),
-          ),
-          pw.Text(
-            'HSE',
-            style: pw.TextStyle(
-              color:
-                  PdfColors.white,
-              fontSize: 7,
-              fontWeight:
-                  pw.FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-pw.Widget _pdfSafetyBadges(
-  PdfColor color,
-) {
-  const List<String> labels = [
-    'BE SAFE',
-    'WORK SAFE',
-    'STAY SAFE',
-    'GO HOME SAFE',
-  ];
-
-  return pw.Row(
-    mainAxisAlignment:
-        pw.MainAxisAlignment
-            .spaceEvenly,
-    children: labels.map(
-      (label) {
-        return pw.Column(
-          children: [
-            pw.Container(
-              width: 38,
-              height: 38,
-              decoration:
-                  pw.BoxDecoration(
-                shape:
-                    pw.BoxShape.circle,
-                border:
-                    pw.Border.all(
-                  color: color,
-                  width: 1,
-                ),
-              ),
-              child: pw.Center(
-                child: pw.Text(
-                  '✓',
-                  style:
-                      pw.TextStyle(
-                    color: color,
-                    fontSize: 17,
-                    fontWeight:
-                        pw.FontWeight
-                            .bold,
-                  ),
-                ),
-              ),
-            ),
-            pw.SizedBox(height: 4),
-            pw.Text(
-              label,
-              textAlign:
-                  pw.TextAlign.center,
-              style: pw.TextStyle(
-                color: color,
-                fontSize: 6,
-                fontWeight:
-                    pw.FontWeight
-                        .bold,
-              ),
-            ),
-          ],
-        );
-      },
-    ).toList(),
-  );
-}
-
-pw.Widget _pdfPriorityBadge(
-  PdfColor color,
-) {
-  return pw.Container(
-    width: 66,
-    height: 66,
-    decoration:
-        pw.BoxDecoration(
-      shape: pw.BoxShape.circle,
-      color: color,
-      border: pw.Border.all(
-        color: PdfColors.white,
-        width: 3,
-      ),
-    ),
-    child: pw.Center(
-      child: pw.Text(
-        'SAFETY\nIS OUR\nPRIORITY',
-        textAlign:
-            pw.TextAlign.center,
-        style: pw.TextStyle(
-          color: PdfColors.white,
-          fontSize: 8,
-          fontWeight:
-              pw.FontWeight.bold,
-        ),
-      ),
-    ),
-  );
-}
-
-pw.Widget _pdfSignatureBlock(
-  String value,
-  String label,
-  PdfColor color,
-) {
-  return pw.SizedBox(
-    width: 90,
-    child: pw.Column(
-      children: [
-        pw.Container(
-          height: 1,
-          color: PdfColors.grey700,
-        ),
-        pw.SizedBox(height: 5),
-        pw.Text(
-          value,
-          textAlign:
-              pw.TextAlign.center,
-          maxLines: 2,
-          style:
-              const pw.TextStyle(
-            fontSize: 7,
-          ),
-        ),
-        pw.SizedBox(height: 3),
-        pw.Text(
-          label,
-          textAlign:
-              pw.TextAlign.center,
-          maxLines: 2,
-          style: pw.TextStyle(
-            color: color,
-            fontSize: 6,
-            fontWeight:
-                pw.FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* PDF PREVIEW PAGE                                                           */
-/* -------------------------------------------------------------------------- */
-
-class _CertificatePdfPreview
-    extends StatelessWidget {
-  final Uint8List pdfBytes;
-  final String fileName;
-
-  const _CertificatePdfPreview({
-    required this.pdfBytes,
-    required this.fileName,
-  });
-
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Certificate PDF',
-        ),
-      ),
-      body: PdfPreview(
-        build: (PdfPageFormat format) async {
-          return pdfBytes;
-        },
-        allowPrinting: true,
-        allowSharing: true,
-        canChangePageFormat: false,
-        canChangeOrientation: false,
-        pdfFileName: fileName,
-      ),
-    );
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* LIVE PREVIEW BACKGROUND                                                    */
-/* -------------------------------------------------------------------------- */
 
 class _ConstructionBackgroundPainter
     extends CustomPainter {
@@ -1994,13 +2300,15 @@ class _ConstructionBackgroundPainter
     Canvas canvas,
     Size size,
   ) {
-    final Paint paint = Paint()
-      ..color = color.withValues(
-        alpha: 0.06,
-      )
-      ..style =
-          PaintingStyle.stroke
-      ..strokeWidth = 1;
+    final paint =
+        Paint()
+          ..color =
+              color.withValues(
+            alpha: 0.06,
+          )
+          ..style =
+              PaintingStyle.stroke
+          ..strokeWidth = 1;
 
     for (
       double x = 10;
@@ -2044,5 +2352,62 @@ class _ConstructionBackgroundPainter
   ) {
     return oldDelegate.color !=
         color;
+  }
+}
+
+class _PdfBackgroundPainter
+    extends pw.CustomPainter {
+  final PdfColor color;
+
+  _PdfBackgroundPainter({
+    required this.color,
+  });
+
+  @override
+  void paint(
+    pw.Context context,
+    PdfGraphics canvas,
+  ) {
+    canvas
+      ..setColor(
+        color,
+      )
+      ..setLineWidth(
+        0.5,
+      );
+
+    final width =
+        context.page.pageFormat.width;
+
+    final height =
+        context.page.pageFormat.height;
+
+    for (
+      double x = 0;
+      x < width;
+      x += 45
+    ) {
+      canvas.drawLine(
+        x,
+        height,
+        x + 30,
+        height - 100,
+      );
+    }
+
+    for (
+      double y = 20;
+      y < 140;
+      y += 22
+    ) {
+      canvas.drawLine(
+        0,
+        y,
+        width,
+        y,
+      );
+    }
+
+    canvas.strokePath();
   }
 }
