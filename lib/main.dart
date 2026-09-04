@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:safenexus_hse/certificate.dart';
+import 'package:safenexus_hse.certificate.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/observation_history.dart';
@@ -64,14 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openCertificates() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const CertificatePage(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,12 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBottomNavigation() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(
-        8,
-        8,
-        8,
-        9,
-      ),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 9),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -117,17 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icons.home_rounded,
               label: 'Home',
               active: _selectedIndex == 0,
-              onTap: () {
-                _selectTab(0);
-              },
+              onTap: () => _selectTab(0),
             ),
             _bottomItem(
               icon: Icons.description_outlined,
               label: 'Reports',
               active: _selectedIndex == 1,
-              onTap: () {
-                _selectTab(1);
-              },
+              onTap: () => _selectTab(1),
             ),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -135,9 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 width: 58,
                 height: 58,
-                margin: const EdgeInsets.only(
-                  top: -27,
-                ),
+                margin: const EdgeInsets.only(top: -27),
                 decoration: const BoxDecoration(
                   color: green,
                   shape: BoxShape.circle,
@@ -160,17 +141,13 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icons.menu_book_outlined,
               label: 'Guides',
               active: _selectedIndex == 3,
-              onTap: () {
-                _selectTab(3);
-              },
+              onTap: () => _selectTab(3),
             ),
             _bottomItem(
               icon: Icons.settings_outlined,
               label: 'Settings',
               active: _selectedIndex == 4,
-              onTap: () {
-                _selectTab(4);
-              },
+              onTap: () => _selectTab(4),
             ),
           ],
         ),
@@ -184,9 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
     required VoidCallback onTap,
     required bool active,
   }) {
-    final color = active
-        ? green
-        : const Color(0xFF555555);
+    final color = active ? green : const Color(0xFF555555);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -209,9 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 color: color,
                 fontSize: 10,
-                fontWeight: active
-                    ? FontWeight.w700
-                    : FontWeight.w500,
+                fontWeight:
+                    active ? FontWeight.w700 : FontWeight.w500,
               ),
             ),
           ],
@@ -306,12 +280,7 @@ class _HomeContent extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(
-            16,
-            14,
-            16,
-            30,
-          ),
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -338,12 +307,7 @@ class _HomeContent extends StatelessWidget {
               const SizedBox(height: 12),
               _uaeSafetySection(context),
               const SizedBox(height: 22),
-
-              // ---------------------------------------------------------
-              // CERTIFICATE SECTION
-              // ---------------------------------------------------------
               _certificateCard(context),
-
               const SizedBox(height: 22),
               _aiBanner(context),
               const SizedBox(height: 22),
@@ -358,12 +322,7 @@ class _HomeContent extends StatelessWidget {
   Widget _heroBanner() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        21,
-        22,
-        18,
-        22,
-      ),
+      padding: const EdgeInsets.fromLTRB(21, 22, 18, 22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
@@ -593,7 +552,8 @@ class _HomeContent extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
@@ -630,10 +590,6 @@ class _HomeContent extends StatelessWidget {
       ),
     );
   }
-
-  // ---------------------------------------------------------------------
-  // CERTIFICATE MENU CARD
-  // ---------------------------------------------------------------------
 
   Widget _certificateCard(BuildContext context) {
     return Material(
@@ -680,7 +636,8 @@ class _HomeContent extends StatelessWidget {
               const SizedBox(width: 13),
               const Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Certificates',
@@ -905,7 +862,8 @@ class _HomeContent extends StatelessWidget {
               const SizedBox(width: 13),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
@@ -948,9 +906,11 @@ class _HomeContent extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(17),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          gradient: LinearGradient(
             colors: [
               Color(0xFF512DA8),
               Color(0xFF6736C8),
@@ -967,7 +927,8 @@ class _HomeContent extends StatelessWidget {
             SizedBox(width: 13),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Text(
                     'AI Safety Assistant',
@@ -1029,7 +990,8 @@ class _HomeContent extends StatelessWidget {
               SizedBox(width: 12),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Reports & History',
@@ -1081,12 +1043,7 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          16,
-          18,
-          16,
-          30,
-        ),
+        padding: const EdgeInsets.fromLTRB(16, 18, 16, 30),
         children: [
           _settingsHeader(),
           const SizedBox(height: 18),
@@ -1235,7 +1192,8 @@ class SettingsPage extends StatelessWidget {
           SizedBox(width: 14),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   'SafeNexus Settings',
@@ -1261,9 +1219,9 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _sectionLabel(String text) {
-    return const Text(
-      'APP SETTINGS',
-      style: TextStyle(
+    return Text(
+      text,
+      style: const TextStyle(
         color: Color(0xFF087A38),
         fontSize: 13,
         fontWeight: FontWeight.w800,
@@ -1362,9 +1320,7 @@ class SettingsPage extends StatelessWidget {
           content: Text(message),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
               child: const Text('OK'),
             ),
           ],
