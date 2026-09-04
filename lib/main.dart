@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:safenexus_hse.certificate.dart';
+import 'package:safenexus_hse/certificate.dart';
 import 'package:safenexus_hse/guidelines.dart';
 import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/observation_history.dart';
@@ -487,10 +487,7 @@ class _HomeContent extends StatelessWidget {
           subtitle: 'Coming soon',
           color: red,
           onTap: () {
-            showComingSoon(
-              context,
-              'Risk Assessment',
-            );
+            showComingSoon(context, 'Risk Assessment');
           },
           comingSoon: true,
         ),
@@ -906,11 +903,9 @@ class _HomeContent extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(17),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          gradient: LinearGradient(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
             colors: [
               Color(0xFF512DA8),
               Color(0xFF6736C8),
