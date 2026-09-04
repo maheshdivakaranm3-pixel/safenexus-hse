@@ -313,7 +313,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
         ],
       ),
-      child: const Row(
+      child:  Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
