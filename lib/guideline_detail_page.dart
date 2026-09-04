@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 class GuidelineDetailPage extends StatelessWidget {
   final Map<String, String> guideline;
-  final String language;
 
   const GuidelineDetailPage({
     Key? key,
     required this.guideline,
-    required this.language,
   }) : super(key: key);
 
   String get letter => guideline['letter'] ?? '';
