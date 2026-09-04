@@ -14,7 +14,8 @@ class CertificatePage extends StatefulWidget {
 }
 
 class _CertificatePageState extends State<CertificatePage> {
-  final _nameController = TextEditingController(text: 'Employee Name');
+  final _nameController =
+      TextEditingController(text: 'Employee Name');
   final _idController = TextEditingController();
   final _departmentController = TextEditingController();
 
@@ -24,8 +25,12 @@ class _CertificatePageState extends State<CertificatePage> {
         'and for actively contributing to a safe and sustainable workplace.',
   );
 
-  final _companyController = TextEditingController(text: 'SafeNexus HSE');
-  final _signatoryController = TextEditingController(text: 'HSE Manager');
+  final _companyController =
+      TextEditingController(text: 'SafeNexus HSE');
+
+  final _signatoryController =
+      TextEditingController(text: 'HSE Manager');
+
   final _footerController =
       TextEditingController(text: 'Identify. Report. Stay Safe.');
 
@@ -37,18 +42,25 @@ class _CertificatePageState extends State<CertificatePage> {
 
   String? _lastSavedPath;
 
-  static const Color _green = Color(0xFF006B3C);
-  static const Color _darkGreen = Color(0xFF004D2B);
-  static const Color _gold = Color(0xFFC79A28);
-  static const Color _ink = Color(0xFF17352A);
+  static const Color _green = Color(0xFF075B3A);
+  static const Color _darkGreen = Color(0xFF033D29);
+  static const Color _deepGreen = Color(0xFF01291D);
+  static const Color _gold = Color(0xFFC9A227);
+  static const Color _lightGold = Color(0xFFE8CF73);
+  static const Color _cream = Color(0xFFF8F5EC);
+  static const Color _ink = Color(0xFF18362B);
 
-  final List<String> templateNames = const [
-    'Classic Professional',
-    'Modern Minimal',
-    'Elegant Border',
-    'Contemporary UAE',
-    'Premium Dark',
+  static const List<String> templateNames = [
+    'Royal HSE',
+    'Executive',
+    'Elegant Gold',
+    'UAE Safety',
+    'Midnight',
   ];
+
+  // ===========================================================================
+  // LIFECYCLE
+  // ===========================================================================
 
   @override
   void dispose() {
@@ -62,7 +74,14 @@ class _CertificatePageState extends State<CertificatePage> {
     super.dispose();
   }
 
-  String _clean(String value, {String fallback = ''}) {
+  // ===========================================================================
+  // TEXT HELPERS
+  // ===========================================================================
+
+  String _clean(
+    String value, {
+    String fallback = '',
+  }) {
     final cleaned = value
         .replaceAll(
           RegExp(r'[\u0000-\u001F\u007F\u200B-\u200D\uFEFF]'),
@@ -83,15 +102,10 @@ class _CertificatePageState extends State<CertificatePage> {
         .replaceAll('\r\n', '\n')
         .replaceAll('\r', '\n')
         .split('\n')
-        .map((line) => line.trim())
-        .where((line) => line.isNotEmpty)
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
         .join('\n')
         .trim();
-  }
-
-  String get formattedDate {
-    return '${selectedDate.day.toString().padLeft(2, '0')} '
-        '${_month(selectedDate.month)} ${selectedDate.year}';
   }
 
   String _month(int month) {
@@ -113,6 +127,17 @@ class _CertificatePageState extends State<CertificatePage> {
     return months[month - 1];
   }
 
+  String get formattedDate {
+    return '${selectedDate.day.toString().padLeft(2, '0')} '
+        '${_month(selectedDate.month)} ${selectedDate.year}';
+  }
+
+  String get shortDate {
+    return '${selectedDate.day.toString().padLeft(2, '0')}/'
+        '${selectedDate.month.toString().padLeft(2, '0')}/'
+        '${selectedDate.year}';
+  }
+
   void _markDirty() {
     if (!mounted) return;
 
@@ -121,12 +146,27 @@ class _CertificatePageState extends State<CertificatePage> {
     });
   }
 
+  // ===========================================================================
+  // DATE
+  // ===========================================================================
+
   Future<void> _selectDate() async {
     final date = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: _green,
+              secondary: _gold,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (date != null && mounted) {
@@ -136,6 +176,10 @@ class _CertificatePageState extends State<CertificatePage> {
       });
     }
   }
+
+  // ===========================================================================
+  // RESET
+  // ===========================================================================
 
   void _resetCertificate() {
     setState(() {
@@ -157,7 +201,14 @@ class _CertificatePageState extends State<CertificatePage> {
     });
   }
 
-  void _message(String message, {bool error = false}) {
+  // ===========================================================================
+  // MESSAGE
+  // ===========================================================================
+
+  void _message(
+    String message, {
+    bool error = false,
+  }) {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context)
@@ -166,7 +217,8 @@ class _CertificatePageState extends State<CertificatePage> {
         SnackBar(
           content: Text(message),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: error ? Colors.red.shade700 : null,
+          backgroundColor:
+              error ? Colors.red.shade700 : _darkGreen,
         ),
       );
   }
@@ -181,13 +233,16 @@ class _CertificatePageState extends State<CertificatePage> {
       return 'Employee';
     }
 
-    return result.substring(
-      0,
-      result.length > 50 ? 50 : result.length,
-    );
+    return result.length > 50
+        ? result.substring(0, 50)
+        : result;
   }
 
-  pw.TextStyle _pdfText({
+  // ===========================================================================
+  // PDF TEXT
+  // ===========================================================================
+
+  pw.TextStyle _pText({
     double size = 10,
     PdfColor color = PdfColors.black,
     pw.FontWeight? weight,
@@ -201,61 +256,105 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  pw.Widget _pdfLogo(PdfColor color) {
+  // ===========================================================================
+  // PDF LOGO
+  // ===========================================================================
+
+  pw.Widget _pdfLogo({
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+    double size = 48,
+  }) {
     return pw.Container(
-      width: 58,
-      height: 58,
+      width: size,
+      height: size,
       decoration: pw.BoxDecoration(
-        color: color,
         shape: pw.BoxShape.circle,
+        color: dark ? accent : primary,
         border: pw.Border.all(
-          color: PdfColors.white,
+          color: dark ? primary : accent,
           width: 2,
         ),
       ),
       child: pw.Center(
-        child: pw.Text(
-          'S',
-          style: _pdfText(
-            size: 27,
-            color: PdfColors.white,
-            weight: pw.FontWeight.bold,
+        child: pw.Container(
+          width: size - 12,
+          height: size - 12,
+          decoration: pw.BoxDecoration(
+            shape: pw.BoxShape.circle,
+            border: pw.Border.all(
+              color: dark
+                  ? primary
+                  : PdfColors.white,
+              width: 1,
+            ),
+          ),
+          child: pw.Center(
+            child: pw.Text(
+              'S',
+              style: _pText(
+                size: size * .40,
+                color: dark
+                    ? primary
+                    : PdfColors.white,
+                weight: pw.FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  pw.Widget _pdfBrand(
-    String company,
-    PdfColor color, {
-    bool light = false,
-    bool compact = false,
-  }) {
-    final textColor = light ? PdfColors.white : color;
+  // ===========================================================================
+  // PDF BRAND
+  // ===========================================================================
 
+  pw.Widget _pdfBrand({
+    required String company,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+    bool centered = false,
+  }) {
     return pw.Row(
-      mainAxisAlignment: pw.MainAxisAlignment.center,
+      mainAxisAlignment: centered
+          ? pw.MainAxisAlignment.center
+          : pw.MainAxisAlignment.start,
       children: [
-        _pdfLogo(color),
-        pw.SizedBox(width: 10),
+        _pdfLogo(
+          primary: primary,
+          accent: accent,
+          dark: dark,
+        ),
+        pw.SizedBox(width: 9),
         pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          crossAxisAlignment:
+              pw.CrossAxisAlignment.start,
           children: [
             pw.Text(
               company,
-              style: _pdfText(
-                size: compact ? 15 : 18,
-                color: textColor,
+              maxLines: 1,
+              style: _pText(
+                size: 16,
+                color: dark
+                    ? PdfColors.white
+                    : primary,
                 weight: pw.FontWeight.bold,
+                letterSpacing: .3,
               ),
             ),
+            pw.SizedBox(height: 3),
             pw.Text(
-              'HSE Safety & Observation App',
-              style: _pdfText(
-                size: 6.5,
-                color:
-                    light ? PdfColors.white : PdfColors.grey700,
+              'HSE • SAFETY • OBSERVATION',
+              style: _pText(
+                size: 6,
+                color: dark
+                    ? PdfColors.grey300
+                    : PdfColors.grey600,
+                weight: pw.FontWeight.bold,
+                letterSpacing: 1,
               ),
             ),
           ],
@@ -264,41 +363,232 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  pw.Widget _pdfMeta(
-    String value,
-    String label,
+  // ===========================================================================
+  // PDF ORNAMENT
+  // ===========================================================================
+
+  pw.Widget _ornament(
     PdfColor color, {
-    double width = 135,
-    bool light = false,
+    double width = 55,
   }) {
-    return pw.SizedBox(
-      width: width,
+    return pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.center,
+      children: [
+        pw.Container(
+          width: width,
+          height: .8,
+          color: color,
+        ),
+        pw.SizedBox(width: 6),
+        pw.Container(
+          width: 6,
+          height: 6,
+          decoration: pw.BoxDecoration(
+            color: color,
+            shape: pw.BoxShape.circle,
+          ),
+        ),
+        pw.SizedBox(width: 6),
+        pw.Container(
+          width: width,
+          height: .8,
+          color: color,
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // PDF TITLE
+  // ===========================================================================
+
+  pw.Widget _pdfTitle({
+    required String subtitle,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+    bool goldTitle = false,
+  }) {
+    final titleColor =
+        goldTitle ? accent : (dark ? accent : primary);
+
+    return pw.Column(
+      children: [
+        pw.Text(
+          'CERTIFICATE',
+          textAlign: pw.TextAlign.center,
+          style: _pText(
+            size: 29,
+            color: titleColor,
+            weight: pw.FontWeight.bold,
+            letterSpacing: 2.4,
+          ),
+        ),
+        pw.SizedBox(height: 3),
+        pw.Text(
+          subtitle,
+          textAlign: pw.TextAlign.center,
+          style: _pText(
+            size: 8,
+            color: dark
+                ? PdfColors.white
+                : accent,
+            weight: pw.FontWeight.bold,
+            letterSpacing: 1.8,
+          ),
+        ),
+        pw.SizedBox(height: 8),
+        _ornament(
+          titleColor,
+          width: 50,
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // PDF RECIPIENT
+  // ===========================================================================
+
+  pw.Widget _pdfRecipient({
+    required String name,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+  }) {
+    final safeName =
+        _clean(name, fallback: 'Employee Name');
+
+    return pw.Column(
+      children: [
+        pw.Text(
+          'PROUDLY PRESENTED TO',
+          textAlign: pw.TextAlign.center,
+          style: _pText(
+            size: 6.5,
+            color: dark
+                ? PdfColors.grey300
+                : PdfColors.grey600,
+            weight: pw.FontWeight.bold,
+            letterSpacing: 1.6,
+          ),
+        ),
+        pw.SizedBox(height: 5),
+        pw.Text(
+          safeName,
+          textAlign: pw.TextAlign.center,
+          maxLines: 2,
+          style: _pText(
+            size: 25,
+            color: dark ? accent : primary,
+            weight: pw.FontWeight.bold,
+          ),
+        ),
+        pw.SizedBox(height: 4),
+        pw.Container(
+          width: 270,
+          height: 1,
+          color: dark ? accent : primary,
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // PDF DETAILS
+  // ===========================================================================
+
+  pw.Widget _pdfDetails({
+    required String id,
+    required String department,
+    bool dark = false,
+  }) {
+    if (id.isEmpty && department.isEmpty) {
+      return pw.SizedBox(height: 2);
+    }
+
+    final items = <String>[];
+
+    if (id.isNotEmpty) {
+      items.add('EMPLOYEE ID: $id');
+    }
+
+    if (department.isNotEmpty) {
+      items.add('DEPARTMENT: $department');
+    }
+
+    return pw.Padding(
+      padding: const pw.EdgeInsets.only(top: 5),
+      child: pw.Text(
+        items.join('   •   '),
+        textAlign: pw.TextAlign.center,
+        maxLines: 1,
+        style: _pText(
+          size: 6.5,
+          color: dark
+              ? PdfColors.grey300
+              : PdfColors.grey600,
+          weight: pw.FontWeight.bold,
+          letterSpacing: .3,
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PDF ACHIEVEMENT
+  // ===========================================================================
+
+  pw.Widget _pdfAchievement({
+    required String achievement,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+  }) {
+    final text = achievement.isEmpty
+        ? 'Outstanding commitment to safety.'
+        : achievement;
+
+    return pw.Container(
+      width: double.infinity,
+      padding: const pw.EdgeInsets.symmetric(
+        horizontal: 22,
+        vertical: 10,
+      ),
+      decoration: pw.BoxDecoration(
+        color: dark
+            ? PdfColors.grey900
+            : PdfColors.grey100,
+        border: pw.Border.all(
+          color: dark
+              ? accent
+              : PdfColors.grey300,
+          width: .8,
+        ),
+        borderRadius:
+            pw.BorderRadius.circular(5),
+      ),
       child: pw.Column(
         children: [
-          pw.Container(
-            height: 1,
-            color: light ? PdfColors.white : PdfColors.grey600,
+          pw.Text(
+            'IN RECOGNITION OF',
+            style: _pText(
+              size: 6,
+              color: dark ? accent : primary,
+              weight: pw.FontWeight.bold,
+              letterSpacing: 1.4,
+            ),
           ),
           pw.SizedBox(height: 5),
           pw.Text(
-            value,
+            text,
             textAlign: pw.TextAlign.center,
-            maxLines: 2,
-            style: _pdfText(
-              size: 8,
-              color:
-                  light ? PdfColors.white : PdfColors.black,
-            ),
-          ),
-          pw.SizedBox(height: 3),
-          pw.Text(
-            label.toUpperCase(),
-            textAlign: pw.TextAlign.center,
-            style: _pdfText(
-              size: 6.5,
-              color: light ? PdfColors.white : color,
-              weight: pw.FontWeight.bold,
-              letterSpacing: 0.7,
+            maxLines: 4,
+            style: _pText(
+              size: 8.2,
+              color: dark
+                  ? PdfColors.white
+                  : PdfColors.grey800,
             ),
           ),
         ],
@@ -306,213 +596,235 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  pw.Widget _pdfSeal(
-    PdfColor color, {
-    bool gold = false,
-  }) {
-    final sealColor = gold ? PdfColors.amber800 : color;
+  // ===========================================================================
+  // PDF SEAL
+  // ===========================================================================
 
+  pw.Widget _pdfSeal({
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
+  }) {
     return pw.Container(
-      width: 76,
-      height: 76,
+      width: 68,
+      height: 68,
       decoration: pw.BoxDecoration(
         shape: pw.BoxShape.circle,
-        color: sealColor,
+        color: dark ? accent : primary,
         border: pw.Border.all(
-          color: PdfColors.white,
+          color: dark ? primary : accent,
           width: 3,
         ),
       ),
       child: pw.Center(
-        child: pw.Column(
-          mainAxisAlignment: pw.MainAxisAlignment.center,
-          children: [
-            pw.Text(
-              'SAFETY',
-              style: _pdfText(
-                size: 7,
-                color: PdfColors.white,
-                weight: pw.FontWeight.bold,
-              ),
+        child: pw.Container(
+          width: 54,
+          height: 54,
+          decoration: pw.BoxDecoration(
+            shape: pw.BoxShape.circle,
+            border: pw.Border.all(
+              color: dark
+                  ? primary
+                  : PdfColors.white,
+              width: 1,
             ),
-            pw.Text(
-              'IS OUR',
-              style: _pdfText(
-                size: 6,
-                color: PdfColors.white,
-              ),
-            ),
-            pw.Text(
-              'PRIORITY',
-              style: _pdfText(
-                size: 8,
-                color: PdfColors.white,
-                weight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.SizedBox(height: 3),
-            pw.Text(
-              'HSE',
-              style: _pdfText(
-                size: 6,
-                color: PdfColors.white,
-                weight: pw.FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  pw.Widget _pdfBadges(
-    PdfColor color, {
-    bool light = false,
-  }) {
-    const labels = [
-      'SAFETY',
-      'REPORT',
-      'PROTECT',
-      'BUILD',
-    ];
-
-    return pw.Row(
-      mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-      children: labels.map((label) {
-        return pw.Column(
-          children: [
-            pw.Container(
-              width: 34,
-              height: 34,
-              decoration: pw.BoxDecoration(
-                shape: pw.BoxShape.circle,
-                border: pw.Border.all(
-                  color: light ? PdfColors.white : color,
-                  width: 1.2,
-                ),
-              ),
-              child: pw.Center(
-                child: pw.Text(
-                  '✓',
-                  style: _pdfText(
-                    size: 15,
-                    color: light
-                        ? PdfColors.white
-                        : color,
+          ),
+          child: pw.Center(
+            child: pw.Column(
+              mainAxisAlignment:
+                  pw.MainAxisAlignment.center,
+              children: [
+                pw.Text(
+                  'HSE',
+                  style: _pText(
+                    size: 11,
+                    color: dark
+                        ? primary
+                        : PdfColors.white,
                     weight: pw.FontWeight.bold,
                   ),
                 ),
-              ),
+                pw.SizedBox(height: 2),
+                pw.Text(
+                  'SAFETY',
+                  style: _pText(
+                    size: 5.5,
+                    color: dark
+                        ? primary
+                        : PdfColors.white,
+                    weight: pw.FontWeight.bold,
+                    letterSpacing: .8,
+                  ),
+                ),
+                pw.Text(
+                  'EXCELLENCE',
+                  style: _pText(
+                    size: 4.5,
+                    color: dark
+                        ? primary
+                        : PdfColors.white,
+                    weight: pw.FontWeight.bold,
+                  ),
+                ),
+                pw.SizedBox(height: 1),
+                pw.Text(
+                  '★',
+                  style: _pText(
+                    size: 6,
+                    color: dark
+                        ? primary
+                        : PdfColors.white,
+                    weight: pw.FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            pw.SizedBox(height: 3),
-            pw.Text(
-              label,
-              style: _pdfText(
-                size: 5.5,
-                color: light ? PdfColors.white : color,
-                weight: pw.FontWeight.bold,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ],
-        );
-      }).toList(),
+          ),
+        ),
+      ),
     );
   }
 
-  pw.Widget _pdfRecipient(
-    String name,
-    PdfColor color, {
-    bool light = false,
-    bool script = false,
+  // ===========================================================================
+  // PDF META
+  // ===========================================================================
+
+  pw.Widget _pdfMeta({
+    required String value,
+    required String label,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
   }) {
-    return pw.Column(
-      children: [
-        pw.Text(
-          'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-          textAlign: pw.TextAlign.center,
-          style: _pdfText(
-            size: 7,
-            color:
-                light ? PdfColors.white : PdfColors.grey700,
-            weight: pw.FontWeight.bold,
-            letterSpacing: 1.1,
+    return pw.SizedBox(
+      width: 145,
+      child: pw.Column(
+        children: [
+          pw.Container(
+            width: 135,
+            height: 1,
+            color: dark
+                ? PdfColors.white
+                : primary,
           ),
-        ),
-        pw.SizedBox(height: 7),
-        pw.Text(
-          name,
-          textAlign: pw.TextAlign.center,
-          maxLines: 2,
-          style: _pdfText(
-            size: script ? 28 : 25,
-            color: light ? PdfColors.white : color,
-            weight: pw.FontWeight.bold,
+          pw.SizedBox(height: 5),
+          pw.Text(
+            value,
+            textAlign: pw.TextAlign.center,
+            maxLines: 2,
+            style: _pText(
+              size: 7.5,
+              color: dark
+                  ? PdfColors.white
+                  : PdfColors.black,
+              weight: pw.FontWeight.bold,
+            ),
           ),
-        ),
-        pw.SizedBox(height: 6),
-        pw.Container(
-          width: 300,
-          height: 1,
-          color: light ? PdfColors.white : color,
-        ),
-      ],
+          pw.SizedBox(height: 2),
+          pw.Text(
+            label,
+            textAlign: pw.TextAlign.center,
+            style: _pText(
+              size: 5.5,
+              color: dark ? accent : primary,
+              weight: pw.FontWeight.bold,
+              letterSpacing: .7,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  pw.Widget _pdfAchievement(
-    String achievement, {
-    bool light = false,
+  // ===========================================================================
+  // PDF FOOTER
+  // ===========================================================================
+
+  pw.Widget _pdfFooter({
+    required String footer,
+    required PdfColor primary,
+    required PdfColor accent,
+    bool dark = false,
   }) {
     return pw.Container(
       width: double.infinity,
       padding: const pw.EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 12,
+        vertical: 6,
+        horizontal: 12,
       ),
+      color: dark ? accent : primary,
       child: pw.Text(
-        achievement,
-        textAlign: pw.TextAlign.center,
-        maxLines: 5,
-        style: _pdfText(
-          size: 9.5,
-          color:
-              light ? PdfColors.white : PdfColors.grey800,
-        ),
-      ),
-    );
-  }
-
-  pw.Widget _pdfFooter(
-    String footer,
-    PdfColor color, {
-    bool light = false,
-  }) {
-    return pw.Container(
-      width: double.infinity,
-      padding: const pw.EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 15,
-      ),
-      decoration: pw.BoxDecoration(
-        color: light ? PdfColors.white : color,
-      ),
-      child: pw.Text(
-        footer,
+        footer.isEmpty
+            ? 'Identify. Report. Stay Safe.'
+            : footer,
         textAlign: pw.TextAlign.center,
         maxLines: 2,
-        style: _pdfText(
-          size: 8,
-          color:
-              light ? color : PdfColors.white,
+        style: _pText(
+          size: 6.5,
+          color: dark
+              ? primary
+              : PdfColors.white,
           weight: pw.FontWeight.bold,
-          letterSpacing: 0.8,
+          letterSpacing: .9,
         ),
       ),
     );
   }
 
-  pw.Widget _template1({
+  // ===========================================================================
+  // PDF CORNER
+  // ===========================================================================
+
+  pw.Widget _pdfCorner({
+    required PdfColor color,
+    required bool top,
+    required bool left,
+  }) {
+    return pw.Positioned(
+      top: top ? 4 : null,
+      bottom: top ? null : 4,
+      left: left ? 4 : null,
+      right: left ? null : 4,
+      child: pw.Container(
+        width: 20,
+        height: 20,
+        decoration: pw.BoxDecoration(
+          border: pw.Border(
+            top: top
+                ? pw.BorderSide(
+                    color: color,
+                    width: 1.5,
+                  )
+                : pw.BorderSide.none,
+            bottom: !top
+                ? pw.BorderSide(
+                    color: color,
+                    width: 1.5,
+                  )
+                : pw.BorderSide.none,
+            left: left
+                ? pw.BorderSide(
+                    color: color,
+                    width: 1.5,
+                  )
+                : pw.BorderSide.none,
+            right: !left
+                ? pw.BorderSide(
+                    color: color,
+                    width: 1.5,
+                  )
+                : pw.BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // TEMPLATE 1 — ROYAL HSE
+  // ===========================================================================
+
+  pw.Widget _pdfRoyal({
     required String company,
     required String name,
     required String id,
@@ -520,80 +832,265 @@ class _CertificatePageState extends State<CertificatePage> {
     required String achievement,
     required String signatory,
     required String footer,
-    required PdfColor green,
+    required PdfColor primary,
+    required PdfColor accent,
   }) {
     return pw.Container(
       color: PdfColors.white,
-      padding: const pw.EdgeInsets.all(16),
-      child: pw.Container(
-        decoration: pw.BoxDecoration(
-          border: pw.Border.all(
-            color: green,
-            width: 4,
-          ),
-        ),
-        padding: const pw.EdgeInsets.all(6),
-        child: pw.Container(
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(
-              color: PdfColors.amber800,
-              width: 1,
+      padding: const pw.EdgeInsets.all(13),
+      child: pw.Stack(
+        children: [
+          pw.Container(
+            decoration: pw.BoxDecoration(
+              border: pw.Border.all(
+                color: primary,
+                width: 4,
+              ),
+            ),
+            padding: const pw.EdgeInsets.all(5),
+            child: pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(
+                  color: accent,
+                  width: 1.2,
+                ),
+              ),
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 28,
+                vertical: 14,
+              ),
+              child: pw.Column(
+                children: [
+                  _pdfBrand(
+                    company: company,
+                    primary: primary,
+                    accent: accent,
+                    centered: true,
+                  ),
+                  pw.SizedBox(height: 7),
+                  pw.Text(
+                    'HSE • SAFETY • INTEGRITY • EXCELLENCE',
+                    style: _pText(
+                      size: 5.5,
+                      color: accent,
+                      weight: pw.FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  pw.SizedBox(height: 7),
+                  _pdfTitle(
+                    subtitle: 'OF SAFETY EXCELLENCE',
+                    primary: primary,
+                    accent: accent,
+                  ),
+                  pw.SizedBox(height: 11),
+                  _pdfRecipient(
+                    name: name,
+                    primary: primary,
+                    accent: accent,
+                  ),
+                  _pdfDetails(
+                    id: id,
+                    department: department,
+                  ),
+                  pw.SizedBox(height: 9),
+                  _pdfAchievement(
+                    achievement: achievement,
+                    primary: primary,
+                    accent: accent,
+                  ),
+                  pw.SizedBox(height: 9),
+                  pw.Row(
+                    mainAxisAlignment:
+                        pw.MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment:
+                        pw.CrossAxisAlignment.end,
+                    children: [
+                      _pdfMeta(
+                        value: formattedDate,
+                        label: 'DATE OF AWARD',
+                        primary: primary,
+                        accent: accent,
+                      ),
+                      _pdfSeal(
+                        primary: primary,
+                        accent: accent,
+                      ),
+                      _pdfMeta(
+                        value: signatory,
+                        label: 'AUTHORIZED SIGNATORY',
+                        primary: primary,
+                        accent: accent,
+                      ),
+                    ],
+                  ),
+                  pw.SizedBox(height: 8),
+                  _pdfFooter(
+                    footer: footer,
+                    primary: primary,
+                    accent: accent,
+                  ),
+                ],
+              ),
             ),
           ),
-          child: pw.Padding(
-            padding: const pw.EdgeInsets.symmetric(
-              horizontal: 28,
-              vertical: 22,
+          _pdfCorner(
+            color: accent,
+            top: true,
+            left: true,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: true,
+            left: false,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: false,
+            left: true,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: false,
+            left: false,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // TEMPLATE 2 — EXECUTIVE
+  // ===========================================================================
+
+  pw.Widget _pdfExecutive({
+    required String company,
+    required String name,
+    required String id,
+    required String department,
+    required String achievement,
+    required String signatory,
+    required String footer,
+    required PdfColor primary,
+    required PdfColor accent,
+  }) {
+    return pw.Container(
+      color: PdfColors.white,
+      child: pw.Stack(
+        children: [
+          pw.Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: pw.Container(
+              width: 16,
+              color: primary,
+            ),
+          ),
+          pw.Positioned(
+            right: 0,
+            top: 0,
+            child: pw.Container(
+              width: 180,
+              height: 100,
+              decoration: pw.BoxDecoration(
+                color: primary,
+                borderRadius:
+                    const pw.BorderRadius.only(
+                  bottomLeft:
+                      pw.Radius.circular(100),
+                ),
+              ),
+            ),
+          ),
+          pw.Positioned(
+            right: 0,
+            bottom: 0,
+            child: pw.Container(
+              width: 120,
+              height: 48,
+              decoration: pw.BoxDecoration(
+                color: accent,
+                borderRadius:
+                    const pw.BorderRadius.only(
+                  topLeft:
+                      pw.Radius.circular(65),
+                ),
+              ),
+            ),
+          ),
+          pw.Padding(
+            padding: const pw.EdgeInsets.fromLTRB(
+              38,
+              21,
+              38,
+              15,
             ),
             child: pw.Column(
+              crossAxisAlignment:
+                  pw.CrossAxisAlignment.start,
               children: [
-                _pdfBrand(company, green),
-                pw.SizedBox(height: 18),
+                _pdfBrand(
+                  company: company,
+                  primary: primary,
+                  accent: accent,
+                ),
+                pw.SizedBox(height: 13),
                 pw.Text(
                   'CERTIFICATE',
-                  style: _pdfText(
-                    size: 30,
-                    color: green,
+                  style: _pText(
+                    size: 31,
+                    color: primary,
                     weight: pw.FontWeight.bold,
                     letterSpacing: 1.8,
                   ),
                 ),
-                pw.SizedBox(height: 4),
                 pw.Text(
-                  'OF SAFETY COMMITMENT',
-                  style: _pdfText(
-                    size: 11,
-                    color: PdfColors.amber800,
+                  'OF PROFESSIONAL SAFETY ACHIEVEMENT',
+                  style: _pText(
+                    size: 8,
+                    color: accent,
                     weight: pw.FontWeight.bold,
-                    letterSpacing: 2,
+                    letterSpacing: 1.1,
                   ),
                 ),
-                pw.SizedBox(height: 24),
-                _pdfRecipient(
+                pw.SizedBox(height: 7),
+                pw.Container(
+                  width: 85,
+                  height: 3,
+                  color: accent,
+                ),
+                pw.SizedBox(height: 11),
+                pw.Text(
+                  'THIS CERTIFICATE IS AWARDED TO',
+                  style: _pText(
+                    size: 6,
+                    color: PdfColors.grey600,
+                    weight: pw.FontWeight.bold,
+                    letterSpacing: .9,
+                  ),
+                ),
+                pw.SizedBox(height: 3),
+                pw.Text(
                   name,
-                  green,
-                  script: true,
-                ),
-                if (id.isNotEmpty || department.isNotEmpty) ...[
-                  pw.SizedBox(height: 8),
-                  pw.Text(
-                    [
-                      if (id.isNotEmpty) 'Employee ID: $id',
-                      if (department.isNotEmpty)
-                        'Department: $department',
-                    ].join('  |  '),
-                    textAlign: pw.TextAlign.center,
-                    style: _pdfText(
-                      size: 7.5,
-                      color: PdfColors.grey700,
-                    ),
+                  maxLines: 2,
+                  style: _pText(
+                    size: 27,
+                    color: primary,
+                    weight: pw.FontWeight.bold,
                   ),
-                ],
-                pw.SizedBox(height: 20),
-                _pdfAchievement(achievement),
-                pw.SizedBox(height: 14),
-                _pdfBadges(green),
-                pw.Spacer(),
+                ),
+                _pdfDetails(
+                  id: id,
+                  department: department,
+                ),
+                pw.SizedBox(height: 10),
+                _pdfAchievement(
+                  achievement: achievement,
+                  primary: primary,
+                  accent: accent,
+                ),
+                pw.SizedBox(height: 10),
                 pw.Row(
                   mainAxisAlignment:
                       pw.MainAxisAlignment.spaceBetween,
@@ -601,181 +1098,38 @@ class _CertificatePageState extends State<CertificatePage> {
                       pw.CrossAxisAlignment.end,
                   children: [
                     _pdfMeta(
-                      formattedDate,
-                      'Date',
-                      green,
-                    ),
-                    _pdfSeal(
-                      green,
-                      gold: true,
+                      value: formattedDate,
+                      label: 'DATE OF AWARD',
+                      primary: primary,
+                      accent: accent,
                     ),
                     _pdfMeta(
-                      signatory,
-                      'HSE Manager / Authorized Signatory',
-                      green,
+                      value: signatory,
+                      label: 'AUTHORIZED SIGNATORY',
+                      primary: primary,
+                      accent: accent,
                     ),
                   ],
                 ),
-                pw.SizedBox(height: 13),
+                pw.SizedBox(height: 8),
                 _pdfFooter(
-                  footer,
-                  green,
+                  footer: footer,
+                  primary: primary,
+                  accent: accent,
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  pw.Widget _template2({
-    required String company,
-    required String name,
-    required String id,
-    required String department,
-    required String achievement,
-    required String signatory,
-    required String footer,
-    required PdfColor green,
-  }) {
-    return pw.Container(
-      color: PdfColors.white,
-      padding: const pw.EdgeInsets.all(22),
-      child: pw.Stack(
-        children: [
-          pw.Positioned(
-            top: 0,
-            right: 0,
-            child: pw.Container(
-              width: 190,
-              height: 110,
-              decoration: pw.BoxDecoration(
-                color: green,
-                borderRadius:
-                    const pw.BorderRadius.only(
-                  bottomLeft:
-                      pw.Radius.circular(120),
-                ),
-              ),
-            ),
-          ),
-          pw.Positioned(
-            bottom: 0,
-            left: 0,
-            child: pw.Container(
-              width: 150,
-              height: 75,
-              decoration: pw.BoxDecoration(
-                color: PdfColors.amber800,
-                borderRadius:
-                    const pw.BorderRadius.only(
-                  topRight:
-                      pw.Radius.circular(100),
-                ),
-              ),
-            ),
-          ),
-          pw.Column(
-            crossAxisAlignment:
-                pw.CrossAxisAlignment.start,
-            children: [
-              _pdfBrand(
-                company,
-                green,
-                compact: true,
-              ),
-              pw.SizedBox(height: 30),
-              pw.Text(
-                'CERTIFICATE',
-                style: _pdfText(
-                  size: 31,
-                  color: green,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 1,
-                ),
-              ),
-              pw.Text(
-                'OF COMPLETION',
-                style: _pdfText(
-                  size: 11,
-                  color: PdfColors.amber800,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 2,
-                ),
-              ),
-              pw.SizedBox(height: 25),
-              pw.Text(
-                'THIS IS TO CERTIFY THAT',
-                style: _pdfText(
-                  size: 7,
-                  color: PdfColors.grey700,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 1,
-                ),
-              ),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                name,
-                maxLines: 2,
-                style: _pdfText(
-                  size: 27,
-                  color: green,
-                  weight: pw.FontWeight.bold,
-                ),
-              ),
-              pw.Container(
-                width: 290,
-                height: 2,
-                color: green,
-              ),
-              pw.SizedBox(height: 13),
-              if (id.isNotEmpty || department.isNotEmpty)
-                pw.Text(
-                  [
-                    if (id.isNotEmpty) 'ID: $id',
-                    if (department.isNotEmpty)
-                      'Department: $department',
-                  ].join('  |  '),
-                  style: _pdfText(
-                    size: 7.5,
-                    color: PdfColors.grey700,
-                  ),
-                ),
-              pw.SizedBox(height: 22),
-              _pdfAchievement(achievement),
-              pw.SizedBox(height: 18),
-              _pdfBadges(green),
-              pw.Spacer(),
-              pw.Row(
-                mainAxisAlignment:
-                    pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  _pdfMeta(
-                    formattedDate,
-                    'Date',
-                    green,
-                  ),
-                  _pdfMeta(
-                    signatory,
-                    'Authorized Signatory',
-                    green,
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 16),
-              _pdfFooter(
-                footer,
-                green,
-              ),
-            ],
           ),
         ],
       ),
     );
   }
 
-  pw.Widget _template3({
+  // ===========================================================================
+  // TEMPLATE 3 — ELEGANT GOLD
+  // ===========================================================================
+
+  pw.Widget _pdfElegant({
     required String company,
     required String name,
     required String id,
@@ -783,88 +1137,78 @@ class _CertificatePageState extends State<CertificatePage> {
     required String achievement,
     required String signatory,
     required String footer,
-    required PdfColor green,
+    required PdfColor primary,
+    required PdfColor accent,
   }) {
     return pw.Container(
-      color: PdfColors.white,
-      padding: const pw.EdgeInsets.all(14),
+      color: _pdfColor(_cream),
+      padding: const pw.EdgeInsets.all(12),
       child: pw.Container(
         decoration: pw.BoxDecoration(
           border: pw.Border.all(
-            color: PdfColors.amber800,
-            width: 5,
+            color: accent,
+            width: 4,
           ),
         ),
         padding: const pw.EdgeInsets.all(5),
         child: pw.Container(
           decoration: pw.BoxDecoration(
             border: pw.Border.all(
-              color: green,
-              width: 2,
+              color: primary,
+              width: 1.3,
             ),
           ),
           padding: const pw.EdgeInsets.symmetric(
-            horizontal: 27,
-            vertical: 22,
+            horizontal: 28,
+            vertical: 13,
           ),
           child: pw.Column(
             children: [
               pw.Text(
-                'HSE  •  SAFETY  •  EXCELLENCE',
-                style: _pdfText(
-                  size: 7,
-                  color: PdfColors.amber800,
+                'HSE • SAFETY • INTEGRITY • EXCELLENCE',
+                style: _pText(
+                  size: 5.5,
+                  color: accent,
                   weight: pw.FontWeight.bold,
+                  letterSpacing: .9,
                 ),
               ),
-              pw.SizedBox(height: 5),
+              pw.SizedBox(height: 4),
               _pdfBrand(
-                company,
-                green,
-                compact: true,
+                company: company,
+                primary: primary,
+                accent: accent,
+                centered: true,
               ),
-              pw.SizedBox(height: 18),
-              pw.Text(
-                'CERTIFICATE',
-                style: _pdfText(
-                  size: 28,
-                  color: PdfColors.amber800,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
+              pw.SizedBox(height: 7),
+              _ornament(
+                accent,
+                width: 42,
               ),
-              pw.Text(
-                'OF ACHIEVEMENT',
-                style: _pdfText(
-                  size: 10,
-                  color: green,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 2,
-                ),
+              pw.SizedBox(height: 6),
+              _pdfTitle(
+                subtitle: 'OF ACHIEVEMENT',
+                primary: primary,
+                accent: accent,
+                goldTitle: true,
               ),
-              pw.SizedBox(height: 20),
+              pw.SizedBox(height: 10),
               _pdfRecipient(
-                name,
-                green,
-                script: true,
+                name: name,
+                primary: primary,
+                accent: accent,
               ),
-              if (id.isNotEmpty || department.isNotEmpty) ...[
-                pw.SizedBox(height: 8),
-                pw.Text(
-                  [
-                    if (id.isNotEmpty) 'Employee ID: $id',
-                    if (department.isNotEmpty)
-                      'Department: $department',
-                  ].join('  |  '),
-                  style: _pdfText(
-                    size: 7,
-                    color: PdfColors.grey700,
-                  ),
-                ),
-              ],
-              pw.SizedBox(height: 20),
-              _pdfAchievement(achievement),
-              pw.Spacer(),
+              _pdfDetails(
+                id: id,
+                department: department,
+              ),
+              pw.SizedBox(height: 8),
+              _pdfAchievement(
+                achievement: achievement,
+                primary: primary,
+                accent: accent,
+              ),
+              pw.SizedBox(height: 8),
               pw.Row(
                 mainAxisAlignment:
                     pw.MainAxisAlignment.spaceBetween,
@@ -872,25 +1216,28 @@ class _CertificatePageState extends State<CertificatePage> {
                     pw.CrossAxisAlignment.end,
                 children: [
                   _pdfMeta(
-                    formattedDate,
-                    'Date',
-                    green,
+                    value: formattedDate,
+                    label: 'DATE OF AWARD',
+                    primary: primary,
+                    accent: accent,
                   ),
                   _pdfSeal(
-                    green,
-                    gold: true,
+                    primary: primary,
+                    accent: accent,
                   ),
                   _pdfMeta(
-                    signatory,
-                    'Authorized Signatory',
-                    green,
+                    value: signatory,
+                    label: 'AUTHORIZED SIGNATORY',
+                    primary: primary,
+                    accent: accent,
                   ),
                 ],
               ),
-              pw.SizedBox(height: 14),
+              pw.SizedBox(height: 8),
               _pdfFooter(
-                footer,
-                green,
+                footer: footer,
+                primary: primary,
+                accent: accent,
               ),
             ],
           ),
@@ -899,7 +1246,11 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  pw.Widget _template4({
+  // ===========================================================================
+  // TEMPLATE 4 — UAE SAFETY
+  // ===========================================================================
+
+  pw.Widget _pdfUae({
     required String company,
     required String name,
     required String id,
@@ -907,136 +1258,146 @@ class _CertificatePageState extends State<CertificatePage> {
     required String achievement,
     required String signatory,
     required String footer,
-    required PdfColor green,
+    required PdfColor primary,
+    required PdfColor accent,
   }) {
     return pw.Container(
       color: PdfColors.grey100,
-      padding: const pw.EdgeInsets.all(15),
+      padding: const pw.EdgeInsets.all(11),
       child: pw.Container(
-        decoration: pw.BoxDecoration(
-          color: PdfColors.white,
-          border: pw.Border.all(
-            color: green,
-            width: 2,
-          ),
-        ),
+        color: PdfColors.white,
         child: pw.Column(
           children: [
             pw.Container(
               width: double.infinity,
               padding: const pw.EdgeInsets.symmetric(
-                vertical: 18,
+                horizontal: 25,
+                vertical: 11,
               ),
-              color: green,
-              child: _pdfBrand(
-                company,
-                green,
-                light: true,
+              color: primary,
+              child: pw.Column(
+                children: [
+                  _pdfBrand(
+                    company: company,
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
+                    centered: true,
+                  ),
+                  pw.SizedBox(height: 4),
+                  pw.Text(
+                    'UNITED ARAB EMIRATES',
+                    style: _pText(
+                      size: 6.5,
+                      color: accent,
+                      weight: pw.FontWeight.bold,
+                      letterSpacing: 1.8,
+                    ),
+                  ),
+                ],
               ),
             ),
             pw.Padding(
-              padding: const pw.EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 18,
+              padding: const pw.EdgeInsets.fromLTRB(
+                26,
+                12,
+                26,
+                10,
               ),
               child: pw.Column(
                 children: [
                   pw.Text(
-                    'CERTIFICATE',
-                    style: _pdfText(
-                      size: 29,
-                      color: green,
+                    'SAFETY • PEOPLE • SUSTAINABILITY',
+                    style: _pText(
+                      size: 5.5,
+                      color: accent,
                       weight: pw.FontWeight.bold,
-                      letterSpacing: 1.5,
+                      letterSpacing: 1,
                     ),
                   ),
-                  pw.Text(
-                    'OF PARTICIPATION',
-                    style: _pdfText(
-                      size: 10,
-                      color: PdfColors.amber800,
-                      weight: pw.FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
+                  pw.SizedBox(height: 3),
+                  _pdfTitle(
+                    subtitle: 'OF SAFETY PARTICIPATION',
+                    primary: primary,
+                    accent: accent,
                   ),
-                  pw.SizedBox(height: 16),
+                  pw.SizedBox(height: 8),
                   pw.Container(
                     width: double.infinity,
-                    padding: const pw.EdgeInsets.all(13),
+                    padding: const pw.EdgeInsets.all(8),
                     decoration: pw.BoxDecoration(
                       border: pw.Border.all(
-                        color: green,
+                        color: primary,
                         width: 1,
                       ),
                       borderRadius:
-                          pw.BorderRadius.circular(8),
+                          pw.BorderRadius.circular(5),
                     ),
                     child: _pdfRecipient(
-                      name,
-                      green,
+                      name: name,
+                      primary: primary,
+                      accent: accent,
                     ),
                   ),
-                  if (id.isNotEmpty ||
-                      department.isNotEmpty) ...[
-                    pw.SizedBox(height: 8),
-                    pw.Text(
-                      [
-                        if (id.isNotEmpty)
-                          'Employee ID: $id',
-                        if (department.isNotEmpty)
-                          'Department: $department',
-                      ].join('  |  '),
-                      style: _pdfText(
-                        size: 7.5,
-                        color: PdfColors.grey700,
-                      ),
-                    ),
-                  ],
-                  pw.SizedBox(height: 17),
-                  _pdfAchievement(achievement),
-                  pw.SizedBox(height: 10),
-                  _pdfBadges(green),
-                  pw.SizedBox(height: 18),
+                  _pdfDetails(
+                    id: id,
+                    department: department,
+                  ),
+                  pw.SizedBox(height: 8),
+                  _pdfAchievement(
+                    achievement: achievement,
+                    primary: primary,
+                    accent: accent,
+                  ),
+                  pw.SizedBox(height: 7),
                   pw.Container(
-                    height: 78,
                     width: double.infinity,
+                    padding: const pw.EdgeInsets.symmetric(
+                      vertical: 6,
+                    ),
                     decoration: pw.BoxDecoration(
                       color: PdfColors.grey100,
-                      borderRadius:
-                          pw.BorderRadius.circular(10),
+                      border: pw.Border.all(
+                        color: accent,
+                        width: .7,
+                      ),
                     ),
-                    child: pw.Center(
-                      child: pw.Text(
-                        'TOGETHER FOR A SAFER UAE',
-                        style: _pdfText(
-                          size: 12,
-                          color: green,
-                          weight: pw.FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
+                    child: pw.Text(
+                      'TOGETHER FOR A SAFER UAE',
+                      textAlign: pw.TextAlign.center,
+                      style: _pText(
+                        size: 8,
+                        color: primary,
+                        weight: pw.FontWeight.bold,
+                        letterSpacing: 1.1,
                       ),
                     ),
                   ),
-                  pw.SizedBox(height: 15),
+                  pw.SizedBox(height: 8),
                   pw.Row(
                     mainAxisAlignment:
                         pw.MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment:
+                        pw.CrossAxisAlignment.end,
                     children: [
                       _pdfMeta(
-                        formattedDate,
-                        'Date',
-                        green,
+                        value: formattedDate,
+                        label: 'DATE',
+                        primary: primary,
+                        accent: accent,
                       ),
                       _pdfMeta(
-                        signatory,
-                        'HSE Manager / Authorized Signatory',
-                        green,
+                        value: signatory,
+                        label: 'HSE MANAGER',
+                        primary: primary,
+                        accent: accent,
                       ),
                       if (id.isNotEmpty)
                         _pdfMeta(
-                          id,
-                          'Certificate / Employee ID',
-                          green,
+                          value: id,
+                          label: 'CERTIFICATE ID',
+                          primary: primary,
+                          accent: accent,
                         ),
                     ],
                   ),
@@ -1044,8 +1405,9 @@ class _CertificatePageState extends State<CertificatePage> {
               ),
             ),
             _pdfFooter(
-              footer,
-              green,
+              footer: footer,
+              primary: primary,
+              accent: accent,
             ),
           ],
         ),
@@ -1053,7 +1415,11 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  pw.Widget _template5({
+  // ===========================================================================
+  // TEMPLATE 5 — MIDNIGHT
+  // ===========================================================================
+
+  pw.Widget _pdfNight({
     required String company,
     required String name,
     required String id,
@@ -1061,126 +1427,156 @@ class _CertificatePageState extends State<CertificatePage> {
     required String achievement,
     required String signatory,
     required String footer,
-    required PdfColor green,
+    required PdfColor primary,
+    required PdfColor accent,
   }) {
     return pw.Container(
-      color: PdfColors.green900,
-      padding: const pw.EdgeInsets.all(15),
-      child: pw.Container(
-        decoration: pw.BoxDecoration(
-          color: PdfColors.green900,
-          border: pw.Border.all(
-            color: PdfColors.amber800,
-            width: 3,
-          ),
-        ),
-        padding: const pw.EdgeInsets.all(8),
-        child: pw.Container(
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(
-              color: PdfColors.amber800,
-              width: 1,
+      color: primary,
+      padding: const pw.EdgeInsets.all(12),
+      child: pw.Stack(
+        children: [
+          pw.Container(
+            decoration: pw.BoxDecoration(
+              color: primary,
+              border: pw.Border.all(
+                color: accent,
+                width: 3,
+              ),
             ),
-          ),
-          padding: const pw.EdgeInsets.symmetric(
-            horizontal: 27,
-            vertical: 22,
-          ),
-          child: pw.Column(
-            children: [
-              _pdfBrand(
-                company,
-                green,
-                light: true,
-              ),
-              pw.SizedBox(height: 23),
-              pw.Text(
-                'CERTIFICATE',
-                style: _pdfText(
-                  size: 30,
-                  color: PdfColors.amber,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 2,
+            padding: const pw.EdgeInsets.all(5),
+            child: pw.Container(
+              decoration: pw.BoxDecoration(
+                color: primary,
+                border: pw.Border.all(
+                  color: accent,
+                  width: 1,
                 ),
               ),
-              pw.SizedBox(height: 4),
-              pw.Text(
-                'OF SAFETY EXCELLENCE',
-                style: _pdfText(
-                  size: 10,
-                  color: PdfColors.white,
-                  weight: pw.FontWeight.bold,
-                  letterSpacing: 2,
-                ),
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 28,
+                vertical: 14,
               ),
-              pw.SizedBox(height: 23),
-              _pdfRecipient(
-                name,
-                PdfColors.amber,
-                light: true,
-                script: true,
-              ),
-              if (id.isNotEmpty || department.isNotEmpty) ...[
-                pw.SizedBox(height: 8),
-                pw.Text(
-                  [
-                    if (id.isNotEmpty) 'Employee ID: $id',
-                    if (department.isNotEmpty)
-                      'Department: $department',
-                  ].join('  |  '),
-                  style: _pdfText(
-                    size: 7,
-                    color: PdfColors.white,
-                  ),
-                ),
-              ],
-              pw.SizedBox(height: 20),
-              _pdfAchievement(
-                achievement,
-                light: true,
-              ),
-              pw.SizedBox(height: 13),
-              _pdfBadges(
-                PdfColors.amber,
-                light: true,
-              ),
-              pw.Spacer(),
-              pw.Row(
-                mainAxisAlignment:
-                    pw.MainAxisAlignment.spaceBetween,
-                crossAxisAlignment:
-                    pw.CrossAxisAlignment.end,
+              child: pw.Column(
                 children: [
-                  _pdfMeta(
-                    formattedDate,
-                    'Date',
-                    PdfColors.amber,
-                    light: true,
+                  _pdfBrand(
+                    company: company,
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
+                    centered: true,
                   ),
-                  _pdfSeal(
-                    PdfColors.amber,
-                    gold: true,
+                  pw.SizedBox(height: 6),
+                  pw.Text(
+                    'SAFER PEOPLE • CLEANER ENVIRONMENT • STRONGER FUTURE',
+                    textAlign: pw.TextAlign.center,
+                    style: _pText(
+                      size: 5,
+                      color: accent,
+                      weight: pw.FontWeight.bold,
+                      letterSpacing: .8,
+                    ),
                   ),
-                  _pdfMeta(
-                    signatory,
-                    'Authorized Signatory',
-                    PdfColors.amber,
-                    light: true,
+                  pw.SizedBox(height: 7),
+                  _pdfTitle(
+                    subtitle: 'OF SAFETY EXCELLENCE',
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
+                  ),
+                  pw.SizedBox(height: 11),
+                  _pdfRecipient(
+                    name: name,
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
+                  ),
+                  _pdfDetails(
+                    id: id,
+                    department: department,
+                    dark: true,
+                  ),
+                  pw.SizedBox(height: 9),
+                  _pdfAchievement(
+                    achievement: achievement,
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
+                  ),
+                  pw.SizedBox(height: 9),
+                  pw.Row(
+                    mainAxisAlignment:
+                        pw.MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment:
+                        pw.CrossAxisAlignment.end,
+                    children: [
+                      _pdfMeta(
+                        value: formattedDate,
+                        label: 'DATE OF AWARD',
+                        primary: primary,
+                        accent: accent,
+                        dark: true,
+                      ),
+                      _pdfSeal(
+                        primary: primary,
+                        accent: accent,
+                        dark: true,
+                      ),
+                      _pdfMeta(
+                        value: signatory,
+                        label: 'AUTHORIZED SIGNATORY',
+                        primary: primary,
+                        accent: accent,
+                        dark: true,
+                      ),
+                    ],
+                  ),
+                  pw.SizedBox(height: 8),
+                  _pdfFooter(
+                    footer: footer,
+                    primary: primary,
+                    accent: accent,
+                    dark: true,
                   ),
                 ],
               ),
-              pw.SizedBox(height: 15),
-              _pdfFooter(
-                footer,
-                PdfColors.amber,
-                light: true,
-              ),
-            ],
+            ),
           ),
-        ),
+          _pdfCorner(
+            color: accent,
+            top: true,
+            left: true,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: true,
+            left: false,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: false,
+            left: true,
+          ),
+          _pdfCorner(
+            color: accent,
+            top: false,
+            left: false,
+          ),
+        ],
       ),
     );
   }
+
+  // ===========================================================================
+  // PDF COLOR CONVERSION
+  // ===========================================================================
+
+  PdfColor _pdfColor(Color color) {
+    return PdfColor.fromInt(color.toARGB32());
+  }
+
+  // ===========================================================================
+  // PDF CREATION
+  // ===========================================================================
 
   Future<File> _createCertificatePdf() async {
     final pdf = pw.Document();
@@ -1196,11 +1592,12 @@ class _CertificatePageState extends State<CertificatePage> {
     );
 
     final id = _clean(_idController.text);
-    final department = _clean(_departmentController.text);
 
-    final achievement = _cleanMultiline(
-      _achievementController.text,
-    );
+    final department =
+        _clean(_departmentController.text);
+
+    final achievement =
+        _cleanMultiline(_achievementController.text);
 
     final signatory = _clean(
       _signatoryController.text,
@@ -1212,15 +1609,14 @@ class _CertificatePageState extends State<CertificatePage> {
       fallback: 'Identify. Report. Stay Safe.',
     );
 
-    final green = PdfColor.fromInt(
-      _green.toARGB32(),
-    );
+    final primary = _pdfColor(_green);
+    final accent = _pdfColor(_gold);
 
-    late pw.Widget page;
+    late pw.Widget certificate;
 
     switch (selectedTemplate) {
       case 1:
-        page = _template2(
+        certificate = _pdfExecutive(
           company: company,
           name: name,
           id: id,
@@ -1228,12 +1624,13 @@ class _CertificatePageState extends State<CertificatePage> {
           achievement: achievement,
           signatory: signatory,
           footer: footer,
-          green: green,
+          primary: primary,
+          accent: accent,
         );
         break;
 
       case 2:
-        page = _template3(
+        certificate = _pdfElegant(
           company: company,
           name: name,
           id: id,
@@ -1241,12 +1638,13 @@ class _CertificatePageState extends State<CertificatePage> {
           achievement: achievement,
           signatory: signatory,
           footer: footer,
-          green: green,
+          primary: primary,
+          accent: accent,
         );
         break;
 
       case 3:
-        page = _template4(
+        certificate = _pdfUae(
           company: company,
           name: name,
           id: id,
@@ -1254,12 +1652,13 @@ class _CertificatePageState extends State<CertificatePage> {
           achievement: achievement,
           signatory: signatory,
           footer: footer,
-          green: green,
+          primary: primary,
+          accent: accent,
         );
         break;
 
       case 4:
-        page = _template5(
+        certificate = _pdfNight(
           company: company,
           name: name,
           id: id,
@@ -1267,12 +1666,13 @@ class _CertificatePageState extends State<CertificatePage> {
           achievement: achievement,
           signatory: signatory,
           footer: footer,
-          green: green,
+          primary: primary,
+          accent: accent,
         );
         break;
 
       default:
-        page = _template1(
+        certificate = _pdfRoyal(
           company: company,
           name: name,
           id: id,
@@ -1280,7 +1680,8 @@ class _CertificatePageState extends State<CertificatePage> {
           achievement: achievement,
           signatory: signatory,
           footer: footer,
-          green: green,
+          primary: primary,
+          accent: accent,
         );
     }
 
@@ -1288,7 +1689,7 @@ class _CertificatePageState extends State<CertificatePage> {
       pw.Page(
         pageFormat: PdfPageFormat.a4.landscape,
         margin: pw.EdgeInsets.zero,
-        build: (_) => page,
+        build: (_) => certificate,
       ),
     );
 
@@ -1318,6 +1719,10 @@ class _CertificatePageState extends State<CertificatePage> {
     return file;
   }
 
+  // ===========================================================================
+  // SAVE
+  // ===========================================================================
+
   Future<void> _saveCertificatePdf() async {
     if (_isGeneratingPdf) return;
 
@@ -1338,36 +1743,38 @@ class _CertificatePageState extends State<CertificatePage> {
         context: context,
         builder: (dialogContext) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
             title: const Row(
               children: [
                 Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
+                  Icons.verified_rounded,
+                  color: _green,
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                  child: Text('PDF Created'),
+                  child: Text('Certificate Ready'),
                 ),
               ],
             ),
             content: const Text(
-              'Your certificate PDF has been generated '
-              'successfully. You can now share it.',
+              'Your premium HSE certificate PDF '
+              'has been created successfully.',
             ),
             actions: [
               TextButton(
-                onPressed: () {
-                  Navigator.pop(dialogContext);
-                },
+                onPressed: () =>
+                    Navigator.pop(dialogContext),
                 child: const Text('Close'),
               ),
               FilledButton.icon(
                 onPressed: () async {
                   Navigator.pop(dialogContext);
 
-                  final savedPath = _lastSavedPath;
+                  final path = _lastSavedPath;
 
-                  if (savedPath == null) {
+                  if (path == null) {
                     _message(
                       'Certificate PDF is not available.',
                       error: true,
@@ -1376,11 +1783,11 @@ class _CertificatePageState extends State<CertificatePage> {
                   }
 
                   await _shareExistingCertificatePdf(
-                    savedPath,
+                    path,
                   );
                 },
                 icon: const Icon(Icons.share),
-                label: const Text('Share PDF'),
+                label: const Text('Share'),
               ),
             ],
           );
@@ -1400,6 +1807,10 @@ class _CertificatePageState extends State<CertificatePage> {
     }
   }
 
+  // ===========================================================================
+  // SHARE
+  // ===========================================================================
+
   Future<void> _shareExistingCertificatePdf(
     String path,
   ) async {
@@ -1414,9 +1825,11 @@ class _CertificatePageState extends State<CertificatePage> {
         }
 
         _message(
-          'Certificate PDF could not be found. Please create it again.',
+          'Certificate PDF could not be found. '
+          'Please create it again.',
           error: true,
         );
+
         return;
       }
 
@@ -1429,7 +1842,8 @@ class _CertificatePageState extends State<CertificatePage> {
           ),
         ],
         subject: 'SafeNexus HSE Certificate',
-        text: 'Certificate generated by SafeNexus HSE.',
+        text:
+            'Certificate generated by SafeNexus HSE.',
       );
     } catch (e) {
       _message(
@@ -1447,7 +1861,7 @@ class _CertificatePageState extends State<CertificatePage> {
     });
 
     try {
-      late File file;
+      File file;
 
       if (_lastSavedPath != null &&
           await File(_lastSavedPath!).exists()) {
@@ -1462,7 +1876,9 @@ class _CertificatePageState extends State<CertificatePage> {
         }
       }
 
-      await _shareExistingCertificatePdf(file.path);
+      await _shareExistingCertificatePdf(
+        file.path,
+      );
     } catch (e) {
       _message(
         'Could not prepare PDF for sharing: $e',
@@ -1477,6 +1893,10 @@ class _CertificatePageState extends State<CertificatePage> {
     }
   }
 
+  // ===========================================================================
+  // UI FIELD
+  // ===========================================================================
+
   Widget _field({
     required String label,
     required TextEditingController controller,
@@ -1488,6 +1908,8 @@ class _CertificatePageState extends State<CertificatePage> {
       child: TextField(
         controller: controller,
         maxLines: maxLines,
+        textCapitalization:
+            TextCapitalization.sentences,
         onChanged: (_) => _markDirty(),
         decoration: InputDecoration(
           labelText: label,
@@ -1496,20 +1918,31 @@ class _CertificatePageState extends State<CertificatePage> {
             color: _green,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: const Color(0xFFFCFDFC),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(13),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(13),
             borderSide: BorderSide(
               color: Colors.grey.shade300,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(13),
+            borderSide: const BorderSide(
+              color: _green,
+              width: 2,
             ),
           ),
         ),
       ),
     );
   }
+
+  // ===========================================================================
+  // SECTION HEADER
+  // ===========================================================================
 
   Widget _sectionTitle(
     IconData icon,
@@ -1519,18 +1952,24 @@ class _CertificatePageState extends State<CertificatePage> {
     return Row(
       children: [
         Container(
-          width: 42,
-          height: 42,
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
-            color: _green.withValues(alpha: .1),
-            borderRadius: BorderRadius.circular(12),
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFFE8F4EE),
+                Color(0xFFF7FBF8),
+              ],
+            ),
+            borderRadius:
+                BorderRadius.circular(13),
           ),
           child: Icon(
             icon,
             color: _green,
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 11),
         Expanded(
           child: Column(
             crossAxisAlignment:
@@ -1544,6 +1983,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   color: _ink,
                 ),
               ),
+              const SizedBox(height: 2),
               Text(
                 subtitle,
                 style: const TextStyle(
@@ -1558,15 +1998,28 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
-  Widget _templateCard(int index) {
-    final selected = selectedTemplate == index;
+  // ===========================================================================
+  // TEMPLATE CARD
+  // ===========================================================================
 
-    final colors = [
-      [_green, _gold],
-      [_green, Colors.blueGrey],
-      [_gold, _green],
-      [_green, Colors.teal],
-      [_darkGreen, _gold],
+  Widget _templateCard(int index) {
+    final selected =
+        selectedTemplate == index;
+
+    const primaryColors = [
+      _green,
+      _green,
+      _gold,
+      _green,
+      _darkGreen,
+    ];
+
+    const accentColors = [
+      _gold,
+      Colors.blueGrey,
+      _green,
+      Colors.teal,
+      _gold,
     ];
 
     return Expanded(
@@ -1578,17 +2031,22 @@ class _CertificatePageState extends State<CertificatePage> {
           });
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          margin: const EdgeInsets.only(right: 8),
-          padding: const EdgeInsets.all(7),
+          duration:
+              const Duration(milliseconds: 180),
+          margin:
+              const EdgeInsets.only(right: 6),
+          padding:
+              const EdgeInsets.all(6),
           decoration: BoxDecoration(
             color: selected
-                ? colors[index][0].withValues(alpha: .08)
+                ? primaryColors[index]
+                    .withValues(alpha: .07)
                 : Colors.white,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius:
+                BorderRadius.circular(14),
             border: Border.all(
               color: selected
-                  ? colors[index][0]
+                  ? primaryColors[index]
                   : Colors.grey.shade300,
               width: selected ? 2 : 1,
             ),
@@ -1596,25 +2054,25 @@ class _CertificatePageState extends State<CertificatePage> {
           child: Column(
             children: [
               AspectRatio(
-                aspectRatio: 1.42,
+                aspectRatio: 1.414,
                 child: _miniTemplate(
                   index,
-                  colors[index][0],
-                  colors[index][1],
+                  primaryColors[index],
+                  accentColors[index],
                 ),
               ),
-              const SizedBox(height: 7),
+              const SizedBox(height: 6),
               Text(
                 '${index + 1}. ${templateNames[index]}',
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 style: TextStyle(
-                  fontSize: 9.5,
+                  fontSize: 8.5,
                   fontWeight: selected
                       ? FontWeight.w800
                       : FontWeight.w600,
                   color: selected
-                      ? colors[index][0]
+                      ? primaryColors[index]
                       : _ink,
                 ),
               ),
@@ -1625,28 +2083,151 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
+  // ===========================================================================
+  // MINI TEMPLATE
+  // ===========================================================================
+
   Widget _miniTemplate(
     int index,
     Color primary,
     Color accent,
   ) {
-    if (index == 4) {
+    if (index == 0) {
       return Container(
+        color: _cream,
+        padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: _darkGreen,
+          border: Border.all(
+            color: primary,
+            width: 3,
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: accent,
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment:
+                  MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'SAFENEXUS HSE',
+                  style: TextStyle(
+                    color: _green,
+                    fontSize: 4.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'CERTIFICATE',
+                  style: TextStyle(
+                    color: primary,
+                    fontSize: 8.5,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1,
+                  ),
+                ),
+                Container(
+                  width: 34,
+                  height: 1,
+                  color: accent,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (index == 1) {
+      return Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                width: 6,
+                color: primary,
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                width: 48,
+                height: 34,
+                decoration: const BoxDecoration(
+                  color: _green,
+                  borderRadius:
+                      BorderRadius.only(
+                    bottomLeft:
+                        Radius.circular(38),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: 35,
+                height: 13,
+                decoration: const BoxDecoration(
+                  color: _gold,
+                  borderRadius:
+                      BorderRadius.only(
+                    topLeft:
+                        Radius.circular(25),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                'CERTIFICATE',
+                style: TextStyle(
+                  color: primary,
+                  fontSize: 8.5,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (index == 2) {
+      return Container(
+        color: _cream,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
           border: Border.all(
             color: accent,
-            width: 2,
+            width: 3,
           ),
-          borderRadius: BorderRadius.circular(6),
         ),
-        child: Center(
-          child: Text(
-            'CERTIFICATE',
-            style: TextStyle(
-              color: accent,
-              fontWeight: FontWeight.w900,
-              fontSize: 9,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: primary,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              'CERTIFICATE',
+              style: TextStyle(
+                color: accent,
+                fontSize: 8.5,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
         ),
@@ -1655,33 +2236,35 @@ class _CertificatePageState extends State<CertificatePage> {
 
     if (index == 3) {
       return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: primary,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(6),
-        ),
+        color: Colors.white,
         child: Column(
           children: [
             Container(
-              height: 14,
+              height: 13,
               color: primary,
             ),
             const Spacer(),
             Text(
-              'CERTIFICATE',
+              'UNITED ARAB EMIRATES',
               style: TextStyle(
                 color: primary,
+                fontSize: 4.5,
                 fontWeight: FontWeight.w900,
-                fontSize: 8,
+              ),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              'CERTIFICATE',
+              style: TextStyle(
+                color: accent,
+                fontSize: 8.5,
+                fontWeight: FontWeight.w900,
               ),
             ),
             const Spacer(),
             Container(
-              height: 10,
-              color: accent,
+              height: 9,
+              color: primary,
             ),
           ],
         ),
@@ -1689,108 +2272,280 @@ class _CertificatePageState extends State<CertificatePage> {
     }
 
     return Container(
+      color: _deepGreen,
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.white,
         border: Border.all(
-          color: primary,
-          width: index == 2 ? 3 : 2,
+          color: accent,
+          width: 2,
         ),
-        borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
         child: Text(
           'CERTIFICATE',
           style: TextStyle(
-            color: index == 2 ? accent : primary,
+            color: accent,
+            fontSize: 8.5,
             fontWeight: FontWeight.w900,
-            fontSize: 8,
           ),
         ),
       ),
     );
   }
 
-  Widget _previewBrand() {
+  // ===========================================================================
+  // PREVIEW BRAND
+  // ===========================================================================
+
+  Widget _previewBrand({
+    bool dark = false,
+  }) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment:
+          MainAxisAlignment.center,
       children: [
         Container(
-          width: 44,
-          height: 44,
-          decoration: const BoxDecoration(
-            color: _green,
+          width: 35,
+          height: 35,
+          decoration: BoxDecoration(
+            color: dark ? _gold : _green,
             shape: BoxShape.circle,
+            border: Border.all(
+              color: dark ? _green : _gold,
+              width: 1.5,
+            ),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               'S',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 23,
+                color: dark
+                    ? _darkGreen
+                    : Colors.white,
+                fontSize: 18,
                 fontWeight: FontWeight.w900,
               ),
             ),
           ),
         ),
-        const SizedBox(width: 9),
-        Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            Text(
-              _clean(
-                _companyController.text,
-                fallback: 'SafeNexus HSE',
+        const SizedBox(width: 7),
+        Flexible(
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Text(
+                _clean(
+                  _companyController.text,
+                  fallback: 'SafeNexus HSE',
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color:
+                      dark ? Colors.white : _green,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
-              style: const TextStyle(
-                color: _green,
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
+              Text(
+                'HSE • SAFETY • OBSERVATION',
+                style: TextStyle(
+                  color: dark
+                      ? Colors.white70
+                      : Colors.black54,
+                  fontSize: 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: .5,
+                ),
               ),
-            ),
-            const Text(
-              'HSE Safety & Observation App',
-              style: TextStyle(
-                fontSize: 6.5,
-                color: Colors.black54,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _previewMeta(
-    String value,
-    String label,
-  ) {
-    return SizedBox(
-      width: 90,
+  // ===========================================================================
+  // PREVIEW TITLE
+  // ===========================================================================
+
+  Widget _previewTitle(
+    String subtitle, {
+    bool dark = false,
+    bool goldTitle = false,
+  }) {
+    final color = goldTitle
+        ? _gold
+        : (dark ? _gold : _green);
+
+    return Column(
+      children: [
+        Text(
+          'CERTIFICATE',
+          style: TextStyle(
+            color: color,
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1.5,
+          ),
+        ),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: dark
+                ? Colors.white
+                : _gold,
+            fontSize: 5.5,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Container(
+          width: 85,
+          height: 1,
+          color: color,
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW RECIPIENT
+  // ===========================================================================
+
+  Widget _previewRecipient(
+    String name, {
+    bool dark = false,
+  }) {
+    return Column(
+      children: [
+        Text(
+          'PROUDLY PRESENTED TO',
+          style: TextStyle(
+            color: dark
+                ? Colors.white70
+                : Colors.black54,
+            fontSize: 4.5,
+            fontWeight: FontWeight.bold,
+            letterSpacing: .8,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: dark ? _gold : _green,
+            fontSize: 17,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        Container(
+          width: 165,
+          height: 1,
+          color: dark ? _gold : _green,
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW DETAILS
+  // ===========================================================================
+
+  Widget _previewDetails(
+    String id,
+    String department, {
+    bool dark = false,
+  }) {
+    if (id.isEmpty && department.isEmpty) {
+      return const SizedBox(height: 2);
+    }
+
+    final values = <String>[];
+
+    if (id.isNotEmpty) {
+      values.add('ID: $id');
+    }
+
+    if (department.isNotEmpty) {
+      values.add('Department: $department');
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 3),
+      child: Text(
+        values.join('  •  '),
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: dark
+              ? Colors.white70
+              : Colors.black54,
+          fontSize: 4.5,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW ACHIEVEMENT
+  // ===========================================================================
+
+  Widget _previewAchievement({
+    required String achievement,
+    bool dark = false,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 6,
+      ),
+      decoration: BoxDecoration(
+        color: dark
+            ? Colors.white.withValues(alpha: .05)
+            : Colors.grey.shade100,
+        border: Border.all(
+          color: dark
+              ? _gold.withValues(alpha: .6)
+              : Colors.grey.shade300,
+        ),
+        borderRadius:
+            BorderRadius.circular(5),
+      ),
       child: Column(
         children: [
-          Container(
-            height: 1,
-            color: Colors.black45,
-          ),
-          const SizedBox(height: 4),
           Text(
-            value,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 6.5,
+            'IN RECOGNITION OF',
+            style: TextStyle(
+              color: dark ? _gold : _green,
+              fontSize: 4.2,
+              fontWeight: FontWeight.w900,
+              letterSpacing: .7,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 3),
           Text(
-            label,
+            achievement.isEmpty
+                ? 'Outstanding commitment to safety.'
+                : achievement,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: dark
+                  ? Colors.white
+                  : Colors.black87,
               fontSize: 5.5,
-              color: _green,
-              fontWeight: FontWeight.bold,
+              height: 1.2,
             ),
           ),
         ],
@@ -1798,111 +2553,176 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
+  // ===========================================================================
+  // PREVIEW SEAL
+  // ===========================================================================
+
   Widget _previewSeal({
     bool dark = false,
   }) {
     return Container(
-      width: 54,
-      height: 54,
+      width: 47,
+      height: 47,
       decoration: BoxDecoration(
         color: dark ? _gold : _green,
         shape: BoxShape.circle,
         border: Border.all(
-          color: Colors.white,
+          color: dark ? _green : _gold,
           width: 2,
         ),
       ),
-      child: const Center(
-        child: Text(
-          'SAFETY\nIS OUR\nPRIORITY',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 5.5,
-            fontWeight: FontWeight.w900,
-            height: 1.15,
+      child: Center(
+        child: Container(
+          width: 37,
+          height: 37,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: dark
+                  ? _darkGreen
+                  : Colors.white,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              'HSE\nSAFETY',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: dark
+                    ? _darkGreen
+                    : Colors.white,
+                fontSize: 4.7,
+                fontWeight: FontWeight.w900,
+                height: 1.1,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _previewBadges({
+  // ===========================================================================
+  // PREVIEW META
+  // ===========================================================================
+
+  Widget _previewMeta(
+    String value,
+    String label, {
     bool dark = false,
   }) {
-    final color = dark ? _gold : _green;
-
-    return Row(
-      mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly,
-      children: [
-        'SAFETY',
-        'REPORT',
-        'PROTECT',
-        'BUILD',
-      ].map((label) {
-        return Column(
-          children: [
-            Container(
-              width: 27,
-              height: 27,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: color,
-                ),
-              ),
-              child: Icon(
-                Icons.check,
-                size: 14,
-                color: color,
-              ),
+    return SizedBox(
+      width: 78,
+      child: Column(
+        children: [
+          Container(
+            height: 1,
+            color: dark
+                ? Colors.white54
+                : Colors.black38,
+          ),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: dark
+                  ? Colors.white
+                  : Colors.black87,
+              fontSize: 4.8,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 4.5,
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
+          ),
+          const SizedBox(height: 1),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: dark ? _gold : _green,
+              fontSize: 4,
+              fontWeight: FontWeight.w900,
             ),
-          ],
-        );
-      }).toList(),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _basePreview({
+  // ===========================================================================
+  // PREVIEW FOOTER
+  // ===========================================================================
+
+  Widget _previewFooter({
+    required String footer,
+    bool dark = false,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
+      ),
+      color: dark ? _gold : _green,
+      child: Text(
+        footer,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: dark
+              ? _darkGreen
+              : Colors.white,
+          fontSize: 4.7,
+          fontWeight: FontWeight.w900,
+          letterSpacing: .6,
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW FRAME
+  // ===========================================================================
+
+  Widget _previewFrame({
     required Widget child,
     bool dark = false,
+    Color? outerBorder,
   }) {
     return AspectRatio(
       aspectRatio: 1.414,
       child: Container(
-        padding: const EdgeInsets.all(7),
+        color:
+            dark ? _darkGreen : Colors.white,
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: dark ? _darkGreen : Colors.white,
+          color:
+              dark ? _darkGreen : Colors.white,
           border: Border.all(
-            color: dark ? _gold : _green,
-            width: 5,
+            color: outerBorder ??
+                (dark ? _gold : _green),
+            width: 3,
           ),
           boxShadow: const [
             BoxShadow(
-              blurRadius: 12,
-              offset: Offset(0, 5),
+              blurRadius: 10,
+              offset: Offset(0, 4),
               color: Colors.black12,
             ),
           ],
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: dark ? _darkGreen : Colors.white,
+            color:
+                dark ? _darkGreen : Colors.white,
             border: Border.all(
               color: dark
                   ? _gold
-                  : _gold.withValues(alpha: .7),
-              width: 1.5,
+                  : _gold.withValues(alpha: .8),
+              width: 1,
             ),
           ),
           child: child,
@@ -1911,20 +2731,515 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
+  // ===========================================================================
+  // PREVIEW ROYAL
+  // ===========================================================================
+
+  Widget _previewRoyal(
+    String name,
+    String achievement,
+    String id,
+    String department,
+    String signatory,
+    String footer,
+  ) {
+    return _previewFrame(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 7,
+        ),
+        child: Column(
+          children: [
+            _previewBrand(),
+            const SizedBox(height: 3),
+            _previewTitle(
+              'OF SAFETY EXCELLENCE',
+            ),
+            const SizedBox(height: 6),
+            _previewRecipient(name),
+            _previewDetails(
+              id,
+              department,
+            ),
+            const SizedBox(height: 5),
+            _previewAchievement(
+              achievement: achievement,
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+              crossAxisAlignment:
+                  CrossAxisAlignment.end,
+              children: [
+                _previewMeta(
+                  formattedDate,
+                  'DATE',
+                ),
+                _previewSeal(),
+                _previewMeta(
+                  signatory,
+                  'AUTHORIZED SIGNATORY',
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            _previewFooter(
+              footer: footer,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW EXECUTIVE
+  // ===========================================================================
+
+  Widget _previewExecutive(
+    String name,
+    String achievement,
+    String id,
+    String department,
+    String signatory,
+    String footer,
+  ) {
+    return AspectRatio(
+      aspectRatio: 1.414,
+      child: Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                width: 7,
+                color: _green,
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                width: 82,
+                height: 57,
+                decoration: const BoxDecoration(
+                  color: _green,
+                  borderRadius:
+                      BorderRadius.only(
+                    bottomLeft:
+                        Radius.circular(63),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: 62,
+                height: 27,
+                decoration: const BoxDecoration(
+                  color: _gold,
+                  borderRadius:
+                      BorderRadius.only(
+                    topLeft:
+                        Radius.circular(43),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                21,
+                12,
+                21,
+                7,
+              ),
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  _previewBrand(),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'CERTIFICATE',
+                    style: TextStyle(
+                      color: _green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  const Text(
+                    'OF PROFESSIONAL SAFETY ACHIEVEMENT',
+                    style: TextStyle(
+                      color: _gold,
+                      fontSize: 5.2,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: .7,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Container(
+                    width: 58,
+                    height: 2,
+                    color: _gold,
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    'THIS CERTIFICATE IS AWARDED TO',
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 4.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: _green,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  _previewDetails(
+                    id,
+                    department,
+                  ),
+                  const SizedBox(height: 5),
+                  _previewAchievement(
+                    achievement: achievement,
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: [
+                      _previewMeta(
+                        formattedDate,
+                        'DATE',
+                      ),
+                      _previewMeta(
+                        signatory,
+                        'AUTHORIZED SIGNATORY',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  _previewFooter(
+                    footer: footer,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW ELEGANT
+  // ===========================================================================
+
+  Widget _previewElegant(
+    String name,
+    String achievement,
+    String id,
+    String department,
+    String signatory,
+    String footer,
+  ) {
+    return _previewFrame(
+      outerBorder: _gold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 7,
+        ),
+        child: Column(
+          children: [
+            const Text(
+              'HSE • SAFETY • INTEGRITY • EXCELLENCE',
+              style: TextStyle(
+                color: _gold,
+                fontSize: 4.3,
+                fontWeight: FontWeight.w900,
+                letterSpacing: .5,
+              ),
+            ),
+            const SizedBox(height: 2),
+            _previewBrand(),
+            const SizedBox(height: 3),
+            _previewTitle(
+              'OF ACHIEVEMENT',
+              goldTitle: true,
+            ),
+            const SizedBox(height: 5),
+            _previewRecipient(name),
+            _previewDetails(
+              id,
+              department,
+            ),
+            const SizedBox(height: 5),
+            _previewAchievement(
+              achievement: achievement,
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+              children: [
+                _previewMeta(
+                  formattedDate,
+                  'DATE',
+                ),
+                _previewSeal(),
+                _previewMeta(
+                  signatory,
+                  'AUTHORIZED SIGNATORY',
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            _previewFooter(
+              footer: footer,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW UAE
+  // ===========================================================================
+
+  Widget _previewUae(
+    String name,
+    String achievement,
+    String id,
+    String department,
+    String signatory,
+    String footer,
+  ) {
+    return AspectRatio(
+      aspectRatio: 1.414,
+      child: Container(
+        color: Colors.grey.shade100,
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.symmetric(
+                vertical: 6,
+              ),
+              color: _green,
+              child: _previewBrand(
+                dark: true,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 5,
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      'UNITED ARAB EMIRATES',
+                      style: TextStyle(
+                        color: _gold,
+                        fontSize: 4.3,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: .9,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    _previewTitle(
+                      'OF SAFETY PARTICIPATION',
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      width: double.infinity,
+                      padding:
+                          const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: _green,
+                        ),
+                        borderRadius:
+                            BorderRadius.circular(5),
+                      ),
+                      child:
+                          _previewRecipient(name),
+                    ),
+                    _previewDetails(
+                      id,
+                      department,
+                    ),
+                    const SizedBox(height: 5),
+                    _previewAchievement(
+                      achievement: achievement,
+                    ),
+                    const Spacer(),
+                    Container(
+                      width: double.infinity,
+                      padding:
+                          const EdgeInsets.symmetric(
+                        vertical: 4,
+                      ),
+                      color: Colors.white,
+                      child: const Text(
+                        'TOGETHER FOR A SAFER UAE',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: _green,
+                          fontSize: 6,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: .7,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                      children: [
+                        _previewMeta(
+                          formattedDate,
+                          'DATE',
+                        ),
+                        _previewMeta(
+                          signatory,
+                          'HSE MANAGER',
+                        ),
+                        if (id.isNotEmpty)
+                          _previewMeta(
+                            id,
+                            'CERTIFICATE ID',
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            _previewFooter(
+              footer: footer,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW NIGHT
+  // ===========================================================================
+
+  Widget _previewNight(
+    String name,
+    String achievement,
+    String id,
+    String department,
+    String signatory,
+    String footer,
+  ) {
+    return _previewFrame(
+      dark: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 7,
+        ),
+        child: Column(
+          children: [
+            _previewBrand(
+              dark: true,
+            ),
+            const SizedBox(height: 4),
+            _previewTitle(
+              'OF SAFETY EXCELLENCE',
+              dark: true,
+            ),
+            const SizedBox(height: 6),
+            _previewRecipient(
+              name,
+              dark: true,
+            ),
+            _previewDetails(
+              id,
+              department,
+              dark: true,
+            ),
+            const SizedBox(height: 5),
+            _previewAchievement(
+              achievement: achievement,
+              dark: true,
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+              children: [
+                _previewMeta(
+                  formattedDate,
+                  'DATE',
+                  dark: true,
+                ),
+                _previewSeal(
+                  dark: true,
+                ),
+                _previewMeta(
+                  signatory,
+                  'AUTHORIZED SIGNATORY',
+                  dark: true,
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            _previewFooter(
+              footer: footer,
+              dark: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // PREVIEW SELECTOR
+  // ===========================================================================
+
   Widget _preview() {
     final name = _clean(
       _nameController.text,
       fallback: 'Employee Name',
     );
 
-    final achievement = _cleanMultiline(
+    final achievement =
+        _cleanMultiline(
       _achievementController.text,
     );
 
     final id = _clean(_idController.text);
-    final department = _clean(
-      _departmentController.text,
-    );
+
+    final department =
+        _clean(_departmentController.text);
 
     final signatory = _clean(
       _signatoryController.text,
@@ -1938,7 +3253,7 @@ class _CertificatePageState extends State<CertificatePage> {
 
     switch (selectedTemplate) {
       case 1:
-        return _previewMinimal(
+        return _previewExecutive(
           name,
           achievement,
           id,
@@ -1968,7 +3283,7 @@ class _CertificatePageState extends State<CertificatePage> {
         );
 
       case 4:
-        return _previewDark(
+        return _previewNight(
           name,
           achievement,
           id,
@@ -1978,7 +3293,7 @@ class _CertificatePageState extends State<CertificatePage> {
         );
 
       default:
-        return _previewClassic(
+        return _previewRoyal(
           name,
           achievement,
           id,
@@ -1989,862 +3304,9 @@ class _CertificatePageState extends State<CertificatePage> {
     }
   }
 
-  Widget _previewClassic(
-    String name,
-    String achievement,
-    String id,
-    String department,
-    String signatory,
-    String footer,
-  ) {
-    return _basePreview(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 22,
-          vertical: 15,
-        ),
-        child: Column(
-          children: [
-            _previewBrand(),
-            const SizedBox(height: 9),
-            const Text(
-              'CERTIFICATE',
-              style: TextStyle(
-                fontSize: 24,
-                color: _green,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.5,
-              ),
-            ),
-            const Text(
-              'OF SAFETY COMMITMENT',
-              style: TextStyle(
-                fontSize: 7,
-                color: _gold,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.8,
-              ),
-            ),
-            const SizedBox(height: 11),
-            const Text(
-              'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              style: TextStyle(
-                fontSize: 5.5,
-                fontWeight: FontWeight.bold,
-                letterSpacing: .8,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 23,
-                color: _green,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            Container(
-              width: 230,
-              height: 1,
-              color: _gold,
-            ),
-            if (id.isNotEmpty || department.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Text(
-                [
-                  if (id.isNotEmpty) 'ID: $id',
-                  if (department.isNotEmpty)
-                    'Department: $department',
-                ].join('  |  '),
-                style: const TextStyle(
-                  fontSize: 5.5,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-            const SizedBox(height: 7),
-            Expanded(
-              child: Center(
-                child: Text(
-                  achievement,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 7.5,
-                    height: 1.35,
-                  ),
-                ),
-              ),
-            ),
-            _previewBadges(),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              crossAxisAlignment:
-                  CrossAxisAlignment.end,
-              children: [
-                _previewMeta(
-                  formattedDate,
-                  'DATE',
-                ),
-                _previewSeal(),
-                _previewMeta(
-                  signatory,
-                  'HSE MANAGER',
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              color: _green,
-              child: Text(
-                footer,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 6.5,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewMinimal(
-    String name,
-    String achievement,
-    String id,
-    String department,
-    String signatory,
-    String footer,
-  ) {
-    return AspectRatio(
-      aspectRatio: 1.414,
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(18),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -18,
-              right: -18,
-              child: Container(
-                width: 120,
-                height: 85,
-                decoration: const BoxDecoration(
-                  color: _green,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -18,
-              left: -18,
-              child: Container(
-                width: 100,
-                height: 65,
-                decoration: const BoxDecoration(
-                  color: _gold,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  _previewBrand(),
-                  const SizedBox(height: 14),
-                  const Text(
-                    'CERTIFICATE',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: _green,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  const Text(
-                    'OF COMPLETION',
-                    style: TextStyle(
-                      fontSize: 7,
-                      color: _gold,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const Text(
-                    'THIS IS TO CERTIFY THAT',
-                    style: TextStyle(
-                      fontSize: 5.5,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .8,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      color: _green,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  Container(
-                    width: 210,
-                    height: 1.5,
-                    color: _green,
-                  ),
-                  if (id.isNotEmpty ||
-                      department.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      [
-                        if (id.isNotEmpty) 'ID: $id',
-                        if (department.isNotEmpty)
-                          'Department: $department',
-                      ].join('  |  '),
-                      style: const TextStyle(
-                        fontSize: 5.5,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        achievement,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 7.5,
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ),
-                  _previewBadges(),
-                  const SizedBox(height: 7),
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      _previewMeta(
-                        formattedDate,
-                        'DATE',
-                      ),
-                      _previewMeta(
-                        signatory,
-                        'AUTHORIZED SIGNATORY',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: double.infinity,
-                    padding:
-                        const EdgeInsets.symmetric(
-                      vertical: 5,
-                    ),
-                    color: _green,
-                    child: Text(
-                      footer,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 6,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewElegant(
-    String name,
-    String achievement,
-    String id,
-    String department,
-    String signatory,
-    String footer,
-  ) {
-    return _basePreview(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 13,
-        ),
-        child: Column(
-          children: [
-            const Text(
-              'HSE  •  SAFETY  •  EXCELLENCE',
-              style: TextStyle(
-                color: _gold,
-                fontSize: 7,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            _previewBrand(),
-            const SizedBox(height: 7),
-            const Text(
-              'CERTIFICATE',
-              style: TextStyle(
-                fontSize: 23,
-                color: _gold,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.4,
-              ),
-            ),
-            const Text(
-              'OF ACHIEVEMENT',
-              style: TextStyle(
-                fontSize: 7,
-                color: _green,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.5,
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              style: TextStyle(
-                fontSize: 5.5,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 22,
-                color: _green,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            Container(
-              width: 220,
-              height: 1,
-              color: _gold,
-            ),
-            if (id.isNotEmpty || department.isNotEmpty)
-              Text(
-                [
-                  if (id.isNotEmpty)
-                    'Employee ID: $id',
-                  if (department.isNotEmpty)
-                    'Department: $department',
-                ].join('  |  '),
-                style: const TextStyle(
-                  fontSize: 5,
-                  color: Colors.black54,
-                ),
-              ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  achievement,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 7.2,
-                    height: 1.35,
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              crossAxisAlignment:
-                  CrossAxisAlignment.end,
-              children: [
-                _previewMeta(
-                  formattedDate,
-                  'DATE',
-                ),
-                _previewSeal(),
-                _previewMeta(
-                  signatory,
-                  'AUTHORIZED SIGNATORY',
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              color: _green,
-              child: Text(
-                footer,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 6,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewUae(
-    String name,
-    String achievement,
-    String id,
-    String department,
-    String signatory,
-    String footer,
-  ) {
-    return AspectRatio(
-      aspectRatio: 1.414,
-      child: Container(
-        color: Colors.grey.shade50,
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              color: _green,
-              child: _previewBrandDark(),
-            ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 10,
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      'CERTIFICATE',
-                      style: TextStyle(
-                        fontSize: 23,
-                        color: _green,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    const Text(
-                      'OF PARTICIPATION',
-                      style: TextStyle(
-                        fontSize: 7,
-                        color: _gold,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 7),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: _green,
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          const Text(
-                            'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-                            style: TextStyle(
-                              fontSize: 5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            name,
-                            maxLines: 2,
-                            overflow:
-                                TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: _green,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (id.isNotEmpty ||
-                        department.isNotEmpty) ...[
-                      const SizedBox(height: 3),
-                      Text(
-                        [
-                          if (id.isNotEmpty) 'ID: $id',
-                          if (department.isNotEmpty)
-                            'Department: $department',
-                        ].join('  |  '),
-                        style: const TextStyle(
-                          fontSize: 5.5,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          achievement,
-                          maxLines: 4,
-                          overflow:
-                              TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 7.2,
-                            height: 1.3,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 42,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius:
-                            BorderRadius.circular(8),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'TOGETHER FOR A SAFER UAE',
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: _green,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 7),
-                    Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                      children: [
-                        _previewMeta(
-                          formattedDate,
-                          'DATE',
-                        ),
-                        _previewMeta(
-                          signatory,
-                          'HSE MANAGER',
-                        ),
-                        if (id.isNotEmpty)
-                          _previewMeta(
-                            id,
-                            'ID',
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              color: _green,
-              child: Text(
-                footer,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 6,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewDark(
-    String name,
-    String achievement,
-    String id,
-    String department,
-    String signatory,
-    String footer,
-  ) {
-    return _basePreview(
-      dark: true,
-      child: Padding(
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 21,
-          vertical: 14,
-        ),
-        child: Column(
-          children: [
-            _previewBrandDark(),
-            const SizedBox(height: 11),
-            const Text(
-              'CERTIFICATE',
-              style: TextStyle(
-                fontSize: 24,
-                color: _gold,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.8,
-              ),
-            ),
-            const Text(
-              'OF SAFETY EXCELLENCE',
-              style: TextStyle(
-                fontSize: 7,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.4,
-              ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'THIS CERTIFICATE IS PROUDLY PRESENTED TO',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 5.5,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 22,
-                color: _gold,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            Container(
-              width: 220,
-              height: 1,
-              color: _gold,
-            ),
-            if (id.isNotEmpty || department.isNotEmpty)
-              Text(
-                [
-                  if (id.isNotEmpty)
-                    'Employee ID: $id',
-                  if (department.isNotEmpty)
-                    'Department: $department',
-                ].join('  |  '),
-                style: const TextStyle(
-                  fontSize: 5,
-                  color: Colors.white70,
-                ),
-              ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  achievement,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 7.2,
-                    color: Colors.white,
-                    height: 1.35,
-                  ),
-                ),
-              ),
-            ),
-            _previewBadges(dark: true),
-            const SizedBox(height: 7),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              crossAxisAlignment:
-                  CrossAxisAlignment.end,
-              children: [
-                _previewMetaDark(
-                  formattedDate,
-                  'DATE',
-                ),
-                _previewSeal(
-                  dark: true,
-                ),
-                _previewMetaDark(
-                  signatory,
-                  'AUTHORIZED SIGNATORY',
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              color: _gold,
-              child: Text(
-                footer,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: _darkGreen,
-                  fontSize: 6,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewBrandDark() {
-    return Row(
-      mainAxisAlignment:
-          MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 42,
-          height: 42,
-          decoration: const BoxDecoration(
-            color: _gold,
-            shape: BoxShape.circle,
-          ),
-          child: const Center(
-            child: Text(
-              'S',
-              style: TextStyle(
-                color: _darkGreen,
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            Text(
-              _clean(
-                _companyController.text,
-                fallback: 'SafeNexus HSE',
-              ),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            const Text(
-              'HSE Safety & Observation App',
-              style: TextStyle(
-                fontSize: 6,
-                color: Colors.white70,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _previewMetaDark(
-    String value,
-    String label,
-  ) {
-    return SizedBox(
-      width: 90,
-      child: Column(
-        children: [
-          Container(
-            height: 1,
-            color: Colors.white54,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 6.5,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 5.5,
-              color: _gold,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // ===========================================================================
+  // ACTIONS
+  // ===========================================================================
 
   Widget _actions() {
     return Column(
@@ -2867,18 +3329,24 @@ class _CertificatePageState extends State<CertificatePage> {
                     ),
                   )
                 : const Icon(
-                    Icons.picture_as_pdf,
+                    Icons.workspace_premium_rounded,
                   ),
             label: Text(
               _isGeneratingPdf
-                  ? 'Creating PDF...'
-                  : 'Save Certificate PDF',
+                  ? 'Creating Certificate...'
+                  : 'Save Premium Certificate PDF',
             ),
             style: FilledButton.styleFrom(
               backgroundColor: _green,
+              foregroundColor: Colors.white,
               padding:
                   const EdgeInsets.symmetric(
                 vertical: 15,
+              ),
+              shape:
+                  RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(13),
               ),
             ),
           ),
@@ -2891,11 +3359,14 @@ class _CertificatePageState extends State<CertificatePage> {
                 _isGeneratingPdf
                     ? null
                     : _shareCertificatePdf,
-            icon: const Icon(Icons.share),
+            icon: const Icon(
+              Icons.share_rounded,
+            ),
             label: const Text(
               'Share Certificate PDF',
             ),
-            style: OutlinedButton.styleFrom(
+            style:
+                OutlinedButton.styleFrom(
               foregroundColor: _green,
               side: const BorderSide(
                 color: _green,
@@ -2904,6 +3375,11 @@ class _CertificatePageState extends State<CertificatePage> {
                   const EdgeInsets.symmetric(
                 vertical: 14,
               ),
+              shape:
+                  RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(13),
+              ),
             ),
           ),
         ),
@@ -2911,13 +3387,19 @@ class _CertificatePageState extends State<CertificatePage> {
     );
   }
 
+  // ===========================================================================
+  // BUILD
+  // ===========================================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F7F4),
+      backgroundColor:
+          const Color(0xFFF3F7F4),
       appBar: AppBar(
         backgroundColor: _darkGreen,
         foregroundColor: Colors.white,
+        elevation: 0,
         title: const Column(
           crossAxisAlignment:
               CrossAxisAlignment.start,
@@ -2927,12 +3409,13 @@ class _CertificatePageState extends State<CertificatePage> {
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
+                letterSpacing: .3,
               ),
             ),
             Text(
-              'Professional Certificate Designer',
+              'Premium Certificate Designer',
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 10.5,
               ),
             ),
           ],
@@ -2945,7 +3428,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     ? null
                     : _saveCertificatePdf,
             icon: const Icon(
-              Icons.picture_as_pdf,
+              Icons.picture_as_pdf_rounded,
             ),
           ),
           IconButton(
@@ -2954,23 +3437,31 @@ class _CertificatePageState extends State<CertificatePage> {
                 _isGeneratingPdf
                     ? null
                     : _shareCertificatePdf,
-            icon: const Icon(Icons.share),
+            icon: const Icon(
+              Icons.share_rounded,
+            ),
           ),
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(14),
+          padding:
+              const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
               _sectionTitle(
-                Icons.workspace_premium,
-                'Certificate Designer',
-                'Choose a professional design, edit details, preview and export.',
+                Icons.workspace_premium_rounded,
+                'Premium Certificate Designer',
+                'Create professional HSE certificates ready for PDF export.',
               ),
+
               const SizedBox(height: 15),
+
+              // ----------------------------------------------------------------
+              // DESIGN CARD
+              // ----------------------------------------------------------------
 
               Card(
                 elevation: 0,
@@ -2978,7 +3469,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(16),
+                      BorderRadius.circular(17),
                   side: BorderSide(
                     color: Colors.grey.shade200,
                   ),
@@ -2991,7 +3482,7 @@ class _CertificatePageState extends State<CertificatePage> {
                         CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Choose Design',
+                        'Choose Premium Design',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight:
@@ -2999,9 +3490,9 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: _ink,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 3),
                       const Text(
-                        '5 professional certificate templates',
+                        'Five professional HSE certificate styles',
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.black54,
@@ -3022,13 +3513,17 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 14),
 
+              // ----------------------------------------------------------------
+              // DETAILS CARD
+              // ----------------------------------------------------------------
+
               Card(
                 elevation: 0,
                 color: Colors.white,
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(16),
+                      BorderRadius.circular(17),
                   side: BorderSide(
                     color: Colors.grey.shade200,
                   ),
@@ -3052,17 +3547,15 @@ class _CertificatePageState extends State<CertificatePage> {
                       const SizedBox(height: 11),
 
                       _field(
-                        label:
-                            'Employee Name',
+                        label: 'Employee Name',
                         controller:
                             _nameController,
                         icon:
-                            Icons.person_outline,
+                            Icons.person_outline_rounded,
                       ),
 
                       _field(
-                        label:
-                            'Employee ID',
+                        label: 'Employee ID',
                         controller:
                             _idController,
                         icon:
@@ -3070,8 +3563,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       ),
 
                       _field(
-                        label:
-                            'Department',
+                        label: 'Department',
                         controller:
                             _departmentController,
                         icon:
@@ -3089,8 +3581,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       ),
 
                       _field(
-                        label:
-                            'Company Name',
+                        label: 'Company Name',
                         controller:
                             _companyController,
                         icon:
@@ -3107,38 +3598,49 @@ class _CertificatePageState extends State<CertificatePage> {
                       ),
 
                       _field(
-                        label:
-                            'Footer Text',
+                        label: 'Footer Text',
                         controller:
                             _footerController,
                         icon:
-                            Icons.short_text,
+                            Icons.short_text_rounded,
                       ),
 
                       InkWell(
-                        onTap:
-                            _selectDate,
-                        child:
-                            InputDecorator(
+                        onTap: _selectDate,
+                        borderRadius:
+                            BorderRadius.circular(
+                          13,
+                        ),
+                        child: InputDecorator(
                           decoration:
                               InputDecoration(
                             labelText:
                                 'Certificate Date',
                             prefixIcon:
                                 const Icon(
-                              Icons.calendar_today,
+                              Icons.calendar_today_rounded,
                               color: _green,
+                            ),
+                            filled: true,
+                            fillColor:
+                                const Color(
+                              0xFFFCFDFC,
                             ),
                             border:
                                 OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.circular(
-                                12,
+                                13,
                               ),
                             ),
                           ),
                           child: Text(
                             formattedDate,
+                            style:
+                                const TextStyle(
+                              fontWeight:
+                                  FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -3149,13 +3651,17 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 14),
 
+              // ----------------------------------------------------------------
+              // PREVIEW CARD
+              // ----------------------------------------------------------------
+
               Card(
                 elevation: 0,
                 color: Colors.white,
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(16),
+                      BorderRadius.circular(17),
                   side: BorderSide(
                     color: Colors.grey.shade200,
                   ),
@@ -3170,7 +3676,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       _sectionTitle(
                         Icons.visibility_outlined,
                         'Live Preview',
-                        'The selected design is reflected here.',
+                        'Preview updates automatically as you edit the certificate.',
                       ),
                       const SizedBox(height: 12),
                       _preview(),
@@ -3183,12 +3689,20 @@ class _CertificatePageState extends State<CertificatePage> {
 
               _actions(),
 
+              // ----------------------------------------------------------------
+              // READY STATUS
+              // ----------------------------------------------------------------
+
               if (_lastSavedPath != null) ...[
                 const SizedBox(height: 10),
                 Card(
                   elevation: 0,
-                  color: _green.withValues(
-                    alpha: .08,
+                  color:
+                      _green.withValues(alpha: .08),
+                  shape:
+                      RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(13),
                   ),
                   child: const Padding(
                     padding:
@@ -3196,15 +3710,15 @@ class _CertificatePageState extends State<CertificatePage> {
                     child: Row(
                       children: [
                         Icon(
-                          Icons.check_circle,
+                          Icons.verified_rounded,
                           color: _green,
                         ),
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Certificate PDF is ready to share.',
-                            style:
-                                TextStyle(
+                            'Premium certificate PDF is ready to share.',
+                            style: TextStyle(
+                              color: _ink,
                               fontWeight:
                                   FontWeight.w700,
                             ),
@@ -3218,15 +3732,21 @@ class _CertificatePageState extends State<CertificatePage> {
 
               const SizedBox(height: 12),
 
+              // ----------------------------------------------------------------
+              // RESET / EXPORT
+              // ----------------------------------------------------------------
+
               Row(
                 children: [
                   Expanded(
                     child:
                         OutlinedButton.icon(
                       onPressed:
-                          _resetCertificate,
+                          _isGeneratingPdf
+                              ? null
+                              : _resetCertificate,
                       icon: const Icon(
-                        Icons.refresh,
+                        Icons.refresh_rounded,
                       ),
                       label:
                           const Text('Reset'),
@@ -3236,6 +3756,13 @@ class _CertificatePageState extends State<CertificatePage> {
                             const EdgeInsets
                                 .symmetric(
                           vertical: 14,
+                        ),
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(
+                            13,
+                          ),
                         ),
                       ),
                     ),
@@ -3249,7 +3776,7 @@ class _CertificatePageState extends State<CertificatePage> {
                               ? null
                               : _saveCertificatePdf,
                       icon: const Icon(
-                        Icons.picture_as_pdf,
+                        Icons.picture_as_pdf_rounded,
                       ),
                       label: const Text(
                         'Export PDF',
@@ -3262,6 +3789,13 @@ class _CertificatePageState extends State<CertificatePage> {
                             const EdgeInsets
                                 .symmetric(
                           vertical: 14,
+                        ),
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(
+                            13,
+                          ),
                         ),
                       ),
                     ),
