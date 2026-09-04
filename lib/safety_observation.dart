@@ -100,7 +100,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       );
 
       if (image == null) return;
-
       if (!mounted) return;
 
       setState(() {
@@ -130,7 +129,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       );
 
       if (image == null) return;
-
       if (!mounted) return;
 
       setState(() {
@@ -162,11 +160,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             children: [
               ListTile(
                 leading: const Icon(Icons.camera_alt_rounded),
-                title: Text(
-                  _isMalayalam
-                      ? 'Camera'
-                      : 'Camera',
-                ),
+                title: const Text('Camera'),
                 onTap: () {
                   Navigator.pop(sheetContext);
                   _pickImage();
@@ -174,11 +168,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library_rounded),
-                title: Text(
-                  _isMalayalam
-                      ? 'Gallery'
-                      : 'Gallery',
-                ),
+                title: const Text('Gallery'),
                 onTap: () {
                   Navigator.pop(sheetContext);
                   _pickFromGallery();
@@ -226,9 +216,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
        * AI service connection is intentionally kept optional here.
        * Existing project architecture can connect the AI service
        * without changing the observation storage implementation.
-       *
-       * For this release audit, we only mark the analysis action
-       * as completed after the existing analysis flow returns.
        */
 
       await Future<void>.delayed(
@@ -334,20 +321,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
         'location': _locationController.text.trim(),
 
-        'description':
-            _descriptionController.text.trim(),
+        'description': _descriptionController.text.trim(),
 
-        'correctiveAction':
-            _actionController.text.trim(),
+        'correctiveAction': _actionController.text.trim(),
 
-        'action':
-            _actionController.text.trim(),
+        'action': _actionController.text.trim(),
 
-        'photoPath':
-            savedPhotoPath ?? '',
+        'photoPath': savedPhotoPath ?? '',
 
-        'smartAnalysis':
-            _smartAnalysisDone,
+        'smartAnalysis': _smartAnalysisDone,
       };
 
       // ----------------------------------------------------------
@@ -356,20 +338,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       const storageKey = 'safenexus_observations';
 
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final stored =
-          prefs.getStringList(storageKey) ??
-              <String>[];
+          prefs.getStringList(storageKey) ?? <String>[];
 
       final updated = <String>[
         jsonEncode(observation),
         ...stored,
       ];
 
-      final saved =
-          await prefs.setStringList(
+      final saved = await prefs.setStringList(
         storageKey,
         updated,
       );
@@ -433,10 +412,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             color: Colors.green.shade700,
             size: 52,
           ),
-          title: Text(
-            _isMalayalam
-                ? 'Observation Submitted'
-                : 'Observation Submitted',
+          title: const Text(
+            'Observation Submitted',
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -468,11 +445,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 Navigator.pop(dialogContext);
                 _resetForm();
               },
-              child: Text(
-                _isMalayalam
-                    ? 'Done'
-                    : 'Done',
-              ),
+              child: const Text('Done'),
             ),
           ],
         );
@@ -510,11 +483,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _isMalayalam
-              ? 'Safety Observation'
-              : 'Safety Observation',
-        ),
+        title: const Text('Safety Observation'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -525,30 +494,21 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             children: [
               _buildHeaderCard(),
               const SizedBox(height: 16),
-
               _buildObservationTypeCard(),
               const SizedBox(height: 16),
-
               _buildClassificationCard(),
               const SizedBox(height: 16),
-
               _buildRiskCard(),
               const SizedBox(height: 16),
-
               _buildLocationCard(),
               const SizedBox(height: 16),
-
               _buildDescriptionCard(),
               const SizedBox(height: 16),
-
               _buildActionCard(),
               const SizedBox(height: 16),
-
               _buildPhotoCard(),
               const SizedBox(height: 24),
-
               _buildSubmitButton(),
-
               const SizedBox(height: 32),
             ],
           ),
@@ -575,8 +535,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 color: Theme.of(context)
                     .colorScheme
                     .primaryContainer,
-                borderRadius:
-                    BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 Icons.health_and_safety_rounded,
@@ -592,16 +551,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 crossAxisAlignment:
                     CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    _isMalayalam
-                        ? 'Safety Observation'
-                        : 'Safety Observation',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  const Text(
+                    'Safety Observation',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -635,9 +590,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               CrossAxisAlignment.start,
           children: [
             Text(
-              _isMalayalam
-                  ? 'Observation Type'
-                  : 'Observation Type',
+              'Observation Type',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -647,39 +600,27 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: _observationType,
-              decoration: InputDecoration(
-                labelText:
-                    _isMalayalam
-                        ? 'Type'
-                        : 'Type',
-                border:
-                    const OutlineInputBorder(),
+              initialValue: _observationType,
+              decoration: const InputDecoration(
+                labelText: 'Type',
+                border: OutlineInputBorder(),
               ),
               items: const [
                 DropdownMenuItem(
                   value: 'Unsafe Condition',
-                  child: Text(
-                    'Unsafe Condition',
-                  ),
+                  child: Text('Unsafe Condition'),
                 ),
                 DropdownMenuItem(
                   value: 'Unsafe Act',
-                  child: Text(
-                    'Unsafe Act',
-                  ),
+                  child: Text('Unsafe Act'),
                 ),
                 DropdownMenuItem(
                   value: 'Positive Observation',
-                  child: Text(
-                    'Positive Observation',
-                  ),
+                  child: Text('Positive Observation'),
                 ),
                 DropdownMenuItem(
                   value: 'Near Miss',
-                  child: Text(
-                    'Near Miss',
-                  ),
+                  child: Text('Near Miss'),
                 ),
               ],
               onChanged: (value) {
@@ -710,9 +651,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               CrossAxisAlignment.start,
           children: [
             Text(
-              _isMalayalam
-                  ? 'Hazard Classification'
-                  : 'Hazard Classification',
+              'Hazard Classification',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -723,60 +662,43 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               decoration: const InputDecoration(
                 labelText: 'Category',
-                border:
-                    OutlineInputBorder(),
+                border: OutlineInputBorder(),
               ),
               items: const [
                 DropdownMenuItem(
                   value: 'General Safety',
-                  child: Text(
-                    'General Safety',
-                  ),
+                  child: Text('General Safety'),
                 ),
                 DropdownMenuItem(
                   value: 'Fire Safety',
-                  child: Text(
-                    'Fire Safety',
-                  ),
+                  child: Text('Fire Safety'),
                 ),
                 DropdownMenuItem(
                   value: 'Electrical Safety',
-                  child: Text(
-                    'Electrical Safety',
-                  ),
+                  child: Text('Electrical Safety'),
                 ),
                 DropdownMenuItem(
                   value: 'Work at Height',
-                  child: Text(
-                    'Work at Height',
-                  ),
+                  child: Text('Work at Height'),
                 ),
                 DropdownMenuItem(
                   value: 'Confined Space',
-                  child: Text(
-                    'Confined Space',
-                  ),
+                  child: Text('Confined Space'),
                 ),
                 DropdownMenuItem(
                   value: 'Lifting Operations',
-                  child: Text(
-                    'Lifting Operations',
-                  ),
+                  child: Text('Lifting Operations'),
                 ),
                 DropdownMenuItem(
                   value: 'PPE',
-                  child: Text(
-                    'PPE',
-                  ),
+                  child: Text('PPE'),
                 ),
                 DropdownMenuItem(
                   value: 'Housekeeping',
-                  child: Text(
-                    'Housekeeping',
-                  ),
+                  child: Text('Housekeeping'),
                 ),
               ],
               onChanged: (value) {
@@ -791,66 +713,47 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _hazardType,
+              initialValue: _hazardType,
               decoration: const InputDecoration(
                 labelText: 'Hazard Type',
-                border:
-                    OutlineInputBorder(),
+                border: OutlineInputBorder(),
               ),
               items: const [
                 DropdownMenuItem(
                   value: 'General Workplace Hazard',
-                  child: Text(
-                    'General Workplace Hazard',
-                  ),
+                  child: Text('General Workplace Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Slip Trip Fall',
-                  child: Text(
-                    'Slip / Trip / Fall',
-                  ),
+                  child: Text('Slip / Trip / Fall'),
                 ),
                 DropdownMenuItem(
                   value: 'Falling Objects',
-                  child: Text(
-                    'Falling Objects',
-                  ),
+                  child: Text('Falling Objects'),
                 ),
                 DropdownMenuItem(
                   value: 'Electrical Hazard',
-                  child: Text(
-                    'Electrical Hazard',
-                  ),
+                  child: Text('Electrical Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Fire Hazard',
-                  child: Text(
-                    'Fire Hazard',
-                  ),
+                  child: Text('Fire Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Chemical Hazard',
-                  child: Text(
-                    'Chemical Hazard',
-                  ),
+                  child: Text('Chemical Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Mechanical Hazard',
-                  child: Text(
-                    'Mechanical Hazard',
-                  ),
+                  child: Text('Mechanical Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Ergonomic Hazard',
-                  child: Text(
-                    'Ergonomic Hazard',
-                  ),
+                  child: Text('Ergonomic Hazard'),
                 ),
                 DropdownMenuItem(
                   value: 'Environmental Hazard',
-                  child: Text(
-                    'Environmental Hazard',
-                  ),
+                  child: Text('Environmental Hazard'),
                 ),
               ],
               onChanged: (value) {
@@ -901,14 +804,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.warning_amber_rounded,
-                ),
+                const Icon(Icons.warning_amber_rounded),
                 const SizedBox(width: 8),
                 Text(
-                  _isMalayalam
-                      ? 'Risk Assessment'
-                      : 'Risk Assessment',
+                  'Risk Assessment',
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
@@ -921,11 +820,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _riskLevel,
+              initialValue: _riskLevel,
               decoration: const InputDecoration(
                 labelText: 'Risk Level',
-                border:
-                    OutlineInputBorder(),
+                border: OutlineInputBorder(),
               ),
               items: const [
                 DropdownMenuItem(
@@ -960,12 +858,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: riskColor.withOpacity(0.10),
-                borderRadius:
-                    BorderRadius.circular(14),
+                color: riskColor.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color:
-                      riskColor.withOpacity(0.25),
+                  color: riskColor.withValues(alpha: 0.25),
                 ),
               ),
               child: Row(
@@ -980,8 +876,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       'Selected Risk: $_riskLevel',
                       style: TextStyle(
                         color: riskColor,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -992,12 +887,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             const SizedBox(height: 14),
 
             DropdownButtonFormField<String>(
-              value: _potentialConsequence,
+              initialValue: _potentialConsequence,
               decoration: const InputDecoration(
-                labelText:
-                    'Potential Consequence',
-                border:
-                    OutlineInputBorder(),
+                labelText: 'Potential Consequence',
+                border: OutlineInputBorder(),
               ),
               items: const [
                 DropdownMenuItem(
@@ -1006,9 +899,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
                 DropdownMenuItem(
                   value: 'Serious Injury',
-                  child: Text(
-                    'Serious Injury',
-                  ),
+                  child: Text('Serious Injury'),
                 ),
                 DropdownMenuItem(
                   value: 'Fatality',
@@ -1016,15 +907,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
                 DropdownMenuItem(
                   value: 'Property Damage',
-                  child: Text(
-                    'Property Damage',
-                  ),
+                  child: Text('Property Damage'),
                 ),
                 DropdownMenuItem(
                   value: 'Environmental Impact',
-                  child: Text(
-                    'Environmental Impact',
-                  ),
+                  child: Text('Environmental Impact'),
                 ),
                 DropdownMenuItem(
                   value: 'No Significant Consequence',
@@ -1037,8 +924,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 if (value == null) return;
 
                 setState(() {
-                  _potentialConsequence =
-                      value;
+                  _potentialConsequence = value;
                 });
               },
             ),
@@ -1059,17 +945,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         padding: const EdgeInsets.all(16),
         child: TextFormField(
           controller: _locationController,
-          textInputAction:
-              TextInputAction.next,
-          decoration: InputDecoration(
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(
             labelText: 'Location',
             hintText:
                 'Example: Workshop / Site Area / Warehouse',
-            prefixIcon: const Icon(
+            prefixIcon: Icon(
               Icons.location_on_outlined,
             ),
-            border:
-                const OutlineInputBorder(),
+            border: OutlineInputBorder(),
           ),
           validator: (value) {
             if (value == null ||
@@ -1108,16 +992,13 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             ),
             const SizedBox(height: 12),
             TextFormField(
-              controller:
-                  _descriptionController,
+              controller: _descriptionController,
               maxLines: 5,
-              textInputAction:
-                  TextInputAction.newline,
+              textInputAction: TextInputAction.newline,
               decoration: const InputDecoration(
                 hintText:
                     'Describe what you observed...',
-                border:
-                    OutlineInputBorder(),
+                border: OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
               validator: (value) {
@@ -1161,13 +1042,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             TextFormField(
               controller: _actionController,
               maxLines: 5,
-              textInputAction:
-                  TextInputAction.newline,
+              textInputAction: TextInputAction.newline,
               decoration: const InputDecoration(
                 hintText:
                     'Describe the corrective action taken or recommended...',
-                border:
-                    OutlineInputBorder(),
+                border: OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
               validator: (value) {
@@ -1221,11 +1100,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             if (_photo == null)
               Container(
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: Theme.of(context)
                         .colorScheme
@@ -1247,8 +1124,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                     ),
                     const SizedBox(height: 14),
                     OutlinedButton.icon(
-                      onPressed:
-                          _choosePhotoSource,
+                      onPressed: _choosePhotoSource,
                       icon: const Icon(
                         Icons.add_a_photo_rounded,
                       ),
@@ -1261,8 +1137,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               )
             else
               ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16),
                 child: Stack(
                   children: [
                     Image.file(
@@ -1277,12 +1152,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       child: Material(
                         color: Colors.black54,
                         borderRadius:
-                            BorderRadius.circular(
-                          30,
-                        ),
+                            BorderRadius.circular(30),
                         child: IconButton(
-                          onPressed:
-                              _removePhoto,
+                          onPressed: _removePhoto,
                           color: Colors.white,
                           icon: const Icon(
                             Icons.delete_outline,
