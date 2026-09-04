@@ -48,11 +48,22 @@ class HomeScreen extends StatelessWidget {
 
   void openPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => page),
+      MaterialPageRoute(
+        builder: (_) => page,
+      ),
     );
   }
 
-  void showComingSoon(BuildContext context, String feature) {
+  void goHome(BuildContext context) {
+    Navigator.of(context).popUntil(
+      (route) => route.isFirst,
+    );
+  }
+
+  void showComingSoon(
+    BuildContext context,
+    String feature,
+  ) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -112,13 +123,16 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        // Top-right Settings removed.
-        // Settings remains available in bottom navigation.
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 105),
+          padding: const EdgeInsets.fromLTRB(
+            16,
+            14,
+            16,
+            105,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -167,7 +181,12 @@ class HomeScreen extends StatelessWidget {
   Widget _heroBanner() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(21, 22, 18, 22),
+      padding: const EdgeInsets.fromLTRB(
+        21,
+        22,
+        18,
+        22,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
@@ -241,7 +260,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _sectionTitle(String title, String subtitle) {
+  Widget _sectionTitle(
+    String title,
+    String subtitle,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -281,7 +303,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'Report a workplace hazard',
           color: orange,
           onTap: () {
-            openPage(context, const HazardReportPage());
+            openPage(
+              context,
+              const HazardReportPage(),
+            );
           },
         ),
         _actionCard(
@@ -290,7 +315,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'Record a safety observation',
           color: green,
           onTap: () {
-            openPage(context, const SafetyObservationPage());
+            openPage(
+              context,
+              const SafetyObservationPage(),
+            );
           },
         ),
         _actionCard(
@@ -299,7 +327,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'Report using your voice',
           color: purple,
           onTap: () {
-            openPage(context, const VoiceReportPage());
+            openPage(
+              context,
+              const VoiceReportPage(),
+            );
           },
         ),
         _actionCard(
@@ -308,7 +339,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'UAE safety guidance',
           color: darkGreen,
           onTap: () {
-            openPage(context, const GuidelinesPage());
+            openPage(
+              context,
+              const GuidelinesPage(),
+            );
           },
         ),
         _actionCard(
@@ -317,7 +351,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'Coming soon',
           color: red,
           onTap: () {
-            showComingSoon(context, 'Risk Assessment');
+            showComingSoon(
+              context,
+              'Risk Assessment',
+            );
           },
           comingSoon: true,
         ),
@@ -327,7 +364,10 @@ class HomeScreen extends StatelessWidget {
           subtitle: 'Smart safety assistance',
           color: purple,
           onTap: () {
-            showComingSoon(context, 'AI Safety Assistant');
+            showComingSoon(
+              context,
+              'AI Safety Assistant',
+            );
           },
           comingSoon: true,
         ),
@@ -499,7 +539,11 @@ class HomeScreen extends StatelessWidget {
   ) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 23),
+        Icon(
+          icon,
+          color: color,
+          size: 23,
+        ),
         const SizedBox(height: 5),
         Text(
           value,
@@ -637,7 +681,10 @@ class HomeScreen extends StatelessWidget {
   Widget _aiBanner(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showComingSoon(context, 'AI Safety Assistant');
+        showComingSoon(
+          context,
+          'AI Safety Assistant',
+        );
       },
       child: Container(
         width: double.infinity,
@@ -757,7 +804,12 @@ class HomeScreen extends StatelessWidget {
 
   Widget _bottomNavigation(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 9),
+      padding: const EdgeInsets.fromLTRB(
+        8,
+        8,
+        8,
+        9,
+      ),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -773,12 +825,17 @@ class HomeScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // HOME
             _bottomItem(
               icon: Icons.home_rounded,
               label: 'Home',
               active: true,
-              onTap: () {},
+              onTap: () {
+                goHome(context);
+              },
             ),
+
+            // REPORTS
             _bottomItem(
               icon: Icons.description_outlined,
               label: 'Reports',
@@ -789,7 +846,10 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+
+            // ADD / HAZARD REPORT
             GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 openPage(
                   context,
@@ -799,7 +859,9 @@ class HomeScreen extends StatelessWidget {
               child: Container(
                 width: 58,
                 height: 58,
-                margin: const EdgeInsets.only(top: -27),
+                margin: const EdgeInsets.only(
+                  top: -27,
+                ),
                 decoration: const BoxDecoration(
                   color: green,
                   shape: BoxShape.circle,
@@ -818,6 +880,8 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // GUIDES
             _bottomItem(
               icon: Icons.menu_book_outlined,
               label: 'Guides',
@@ -828,6 +892,8 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+
+            // SETTINGS
             _bottomItem(
               icon: Icons.settings_outlined,
               label: 'Settings',
@@ -850,7 +916,9 @@ class HomeScreen extends StatelessWidget {
     required VoidCallback onTap,
     bool active = false,
   }) {
-    final color = active ? green : const Color(0xFF555555);
+    final color = active
+        ? green
+        : const Color(0xFF555555);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -873,8 +941,9 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 color: color,
                 fontSize: 10,
-                fontWeight:
-                    active ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: active
+                    ? FontWeight.w700
+                    : FontWeight.w500,
               ),
             ),
           ],
@@ -902,7 +971,12 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 18, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          18,
+          16,
+          30,
+        ),
         children: [
           _settingsHeader(),
           const SizedBox(height: 18),
@@ -922,7 +996,10 @@ class SettingsPage extends StatelessWidget {
             title: 'Notifications',
             subtitle: 'Coming soon',
             onTap: () {
-              _showComingSoon(context, 'Notifications');
+              _showComingSoon(
+                context,
+                'Notifications',
+              );
             },
           ),
 
@@ -1142,7 +1219,10 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showComingSoon(BuildContext context, String feature) {
+  void _showComingSoon(
+    BuildContext context,
+    String feature,
+  ) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -1172,7 +1252,9 @@ class SettingsPage extends StatelessWidget {
           content: Text(message),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text('OK'),
             ),
           ],
