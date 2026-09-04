@@ -11,10 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_localizations:
-    sdk: flutter
-
-  easy_localization: ^3.0.7
   image_picker: ^1.1.2
   shared_preferences: ^2.5.3
   http: ^1.5.0
@@ -30,6 +26,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/translations/
