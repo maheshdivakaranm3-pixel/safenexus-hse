@@ -11,9 +11,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
   final _formKey = GlobalKey<FormState>();
   final _descriptionController = TextEditingController();
 
-  bool get _isMalayalam =>
-      Localizations.localeOf(context).languageCode == 'ml';
-
   @override
   void dispose() {
     _descriptionController.dispose();
@@ -25,9 +22,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
       return;
     }
 
-    final message = _isMalayalam
-        ? 'Hazard report വിജയകരമായി സമർപ്പിച്ചു.'
-        : 'Hazard report submitted successfully.';
+    const message = 'Hazard report submitted successfully.';
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -41,89 +36,105 @@ class _HazardReportPageState extends State<HazardReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ml = _isMalayalam;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          ml ? 'Hazard Report' : 'Hazard Report',
-        ),
+        title: const Text('Hazard Report', style: TextStyle(fontWeight: FontWeight.w700)),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              ml ? 'Hazard റിപ്പോർട്ട്' : 'Hazard Report',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              ml
-                  ? 'തൊഴിൽ സ്ഥലത്ത് കണ്ടെത്തിയ hazard രേഖപ്പെടുത്തുക.'
-                  : 'Report a hazard identified at the workplace.',
-              style: TextStyle(
-                fontSize: 15,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurfaceVariant,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            TextFormField(
-              controller: _descriptionController,
-              minLines: 4,
-              maxLines: 4,
-              textInputAction: TextInputAction.newline,
-              decoration: InputDecoration(
-                labelText: ml
-                    ? 'Hazard Description'
-                    : 'Hazard Description',
-                hintText: ml
-                    ? 'Hazard വിശദമായി വിവരിക്കുക'
-                    : 'Describe the hazard in detail',
-                prefixIcon: const Icon(
-                  Icons.warning_amber_outlined,
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                filled: true,
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return ml
-                      ? 'Hazard description നൽകുക'
-                      : 'Please enter a hazard description';
-                }
-
-                return null;
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            SizedBox(
-              height: 50,
-              child: FilledButton.icon(
-                onPressed: _submitReport,
-                icon: const Icon(Icons.send),
-                label: Text(
-                  ml ? 'Submit Report' : 'Submit Report',
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: scheme.primary,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Icon(Icons.warning_amber_rounded, color: scheme.onPrimary),
+                    ),
+                    const SizedBox(width: 14),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Report a Hazard', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
+                          SizedBox(height: 6),
+                          Text('Record an unsafe condition or hazard identified at the workplace.', style: TextStyle(fontSize: 14, height: 1.4)),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 22),
+              const Text('Hazard Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+              const SizedBox(height: 6),
+              Text('Provide clear information so the hazard can be understood and addressed.', style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant)),
+              const SizedBox(height: 14),
+              TextFormField(
+                controller: _descriptionController,
+                minLines: 5,
+                maxLines: 7,
+                textInputAction: TextInputAction.newline,
+                decoration: InputDecoration(
+                  labelText: 'Hazard Description *',
+                  hintText: 'Describe the hazard, unsafe condition, or exposure...',
+                  alignLabelWithHint: true,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(bottom: 76),
+                    child: Icon(Icons.description_outlined),
+                  ),
+                  filled: true,
+                  fillColor: scheme.surfaceContainerHighest.withOpacity(0.45),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.outlineVariant)),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.primary, width: 2)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.error)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: scheme.error, width: 2)),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) return 'Please enter a hazard description';
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.info_outline, size: 17, color: scheme.onSurfaceVariant),
+                  const SizedBox(width: 7),
+                  Expanded(child: Text('Tip: Include the location, unsafe condition, people exposed, and immediate concern where applicable.', style: TextStyle(fontSize: 12.5, height: 1.35, color: scheme.onSurfaceVariant))),
+                ],
+              ),
+              const SizedBox(height: 26),
+              SizedBox(
+                height: 54,
+                child: FilledButton.icon(
+                  onPressed: _submitReport,
+                  icon: const Icon(Icons.send_rounded),
+                  label: const Text('Submit Hazard Report', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                  style: FilledButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-}
+  }}
