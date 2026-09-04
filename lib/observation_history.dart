@@ -20,12 +20,6 @@ class _ObservationHistoryPageState
   List<Map<String, dynamic>> _observations = [];
   bool _isLoading = true;
 
-  bool get _isMalayalam =>
-      Localizations.localeOf(context).languageCode == 'ml';
-
-  String _t(String en, String ml) {
-    return _isMalayalam ? ml : en;
-  }
 
   @override
   void initState() {
@@ -242,19 +236,13 @@ class _ObservationHistoryPageState
       });
 
       _message(
-        _t(
-          'Observation deleted.',
-          'Observation നീക്കം ചെയ്തു.',
-        ),
+        'Observation deleted.',
       );
     } catch (_) {
       if (!mounted) return;
 
       _message(
-        _t(
-          'Unable to delete observation.',
-          'Observation നീക്കം ചെയ്യാൻ കഴിഞ്ഞില്ല.',
-        ),
+        'Unable to delete observation.',
         error: true,
       );
     }
@@ -270,16 +258,10 @@ class _ObservationHistoryPageState
       builder: (dialogContext) {
         return AlertDialog(
           title: Text(
-            _t(
-              'Delete Observation?',
-              'Observation നീക്കം ചെയ്യണോ?',
-            ),
+            'Delete Observation?',
           ),
           content: Text(
-            _t(
-              'This observation will be permanently removed from this device.',
-              'ഈ observation ഈ device-ൽ നിന്ന് സ്ഥിരമായി നീക്കം ചെയ്യപ്പെടും.',
-            ),
+            'This observation will be permanently removed from this device.',
           ),
           actions: [
             TextButton(
@@ -287,7 +269,7 @@ class _ObservationHistoryPageState
                 Navigator.pop(dialogContext, false);
               },
               child: Text(
-                _t('Cancel', 'റദ്ദാക്കുക'),
+                'Cancel',
               ),
             ),
             FilledButton(
@@ -298,7 +280,7 @@ class _ObservationHistoryPageState
                 Navigator.pop(dialogContext, true);
               },
               child: Text(
-                _t('Delete', 'നീക്കം ചെയ്യുക'),
+                'Delete',
               ),
             ),
           ],
@@ -446,10 +428,7 @@ class _ObservationHistoryPageState
       if (!mounted) return;
 
       _message(
-        _t(
-          'Unable to share observation.',
-          'Observation share ചെയ്യാൻ കഴിഞ്ഞില്ല.',
-        ),
+        'Unable to share observation.',
         error: true,
       );
     }
@@ -484,10 +463,7 @@ class _ObservationHistoryPageState
 
     if (!file.existsSync()) {
       _message(
-        _t(
-          'Photo file not found.',
-          'Photo file കണ്ടെത്താൻ കഴിഞ്ഞില്ല.',
-        ),
+        'Photo file not found.',
         error: true,
       );
       return;
@@ -503,10 +479,7 @@ class _ObservationHistoryPageState
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             title: Text(
-              _t(
-                'Photo Evidence',
-                'Photo Evidence',
-              ),
+              'Photo Evidence',
             ),
           ),
           body: Center(
@@ -616,10 +589,7 @@ class _ObservationHistoryPageState
                     children: [
                       Expanded(
                         child: Text(
-                          _t(
-                            'Observation Details',
-                            'Observation Details',
-                          ),
+                          'Observation Details',
                           style: const TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.w900,
@@ -786,7 +756,7 @@ class _ObservationHistoryPageState
                             Icons.share_outlined,
                           ),
                           label: Text(
-                            _t('Share', 'Share'),
+                            'Share',
                           ),
                         ),
                       ),
@@ -808,7 +778,7 @@ class _ObservationHistoryPageState
                             Icons.delete_outline,
                           ),
                           label: Text(
-                            _t('Delete', 'Delete'),
+                            'Delete',
                           ),
                         ),
                       ),
@@ -824,7 +794,7 @@ class _ObservationHistoryPageState
                         Navigator.pop(sheetContext);
                       },
                       child: Text(
-                        _t('Close', 'Close'),
+                        'Close',
                       ),
                     ),
                   ),
@@ -942,10 +912,7 @@ class _ObservationHistoryPageState
             const SizedBox(height: 20),
 
             Text(
-              _t(
-                'No Safety Observations',
-                'Safety Observations ഒന്നുമില്ല',
-              ),
+              'No Safety Observations',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 20,
@@ -956,10 +923,8 @@ class _ObservationHistoryPageState
             const SizedBox(height: 8),
 
             Text(
-              _t(
-                'Submitted safety observations will appear here.',
-                'Submit ചെയ്യുന്ന Safety Observations ഇവിടെ കാണാം.',
-              ),
+              'Your submitted safety observations will appear here.
+Create an observation to start building your HSE record.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey.shade600,
@@ -1072,10 +1037,7 @@ class _ObservationHistoryPageState
                         Text(
                           id.isNotEmpty
                               ? id
-                              : _t(
-                                  'Safety Observation',
-                                  'Safety Observation',
-                                ),
+                              : 'Safety Observation',
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
@@ -1139,7 +1101,7 @@ class _ObservationHistoryPageState
                             ),
                             const SizedBox(width: 9),
                             Text(
-                              _t('Share', 'Share'),
+                              'Share',
                             ),
                           ],
                         ),
@@ -1155,10 +1117,7 @@ class _ObservationHistoryPageState
                             ),
                             const SizedBox(width: 9),
                             Text(
-                              _t(
-                                'Delete',
-                                'Delete',
-                              ),
+                              'Delete',
                             ),
                           ],
                         ),
@@ -1211,10 +1170,7 @@ class _ObservationHistoryPageState
                   if (_hasPhoto(item))
                     _chip(
                       Icons.photo_camera_outlined,
-                      _t(
-                        'Photo',
-                        'Photo',
-                      ),
+                      'Photo',
                     ),
                 ],
               ),
@@ -1226,10 +1182,7 @@ class _ObservationHistoryPageState
                     MainAxisAlignment.end,
                 children: [
                   Text(
-                    _t(
-                      'Tap to view details',
-                      'Details കാണാൻ tap ചെയ്യുക',
-                    ),
+                    'Tap to view details',
                     style: TextStyle(
                       color:
                           Colors.grey.shade500,
@@ -1299,6 +1252,45 @@ class _ObservationHistoryPageState
   // BODY
   // ============================================================
 
+  Widget _historySummary() {
+    final total = _observations.length;
+    final critical = _observations.where((item) => _value(item, ['risk', 'risk_level', 'severity']).toLowerCase() == 'critical').length;
+    final high = _observations.where((item) => _value(item, ['risk', 'risk_level', 'severity']).toLowerCase() == 'high').length;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        children: [
+          Expanded(child: _summaryMetric(Icons.assignment_rounded, 'Total', '$total')),
+          _summaryDivider(),
+          Expanded(child: _summaryMetric(Icons.warning_amber_rounded, 'High', '$high')),
+          _summaryDivider(),
+          Expanded(child: _summaryMetric(Icons.dangerous_rounded, 'Critical', '$critical')),
+        ],
+      ),
+    );
+  }
+
+  Widget _summaryMetric(IconData icon, String label, String value) {
+    return Column(
+      children: [
+        Icon(icon, size: 20, color: Colors.green.shade700),
+        const SizedBox(height: 6),
+        Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 2),
+        Text(label, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
+      ],
+    );
+  }
+
+  Widget _summaryDivider() => Container(width: 1, height: 48, color: Colors.grey.shade200);
+
   Widget _body() {
     if (_isLoading) {
       return const Center(
@@ -1313,19 +1305,15 @@ class _ObservationHistoryPageState
     return RefreshIndicator(
       onRefresh: _loadObservations,
       child: ListView.builder(
-        physics:
-            const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(
-          16,
-          16,
-          16,
-          30,
-        ),
-        itemCount: _observations.length,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 30),
+        itemCount: _observations.length + 1,
         itemBuilder: (_, index) {
-          return _observationCard(
-            _observations[index],
-            index,
+          if (index == 0) return _historySummary();
+          final observationIndex = index - 1;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: _observationCard(_observations[observationIndex], observationIndex),
           );
         },
       ),
@@ -1352,20 +1340,14 @@ class _ObservationHistoryPageState
               CrossAxisAlignment.start,
           children: [
             Text(
-              _t(
-                'Reports & History',
-                'Reports & History',
-              ),
+              'Reports & History',
               style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w900,
               ),
             ),
             Text(
-              _t(
-                '${_observations.length} observation(s)',
-                '${_observations.length} observation(s)',
-              ),
+              '${_observations.length} observation(s)',
               style: TextStyle(
                 fontSize: 10,
                 color: Colors.grey.shade600,
@@ -1376,10 +1358,7 @@ class _ObservationHistoryPageState
 
         actions: [
           IconButton(
-            tooltip: _t(
-              'Refresh',
-              'Refresh',
-            ),
+            tooltip: 'Refresh',
             onPressed: _loadObservations,
             icon: const Icon(
               Icons.refresh_rounded,
