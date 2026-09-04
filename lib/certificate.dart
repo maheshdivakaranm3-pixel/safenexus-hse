@@ -1,892 +1,291 @@
 import 'package:flutter/material.dart';
 
-import 'package:safenexus_hse.certificate.dart';
-import 'package:safenexus_hse/guidelines.dart';
-import 'package:safenexus_hse/hazard_report.dart';
-import 'package:safenexus_hse/observation_history.dart';
-import 'package:safenexus_hse/safety_observation.dart';
-import 'package:safenexus_hse/voice_report.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const SafeNexusApp());
-}
-
-class SafeNexusApp extends StatelessWidget {
-  const SafeNexusApp({super.key});
+class CertificatePage extends StatefulWidget {
+  const CertificatePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SafeNexus HSE',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF6F8F7),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF159447),
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Color(0xFF151515),
-          elevation: 0,
-          surfaceTintColor: Colors.transparent,
-        ),
-      ),
-      home: const HomeScreen(),
-    );
+  State<CertificatePage> createState() => _CertificatePageState();
+}
+
+class _CertificatePageState extends State<CertificatePage> {
+  final _nameController =
+      TextEditingController(text: 'Employee Name');
+
+  final _idController = TextEditingController();
+
+  final _departmentController =
+      TextEditingController();
+
+  final _achievementController = TextEditingController(
+    text:
+        'for your outstanding commitment to Health, Safety & Environment\n'
+        'and for actively contributing to a safe and sustainable workplace.',
+  );
+
+  final _companyController =
+      TextEditingController(text: 'SafeNexus HSE');
+
+  final _titleController =
+      TextEditingController(text: 'CERTIFICATE');
+
+  final _subtitleController =
+      TextEditingController(text: 'OF APPRECIATION');
+
+  final _footerController =
+      TextEditingController(text: 'Identify. Report. Stay Safe.');
+
+  final _signatoryController =
+      TextEditingController(text: 'Authorized Signatory');
+
+  DateTime selectedDate = DateTime.now();
+
+  int selectedTemplate = 0;
+  int selectedColor = 0;
+
+  double nameFontSize = 34;
+  TextAlign nameAlignment = TextAlign.center;
+
+  final List<Color> themeColors = const [
+    Color(0xFF087A3D),
+    Color(0xFF1261A0),
+    Color(0xFFB47B00),
+  ];
+
+  final List<String> templateNames = const [
+    'HSE Appreciation',
+    'Safety Excellence',
+    'Employee Recognition',
+  ];
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _idController.dispose();
+    _departmentController.dispose();
+    _achievementController.dispose();
+    _companyController.dispose();
+    _titleController.dispose();
+    _subtitleController.dispose();
+    _footerController.dispose();
+    _signatoryController.dispose();
+    super.dispose();
   }
-}
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  Color get primaryColor => themeColors[selectedColor];
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  String get formattedDate {
+    return '${selectedDate.day.toString().padLeft(2, '0')}/'
+        '${selectedDate.month.toString().padLeft(2, '0')}/'
+        '${selectedDate.year}';
+  }
 
-class _HomeScreenState extends State<HomeScreen> {
-  static const Color green = Color(0xFF159447);
+  Future<void> _selectDate() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
 
-  int _selectedIndex = 0;
+    if (date != null) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
+  }
 
-  void _selectTab(int index) {
+  void _resetCertificate() {
     setState(() {
-      _selectedIndex = index;
+      _nameController.text = 'Employee Name';
+      _idController.clear();
+      _departmentController.clear();
+
+      _achievementController.text =
+          'for your outstanding commitment to Health, Safety & Environment\n'
+          'and for actively contributing to a safe and sustainable workplace.';
+
+      _companyController.text = 'SafeNexus HSE';
+      _titleController.text = 'CERTIFICATE';
+      _subtitleController.text = 'OF APPRECIATION';
+      _footerController.text = 'Identify. Report. Stay Safe.';
+      _signatoryController.text = 'Authorized Signatory';
+
+      selectedTemplate = 0;
+      selectedColor = 0;
+      nameFontSize = 34;
+      nameAlignment = TextAlign.center;
+      selectedDate = DateTime.now();
     });
   }
 
-  void _openHazardReport() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const HazardReportPage(),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          _HomeContent(),
-          ObservationHistoryPage(),
-          SizedBox.shrink(),
-          GuidelinesPage(),
-          SettingsPage(),
-        ],
-      ),
-      bottomNavigationBar: _buildBottomNavigation(),
-    );
-  }
-
-  Widget _buildBottomNavigation() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 9),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x18000000),
-            blurRadius: 14,
-            offset: Offset(0, -4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _bottomItem(
-              icon: Icons.home_rounded,
-              label: 'Home',
-              active: _selectedIndex == 0,
-              onTap: () => _selectTab(0),
-            ),
-            _bottomItem(
-              icon: Icons.description_outlined,
-              label: 'Reports',
-              active: _selectedIndex == 1,
-              onTap: () => _selectTab(1),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: _openHazardReport,
-              child: Container(
-                width: 58,
-                height: 58,
-                margin: const EdgeInsets.only(top: -27),
-                decoration: const BoxDecoration(
-                  color: green,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x30000000),
-                      blurRadius: 12,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.white,
-                  size: 35,
-                ),
-              ),
-            ),
-            _bottomItem(
-              icon: Icons.menu_book_outlined,
-              label: 'Guides',
-              active: _selectedIndex == 3,
-              onTap: () => _selectTab(3),
-            ),
-            _bottomItem(
-              icon: Icons.settings_outlined,
-              label: 'Settings',
-              active: _selectedIndex == 4,
-              onTap: () => _selectTab(4),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _bottomItem({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-    required bool active,
-  }) {
-    final color = active ? green : const Color(0xFF555555);
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: SizedBox(
-        width: 62,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 24,
-            ),
-            const SizedBox(height: 3),
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: color,
-                fontSize: 10,
-                fontWeight:
-                    active ? FontWeight.w700 : FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HomeContent extends StatelessWidget {
-  const _HomeContent();
-
-  static const Color green = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF087A38);
-  static const Color purple = Color(0xFF6736C8);
-  static const Color orange = Color(0xFFFF8A00);
-  static const Color red = Color(0xFFD93636);
-  static const Color blue = Color(0xFF1677C8);
-
-  void openPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => page,
-      ),
-    );
-  }
-
-  void showComingSoon(
-    BuildContext context,
-    String feature,
-  ) {
+  void _showSavedMessage() {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(
-          content: Text('$feature is coming soon'),
+        const SnackBar(
+          content: Text(
+            'Certificate design saved successfully.',
+          ),
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          duration: const Duration(seconds: 2),
         ),
       );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 72,
-        titleSpacing: 16,
-        title: Row(
-          children: [
-            Container(
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: green,
-                borderRadius: BorderRadius.circular(13),
-              ),
-              child: const Icon(
-                Icons.health_and_safety_rounded,
-                color: Colors.white,
-                size: 29,
-              ),
-            ),
-            const SizedBox(width: 11),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SafeNexus',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                Text(
-                  'HSE SAFETY',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    color: green,
-                    letterSpacing: 1.1,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _heroBanner(),
-              const SizedBox(height: 22),
-              _sectionTitle(
-                'QUICK ACTIONS',
-                'Report and manage workplace safety issues',
-              ),
-              const SizedBox(height: 12),
-              _quickActions(context),
-              const SizedBox(height: 22),
-              _sectionTitle(
-                'SAFETY OVERVIEW',
-                'Your current safety activity',
-              ),
-              const SizedBox(height: 12),
-              _safetyOverview(context),
-              const SizedBox(height: 22),
-              _sectionTitle(
-                'UAE HSE SAFETY',
-                'Choose UAE, Dubai or Abu Dhabi safety guidance',
-              ),
-              const SizedBox(height: 12),
-              _uaeSafetySection(context),
-              const SizedBox(height: 22),
-              _certificateCard(context),
-              const SizedBox(height: 22),
-              _aiBanner(context),
-              const SizedBox(height: 22),
-              _reportsButton(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  void _editText({
+    required String title,
+    required TextEditingController controller,
+    int maxLines = 1,
+  }) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final tempController =
+            TextEditingController(text: controller.text);
 
-  Widget _heroBanner() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(21, 22, 18, 22),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            darkGreen,
-            green,
-            Color(0xFF2EAA61),
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: tempController,
+            maxLines: maxLines,
+            autofocus: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                setState(() {
+                  controller.text = tempController.text;
+                });
+
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Apply'),
+            ),
           ],
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x22000000),
-            blurRadius: 16,
-            offset: Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Safety Starts With You',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
-                    height: 1.1,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Observe • Report • Prevent',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  'Together for a safer workplace.',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Container(
-            width: 82,
-            height: 82,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.construction_rounded,
-              color: Colors.white,
-              size: 48,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _sectionTitle(
+    IconData icon,
     String title,
-    String subtitle,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            color: darkGreen,
-            fontSize: 14,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0.8,
-          ),
-        ),
-        const SizedBox(height: 3),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            color: Color(0xFF707070),
-            fontSize: 11.5,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _quickActions(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      childAspectRatio: 1.55,
-      children: [
-        _actionCard(
-          icon: Icons.warning_amber_rounded,
-          title: 'Hazard Report',
-          subtitle: 'Report a workplace hazard',
-          color: orange,
-          onTap: () {
-            openPage(
-              context,
-              const HazardReportPage(),
-            );
-          },
-        ),
-        _actionCard(
-          icon: Icons.visibility_rounded,
-          title: 'Safety Observation',
-          subtitle: 'Record a safety observation',
-          color: green,
-          onTap: () {
-            openPage(
-              context,
-              const SafetyObservationPage(),
-            );
-          },
-        ),
-        _actionCard(
-          icon: Icons.mic_rounded,
-          title: 'Voice Report',
-          subtitle: 'Report using your voice',
-          color: purple,
-          onTap: () {
-            openPage(
-              context,
-              const VoiceReportPage(),
-            );
-          },
-        ),
-        _actionCard(
-          icon: Icons.menu_book_rounded,
-          title: 'HSE Guidelines',
-          subtitle: 'UAE safety guidance',
-          color: darkGreen,
-          onTap: () {
-            openPage(
-              context,
-              const GuidelinesPage(),
-            );
-          },
-        ),
-        _actionCard(
-          icon: Icons.shield_rounded,
-          title: 'Risk Assessment',
-          subtitle: 'Coming soon',
-          color: red,
-          onTap: () {
-            showComingSoon(
-              context,
-              'Risk Assessment',
-            );
-          },
-          comingSoon: true,
-        ),
-        _actionCard(
-          icon: Icons.auto_awesome_rounded,
-          title: 'AI Safety',
-          subtitle: 'Smart safety assistance',
-          color: purple,
-          onTap: () {
-            showComingSoon(
-              context,
-              'AI Safety Assistant',
-            );
-          },
-          comingSoon: true,
-        ),
-      ],
-    );
-  }
-
-  Widget _actionCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-    required VoidCallback onTap,
-    bool comingSoon = false,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(13),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: Colors.grey.shade200,
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 47,
-                height: 47,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 10,
-                        height: 1.15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (!comingSoon)
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 13,
-                  color: color,
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _certificateCard(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          openPage(
-            context,
-            const CertificatePage(),
-          );
-        },
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(17),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: green.withValues(alpha: 0.25),
-            ),
-            gradient: LinearGradient(
-              colors: [
-                green.withValues(alpha: 0.07),
-                Colors.white,
-              ],
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 55,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: green.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(
-                  Icons.workspace_premium_rounded,
-                  color: green,
-                  size: 31,
-                ),
-              ),
-              const SizedBox(width: 13),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Certificates',
-                      style: TextStyle(
-                        color: darkGreen,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Create, edit and customize HSE certificates',
-                      style: TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: green,
-                size: 17,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _safetyOverview(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: Column(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
         children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.analytics_outlined,
-                color: green,
-                size: 21,
-              ),
-              const SizedBox(width: 8),
-              const Expanded(
-                child: Text(
-                  'Safety Activity',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  openPage(
-                    context,
-                    const ObservationHistoryPage(),
-                  );
-                },
-                child: const Text('View Reports'),
-              ),
-            ],
+          Icon(
+            icon,
+            color: primaryColor,
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: _stat(
-                  '12',
-                  'Observations',
-                  Icons.visibility_outlined,
-                  purple,
-                ),
-              ),
-              _verticalDivider(),
-              Expanded(
-                child: _stat(
-                  '7',
-                  'Hazards',
-                  Icons.warning_amber_rounded,
-                  orange,
-                ),
-              ),
-              _verticalDivider(),
-              Expanded(
-                child: _stat(
-                  '5',
-                  'Resolved',
-                  Icons.check_circle_outline_rounded,
-                  green,
-                ),
-              ),
-            ],
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _stat(
-    String value,
-    String label,
-    IconData icon,
-    Color color,
-  ) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 23,
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFF666666),
-            fontSize: 10,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _verticalDivider() {
-    return Container(
-      height: 52,
-      width: 1,
-      color: Colors.grey.shade200,
-    );
-  }
-
-  Widget _uaeSafetySection(BuildContext context) {
-    return Column(
-      children: [
-        _regionCard(
-          context,
-          icon: Icons.flag_rounded,
-          title: 'UAE HSE Safety',
-          subtitle: 'UAE-wide HSE guidance',
-          color: green,
-        ),
-        const SizedBox(height: 10),
-        _regionCard(
-          context,
-          icon: Icons.location_city_rounded,
-          title: 'Dubai HSE Safety',
-          subtitle: 'Dubai safety guidance',
-          color: blue,
-        ),
-        const SizedBox(height: 10),
-        _regionCard(
-          context,
-          icon: Icons.account_balance_rounded,
-          title: 'Abu Dhabi HSE Safety',
-          subtitle: 'ADOSH-SF safety guidance',
-          color: purple,
-        ),
-      ],
-    );
-  }
-
-  Widget _regionCard(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
+  Widget _inputField({
+    required String label,
+    required TextEditingController controller,
+    IconData? icon,
+    int maxLines = 1,
   }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: TextField(
+        controller: controller,
+        maxLines: maxLines,
+        onChanged: (_) => setState(() {}),
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon:
+              icon == null ? null : Icon(icon),
+          border: const OutlineInputBorder(),
+          isDense: true,
+        ),
+      ),
+    );
+  }
+
+  Widget _templateCard(int index) {
+    final isSelected = selectedTemplate == index;
+
+    return Expanded(
+      child: GestureDetector(
         onTap: () {
-          openPage(
-            context,
-            const GuidelinesPage(),
-          );
+          setState(() {
+            selectedTemplate = index;
+          });
         },
         child: Container(
-          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.only(right: 8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            color: isSelected
+                ? primaryColor.withValues(alpha: 0.08)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Colors.grey.shade200,
+              color: isSelected
+                  ? primaryColor
+                  : Colors.grey.shade300,
+              width: isSelected ? 2 : 1,
             ),
           ),
-          child: Row(
+          child: Column(
             children: [
               Container(
-                width: 50,
-                height: 50,
+                height: 80,
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [
+                      themeColors[index]
+                          .withValues(alpha: 0.18),
+                      Colors.white,
+                    ],
+                  ),
+                  border: Border.all(
+                    color: themeColors[index],
+                  ),
+                  borderRadius:
+                      BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 27,
+                child: Center(
+                  child: Text(
+                    'CERTIFICATE',
+                    style: TextStyle(
+                      color: themeColors[index],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 9,
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11.5,
-                      ),
-                    ),
-                  ],
+              const SizedBox(height: 7),
+              Text(
+                templateNames[index],
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
                 ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 28,
               ),
             ],
           ),
@@ -895,64 +294,283 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _aiBanner(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showComingSoon(
-          context,
-          'AI Safety Assistant',
-        );
-      },
+  Widget _certificatePreview() {
+    return AspectRatio(
+      aspectRatio: 0.707,
       child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(17),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFDFEF9),
+          border: Border.all(
+            color: primaryColor,
+            width: 8,
           ),
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF512DA8),
-              Color(0xFF6736C8),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 12,
+              color: Colors.black12,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Container(
+          margin: const EdgeInsets.all(7),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: primaryColor.withValues(alpha: 0.6),
+              width: 2,
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 120,
+                child: CustomPaint(
+                  painter:
+                      _ConstructionBackgroundPainter(
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 18,
+                  ),
+                  child: Column(
+                    children: [
+                      _certificateLogo(),
+
+                      const SizedBox(height: 8),
+
+                      Text(
+                        _companyController.text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+
+                      const Text(
+                        'AI-Powered HSE Safety & Observation App',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: Colors.black54,
+                        ),
+                      ),
+
+                      const SizedBox(height: 18),
+
+                      Text(
+                        _titleController.text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'serif',
+                          fontSize: 27,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColor,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      Container(
+                        padding:
+                            const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                        ),
+                        child: Text(
+                          _subtitleController.text,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      const Text(
+                        'This certificate is proudly presented to',
+                        style: TextStyle(fontSize: 9),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      GestureDetector(
+                        onTap: () => _editText(
+                          title: 'Edit Employee Name',
+                          controller: _nameController,
+                        ),
+                        child: Container(
+                          padding:
+                              const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: primaryColor
+                                  .withValues(alpha: 0.35),
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            _nameController.text,
+                            textAlign: nameAlignment,
+                            style: TextStyle(
+                              fontFamily: 'cursive',
+                              fontSize: nameFontSize,
+                              color: primaryColor,
+                              fontWeight:
+                                  FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      Container(
+                        height: 1,
+                        color: primaryColor
+                            .withValues(alpha: 0.35),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              _achievementController.text,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                height: 1.5,
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            _safetyBadges(),
+                          ],
+                        ),
+                      ),
+
+                      Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.end,
+                        children: [
+                          _signatureBlock(
+                            formattedDate,
+                            'Date',
+                          ),
+                          _priorityBadge(),
+                          _signatureBlock(
+                            _signatoryController.text,
+                            'Authorized Signatory',
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      Container(
+                        width: double.infinity,
+                        padding:
+                            const EdgeInsets.symmetric(
+                          vertical: 6,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius:
+                              BorderRadius.only(
+                            bottomLeft:
+                                Radius.circular(20),
+                            bottomRight:
+                                Radius.circular(20),
+                          ),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius:
+                                const BorderRadius.only(
+                              bottomLeft:
+                                  Radius.circular(12),
+                              bottomRight:
+                                  Radius.circular(12),
+                            ),
+                          ),
+                          padding:
+                              const EdgeInsets.symmetric(
+                            vertical: 6,
+                          ),
+                          child: Text(
+                            _footerController.text,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight:
+                                  FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        child: const Row(
+      ),
+    );
+  }
+
+  Widget _certificateLogo() {
+    return Container(
+      width: 54,
+      height: 54,
+      decoration: BoxDecoration(
+        color: primaryColor,
+        shape: BoxShape.circle,
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.auto_awesome_rounded,
+              Icons.engineering,
               color: Colors.white,
-              size: 32,
+              size: 23,
             ),
-            SizedBox(width: 13),
-            Expanded(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'AI Safety Assistant',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Smart HSE assistance is coming soon.',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
+            Text(
+              'S',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Colors.white,
-              size: 15,
             ),
           ],
         ),
@@ -960,62 +578,507 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _reportsButton(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          openPage(
-            context,
-            const ObservationHistoryPage(),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.all(17),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: Colors.grey.shade200,
-            ),
-          ),
-          child: const Row(
-            children: [
-              Icon(
-                Icons.folder_copy_outlined,
-                color: green,
-                size: 28,
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Reports & History',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 3),
-                    Text(
-                      'View your saved safety reports',
-                      style: TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
+  Widget _safetyBadges() {
+    final badges = [
+      [Icons.verified_user, 'BE SAFE'],
+      [Icons.construction, 'WORK SAFE'],
+      [Icons.groups, 'STAY SAFE'],
+      [Icons.eco, 'GO HOME SAFE'],
+    ];
+
+    return Row(
+      mainAxisAlignment:
+          MainAxisAlignment.spaceEvenly,
+      children: badges.map((badge) {
+        return Column(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: primaryColor,
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 15,
-                color: Colors.grey,
+              child: Icon(
+                badge[0] as IconData,
+                color: primaryColor,
+                size: 21,
               ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              badge[1] as String,
+              style: TextStyle(
+                fontSize: 6,
+                color: primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _priorityBadge() {
+    return Container(
+      width: 66,
+      height: 66,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: primaryColor,
+        border: Border.all(
+          color: Colors.white,
+          width: 3,
+        ),
+      ),
+      child: const Center(
+        child: Text(
+          'SAFETY\nIS OUR\nPRIORITY',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            height: 1.2,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _signatureBlock(
+    String value,
+    String label,
+  ) {
+    return SizedBox(
+      width: 75,
+      child: Column(
+        children: [
+          Container(
+            height: 1,
+            color: Colors.black54,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            value,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 7,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 6,
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _editTools() {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        _sectionTitle(
+          Icons.edit,
+          'Edit Certificate',
+        ),
+
+        _inputField(
+          label: 'Certificate Title',
+          controller: _titleController,
+          icon: Icons.title,
+        ),
+
+        _inputField(
+          label: 'Subtitle',
+          controller: _subtitleController,
+          icon: Icons.label_outline,
+        ),
+
+        _inputField(
+          label: 'Employee Name',
+          controller: _nameController,
+          icon: Icons.person,
+        ),
+
+        _inputField(
+          label: 'Employee ID',
+          controller: _idController,
+          icon: Icons.badge_outlined,
+        ),
+
+        _inputField(
+          label: 'Department',
+          controller: _departmentController,
+          icon: Icons.business,
+        ),
+
+        _inputField(
+          label: 'Achievement / Reason',
+          controller: _achievementController,
+          icon: Icons.workspace_premium,
+          maxLines: 4,
+        ),
+
+        _inputField(
+          label: 'Company Name',
+          controller: _companyController,
+          icon: Icons.business_center,
+        ),
+
+        _inputField(
+          label: 'Authorized Signatory',
+          controller: _signatoryController,
+          icon: Icons.draw,
+        ),
+
+        _inputField(
+          label: 'Footer Text',
+          controller: _footerController,
+          icon: Icons.short_text,
+        ),
+
+        InkWell(
+          onTap: _selectDate,
+          child: InputDecorator(
+            decoration: const InputDecoration(
+              labelText: 'Certificate Date',
+              border: OutlineInputBorder(),
+              prefixIcon:
+                  Icon(Icons.calendar_today),
+            ),
+            child: Text(formattedDate),
+          ),
+        ),
+
+        const SizedBox(height: 18),
+
+        Text(
+          'Name Font Size',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
+          ),
+        ),
+
+        Slider(
+          min: 20,
+          max: 48,
+          divisions: 14,
+          value: nameFontSize,
+          label: nameFontSize.round().toString(),
+          onChanged: (value) {
+            setState(() {
+              nameFontSize = value;
+            });
+          },
+        ),
+
+        Text(
+          'Name Alignment',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
+          ),
+        ),
+
+        Row(
+          children: [
+            _alignmentButton(
+              Icons.format_align_left,
+              TextAlign.left,
+            ),
+            _alignmentButton(
+              Icons.format_align_center,
+              TextAlign.center,
+            ),
+            _alignmentButton(
+              Icons.format_align_right,
+              TextAlign.right,
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 15),
+
+        Text(
+          'Certificate Theme',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Row(
+          children: List.generate(
+            themeColors.length,
+            (index) {
+              final selected =
+                  selectedColor == index;
+
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedColor = index;
+                  });
+                },
+                child: Container(
+                  margin:
+                      const EdgeInsets.only(right: 12),
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: themeColors[index],
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: selected
+                          ? Colors.black
+                          : Colors.transparent,
+                      width: 3,
+                    ),
+                  ),
+                  child: selected
+                      ? const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        )
+                      : null,
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _alignmentButton(
+    IconData icon,
+    TextAlign alignment,
+  ) {
+    final selected =
+        nameAlignment == alignment;
+
+    return Padding(
+      padding:
+          const EdgeInsets.only(right: 8, top: 8),
+      child: OutlinedButton(
+        onPressed: () {
+          setState(() {
+            nameAlignment = alignment;
+          });
+        },
+        style: OutlinedButton.styleFrom(
+          backgroundColor: selected
+              ? primaryColor.withValues(alpha: 0.10)
+              : null,
+          side: BorderSide(
+            color: selected
+                ? primaryColor
+                : Colors.grey.shade300,
+          ),
+        ),
+        child: Icon(
+          icon,
+          color:
+              selected ? primaryColor : Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F8F5),
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        title: const Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+          children: [
+            Text(
+              'SAFENEXUS HSE',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Certificate Designer',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'Save',
+            onPressed: _showSavedMessage,
+            icon: const Icon(Icons.save),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.workspace_premium,
+                    size: 36,
+                    color: primaryColor,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Certificate Designer',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        const Text(
+                          'Create • Edit • Customize • Save',
+                          style: TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 18),
+
+              Card(
+                elevation: 1,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                    children: [
+                      _sectionTitle(
+                        Icons.dashboard_customize,
+                        'Choose Template',
+                      ),
+                      Row(
+                        children: List.generate(
+                          templateNames.length,
+                          _templateCard,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              Card(
+                elevation: 1,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.all(14),
+                  child: _editTools(),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              Card(
+                elevation: 1,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                    children: [
+                      _sectionTitle(
+                        Icons.visibility,
+                        'Live Preview',
+                      ),
+                      _certificatePreview(),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed:
+                          _resetCertificate,
+                      icon:
+                          const Icon(Icons.refresh),
+                      label:
+                          const Text('Reset'),
+                      style:
+                          OutlinedButton.styleFrom(
+                        padding:
+                            const EdgeInsets.symmetric(
+                          vertical: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed:
+                          _showSavedMessage,
+                      icon:
+                          const Icon(Icons.save),
+                      label:
+                          const Text('Save Design'),
+                      style:
+                          FilledButton.styleFrom(
+                        backgroundColor:
+                            primaryColor,
+                        padding:
+                            const EdgeInsets.symmetric(
+                          vertical: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -1024,308 +1087,56 @@ class _HomeContent extends StatelessWidget {
   }
 }
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class _ConstructionBackgroundPainter
+    extends CustomPainter {
+  final Color color;
 
-  static const Color green = Color(0xFF159447);
+  _ConstructionBackgroundPainter({
+    required this.color,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 18, 16, 30),
-        children: [
-          _settingsHeader(),
-          const SizedBox(height: 18),
-
-          _sectionLabel('APP SETTINGS'),
-          const SizedBox(height: 8),
-
-          _settingsTile(
-            icon: Icons.language_rounded,
-            title: 'Language',
-            subtitle: 'English',
-            onTap: () {},
-          ),
-
-          _settingsTile(
-            icon: Icons.notifications_outlined,
-            title: 'Notifications',
-            subtitle: 'Coming soon',
-            onTap: () {
-              _showComingSoon(
-                context,
-                'Notifications',
-              );
-            },
-          ),
-
-          const SizedBox(height: 18),
-
-          _sectionLabel('SAFETY & DATA'),
-          const SizedBox(height: 8),
-
-          _settingsTile(
-            icon: Icons.security_rounded,
-            title: 'Privacy & Data',
-            subtitle: 'Your safety information',
-            onTap: () {
-              _showInfo(
-                context,
-                'Privacy & Data',
-                'SafeNexus HSE stores safety information locally on the device unless a feature specifically sends data to a configured service.',
-              );
-            },
-          ),
-
-          _settingsTile(
-            icon: Icons.cloud_done_outlined,
-            title: 'AI Service',
-            subtitle: 'Configured through secure backend',
-            onTap: () {
-              _showInfo(
-                context,
-                'AI Service',
-                'AI requests are handled through the SafeNexus backend service. API credentials should not be stored directly inside the mobile application.',
-              );
-            },
-          ),
-
-          const SizedBox(height: 18),
-
-          _sectionLabel('ABOUT'),
-          const SizedBox(height: 8),
-
-          _settingsTile(
-            icon: Icons.info_outline_rounded,
-            title: 'About SafeNexus HSE',
-            subtitle: 'UAE-focused HSE safety application',
-            onTap: () {
-              _showInfo(
-                context,
-                'About SafeNexus HSE',
-                'SafeNexus HSE is designed to support workplace hazard reporting, safety observations, HSE guidance and practical safety management.',
-              );
-            },
-          ),
-
-          _settingsTile(
-            icon: Icons.verified_outlined,
-            title: 'App Version',
-            subtitle: 'Version 1.0.1',
-            onTap: () {},
-          ),
-
-          const SizedBox(height: 25),
-
-          Center(
-            child: Column(
-              children: [
-                Container(
-                  width: 58,
-                  height: 58,
-                  decoration: BoxDecoration(
-                    color: green.withValues(alpha: 0.10),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.health_and_safety_rounded,
-                    color: green,
-                    size: 31,
-                  ),
-                ),
-                const SizedBox(height: 9),
-                const Text(
-                  'SafeNexus HSE',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                const Text(
-                  'Safety Starts With You',
-                  style: TextStyle(
-                    color: Color(0xFF777777),
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _settingsHeader() {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: const Row(
-        children: [
-          CircleAvatar(
-            radius: 28,
-            backgroundColor: Color(0x16159447),
-            child: Icon(
-              Icons.settings_rounded,
-              color: green,
-              size: 29,
-            ),
-          ),
-          SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SafeNexus Settings',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Manage app preferences and information',
-                  style: TextStyle(
-                    color: Color(0xFF777777),
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _sectionLabel(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Color(0xFF087A38),
-        fontSize: 13,
-        fontWeight: FontWeight.w800,
-        letterSpacing: 0.7,
-      ),
-    );
-  }
-
-  Widget _settingsTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 9),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: ListTile(
-        onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 3,
-        ),
-        leading: Container(
-          width: 42,
-          height: 42,
-          decoration: const BoxDecoration(
-            color: Color(0x14159447),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: green,
-            size: 22,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 13.5,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-            color: Color(0xFF777777),
-            fontSize: 10.5,
-          ),
-        ),
-        trailing: const Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 14,
-          color: Color(0xFF999999),
-        ),
-      ),
-    );
-  }
-
-  void _showComingSoon(
-    BuildContext context,
-    String feature,
+  void paint(
+    Canvas canvas,
+    Size size,
   ) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text('$feature is coming soon'),
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-        ),
+    final paint = Paint()
+      ..color =
+          color.withValues(alpha: 0.06)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    for (
+      double x = 10;
+      x < size.width;
+      x += 45
+    ) {
+      canvas.drawLine(
+        Offset(x, size.height),
+        Offset(x + 30, 30),
+        paint,
       );
+    }
+
+    for (
+      double y = 20;
+      y < size.height;
+      y += 22
+    ) {
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y),
+        paint,
+      );
+    }
   }
 
-  void _showInfo(
-    BuildContext context,
-    String title,
-    String message,
+  @override
+  bool shouldRepaint(
+    covariant
+        _ConstructionBackgroundPainter
+            oldDelegate,
   ) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+    return oldDelegate.color != color;
   }
 }
