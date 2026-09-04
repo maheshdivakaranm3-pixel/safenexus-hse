@@ -321,9 +321,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       pw.SizedBox(height: 10),
-
                       pw.Text(
                         companyName,
                         textAlign: pw.TextAlign.center,
@@ -334,9 +332,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
-
                       pw.SizedBox(height: 3),
-
                       pw.Text(
                         'AI-Powered HSE Safety & Observation App',
                         textAlign: pw.TextAlign.center,
@@ -345,9 +341,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: PdfColors.grey700,
                         ),
                       ),
-
                       pw.SizedBox(height: 20),
-
                       pw.Text(
                         certificateTitle,
                         textAlign: pw.TextAlign.center,
@@ -358,9 +352,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
-
                       pw.SizedBox(height: 6),
-
                       pw.Container(
                         padding: const pw.EdgeInsets.symmetric(
                           horizontal: 18,
@@ -379,9 +371,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       pw.SizedBox(height: 22),
-
                       pw.Text(
                         'This certificate is proudly presented to',
                         textAlign: pw.TextAlign.center,
@@ -389,9 +379,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontSize: 10,
                         ),
                       ),
-
                       pw.SizedBox(height: 8),
-
                       pw.Container(
                         width: double.infinity,
                         padding: const pw.EdgeInsets.symmetric(
@@ -403,7 +391,8 @@ class _CertificatePageState extends State<CertificatePage> {
                             color: pdfPrimaryColor,
                             width: 0.7,
                           ),
-                          borderRadius: pw.BorderRadius.circular(5),
+                          borderRadius:
+                              pw.BorderRadius.circular(5),
                         ),
                         child: pw.Text(
                           employeeName,
@@ -417,14 +406,11 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       pw.SizedBox(height: 5),
-
                       pw.Container(
                         height: 1,
                         color: pdfPrimaryColor,
                       ),
-
                       if (employeeId.isNotEmpty ||
                           department.isNotEmpty) ...[
                         pw.SizedBox(height: 9),
@@ -460,9 +446,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ],
                         ),
                       ],
-
                       pw.SizedBox(height: 22),
-
                       pw.Container(
                         constraints: const pw.BoxConstraints(
                           minHeight: 90,
@@ -480,15 +464,9 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       pw.SizedBox(height: 18),
-
-                      _pdfSafetyBadges(
-                        pdfPrimaryColor,
-                      ),
-
+                      _pdfSafetyBadges(pdfPrimaryColor),
                       pw.SizedBox(height: 22),
-
                       pw.Row(
                         crossAxisAlignment:
                             pw.CrossAxisAlignment.end,
@@ -500,9 +478,7 @@ class _CertificatePageState extends State<CertificatePage> {
                             'Date',
                             pdfPrimaryColor,
                           ),
-                          _pdfPriorityBadge(
-                            pdfPrimaryColor,
-                          ),
+                          _pdfPriorityBadge(pdfPrimaryColor),
                           _pdfSignatureBlock(
                             signatory,
                             'Authorized Signatory',
@@ -510,9 +486,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ],
                       ),
-
                       pw.SizedBox(height: 16),
-
                       pw.Container(
                         width: double.infinity,
                         padding: const pw.EdgeInsets.symmetric(
@@ -662,19 +636,16 @@ class _CertificatePageState extends State<CertificatePage> {
         _lastSavedPath = file.path;
       }
 
-      await SharePlus.instance.share(
-        ShareParams(
-          files: [
-            XFile(
-              file.path,
-              name: file.uri.pathSegments.last,
-              mimeType: 'application/pdf',
-            ),
-          ],
-          subject: 'SafeNexus HSE Certificate',
-          title: 'SafeNexus HSE Certificate',
-          text: 'Certificate generated by SafeNexus HSE.',
-        ),
+      await Share.shareXFiles(
+        [
+          XFile(
+            file.path,
+            name: file.uri.pathSegments.last,
+            mimeType: 'application/pdf',
+          ),
+        ],
+        subject: 'SafeNexus HSE Certificate',
+        text: 'Certificate generated by SafeNexus HSE.',
       );
     } catch (e) {
       _showMessage(
@@ -695,12 +666,18 @@ class _CertificatePageState extends State<CertificatePage> {
   ) {
     switch (alignment) {
       case TextAlign.left:
+      case TextAlign.start:
         return pw.TextAlign.left;
+
       case TextAlign.right:
+      case TextAlign.end:
         return pw.TextAlign.right;
+
       case TextAlign.center:
-      case TextAlign.justify:
         return pw.TextAlign.center;
+
+      case TextAlign.justify:
+        return pw.TextAlign.justify;
     }
   }
 
@@ -902,9 +879,7 @@ class _CertificatePageState extends State<CertificatePage> {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: isSelected
-                ? primaryColor.withValues(
-                    alpha: 0.08,
-                  )
+                ? primaryColor.withValues(alpha: 0.08)
                 : Colors.white,
             borderRadius:
                 BorderRadius.circular(12),
@@ -1059,9 +1034,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   child: Column(
                     children: [
                       _certificateLogo(),
-
                       const SizedBox(height: 8),
-
                       Text(
                         previewCompany,
                         textAlign: TextAlign.center,
@@ -1074,7 +1047,6 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-
                       const Text(
                         'AI-Powered HSE Safety & Observation App',
                         textAlign: TextAlign.center,
@@ -1083,9 +1055,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: Colors.black54,
                         ),
                       ),
-
                       const SizedBox(height: 18),
-
                       Text(
                         previewTitle,
                         textAlign: TextAlign.center,
@@ -1099,9 +1069,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           color: primaryColor,
                         ),
                       ),
-
                       const SizedBox(height: 5),
-
                       Container(
                         padding:
                             const EdgeInsets.symmetric(
@@ -1125,9 +1093,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 15),
-
                       const Text(
                         'This certificate is proudly presented to',
                         textAlign: TextAlign.center,
@@ -1135,9 +1101,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           fontSize: 9,
                         ),
                       ),
-
                       const SizedBox(height: 5),
-
                       Container(
                         width: double.infinity,
                         padding:
@@ -1168,16 +1132,13 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 5),
-
                       Container(
                         height: 1,
                         color: primaryColor.withValues(
                           alpha: 0.35,
                         ),
                       ),
-
                       if (previewId.isNotEmpty ||
                           previewDepartment.isNotEmpty) ...[
                         const SizedBox(height: 6),
@@ -1219,9 +1180,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ],
                         ),
                       ],
-
                       const SizedBox(height: 10),
-
                       Expanded(
                         child: Column(
                           children: [
@@ -1241,14 +1200,11 @@ class _CertificatePageState extends State<CertificatePage> {
                                 ),
                               ),
                             ),
-
                             const SizedBox(height: 10),
-
                             _safetyBadges(),
                           ],
                         ),
                       ),
-
                       Row(
                         mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
@@ -1266,9 +1222,7 @@ class _CertificatePageState extends State<CertificatePage> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 8),
-
                       Container(
                         width: double.infinity,
                         padding:
@@ -1460,62 +1414,52 @@ class _CertificatePageState extends State<CertificatePage> {
           Icons.edit,
           'Edit Certificate',
         ),
-
         _inputField(
           label: 'Certificate Title',
           controller: _titleController,
           icon: Icons.title,
         ),
-
         _inputField(
           label: 'Subtitle',
           controller: _subtitleController,
           icon: Icons.label_outline,
         ),
-
         _inputField(
           label: 'Employee Name',
           controller: _nameController,
           icon: Icons.person,
         ),
-
         _inputField(
           label: 'Employee ID',
           controller: _idController,
           icon: Icons.badge_outlined,
         ),
-
         _inputField(
           label: 'Department',
           controller: _departmentController,
           icon: Icons.business,
         ),
-
         _inputField(
           label: 'Achievement / Reason',
           controller: _achievementController,
           icon: Icons.workspace_premium,
           maxLines: 4,
         ),
-
         _inputField(
           label: 'Company Name',
           controller: _companyController,
           icon: Icons.business_center,
         ),
-
         _inputField(
           label: 'Authorized Signatory',
           controller: _signatoryController,
           icon: Icons.draw,
         ),
-
         _inputField(
           label: 'Footer Text',
           controller: _footerController,
           icon: Icons.short_text,
         ),
-
         InkWell(
           onTap: _selectDate,
           child: InputDecorator(
@@ -1529,9 +1473,7 @@ class _CertificatePageState extends State<CertificatePage> {
             child: Text(formattedDate),
           ),
         ),
-
         const SizedBox(height: 18),
-
         Text(
           'Name Font Size',
           style: TextStyle(
@@ -1539,7 +1481,6 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         Slider(
           min: 20,
           max: 48,
@@ -1553,7 +1494,6 @@ class _CertificatePageState extends State<CertificatePage> {
             });
           },
         ),
-
         Text(
           'Name Alignment',
           style: TextStyle(
@@ -1561,7 +1501,6 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         Row(
           children: [
             _alignmentButton(
@@ -1578,9 +1517,7 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
           ],
         ),
-
         const SizedBox(height: 15),
-
         Text(
           'Certificate Theme',
           style: TextStyle(
@@ -1588,9 +1525,7 @@ class _CertificatePageState extends State<CertificatePage> {
             color: primaryColor,
           ),
         ),
-
         const SizedBox(height: 8),
-
         Row(
           children: List.generate(
             themeColors.length,
@@ -1711,9 +1646,7 @@ class _CertificatePageState extends State<CertificatePage> {
             ),
           ),
         ),
-
         const SizedBox(height: 10),
-
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
@@ -1830,9 +1763,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 18),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1856,9 +1787,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1866,9 +1795,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   child: _editTools(),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Card(
                 elevation: 1,
                 child: Padding(
@@ -1886,13 +1813,9 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               _pdfActionButton(),
-
               const SizedBox(height: 10),
-
               if (_lastSavedPath != null)
                 Card(
                   child: Padding(
@@ -1918,9 +1841,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     ),
                   ),
                 ),
-
               const SizedBox(height: 12),
-
               Row(
                 children: [
                   Expanded(
@@ -1944,9 +1865,7 @@ class _CertificatePageState extends State<CertificatePage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 10),
-
                   Expanded(
                     child:
                         FilledButton.icon(
@@ -1974,7 +1893,6 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
             ],
           ),
