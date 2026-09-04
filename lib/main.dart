@@ -112,6 +112,8 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        // Top-right Settings removed.
+        // Settings remains available in bottom navigation.
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -143,11 +145,11 @@ class HomeScreen extends StatelessWidget {
 
               _sectionTitle(
                 'UAE HSE SAFETY',
-                'Practical guidance for construction sites',
+                'Choose UAE, Dubai or Abu Dhabi safety guidance',
               ),
               const SizedBox(height: 12),
 
-              _safetyGuides(context),
+              _uaeSafetySection(context),
               const SizedBox(height: 22),
 
               _aiBanner(context),
@@ -381,7 +383,7 @@ class HomeScreen extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -526,63 +528,108 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _safetyGuides(BuildContext context) {
-    final guides = [
-      ('Excavation', Icons.landscape_rounded),
-      ('Scaffolding', Icons.account_tree_rounded),
-      ('Working at Height', Icons.height_rounded),
-      ('Confined Space', Icons.meeting_room_rounded),
-      ('Hot Work', Icons.local_fire_department_rounded),
-      ('Electrical Safety', Icons.electrical_services_rounded),
-    ];
+  Widget _uaeSafetySection(BuildContext context) {
+    return Column(
+      children: [
+        _regionCard(
+          context,
+          icon: Icons.flag_rounded,
+          title: 'UAE HSE Safety',
+          subtitle: 'UAE-wide HSE guidance',
+          color: green,
+        ),
+        const SizedBox(height: 10),
+        _regionCard(
+          context,
+          icon: Icons.location_city_rounded,
+          title: 'Dubai HSE Safety',
+          subtitle: 'Dubai safety guidance',
+          color: const Color(0xFF1677C8),
+        ),
+        const SizedBox(height: 10),
+        _regionCard(
+          context,
+          icon: Icons.account_balance_rounded,
+          title: 'Abu Dhabi HSE Safety',
+          subtitle: 'ADOSH-SF safety guidance',
+          color: purple,
+        ),
+      ],
+    );
+  }
 
-    return SizedBox(
-      height: 116,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: guides.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
-        itemBuilder: (context, index) {
-          final item = guides[index];
-
-          return GestureDetector(
-            onTap: () {
-              openPage(context, const GuidelinesPage());
-            },
-            child: Container(
-              width: 118,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(17),
-                border: Border.all(
-                  color: Colors.grey.shade200,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    item.$2,
-                    color: green,
-                    size: 28,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item.$1,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+  Widget _regionCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () {
+          openPage(
+            context,
+            const GuidelinesPage(),
           );
         },
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Colors.grey.shade200,
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 27,
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: Color(0xFF777777),
+                        fontSize: 11.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: color,
+                size: 28,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
