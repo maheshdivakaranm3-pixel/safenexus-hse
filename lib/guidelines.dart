@@ -15,953 +15,205 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   // GENERAL UAE HSE REFERENCE LIBRARY
   // ============================================================
 
-  final List<_SafetyTopic> _generalTopics = const [
-    _SafetyTopic(
-      title: 'Risk Assessment',
+  final List<_ReferenceTopic> _referenceTopics = const [
+    _ReferenceTopic(
+      title: 'Code of Practice',
       description:
-          'Identify hazards, assess risks and implement suitable controls before work starts.',
-      purpose:
-          'Risk assessment helps identify hazards before they cause harm and provides a structured basis for selecting effective controls.',
-      hazards:
-          'Unidentified hazards, changing site conditions, unsafe work methods, inadequate controls and uncontrolled high-risk activities.',
-      controls:
-          'Identify hazards • Assess likelihood and severity • Apply hierarchy of controls • Communicate controls • Review when conditions change.',
-      ppe:
-          'PPE must be selected according to the residual risk and task requirements.',
-      checklist:
-          'Task reviewed • Hazards identified • Risk assessed • Controls implemented • Workers briefed • Supervisor verification • Review completed.',
-      documents:
-          'Risk Assessment / JSA / Method Statement / Toolbox Talk / Inspection Records.',
+          'Understand applicable HSE Codes of Practice and use them together with current legal and project requirements.',
+      ppe: 'PPE based on the task and identified hazards.',
     ),
-    _SafetyTopic(
-      title: 'Personal Protective Equipment',
-      description:
-          'Select, provide, inspect and correctly use PPE according to workplace hazards.',
-      purpose:
-          'PPE provides the final layer of protection when hazards cannot be adequately controlled through higher-level controls.',
-      hazards:
-          'Head injury, eye injury, hearing damage, respiratory exposure, hand injury, foot injury and falls.',
-      controls:
-          'Select suitable PPE • Ensure correct fit • Inspect before use • Maintain PPE • Replace damaged equipment • Train workers.',
-      ppe:
-          'Safety helmet • Safety footwear • Eye protection • Gloves • Hearing protection • Respiratory protection • Fall protection where required.',
-      checklist:
-          'Correct PPE selected • Correct size • Good condition • Worker trained • PPE inspected • Replacement available.',
-      documents:
-          'PPE Assessment / PPE Issue Record / Inspection Record / Training Record.',
-    ),
-    _SafetyTopic(
-      title: 'Heat Stress',
-      description:
-          'Prevent heat-related illness through planning, hydration, rest, shade and worker monitoring.',
-      purpose:
-          'Heat-stress management reduces the risk of heat exhaustion, heat stroke, dehydration and other heat-related illness.',
-      hazards:
-          'High temperature, humidity, direct sunlight, heavy physical work, inadequate hydration and insufficient recovery periods.',
-      controls:
-          'Work planning • Hydration • Rest and shade • Acclimatization • Heat awareness • Worker monitoring • Emergency response.',
-      ppe:
-          'Suitable work clothing, head protection and task-specific PPE without creating unnecessary heat burden.',
-      checklist:
-          'Water available • Rest area available • Heat-risk assessment completed • Workers briefed • Symptoms monitored • Emergency plan available.',
-      documents:
-          'Heat Stress Plan / Toolbox Talk / Worker Monitoring / Training Records.',
-    ),
-    _SafetyTopic(
-      title: 'Fire Safety',
-      description:
-          'Prevent fire and ensure people can respond quickly and evacuate safely.',
-      purpose:
-          'Fire safety controls reduce the likelihood of fire and limit consequences when a fire occurs.',
-      hazards:
-          'Ignition sources, flammable materials, electrical faults, hot work, gas cylinders and poor housekeeping.',
-      controls:
-          'Fire risk assessment • Good housekeeping • Control ignition sources • Suitable extinguishers • Emergency routes • Fire drills.',
-      ppe:
-          'Task-specific fire-resistant PPE where required.',
-      checklist:
-          'Fire exits clear • Extinguishers accessible • Emergency numbers displayed • Hot work controlled • Workers trained.',
-      documents:
-          'Fire Risk Assessment / Emergency Plan / Inspection Records / Drill Records.',
-    ),
-    _SafetyTopic(
-      title: 'Emergency Preparedness',
-      description:
-          'Prepare people, procedures and resources for workplace emergencies.',
-      purpose:
-          'Emergency preparedness ensures workers know what to do during fire, medical, environmental, structural or other emergencies.',
-      hazards:
-          'Delayed evacuation, poor communication, blocked routes, inadequate emergency equipment and untrained personnel.',
-      controls:
-          'Emergency plan • Alarm system • Assembly points • Emergency contacts • Drills • Trained emergency personnel.',
-      ppe:
-          'Emergency PPE according to the foreseeable emergency.',
-      checklist:
-          'Emergency plan available • Routes clear • Assembly point identified • Emergency equipment inspected • Drills conducted.',
-      documents:
-          'Emergency Response Plan / Drill Report / Emergency Contact List.',
-    ),
-    _SafetyTopic(
-      title: 'First Aid',
-      description:
-          'Provide appropriate first-aid arrangements and prompt medical response.',
-      purpose:
-          'First aid provides immediate assistance while further medical treatment is arranged.',
-      hazards:
-          'Delayed treatment, inadequate first-aid equipment, lack of trained first aiders and poor emergency communication.',
-      controls:
-          'First-aid assessment • Suitable kits • Trained first aiders • Emergency communication • Access to medical services.',
-      ppe:
-          'First-aid responder PPE appropriate to the incident.',
-      checklist:
-          'First-aid kit stocked • Expiry dates checked • First aider available • Emergency number known • Access maintained.',
-      documents:
-          'First Aid Inspection / Training Records / Incident Report.',
-    ),
-    _SafetyTopic(
-      title: 'Occupational Health',
-      description:
-          'Identify and control workplace exposures that may affect worker health.',
-      purpose:
-          'Occupational health management focuses on preventing work-related illness through exposure assessment, health monitoring and preventive controls.',
-      hazards:
-          'Noise, vibration, chemicals, dust, ergonomic risks, heat and other occupational exposures.',
-      controls:
-          'Exposure assessment • Engineering controls • Administrative controls • Health surveillance where applicable • Worker awareness.',
-      ppe:
-          'Exposure-specific PPE.',
-      checklist:
-          'Exposure identified • Controls implemented • Monitoring completed • Workers informed • Health surveillance considered where applicable.',
-      documents:
-          'Exposure Assessment / Health Surveillance / Training Records.',
-    ),
-    _SafetyTopic(
-      title: 'Work at Height',
-      description:
-          'Prevent falls through safe access, edge protection and suitable fall protection.',
-      purpose:
-          'Work-at-height controls prevent falls from platforms, roofs, ladders, scaffolds and other elevated locations.',
-      hazards:
-          'Falls from edges, unsafe ladders, fragile surfaces, dropped objects and unsuitable access equipment.',
-      controls:
-          'Avoid work at height where practicable • Safe access • Guardrails • Edge protection • Fall protection • Rescue planning.',
-      ppe:
-          'Safety helmet • Safety footwear • Full-body harness and suitable fall-arrest equipment where required.',
-      checklist:
-          'Access inspected • Edge protection installed • Fall protection checked • Anchor points suitable • Rescue plan available.',
-      documents:
-          'Work-at-Height Risk Assessment / Method Statement / Inspection Records / Rescue Plan.',
-    ),
-    _SafetyTopic(
-      title: 'Confined Space',
-      description:
-          'Control atmospheric, physical and emergency risks associated with confined-space work.',
-      purpose:
-          'Confined-space controls protect workers from toxic atmospheres, oxygen deficiency, engulfment and difficult rescue conditions.',
-      hazards:
-          'Oxygen deficiency, toxic gases, flammable atmosphere, engulfment, restricted access and emergency rescue difficulty.',
-      controls:
-          'Risk assessment • Isolation • Gas testing • Ventilation • Permit • Standby person • Communication • Rescue plan.',
-      ppe:
-          'Task-specific PPE • Respiratory protection where assessed and suitable • Harness/rescue equipment where required.',
-      checklist:
-          'Permit issued • Isolation confirmed • Atmosphere tested • Ventilation available • Standby person assigned • Rescue equipment ready.',
-      documents:
-          'Confined Space Permit / Gas Test Record / Rescue Plan / Training Records.',
-    ),
-    _SafetyTopic(
-      title: 'Electrical Safety',
-      description:
-          'Prevent electric shock, burns, fire and equipment damage.',
-      purpose:
-          'Electrical safety requires competent work, isolation, inspection and protection from electrical hazards.',
-      hazards:
-          'Live electrical parts, damaged cables, poor earthing, overloaded circuits, unsuitable tools and wet conditions.',
-      controls:
-          'Competent persons • Isolation • Lockout/Tagout where applicable • Inspection • Suitable protection • Controlled access.',
-      ppe:
-          'Electrical PPE appropriate to the assessed task and system.',
-      checklist:
-          'Equipment inspected • Cables undamaged • Isolation available • Protective devices functional • Competent person assigned.',
-      documents:
-          'Electrical Inspection / Isolation Record / Permit / Test Certificate.',
-    ),
-    _SafetyTopic(
-      title: 'Lifting & Rigging',
-      description:
-          'Plan and control lifting operations involving cranes, lifting accessories and loads.',
-      purpose:
-          'Lifting controls prevent dropped loads, equipment failure, struck-by incidents and uncontrolled movement.',
-      hazards:
-          'Overloading, defective lifting gear, poor rigging, unstable loads, suspended loads and poor communication.',
-      controls:
-          'Lift plan • Competent personnel • Certified equipment • Load assessment • Exclusion zone • Communication.',
-      ppe:
-          'Helmet • Safety footwear • Gloves • High-visibility clothing and task-specific PPE.',
-      checklist:
-          'Lift plan approved • Equipment certified • Accessories inspected • Load known • Ground condition checked • Exclusion zone established.',
-      documents:
-          'Lift Plan / Lifting Equipment Register / Inspection Certificates / Competency Records.',
-    ),
-    _SafetyTopic(
-      title: 'Chemical Safety',
-      description:
-          'Control chemical storage, handling, exposure, spills and disposal.',
-      purpose:
-          'Chemical safety prevents exposure, fire, incompatible reactions and environmental releases.',
-      hazards:
-          'Toxic exposure, corrosive substances, flammable liquids, incompatible chemicals and spills.',
-      controls:
-          'SDS • Labelling • Compatible storage • Ventilation • Exposure controls • Spill response • Safe disposal.',
-      ppe:
-          'Chemical-resistant gloves • Eye/face protection • Suitable protective clothing • Respiratory protection where required.',
-      checklist:
-          'SDS available • Containers labelled • Storage compatible • Spill kit available • Workers trained.',
-      documents:
-          'SDS Register / Chemical Register / Risk Assessment / Spill Report.',
-    ),
-    _SafetyTopic(
-      title: 'Incident Investigation',
-      description:
-          'Report, investigate and learn from incidents, near misses and unsafe events.',
-      purpose:
-          'Incident investigation identifies immediate, underlying and root causes and prevents recurrence.',
-      hazards:
-          'Repeat incidents, inadequate corrective actions, missing evidence and delayed reporting.',
-      controls:
-          'Immediate response • Preserve evidence • Gather facts • Identify root causes • Corrective actions • Follow-up.',
-      ppe:
-          'Incident-scene PPE appropriate to hazards.',
-      checklist:
-          'Incident reported • Scene made safe • Evidence collected • Causes identified • Actions assigned • Close-out verified.',
-      documents:
-          'Incident Report / Investigation Report / Corrective Action Register.',
-    ),
-    _SafetyTopic(
-      title: 'Environmental Safety',
-      description:
-          'Control environmental risks arising from workplace and construction activities.',
-      purpose:
-          'Environmental controls reduce impacts from waste, dust, noise, spills, emissions and other activities.',
-      hazards:
-          'Spills, dust, waste, emissions, noise, contaminated water and uncontrolled discharge.',
-      controls:
-          'Environmental assessment • Waste segregation • Spill prevention • Dust control • Monitoring • Emergency response.',
-      ppe:
-          'Environmental/task-specific PPE.',
-      checklist:
-          'Waste controlled • Spill kit available • Dust controlled • Storage compliant • Environmental inspections completed.',
-      documents:
-          'Environmental Plan / Waste Records / Inspection Records / Spill Reports.',
-    ),
-    _SafetyTopic(
-      title: 'Manual Handling',
-      description:
-          'Reduce musculoskeletal injuries through task assessment and safer handling methods.',
-      purpose:
-          'Manual-handling controls reduce strain, sprains, back injuries and repetitive-motion injuries.',
-      hazards:
-          'Heavy loads, awkward posture, repetitive movement, pushing/pulling and poor work height.',
-      controls:
-          'Avoid unnecessary lifting • Mechanical aids • Reduce load • Team lifting • Good technique • Task redesign.',
-      ppe:
-          'Safety footwear • Gloves where appropriate.',
-      checklist:
-          'Load assessed • Mechanical aid considered • Route clear • Load manageable • Workers trained.',
-      documents:
-          'Manual Handling Assessment / Training Record / Task Risk Assessment.',
-    ),
-    _SafetyTopic(
-      title: 'Traffic & Vehicle Safety',
-      description:
-          'Control interaction between pedestrians, vehicles and mobile equipment.',
-      purpose:
-          'Traffic management reduces vehicle-pedestrian collisions, reversing incidents and uncontrolled vehicle movement.',
-      hazards:
-          'Reversing, blind spots, speeding, pedestrian interaction, poor visibility and unstable loads.',
-      controls:
-          'Traffic plan • Segregation • Speed control • Banksman • Reversing controls • Signage • Lighting.',
-      ppe:
-          'High-visibility clothing • Safety footwear • Helmet where required.',
-      checklist:
-          'Routes defined • Pedestrian segregation • Vehicle checks completed • Speed controlled • Operators competent.',
-      documents:
-          'Traffic Management Plan / Vehicle Inspection / Driver Competency Records.',
-    ),
-    _SafetyTopic(
-      title: 'Permit to Work',
-      description:
-          'Control high-risk work through authorization, isolation and documented precautions.',
-      purpose:
-          'A permit-to-work system ensures hazardous activities are formally assessed and controlled before work starts.',
-      hazards:
-          'Uncontrolled high-risk work, conflicting activities, inadequate isolation and poor communication.',
-      controls:
-          'Task identification • Risk assessment • Isolation • Permit authorization • Toolbox talk • Close-out.',
-      ppe:
-          'Task-specific PPE.',
-      checklist:
-          'Permit valid • Isolation confirmed • Controls verified • Workers briefed • Permit displayed • Close-out completed.',
-      documents:
-          'Permit / Isolation Certificate / Toolbox Talk / Close-out Record.',
-    ),
-    _SafetyTopic(
+    _ReferenceTopic(
       title: 'Excavation Safety',
       description:
-          'Control collapse, underground services, falls and falling materials.',
-      purpose:
-          'Excavation safety protects workers from collapse, service strikes, falls and water ingress.',
-      hazards:
-          'Cave-in, underground utilities, falling materials, plant movement, water and unsafe access.',
-      controls:
-          'Service detection • Shoring/sloping • Safe access • Edge protection • Spoil setback • Inspection.',
-      ppe:
-          'Helmet • Safety footwear • High-visibility clothing • Task-specific PPE.',
-      checklist:
-          'Permit/assessment completed • Services identified • Protection installed • Access provided • Daily inspection completed.',
-      documents:
-          'Excavation Permit / Service Drawing / Inspection Record / Risk Assessment.',
+          'Control excavation hazards including collapse, underground services, access, water and falling materials.',
+      ppe: 'Safety helmet • Safety footwear • High-visibility vest • Eye protection • Gloves.',
     ),
-    _SafetyTopic(
+    _ReferenceTopic(
       title: 'Scaffolding Safety',
       description:
-          'Ensure safe scaffold erection, inspection, access, loading and use.',
-      purpose:
-          'Scaffolding must provide stable and safe access and working platforms.',
-      hazards:
-          'Collapse, falls, missing guardrails, unstable foundations, overloading and unauthorized alteration.',
-      controls:
-          'Competent erection • Stable foundation • Guardrails • Toe boards • Safe access • Inspection • Load control.',
-      ppe:
-          'Helmet • Safety footwear • Fall protection during erection where required.',
-      checklist:
-          'Foundation stable • Scaffold inspected • Tag/status clear • Guardrails present • Access safe • Load controlled.',
-      documents:
-          'Scaffold Design/Method • Inspection Record • Handover Certificate.',
+          'Safe scaffold erection, inspection, access, loading and use.',
+      ppe: 'Safety helmet • Safety footwear • Gloves • Full body harness where required.',
     ),
-    _SafetyTopic(
+    _ReferenceTopic(
+      title: 'Working at Height',
+      description:
+          'Prevent falls through safe access, edge protection, fall protection and rescue planning.',
+      ppe: 'Safety helmet with chin strap • Safety footwear • Full body harness where required.',
+    ),
+    _ReferenceTopic(
+      title: 'Power Tools Safety',
+      description:
+          'Safe selection, inspection, operation and maintenance of portable power tools.',
+      ppe: 'Safety glasses • Hearing protection • Gloves where suitable • Safety footwear.',
+    ),
+    _ReferenceTopic(
+      title: 'Formwork Safety',
+      description:
+          'Control formwork stability, erection, loading, stripping and temporary support hazards.',
+      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection.',
+    ),
+    _ReferenceTopic(
+      title: 'Permit to Work (PTW)',
+      description:
+          'Plan and control high-risk activities through an effective permit-to-work system.',
+      ppe: 'PPE determined by the permitted task and risk assessment.',
+    ),
+    _ReferenceTopic(
+      title: 'Working in Hot & Humid Climate',
+      description:
+          'Manage heat exposure through hydration, rest, shade, planning, monitoring and worker awareness.',
+      ppe: 'Light suitable work clothing • Safety footwear • Head protection • Task-specific PPE.',
+    ),
+    _ReferenceTopic(
+      title: 'Confined Space Safety',
+      description:
+          'Control atmospheric, physical and emergency risks associated with confined-space work.',
+      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection • Respiratory protection where required • Harness where required.',
+    ),
+    _ReferenceTopic(
+      title: 'Working Near Live Roads',
+      description:
+          'Protect workers and road users through traffic management, segregation, signs and safe work zones.',
+      ppe: 'High-visibility clothing • Safety footwear • Safety helmet • Task-specific PPE.',
+    ),
+    _ReferenceTopic(
+      title: 'Concreting Safety',
+      description:
+          'Control hazards associated with concrete delivery, pumping, placing, vibration and finishing.',
+      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection • Suitable protective clothing.',
+    ),
+    _ReferenceTopic(
+      title: 'Barricading of Hazards',
+      description:
+          'Use effective barricading and warning systems to prevent unauthorized access to hazards.',
+      ppe: 'PPE based on the hazard within the barricaded area.',
+    ),
+    _ReferenceTopic(
+      title: 'Worker Welfare',
+      description:
+          'Provide suitable welfare, sanitation, drinking water, rest areas and worker facilities.',
+      ppe: 'Task-specific PPE where work activities are involved.',
+    ),
+    _ReferenceTopic(
+      title: 'Electricity on Site & Electrical Tools',
+      description:
+          'Control electrical shock, fire and equipment hazards through safe installation, inspection and use.',
+      ppe: 'Electrical-rated PPE as required • Safety footwear • Eye protection • Arc-flash PPE where applicable.',
+    ),
+    _ReferenceTopic(
+      title: 'Temporary Works',
+      description:
+          'Plan, design, inspect and control temporary structures and supporting systems.',
+      ppe: 'Safety helmet • Safety footwear • Gloves • Fall protection where required.',
+    ),
+    _ReferenceTopic(
+      title: 'Manual Handling',
+      description:
+          'Reduce manual-handling injuries through task assessment, mechanical aids and safe techniques.',
+      ppe: 'Safety footwear • Gloves appropriate to the material • Other task-specific PPE.',
+    ),
+    _ReferenceTopic(
       title: 'Hot Work Safety',
       description:
-          'Control welding, cutting, grinding and other heat/spark-producing activities.',
-      purpose:
-          'Hot-work controls prevent fire, explosion, burns and exposure to fumes.',
-      hazards:
-          'Fire, explosion, sparks, hot surfaces, fumes, gas cylinders and nearby combustible materials.',
-      controls:
-          'Hot Work Permit • Remove combustibles • Fire watch • Fire extinguisher • Gas cylinder control • Post-work inspection.',
-      ppe:
-          'Welding helmet • Face shield • Gloves • Flame-resistant clothing • Safety footwear • Respiratory protection where required.',
-      checklist:
-          'Permit issued • Area inspected • Combustibles removed • Fire extinguisher available • Fire watch assigned.',
-      documents:
-          'Hot Work Permit / Gas Cylinder Inspection / Fire Watch Record.',
+          'Control welding, cutting, grinding and other activities that generate heat, sparks or flames.',
+      ppe: 'Welding helmet/goggles • Gloves • Flame-resistant clothing • Safety footwear • Face shield where required.',
     ),
   ];
 
   // ============================================================
-  // UAE-WIDE REGION
+  // REGION DATA
   // ============================================================
 
-  final _SafetyRegion _uaeRegion = const _SafetyRegion(
-    id: 'uae',
-    title: 'UAE Safety',
-    subtitle: 'UAE-wide HSE guidance',
-    icon: Icons.flag_rounded,
-    color: Color(0xFF159447),
-    description:
-        'UAE-wide practical HSE guidance for workplaces, construction activities and safety professionals. Local emirate authority requirements must also be checked.',
-    topics: [
-      _RegionalTopic(
-        title: 'UAE HSE Framework',
-        description:
-            'Understand the UAE-wide HSE approach and the importance of applicable federal and local requirements.',
-        purpose:
-            'Use a structured HSE management approach while identifying the authority and legal requirements applicable to the emirate, activity and project.',
-        hazards:
-            'Incorrect legal assumptions, outdated procedures, unclear responsibilities and uncontrolled workplace hazards.',
-        controls:
-            'Identify applicable legislation • Identify competent authorities • Maintain current procedures • Conduct risk assessment • Monitor compliance.',
-        checklist:
-            'Applicable requirements identified • HSE responsibilities assigned • Risk assessment current • Procedures communicated • Records maintained.',
-        reference:
-            'UAE federal requirements and applicable emirate/project authority requirements.',
-      ),
-      _RegionalTopic(
-        title: 'Construction Site Safety',
-        description:
-            'Core safety controls for construction and infrastructure activities across the UAE.',
-        purpose:
-            'Provide a structured approach to controlling construction hazards from planning through execution.',
-        hazards:
-            'Falls, excavation collapse, lifting, plant movement, electrical hazards, temporary works and hot work.',
-        controls:
-            'Construction risk assessment • Method statements • PTW • Competent supervision • Inspection • Worker induction.',
-        checklist:
-            'Site induction • Risk assessment • Method statement • PTW where required • Emergency arrangements • Daily inspection.',
-        reference:
-            'Applicable UAE legislation, emirate authority requirements and approved project HSE procedures.',
-      ),
-      _RegionalTopic(
-        title: 'Worker Welfare',
-        description:
-            'Basic worker welfare arrangements including drinking water, sanitation, rest and hygiene.',
-        purpose:
-            'Provide workers with suitable welfare arrangements that support health, hygiene and safe working conditions.',
-        hazards:
-            'Dehydration, poor hygiene, inadequate sanitation, heat exposure and unsuitable rest facilities.',
-        controls:
-            'Potable water • Sanitation • Washing facilities • Rest areas • Hygiene • Heat protection.',
-        checklist:
-            'Water available • Toilets clean • Rest area suitable • Hygiene maintained • Facilities inspected.',
-        reference:
-            'Applicable UAE labour, occupational safety and project requirements.',
-      ),
-      _RegionalTopic(
-        title: 'Emergency Response',
-        description:
-            'Prepare for fire, medical, environmental and other workplace emergencies.',
-        purpose:
-            'Ensure workers understand alarms, evacuation, communication and emergency responsibilities.',
-        hazards:
-            'Delayed response, blocked evacuation routes and inadequate emergency resources.',
-        controls:
-            'Emergency plan • Alarm • Assembly point • Emergency contacts • Drills • Trained responders.',
-        checklist:
-            'Emergency plan available • Routes clear • Assembly point marked • Emergency equipment inspected • Drill records maintained.',
-        reference:
-            'Applicable civil defence, authority and project emergency requirements.',
-      ),
-      _RegionalTopic(
-        title: 'UAE Heat & Outdoor Work',
-        description:
-            'Manage heat exposure during outdoor and physically demanding work.',
-        purpose:
-            'Prevent heat-related illness through work planning, hydration, rest, shade and worker monitoring.',
-        hazards:
-            'Heat, humidity, direct sun, heavy work and dehydration.',
-        controls:
-            'Heat-risk assessment • Water • Rest • Shade • Acclimatization • Monitoring • Emergency response.',
-        checklist:
-            'Heat controls active • Water available • Rest area available • Workers briefed • Symptoms monitored.',
-        reference:
-            'Applicable UAE and emirate-specific heat-stress requirements.',
-      ),
-      _RegionalTopic(
-        title: 'Environmental Protection',
-        description:
-            'Control waste, spills, dust, noise and other environmental impacts.',
-        purpose:
-            'Reduce environmental harm from workplace and construction operations.',
-        hazards:
-            'Waste, spills, dust, emissions, contaminated water and uncontrolled discharge.',
-        controls:
-            'Waste segregation • Spill prevention • Dust suppression • Controlled storage • Environmental inspection.',
-        checklist:
-            'Waste controlled • Spill kit available • Dust controlled • Storage secure • Records maintained.',
-        reference:
-            'Applicable UAE federal, emirate and environmental authority requirements.',
-      ),
-    ],
-  );
-
-  // ============================================================
-  // DUBAI REGION
-  // Based on Dubai Municipality Health & Safety Technical Guidelines
-  // ============================================================
-
-  final _SafetyRegion _dubaiRegion = const _SafetyRegion(
-    id: 'dubai',
-    title: 'Dubai Safety',
-    subtitle: 'Dubai Municipality & Dubai-specific HSE',
-    icon: Icons.location_city_rounded,
-    color: Color(0xFF1677C8),
-    description:
-        'Dubai-focused HSE guidance based around Dubai Municipality health and safety guidance and Dubai-specific workplace and construction topics.',
-    topics: [
-      _RegionalTopic(
-        title: 'Dubai Health & Safety Risk Assessment',
-        description:
-            'Structured risk assessment for Dubai workplaces and built-environment activities.',
-        purpose:
-            'Identify hazards, evaluate risk and establish suitable controls before and during work.',
-        hazards:
-            'Uncontrolled workplace hazards, construction hazards, plant interaction and changing site conditions.',
-        controls:
-            'Hazard identification • Risk evaluation • Hierarchy of controls • Worker consultation • Review after changes.',
-        checklist:
-            'Assessment completed • Controls assigned • Responsible person identified • Workers briefed • Review date established.',
-        reference:
-            'Dubai Municipality Health & Safety Technical Guideline 137 and applicable project requirements.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Safe Forklift Operations',
-        description:
-            'Control powered forklift operations, loading, movement and pedestrian interaction.',
-        purpose:
-            'Prevent collisions, overturning, dropped loads and pedestrian injuries during forklift operations.',
-        hazards:
-            'Overloading, unstable loads, reversing, blind spots, speeding and untrained operators.',
-        controls:
-            'Competent operator • Pre-use inspection • Load control • Speed control • Pedestrian segregation • Safe parking.',
-        checklist:
-            'Operator competent • Forklift inspected • Load within capacity • Route clear • Pedestrians segregated.',
-        reference:
-            'Dubai Municipality Technical Guideline 146 for Safe Forklifts Operations.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Safe Storage',
-        description:
-            'Safe storage arrangements for materials, equipment and workplace goods.',
-        purpose:
-            'Prevent falling objects, unstable stacks, blocked access and storage-related fire or handling hazards.',
-        hazards:
-            'Unstable stacking, overloaded shelves, falling materials, blocked routes and incompatible storage.',
-        controls:
-            'Stable stacking • Load limits • Clear aisles • Suitable racks • Inspection • Good housekeeping.',
-        checklist:
-            'Stacks stable • Shelves within capacity • Aisles clear • Heavy items positioned safely • Storage inspected.',
-        reference:
-            'Dubai Municipality Technical Guideline 148 for Safe Storage.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Confined Space Entry',
-        description:
-            'Controls for confined-space entry within Dubai workplaces and projects.',
-        purpose:
-            'Prevent atmospheric exposure, engulfment, falls and difficult rescue situations.',
-        hazards:
-            'Oxygen deficiency, toxic gases, flammable atmosphere, engulfment and restricted access.',
-        controls:
-            'Risk assessment • Isolation • Gas testing • Ventilation • Entry control • Standby person • Rescue plan.',
-        checklist:
-            'Permit • Isolation • Gas test • Ventilation • Standby person • Communication • Rescue equipment.',
-        reference:
-            'Dubai Municipality Technical Guideline 39 for Confined Spaces Entry.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Heat Stress Management',
-        description:
-            'Manage heat exposure for workers performing outdoor or physically demanding work in Dubai.',
-        purpose:
-            'Reduce heat illness through suitable planning, hydration, rest, shade and worker monitoring.',
-        hazards:
-            'High temperature, humidity, direct sunlight and strenuous activity.',
-        controls:
-            'Heat assessment • Work/rest planning • Water • Shade • Acclimatization • Monitoring • Emergency response.',
-        checklist:
-            'Water • Shade • Rest • Heat briefing • Monitoring • Emergency arrangements.',
-        reference:
-            'Dubai Municipality Technical Guideline 38 for Management of Heat Stress at Work.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Dangerous Machinery Guarding',
-        description:
-            'Control dangerous moving machinery and machinery guarding hazards.',
-        purpose:
-            'Prevent contact with moving parts, crushing, entanglement and other machinery injuries.',
-        hazards:
-            'Unprotected moving parts, unexpected start-up, maintenance access and bypassed guards.',
-        controls:
-            'Suitable guarding • Isolation • Interlocks where appropriate • Maintenance control • Competent operation.',
-        checklist:
-            'Guards installed • Guards intact • Emergency stop available • Isolation procedure known • Operators trained.',
-        reference:
-            'Dubai Municipality Technical Guideline 41 for Guarding of Dangerous Machinery.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Indoor Air Quality',
-        description:
-            'Control workplace indoor-air-quality risks in buildings and occupied areas.',
-        purpose:
-            'Reduce health impacts associated with inadequate ventilation, contaminants, mould and poor indoor environmental conditions.',
-        hazards:
-            'Poor ventilation, dust, mould, chemical contaminants and inadequate air exchange.',
-        controls:
-            'Ventilation assessment • HVAC maintenance • Source control • Cleaning • Monitoring where required.',
-        checklist:
-            'Ventilation functional • HVAC maintained • Contamination controlled • Complaints investigated.',
-        reference:
-            'Dubai Municipality Environmental Indoor Air Quality guidance.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Organic Solvent Safety',
-        description:
-            'Safe use and control of industrial organic solvents.',
-        purpose:
-            'Prevent inhalation, skin exposure, fire and uncontrolled chemical release.',
-        hazards:
-            'Flammable vapour, toxic exposure, skin contact and incompatible storage.',
-        controls:
-            'SDS • Ventilation • Ignition control • Suitable storage • PPE • Spill response.',
-        checklist:
-            'Containers labelled • SDS available • Ventilation adequate • Ignition controlled • Spill kit available.',
-        reference:
-            'Dubai Municipality Technical Guideline 43 for Safe Use of Industrial Organic Solvents.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Waste Management',
-        description:
-            'Safe segregation, handling, storage and disposal of workplace waste.',
-        purpose:
-            'Prevent injuries, contamination, environmental releases and poor housekeeping.',
-        hazards:
-            'Sharp waste, chemical waste, mixed waste, spills and uncontrolled accumulation.',
-        controls:
-            'Segregation • Labelling • Suitable containers • Collection • Controlled storage • Approved disposal.',
-        checklist:
-            'Bins suitable • Waste segregated • Containers closed • Collection scheduled • Area clean.',
-        reference:
-            'Applicable Dubai Municipality waste and environmental requirements.',
-      ),
-      _RegionalTopic(
-        title: 'Dubai Kitchen & Food Area Safety',
-        description:
-            'Health and safety controls for kitchen and food-preparation work areas.',
-        purpose:
-            'Control slips, burns, cuts, food-area hygiene and equipment hazards.',
-        hazards:
-            'Hot surfaces, knives, slips, chemicals, gas/electrical equipment and poor hygiene.',
-        controls:
-            'Safe equipment • Housekeeping • Slip prevention • PPE • Chemical control • Emergency arrangements.',
-        checklist:
-            'Floors clean • Equipment guarded • Knives stored safely • Chemicals controlled • Emergency equipment available.',
-        reference:
-            'Dubai Municipality Health and Safety guidance for kitchen and food areas.',
-      ),
-    ],
-  );
-
-  // ============================================================
-  // ABU DHABI REGION
-  // Based on ADOSH-SF official framework
-  // ============================================================
-
-  final _SafetyRegion _abuDhabiRegion = const _SafetyRegion(
-    id: 'abu_dhabi',
-    title: 'Abu Dhabi Safety',
-    subtitle: 'ADOSH-SF occupational safety & health',
-    icon: Icons.account_balance_rounded,
-    color: Color(0xFF6736C8),
-    description:
-        'Abu Dhabi-focused OSH guidance structured around the ADOSH-SF framework, Codes of Practice, Mechanisms and Technical Guidelines.',
-    topics: [
-      _RegionalTopic(
-        title: 'ADOSH-SF Framework',
-        description:
-            'Understand the Abu Dhabi Occupational Safety and Health System Framework.',
-        purpose:
-            'Provide a clear understanding of the structure and principles used to manage occupational safety and health in Abu Dhabi.',
-        hazards:
-            'Unclear OSH responsibilities, inadequate management systems and failure to identify applicable requirements.',
-        controls:
-            'Understand the Manual • Management System Elements • Mechanisms • Codes of Practice • Technical Guidelines.',
-        checklist:
-            'Applicable ADOSH-SF requirements identified • OSH responsibilities defined • System documented • Records maintained.',
-        reference:
-            'ADOSH-SF Version 4.0 official Manual and framework documents.',
-      ),
-      _RegionalTopic(
-        title: 'ADOSH-SF Management System',
-        description:
-            'Minimum management-system requirements for applicable entities in Abu Dhabi.',
-        purpose:
-            'Establish a systematic approach to occupational safety and health management.',
-        hazards:
-            'Weak leadership, inadequate planning, poor consultation, insufficient monitoring and incomplete corrective actions.',
-        controls:
-            'Policy • Planning • Risk management • Consultation • Training • Monitoring • Review • Improvement.',
-        checklist:
-            'OSH policy • Roles defined • Objectives established • Risk process active • Monitoring completed • Review performed.',
-        reference:
-            'ADOSH-SF Management System Elements V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Risk Management',
-        description:
-            'Identify and control occupational safety and health risks under the ADOSH-SF approach.',
-        purpose:
-            'Ensure workplace hazards are identified, assessed and controlled systematically.',
-        hazards:
-            'Unidentified hazards, inadequate controls and changes not reflected in risk assessments.',
-        controls:
-            'Hazard identification • Risk assessment • Hierarchy of controls • Consultation • Review.',
-        checklist:
-            'Risk assessment current • Controls implemented • Workers consulted • Changes reviewed.',
-        reference:
-            'ADOSH-SF requirements and applicable Codes of Practice.',
-      ),
-      _RegionalTopic(
-        title: 'ADOSH-SF Personal Protective Equipment',
-        description:
-            'PPE requirements and management for Abu Dhabi workplaces.',
-        purpose:
-            'Ensure PPE is selected and managed according to assessed workplace hazards.',
-        hazards:
-            'Incorrect PPE, poor fit, damaged equipment and reliance on PPE instead of higher-level controls.',
-        controls:
-            'Hazard-based selection • Fit • Inspection • Maintenance • Replacement • Training.',
-        checklist:
-            'PPE assessment • Correct PPE • Fit checked • Inspection • Training • Replacement process.',
-        reference:
-            'ADOSH-SF CoP 2.0 Personal Protective Equipment V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Occupational Noise',
-        description:
-            'Control worker exposure to occupational noise.',
-        purpose:
-            'Prevent hearing damage through exposure assessment and suitable controls.',
-        hazards:
-            'High noise from machinery, construction equipment and industrial activities.',
-        controls:
-            'Noise assessment • Engineering controls • Administrative controls • Hearing protection • Health monitoring where required.',
-        checklist:
-            'Noise assessed • Sources identified • Controls applied • Hearing protection available • Monitoring considered.',
-        reference:
-            'ADOSH-SF CoP 3.0 Occupational Noise V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Vibration',
-        description:
-            'Control exposure to hand-arm and whole-body vibration.',
-        purpose:
-            'Reduce occupational health risks from vibration-producing tools, equipment and vehicles.',
-        hazards:
-            'Long exposure duration, high-vibration tools and poorly maintained equipment.',
-        controls:
-            'Exposure assessment • Low-vibration equipment • Maintenance • Exposure limits/time management • Health monitoring.',
-        checklist:
-            'Equipment identified • Exposure assessed • Controls implemented • Workers informed • Monitoring considered.',
-        reference:
-            'ADOSH-SF CoP 3.1 Vibration V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi First Aid & Medical Emergency',
-        description:
-            'Establish suitable first-aid and medical emergency arrangements.',
-        purpose:
-            'Ensure appropriate immediate care and emergency medical response.',
-        hazards:
-            'Delayed treatment, inadequate first-aid arrangements and poor emergency communication.',
-        controls:
-            'First-aid assessment • Trained personnel • Equipment • Emergency communication • Medical access.',
-        checklist:
-            'First-aid facilities • Trained first aiders • Equipment checked • Emergency contacts • Access maintained.',
-        reference:
-            'ADOSH-SF CoP 4.0 First Aid and Medical Emergency Treatment V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Occupational Health',
-        description:
-            'Occupational health screening and medical surveillance where applicable.',
-        purpose:
-            'Identify and manage work-related health risks through suitable assessment and surveillance.',
-        hazards:
-            'Noise, chemicals, vibration, heat, ergonomic and other occupational exposures.',
-        controls:
-            'Exposure assessment • Health screening • Medical surveillance where required • Preventive controls.',
-        checklist:
-            'Exposure identified • Health requirements assessed • Surveillance arranged where applicable • Records controlled.',
-        reference:
-            'ADOSH-SF CoP 5.0 Occupational Health Screening and Medical Surveillance.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Safety in the Heat',
-        description:
-            'Control occupational heat exposure in Abu Dhabi workplaces.',
-        purpose:
-            'Prevent heat-related illness through planning, hydration, rest, shade, acclimatization and monitoring.',
-        hazards:
-            'Heat, humidity, direct sunlight, physical work and dehydration.',
-        controls:
-            'Heat-risk assessment • Water • Rest • Shade • Acclimatization • Monitoring • Emergency response.',
-        checklist:
-            'Heat controls • Water • Rest/shade • Worker briefing • Monitoring • Emergency plan.',
-        reference:
-            'ADOSH-SF CoP 11.0 Safety in the Heat V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Electrical Safety',
-        description:
-            'Control electrical risks in Abu Dhabi workplaces and projects.',
-        purpose:
-            'Prevent electric shock, burns, fire and electrical equipment incidents.',
-        hazards:
-            'Live parts, damaged cables, poor isolation, unsuitable equipment and unauthorized work.',
-        controls:
-            'Competent persons • Isolation • LOTO • Inspection • Protection • Controlled access.',
-        checklist:
-            'Isolation • Inspection • Competent worker • Protective devices • Equipment condition verified.',
-        reference:
-            'ADOSH-SF CoP 15.0 Electrical Safety V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Permit to Work',
-        description:
-            'Formal control of high-risk work activities.',
-        purpose:
-            'Ensure hazardous work is authorized, assessed, isolated and controlled.',
-        hazards:
-            'Conflicting work, inadequate isolation, uncontrolled energy and insufficient communication.',
-        controls:
-            'Task assessment • Isolation • Permit authorization • Precautions • Toolbox talk • Close-out.',
-        checklist:
-            'Permit valid • Isolation verified • Controls checked • Workers briefed • Close-out completed.',
-        reference:
-            'ADOSH-SF CoP 21.0 Permit to Work Systems V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Working at Heights',
-        description:
-            'Fall-prevention and fall-protection requirements for elevated work.',
-        purpose:
-            'Prevent falls through planning, safe access, edge protection and suitable fall protection.',
-        hazards:
-            'Falls from edges, roofs, scaffolds, platforms and fragile surfaces.',
-        controls:
-            'Avoid • Safe access • Guardrails • Edge protection • Fall protection • Rescue planning.',
-        checklist:
-            'Risk assessment • Access inspected • Protection installed • Equipment checked • Rescue plan.',
-        reference:
-            'ADOSH-SF CoP 23.0 Working at Heights V4.1.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Lockout / Tagout',
-        description:
-            'Control hazardous energy during maintenance and intervention.',
-        purpose:
-            'Prevent unexpected energization or release of stored energy.',
-        hazards:
-            'Electrical energy, mechanical movement, pressure, hydraulic/pneumatic energy and stored energy.',
-        controls:
-            'Identify energy • Shut down • Isolate • Lock • Tag • Verify zero energy • Controlled restoration.',
-        checklist:
-            'Energy sources identified • Isolation applied • Locks/tags installed • Zero energy verified • Restoration controlled.',
-        reference:
-            'ADOSH-SF CoP 24.0 Lock-out Tag-out (Isolation) V4.1.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Construction OSH',
-        description:
-            'Occupational safety and health management during construction work.',
-        purpose:
-            'Control construction risks through planning, supervision, coordination and monitoring.',
-        hazards:
-            'Falls, lifting, excavation, temporary works, plant movement, electrical and simultaneous activities.',
-        controls:
-            'Construction OSH management • Risk assessment • Coordination • Inspection • Competent supervision.',
-        checklist:
-            'Construction OSH plan • Risk assessments • Coordination • Inspections • Corrective actions.',
-        reference:
-            'ADOSH-SF CoP 53.0 OSH Management During Construction Work and CoP 53.1.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Hazardous Materials',
-        description:
-            'Control hazardous-material storage, handling, exposure and emergency response.',
-        purpose:
-            'Prevent chemical exposure, fire, uncontrolled releases and unsafe handling.',
-        hazards:
-            'Toxicity, corrosivity, flammability, incompatible chemicals and spills.',
-        controls:
-            'SDS • Labelling • Storage • Exposure control • PPE • Spill response • Disposal.',
-        checklist:
-            'Chemical register • SDS • Labels • Compatible storage • Spill kit • Worker training.',
-        reference:
-            'ADOSH-SF CoP 1.0 Hazardous Materials V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Asbestos Management',
-        description:
-            'Manage asbestos-containing materials and prevent fibre exposure.',
-        purpose:
-            'Prevent exposure to asbestos fibres during identification, maintenance, demolition or removal.',
-        hazards:
-            'Disturbance of asbestos-containing materials and uncontrolled fibre release.',
-        controls:
-            'Survey • Identification • Competent management • Controlled work • Appropriate containment and disposal.',
-        checklist:
-            'Survey completed • Material identified • Competent contractor • Control plan • Disposal controlled.',
-        reference:
-            'ADOSH-SF CoP 1.1 Management of Asbestos Containing Materials V4.1.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Lead Exposure',
-        description:
-            'Control occupational exposure to lead.',
-        purpose:
-            'Prevent harmful lead exposure through assessment, engineering controls and health protection.',
-        hazards:
-            'Lead dust/fumes from specific processes and contaminated materials.',
-        controls:
-            'Exposure assessment • Engineering controls • Hygiene • PPE • Health surveillance where required.',
-        checklist:
-            'Exposure identified • Controls implemented • Hygiene facilities • PPE • Monitoring where applicable.',
-        reference:
-            'ADOSH-SF CoP 1.2 Lead Exposure Management V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Safety Signage',
-        description:
-            'Use suitable safety signs, signals and workplace communication.',
-        purpose:
-            'Provide clear warnings, prohibitions, mandatory instructions and emergency information.',
-        hazards:
-            'Poor visibility, missing signs, conflicting signs and inadequate worker communication.',
-        controls:
-            'Correct sign selection • Suitable location • Visibility • Maintenance • Worker awareness.',
-        checklist:
-            'Signs visible • Correct meaning • Good condition • Emergency signs clear • Obstructions removed.',
-        reference:
-            'ADOSH-SF CoP 17.0 Safety Signage and Signals V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Waste Management',
-        description:
-            'Control waste generation, segregation, storage and disposal.',
-        purpose:
-            'Prevent injury, contamination and environmental impact from workplace waste.',
-        hazards:
-            'Mixed waste, hazardous waste, sharp materials, spills and uncontrolled accumulation.',
-        controls:
-            'Segregation • Labelling • Suitable containers • Controlled storage • Approved disposal.',
-        checklist:
-            'Waste segregated • Containers suitable • Labels clear • Storage controlled • Disposal records maintained.',
-        reference:
-            'ADOSH-SF CoP 54.0 Waste Management V4.0.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Incident Reporting',
-        description:
-            'Understand incident notification, investigation and reporting requirements.',
-        purpose:
-            'Ensure relevant OSH incidents are reported, investigated and followed by corrective actions.',
-        hazards:
-            'Delayed notification, inadequate investigation and repeat incidents.',
-        controls:
-            'Immediate notification as applicable • Investigation • Root-cause analysis • Corrective action • Follow-up.',
-        checklist:
-            'Incident reported • Evidence preserved • Investigation completed • Actions assigned • Close-out verified.',
-        reference:
-            'ADOSH-SF Mechanism 11.0 Incident Notification, Investigation and Reporting.',
-      ),
-      _RegionalTopic(
-        title: 'Abu Dhabi Audit & Inspection',
-        description:
-            'Use audits and inspections to verify OSH controls and continual improvement.',
-        purpose:
-            'Identify gaps, verify compliance and ensure corrective actions are effective.',
-        hazards:
-            'Unidentified non-conformances, ineffective corrective actions and poor follow-up.',
-        controls:
-            'Inspection programme • Audit • Findings • Corrective action • Verification • Management review.',
-        checklist:
-            'Schedule established • Findings recorded • Actions assigned • Due dates set • Effectiveness verified.',
-        reference:
-            'ADOSH-SF Technical Guideline on Audit and Inspection V4.0.',
-      ),
-    ],
-  );
+  final List<_SafetyRegion> _regions = const [
+    _SafetyRegion(
+      title: 'UAE HSE Safety',
+      subtitle: 'UAE-wide HSE guidance',
+      icon: Icons.flag_rounded,
+      color: Color(0xFF159447),
+      description:
+          'General HSE guidance applicable across the United Arab Emirates. Use this section for broad workplace and construction safety principles. Always verify the latest requirements of the authority and project applicable to your location and activity.',
+      topics: [
+        'Risk Assessment',
+        'Personal Protective Equipment',
+        'Heat Stress Management',
+        'Fire Safety',
+        'Emergency Preparedness',
+        'First Aid',
+        'Occupational Health',
+        'Working at Height',
+        'Confined Space Safety',
+        'Electrical Safety',
+        'Lifting & Rigging',
+        'Chemical Safety',
+        'Incident Investigation',
+        'Environmental Safety',
+        'Manual Handling',
+        'Traffic & Vehicle Safety',
+        'Worker Welfare',
+        'Scaffolding Safety',
+      ],
+    ),
+    _SafetyRegion(
+      title: 'Dubai HSE Safety',
+      subtitle: 'Dubai Municipality & Dubai guidance',
+      icon: Icons.location_city_rounded,
+      color: Color(0xFF1677C8),
+      description:
+          'Dubai-focused HSE guidance for workplace, construction, equipment, occupational and environmental safety. This section is specifically structured around Dubai-related safety subjects and should be checked against the latest Dubai Municipality and other applicable authority requirements.',
+      topics: [
+        'Dubai HSE Framework',
+        'Dubai Municipality Safety',
+        'Construction Safety in Dubai',
+        'Health & Safety Risk Assessment',
+        'Safe Forklift Operations',
+        'Safe Storage',
+        'Working at Height',
+        'Confined Space Safety',
+        'Scaffolding Safety',
+        'Ladders & Safe Access',
+        'Machinery Safety',
+        'Lifting Operations',
+        'PPE Requirements',
+        'Heat Stress Management',
+        'Safety Signs',
+        'Indoor Air Quality',
+        'Waste Management',
+        'Emergency Safety',
+        'Fire Safety',
+        'Traffic Management',
+      ],
+    ),
+    _SafetyRegion(
+      title: 'Abu Dhabi HSE Safety',
+      subtitle: 'ADOSH-SF & Abu Dhabi guidance',
+      icon: Icons.account_balance_rounded,
+      color: Color(0xFF6736C8),
+      description:
+          'Abu Dhabi-focused occupational safety and health guidance aligned with the Abu Dhabi Occupational Safety and Health System Framework (ADOSH-SF) and applicable Codes of Practice.',
+      topics: [
+        'What is ADOSH?',
+        'ADOSH-SF Overview',
+        'Risk Management',
+        'OSH Management During Construction',
+        'Personal Protective Equipment',
+        'Occupational Noise',
+        'Vibration',
+        'First Aid & Medical Emergency',
+        'Occupational Health',
+        'Hazardous Materials',
+        'Asbestos Management',
+        'Lead Exposure',
+        'Waste Management',
+        'Scaffolding Safety',
+        'Underground Construction',
+        'Incident Notification & Reporting',
+        'Audit & Inspection',
+        'Heat Stress Management',
+        'Lifting Operations',
+        'Work at Height',
+      ],
+    ),
+  ];
 
   @override
   void dispose() {
@@ -969,43 +221,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     super.dispose();
   }
 
-  // ============================================================
-  // BUILD
-  // ============================================================
-
   @override
   Widget build(BuildContext context) {
     final query = _query.trim().toLowerCase();
 
-    final generalResults = _generalTopics.where((topic) {
-      return query.isEmpty ||
-          topic.title.toLowerCase().contains(query) ||
-          topic.description.toLowerCase().contains(query);
+    final entries = _referenceTopics.where((topic) {
+      if (query.isEmpty) return true;
+
+      return topic.title.toLowerCase().contains(query) ||
+          topic.description.toLowerCase().contains(query) ||
+          topic.ppe.toLowerCase().contains(query);
     }).toList();
 
-    final regionResults = <_RegionalTopic>[];
-
-    if (query.isNotEmpty) {
-      for (final topic in _uaeRegion.topics) {
-        if (_matchesRegionalTopic(topic, query)) {
-          regionResults.add(topic);
-        }
-      }
-
-      for (final topic in _dubaiRegion.topics) {
-        if (_matchesRegionalTopic(topic, query)) {
-          regionResults.add(topic);
-        }
-      }
-
-      for (final topic in _abuDhabiRegion.topics) {
-        if (_matchesRegionalTopic(topic, query)) {
-          regionResults.add(topic);
-        }
-      }
-    }
-
-    final searching = query.isNotEmpty;
+    final bool searching = query.isNotEmpty;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
@@ -1021,7 +249,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
         children: [
           _buildIntroCard(),
-
           const SizedBox(height: 18),
 
           TextField(
@@ -1051,11 +278,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Colors.grey.shade200),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade200,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Colors.grey.shade200),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade200,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -1063,6 +294,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   color: Color(0xFF159447),
                   width: 1.4,
                 ),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 15,
               ),
             ),
           ),
@@ -1081,7 +315,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Choose your safety guidance area',
+              'Choose your UAE safety guidance area',
               style: TextStyle(
                 color: Color(0xFF707070),
                 fontSize: 12,
@@ -1089,9 +323,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
             const SizedBox(height: 12),
 
-            _buildRegionCard(context, _uaeRegion),
-            _buildRegionCard(context, _dubaiRegion),
-            _buildRegionCard(context, _abuDhabiRegion),
+            ..._regions.map(
+              (region) => _buildRegionCard(
+                context,
+                region,
+              ),
+            ),
 
             const SizedBox(height: 18),
 
@@ -1107,11 +344,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   ),
                 ),
                 Text(
-                  '${_generalTopics.length} topics',
+                  '${_referenceTopics.length} topics',
                   style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant,
+                    color:
+                        Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -1121,7 +357,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             const SizedBox(height: 5),
 
             const Text(
-              'General practical HSE reference topics',
+              'Practical UAE HSE reference topics',
               style: TextStyle(
                 color: Color(0xFF777777),
                 fontSize: 12,
@@ -1129,85 +365,50 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
 
             const SizedBox(height: 10),
+          ],
 
-            ...generalResults.asMap().entries.map(
-                  (entry) => _buildGeneralTopicCard(
+          if (searching)
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Search Results',
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                Text(
+                  '${entries.length} topics',
+                  style: TextStyle(
+                    color:
+                        Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+
+          const SizedBox(height: 8),
+
+          if (entries.isEmpty)
+            _buildEmptySearchState()
+          else
+            ...entries.asMap().entries.map(
+                  (entry) => _buildReferenceCard(
                     context,
                     entry.key + 1,
                     entry.value,
                   ),
                 ),
-          ],
-
-          if (searching) ...[
-            const Text(
-              'SEARCH RESULTS',
-              style: TextStyle(
-                color: Color(0xFF087A38),
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0.8,
-              ),
-            ),
-            const SizedBox(height: 10),
-
-            if (generalResults.isEmpty && regionResults.isEmpty)
-              _buildEmptySearchState()
-            else ...[
-              if (generalResults.isNotEmpty) ...[
-                const Text(
-                  'General UAE HSE',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...generalResults.asMap().entries.map(
-                      (entry) => _buildGeneralTopicCard(
-                        context,
-                        entry.key + 1,
-                        entry.value,
-                      ),
-                    ),
-              ],
-
-              if (regionResults.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                const Text(
-                  'Regional HSE',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...regionResults.map(
-                  (topic) => _buildSearchRegionalCard(
-                    context,
-                    topic,
-                  ),
-                ),
-              ],
-            ],
-          ],
         ],
       ),
     );
   }
 
-  bool _matchesRegionalTopic(
-    _RegionalTopic topic,
-    String query,
-  ) {
-    return topic.title.toLowerCase().contains(query) ||
-        topic.description.toLowerCase().contains(query) ||
-        topic.purpose.toLowerCase().contains(query) ||
-        topic.reference.toLowerCase().contains(query);
-  }
-
   // ============================================================
-  // INTRO
+  // INTRO CARD
   // ============================================================
 
   Widget _buildIntroCard() {
@@ -1262,7 +463,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  'UAE-wide, Dubai and Abu Dhabi focused HSE reference guidance for safety professionals and workplaces.',
+                  'Practical HSE guidance for UAE workplaces, construction sites and safety professionals.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.5,
@@ -1291,7 +492,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
-        side: BorderSide(color: Colors.grey.shade200),
+        side: BorderSide(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
@@ -1299,7 +502,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => RegionalSafetyPage(region: region),
+              builder: (_) => RegionalSafetyPage(
+                region: region,
+              ),
             ),
           );
         },
@@ -1342,15 +547,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         fontSize: 11.5,
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      '${region.topics.length} topics',
-                      style: TextStyle(
-                        color: region.color,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -1368,13 +564,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   // ============================================================
-  // GENERAL TOPIC CARD
+  // GENERAL REFERENCE CARD
   // ============================================================
 
-  Widget _buildGeneralTopicCard(
+  Widget _buildReferenceCard(
     BuildContext context,
     int number,
-    _SafetyTopic topic,
+    _ReferenceTopic topic,
   ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
@@ -1382,7 +578,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade200),
+        side: BorderSide(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -1390,7 +588,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => GeneralTopicPage(topic: topic),
+              builder: (_) => RegionalTopicPage(
+                region: _generalRegion,
+                topic: topic.title,
+                topicData: topic,
+              ),
             ),
           );
         },
@@ -1422,6 +624,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   children: [
                     Text(
                       topic.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -1457,56 +661,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
-  Widget _buildSearchRegionalCard(
-    BuildContext context,
-    _RegionalTopic topic,
-  ) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 10),
-      elevation: 0,
-      color: Colors.white,
-      child: ListTile(
-        title: Text(
-          topic.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        subtitle: Text(
-          topic.description,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: const Icon(Icons.chevron_right_rounded),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => RegionalTopicPage(
-                regionTitle: _findRegionForTopic(topic).title,
-                regionColor: _findRegionForTopic(topic).color,
-                regionIcon: _findRegionForTopic(topic).icon,
-                topic: topic,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  _SafetyRegion _findRegionForTopic(_RegionalTopic topic) {
-    if (_uaeRegion.topics.contains(topic)) {
-      return _uaeRegion;
-    }
-
-    if (_dubaiRegion.topics.contains(topic)) {
-      return _dubaiRegion;
-    }
-
-    return _abuDhabiRegion;
-  }
-
   Widget _buildEmptySearchState() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 48),
@@ -1529,7 +683,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Try a different keyword or search by HSE topic.',
+            'Try a different keyword or search by guideline topic.',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context)
@@ -1542,6 +696,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 }
+
+// ============================================================
+// GENERAL UAE REGION
+// ============================================================
+
+const _SafetyRegion _generalRegion = _SafetyRegion(
+  title: 'UAE HSE Safety',
+  subtitle: 'UAE-wide practical HSE reference',
+  icon: Icons.flag_rounded,
+  color: Color(0xFF159447),
+  description:
+      'Practical HSE reference guidance for workplaces and construction activities across the UAE.',
+  topics: [],
+);
 
 // ============================================================
 // REGIONAL SAFETY PAGE
@@ -1570,72 +738,11 @@ class RegionalSafetyPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
         children: [
-          Container(
-            padding: const EdgeInsets.all(19),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: region.color.withValues(alpha: 0.20),
-              ),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    color: region.color.withValues(alpha: 0.10),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(
-                    region.icon,
-                    color: region.color,
-                    size: 29,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        region.title,
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        region.subtitle,
-                        style: TextStyle(
-                          color: region.color,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        region.description,
-                        style: const TextStyle(
-                          color: Color(0xFF666666),
-                          fontSize: 12,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
+          _buildRegionHeader(),
           const SizedBox(height: 20),
 
           Text(
-            '${region.topics.length} SAFETY TOPICS',
+            'SAFETY TOPICS',
             style: TextStyle(
               color: region.color,
               fontSize: 14,
@@ -1644,10 +751,20 @@ class RegionalSafetyPage extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 4),
+
+          Text(
+            '${region.topics.length} safety topics',
+            style: const TextStyle(
+              color: Color(0xFF707070),
+              fontSize: 12,
+            ),
+          ),
+
+          const SizedBox(height: 12),
 
           ...region.topics.asMap().entries.map(
-                (entry) => _buildRegionalTopicCard(
+                (entry) => _buildTopicCard(
                   context,
                   entry.key + 1,
                   entry.value,
@@ -1658,10 +775,65 @@ class RegionalSafetyPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRegionalTopicCard(
+  Widget _buildRegionHeader() {
+    return Container(
+      padding: const EdgeInsets.all(19),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 54,
+            height: 54,
+            decoration: BoxDecoration(
+              color: region.color.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(
+              region.icon,
+              color: region.color,
+              size: 29,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  region.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  region.description,
+                  style: const TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 12,
+                    height: 1.45,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTopicCard(
     BuildContext context,
     int number,
-    _RegionalTopic topic,
+    String topic,
   ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
@@ -1669,7 +841,9 @@ class RegionalSafetyPage extends StatelessWidget {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade200),
+        side: BorderSide(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -1678,9 +852,7 @@ class RegionalSafetyPage extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (_) => RegionalTopicPage(
-                regionTitle: region.title,
-                regionColor: region.color,
-                regionIcon: region.icon,
+                region: region,
                 topic: topic,
               ),
             ),
@@ -1694,8 +866,8 @@ class RegionalSafetyPage extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 42,
-                height: 42,
+                width: 40,
+                height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: region.color.withValues(alpha: 0.10),
@@ -1712,27 +884,12 @@ class RegionalSafetyPage extends StatelessWidget {
               ),
               const SizedBox(width: 13),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      topic.title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      topic.description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11.5,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  topic,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               Icon(
@@ -1748,101 +905,440 @@ class RegionalSafetyPage extends StatelessWidget {
 }
 
 // ============================================================
-// GENERAL TOPIC DETAIL PAGE
-// ============================================================
-
-class GeneralTopicPage extends StatelessWidget {
-  final _SafetyTopic topic;
-
-  const GeneralTopicPage({
-    super.key,
-    required this.topic,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const color = Color(0xFF159447);
-
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      appBar: AppBar(
-        title: Text(
-          topic.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
-        children: [
-          _detailHeader(
-            color: color,
-            icon: Icons.shield_rounded,
-            title: topic.title,
-            subtitle: 'UAE-wide HSE Reference',
-          ),
-          const SizedBox(height: 16),
-          _infoCard(
-            color: color,
-            icon: Icons.info_outline_rounded,
-            title: 'Purpose',
-            content: topic.purpose,
-          ),
-          _infoCard(
-            color: color,
-            icon: Icons.warning_amber_rounded,
-            title: 'Main Hazards',
-            content: topic.hazards,
-          ),
-          _infoCard(
-            color: color,
-            icon: Icons.rule_rounded,
-            title: 'Key Controls',
-            content: topic.controls,
-          ),
-          _infoCard(
-            color: color,
-            icon: Icons.health_and_safety_rounded,
-            title: 'PPE',
-            content: topic.ppe,
-          ),
-          _infoCard(
-            color: color,
-            icon: Icons.checklist_rounded,
-            title: 'Quick Checklist',
-            content: topic.checklist,
-          ),
-          _infoCard(
-            color: color,
-            icon: Icons.description_outlined,
-            title: 'Recommended Records',
-            content: topic.documents,
-          ),
-          _importantCard(),
-        ],
-      ),
-    );
-  }
-}
-
-// ============================================================
 // REGIONAL TOPIC DETAIL PAGE
 // ============================================================
 
 class RegionalTopicPage extends StatelessWidget {
-  final String regionTitle;
-  final Color regionColor;
-  final IconData regionIcon;
-  final _RegionalTopic topic;
+  final _SafetyRegion region;
+  final String topic;
+  final _ReferenceTopic? topicData;
 
   const RegionalTopicPage({
     super.key,
-    required this.regionTitle,
-    required this.regionColor,
-    required this.regionIcon,
+    required this.region,
     required this.topic,
+    this.topicData,
   });
+
+  // ============================================================
+  // PURPOSE
+  // ============================================================
+
+  String _purpose() {
+    switch (topic) {
+      case 'Code of Practice':
+        return 'Understand and apply the relevant HSE Code of Practice together with current legislation, authority requirements and approved project procedures.';
+
+      case 'Dubai HSE Framework':
+        return 'Understand the overall HSE management approach applicable to workplaces and construction activities in Dubai and identify the authority requirements relevant to the activity.';
+
+      case 'Dubai Municipality Safety':
+        return 'Use Dubai Municipality-related safety requirements as a reference when planning and controlling applicable construction, workplace and environmental activities in Dubai.';
+
+      case 'Construction Safety in Dubai':
+        return 'Control construction hazards through proper planning, risk assessment, competent supervision, safe systems of work and compliance with applicable Dubai requirements.';
+
+      case 'What is ADOSH?':
+        return 'Understand the Abu Dhabi Occupational Safety and Health system and its role in establishing occupational safety and health requirements in Abu Dhabi.';
+
+      case 'ADOSH-SF Overview':
+        return 'Understand the Abu Dhabi Occupational Safety and Health System Framework and how its requirements are organised for occupational safety and health management.';
+
+      case 'Risk Assessment':
+      case 'Health & Safety Risk Assessment':
+      case 'Risk Management':
+        return 'Identify hazards, assess risks and implement suitable controls before and during work.';
+
+      case 'Personal Protective Equipment':
+      case 'PPE Requirements':
+      case 'PPE':
+        return 'Select, provide, use and maintain PPE appropriate to the hazards identified through the risk assessment.';
+
+      case 'Heat Stress Management':
+      case 'Heat Stress':
+      case 'Working in Hot & Humid Climate':
+        return 'Reduce heat-related illness through hydration, rest, shade, work planning, acclimatization, monitoring and early reporting of symptoms.';
+
+      case 'Fire Safety':
+        return 'Prevent fire incidents and ensure suitable fire prevention, protection, emergency response and evacuation arrangements.';
+
+      case 'Emergency Preparedness':
+      case 'Emergency Safety':
+        return 'Prepare workers and workplaces to prevent emergencies and respond effectively when an emergency occurs.';
+
+      case 'First Aid':
+      case 'First Aid & Medical Emergency':
+        return 'Ensure suitable first-aid arrangements, trained personnel and timely medical response for workplace injuries and illness.';
+
+      case 'Occupational Health':
+        return 'Identify occupational health risks and implement suitable health protection, monitoring and preventive measures.';
+
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Prevent falls by planning the work, selecting suitable access systems and implementing effective fall-prevention and fall-protection controls.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Prevent atmospheric, engulfment, physical and emergency hazards through assessment, isolation, testing, ventilation, communication and rescue planning.';
+
+      case 'Electrical Safety':
+      case 'Electricity on Site & Electrical Tools':
+        return 'Prevent electric shock, burns, fire and equipment damage through competent electrical work, inspection, isolation and suitable protection.';
+
+      case 'Lifting & Rigging':
+      case 'Lifting Operations':
+        return 'Plan lifting operations, verify equipment condition and certification, and control people and loads throughout the lifting activity.';
+
+      case 'Chemical Safety':
+      case 'Hazardous Materials':
+        return 'Identify chemical hazards and control storage, handling, exposure, emergency response and disposal.';
+
+      case 'Incident Investigation':
+      case 'Incident Notification & Reporting':
+        return 'Ensure incidents are reported, investigated and followed by appropriate corrective and preventive actions.';
+
+      case 'Environmental Safety':
+        return 'Control environmental aspects of work to protect workers, the public and the surrounding environment.';
+
+      case 'Manual Handling':
+        return 'Reduce musculoskeletal injuries through task assessment, mechanical aids, suitable work design, team lifting and safe handling techniques.';
+
+      case 'Traffic & Vehicle Safety':
+      case 'Traffic Management':
+        return 'Separate people and vehicles where practicable and control vehicle movement, reversing, speed, access and pedestrian interaction.';
+
+      case 'Worker Welfare':
+        return 'Provide suitable welfare arrangements including drinking water, sanitation, rest facilities, hygiene and suitable worker facilities.';
+
+      case 'Scaffolding Safety':
+        return 'Provide safe temporary access and working platforms through competent erection, inspection, safe access and controlled loading.';
+
+      case 'Safe Forklift Operations':
+        return 'Control vehicle movement, operator competence, load handling, pedestrian interaction and equipment condition.';
+
+      case 'Safe Storage':
+        return 'Maintain stable, suitable and clearly controlled storage arrangements to prevent falling objects, fire and access hazards.';
+
+      case 'Ladders & Safe Access':
+      case 'Ladders & Access':
+        return 'Use suitable access equipment and maintain safe positioning, inspection and safe working practices.';
+
+      case 'Machinery Safety':
+        return 'Control moving machinery hazards through guarding, isolation, maintenance and competent operation.';
+
+      case 'Safety Signs':
+        return 'Use clear and appropriate safety signs and communication methods to warn, inform and direct workers and visitors.';
+
+      case 'Indoor Air Quality':
+        return 'Maintain suitable indoor air quality by identifying sources of contamination, controlling exposure and maintaining appropriate ventilation.';
+
+      case 'Waste Management':
+        return 'Segregate, store, handle and dispose of workplace waste safely through suitable arrangements.';
+
+      case 'Occupational Noise':
+        return 'Assess noise exposure and apply suitable engineering, administrative and personal protective controls.';
+
+      case 'Vibration':
+        return 'Assess vibration exposure and implement controls to reduce worker exposure and associated health risks.';
+
+      case 'Asbestos Management':
+        return 'Prevent exposure to asbestos fibres through identification, assessment, controlled work and competent management.';
+
+      case 'Lead Exposure':
+        return 'Identify lead exposure risks and implement appropriate controls, monitoring and worker protection.';
+
+      case 'Underground Construction':
+        return 'Assess underground construction hazards and implement controls appropriate to activities such as piling, tunnelling, excavation and shaft work.';
+
+      case 'OSH Management During Construction':
+      case 'Construction Safety':
+        return 'Plan and manage construction activities so hazards are identified, controlled and monitored throughout the project.';
+
+      case 'Audit & Inspection':
+        return 'Use systematic inspections and audits to identify gaps, verify controls and drive continual HSE improvement.';
+
+      case 'Power Tools Safety':
+        return 'Prevent cuts, electric shock, flying particles, burns, noise and other injuries through correct tool selection, inspection and safe operation.';
+
+      case 'Formwork Safety':
+        return 'Maintain formwork stability during erection, concrete placement and stripping while controlling collapse and falling-object hazards.';
+
+      case 'Permit to Work (PTW)':
+        return 'Control high-risk activities through formal authorization, hazard identification, isolation, precautions, communication and close-out.';
+
+      case 'Working Near Live Roads':
+        return 'Protect workers, pedestrians and road users by implementing suitable traffic management, segregation, signs, lighting and controlled work zones.';
+
+      case 'Concreting Safety':
+        return 'Control hazards from concrete delivery, pumps, placing, vibration, reinforcement interfaces, equipment movement and wet concrete exposure.';
+
+      case 'Barricading of Hazards':
+        return 'Prevent people from entering hazardous areas by using suitable barricades, warning signs, access controls and regular inspection.';
+
+      case 'Temporary Works':
+        return 'Ensure temporary structures and support systems are properly planned, designed, installed, inspected, maintained and removed safely.';
+
+      case 'Hot Work Safety':
+        return 'Prevent fire, explosion, burns and exposure hazards from welding, cutting, grinding and other spark- or heat-producing activities.';
+
+      default:
+        return 'Use this topic as a practical HSE reference. Verify the latest applicable authority requirements, legislation, Codes of Practice and project procedures before making compliance decisions.';
+    }
+  }
+
+  // ============================================================
+  // KEY CONTROLS
+  // ============================================================
+
+  String _controls() {
+    switch (topic) {
+      case 'Code of Practice':
+        return 'Identify applicable CoP • Check current revision • Understand scope • Apply requirements • Follow project procedures • Verify compliance.';
+
+      case 'Dubai HSE Framework':
+        return 'Identify applicable authority • Understand project requirements • Risk assessment • Safe systems of work • Competent supervision • Inspection • Records.';
+
+      case 'Dubai Municipality Safety':
+        return 'Identify applicable Dubai Municipality requirements • Verify current requirements • Risk assessment • Approved procedures • Competent supervision • Inspection.';
+
+      case 'Construction Safety in Dubai':
+        return 'Project planning • Risk assessment • Site inspection • Safe access • Plant control • Temporary works • Lifting control • Worker welfare.';
+
+      case 'What is ADOSH?':
+        return 'Understand ADOSH role • Identify applicable requirements • Follow OSH management arrangements • Use relevant Codes of Practice • Maintain records.';
+
+      case 'ADOSH-SF Overview':
+        return 'Identify applicable framework requirements • Review relevant CoPs • Establish OSH arrangements • Monitor compliance • Review performance.';
+
+      case 'Risk Assessment':
+      case 'Health & Safety Risk Assessment':
+      case 'Risk Management':
+        return 'Hazard identification • Risk evaluation • Hierarchy of controls • Worker involvement • Control implementation • Review when conditions change.';
+
+      case 'Personal Protective Equipment':
+      case 'PPE Requirements':
+      case 'PPE':
+        return 'Hazard-based selection • Correct fit • Inspection • Maintenance • Replacement • Worker training • Proper use.';
+
+      case 'Heat Stress Management':
+      case 'Heat Stress':
+      case 'Working in Hot & Humid Climate':
+        return 'Water • Rest • Shade • Work/rest planning • Acclimatization • Heat awareness • Supervision • Early symptom reporting.';
+
+      case 'Fire Safety':
+        return 'Fire prevention • Suitable extinguishers • Emergency routes • Alarm systems • Fire risk assessment • Inspection • Training.';
+
+      case 'Emergency Preparedness':
+      case 'Emergency Safety':
+        return 'Emergency plan • Alarm • Evacuation routes • Assembly point • Emergency contacts • Training • Drills.';
+
+      case 'First Aid':
+      case 'First Aid & Medical Emergency':
+        return 'First-aid equipment • Trained first aider • Emergency communication • Access for ambulance • Medical response • Incident recording.';
+
+      case 'Occupational Health':
+        return 'Health risk assessment • Exposure control • Occupational health monitoring • Worker awareness • Suitable welfare • Medical referral where required.';
+
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Avoid where possible • Safe access • Edge protection • Fall protection • Equipment inspection • Rescue planning.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Risk assessment • Isolation • Atmospheric testing • Ventilation • Communication • Attendant • Rescue arrangements.';
+
+      case 'Electrical Safety':
+      case 'Electricity on Site & Electrical Tools':
+        return 'Isolation • Competent persons • Inspection • Suitable equipment • Protection from live parts • RCD/GFCI where applicable • Controlled access.';
+
+      case 'Lifting & Rigging':
+      case 'Lifting Operations':
+        return 'Lift plan • Competent personnel • Certified equipment • Load control • Exclusion zone • Communication • Weather consideration.';
+
+      case 'Chemical Safety':
+      case 'Hazardous Materials':
+        return 'SDS • Labelling • Compatible storage • PPE • Exposure controls • Spill response • Emergency arrangements • Safe disposal.';
+
+      case 'Incident Investigation':
+      case 'Incident Notification & Reporting':
+        return 'Immediate response • Notification • Evidence preservation • Root-cause analysis • Corrective action • Preventive action • Follow-up.';
+
+      case 'Environmental Safety':
+        return 'Environmental risk assessment • Pollution prevention • Waste control • Spill prevention • Monitoring • Corrective action.';
+
+      case 'Manual Handling':
+        return 'Avoid unnecessary lifting • Mechanical aids • Reduce load • Good technique • Team lifting • Suitable work height • Training.';
+
+      case 'Traffic & Vehicle Safety':
+      case 'Traffic Management':
+        return 'Traffic management plan • Segregation • Speed control • Reversing controls • Warning signs • Trained drivers • Pedestrian routes.';
+
+      case 'Worker Welfare':
+        return 'Drinking water • Toilets • Washing facilities • Rest areas • Hygiene • Heat protection • Clean and maintained facilities.';
+
+      case 'Scaffolding Safety':
+        return 'Competent erection • Stable foundation • Guardrails • Toe boards • Safe access • Inspection • Safe loading.';
+
+      case 'Safe Forklift Operations':
+        return 'Competent operators • Pre-use checks • Safe loads • Speed control • Pedestrian segregation • Safe parking • Seat belt.';
+
+      case 'Safe Storage':
+        return 'Stable stacking • Load limits • Clear access • Fire controls • Chemical compatibility • Inspection • Housekeeping.';
+
+      case 'Ladders & Safe Access':
+      case 'Ladders & Access':
+        return 'Suitable ladder • Correct angle • Stable footing • Three-point contact • Inspection • No overreaching • Safe access.';
+
+      case 'Machinery Safety':
+        return 'Guarding • Isolation • Emergency stops • Competent operators • Maintenance • Inspection • Lockout/tagout where applicable.';
+
+      case 'Safety Signs':
+        return 'Correct sign type • Good visibility • Suitable location • Clear meaning • Maintenance • Worker awareness.';
+
+      case 'Indoor Air Quality':
+        return 'Ventilation • Source control • Cleaning • Monitoring • HVAC maintenance • Exposure assessment.';
+
+      case 'Waste Management':
+        return 'Segregation • Suitable containers • Labelling • Safe storage • Licensed disposal where applicable • Housekeeping.';
+
+      case 'Occupational Noise':
+        return 'Noise assessment • Engineering controls • Administrative controls • Hearing protection • Audiometric monitoring where required.';
+
+      case 'Vibration':
+        return 'Exposure assessment • Equipment selection • Maintenance • Reduced exposure time • Job rotation where suitable • Monitoring.';
+
+      case 'Asbestos Management':
+        return 'Identify asbestos • Survey • Restrict access • Competent contractor • Controlled removal • Air monitoring where required • Waste control.';
+
+      case 'Lead Exposure':
+        return 'Exposure assessment • Engineering controls • Hygiene • PPE • Monitoring • Worker awareness • Medical surveillance where applicable.';
+
+      case 'Underground Construction':
+        return 'Site investigation • Service detection • Ground assessment • Access control • Structural support • Monitoring • Emergency response.';
+
+      case 'OSH Management During Construction':
+      case 'Construction Safety':
+        return 'Planning • Risk assessment • Method statements • Competent supervision • Inspection • Worker consultation • Corrective action.';
+
+      case 'Audit & Inspection':
+        return 'Inspection plan • Competent inspectors • Findings • Corrective actions • Close-out • Trend analysis • Management review.';
+
+      case 'Power Tools Safety':
+        return 'Correct tool • Pre-use inspection • Guards • Electrical protection • Correct accessories • PPE • Competent operator.';
+
+      case 'Formwork Safety':
+        return 'Approved design • Stable supports • Correct erection • Inspection • Controlled concrete placement • Safe stripping sequence.';
+
+      case 'Permit to Work (PTW)':
+        return 'Task identification • Risk assessment • Isolation • Permit authorization • Precautions • Toolbox talk • Close-out.';
+
+      case 'Working Near Live Roads':
+        return 'Traffic management plan • Barriers • Warning signs • Lighting • Trained flaggers • High-visibility PPE • Safe pedestrian routes.';
+
+      case 'Concreting Safety':
+        return 'Pump inspection • Hose control • Exclusion zone • Safe access • Reinforcement protection • Eye/skin protection • Communication.';
+
+      case 'Barricading of Hazards':
+        return 'Identify hazard • Select suitable barrier • Warning signs • Restricted access • Night visibility where required • Inspection.';
+
+      case 'Temporary Works':
+        return 'Design approval • Competent supervision • Installation inspection • Load control • Monitoring • Modification control • Safe removal.';
+
+      case 'Hot Work Safety':
+        return 'Hot work permit • Fire watch • Remove combustibles • Fire extinguishers • Gas cylinder control • Screens • Post-work inspection.';
+
+      default:
+        return 'Identify hazards • Assess risk • Apply hierarchy of controls • Train workers • Inspect • Monitor • Review.';
+    }
+  }
+
+  // ============================================================
+  // PPE
+  // ============================================================
+
+  String _ppe() {
+    if (topicData != null) {
+      return topicData!.ppe;
+    }
+
+    switch (topic) {
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Safety helmet with chin strap • Safety footwear • Full body harness where required • Task-specific PPE.';
+
+      case 'Scaffolding Safety':
+        return 'Safety helmet • Safety footwear • Gloves • Full body harness where required.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Safety helmet • Safety footwear • Gloves • Eye protection • Respiratory protection where required • Harness where required.';
+
+      case 'Electrical Safety':
+        return 'Electrical-rated PPE as required • Safety footwear • Eye protection • Arc-flash PPE where applicable.';
+
+      case 'Hot Work Safety':
+        return 'Welding helmet/goggles • Welding gloves • Flame-resistant clothing • Safety footwear • Face shield where required.';
+
+      case 'Occupational Noise':
+        return 'Suitable hearing protection • Safety helmet • Safety footwear • Task-specific PPE.';
+
+      case 'Hazardous Materials':
+      case 'Chemical Safety':
+        return 'Chemical-resistant gloves • Eye/face protection • Protective clothing • Respiratory protection where required.';
+
+      default:
+        return 'PPE must be selected based on the task-specific risk assessment and identified hazards.';
+    }
+  }
+
+  // ============================================================
+  // HSE PRACTICE
+  // ============================================================
+
+  String _practice() {
+    if (region.title == 'Dubai HSE Safety') {
+      return 'Use competent personnel, approved procedures, suitable PPE and effective supervision. Confirm the latest applicable Dubai authority requirements before making compliance decisions.';
+    }
+
+    if (region.title == 'Abu Dhabi HSE Safety') {
+      return 'Use competent personnel, suitable OSH procedures, applicable ADOSH-SF requirements, relevant Codes of Practice and effective supervision. Confirm the latest applicable Abu Dhabi requirements.';
+    }
+
+    return 'Use competent personnel, suitable procedures, appropriate PPE and effective supervision. Review conditions whenever the task, equipment, environment or risk changes.';
+  }
+
+  // ============================================================
+  // QUICK CHECKLIST
+  // ============================================================
+
+  String _checklist() {
+    switch (topic) {
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Plan work • Avoid height where possible • Safe access • Edge protection • Fall protection • Equipment inspection • Rescue plan • Worker briefing.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Permit • Isolation • Gas testing • Ventilation • Attendant • Communication • Rescue equipment • Competent workers.';
+
+      case 'Lifting Operations':
+      case 'Lifting & Rigging':
+        return 'Lift plan • Certified equipment • Competent team • Load weight • Ground condition • Exclusion zone • Communication • Weather.';
+
+      case 'Hot Work Safety':
+        return 'Permit • Remove combustibles • Fire extinguisher • Fire watch • Gas cylinder control • PPE • Post-work fire check.';
+
+      case 'Electrical Safety':
+        return 'Isolation • Competent electrician • Inspection • RCD/GFCI • Cable protection • Earthing • Lockout where applicable.';
+
+      default:
+        return 'Planning • Hazard identification • Risk assessment • Controls • Worker briefing • Inspection • Monitoring • Corrective action.';
+    }
+  }
+
+  // ============================================================
+  // DETAIL PAGE
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -1850,289 +1346,215 @@ class RegionalTopicPage extends StatelessWidget {
       backgroundColor: const Color(0xFFF6F8F7),
       appBar: AppBar(
         title: Text(
-          topic.title,
+          topic,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontWeight: FontWeight.w800,
           ),
         ),
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                  colors: [
+                    region.color,
+                    region.color.withValues(alpha: 0.78),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.shield_rounded,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                  const SizedBox(width: 13),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          topic,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          region.title,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            _infoCard(
+              icon: Icons.info_outline_rounded,
+              title: 'Purpose',
+              content: _purpose(),
+            ),
+
+            _infoCard(
+              icon: Icons.rule_rounded,
+              title: 'Key Controls',
+              content: _controls(),
+            ),
+
+            _infoCard(
+              icon: Icons.construction_rounded,
+              title: 'PPE',
+              content: _ppe(),
+            ),
+
+            _infoCard(
+              icon: Icons.engineering_rounded,
+              title: 'HSE Practice',
+              content: _practice(),
+            ),
+
+            _infoCard(
+              icon: Icons.checklist_rounded,
+              title: 'Quick Checklist',
+              content: _checklist(),
+            ),
+
+            _infoCard(
+              icon: Icons.warning_amber_rounded,
+              title: 'Important',
+              content:
+                  'This page provides general HSE awareness guidance. It is not a substitute for the latest applicable UAE legislation, Dubai Municipality requirements, ADOSH-SF Codes of Practice, regulator requirements or approved project procedures.',
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              'Reference Area',
+              style: TextStyle(
+                color: region.color,
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+
+            const SizedBox(height: 6),
+
+            Text(
+              region.title,
+              style: const TextStyle(
+                color: Color(0xFF666666),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _infoCard({
+    required IconData icon,
+    required String title,
+    required String content,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _detailHeader(
-            color: regionColor,
-            icon: regionIcon,
-            title: topic.title,
-            subtitle: regionTitle,
+          Icon(
+            icon,
+            color: region.color,
+            size: 24,
           ),
-          const SizedBox(height: 16),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.info_outline_rounded,
-            title: 'Purpose',
-            content: topic.purpose,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  content,
+                  style: const TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
           ),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.warning_amber_rounded,
-            title: 'Main Hazards',
-            content: topic.hazards,
-          ),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.rule_rounded,
-            title: 'Key Controls',
-            content: topic.controls,
-          ),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.health_and_safety_rounded,
-            title: 'PPE',
-            content: topic.ppe,
-          ),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.checklist_rounded,
-            title: 'Quick Checklist',
-            content: topic.checklist,
-          ),
-          _infoCard(
-            color: regionColor,
-            icon: Icons.menu_book_rounded,
-            title: 'Official / Authority Reference',
-            content: topic.reference,
-          ),
-          _importantCard(),
         ],
       ),
     );
   }
-}
-
-// ============================================================
-// DETAIL UI HELPERS
-// ============================================================
-
-Widget _detailHeader({
-  required Color color,
-  required IconData icon,
-  required String title,
-  required String subtitle,
-}) {
-  return Container(
-    width: double.infinity,
-    padding: const EdgeInsets.all(18),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      gradient: LinearGradient(
-        colors: [
-          color,
-          color.withValues(alpha: 0.78),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          color: Colors.white,
-          size: 32,
-        ),
-        const SizedBox(width: 13),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                subtitle,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _infoCard({
-  required Color color,
-  required IconData icon,
-  required String title,
-  required String content,
-}) {
-  return Container(
-    width: double.infinity,
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(17),
-      border: Border.all(
-        color: Colors.grey.shade200,
-      ),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 24,
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                content,
-                style: const TextStyle(
-                  color: Color(0xFF666666),
-                  fontSize: 12,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _importantCard() {
-  return Container(
-    width: double.infinity,
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: const Color(0xFFFFF8E7),
-      borderRadius: BorderRadius.circular(17),
-      border: Border.all(
-        color: const Color(0xFFE8C96A),
-      ),
-    ),
-    child: const Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          Icons.warning_amber_rounded,
-          color: Color(0xFF9A6B00),
-          size: 24,
-        ),
-        SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Important',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF765300),
-                ),
-              ),
-              SizedBox(height: 6),
-              Text(
-                'This app provides practical HSE awareness and reference guidance. It is not a substitute for current legislation, regulator requirements, authority-issued documents, approved project procedures or competent professional advice. Always verify the latest applicable requirements for the location and activity.',
-                style: TextStyle(
-                  color: Color(0xFF765300),
-                  fontSize: 12,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
 }
 
 // ============================================================
 // DATA MODELS
 // ============================================================
 
-class _SafetyTopic {
+class _ReferenceTopic {
   final String title;
   final String description;
-  final String purpose;
-  final String hazards;
-  final String controls;
   final String ppe;
-  final String checklist;
-  final String documents;
 
-  const _SafetyTopic({
+  const _ReferenceTopic({
     required this.title,
     required this.description,
-    required this.purpose,
-    required this.hazards,
-    required this.controls,
     required this.ppe,
-    required this.checklist,
-    required this.documents,
-  });
-}
-
-class _RegionalTopic {
-  final String title;
-  final String description;
-  final String purpose;
-  final String hazards;
-  final String controls;
-  final String ppe;
-  final String checklist;
-  final String reference;
-
-  const _RegionalTopic({
-    required this.title,
-    required this.description,
-    required this.purpose,
-    required this.hazards,
-    required this.controls,
-    required this.ppe,
-    required this.checklist,
-    required this.reference,
   });
 }
 
 class _SafetyRegion {
-  final String id;
   final String title;
   final String subtitle;
   final IconData icon;
   final Color color;
   final String description;
-  final List<_RegionalTopic> topics;
+  final List<String> topics;
 
   const _SafetyRegion({
-    required this.id,
     required this.title,
     required this.subtitle,
     required this.icon,
