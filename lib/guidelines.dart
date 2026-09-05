@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:safenexus_hse/guideline_detail_page.dart';
 
 class GuidelinesPage extends StatefulWidget {
   const GuidelinesPage({super.key});
@@ -11,6 +10,99 @@ class GuidelinesPage extends StatefulWidget {
 class _GuidelinesPageState extends State<GuidelinesPage> {
   final TextEditingController _searchController = TextEditingController();
   String _query = '';
+
+  // ============================================================
+  // GENERAL UAE HSE REFERENCE LIBRARY
+  // EXACTLY 17 PRACTICAL HSE TOPICS
+  // ============================================================
+
+  final List<_ReferenceTopic> _referenceTopics = const [
+    _ReferenceTopic(
+      title: 'Code of Practice',
+      description:
+          'Understand applicable HSE Codes of Practice and use them together with current legal and project requirements.',
+    ),
+    _ReferenceTopic(
+      title: 'Excavation Safety',
+      description:
+          'Control excavation hazards including collapse, underground services, access, water and falling materials.',
+    ),
+    _ReferenceTopic(
+      title: 'Scaffolding Safety',
+      description:
+          'Safe scaffold erection, inspection, access, loading and use.',
+    ),
+    _ReferenceTopic(
+      title: 'Working at Height',
+      description:
+          'Prevent falls through safe access, edge protection, fall protection and rescue planning.',
+    ),
+    _ReferenceTopic(
+      title: 'Power Tools Safety',
+      description:
+          'Safe selection, inspection, operation and maintenance of portable power tools.',
+    ),
+    _ReferenceTopic(
+      title: 'Formwork Safety',
+      description:
+          'Control formwork stability, erection, loading, stripping and temporary support hazards.',
+    ),
+    _ReferenceTopic(
+      title: 'Permit to Work (PTW)',
+      description:
+          'Plan and control high-risk activities through an effective permit-to-work system.',
+    ),
+    _ReferenceTopic(
+      title: 'Working in Hot & Humid Climate',
+      description:
+          'Manage heat exposure through hydration, rest, shade, planning, monitoring and worker awareness.',
+    ),
+    _ReferenceTopic(
+      title: 'Confined Space Safety',
+      description:
+          'Control atmospheric, physical and emergency risks associated with confined-space work.',
+    ),
+    _ReferenceTopic(
+      title: 'Working Near Live Roads',
+      description:
+          'Protect workers and road users through traffic management, segregation, signs and safe work zones.',
+    ),
+    _ReferenceTopic(
+      title: 'Concreting Safety',
+      description:
+          'Control hazards associated with concrete delivery, pumping, placing, vibration and finishing.',
+    ),
+    _ReferenceTopic(
+      title: 'Barricading of Hazards',
+      description:
+          'Use effective barricading and warning systems to prevent unauthorized access to hazards.',
+    ),
+    _ReferenceTopic(
+      title: 'Worker Welfare',
+      description:
+          'Provide suitable welfare, sanitation, drinking water, rest areas and worker facilities.',
+    ),
+    _ReferenceTopic(
+      title: 'Electricity on Site & Electrical Tools',
+      description:
+          'Control electrical shock, fire and equipment hazards through safe installation, inspection and use.',
+    ),
+    _ReferenceTopic(
+      title: 'Temporary Works',
+      description:
+          'Plan, design, inspect and control temporary structures and supporting systems.',
+    ),
+    _ReferenceTopic(
+      title: 'Manual Handling',
+      description:
+          'Reduce manual-handling injuries through task assessment, mechanical aids and safe techniques.',
+    ),
+    _ReferenceTopic(
+      title: 'Hot Work Safety',
+      description:
+          'Control welding, cutting, grinding and other activities that generate heat, sparks or flames.',
+    ),
+  ];
 
   final List<_SafetyRegion> _regions = const [
     _SafetyRegion(
@@ -73,6 +165,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       description:
           'Abu Dhabi-focused occupational safety and health guidance aligned with the ADOSH-SF framework and its applicable Codes of Practice.',
       topics: [
+        'What is ADOSH?',
         'ADOSH-SF Overview',
         'Risk Management',
         'OSH Management During Construction',
@@ -101,21 +194,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final details = GuidelineDetailPage(guideline: const {}).details;
+    final query = _query.trim().toLowerCase();
 
-    final entries = details.entries.where((entry) {
-      if (_query.trim().isEmpty) return true;
+    final entries = _referenceTopics.where((topic) {
+      if (query.isEmpty) return true;
 
-      final query = _query.trim().toLowerCase();
-      final title = (entry.value['what'] ?? '').toLowerCase();
-      final description = (entry.value['whatText'] ?? '').toLowerCase();
-
-      return entry.key.toLowerCase().contains(query) ||
-          title.contains(query) ||
-          description.contains(query);
+      return topic.title.toLowerCase().contains(query) ||
+          topic.description.toLowerCase().contains(query);
     }).toList();
 
-    final bool searching = _query.trim().isNotEmpty;
+    final bool searching = query.isNotEmpty;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
@@ -228,7 +316,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   ),
                 ),
                 Text(
-                  '${entries.length} topics',
+                  '${_referenceTopics.length} topics',
                   style: TextStyle(
                     color: Theme.of(context)
                         .colorScheme
@@ -242,7 +330,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             const SizedBox(height: 5),
 
             const Text(
-              'A–Z general HSE reference topics',
+              'Practical HSE reference topics',
               style: TextStyle(
                 color: Color(0xFF777777),
                 fontSize: 12,
@@ -281,16 +369,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           if (entries.isEmpty)
             _buildEmptySearchState()
           else
-            ...entries.map(
-              (entry) => _buildGuidelineCard(
-                context,
-                entry,
-              ),
-            ),
+            ...entries.asMap().entries.map(
+                  (entry) => _buildReferenceCard(
+                    context,
+                    entry.key + 1,
+                    entry.value,
+                  ),
+                ),
         ],
       ),
     );
   }
+
+  // ============================================================
+  // INTRO CARD
+  // ============================================================
 
   Widget _buildIntroCard() {
     return Container(
@@ -313,24 +406,24 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
         ],
       ),
-      child:  Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 48,
             height: 48,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0x22FFFFFF),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.menu_book_rounded,
               color: Colors.white,
               size: 28,
             ),
           ),
-          SizedBox(width: 14),
-          Expanded(
+          const SizedBox(width: 14),
+          const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -358,6 +451,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ),
     );
   }
+
+  // ============================================================
+  // REGION CARD
+  // ============================================================
 
   Widget _buildRegionCard(
     BuildContext context,
@@ -440,16 +537,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
-  Widget _buildGuidelineCard(
+  // ============================================================
+  // GENERAL REFERENCE CARD
+  // ============================================================
+
+  Widget _buildReferenceCard(
     BuildContext context,
-    MapEntry<String, Map<String, String>> entry,
+    int number,
+    _ReferenceTopic topic,
   ) {
-    final letter = entry.key;
-    final data = entry.value;
-
-    final title = data['what'] ?? 'Guideline $letter';
-    final description = data['whatText'] ?? '';
-
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       elevation: 0,
@@ -466,12 +562,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => GuidelineDetailPage(
-                guideline: {
-                  'letter': letter,
-                  'title': title,
-                  'desc': description,
-                },
+              builder: (_) => RegionalTopicPage(
+                region: _generalRegion,
+                topic: topic.title,
               ),
             ),
           );
@@ -489,10 +582,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   borderRadius: BorderRadius.circular(13),
                 ),
                 child: Text(
-                  letter,
+                  '$number',
                   style: const TextStyle(
                     color: Color(0xFF0B5D4B),
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -503,7 +596,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      topic.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -511,21 +604,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    if (description.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          height: 1.35,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant,
-                        ),
+                    const SizedBox(height: 4),
+                    Text(
+                      topic.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        height: 1.35,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant,
                       ),
-                    ],
+                    ),
                   ],
                 ),
               ),
@@ -578,6 +669,24 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 }
+
+// ============================================================
+// GENERAL UAE REFERENCE REGION
+// ============================================================
+
+const _SafetyRegion _generalRegion = _SafetyRegion(
+  title: 'UAE HSE Safety',
+  subtitle: 'UAE-wide practical HSE reference',
+  icon: Icons.flag_rounded,
+  color: Color(0xFF159447),
+  description:
+      'Practical HSE reference guidance for workplaces and construction activities across the UAE. Always verify the latest applicable authority and project requirements.',
+  topics: [],
+);
+
+// ============================================================
+// REGIONAL SAFETY PAGE
+// ============================================================
 
 class RegionalSafetyPage extends StatelessWidget {
   final _SafetyRegion region;
@@ -763,6 +872,10 @@ class RegionalSafetyPage extends StatelessWidget {
   }
 }
 
+// ============================================================
+// REGIONAL TOPIC DETAIL PAGE
+// ============================================================
+
 class RegionalTopicPage extends StatelessWidget {
   final _SafetyRegion region;
   final String topic;
@@ -775,77 +888,148 @@ class RegionalTopicPage extends StatelessWidget {
 
   String _purpose() {
     switch (topic) {
+      case 'Code of Practice':
+        return 'Understand and apply the relevant HSE Code of Practice together with current legislation, authority requirements and approved project procedures.';
+
+      case 'Excavation Safety':
+        return 'Prevent excavation collapse, contact with underground services, falls, falling materials, water ingress and unsafe access.';
+
+      case 'Scaffolding Safety':
+      case 'Scaffolding':
+        return 'Provide safe temporary access and working platforms through competent erection, inspection, safe access and controlled loading.';
+
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Prevent falls by planning the work, selecting suitable access systems and implementing effective fall-prevention and protection controls.';
+
+      case 'Power Tools Safety':
+        return 'Prevent cuts, electric shock, flying particles, burns, noise and other injuries through correct tool selection, inspection and safe operation.';
+
+      case 'Formwork Safety':
+        return 'Maintain formwork stability during erection, concrete placement and stripping, while controlling collapse and falling-object hazards.';
+
+      case 'Permit to Work (PTW)':
+        return 'Control high-risk activities through formal authorization, hazard identification, isolation, precautions, communication and close-out.';
+
+      case 'Working in Hot & Humid Climate':
+      case 'Heat Stress':
+        return 'Reduce heat-related illness through hydration, rest, shade, work planning, acclimatization, monitoring and early reporting of symptoms.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Prevent atmospheric, engulfment, physical and emergency hazards through assessment, isolation, testing, ventilation, communication and rescue planning.';
+
+      case 'Working Near Live Roads':
+        return 'Protect workers, pedestrians and road users by implementing suitable traffic management, segregation, signs, lighting and controlled work zones.';
+
+      case 'Concreting Safety':
+        return 'Control hazards from concrete delivery, pumps, placing, vibration, reinforcement interfaces, equipment movement and wet concrete exposure.';
+
+      case 'Barricading of Hazards':
+        return 'Prevent people from entering hazardous areas by using suitable barricades, warning signs, access controls and regular inspection.';
+
+      case 'Worker Welfare':
+        return 'Provide suitable welfare arrangements including drinking water, sanitation, rest facilities, hygiene and suitable worker accommodation or site facilities where applicable.';
+
+      case 'Electricity on Site & Electrical Tools':
+      case 'Electrical Safety':
+        return 'Prevent electric shock, burns, fire and equipment damage through competent electrical work, inspection, isolation and suitable protection.';
+
+      case 'Temporary Works':
+        return 'Ensure temporary structures and support systems are properly planned, designed, installed, inspected, maintained and removed safely.';
+
+      case 'Manual Handling':
+        return 'Reduce musculoskeletal injuries through task assessment, mechanical aids, suitable work design, team lifting and safe handling techniques.';
+
+      case 'Hot Work Safety':
+        return 'Prevent fire, explosion, burns and exposure hazards from welding, cutting, grinding and other spark- or heat-producing activities.';
+
       case 'Risk Assessment':
       case 'Health & Safety Risk Assessment':
       case 'Risk Management':
         return 'Identify hazards, assess risk and apply suitable controls before and during work.';
+
       case 'Personal Protective Equipment':
       case 'PPE':
         return 'Select, provide, use and maintain PPE appropriate to the identified hazards.';
-      case 'Heat Stress':
-        return 'Reduce worker exposure to excessive heat through planning, hydration, rest, shade, training and monitoring.';
+
       case 'Fire Safety':
       case 'Emergency Safety':
       case 'Emergency Preparedness':
         return 'Prepare workers and workplaces to prevent emergencies and respond effectively when they occur.';
+
       case 'First Aid':
       case 'First Aid & Medical Emergency':
         return 'Ensure suitable first-aid arrangements and timely medical response for workplace injuries and illness.';
-      case 'Work at Height':
-        return 'Prevent falls by planning work, selecting suitable access systems and implementing effective fall-prevention controls.';
-      case 'Confined Space':
-        return 'Prevent atmospheric, physical and other confined-space hazards through assessment, controls and emergency arrangements.';
-      case 'Electrical Safety':
-        return 'Prevent electric shock, burns, fire and other electrical incidents through competent work and effective controls.';
+
       case 'Safe Forklift Operations':
         return 'Control vehicle movement, operator competence, load handling, pedestrian interaction and equipment condition.';
+
       case 'Safe Storage':
         return 'Maintain stable, suitable and clearly controlled storage arrangements to prevent falling objects, fire and access hazards.';
-      case 'Scaffolding Safety':
-        return 'Control scaffold design, erection, inspection, access, loading and use to prevent falls and collapse.';
+
       case 'Ladders & Access':
         return 'Use suitable access equipment and maintain safe positioning, inspection and working practices.';
+
       case 'Machinery Safety':
         return 'Control moving machinery hazards through guarding, isolation, maintenance and competent operation.';
+
       case 'Lifting Operations':
       case 'Lifting & Rigging':
         return 'Plan lifting operations, verify equipment condition and certification, and control people and loads during lifting.';
+
       case 'Chemical Safety':
       case 'Hazardous Materials':
         return 'Identify chemical hazards and control storage, handling, exposure, emergency response and disposal.';
+
       case 'Occupational Noise':
         return 'Assess noise exposure and apply suitable engineering, administrative and personal protective controls.';
+
       case 'Vibration':
         return 'Assess vibration exposure and implement controls to reduce worker exposure and associated health risks.';
+
       case 'Occupational Health':
         return 'Identify occupational health risks and implement suitable health protection, monitoring and preventive measures.';
+
       case 'Asbestos Management':
         return 'Prevent exposure to asbestos fibres through identification, assessment, controlled work and competent management.';
+
       case 'Lead Exposure':
         return 'Identify lead exposure risks and implement appropriate controls, monitoring and worker protection.';
+
       case 'Waste Management':
         return 'Segregate, store, handle and dispose of workplace waste safely and through appropriate arrangements.';
+
       case 'Incident Investigation':
       case 'Incident Notification & Reporting':
         return 'Ensure incidents are reported, investigated and followed by appropriate corrective and preventive actions.';
+
       case 'Audit & Inspection':
         return 'Use systematic inspections and audits to identify gaps, verify controls and drive continual improvement.';
+
       case 'Construction Safety':
       case 'OSH Management During Construction':
         return 'Plan and manage construction activities so hazards are identified, controlled and monitored throughout the project.';
+
       case 'Underground Construction':
         return 'Assess underground construction hazards and implement controls appropriate to activities such as piling, tunnelling and shaft work.';
+
       case 'Environmental Safety':
       case 'Indoor Air Quality':
         return 'Control environmental and workplace conditions that may affect workers, the public or the surrounding environment.';
-      case 'Manual Handling':
-        return 'Reduce manual-handling injuries through task assessment, mechanical aids, good technique and suitable work design.';
+
       case 'Traffic & Vehicle Safety':
         return 'Separate people and vehicles where practicable and control vehicle movement, reversing, speed and access.';
+
       case 'Safety Signs':
         return 'Use clear and appropriate safety signs and communication methods to warn, inform and direct workers.';
+
+      case 'What is ADOSH?':
+        return 'Understand the Abu Dhabi Occupational Safety and Health system and its role in establishing occupational safety and health requirements in Abu Dhabi.';
+
       case 'ADOSH-SF Overview':
         return 'Understand the Abu Dhabi Occupational Safety and Health System Framework and how its requirements are organised.';
+
       default:
         return 'Use this topic as a practical HSE reference and verify the latest applicable authority requirements before making compliance decisions.';
     }
@@ -853,25 +1037,87 @@ class RegionalTopicPage extends StatelessWidget {
 
   String _controls() {
     switch (topic) {
+      case 'Code of Practice':
+        return 'Identify applicable CoP • Check current revision • Understand scope • Apply requirements • Follow project procedures • Verify compliance.';
+
+      case 'Excavation Safety':
+        return 'Risk assessment • Underground service detection • Safe slope/shoring • Safe access • Edge protection • Spoil setback • Inspection.';
+
+      case 'Scaffolding Safety':
+      case 'Scaffolding':
+        return 'Competent erection • Stable foundation • Guardrails • Toe boards • Safe access • Inspection • Safe loading.';
+
+      case 'Working at Height':
+      case 'Work at Height':
+        return 'Avoid where possible • Safe access • Edge protection • Fall protection • Equipment inspection • Rescue planning.';
+
+      case 'Power Tools Safety':
+        return 'Correct tool • Pre-use inspection • Guards • Electrical protection • Correct accessories • PPE • Competent operator.';
+
+      case 'Formwork Safety':
+        return 'Approved design • Stable supports • Correct erection • Inspection • Controlled concrete placement • Safe stripping sequence.';
+
+      case 'Permit to Work (PTW)':
+        return 'Task identification • Risk assessment • Isolation • Permit authorization • Precautions • Toolbox talk • Close-out.';
+
+      case 'Working in Hot & Humid Climate':
+      case 'Heat Stress':
+        return 'Water • Rest • Shade • Work/rest planning • Acclimatization • Heat awareness • Supervision • Early symptom reporting.';
+
+      case 'Confined Space Safety':
+      case 'Confined Space':
+        return 'Risk assessment • Isolation • Atmospheric testing • Ventilation • Communication • Attendant • Rescue arrangements.';
+
+      case 'Working Near Live Roads':
+        return 'Traffic management plan • Barriers • Warning signs • Lighting • Trained flaggers • High-visibility PPE • Safe pedestrian routes.';
+
+      case 'Concreting Safety':
+        return 'Pump inspection • Hose control • Exclusion zone • Safe access • Reinforcement protection • Eye/skin protection • Communication.';
+
+      case 'Barricading of Hazards':
+        return 'Identify hazard • Select suitable barrier • Warning signs • Restricted access • Night visibility where required • Inspection.';
+
+      case 'Worker Welfare':
+        return 'Drinking water • Toilets • Washing facilities • Rest areas • Hygiene • Heat protection • Clean and maintained facilities.';
+
+      case 'Electricity on Site & Electrical Tools':
+      case 'Electrical Safety':
+        return 'Isolation • Competent persons • Inspection • Suitable equipment • Protection from live parts • RCD/GFCI where applicable • Controlled access.';
+
+      case 'Temporary Works':
+        return 'Design approval • Competent supervision • Installation inspection • Load control • Monitoring • Modification control • Safe removal.';
+
+      case 'Manual Handling':
+        return 'Avoid unnecessary lifting • Mechanical aids • Reduce load • Good technique • Team lifting • Suitable work height • Training.';
+
+      case 'Hot Work Safety':
+        return 'Hot work permit • Fire watch • Remove combustibles • Fire extinguishers • Gas cylinder control • Screens • Post-work inspection.';
+
       case 'Risk Assessment':
       case 'Health & Safety Risk Assessment':
       case 'Risk Management':
         return 'Hazard identification • Risk evaluation • Hierarchy of controls • Worker involvement • Review when conditions change.';
-      case 'Work at Height':
-        return 'Avoid work at height where possible • Safe access • Edge protection • Fall protection • Inspection • Rescue planning.';
-      case 'Confined Space':
-        return 'Risk assessment • Isolation • Atmospheric testing • Ventilation • Communication • Attendant • Rescue arrangements.';
+
+      case 'Personal Protective Equipment':
+      case 'PPE':
+        return 'Hazard-based selection • Correct fit • Inspection • Maintenance • Replacement • Worker training.';
+
       case 'Safe Forklift Operations':
         return 'Competent operators • Pre-use checks • Safe loads • Speed control • Pedestrian segregation • Safe parking.';
-      case 'Scaffolding Safety':
-        return 'Competent erection • Stable foundation • Guardrails • Toe boards • Safe access • Inspection • Safe loading.';
-      case 'Electrical Safety':
-        return 'Isolation • Competent persons • Inspection • Suitable equipment • Protection from live parts • Controlled access.';
-      case 'Heat Stress':
-        return 'Water • Rest • Shade • Work/rest planning • Heat awareness • Supervision • Early reporting of symptoms.';
+
       case 'Lifting Operations':
       case 'Lifting & Rigging':
         return 'Lift plan • Competent personnel • Certified equipment • Load control • Exclusion zone • Communication.';
+
+      case 'Chemical Safety':
+      case 'Hazardous Materials':
+        return 'SDS • Labelling • Compatible storage • PPE • Exposure controls • Spill response • Safe disposal.';
+
+      case 'Fire Safety':
+      case 'Emergency Safety':
+      case 'Emergency Preparedness':
+        return 'Emergency plan • Alarm • Evacuation routes • Assembly point • Fire equipment • Training • Drills.';
+
       default:
         return 'Identify hazards • Assess risk • Apply the hierarchy of controls • Train workers • Inspect • Monitor • Review.';
     }
@@ -1058,6 +1304,20 @@ class RegionalTopicPage extends StatelessWidget {
       ),
     );
   }
+}
+
+// ============================================================
+// DATA MODELS
+// ============================================================
+
+class _ReferenceTopic {
+  final String title;
+  final String description;
+
+  const _ReferenceTopic({
+    required this.title,
+    required this.description,
+  });
 }
 
 class _SafetyRegion {
