@@ -56,7 +56,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     final now = DateTime.now();
 
     final date =
-        '${now.year}${now.month.toString().padLeft(2, '0')}'
+        '${now.year}'
+        '${now.month.toString().padLeft(2, '0')}'
         '${now.day.toString().padLeft(2, '0')}';
 
     final time =
@@ -77,20 +78,20 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }) {
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor:
-              error ? Colors.red.shade700 : Colors.green.shade700,
-          content: Text(message),
-        ),
-      );
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor:
+            error ? Colors.red.shade700 : Colors.green.shade700,
+        content: Text(message),
+      ),
+    );
   }
 
   // ============================================================
-  // PHOTO PICKER
+  // CAMERA
   // ============================================================
 
   Future<void> _pickImage() async {
@@ -117,6 +118,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     }
   }
 
+  // ============================================================
+  // GALLERY
+  // ============================================================
+
   Future<void> _pickFromGallery() async {
     try {
       final image = await _picker.pickImage(
@@ -134,12 +139,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
     } catch (_) {
       _showMessage(
         _isMalayalam
-            ? 'Gallery-ൽ നിന്ന് photo എടുക്കാൻ കഴിഞ്ഞില്ല.'
+            ? 'Gallery-ൽ നിന്ന് photo തിരഞ്ഞെടുക്കാൻ കഴിഞ്ഞില്ല.'
             : 'Unable to select photo from gallery.',
         error: true,
       );
     }
   }
+
+  // ============================================================
+  // PHOTO SOURCE
+  // ============================================================
 
   Future<void> _choosePhotoSource() async {
     await showModalBottomSheet<void>(
@@ -151,7 +160,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded),
+                leading: const Icon(
+                  Icons.camera_alt_rounded,
+                ),
                 title: const Text('Camera'),
                 onTap: () {
                   Navigator.pop(sheetContext);
@@ -159,7 +170,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded),
+                leading: const Icon(
+                  Icons.photo_library_rounded,
+                ),
                 title: const Text('Gallery'),
                 onTap: () {
                   Navigator.pop(sheetContext);
@@ -173,6 +186,10 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       },
     );
   }
+
+  // ============================================================
+  // REMOVE PHOTO
+  // ============================================================
 
   void _removePhoto() {
     setState(() {
@@ -200,11 +217,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
     setState(() {
       _analyzing = true;
-      _smartAnalysisDone = false;
     });
 
     try {
-      // Placeholder for future AI service integration.
+      // Optional AI service placeholder.
+      // This does not affect local observation storage.
       await Future<void>.delayed(
         const Duration(milliseconds: 700),
       );
@@ -212,8 +229,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       if (!mounted) return;
 
       setState(() {
-        _analyzing = false;
         _smartAnalysisDone = true;
+        _analyzing = false;
       });
 
       _showMessage(
@@ -260,9 +277,9 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
 
       String? savedPhotoPath;
 
-      // ----------------------------------------------------------
+      // --------------------------------------------------------
       // SAVE PHOTO
-      // ----------------------------------------------------------
+      // --------------------------------------------------------
 
       if (_photo != null) {
         final documentsDirectory =
@@ -283,11 +300,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         final originalPath = _photo!.path;
 
         if (originalPath.contains('.')) {
-          final parts = originalPath.split('.');
+          extension =
+              originalPath.split('.').last.toLowerCase();
 
-          if (parts.isNotEmpty &&
-              parts.last.trim().isNotEmpty) {
-            extension = parts.last.toLowerCase();
+          if (extension.length > 5) {
+            extension = 'jpg';
           }
         }
 
@@ -295,70 +312,75 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           '${observationsDirectory.path}/$id.$extension',
         );
 
-        await File(originalPath).copy(photoFile.path);
+        await File(originalPath).copy(
+          photoFile.path,
+        );
 
         savedPhotoPath = photoFile.path;
       }
 
-      // ----------------------------------------------------------
+      // --------------------------------------------------------
       // OBSERVATION RECORD
-      // ----------------------------------------------------------
-
-      final description =
-          _descriptionController.text.trim();
-
-      final action =
-          _actionController.text.trim();
-
-      final location =
-          _locationController.text.trim();
+      // --------------------------------------------------------
 
       final observation = <String, dynamic>{
         'id': id,
-        'submittedAt': submittedAt.toIso8601String(),
-        'dateTime': submittedAt.toIso8601String(),
 
-        'observationType': _observationType,
-        'observation_type': _observationType,
-        'type': _observationType,
+        'submittedAt':
+            submittedAt.toIso8601String(),
 
-        'category': _category,
+        'dateTime':
+            submittedAt.toIso8601String(),
 
-        'hazardType': _hazardType,
-        'hazard_type': _hazardType,
-        'hazard': _hazardType,
+        'observationType':
+            _observationType,
 
-        'riskLevel': _riskLevel,
-        'risk_level': _riskLevel,
-        'risk': _riskLevel,
-        'severity': _riskLevel,
+        'type':
+            _observationType,
+
+        'category':
+            _category,
+
+        'hazardType':
+            _hazardType,
+
+        'hazard':
+            _hazardType,
+
+        'riskLevel':
+            _riskLevel,
+
+        'risk':
+            _riskLevel,
 
         'potentialConsequence':
             _potentialConsequence,
-        'potential_consequence':
-            _potentialConsequence,
+
         'consequence':
             _potentialConsequence,
 
-        'location': location,
+        'location':
+            _locationController.text.trim(),
 
-        'description': description,
-        'observation': description,
-        'finding': description,
+        'description':
+            _descriptionController.text.trim(),
 
-        'correctiveAction': action,
-        'corrective_action': action,
-        'action': action,
+        'correctiveAction':
+            _actionController.text.trim(),
 
-        'photoPath': savedPhotoPath ?? '',
-        'photo_path': savedPhotoPath ?? '',
+        'action':
+            _actionController.text.trim(),
 
-        'smartAnalysis': _smartAnalysisDone,
+        'photoPath':
+            savedPhotoPath ?? '',
+
+        'smartAnalysis':
+            _smartAnalysisDone,
       };
 
-      // ----------------------------------------------------------
+      // --------------------------------------------------------
       // LOCAL STORAGE
-      // ----------------------------------------------------------
+      // --------------------------------------------------------
 
       final prefs =
           await SharedPreferences.getInstance();
@@ -372,7 +394,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         ...stored,
       ];
 
-      final saved = await prefs.setStringList(
+      final saved =
+          await prefs.setStringList(
         _storageKey,
         updated,
       );
@@ -434,11 +457,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           icon: Icon(
             Icons.check_circle_rounded,
             color: Colors.green.shade700,
-            size: 54,
+            size: 52,
           ),
-          title: const Text(
-            'Observation Submitted',
-            textAlign: TextAlign.center,
+          title: Text(
+            _isMalayalam
+                ? 'Observation Submitted'
+                : 'Observation Submitted',
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -450,58 +474,28 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(
-                    alpha: 0.08,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Observation ID',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      id,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              Text(
+                'ID: $id',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 6),
               Text(
                 formatted,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 12,
-                ),
               ),
             ],
           ),
           actions: [
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pop(dialogContext);
-                  _resetForm();
-                },
-                child: const Text('Done'),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                _resetForm();
+              },
+              child: Text(
+                _isMalayalam ? 'Done' : 'Done',
               ),
             ),
           ],
@@ -531,7 +525,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
       _photo = null;
       _smartAnalysisDone = false;
       _analyzing = false;
-      _submitting = false;
     });
   }
 
@@ -555,12 +548,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              16,
-              16,
-              32,
-            ),
+            padding: const EdgeInsets.all(16),
             children: [
               _buildHeaderCard(),
               const SizedBox(height: 16),
@@ -579,6 +567,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               _buildPhotoCard(),
               const SizedBox(height: 24),
               _buildSubmitButton(),
+              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -591,19 +580,18 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   Widget _buildHeaderCard() {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme =
+        Theme.of(context).colorScheme;
 
     return Card(
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
           children: [
             Container(
-              width: 54,
-              height: 54,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
                 color: scheme.primaryContainer,
                 borderRadius:
@@ -612,7 +600,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               child: Icon(
                 Icons.health_and_safety_rounded,
                 color: scheme.onPrimaryContainer,
-                size: 29,
+                size: 28,
               ),
             ),
             const SizedBox(width: 14),
@@ -625,20 +613,17 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                     'Safety Observation',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
                   Text(
                     _isMalayalam
                         ? 'Workplace hazard അല്ലെങ്കിൽ unsafe condition report ചെയ്യുക.'
                         : 'Report an unsafe condition or workplace hazard.',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyMedium
-                        ?.copyWith(
-                          height: 1.4,
-                        ),
+                        .bodyMedium,
                   ),
                 ],
               ),
@@ -668,13 +653,12 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   .textTheme
                   .titleMedium
                   ?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: _observationType,
-              isExpanded: true,
+              initialValue: _observationType,
               decoration: const InputDecoration(
                 labelText: 'Type',
                 border: OutlineInputBorder(),
@@ -682,23 +666,31 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               items: const [
                 DropdownMenuItem(
                   value: 'Unsafe Condition',
-                  child: Text('Unsafe Condition'),
+                  child: Text(
+                    'Unsafe Condition',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Unsafe Act',
-                  child: Text('Unsafe Act'),
+                  child: Text(
+                    'Unsafe Act',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Positive Observation',
-                  child: Text('Positive Observation'),
+                  child: Text(
+                    'Positive Observation',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Near Miss',
-                  child: Text('Near Miss'),
+                  child: Text(
+                    'Near Miss',
+                  ),
                 ),
               ],
               onChanged: (value) {
-                if (value == null || !mounted) return;
+                if (value == null) return;
 
                 setState(() {
                   _observationType = value;
@@ -730,13 +722,13 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   .textTheme
                   .titleMedium
                   ?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 14),
+
             DropdownButtonFormField<String>(
-              value: _category,
-              isExpanded: true,
+              initialValue: _category,
               decoration: const InputDecoration(
                 labelText: 'Category',
                 border: OutlineInputBorder(),
@@ -744,49 +736,66 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               items: const [
                 DropdownMenuItem(
                   value: 'General Safety',
-                  child: Text('General Safety'),
+                  child: Text(
+                    'General Safety',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Fire Safety',
-                  child: Text('Fire Safety'),
+                  child: Text(
+                    'Fire Safety',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Electrical Safety',
-                  child: Text('Electrical Safety'),
+                  child: Text(
+                    'Electrical Safety',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Work at Height',
-                  child: Text('Work at Height'),
+                  child: Text(
+                    'Work at Height',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Confined Space',
-                  child: Text('Confined Space'),
+                  child: Text(
+                    'Confined Space',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Lifting Operations',
-                  child: Text('Lifting Operations'),
+                  child: Text(
+                    'Lifting Operations',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'PPE',
-                  child: Text('PPE'),
+                  child: Text(
+                    'PPE',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Housekeeping',
-                  child: Text('Housekeeping'),
+                  child: Text(
+                    'Housekeeping',
+                  ),
                 ),
               ],
               onChanged: (value) {
-                if (value == null || !mounted) return;
+                if (value == null) return;
 
                 setState(() {
                   _category = value;
                 });
               },
             ),
+
             const SizedBox(height: 14),
+
             DropdownButtonFormField<String>(
-              value: _hazardType,
-              isExpanded: true,
+              initialValue: _hazardType,
               decoration: const InputDecoration(
                 labelText: 'Hazard Type',
                 border: OutlineInputBorder(),
@@ -848,7 +857,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
               ],
               onChanged: (value) {
-                if (value == null || !mounted) return;
+                if (value == null) return;
 
                 setState(() {
                   _hazardType = value;
@@ -866,7 +875,24 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   Widget _buildRiskCard() {
-    final riskColor = _riskColor(_riskLevel);
+    Color riskColor;
+
+    switch (_riskLevel.toLowerCase()) {
+      case 'low':
+        riskColor = Colors.green.shade700;
+        break;
+      case 'medium':
+        riskColor = Colors.orange.shade700;
+        break;
+      case 'high':
+        riskColor = Colors.red.shade700;
+        break;
+      case 'critical':
+        riskColor = Colors.deepPurple.shade700;
+        break;
+      default:
+        riskColor = Colors.blueGrey.shade700;
+    }
 
     return Card(
       elevation: 0,
@@ -878,9 +904,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.warning_amber_rounded,
-                  color: riskColor,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -889,15 +914,16 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       .textTheme
                       .titleMedium
                       ?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.bold,
                       ),
                 ),
               ],
             ),
+
             const SizedBox(height: 14),
+
             DropdownButtonFormField<String>(
-              value: _riskLevel,
-              isExpanded: true,
+              initialValue: _riskLevel,
               decoration: const InputDecoration(
                 labelText: 'Risk Level',
                 border: OutlineInputBorder(),
@@ -921,27 +947,27 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
               ],
               onChanged: (value) {
-                if (value == null || !mounted) return;
+                if (value == null) return;
 
                 setState(() {
                   _riskLevel = value;
                 });
               },
             ),
+
             const SizedBox(height: 12),
+
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: riskColor.withValues(
-                  alpha: 0.10,
-                ),
+                color:
+                    riskColor.withValues(alpha: 0.10),
                 borderRadius:
                     BorderRadius.circular(14),
                 border: Border.all(
-                  color: riskColor.withValues(
-                    alpha: 0.25,
-                  ),
+                  color:
+                      riskColor.withValues(alpha: 0.25),
                 ),
               ),
               child: Row(
@@ -956,17 +982,19 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       'Selected Risk: $_riskLevel',
                       style: TextStyle(
                         color: riskColor,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
+
             const SizedBox(height: 14),
+
             DropdownButtonFormField<String>(
-              value: _potentialConsequence,
-              isExpanded: true,
+              initialValue:
+                  _potentialConsequence,
               decoration: const InputDecoration(
                 labelText: 'Potential Consequence',
                 border: OutlineInputBorder(),
@@ -978,15 +1006,21 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 ),
                 DropdownMenuItem(
                   value: 'Serious Injury',
-                  child: Text('Serious Injury'),
+                  child: Text(
+                    'Serious Injury',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Fatality',
-                  child: Text('Fatality'),
+                  child: Text(
+                    'Fatality',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Property Damage',
-                  child: Text('Property Damage'),
+                  child: Text(
+                    'Property Damage',
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Environmental Impact',
@@ -995,14 +1029,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   ),
                 ),
                 DropdownMenuItem(
-                  value: 'No Significant Consequence',
+                  value:
+                      'No Significant Consequence',
                   child: Text(
                     'No Significant Consequence',
                   ),
                 ),
               ],
               onChanged: (value) {
-                if (value == null || !mounted) return;
+                if (value == null) return;
 
                 setState(() {
                   _potentialConsequence = value;
@@ -1013,21 +1048,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
         ),
       ),
     );
-  }
-
-  Color _riskColor(String risk) {
-    switch (risk.toLowerCase()) {
-      case 'low':
-        return Colors.green.shade700;
-      case 'medium':
-        return Colors.orange.shade700;
-      case 'high':
-        return Colors.red.shade700;
-      case 'critical':
-        return Colors.deepPurple.shade700;
-      default:
-        return Colors.blueGrey.shade700;
-    }
   }
 
   // ============================================================
@@ -1083,14 +1103,14 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   .textTheme
                   .titleMedium
                   ?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             TextFormField(
-              controller: _descriptionController,
-              minLines: 5,
-              maxLines: 7,
+              controller:
+                  _descriptionController,
+              maxLines: 5,
               textInputAction:
                   TextInputAction.newline,
               decoration: const InputDecoration(
@@ -1119,7 +1139,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   }
 
   // ============================================================
-  // ACTION
+  // CORRECTIVE ACTION
   // ============================================================
 
   Widget _buildActionCard() {
@@ -1137,14 +1157,13 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   .textTheme
                   .titleMedium
                   ?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _actionController,
-              minLines: 4,
-              maxLines: 7,
+              maxLines: 5,
               textInputAction:
                   TextInputAction.newline,
               decoration: const InputDecoration(
@@ -1157,10 +1176,6 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 if (value == null ||
                     value.trim().isEmpty) {
                   return 'Please enter corrective action.';
-                }
-
-                if (value.trim().length < 5) {
-                  return 'Please provide more details.';
                 }
 
                 return null;
@@ -1177,7 +1192,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   // ============================================================
 
   Widget _buildPhotoCard() {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme =
+        Theme.of(context).colorScheme;
 
     return Card(
       elevation: 0,
@@ -1189,9 +1205,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.photo_camera_back_rounded,
-                  color: scheme.primary,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -1200,48 +1215,50 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       .textTheme
                       .titleMedium
                       ?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.bold,
                       ),
                 ),
               ],
             ),
+
             const SizedBox(height: 14),
+
             if (_photo == null)
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(22),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(16),
                   border: Border.all(
-                    color: scheme.outlineVariant,
+                    color:
+                        scheme.outlineVariant,
                   ),
                 ),
                 child: Column(
                   children: [
                     Icon(
                       Icons.image_outlined,
-                      size: 48,
+                      size: 46,
                       color: scheme.primary,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      'Add photo evidence',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Text(
+                      _isMalayalam
+                          ? 'Photo evidence ചേർക്കുക'
+                          : 'Add photo evidence',
                     ),
                     const SizedBox(height: 14),
                     OutlinedButton.icon(
                       onPressed:
-                          _submitting
-                              ? null
-                              : _choosePhotoSource,
+                          _choosePhotoSource,
                       icon: const Icon(
                         Icons.add_a_photo_rounded,
                       ),
-                      label: const Text(
-                        'Add Photo',
+                      label: Text(
+                        _isMalayalam
+                            ? 'Photo ചേർക്കുക'
+                            : 'Add Photo',
                       ),
                     ),
                   ],
@@ -1267,11 +1284,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                         borderRadius:
                             BorderRadius.circular(30),
                         child: IconButton(
-                          tooltip: 'Remove photo',
                           onPressed:
-                              _submitting
-                                  ? null
-                                  : _removePhoto,
+                              _removePhoto,
                           color: Colors.white,
                           icon: const Icon(
                             Icons.delete_outline,
@@ -1282,15 +1296,15 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                   ],
                 ),
               ),
+
             if (_photo != null) ...[
               const SizedBox(height: 14),
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed:
-                      _analyzing || _submitting
-                          ? null
-                          : _runSmartAnalysis,
+                  onPressed: _analyzing
+                      ? null
+                      : _runSmartAnalysis,
                   icon: _analyzing
                       ? const SizedBox(
                           width: 18,
@@ -1303,7 +1317,8 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                       : Icon(
                           _smartAnalysisDone
                               ? Icons.check_circle_rounded
-                              : Icons.auto_awesome_rounded,
+                              : Icons
+                                  .auto_awesome_rounded,
                         ),
                   label: Text(
                     _analyzing
@@ -1328,7 +1343,7 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
   Widget _buildSubmitButton() {
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 54,
       child: FilledButton.icon(
         onPressed:
             _submitting
@@ -1336,11 +1351,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
                 : _submitObservation,
         icon: _submitting
             ? const SizedBox(
-                width: 21,
-                height: 21,
+                width: 20,
+                height: 20,
                 child:
                     CircularProgressIndicator(
-                  strokeWidth: 2.2,
+                  strokeWidth: 2,
                   color: Colors.white,
                 ),
               )
@@ -1349,11 +1364,11 @@ class _SafetyObservationPageState extends State<SafetyObservationPage> {
               ),
         label: Text(
           _submitting
-              ? 'Saving Observation...'
+              ? 'Saving...'
               : 'Submit Observation',
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
