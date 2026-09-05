@@ -203,7 +203,6 @@ class _HomeContent extends StatelessWidget {
   static const Color darkGreen = Color(0xFF087A38);
   static const Color purple = Color(0xFF6736C8);
   static const Color orange = Color(0xFFFF8A00);
-  static const Color red = Color(0xFFD93636);
   static const Color blue = Color(0xFF1677C8);
 
   void openPage(
