@@ -184,9 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 color: color,
                 fontSize: 10,
-                fontWeight: active
-                    ? FontWeight.w700
-                    : FontWeight.w500,
+                fontWeight:
+                    active ? FontWeight.w700 : FontWeight.w500,
               ),
             ),
           ],
@@ -331,8 +330,8 @@ class _HomeContent extends StatelessWidget {
               _quickActions(context),
               const SizedBox(height: 22),
               _sectionHeader(
-                'REGULATORY GUIDANCE',
-                'Access UAE safety requirements',
+                'UAE HSE GUIDANCE',
+                'Access UAE-wide and emirate-specific safety guidance',
               ),
               const SizedBox(height: 12),
               _guidanceCards(context),
@@ -404,7 +403,7 @@ class _HomeContent extends StatelessWidget {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  'Together for a safer workplace.',
+                  'Together for a safer UAE workplace.',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 11.5,
@@ -731,7 +730,7 @@ class _HomeContent extends StatelessWidget {
                 context,
                 icon: Icons.menu_book_rounded,
                 title: 'HSE Guidelines',
-                subtitle: 'Access safety guidance',
+                subtitle: 'Access UAE safety guidance',
                 color: darkGreen,
                 onTap: () => openPage(
                   context,
@@ -838,7 +837,7 @@ class _HomeContent extends StatelessWidget {
           context,
           icon: Icons.flag_rounded,
           title: 'UAE HSE Safety',
-          subtitle: 'UAE-wide HSE guidance',
+          subtitle: 'UAE-wide HSE safety guidance',
           tag: 'UAE',
           color: green,
         ),
@@ -847,7 +846,7 @@ class _HomeContent extends StatelessWidget {
           context,
           icon: Icons.location_city_rounded,
           title: 'Dubai HSE Safety',
-          subtitle: 'Dubai safety guidance',
+          subtitle: 'Dubai-specific safety guidance',
           tag: 'DUBAI',
           color: blue,
         ),
@@ -859,6 +858,14 @@ class _HomeContent extends StatelessWidget {
           subtitle: 'ADOSH-SF safety guidance',
           tag: 'ABU DHABI',
           color: purple,
+        ),
+        const SizedBox(height: 10),
+        _futureEmiratesCard(
+          context,
+          icon: Icons.map_rounded,
+          title: 'More Emirates',
+          subtitle:
+              'Sharjah • Ajman • Fujairah • RAK • UAQ',
         ),
       ],
     );
@@ -930,8 +937,10 @@ class _HomeContent extends StatelessWidget {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: color.withValues(alpha: 0.09),
-                            borderRadius: BorderRadius.circular(6),
+                            color:
+                                color.withValues(alpha: 0.09),
+                            borderRadius:
+                                BorderRadius.circular(6),
                           ),
                           child: Text(
                             tag,
@@ -959,6 +968,111 @@ class _HomeContent extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 color: color,
+                size: 27,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _futureEmiratesCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => showComingSoon(
+          context,
+          'Additional emirate guidance',
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: const Color(0xFFE6EAE8),
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 49,
+                height: 49,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F4F3),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.map_rounded,
+                  color: Color(0xFF59635E),
+                  size: 26,
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 7),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F4F3),
+                            borderRadius:
+                                BorderRadius.circular(6),
+                          ),
+                          child: const Text(
+                            'EXPANDING',
+                            style: TextStyle(
+                              color: Color(0xFF59635E),
+                              fontSize: 7,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFF777777),
+                        fontSize: 10.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: Color(0xFF777777),
                 size: 27,
               ),
             ],
@@ -1011,7 +1125,8 @@ class _HomeContent extends StatelessWidget {
               const SizedBox(width: 10),
               const Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Recent Safety Activity',
@@ -1203,7 +1318,8 @@ class _HomeContent extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.13),
+                  color:
+                      Colors.white.withValues(alpha: 0.13),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: const Icon(
@@ -1228,7 +1344,7 @@ class _HomeContent extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Smart HSE assistance is coming soon.',
+                      'Smart UAE HSE assistance is coming soon.',
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 10.5,
@@ -1352,8 +1468,12 @@ class SettingsPage extends StatelessWidget {
           _settingsTile(
             icon: Icons.language_rounded,
             title: 'Language',
-            subtitle: 'English',
-            onTap: () {},
+            subtitle: 'English & Malayalam',
+            onTap: () => _showInfo(
+              context,
+              'Language',
+              'SafeNexus HSE supports English and Malayalam. Additional languages can be added later without changing the core UAE-wide architecture.',
+            ),
           ),
           _settingsTile(
             icon: Icons.notifications_outlined,
@@ -1362,6 +1482,30 @@ class SettingsPage extends StatelessWidget {
             onTap: () => _showComingSoon(
               context,
               'Notifications',
+            ),
+          ),
+          const SizedBox(height: 18),
+          _sectionLabel('UAE HSE'),
+          const SizedBox(height: 8),
+          _settingsTile(
+            icon: Icons.flag_rounded,
+            title: 'UAE HSE Safety',
+            subtitle: 'UAE-wide safety guidance',
+            onTap: () => _showInfo(
+              context,
+              'UAE HSE Safety',
+              'SafeNexus HSE is designed as a UAE-wide safety application. Emirate-specific requirements can be added while maintaining a common UAE safety structure.',
+            ),
+          ),
+          _settingsTile(
+            icon: Icons.account_balance_rounded,
+            title: 'Emirate Guidance',
+            subtitle:
+                'Abu Dhabi, Dubai and future emirate support',
+            onTap: () => _showInfo(
+              context,
+              'Emirate Guidance',
+              'SafeNexus HSE keeps emirate-specific guidance separate so that requirements from Abu Dhabi, Dubai and other Emirates can be expanded safely over time.',
             ),
           ),
           const SizedBox(height: 18),
@@ -1393,11 +1537,11 @@ class SettingsPage extends StatelessWidget {
           _settingsTile(
             icon: Icons.info_outline_rounded,
             title: 'About SafeNexus HSE',
-            subtitle: 'UAE-focused HSE safety application',
+            subtitle: 'UAE-wide HSE safety application',
             onTap: () => _showInfo(
               context,
               'About SafeNexus HSE',
-              'SafeNexus HSE is designed to support workplace hazard reporting, safety observations, HSE guidance and practical safety management.',
+              'SafeNexus HSE is a UAE-wide HSE safety application designed to support workplace hazard reporting, safety observations, HSE guidance and practical safety management.',
             ),
           ),
           _settingsTile(
@@ -1433,7 +1577,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 const Text(
-                  'Safety Starts With You',
+                  'UAE-wide HSE Safety App',
                   style: TextStyle(
                     color: Color(0xFF777777),
                     fontSize: 11,
@@ -1483,7 +1627,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Manage app preferences and information',
+                  'Manage UAE-wide app preferences and information',
                   style: TextStyle(
                     color: Color(0xFF777777),
                     fontSize: 11,
