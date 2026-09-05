@@ -85,7 +85,6 @@ class _HazardReportPageState extends State<HazardReportPage> {
         _isSaving = false;
       });
 
-      // Return to the previous page after successful save.
       await Future<void>.delayed(
         const Duration(milliseconds: 500),
       );
@@ -112,7 +111,7 @@ class _HazardReportPageState extends State<HazardReportPage> {
               'Unable to save hazard report. Please try again.',
             ),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red.shade700,
+            backgroundColor: Colors.red,
           ),
         );
     }
