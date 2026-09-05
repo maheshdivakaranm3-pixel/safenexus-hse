@@ -42,10 +42,15 @@ class _CertificatePageState extends State<CertificatePage> {
 
   String? _lastSavedPath;
 
+  // ===========================================================================
+  // PREMIUM BRAND COLORS
+  // ===========================================================================
+
   static const Color _green = Color(0xFF075B3A);
   static const Color _darkGreen = Color(0xFF033D29);
   static const Color _deepGreen = Color(0xFF01291D);
   static const Color _gold = Color(0xFFC9A227);
+  static const Color _lightGold = Color(0xFFE4CC72);
   static const Color _cream = Color(0xFFF8F5EC);
   static const Color _ink = Color(0xFF18362B);
 
@@ -101,10 +106,21 @@ class _CertificatePageState extends State<CertificatePage> {
         .replaceAll('\r\n', '\n')
         .replaceAll('\r', '\n')
         .split('\n')
-        .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
+        .map((line) => line.trim())
+        .where((line) => line.isNotEmpty)
         .join('\n')
         .trim();
+  }
+
+  String _limitText(
+    String value,
+    int maxLength,
+  ) {
+    if (value.length <= maxLength) {
+      return value;
+    }
+
+    return '${value.substring(0, maxLength - 1).trim()}…';
   }
 
   String _month(int month) {
@@ -238,7 +254,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   // ===========================================================================
-  // PDF TEXT
+  // PDF TEXT STYLE
   // ===========================================================================
 
   pw.TextStyle _pText({
@@ -283,9 +299,7 @@ class _CertificatePageState extends State<CertificatePage> {
           decoration: pw.BoxDecoration(
             shape: pw.BoxShape.circle,
             border: pw.Border.all(
-              color: dark
-                  ? primary
-                  : PdfColors.white,
+              color: dark ? primary : PdfColors.white,
               width: 1,
             ),
           ),
@@ -294,9 +308,7 @@ class _CertificatePageState extends State<CertificatePage> {
               'S',
               style: _pText(
                 size: size * .40,
-                color: dark
-                    ? primary
-                    : PdfColors.white,
+                color: dark ? primary : PdfColors.white,
                 weight: pw.FontWeight.bold,
               ),
             ),
@@ -326,20 +338,18 @@ class _CertificatePageState extends State<CertificatePage> {
           primary: primary,
           accent: accent,
           dark: dark,
+          size: 46,
         ),
         pw.SizedBox(width: 9),
         pw.Column(
-          crossAxisAlignment:
-              pw.CrossAxisAlignment.start,
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Text(
-              company,
+              _limitText(company, 38),
               maxLines: 1,
               style: _pText(
                 size: 16,
-                color: dark
-                    ? PdfColors.white
-                    : primary,
+                color: dark ? PdfColors.white : primary,
                 weight: pw.FontWeight.bold,
                 letterSpacing: .3,
               ),
@@ -429,9 +439,7 @@ class _CertificatePageState extends State<CertificatePage> {
           textAlign: pw.TextAlign.center,
           style: _pText(
             size: 8,
-            color: dark
-                ? PdfColors.white
-                : accent,
+            color: dark ? PdfColors.white : accent,
             weight: pw.FontWeight.bold,
             letterSpacing: 1.8,
           ),
@@ -456,7 +464,13 @@ class _CertificatePageState extends State<CertificatePage> {
     bool dark = false,
   }) {
     final safeName =
-        _clean(name, fallback: 'Employee Name');
+        _limitText(
+          _clean(
+            name,
+            fallback: 'Employee Name',
+          ),
+          55,
+        );
 
     return pw.Column(
       children: [
@@ -509,11 +523,15 @@ class _CertificatePageState extends State<CertificatePage> {
     final items = <String>[];
 
     if (id.isNotEmpty) {
-      items.add('EMPLOYEE ID: $id');
+      items.add(
+        'EMPLOYEE ID: ${_limitText(id, 24)}',
+      );
     }
 
     if (department.isNotEmpty) {
-      items.add('DEPARTMENT: $department');
+      items.add(
+        'DEPARTMENT: ${_limitText(department, 28)}',
+      );
     }
 
     return pw.Padding(
@@ -546,7 +564,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }) {
     final text = achievement.isEmpty
         ? 'Outstanding commitment to safety.'
-        : achievement;
+        : _limitText(achievement, 420);
 
     return pw.Container(
       width: double.infinity,
@@ -582,7 +600,7 @@ class _CertificatePageState extends State<CertificatePage> {
           pw.Text(
             text,
             textAlign: pw.TextAlign.center,
-            maxLines: 4,
+            maxLines: 5,
             style: _pText(
               size: 8.2,
               color: dark
@@ -622,9 +640,7 @@ class _CertificatePageState extends State<CertificatePage> {
           decoration: pw.BoxDecoration(
             shape: pw.BoxShape.circle,
             border: pw.Border.all(
-              color: dark
-                  ? primary
-                  : PdfColors.white,
+              color: dark ? primary : PdfColors.white,
               width: 1,
             ),
           ),
@@ -637,9 +653,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   'HSE',
                   style: _pText(
                     size: 11,
-                    color: dark
-                        ? primary
-                        : PdfColors.white,
+                    color: dark ? primary : PdfColors.white,
                     weight: pw.FontWeight.bold,
                   ),
                 ),
@@ -648,9 +662,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   'SAFETY',
                   style: _pText(
                     size: 5.5,
-                    color: dark
-                        ? primary
-                        : PdfColors.white,
+                    color: dark ? primary : PdfColors.white,
                     weight: pw.FontWeight.bold,
                     letterSpacing: .8,
                   ),
@@ -659,9 +671,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   'EXCELLENCE',
                   style: _pText(
                     size: 4.5,
-                    color: dark
-                        ? primary
-                        : PdfColors.white,
+                    color: dark ? primary : PdfColors.white,
                     weight: pw.FontWeight.bold,
                   ),
                 ),
@@ -670,9 +680,7 @@ class _CertificatePageState extends State<CertificatePage> {
                   '★',
                   style: _pText(
                     size: 6,
-                    color: dark
-                        ? primary
-                        : PdfColors.white,
+                    color: dark ? primary : PdfColors.white,
                     weight: pw.FontWeight.bold,
                   ),
                 ),
@@ -702,13 +710,11 @@ class _CertificatePageState extends State<CertificatePage> {
           pw.Container(
             width: 135,
             height: 1,
-            color: dark
-                ? PdfColors.white
-                : primary,
+            color: dark ? PdfColors.white : primary,
           ),
           pw.SizedBox(height: 5),
           pw.Text(
-            value,
+            _limitText(value, 32),
             textAlign: pw.TextAlign.center,
             maxLines: 2,
             style: _pText(
@@ -755,7 +761,7 @@ class _CertificatePageState extends State<CertificatePage> {
       child: pw.Text(
         footer.isEmpty
             ? 'Identify. Report. Stay Safe.'
-            : footer,
+            : _limitText(footer, 100),
         textAlign: pw.TextAlign.center,
         maxLines: 2,
         style: _pText(
@@ -771,7 +777,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   // ===========================================================================
-  // PDF CORNER
+  // PDF CORNER ORNAMENT
   // ===========================================================================
 
   pw.Widget _pdfCorner({
@@ -1071,7 +1077,7 @@ class _CertificatePageState extends State<CertificatePage> {
                 ),
                 pw.SizedBox(height: 3),
                 pw.Text(
-                  name,
+                  _limitText(name, 55),
                   maxLines: 2,
                   style: _pText(
                     size: 27,
@@ -1719,7 +1725,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   // ===========================================================================
-  // SAVE
+  // SAVE PDF
   // ===========================================================================
 
   Future<void> _saveCertificatePdf() async {
@@ -1807,7 +1813,7 @@ class _CertificatePageState extends State<CertificatePage> {
   }
 
   // ===========================================================================
-  // SHARE
+  // SHARE EXISTING PDF
   // ===========================================================================
 
   Future<void> _shareExistingCertificatePdf(
@@ -1851,6 +1857,10 @@ class _CertificatePageState extends State<CertificatePage> {
       );
     }
   }
+
+  // ===========================================================================
+  // SHARE PDF
+  // ===========================================================================
 
   Future<void> _shareCertificatePdf() async {
     if (_isGeneratingPdf) return;
