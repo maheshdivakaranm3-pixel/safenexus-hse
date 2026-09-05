@@ -46,7 +46,6 @@ class _CertificatePageState extends State<CertificatePage> {
   static const Color _darkGreen = Color(0xFF033D29);
   static const Color _deepGreen = Color(0xFF01291D);
   static const Color _gold = Color(0xFFC9A227);
-  static const Color _lightGold = Color(0xFFE8CF73);
   static const Color _cream = Color(0xFFF8F5EC);
   static const Color _ink = Color(0xFF18362B);
 
