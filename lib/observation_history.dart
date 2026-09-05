@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ObservationHistoryPage extends StatefulWidget {
   const ObservationHistoryPage({super.key});
@@ -17,9 +17,10 @@ class _ObservationHistoryPageState
     extends State<ObservationHistoryPage> {
   static const String _storageKey = 'safenexus_observations';
 
-  List<Map<String, dynamic>> _observations = [];
-  bool _isLoading = true;
+  final List<Map<String, dynamic>> _observations =
+      <Map<String, dynamic>>[];
 
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -28,17 +29,17 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // LOAD
+  // LOAD OBSERVATIONS
   // ============================================================
 
   Future<void> _loadObservations() async {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      final List<String> stored =
+      final stored =
           prefs.getStringList(_storageKey) ?? <String>[];
 
-      final List<Map<String, dynamic>> loaded = [];
+      final loaded = <Map<String, dynamic>>[];
 
       for (final item in stored) {
         try {
@@ -50,23 +51,30 @@ class _ObservationHistoryPageState
             );
           }
         } catch (_) {
-          // Ignore one corrupted record.
+          // Ignore corrupted records.
         }
       }
 
       if (!mounted) return;
 
       setState(() {
-        _observations = loaded;
+        _observations
+          ..clear()
+          ..addAll(loaded);
         _isLoading = false;
       });
     } catch (_) {
       if (!mounted) return;
 
       setState(() {
-        _observations = [];
+        _observations.clear();
         _isLoading = false;
       });
+
+      _message(
+        'Unable to load observation history.',
+        error: true,
+      );
     }
   }
 
@@ -93,7 +101,7 @@ class _ObservationHistoryPageState
   String _photoPath(Map<String, dynamic> item) {
     return _value(
       item,
-      [
+      <String>[
         'photoPath',
         'photo_path',
         'imagePath',
@@ -113,7 +121,7 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // RISK
+  // RISK HELPERS
   // ============================================================
 
   Color _riskColor(String risk) {
@@ -147,7 +155,7 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // DATE
+  // DATE FORMAT
   // ============================================================
 
   String _formatDate(String value) {
@@ -158,7 +166,7 @@ class _ObservationHistoryPageState
     try {
       final date = DateTime.parse(value).toLocal();
 
-      const months = [
+      const months = <String>[
         'Jan',
         'Feb',
         'Mar',
@@ -210,14 +218,17 @@ class _ObservationHistoryPageState
 
       updated.removeAt(index);
 
-      final storage = updated
-          .map(jsonEncode)
-          .toList();
+      final storage =
+          updated.map(jsonEncode).toList();
 
-      await prefs.setStringList(
+      final saved = await prefs.setStringList(
         _storageKey,
         storage,
       );
+
+      if (!saved) {
+        throw Exception('Unable to save updated history.');
+      }
 
       if (photo.isNotEmpty) {
         try {
@@ -226,18 +237,20 @@ class _ObservationHistoryPageState
           if (await file.exists()) {
             await file.delete();
           }
-        } catch (_) {}
+        } catch (_) {
+          // Do not fail deletion if photo removal fails.
+        }
       }
 
       if (!mounted) return;
 
       setState(() {
-        _observations = updated;
+        _observations
+          ..clear()
+          ..addAll(updated);
       });
 
-      _message(
-        'Observation deleted.',
-      );
+      _message('Observation deleted.');
     } catch (_) {
       if (!mounted) return;
 
@@ -257,31 +270,31 @@ class _ObservationHistoryPageState
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Delete Observation?',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+            ),
           ),
-          content: Text(
+          content: const Text(
             'This observation will be permanently removed from this device.',
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(dialogContext, false);
+                Navigator.of(dialogContext).pop(false);
               },
-              child: Text(
-                'Cancel',
-              ),
+              child: const Text('Cancel'),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
-                backgroundColor: Colors.red.shade700,
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
               ),
               onPressed: () {
-                Navigator.pop(dialogContext, true);
+                Navigator.of(dialogContext).pop(true);
               },
-              child: Text(
-                'Delete',
-              ),
+              child: const Text('Delete'),
             ),
           ],
         );
@@ -302,52 +315,77 @@ class _ObservationHistoryPageState
   ) async {
     final id = _value(
       item,
-      ['id', 'observation_id', 'observationId'],
+      <String>[
+        'id',
+        'observation_id',
+        'observationId',
+      ],
     );
 
     final type = _value(
       item,
-      ['type', 'observation_type'],
+      <String>[
+        'type',
+        'observation_type',
+      ],
     );
 
     final category = _value(
       item,
-      ['category'],
+      <String>['category'],
     );
 
     final hazard = _value(
       item,
-      ['hazard'],
+      <String>['hazard'],
     );
 
     final risk = _value(
       item,
-      ['risk', 'risk_level', 'severity'],
+      <String>[
+        'risk',
+        'risk_level',
+        'severity',
+      ],
     );
 
     final consequence = _value(
       item,
-      ['consequence', 'potential_consequence'],
+      <String>[
+        'consequence',
+        'potential_consequence',
+      ],
     );
 
     final description = _value(
       item,
-      ['description', 'observation', 'finding'],
+      <String>[
+        'description',
+        'observation',
+        'finding',
+      ],
     );
 
     final action = _value(
       item,
-      ['action', 'corrective_action'],
+      <String>[
+        'action',
+        'corrective_action',
+      ],
     );
 
     final location = _value(
       item,
-      ['location'],
+      <String>['location'],
     );
 
     final dateTime = _value(
       item,
-      ['dateTime', 'date', 'created_at'],
+      <String>[
+        'dateTime',
+        'date',
+        'created_at',
+      ],
     );
 
     final buffer = StringBuffer();
@@ -355,7 +393,7 @@ class _ObservationHistoryPageState
     buffer.writeln(
       'SafeNexus HSE - Safety Observation',
     );
-    buffer.writeln('');
+    buffer.writeln();
 
     if (id.isNotEmpty) {
       buffer.writeln('Observation ID: $id');
@@ -384,11 +422,15 @@ class _ObservationHistoryPageState
     }
 
     if (description.isNotEmpty) {
-      buffer.writeln('Description: $description');
+      buffer.writeln(
+        'Description: $description',
+      );
     }
 
     if (action.isNotEmpty) {
-      buffer.writeln('Corrective Action: $action');
+      buffer.writeln(
+        'Corrective Action: $action',
+      );
     }
 
     if (location.isNotEmpty) {
@@ -401,7 +443,7 @@ class _ObservationHistoryPageState
       );
     }
 
-    buffer.writeln('');
+    buffer.writeln();
     buffer.writeln('Generated by SafeNexus HSE');
 
     try {
@@ -410,7 +452,9 @@ class _ObservationHistoryPageState
       if (photo.isNotEmpty &&
           File(photo).existsSync()) {
         await Share.shareXFiles(
-          [XFile(photo)],
+          <XFile>[
+            XFile(photo),
+          ],
           text: buffer.toString(),
           subject: id.isNotEmpty
               ? 'Safety Observation $id'
@@ -442,20 +486,24 @@ class _ObservationHistoryPageState
     String message, {
     bool error = false,
   }) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor:
-            error ? Colors.red.shade700 : Colors.green.shade700,
-        behavior: SnackBarBehavior.floating,
-        content: Text(message),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor:
+              error
+                  ? Colors.red.shade700
+                  : Colors.green.shade700,
+          behavior: SnackBarBehavior.floating,
+          content: Text(message),
+        ),
+      );
   }
 
   // ============================================================
-  // PHOTO
+  // PHOTO VIEWER
   // ============================================================
 
   void _showPhoto(String path) {
@@ -478,7 +526,7 @@ class _ObservationHistoryPageState
           appBar: AppBar(
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
-            title: Text(
+            title: const Text(
               'Photo Evidence',
             ),
           ),
@@ -498,6 +546,90 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
+  // AI CONFIDENCE
+  // ============================================================
+
+  double _confidence(dynamic value) {
+    double result = 0;
+
+    if (value is num) {
+      result = value.toDouble();
+    } else {
+      result =
+          double.tryParse(value.toString()) ?? 0;
+    }
+
+    if (result > 1 && result <= 100) {
+      result /= 100;
+    }
+
+    return result.clamp(0, 1).toDouble();
+  }
+
+  // ============================================================
+  // DETAIL TILE
+  // ============================================================
+
+  Widget _detailTile(
+    IconData icon,
+    String title,
+    String value, {
+    Color? iconColor,
+  }) {
+    final color =
+        iconColor ?? Colors.green.shade700;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 20,
+          ),
+          const SizedBox(width: 11),
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 13.5,
+                    height: 1.4,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
   // DETAILS
   // ============================================================
 
@@ -507,57 +639,81 @@ class _ObservationHistoryPageState
   ) {
     final id = _value(
       item,
-      ['id'],
+      <String>['id'],
     );
 
     final type = _value(
       item,
-      ['type', 'observation_type'],
+      <String>[
+        'type',
+        'observation_type',
+      ],
     );
 
     final category = _value(
       item,
-      ['category'],
+      <String>['category'],
     );
 
     final hazard = _value(
       item,
-      ['hazard'],
+      <String>['hazard'],
     );
 
     final risk = _value(
       item,
-      ['risk', 'risk_level', 'severity'],
+      <String>[
+        'risk',
+        'risk_level',
+        'severity',
+      ],
     );
 
     final consequence = _value(
       item,
-      ['consequence', 'potential_consequence'],
+      <String>[
+        'consequence',
+        'potential_consequence',
+      ],
     );
 
     final description = _value(
       item,
-      ['description', 'observation', 'finding'],
+      <String>[
+        'description',
+        'observation',
+        'finding',
+      ],
     );
 
     final action = _value(
       item,
-      ['action', 'corrective_action'],
+      <String>[
+        'action',
+        'corrective_action',
+      ],
     );
 
     final location = _value(
       item,
-      ['location'],
+      <String>['location'],
     );
 
     final date = _value(
       item,
-      ['dateTime', 'date', 'created_at'],
+      <String>[
+        'dateTime',
+        'date',
+        'created_at',
+      ],
     );
 
     final aiExplanation = _value(
       item,
-      ['aiExplanation', 'explanation'],
+      <String>[
+        'aiExplanation',
+        'explanation',
+      ],
     );
 
     final aiConfidence = item['aiConfidence'];
@@ -573,7 +729,8 @@ class _ObservationHistoryPageState
         return SafeArea(
           child: SizedBox(
             height:
-                MediaQuery.of(sheetContext).size.height * 0.90,
+                MediaQuery.of(sheetContext).size.height *
+                    0.90,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 18,
@@ -587,10 +744,10 @@ class _ObservationHistoryPageState
                 children: [
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           'Observation Details',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.w900,
                           ),
@@ -749,13 +906,18 @@ class _ObservationHistoryPageState
                       Expanded(
                         child: OutlinedButton.icon(
                           onPressed: () async {
-                            Navigator.pop(sheetContext);
-                            await _shareObservation(item);
+                            Navigator.of(
+                              sheetContext,
+                            ).pop();
+
+                            await _shareObservation(
+                              item,
+                            );
                           },
                           icon: const Icon(
                             Icons.share_outlined,
                           ),
-                          label: Text(
+                          label: const Text(
                             'Share',
                           ),
                         ),
@@ -771,13 +933,18 @@ class _ObservationHistoryPageState
                                 Colors.red.shade700,
                           ),
                           onPressed: () async {
-                            Navigator.pop(sheetContext);
-                            await _confirmDelete(index);
+                            Navigator.of(
+                              sheetContext,
+                            ).pop();
+
+                            await _confirmDelete(
+                              index,
+                            );
                           },
                           icon: const Icon(
                             Icons.delete_outline,
                           ),
-                          label: Text(
+                          label: const Text(
                             'Delete',
                           ),
                         ),
@@ -791,9 +958,11 @@ class _ObservationHistoryPageState
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: () {
-                        Navigator.pop(sheetContext);
+                        Navigator.of(
+                          sheetContext,
+                        ).pop();
                       },
-                      child: Text(
+                      child: const Text(
                         'Close',
                       ),
                     ),
@@ -807,88 +976,13 @@ class _ObservationHistoryPageState
     );
   }
 
-  double _confidence(dynamic value) {
-    double result = 0;
-
-    if (value is num) {
-      result = value.toDouble();
-    } else {
-      result =
-          double.tryParse(value.toString()) ?? 0;
-    }
-
-    if (result > 1 && result <= 100) {
-      result /= 100;
-    }
-
-    return result.clamp(0, 1).toDouble();
-  }
-
-  Widget _detailTile(
-    IconData icon,
-    String title,
-    String value, {
-    Color? iconColor,
-  }) {
-    final color = iconColor ?? Colors.green.shade700;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Icon(
-            icon,
-            color: color,
-            size: 20,
-          ),
-          const SizedBox(width: 11),
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 13.5,
-                    height: 1.4,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // ============================================================
-  // EMPTY
+  // EMPTY STATE
   // ============================================================
 
   Widget _emptyState() {
     return Center(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment:
@@ -911,10 +1005,10 @@ class _ObservationHistoryPageState
 
             const SizedBox(height: 20),
 
-            Text(
+            const Text(
               'No Safety Observations',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
               ),
@@ -938,7 +1032,128 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // CARD
+  // SUMMARY
+  // ============================================================
+
+  Widget _historySummary() {
+    final total = _observations.length;
+
+    final high = _observations.where(
+      (item) {
+        return _value(
+              item,
+              <String>[
+                'risk',
+                'risk_level',
+                'severity',
+              ],
+            ).toLowerCase() ==
+            'high';
+      },
+    ).length;
+
+    final critical = _observations.where(
+      (item) {
+        return _value(
+              item,
+              <String>[
+                'risk',
+                'risk_level',
+                'severity',
+              ],
+            ).toLowerCase() ==
+            'critical';
+      },
+    ).length;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+        16,
+        16,
+        16,
+        14,
+      ),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _summaryMetric(
+              Icons.assignment_rounded,
+              'Total',
+              '$total',
+            ),
+          ),
+          _summaryDivider(),
+          Expanded(
+            child: _summaryMetric(
+              Icons.warning_amber_rounded,
+              'High',
+              '$high',
+            ),
+          ),
+          _summaryDivider(),
+          Expanded(
+            child: _summaryMetric(
+              Icons.dangerous_rounded,
+              'Critical',
+              '$critical',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _summaryMetric(
+    IconData icon,
+    String label,
+    String value,
+  ) {
+    return Column(
+      children: [
+        Icon(
+          icon,
+          size: 20,
+          color: Colors.green.shade700,
+        ),
+        const SizedBox(height: 6),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey.shade600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _summaryDivider() {
+    return Container(
+      width: 1,
+      height: 48,
+      color: Colors.grey.shade200,
+    );
+  }
+
+  // ============================================================
+  // OBSERVATION CARD
   // ============================================================
 
   Widget _observationCard(
@@ -947,43 +1162,60 @@ class _ObservationHistoryPageState
   ) {
     final id = _value(
       item,
-      ['id'],
+      <String>['id'],
     );
 
     final type = _value(
       item,
-      ['type', 'observation_type'],
+      <String>[
+        'type',
+        'observation_type',
+      ],
     );
 
     final category = _value(
       item,
-      ['category'],
+      <String>['category'],
     );
 
     final hazard = _value(
       item,
-      ['hazard'],
+      <String>['hazard'],
     );
 
     final risk = _value(
       item,
-      ['risk', 'risk_level', 'severity'],
+      <String>[
+        'risk',
+        'risk_level',
+        'severity',
+      ],
     );
 
     final description = _value(
       item,
-      ['description', 'observation', 'finding'],
+      <String>[
+        'description',
+        'observation',
+        'finding',
+      ],
     );
 
     final date = _value(
       item,
-      ['dateTime', 'date', 'created_at'],
+      <String>[
+        'dateTime',
+        'date',
+        'created_at',
+      ],
     );
 
     final riskColor = _riskColor(risk);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(
+        bottom: 14,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(21),
@@ -992,7 +1224,8 @@ class _ObservationHistoryPageState
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.035),
+            color:
+                Colors.black.withValues(alpha: 0.035),
             blurRadius: 14,
             offset: const Offset(0, 5),
           ),
@@ -1000,7 +1233,10 @@ class _ObservationHistoryPageState
       ),
       child: InkWell(
         onTap: () {
-          _showDetails(item, index);
+          _showDetails(
+            item,
+            index,
+          );
         },
         borderRadius: BorderRadius.circular(21),
         child: Padding(
@@ -1015,8 +1251,9 @@ class _ObservationHistoryPageState
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color:
-                          Colors.green.withValues(alpha: 0.08),
+                      color: Colors.green.withValues(
+                        alpha: 0.08,
+                      ),
                       borderRadius:
                           BorderRadius.circular(14),
                     ),
@@ -1037,16 +1274,21 @@ class _ObservationHistoryPageState
                           id.isNotEmpty
                               ? id
                               : 'Safety Observation',
+                          maxLines: 1,
+                          overflow:
+                              TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
-
                         if (date.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
                             _formatDate(date),
+                            maxLines: 1,
+                            overflow:
+                                TextOverflow.ellipsis,
                             style: TextStyle(
                               color:
                                   Colors.grey.shade600,
@@ -1060,9 +1302,13 @@ class _ObservationHistoryPageState
 
                   if (risk.isNotEmpty)
                     Container(
+                      margin:
+                          const EdgeInsets.only(
+                        left: 6,
+                      ),
                       padding:
                           const EdgeInsets.symmetric(
-                        horizontal: 10,
+                        horizontal: 9,
                         vertical: 7,
                       ),
                       decoration: BoxDecoration(
@@ -1074,64 +1320,62 @@ class _ObservationHistoryPageState
                         risk.toUpperCase(),
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 9.5,
+                          fontSize: 9,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                     ),
 
                   PopupMenuButton<String>(
+                    padding: EdgeInsets.zero,
                     onSelected: (value) {
-                      if (value == 'share') {
-                        _shareObservation(item);
-                      }
-
-                      if (value == 'delete') {
-                        _confirmDelete(index);
+                      switch (value) {
+                        case 'share':
+                          _shareObservation(item);
+                          break;
+                        case 'delete':
+                          _confirmDelete(index);
+                          break;
                       }
                     },
-                    itemBuilder: (_) => [
-                      PopupMenuItem(
-                        value: 'share',
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.share_outlined,
-                            ),
-                            const SizedBox(width: 9),
-                            Text(
-                              'Share',
-                            ),
-                          ],
+                    itemBuilder: (_) {
+                      return [
+                        const PopupMenuItem<String>(
+                          value: 'share',
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.share_outlined,
+                              ),
+                              SizedBox(width: 9),
+                              Text('Share'),
+                            ],
+                          ),
                         ),
-                      ),
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.delete_outline,
-                              color:
-                                  Colors.red.shade700,
-                            ),
-                            const SizedBox(width: 9),
-                            Text(
-                              'Delete',
-                            ),
-                          ],
+                        PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.delete_outline,
+                                color:
+                                    Colors.red,
+                              ),
+                              const SizedBox(width: 9),
+                              Text('Delete'),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ];
+                    },
                   ),
                 ],
               ),
 
-              const SizedBox(height: 13),
-
-              if (description.isNotEmpty)
+              if (description.isNotEmpty) ...[
+                const SizedBox(height: 13),
                 Align(
-                  alignment:
-                      Alignment.centerLeft,
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     description,
                     maxLines: 3,
@@ -1143,6 +1387,7 @@ class _ObservationHistoryPageState
                     ),
                   ),
                 ),
+              ],
 
               if (description.isNotEmpty)
                 const SizedBox(height: 11),
@@ -1206,6 +1451,10 @@ class _ObservationHistoryPageState
     );
   }
 
+  // ============================================================
+  // CHIP
+  // ============================================================
+
   Widget _chip(
     IconData icon,
     String text,
@@ -1230,15 +1479,20 @@ class _ObservationHistoryPageState
           const SizedBox(width: 5),
           ConstrainedBox(
             constraints:
-                const BoxConstraints(maxWidth: 150),
+                const BoxConstraints(
+              maxWidth: 150,
+            ),
             child: Text(
               text,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow:
+                  TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 10.5,
-                color: Colors.grey.shade700,
-                fontWeight: FontWeight.w600,
+                color:
+                    Colors.grey.shade700,
+                fontWeight:
+                    FontWeight.w600,
               ),
             ),
           ),
@@ -1250,45 +1504,6 @@ class _ObservationHistoryPageState
   // ============================================================
   // BODY
   // ============================================================
-
-  Widget _historySummary() {
-    final total = _observations.length;
-    final critical = _observations.where((item) => _value(item, ['risk', 'risk_level', 'severity']).toLowerCase() == 'critical').length;
-    final high = _observations.where((item) => _value(item, ['risk', 'risk_level', 'severity']).toLowerCase() == 'high').length;
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Row(
-        children: [
-          Expanded(child: _summaryMetric(Icons.assignment_rounded, 'Total', '$total')),
-          _summaryDivider(),
-          Expanded(child: _summaryMetric(Icons.warning_amber_rounded, 'High', '$high')),
-          _summaryDivider(),
-          Expanded(child: _summaryMetric(Icons.dangerous_rounded, 'Critical', '$critical')),
-        ],
-      ),
-    );
-  }
-
-  Widget _summaryMetric(IconData icon, String label, String value) {
-    return Column(
-      children: [
-        Icon(icon, size: 20, color: Colors.green.shade700),
-        const SizedBox(height: 6),
-        Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-        const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
-      ],
-    );
-  }
-
-  Widget _summaryDivider() => Container(width: 1, height: 48, color: Colors.grey.shade200);
 
   Widget _body() {
     if (_isLoading) {
@@ -1304,15 +1519,31 @@ class _ObservationHistoryPageState
     return RefreshIndicator(
       onRefresh: _loadObservations,
       child: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(bottom: 30),
-        itemCount: _observations.length + 1,
+        physics:
+            const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(
+          bottom: 30,
+        ),
+        itemCount:
+            _observations.length + 1,
         itemBuilder: (_, index) {
-          if (index == 0) return _historySummary();
-          final observationIndex = index - 1;
+          if (index == 0) {
+            return _historySummary();
+          }
+
+          final observationIndex =
+              index - 1;
+
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _observationCard(_observations[observationIndex], observationIndex),
+            padding:
+                const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: _observationCard(
+              _observations[
+                  observationIndex],
+              observationIndex,
+            ),
           );
         },
       ),
@@ -1328,19 +1559,17 @@ class _ObservationHistoryPageState
     return Scaffold(
       backgroundColor:
           const Color(0xFFF5F8F6),
-
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
-
         title: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Reports & History',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w900,
               ),
@@ -1354,7 +1583,6 @@ class _ObservationHistoryPageState
             ),
           ],
         ),
-
         actions: [
           IconButton(
             tooltip: 'Refresh',
@@ -1365,7 +1593,6 @@ class _ObservationHistoryPageState
           ),
         ],
       ),
-
       body: _body(),
     );
   }
