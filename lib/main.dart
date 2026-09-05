@@ -21,10 +21,11 @@ class SafeNexusApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF6F8F7),
+        scaffoldBackgroundColor: const Color(0xFFF5F7F6),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF159447),
         ),
+        fontFamily: 'Roboto',
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Color(0xFF151515),
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
+      backgroundColor: const Color(0xFFF5F7F6),
       body: IndexedStack(
         index: _selectedIndex,
         children: const [
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         boxShadow: [
           BoxShadow(
             color: Color(0x18000000),
-            blurRadius: 14,
+            blurRadius: 16,
             offset: Offset(0, -4),
           ),
         ],
@@ -115,24 +116,24 @@ class _HomeScreenState extends State<HomeScreen> {
               behavior: HitTestBehavior.opaque,
               onTap: _openHazardReport,
               child: Container(
-                width: 58,
-                height: 58,
-                margin: const EdgeInsets.only(top: -27),
+                width: 60,
+                height: 60,
+                margin: const EdgeInsets.only(top: -28),
                 decoration: const BoxDecoration(
                   color: green,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0x30000000),
-                      blurRadius: 12,
-                      offset: Offset(0, 5),
+                      color: Color(0x35000000),
+                      blurRadius: 14,
+                      offset: Offset(0, 6),
                     ),
                   ],
                 ),
                 child: const Icon(
                   Icons.add_rounded,
                   color: Colors.white,
-                  size: 35,
+                  size: 36,
                 ),
               ),
             ),
@@ -170,7 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 24),
+            Icon(
+              icon,
+              color: color,
+              size: 24,
+            ),
             const SizedBox(height: 3),
             Text(
               label,
@@ -201,7 +206,10 @@ class _HomeContent extends StatelessWidget {
   static const Color red = Color(0xFFD93636);
   static const Color blue = Color(0xFF1677C8);
 
-  void openPage(BuildContext context, Widget page) {
+  void openPage(
+    BuildContext context,
+    Widget page,
+  ) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => page,
@@ -228,11 +236,11 @@ class _HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
+      backgroundColor: const Color(0xFFF5F7F6),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 72,
-        titleSpacing: 16,
+        toolbarHeight: 76,
+        titleSpacing: 18,
         title: Row(
           children: [
             Container(
@@ -240,7 +248,14 @@ class _HomeContent extends StatelessWidget {
               height: 46,
               decoration: BoxDecoration(
                 color: green,
-                borderRadius: BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x20159447),
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
               child: const Icon(
                 Icons.health_and_safety_rounded,
@@ -255,8 +270,9 @@ class _HomeContent extends StatelessWidget {
                 Text(
                   'SafeNexus',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 21,
                     fontWeight: FontWeight.w800,
+                    letterSpacing: -0.3,
                   ),
                 ),
                 Text(
@@ -265,10 +281,24 @@ class _HomeContent extends StatelessWidget {
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
                     color: green,
-                    letterSpacing: 1.1,
+                    letterSpacing: 1.2,
                   ),
                 ),
               ],
+            ),
+            const Spacer(),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.notifications_none_rounded,
+                color: Color(0xFF303030),
+                size: 23,
+              ),
             ),
           ],
         ),
@@ -280,37 +310,39 @@ class _HomeContent extends StatelessWidget {
             16,
             14,
             16,
-            30,
+            32,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _heroBanner(),
+              _welcomeBanner(),
               const SizedBox(height: 22),
-              _sectionTitle(
+              _sectionHeader(
+                'SAFETY OVERVIEW',
+                'Current workplace safety status',
+              ),
+              const SizedBox(height: 12),
+              _overviewCard(context),
+              const SizedBox(height: 22),
+              _sectionHeader(
                 'QUICK ACTIONS',
-                'Report and manage workplace safety issues',
+                'Create a safety report quickly',
               ),
               const SizedBox(height: 12),
               _quickActions(context),
               const SizedBox(height: 22),
-              _sectionTitle(
-                'SAFETY OVERVIEW',
-                'Your current safety activity',
+              _sectionHeader(
+                'REGULATORY GUIDANCE',
+                'Access UAE safety requirements',
               ),
               const SizedBox(height: 12),
-              _safetyOverview(context),
+              _guidanceCards(context),
               const SizedBox(height: 22),
-              _sectionTitle(
-                'UAE HSE SAFETY',
-                'Choose UAE, Dubai or Abu Dhabi safety guidance',
-              ),
-              const SizedBox(height: 12),
-              _uaeSafetySection(context),
+              _recentActivity(context),
               const SizedBox(height: 22),
-              _aiBanner(context),
+              _aiAssistant(context),
               const SizedBox(height: 22),
-              _reportsButton(context),
+              _reportsCard(context),
             ],
           ),
         ),
@@ -318,30 +350,30 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _heroBanner() {
+  Widget _welcomeBanner() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(
+        20,
         21,
-        22,
         18,
-        22,
+        21,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
             darkGreen,
             green,
-            Color(0xFF2EAA61),
+            Color(0xFF32AA63),
           ],
         ),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x22000000),
-            blurRadius: 16,
+            color: Color(0x28159447),
+            blurRadius: 18,
             offset: Offset(0, 8),
           ),
         ],
@@ -357,17 +389,18 @@ class _HomeContent extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 23,
-                    height: 1.1,
+                    height: 1.12,
                     fontWeight: FontWeight.w800,
+                    letterSpacing: -0.4,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 9),
                 Text(
                   'Observe • Report • Prevent',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 SizedBox(height: 6),
@@ -375,7 +408,7 @@ class _HomeContent extends StatelessWidget {
                   'Together for a safer workplace.',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 12,
+                    fontSize: 11.5,
                   ),
                 ),
               ],
@@ -383,16 +416,19 @@ class _HomeContent extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Container(
-            width: 82,
-            height: 82,
+            width: 76,
+            height: 76,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.12),
+              color: Colors.white.withValues(alpha: 0.13),
               shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.14),
+              ),
             ),
             child: const Icon(
-              Icons.construction_rounded,
+              Icons.engineering_rounded,
               color: Colors.white,
-              size: 48,
+              size: 43,
             ),
           ),
         ],
@@ -400,7 +436,7 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _sectionTitle(
+  Widget _sectionHeader(
     String title,
     String subtitle,
   ) {
@@ -411,16 +447,16 @@ class _HomeContent extends StatelessWidget {
           title,
           style: const TextStyle(
             color: darkGreen,
-            fontSize: 14,
+            fontSize: 13.5,
             fontWeight: FontWeight.w800,
-            letterSpacing: 0.8,
+            letterSpacing: 0.9,
           ),
         ),
         const SizedBox(height: 3),
         Text(
           subtitle,
           style: const TextStyle(
-            color: Color(0xFF707070),
+            color: Color(0xFF727272),
             fontSize: 11.5,
           ),
         ),
@@ -428,189 +464,67 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _quickActions(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      childAspectRatio: 1.55,
-      children: [
-        _actionCard(
-          icon: Icons.warning_amber_rounded,
-          title: 'Hazard Report',
-          subtitle: 'Report a workplace hazard',
-          color: orange,
-          onTap: () => openPage(
-            context,
-            const HazardReportPage(),
-          ),
-        ),
-        _actionCard(
-          icon: Icons.visibility_rounded,
-          title: 'Safety Observation',
-          subtitle: 'Record a safety observation',
-          color: green,
-          onTap: () => openPage(
-            context,
-            const SafetyObservationPage(),
-          ),
-        ),
-        _actionCard(
-          icon: Icons.mic_rounded,
-          title: 'Voice Report',
-          subtitle: 'Report using your voice',
-          color: purple,
-          onTap: () => openPage(
-            context,
-            const VoiceReportPage(),
-          ),
-        ),
-        _actionCard(
-          icon: Icons.menu_book_rounded,
-          title: 'HSE Guidelines',
-          subtitle: 'UAE safety guidance',
-          color: darkGreen,
-          onTap: () => openPage(
-            context,
-            const GuidelinesPage(),
-          ),
-        ),
-        _actionCard(
-          icon: Icons.shield_rounded,
-          title: 'Risk Assessment',
-          subtitle: 'Coming soon',
-          color: red,
-          comingSoon: true,
-          onTap: () => showComingSoon(
-            context,
-            'Risk Assessment',
-          ),
-        ),
-        _actionCard(
-          icon: Icons.auto_awesome_rounded,
-          title: 'AI Safety',
-          subtitle: 'Smart safety assistance',
-          color: purple,
-          comingSoon: true,
-          onTap: () => showComingSoon(
-            context,
-            'AI Safety Assistant',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _actionCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-    required VoidCallback onTap,
-    bool comingSoon = false,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(13),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: Colors.grey.shade200,
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 47,
-                height: 47,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 10,
-                        height: 1.15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (!comingSoon)
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 13,
-                  color: color,
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _safetyOverview(BuildContext context) {
+  Widget _overviewCard(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(
+        15,
+        15,
+        15,
+        17,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(21),
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: const Color(0xFFE7EBE9),
         ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0C000000),
+            blurRadius: 12,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.analytics_outlined,
-                color: green,
-                size: 21,
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: green.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: const Icon(
+                  Icons.analytics_rounded,
+                  color: green,
+                  size: 21,
+                ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               const Expanded(
-                child: Text(
-                  'Safety Activity',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Safety Activity',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      'Your current safety performance',
+                      style: TextStyle(
+                        color: Color(0xFF777777),
+                        fontSize: 10.5,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               TextButton(
@@ -618,122 +532,345 @@ class _HomeContent extends StatelessWidget {
                   context,
                   const ObservationHistoryPage(),
                 ),
-                child: const Text('View Reports'),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize:
+                      MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text(
+                  'View All',
+                  style: TextStyle(
+                    color: darkGreen,
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Row(
             children: [
               Expanded(
-                child: _stat(
-                  '12',
-                  'Observations',
-                  Icons.visibility_outlined,
-                  purple,
+                child: _metric(
+                  value: '12',
+                  label: 'Observations',
+                  icon: Icons.visibility_outlined,
+                  color: purple,
                 ),
               ),
-              _verticalDivider(),
+              _metricDivider(),
               Expanded(
-                child: _stat(
-                  '7',
-                  'Hazards',
-                  Icons.warning_amber_rounded,
-                  orange,
+                child: _metric(
+                  value: '7',
+                  label: 'Open Hazards',
+                  icon: Icons.warning_amber_rounded,
+                  color: orange,
                 ),
               ),
-              _verticalDivider(),
+              _metricDivider(),
               Expanded(
-                child: _stat(
-                  '5',
-                  'Resolved',
-                  Icons.check_circle_outline_rounded,
-                  green,
+                child: _metric(
+                  value: '5',
+                  label: 'Resolved',
+                  icon: Icons.check_circle_outline_rounded,
+                  color: green,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 15),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF7F9F8),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.shield_outlined,
+                  color: green,
+                  size: 18,
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Safety reports are being tracked for action.',
+                    style: TextStyle(
+                      color: Color(0xFF5E5E5E),
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: Color(0xFF888888),
+                  size: 20,
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _stat(
-    String value,
-    String label,
-    IconData icon,
-    Color color,
-  ) {
+  Widget _metric({
+    required String value,
+    required String label,
+    required IconData icon,
+    required Color color,
+  }) {
     return Column(
       children: [
-        Icon(
-          icon,
-          color: color,
-          size: 23,
+        Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.10),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: color,
+            size: 20,
+          ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 7),
         Text(
           value,
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.w800,
+            height: 1,
           ),
         ),
+        const SizedBox(height: 4),
         Text(
           label,
           textAlign: TextAlign.center,
+          maxLines: 2,
           style: const TextStyle(
-            color: Color(0xFF666666),
-            fontSize: 10,
+            color: Color(0xFF6B6B6B),
+            fontSize: 9.5,
+            height: 1.15,
           ),
         ),
       ],
     );
   }
 
-  Widget _verticalDivider() {
+  Widget _metricDivider() {
     return Container(
-      height: 52,
       width: 1,
-      color: Colors.grey.shade200,
+      height: 62,
+      color: const Color(0xFFE8ECEA),
     );
   }
 
-  Widget _uaeSafetySection(BuildContext context) {
+  Widget _quickActions(BuildContext context) {
     return Column(
       children: [
-        _regionCard(
+        Row(
+          children: [
+            Expanded(
+              child: _primaryAction(
+                context,
+                icon: Icons.warning_amber_rounded,
+                title: 'Hazard Report',
+                subtitle: 'Report a workplace hazard',
+                color: orange,
+                onTap: () => openPage(
+                  context,
+                  const HazardReportPage(),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _primaryAction(
+                context,
+                icon: Icons.visibility_rounded,
+                title: 'Safety Observation',
+                subtitle: 'Record a safety observation',
+                color: green,
+                onTap: () => openPage(
+                  context,
+                  const SafetyObservationPage(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _primaryAction(
+                context,
+                icon: Icons.mic_rounded,
+                title: 'Voice Report',
+                subtitle: 'Report using your voice',
+                color: purple,
+                onTap: () => openPage(
+                  context,
+                  const VoiceReportPage(),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _primaryAction(
+                context,
+                icon: Icons.menu_book_rounded,
+                title: 'HSE Guidelines',
+                subtitle: 'Access safety guidance',
+                color: darkGreen,
+                onTap: () => openPage(
+                  context,
+                  const GuidelinesPage(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _primaryAction(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          constraints: const BoxConstraints(
+            minHeight: 112,
+          ),
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: const Color(0xFFE6EAE8),
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x08000000),
+                blurRadius: 10,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: color,
+                      size: 22,
+                    ),
+                  ),
+                  const Spacer(),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    color: color,
+                    size: 19,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF777777),
+                  fontSize: 9.5,
+                  height: 1.2,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _guidanceCards(BuildContext context) {
+    return Column(
+      children: [
+        _guidanceCard(
           context,
           icon: Icons.flag_rounded,
           title: 'UAE HSE Safety',
           subtitle: 'UAE-wide HSE guidance',
+          tag: 'UAE',
           color: green,
         ),
         const SizedBox(height: 10),
-        _regionCard(
+        _guidanceCard(
           context,
           icon: Icons.location_city_rounded,
           title: 'Dubai HSE Safety',
           subtitle: 'Dubai safety guidance',
+          tag: 'DUBAI',
           color: blue,
         ),
         const SizedBox(height: 10),
-        _regionCard(
+        _guidanceCard(
           context,
           icon: Icons.account_balance_rounded,
           title: 'Abu Dhabi HSE Safety',
           subtitle: 'ADOSH-SF safety guidance',
+          tag: 'ABU DHABI',
           color: purple,
         ),
       ],
     );
   }
 
-  Widget _regionCard(
+  Widget _guidanceCard(
     BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
+    required String tag,
     required Color color,
   }) {
     return Material(
@@ -746,26 +883,26 @@ class _HomeContent extends StatelessWidget {
           const GuidelinesPage(),
         ),
         child: Container(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: Colors.grey.shade200,
+              color: const Color(0xFFE6EAE8),
             ),
           ),
           child: Row(
             children: [
               Container(
-                width: 50,
-                height: 50,
+                width: 49,
+                height: 49,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   icon,
                   color: color,
-                  size: 27,
+                  size: 26,
                 ),
               ),
               const SizedBox(width: 13),
@@ -774,19 +911,47 @@ class _HomeContent extends StatelessWidget {
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 7),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: color.withValues(alpha: 0.09),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            tag,
+                            style: TextStyle(
+                              color: color,
+                              fontSize: 7,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: const TextStyle(
                         color: Color(0xFF777777),
-                        fontSize: 11.5,
+                        fontSize: 10.5,
                       ),
                     ),
                   ],
@@ -795,7 +960,7 @@ class _HomeContent extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 color: color,
-                size: 28,
+                size: 27,
               ),
             ],
           ),
@@ -804,94 +969,322 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _aiBanner(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showComingSoon(
-        context,
-        'AI Safety Assistant',
+  Widget _recentActivity(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(
+        15,
+        15,
+        15,
+        14,
       ),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(17),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF512DA8),
-              Color(0xFF6736C8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFE6EAE8),
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x08000000),
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: blue.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: const Icon(
+                  Icons.history_rounded,
+                  color: blue,
+                  size: 21,
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Recent Safety Activity',
+                      style: TextStyle(
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      'Latest reported safety items',
+                      style: TextStyle(
+                        color: Color(0xFF777777),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () => openPage(
+                  context,
+                  const ObservationHistoryPage(),
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize:
+                      MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text(
+                  'History',
+                  style: TextStyle(
+                    color: darkGreen,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-        child: const Row(
-          children: [
-            Icon(
-              Icons.auto_awesome_rounded,
-              color: Colors.white,
-              size: 32,
+          const SizedBox(height: 12),
+          _activityItem(
+            icon: Icons.warning_amber_rounded,
+            title: 'Open hazards',
+            subtitle: 'Items requiring corrective action',
+            status: '7 Open',
+            color: orange,
+          ),
+          const SizedBox(height: 9),
+          _activityItem(
+            icon: Icons.check_circle_outline_rounded,
+            title: 'Resolved safety items',
+            subtitle: 'Items completed or closed',
+            status: '5 Resolved',
+            color: green,
+          ),
+          const SizedBox(height: 9),
+          _activityItem(
+            icon: Icons.visibility_outlined,
+            title: 'Safety observations',
+            subtitle: 'Workplace observations recorded',
+            status: '12 Total',
+            color: purple,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _activityItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required String status,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(11),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAF9),
+        borderRadius: BorderRadius.circular(13),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 37,
+            height: 37,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.10),
+              shape: BoxShape.circle,
             ),
-            SizedBox(width: 13),
-            Expanded(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'AI Safety Assistant',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
+            child: Icon(
+              icon,
+              color: color,
+              size: 19,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
                   ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Smart HSE assistance is coming soon.',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 11,
-                    ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFF777777),
+                    fontSize: 9.5,
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 5,
+            ),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.09),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              status,
+              style: TextStyle(
+                color: color,
+                fontSize: 8.5,
+                fontWeight: FontWeight.w800,
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Colors.white,
-              size: 15,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _aiAssistant(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(21),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(21),
+        onTap: () => showComingSoon(
+          context,
+          'AI Safety Assistant',
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(
+            17,
+            17,
+            15,
+            17,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(21),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF4B299C),
+                Color(0xFF6736C8),
+              ],
             ),
-          ],
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x22000000),
+                blurRadius: 14,
+                offset: Offset(0, 7),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.13),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const Icon(
+                  Icons.auto_awesome_rounded,
+                  color: Colors.white,
+                  size: 27,
+                ),
+              ),
+              const SizedBox(width: 13),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'AI Safety Assistant',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Smart HSE assistance is coming soon.',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+                size: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _reportsButton(BuildContext context) {
+  Widget _reportsCard(BuildContext context) {
     return Material(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(19),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(19),
         onTap: () => openPage(
           context,
           const ObservationHistoryPage(),
         ),
         child: Container(
-          padding: const EdgeInsets.all(17),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(19),
             border: Border.all(
-              color: Colors.grey.shade200,
+              color: const Color(0xFFE6EAE8),
             ),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(
-                Icons.folder_copy_outlined,
-                color: green,
-                size: 28,
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: green.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: const Icon(
+                  Icons.folder_copy_outlined,
+                  color: green,
+                  size: 23,
+                ),
               ),
-              SizedBox(width: 12),
-              Expanded(
+              const SizedBox(width: 12),
+              const Expanded(
                 child: Column(
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
@@ -900,24 +1293,24 @@ class _HomeContent extends StatelessWidget {
                       'Reports & History',
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        fontSize: 14,
+                        fontSize: 13.5,
                       ),
                     ),
                     SizedBox(height: 3),
                     Text(
-                      'View your saved safety reports',
+                      'View and manage your saved safety reports',
                       style: TextStyle(
                         color: Color(0xFF777777),
-                        fontSize: 11,
+                        fontSize: 10,
                       ),
                     ),
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 15,
-                color: Colors.grey,
+                size: 14,
+                color: Color(0xFF777777),
               ),
             ],
           ),
@@ -935,7 +1328,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
+      backgroundColor: const Color(0xFFF5F7F6),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
@@ -1062,7 +1455,7 @@ class SettingsPage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: const Color(0xFFE6EAE8),
         ),
       ),
       child: const Row(
@@ -1129,7 +1522,7 @@ class SettingsPage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: const Color(0xFFE6EAE8),
         ),
       ),
       child: ListTile(
