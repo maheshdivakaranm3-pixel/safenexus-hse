@@ -5,7 +5,6 @@ import 'package:safenexus_hse/hazard_report.dart';
 import 'package:safenexus_hse/observation_history.dart';
 import 'package:safenexus_hse/safety_observation.dart';
 import 'package:safenexus_hse/voice_report.dart';
-import 'package:safenexus_hse/certificate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -301,8 +300,6 @@ class _HomeContent extends StatelessWidget {
               const SizedBox(height: 12),
               _uaeSafetySection(context),
               const SizedBox(height: 22),
-              _certificateCard(context),
-              const SizedBox(height: 22),
               _aiBanner(context),
               const SizedBox(height: 22),
               _reportsButton(context),
@@ -566,71 +563,6 @@ class _HomeContent extends StatelessWidget {
                   size: 13,
                   color: color,
                 ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _certificateCard(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () => openPage(
-          context,
-          const CertificatePage(),
-        ),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(17),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: green.withValues(alpha: 0.25),
-            ),
-            gradient: LinearGradient(
-              colors: [
-                green.withValues(alpha: 0.07),
-                Colors.white,
-              ],
-            ),
-          ),
-          child: const Row(
-            children: [
-              _CertificateIcon(),
-              SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Certificates',
-                      style: TextStyle(
-                        color: darkGreen,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Create, edit and customize HSE certificates',
-                      style: TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: green,
-                size: 17,
-              ),
             ],
           ),
         ),
@@ -973,27 +905,6 @@ class _HomeContent extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _CertificateIcon extends StatelessWidget {
-  const _CertificateIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 55,
-      height: 55,
-      decoration: BoxDecoration(
-        color: _HomeContent.green.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: const Icon(
-        Icons.workspace_premium_rounded,
-        color: _HomeContent.green,
-        size: 31,
       ),
     );
   }
