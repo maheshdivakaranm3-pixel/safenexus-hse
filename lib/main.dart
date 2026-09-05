@@ -179,8 +179,9 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 color: color,
                 fontSize: 10,
-                fontWeight:
-                    active ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: active
+                    ? FontWeight.w700
+                    : FontWeight.w500,
               ),
             ),
           ],
@@ -202,7 +203,9 @@ class _HomeContent extends StatelessWidget {
 
   void openPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => page),
+      MaterialPageRoute(
+        builder: (_) => page,
+      ),
     );
   }
 
@@ -273,7 +276,12 @@ class _HomeContent extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
+          padding: const EdgeInsets.fromLTRB(
+            16,
+            14,
+            16,
+            30,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -313,7 +321,12 @@ class _HomeContent extends StatelessWidget {
   Widget _heroBanner() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(21, 22, 18, 22),
+      padding: const EdgeInsets.fromLTRB(
+        21,
+        22,
+        18,
+        22,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
@@ -653,7 +666,11 @@ class _HomeContent extends StatelessWidget {
   ) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 23),
+        Icon(
+          icon,
+          color: color,
+          size: 23,
+        ),
         const SizedBox(height: 5),
         Text(
           value,
@@ -929,7 +946,12 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 18, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          18,
+          16,
+          30,
+        ),
         children: [
           _settingsHeader(),
           const SizedBox(height: 18),
