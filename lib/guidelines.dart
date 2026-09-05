@@ -9,6 +9,7 @@ class GuidelinesPage extends StatefulWidget {
 
 class _GuidelinesPageState extends State<GuidelinesPage> {
   final TextEditingController _searchController = TextEditingController();
+
   String _query = '';
 
   // ============================================================
@@ -26,102 +27,124 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       title: 'Excavation Safety',
       description:
           'Control excavation hazards including collapse, underground services, access, water and falling materials.',
-      ppe: 'Safety helmet • Safety footwear • High-visibility vest • Eye protection • Gloves.',
+      ppe:
+          'Safety helmet • Safety footwear • High-visibility vest • Eye protection • Gloves.',
     ),
     _ReferenceTopic(
       title: 'Scaffolding Safety',
       description:
           'Safe scaffold erection, inspection, access, loading and use.',
-      ppe: 'Safety helmet • Safety footwear • Gloves • Full body harness where required.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Full body harness where required.',
     ),
     _ReferenceTopic(
       title: 'Working at Height',
       description:
           'Prevent falls through safe access, edge protection, fall protection and rescue planning.',
-      ppe: 'Safety helmet with chin strap • Safety footwear • Full body harness where required.',
+      ppe:
+          'Safety helmet with chin strap • Safety footwear • Full body harness where required.',
     ),
     _ReferenceTopic(
       title: 'Power Tools Safety',
       description:
           'Safe selection, inspection, operation and maintenance of portable power tools.',
-      ppe: 'Safety glasses • Hearing protection • Gloves where suitable • Safety footwear.',
+      ppe:
+          'Safety glasses • Hearing protection • Gloves where suitable • Safety footwear.',
     ),
     _ReferenceTopic(
       title: 'Formwork Safety',
       description:
           'Control formwork stability, erection, loading, stripping and temporary support hazards.',
-      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Eye protection.',
     ),
     _ReferenceTopic(
       title: 'Permit to Work (PTW)',
       description:
           'Plan and control high-risk activities through an effective permit-to-work system.',
-      ppe: 'PPE determined by the permitted task and risk assessment.',
+      ppe:
+          'PPE determined by the permitted task and risk assessment.',
     ),
     _ReferenceTopic(
       title: 'Working in Hot & Humid Climate',
       description:
           'Manage heat exposure through hydration, rest, shade, planning, monitoring and worker awareness.',
-      ppe: 'Light suitable work clothing • Safety footwear • Head protection • Task-specific PPE.',
+      ppe:
+          'Light suitable work clothing • Safety footwear • Head protection • Task-specific PPE.',
     ),
     _ReferenceTopic(
       title: 'Confined Space Safety',
       description:
           'Control atmospheric, physical and emergency risks associated with confined-space work.',
-      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection • Respiratory protection where required • Harness where required.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Eye protection • Respiratory protection where required • Harness where required.',
     ),
     _ReferenceTopic(
       title: 'Working Near Live Roads',
       description:
           'Protect workers and road users through traffic management, segregation, signs and safe work zones.',
-      ppe: 'High-visibility clothing • Safety footwear • Safety helmet • Task-specific PPE.',
+      ppe:
+          'High-visibility clothing • Safety footwear • Safety helmet • Task-specific PPE.',
     ),
     _ReferenceTopic(
       title: 'Concreting Safety',
       description:
           'Control hazards associated with concrete delivery, pumping, placing, vibration and finishing.',
-      ppe: 'Safety helmet • Safety footwear • Gloves • Eye protection • Suitable protective clothing.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Eye protection • Suitable protective clothing.',
     ),
     _ReferenceTopic(
       title: 'Barricading of Hazards',
       description:
           'Use effective barricading and warning systems to prevent unauthorized access to hazards.',
-      ppe: 'PPE based on the hazard within the barricaded area.',
+      ppe:
+          'PPE based on the hazard within the barricaded area.',
     ),
     _ReferenceTopic(
       title: 'Worker Welfare',
       description:
           'Provide suitable welfare, sanitation, drinking water, rest areas and worker facilities.',
-      ppe: 'Task-specific PPE where work activities are involved.',
+      ppe:
+          'Task-specific PPE where work activities are involved.',
     ),
     _ReferenceTopic(
       title: 'Electricity on Site & Electrical Tools',
       description:
           'Control electrical shock, fire and equipment hazards through safe installation, inspection and use.',
-      ppe: 'Electrical-rated PPE as required • Safety footwear • Eye protection • Arc-flash PPE where applicable.',
+      ppe:
+          'Electrical-rated PPE as required • Safety footwear • Eye protection • Arc-flash PPE where applicable.',
     ),
     _ReferenceTopic(
       title: 'Temporary Works',
       description:
           'Plan, design, inspect and control temporary structures and supporting systems.',
-      ppe: 'Safety helmet • Safety footwear • Gloves • Fall protection where required.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Fall protection where required.',
     ),
     _ReferenceTopic(
       title: 'Manual Handling',
       description:
           'Reduce manual-handling injuries through task assessment, mechanical aids and safe techniques.',
-      ppe: 'Safety footwear • Gloves appropriate to the material • Other task-specific PPE.',
+      ppe:
+          'Safety footwear • Gloves appropriate to the material • Other task-specific PPE.',
     ),
     _ReferenceTopic(
       title: 'Hot Work Safety',
       description:
           'Control welding, cutting, grinding and other activities that generate heat, sparks or flames.',
-      ppe: 'Welding helmet/goggles • Gloves • Flame-resistant clothing • Safety footwear • Face shield where required.',
+      ppe:
+          'Welding helmet/goggles • Gloves • Flame-resistant clothing • Safety footwear • Face shield where required.',
     ),
   ];
 
   // ============================================================
-  // REGION DATA
+  // REGIONAL DATA
+  //
+  // These regions are kept because RegionalSafetyPage and
+  // RegionalTopicPage may be used by other parts of the app.
+  //
+  // IMPORTANT:
+  // They are NOT displayed on GuidelinesPage.
   // ============================================================
 
   final List<_SafetyRegion> _regions = const [
@@ -221,12 +244,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     super.dispose();
   }
 
+  // ============================================================
+  // GUIDELINES PAGE
+  //
+  // IMPORTANT FIX:
+  // No UAE / Dubai / Abu Dhabi selection cards are rendered here.
+  // ============================================================
+
   @override
   Widget build(BuildContext context) {
-    final query = _query.trim().toLowerCase();
+    final String query = _query.trim().toLowerCase();
 
-    final entries = _referenceTopics.where((topic) {
-      if (query.isEmpty) return true;
+    final List<_ReferenceTopic> entries = _referenceTopics.where((topic) {
+      if (query.isEmpty) {
+        return true;
+      }
 
       return topic.title.toLowerCase().contains(query) ||
           topic.description.toLowerCase().contains(query) ||
@@ -248,8 +280,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
         children: [
+          // ======================================================
+          // INTRO
+          // ======================================================
+
           _buildIntroCard(),
+
           const SizedBox(height: 18),
+
+          // ======================================================
+          // SEARCH
+          // ======================================================
 
           TextField(
             controller: _searchController,
@@ -261,14 +302,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               hintText: 'Search HSE guidelines',
-              prefixIcon: const Icon(Icons.search_rounded),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                size: 30,
+              ),
               suffixIcon: _query.isEmpty
                   ? null
                   : IconButton(
                       tooltip: 'Clear search',
-                      icon: const Icon(Icons.clear_rounded),
+                      icon: const Icon(
+                        Icons.clear_rounded,
+                      ),
                       onPressed: () {
                         _searchController.clear();
+
                         setState(() {
                           _query = '';
                         });
@@ -277,68 +324,47 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(
                   color: Colors.grey.shade200,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(
                   color: Colors.grey.shade200,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: const BorderSide(
                   color: Color(0xFF159447),
                   width: 1.4,
                 ),
               ),
               contentPadding: const EdgeInsets.symmetric(
-                vertical: 15,
+                vertical: 17,
               ),
             ),
           ),
 
-          const SizedBox(height: 22),
+          const SizedBox(height: 24),
+
+          // ======================================================
+          // SAFETY REFERENCE LIBRARY
+          //
+          // REGION CARDS HAVE BEEN REMOVED FROM THIS PAGE.
+          // ======================================================
 
           if (!searching) ...[
-            const Text(
-              'UAE HSE SAFETY',
-              style: TextStyle(
-                color: Color(0xFF087A38),
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0.8,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Choose your UAE safety guidance area',
-              style: TextStyle(
-                color: Color(0xFF707070),
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            ..._regions.map(
-              (region) => _buildRegionCard(
-                context,
-                region,
-              ),
-            ),
-
-            const SizedBox(height: 18),
-
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Expanded(
                   child: Text(
                     'Safety Reference Library',
                     style: TextStyle(
-                      fontSize: 19,
+                      fontSize: 21,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -346,35 +372,41 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 Text(
                   '${_referenceTopics.length} topics',
                   style: TextStyle(
-                    color:
-                        Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurfaceVariant,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 5),
+            const SizedBox(height: 6),
 
             const Text(
               'Practical UAE HSE reference topics',
               style: TextStyle(
                 color: Color(0xFF777777),
-                fontSize: 12,
+                fontSize: 13,
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
           ],
 
-          if (searching)
+          // ======================================================
+          // SEARCH RESULTS HEADER
+          // ======================================================
+
+          if (searching) ...[
             Row(
               children: [
                 const Expanded(
                   child: Text(
                     'Search Results',
                     style: TextStyle(
-                      fontSize: 19,
+                      fontSize: 20,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -382,15 +414,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 Text(
                   '${entries.length} topics',
                   style: TextStyle(
-                    color:
-                        Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurfaceVariant,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
 
-          const SizedBox(height: 8),
+            const SizedBox(height: 12),
+          ],
+
+          // ======================================================
+          // TOPICS
+          // ======================================================
 
           if (entries.isEmpty)
             _buildEmptySearchState()
@@ -413,6 +451,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   Widget _buildIntroCard() {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(19),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
@@ -479,92 +518,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   // ============================================================
-  // REGION CARD
-  // ============================================================
-
-  Widget _buildRegionCard(
-    BuildContext context,
-    _SafetyRegion region,
-  ) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-        side: BorderSide(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => RegionalSafetyPage(
-                region: region,
-              ),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: region.color.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Icon(
-                  region.icon,
-                  color: region.color,
-                  size: 27,
-                ),
-              ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      region.title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      region.subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF777777),
-                        fontSize: 11.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: region.color,
-                size: 27,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // GENERAL REFERENCE CARD
+  // REFERENCE CARD
   // ============================================================
 
   Widget _buildReferenceCard(
@@ -577,13 +531,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       elevation: 0,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(17),
         side: BorderSide(
           color: Colors.grey.shade200,
         ),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(17),
         onTap: () {
           Navigator.push(
             context,
@@ -661,9 +615,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
+  // ============================================================
+  // EMPTY SEARCH STATE
+  // ============================================================
+
   Widget _buildEmptySearchState() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 48),
+      padding: const EdgeInsets.symmetric(
+        vertical: 48,
+      ),
       child: Column(
         children: [
           Icon(
@@ -699,6 +659,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
 // ============================================================
 // GENERAL UAE REGION
+//
+// Used as the reference area for the general library topics.
 // ============================================================
 
 const _SafetyRegion _generalRegion = _SafetyRegion(
@@ -713,6 +675,9 @@ const _SafetyRegion _generalRegion = _SafetyRegion(
 
 // ============================================================
 // REGIONAL SAFETY PAGE
+//
+// This page is kept for UAE / Dubai / Abu Dhabi navigation
+// from other parts of the application.
 // ============================================================
 
 class RegionalSafetyPage extends StatelessWidget {
@@ -736,9 +701,15 @@ class RegionalSafetyPage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          30,
+        ),
         children: [
           _buildRegionHeader(),
+
           const SizedBox(height: 20),
 
           Text(
@@ -792,7 +763,9 @@ class RegionalSafetyPage extends StatelessWidget {
             width: 54,
             height: 54,
             decoration: BoxDecoration(
-              color: region.color.withValues(alpha: 0.10),
+              color: region.color.withValues(
+                alpha: 0.10,
+              ),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -870,7 +843,9 @@ class RegionalSafetyPage extends StatelessWidget {
                 height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: region.color.withValues(alpha: 0.10),
+                  color: region.color.withValues(
+                    alpha: 0.10,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -1355,11 +1330,19 @@ class RegionalTopicPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          30,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ======================================================
             // HEADER
+            // ======================================================
+
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -1368,7 +1351,9 @@ class RegionalTopicPage extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     region.color,
-                    region.color.withValues(alpha: 0.78),
+                    region.color.withValues(
+                      alpha: 0.78,
+                    ),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -1385,7 +1370,8 @@ class RegionalTopicPage extends StatelessWidget {
                   const SizedBox(width: 13),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           topic,
@@ -1476,6 +1462,10 @@ class RegionalTopicPage extends StatelessWidget {
     );
   }
 
+  // ============================================================
+  // INFO CARD
+  // ============================================================
+
   Widget _infoCard({
     required IconData icon,
     required String title,
@@ -1503,7 +1493,8 @@ class RegionalTopicPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -1531,7 +1522,7 @@ class RegionalTopicPage extends StatelessWidget {
 }
 
 // ============================================================
-// DATA MODELS
+// DATA MODEL - REFERENCE TOPIC
 // ============================================================
 
 class _ReferenceTopic {
@@ -1545,6 +1536,10 @@ class _ReferenceTopic {
     required this.ppe,
   });
 }
+
+// ============================================================
+// DATA MODEL - SAFETY REGION
+// ============================================================
 
 class _SafetyRegion {
   final String title;
