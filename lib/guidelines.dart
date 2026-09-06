@@ -57,7 +57,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable Emirate-specific requirements',
       ],
     ),
-
     ReferenceTopic(
       id: 'confined_space',
       title: 'Confined Space Safety',
@@ -96,7 +95,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable permit-to-work system',
       ],
     ),
-
     ReferenceTopic(
       id: 'construction_safety',
       title: 'Construction Safety',
@@ -135,7 +133,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable Emirate requirements',
       ],
     ),
-
     ReferenceTopic(
       id: 'electrical_safety',
       title: 'Electrical Safety',
@@ -174,7 +171,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Company Electrical Safety Procedure',
       ],
     ),
-
     ReferenceTopic(
       id: 'excavation_trenching',
       title: 'Excavation & Trenching Safety',
@@ -213,7 +209,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable utility authority requirements',
       ],
     ),
-
     ReferenceTopic(
       id: 'fire_safety',
       title: 'Fire Safety',
@@ -252,7 +247,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Site Emergency Response Plan',
       ],
     ),
-
     ReferenceTopic(
       id: 'heat_stress',
       title: 'Heat Stress Management',
@@ -291,7 +285,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Company Heat Stress Management Plan',
       ],
     ),
-
     ReferenceTopic(
       id: 'lifting_operations',
       title: 'Lifting Operations',
@@ -330,7 +323,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Project lifting procedure',
       ],
     ),
-
     ReferenceTopic(
       id: 'personal_protective_equipment',
       title: 'Personal Protective Equipment',
@@ -369,7 +361,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable PPE standards',
       ],
     ),
-
     ReferenceTopic(
       id: 'scaffolding_safety',
       title: 'Scaffolding Safety',
@@ -408,7 +399,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Project scaffolding procedure',
       ],
     ),
-
     ReferenceTopic(
       id: 'work_at_height',
       title: 'Work at Height',
@@ -447,7 +437,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Applicable access equipment standards',
       ],
     ),
-
     ReferenceTopic(
       id: 'adosh_sf',
       title: 'ADOSH-SF Occupational Safety & Health',
@@ -486,7 +475,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         'Relevant Abu Dhabi OSH regulatory requirements',
       ],
     ),
-
     ReferenceTopic(
       id: 'dubai_construction_safety',
       title: 'Dubai Construction Safety',
@@ -541,7 +529,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           _selectedCategory == GuidelineCategory.all ||
           topic.guidelineCategory == _selectedCategory;
 
-      final matchesSearch = query.isEmpty ||
+      final matchesSearch =
+          query.isEmpty ||
           topic.title.toLowerCase().contains(query) ||
           topic.shortTitle.toLowerCase().contains(query) ||
           topic.description.toLowerCase().contains(query) ||
@@ -650,6 +639,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 _searchController.clear();
+
                                 setState(() {
                                   _searchQuery = '';
                                 });
@@ -676,7 +666,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemCount: GuidelineCategory.values.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, __) =>
+                    const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final category = GuidelineCategory.values[index];
                   final selected = _selectedCategory == category;
@@ -692,11 +683,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     selectedColor: primaryGreen,
                     backgroundColor: Colors.white,
                     labelStyle: TextStyle(
-                      color: selected ? Colors.white : darkGreen,
+                      color:
+                          selected ? Colors.white : darkGreen,
                       fontWeight: FontWeight.w600,
                     ),
                     side: BorderSide(
-                      color: selected ? primaryGreen : Colors.grey.shade300,
+                      color: selected
+                          ? primaryGreen
+                          : Colors.grey.shade300,
                     ),
                   );
                 },
@@ -706,7 +700,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             const SizedBox(height: 8),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
                   const Text(
@@ -735,10 +730,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               child: topics.isEmpty
                   ? _buildEmptyState()
                   : ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        4,
+                        16,
+                        24,
+                      ),
                       itemCount: topics.length,
                       itemBuilder: (context, index) {
-                        return _buildTopicCard(topics[index]);
+                        return _buildTopicCard(
+                          topics[index],
+                        );
                       },
                     ),
             ),
@@ -762,14 +764,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Container(
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: primaryGreen.withOpacity(0.10),
-                  borderRadius: BorderRadius.circular(14),
+                  color: primaryGreen.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius:
+                      BorderRadius.circular(14),
                 ),
                 child: Icon(
                   _categoryIcon(topic.category),
@@ -777,10 +783,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   size: 27,
                 ),
               ),
+
               const SizedBox(width: 14),
+
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       topic.title,
@@ -790,18 +799,24 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         color: darkGreen,
                       ),
                     ),
+
                     const SizedBox(height: 7),
+
                     Text(
                       topic.description,
                       maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                      overflow:
+                          TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
-                        color: Colors.grey.shade700,
+                        color:
+                            Colors.grey.shade700,
                       ),
                     ),
+
                     const SizedBox(height: 10),
+
                     Wrap(
                       spacing: 7,
                       runSpacing: 5,
@@ -819,7 +834,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   ],
                 ),
               ),
+
               const SizedBox(width: 8),
+
               const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -832,15 +849,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
-  Widget _buildTag(String text, Color color) {
+  Widget _buildTag(
+    String text,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 9,
         vertical: 5,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.09),
-        borderRadius: BorderRadius.circular(20),
+        color: color.withValues(
+          alpha: 0.09,
+        ),
+        borderRadius:
+            BorderRadius.circular(20),
       ),
       child: Text(
         text,
@@ -858,14 +881,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       child: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Icon(
               Icons.search_off,
               size: 64,
               color: Colors.grey.shade400,
             ),
+
             const SizedBox(height: 14),
+
             const Text(
               'No guidelines found',
               style: TextStyle(
@@ -874,7 +900,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 color: darkGreen,
               ),
             ),
+
             const SizedBox(height: 7),
+
             Text(
               'Try another search term or category.',
               textAlign: TextAlign.center,
