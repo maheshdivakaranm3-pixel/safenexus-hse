@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'guideline_detail_page.dart';
+import 'models/reference_topic.dart';
 
 class GuidelinesPage extends StatefulWidget {
   const GuidelinesPage({super.key});
@@ -13,7 +15,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       TextEditingController();
 
   String _query = '';
-  GuidelineCategory _selectedCategory = GuidelineCategory.all;
+
+  GuidelineCategory? _selectedCategory;
 
   static const List<ReferenceTopic> _topics = [
     ReferenceTopic(
@@ -28,23 +31,56 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Scaffolding is a temporary access and work platform system used to provide safe access and working areas at height. It must be properly designed, erected, inspected, maintained and used by competent persons.',
       hazards:
-          'Falls from height\nFalling objects and materials\nScaffold collapse or instability\nOverloading of platforms\nUnsafe access and egress\nAdverse weather conditions',
+          'Falls from height\n'
+          'Falling objects and materials\n'
+          'Scaffold collapse or instability\n'
+          'Overloading of platforms\n'
+          'Unsafe access and egress\n'
+          'Adverse weather conditions',
       controls:
-          'Use competent and trained scaffolders\nProvide proper foundations and stability\nInstall guardrails, midrails and toe boards\nProvide safe access and egress\nDisplay inspection status where required\nPrevent unauthorised alteration\nMaintain safe platform loading limits',
+          'Use competent and trained scaffolders\n'
+          'Provide proper foundations and stability\n'
+          'Install guardrails, midrails and toe boards\n'
+          'Provide safe access and egress\n'
+          'Display inspection status where required\n'
+          'Prevent unauthorised alteration\n'
+          'Maintain safe platform loading limits',
       planning:
           'Assess the work area before erection. Confirm ground conditions, access, overhead hazards, nearby electrical services, loading requirements and environmental conditions. Ensure the scaffold arrangement is suitable for the intended work.',
       safePractices:
           'Do not remove guardrails or structural components without authorisation. Keep platforms clean and free from unnecessary materials. Maintain clear access routes and use approved access systems.',
       ppe:
-          'Safety helmet\nSafety footwear\nHigh-visibility clothing\nFall protection where required by the risk assessment\nGloves suitable for the task',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Fall protection where required by the risk assessment\n'
+          'Gloves suitable for the task',
       checklist:
-          'Scaffold erected by competent persons\nBase and foundations are stable\nGuardrails and toe boards installed\nAccess ladder or stair system provided\nPlatform is complete and suitable\nInspection completed before use\nNo unauthorised modifications',
+          'Scaffold erected by competent persons\n'
+          'Base and foundations are stable\n'
+          'Guardrails and toe boards installed\n'
+          'Access ladder or stair system provided\n'
+          'Platform is complete and suitable\n'
+          'Inspection completed before use\n'
+          'No unauthorised modifications',
       inspection:
-          'Check structural condition\nCheck ties and stability\nCheck platforms\nCheck guardrails\nCheck toe boards\nCheck access\nCheck for damage or unauthorised alteration',
+          'Check structural condition\n'
+          'Check ties and stability\n'
+          'Check platforms\n'
+          'Check guardrails\n'
+          'Check toe boards\n'
+          'Check access\n'
+          'Check for damage or unauthorised alteration',
       dos:
-          'Use only inspected and approved scaffolding\nKeep platforms clear\nReport defects immediately\nFollow site access requirements',
+          'Use only inspected and approved scaffolding\n'
+          'Keep platforms clear\n'
+          'Report defects immediately\n'
+          'Follow site access requirements',
       donts:
-          'Do not use incomplete scaffolding\nDo not overload platforms\nDo not climb outside approved access\nDo not modify scaffolding without authorisation',
+          'Do not use incomplete scaffolding\n'
+          'Do not overload platforms\n'
+          'Do not climb outside approved access\n'
+          'Do not modify scaffolding without authorisation',
       stopWork:
           'Stop work if the scaffold is damaged, unstable, incomplete, overloaded or has missing critical protection.',
       emergency:
@@ -65,23 +101,55 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Work at height includes any work where a person could fall and suffer personal injury. The preferred approach is to eliminate work at height where possible and then apply suitable collective and personal protection.',
       hazards:
-          'Falls from edges\nFalls through openings\nFalls from ladders\nFalling tools and materials\nUnsafe temporary platforms\nPoor weather conditions',
+          'Falls from edges\n'
+          'Falls through openings\n'
+          'Falls from ladders\n'
+          'Falling tools and materials\n'
+          'Unsafe temporary platforms\n'
+          'Poor weather conditions',
       controls:
-          'Avoid work at height where practicable\nUse suitable collective protection\nProvide safe access and working platforms\nProtect openings and edges\nUse fall protection when required\nControl dropped objects\nEnsure workers are competent',
+          'Avoid work at height where practicable\n'
+          'Use suitable collective protection\n'
+          'Provide safe access and working platforms\n'
+          'Protect openings and edges\n'
+          'Use fall protection when required\n'
+          'Control dropped objects\n'
+          'Ensure workers are competent',
       planning:
           'Complete a task-specific risk assessment and identify access requirements, rescue arrangements, weather conditions, equipment and competency requirements before work starts.',
       safePractices:
           'Maintain three points of contact on ladders where appropriate. Keep work platforms clean. Use approved anchor points and fall protection systems where required.',
       ppe:
-          'Safety helmet with suitable retention where required\nSafety footwear\nHigh-visibility clothing\nFull body harness where required\nSuitable gloves',
+          'Safety helmet with suitable retention where required\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Full body harness where required\n'
+          'Suitable gloves',
       checklist:
-          'Risk assessment completed\nSafe access provided\nEdges protected\nOpenings protected\nEquipment inspected\nRescue plan available\nWorkers competent',
+          'Risk assessment completed\n'
+          'Safe access provided\n'
+          'Edges protected\n'
+          'Openings protected\n'
+          'Equipment inspected\n'
+          'Rescue plan available\n'
+          'Workers competent',
       inspection:
-          'Check platforms\nCheck ladders\nCheck guardrails\nCheck anchor points\nCheck harness and lanyards\nCheck openings and edges',
+          'Check platforms\n'
+          'Check ladders\n'
+          'Check guardrails\n'
+          'Check anchor points\n'
+          'Check harness and lanyards\n'
+          'Check openings and edges',
       dos:
-          'Plan the work\nUse approved access equipment\nMaintain good housekeeping\nFollow the rescue plan',
+          'Plan the work\n'
+          'Use approved access equipment\n'
+          'Maintain good housekeeping\n'
+          'Follow the rescue plan',
       donts:
-          'Do not work at height without suitable controls\nDo not use damaged equipment\nDo not improvise anchor points\nDo not throw materials from height',
+          'Do not work at height without suitable controls\n'
+          'Do not use damaged equipment\n'
+          'Do not improvise anchor points\n'
+          'Do not throw materials from height',
       stopWork:
           'Stop work when fall protection is unavailable, damaged, incorrectly installed or when weather or site conditions create unacceptable risk.',
       emergency:
@@ -102,23 +170,52 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Heat stress can affect workers exposed to high temperatures, humidity and physical workload. Effective management requires planning, hydration, rest, shade, acclimatisation, monitoring and emergency response.',
       hazards:
-          'Heat exhaustion\nHeat stroke\nDehydration\nFatigue\nReduced concentration\nLoss of physical performance',
+          'Heat exhaustion\n'
+          'Heat stroke\n'
+          'Dehydration\n'
+          'Fatigue\n'
+          'Reduced concentration\n'
+          'Loss of physical performance',
       controls:
-          'Provide drinking water\nProvide suitable shaded rest areas\nPlan work to reduce heat exposure\nUse appropriate work-rest arrangements\nMonitor workers\nProvide acclimatisation\nTrain workers to recognise symptoms',
+          'Provide drinking water\n'
+          'Provide suitable shaded rest areas\n'
+          'Plan work to reduce heat exposure\n'
+          'Use appropriate work-rest arrangements\n'
+          'Monitor workers\n'
+          'Provide acclimatisation\n'
+          'Train workers to recognise symptoms',
       planning:
           'Plan high-risk activities considering temperature, humidity, workload, clothing, worker acclimatisation and availability of shade and drinking water.',
       safePractices:
           'Drink water regularly. Take scheduled rest periods. Report symptoms early. Avoid unnecessary physical exertion during extreme heat conditions.',
       ppe:
-          'Lightweight suitable work clothing\nSafety helmet\nSafety footwear\nHigh-visibility clothing\nTask-specific PPE',
+          'Lightweight suitable work clothing\n'
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Task-specific PPE',
       checklist:
-          'Drinking water available\nShade/rest area available\nWorkers briefed\nHeat condition monitored\nWork-rest arrangements implemented\nEmergency response available',
+          'Drinking water available\n'
+          'Shade/rest area available\n'
+          'Workers briefed\n'
+          'Heat condition monitored\n'
+          'Work-rest arrangements implemented\n'
+          'Emergency response available',
       inspection:
-          'Check water supply\nCheck shaded rest area\nCheck worker welfare\nCheck heat monitoring arrangements\nCheck communication',
+          'Check water supply\n'
+          'Check shaded rest area\n'
+          'Check worker welfare\n'
+          'Check heat monitoring arrangements\n'
+          'Check communication',
       dos:
-          'Drink water regularly\nTake rest breaks\nReport symptoms immediately\nLook after co-workers',
+          'Drink water regularly\n'
+          'Take rest breaks\n'
+          'Report symptoms immediately\n'
+          'Look after co-workers',
       donts:
-          'Do not ignore heat illness symptoms\nDo not restrict access to drinking water\nDo not continue unsafe work during severe symptoms',
+          'Do not ignore heat illness symptoms\n'
+          'Do not restrict access to drinking water\n'
+          'Do not continue unsafe work during severe symptoms',
       stopWork:
           'Stop work and seek assistance if a worker develops serious heat illness symptoms such as confusion, collapse or loss of consciousness.',
       emergency:
@@ -139,23 +236,57 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'PPE is the last line of defence and should be selected based on the hazards and risk assessment. PPE must be suitable, correctly fitted, maintained and used properly.',
       hazards:
-          'Head injury\nEye injury\nHand injury\nFoot injury\nHearing damage\nRespiratory exposure\nFall from height',
+          'Head injury\n'
+          'Eye injury\n'
+          'Hand injury\n'
+          'Foot injury\n'
+          'Hearing damage\n'
+          'Respiratory exposure\n'
+          'Fall from height',
       controls:
-          'Complete risk assessment\nSelect suitable PPE\nEnsure correct fit\nTrain workers\nInspect PPE before use\nReplace damaged PPE\nStore PPE correctly',
+          'Complete risk assessment\n'
+          'Select suitable PPE\n'
+          'Ensure correct fit\n'
+          'Train workers\n'
+          'Inspect PPE before use\n'
+          'Replace damaged PPE\n'
+          'Store PPE correctly',
       planning:
           'Identify hazards first and determine whether engineering or administrative controls can reduce the risk. Select PPE that provides appropriate protection for the remaining risk.',
       safePractices:
           'Wear PPE as required by the task. Inspect before use and report defective equipment. Keep PPE clean and properly stored.',
       ppe:
-          'Safety helmet\nSafety glasses\nSafety footwear\nGloves\nHearing protection\nRespiratory protection where required\nFall protection where required',
+          'Safety helmet\n'
+          'Safety glasses\n'
+          'Safety footwear\n'
+          'Gloves\n'
+          'Hearing protection\n'
+          'Respiratory protection where required\n'
+          'Fall protection where required',
       checklist:
-          'Correct PPE selected\nPPE fits correctly\nPPE inspected\nWorker trained\nDamaged PPE removed\nStorage available',
+          'Correct PPE selected\n'
+          'PPE fits correctly\n'
+          'PPE inspected\n'
+          'Worker trained\n'
+          'Damaged PPE removed\n'
+          'Storage available',
       inspection:
-          'Check cracks\nCheck straps\nCheck lenses\nCheck gloves\nCheck soles\nCheck harness components\nCheck expiry or service requirements where applicable',
+          'Check cracks\n'
+          'Check straps\n'
+          'Check lenses\n'
+          'Check gloves\n'
+          'Check soles\n'
+          'Check harness components\n'
+          'Check expiry or service requirements where applicable',
       dos:
-          'Wear task-specific PPE\nInspect before use\nKeep PPE clean\nReplace defective PPE',
+          'Wear task-specific PPE\n'
+          'Inspect before use\n'
+          'Keep PPE clean\n'
+          'Replace defective PPE',
       donts:
-          'Do not use damaged PPE\nDo not share PPE where hygiene or fit makes this unsuitable\nDo not modify PPE',
+          'Do not use damaged PPE\n'
+          'Do not share PPE where hygiene or fit makes this unsuitable\n'
+          'Do not modify PPE',
       stopWork:
           'Stop the task when required PPE is unavailable, damaged or unsuitable for the identified hazard.',
       emergency:
@@ -176,23 +307,52 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Ladders are access equipment and should be used only when suitable for the task and conditions. They must be inspected and positioned securely.',
       hazards:
-          'Falls from ladders\nSlipping\nOverreaching\nElectrical contact\nUnstable ground\nIncorrect ladder selection',
+          'Falls from ladders\n'
+          'Slipping\n'
+          'Overreaching\n'
+          'Electrical contact\n'
+          'Unstable ground\n'
+          'Incorrect ladder selection',
       controls:
-          'Use suitable ladder type\nInspect before use\nPlace on stable ground\nSecure where necessary\nMaintain safe contact\nKeep away from electrical hazards',
+          'Use suitable ladder type\n'
+          'Inspect before use\n'
+          'Place on stable ground\n'
+          'Secure where necessary\n'
+          'Maintain safe contact\n'
+          'Keep away from electrical hazards',
       planning:
           'Assess whether a ladder is the correct access method. Consider duration, height, task requirements, ground condition and nearby hazards.',
       safePractices:
           'Maintain appropriate contact while climbing. Keep your body within the ladder profile and avoid overreaching. Do not carry loads that prevent safe climbing.',
       ppe:
-          'Safety helmet\nSafety footwear\nTask-specific gloves\nFall protection where specifically required',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'Task-specific gloves\n'
+          'Fall protection where specifically required',
       checklist:
-          'Ladder inspected\nCorrect type selected\nStable base\nSecure position\nAccess area clear\nNo visible damage',
+          'Ladder inspected\n'
+          'Correct type selected\n'
+          'Stable base\n'
+          'Secure position\n'
+          'Access area clear\n'
+          'No visible damage',
       inspection:
-          'Check stiles\nCheck rungs\nCheck feet\nCheck locks\nCheck platform where applicable\nCheck contamination or damage',
+          'Check stiles\n'
+          'Check rungs\n'
+          'Check feet\n'
+          'Check locks\n'
+          'Check platform where applicable\n'
+          'Check contamination or damage',
       dos:
-          'Use a suitable ladder\nInspect before use\nMaintain stable footing\nKeep access area clear',
+          'Use a suitable ladder\n'
+          'Inspect before use\n'
+          'Maintain stable footing\n'
+          'Keep access area clear',
       donts:
-          'Do not use damaged ladders\nDo not overreach\nDo not stand on prohibited steps\nDo not use near electrical hazards without suitable controls',
+          'Do not use damaged ladders\n'
+          'Do not overreach\n'
+          'Do not stand on prohibited steps\n'
+          'Do not use near electrical hazards without suitable controls',
       stopWork:
           'Stop work if the ladder is damaged, unstable, incorrectly positioned or unsuitable for the task.',
       emergency:
@@ -213,23 +373,55 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Confined spaces can contain atmospheric, engulfment, access and rescue hazards. Entry must be planned, authorised and controlled.',
       hazards:
-          'Oxygen deficiency\nToxic gases\nFlammable atmosphere\nEngulfment\nRestricted access\nDifficult rescue',
+          'Oxygen deficiency\n'
+          'Toxic gases\n'
+          'Flammable atmosphere\n'
+          'Engulfment\n'
+          'Restricted access\n'
+          'Difficult rescue',
       controls:
-          'Permit where required\nAtmospheric testing\nIsolation\nVentilation\nCompetent personnel\nStandby arrangement\nEmergency rescue plan',
+          'Permit where required\n'
+          'Atmospheric testing\n'
+          'Isolation\n'
+          'Ventilation\n'
+          'Competent personnel\n'
+          'Standby arrangement\n'
+          'Emergency rescue plan',
       planning:
           'Identify the space, hazards, isolation requirements, atmospheric testing, ventilation, communication and rescue arrangements before entry.',
       safePractices:
           'Follow the entry permit and site procedure. Continuously monitor atmosphere where required. Maintain communication with the attendant.',
       ppe:
-          'Safety helmet\nSafety footwear\nGloves\nEye protection\nRespiratory protection where required\nHarness and retrieval equipment where required',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'Gloves\n'
+          'Eye protection\n'
+          'Respiratory protection where required\n'
+          'Harness and retrieval equipment where required',
       checklist:
-          'Permit approved\nIsolation completed\nAtmosphere tested\nVentilation available\nCommunication available\nRescue plan ready\nCompetent team available',
+          'Permit approved\n'
+          'Isolation completed\n'
+          'Atmosphere tested\n'
+          'Ventilation available\n'
+          'Communication available\n'
+          'Rescue plan ready\n'
+          'Competent team available',
       inspection:
-          'Check entry point\nCheck atmosphere\nCheck ventilation\nCheck communication\nCheck retrieval system\nCheck isolation',
+          'Check entry point\n'
+          'Check atmosphere\n'
+          'Check ventilation\n'
+          'Check communication\n'
+          'Check retrieval system\n'
+          'Check isolation',
       dos:
-          'Follow permit requirements\nTest atmosphere\nMaintain communication\nKeep rescue equipment ready',
+          'Follow permit requirements\n'
+          'Test atmosphere\n'
+          'Maintain communication\n'
+          'Keep rescue equipment ready',
       donts:
-          'Do not enter without authorisation\nDo not enter an unsafe atmosphere\nDo not attempt an unplanned rescue',
+          'Do not enter without authorisation\n'
+          'Do not enter an unsafe atmosphere\n'
+          'Do not attempt an unplanned rescue',
       stopWork:
           'Stop entry immediately if atmospheric conditions become unsafe, communication is lost or required controls fail.',
       emergency:
@@ -250,23 +442,55 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Hot work can create fire, explosion, fumes, radiation and burn hazards. Proper permits, isolation, fire prevention and monitoring are essential.',
       hazards:
-          'Fire\nExplosion\nBurns\nWelding fumes\nRadiation\nGas cylinder hazards',
+          'Fire\n'
+          'Explosion\n'
+          'Burns\n'
+          'Welding fumes\n'
+          'Radiation\n'
+          'Gas cylinder hazards',
       controls:
-          'Hot work permit where required\nRemove combustible materials\nProvide fire extinguishers\nUse fire watch\nControl gas cylinders\nProvide ventilation\nInspect equipment',
+          'Hot work permit where required\n'
+          'Remove combustible materials\n'
+          'Provide fire extinguishers\n'
+          'Use fire watch\n'
+          'Control gas cylinders\n'
+          'Provide ventilation\n'
+          'Inspect equipment',
       planning:
           'Identify combustible materials, nearby processes, gas cylinders, fire protection, ventilation and emergency arrangements before starting.',
       safePractices:
           'Keep the work area controlled and clean. Use correct welding screens. Secure cylinders and maintain suitable separation and storage arrangements.',
       ppe:
-          'Welding helmet or suitable eye protection\nGloves\nFlame-resistant clothing\nSafety footwear\nHearing protection where required\nRespiratory protection where required',
+          'Welding helmet or suitable eye protection\n'
+          'Gloves\n'
+          'Flame-resistant clothing\n'
+          'Safety footwear\n'
+          'Hearing protection where required\n'
+          'Respiratory protection where required',
       checklist:
-          'Permit available\nCombustibles controlled\nFire extinguisher available\nFire watch assigned\nEquipment inspected\nGas cylinders secured\nVentilation adequate',
+          'Permit available\n'
+          'Combustibles controlled\n'
+          'Fire extinguisher available\n'
+          'Fire watch assigned\n'
+          'Equipment inspected\n'
+          'Gas cylinders secured\n'
+          'Ventilation adequate',
       inspection:
-          'Check hoses\nCheck regulators\nCheck cables\nCheck cylinders\nCheck fire extinguishers\nCheck surrounding area',
+          'Check hoses\n'
+          'Check regulators\n'
+          'Check cables\n'
+          'Check cylinders\n'
+          'Check fire extinguishers\n'
+          'Check surrounding area',
       dos:
-          'Obtain required permit\nRemove combustibles\nMaintain fire watch\nInspect equipment',
+          'Obtain required permit\n'
+          'Remove combustibles\n'
+          'Maintain fire watch\n'
+          'Inspect equipment',
       donts:
-          'Do not start unauthorised hot work\nDo not leave ignition sources uncontrolled\nDo not use damaged hoses or cables',
+          'Do not start unauthorised hot work\n'
+          'Do not leave ignition sources uncontrolled\n'
+          'Do not use damaged hoses or cables',
       stopWork:
           'Stop work immediately if fire protection, permit controls, gas equipment or environmental controls become inadequate.',
       emergency:
@@ -287,23 +511,54 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Excavation work can expose workers to collapse, underground services, falling materials, water ingress and plant interaction hazards.',
       hazards:
-          'Trench collapse\nUnderground services\nFalling materials\nPlant movement\nWater ingress\nFalls into excavation',
+          'Trench collapse\n'
+          'Underground services\n'
+          'Falling materials\n'
+          'Plant movement\n'
+          'Water ingress\n'
+          'Falls into excavation',
       controls:
-          'Permit and planning\nService identification\nSuitable shoring or battering\nSafe access\nEdge protection\nPlant exclusion zones\nRegular inspection',
+          'Permit and planning\n'
+          'Service identification\n'
+          'Suitable shoring or battering\n'
+          'Safe access\n'
+          'Edge protection\n'
+          'Plant exclusion zones\n'
+          'Regular inspection',
       planning:
           'Identify underground services and ground conditions. Determine protective systems, access, spoil placement, plant movement and emergency arrangements.',
       safePractices:
           'Keep spoil and materials away from excavation edges as required. Provide safe access. Prevent unauthorised entry and maintain suitable barriers.',
       ppe:
-          'Safety helmet\nSafety footwear\nHigh-visibility clothing\nGloves\nEye protection where required',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Gloves\n'
+          'Eye protection where required',
       checklist:
-          'Excavation inspected\nServices identified\nProtective system provided\nSafe access provided\nEdges protected\nPlant controlled\nWater controlled',
+          'Excavation inspected\n'
+          'Services identified\n'
+          'Protective system provided\n'
+          'Safe access provided\n'
+          'Edges protected\n'
+          'Plant controlled\n'
+          'Water controlled',
       inspection:
-          'Check excavation walls\nCheck protective systems\nCheck access\nCheck edge protection\nCheck water ingress\nCheck nearby plant',
+          'Check excavation walls\n'
+          'Check protective systems\n'
+          'Check access\n'
+          'Check edge protection\n'
+          'Check water ingress\n'
+          'Check nearby plant',
       dos:
-          'Inspect excavation before entry\nMaintain barriers\nFollow approved excavation controls\nReport ground movement',
+          'Inspect excavation before entry\n'
+          'Maintain barriers\n'
+          'Follow approved excavation controls\n'
+          'Report ground movement',
       donts:
-          'Do not enter unsupported unsafe excavation\nDo not place plant too close to edges\nDo not ignore ground movement or water ingress',
+          'Do not enter unsupported unsafe excavation\n'
+          'Do not place plant too close to edges\n'
+          'Do not ignore ground movement or water ingress',
       stopWork:
           'Stop work immediately if there is evidence of collapse, ground movement, damaged protection or unidentified underground services.',
       emergency:
@@ -324,23 +579,55 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Lifting operations require proper planning, competent personnel, suitable equipment and effective exclusion zones to prevent dropped loads and struck-by incidents.',
       hazards:
-          'Dropped loads\nCrane overturning\nLoad swing\nEquipment failure\nStruck-by incidents\nOverhead hazards',
+          'Dropped loads\n'
+          'Crane overturning\n'
+          'Load swing\n'
+          'Equipment failure\n'
+          'Struck-by incidents\n'
+          'Overhead hazards',
       controls:
-          'Approved lifting plan\nCompetent lifting team\nInspected equipment\nSuitable rigging\nExclusion zone\nClear communication\nWeather monitoring',
+          'Approved lifting plan\n'
+          'Competent lifting team\n'
+          'Inspected equipment\n'
+          'Suitable rigging\n'
+          'Exclusion zone\n'
+          'Clear communication\n'
+          'Weather monitoring',
       planning:
           'Determine load weight, centre of gravity, lifting points, equipment capacity, ground conditions, lifting radius and communication arrangements before lifting.',
       safePractices:
           'Use approved lifting accessories. Establish an exclusion zone. Keep personnel away from suspended loads and maintain clear communication between the lifting team.',
       ppe:
-          'Safety helmet\nSafety footwear\nHigh-visibility clothing\nGloves\nEye protection where required',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Gloves\n'
+          'Eye protection where required',
       checklist:
-          'Lift planned\nEquipment inspected\nAccessories inspected\nLoad capacity confirmed\nGround condition suitable\nExclusion zone established\nCommunication confirmed',
+          'Lift planned\n'
+          'Equipment inspected\n'
+          'Accessories inspected\n'
+          'Load capacity confirmed\n'
+          'Ground condition suitable\n'
+          'Exclusion zone established\n'
+          'Communication confirmed',
       inspection:
-          'Check crane/equipment\nCheck slings\nCheck shackles\nCheck hooks\nCheck lifting points\nCheck ground condition',
+          'Check crane/equipment\n'
+          'Check slings\n'
+          'Check shackles\n'
+          'Check hooks\n'
+          'Check lifting points\n'
+          'Check ground condition',
       dos:
-          'Use competent personnel\nInspect lifting accessories\nMaintain exclusion zones\nFollow the lifting plan',
+          'Use competent personnel\n'
+          'Inspect lifting accessories\n'
+          'Maintain exclusion zones\n'
+          'Follow the lifting plan',
       donts:
-          'Do not stand under suspended loads\nDo not exceed rated capacity\nDo not use damaged lifting accessories\nDo not lift without proper planning',
+          'Do not stand under suspended loads\n'
+          'Do not exceed rated capacity\n'
+          'Do not use damaged lifting accessories\n'
+          'Do not lift without proper planning',
       stopWork:
           'Stop lifting if equipment becomes defective, weather conditions deteriorate, communication fails or the lift deviates from the approved plan.',
       emergency:
@@ -361,23 +648,53 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Electrical work and electrical equipment can cause fatal shock, burns, arc flash and fire. Isolation, competent persons and suitable equipment are essential.',
       hazards:
-          'Electric shock\nArc flash\nBurns\nElectrical fire\nDamaged cables\nContact with overhead services',
+          'Electric shock\n'
+          'Arc flash\n'
+          'Burns\n'
+          'Electrical fire\n'
+          'Damaged cables\n'
+          'Contact with overhead services',
       controls:
-          'Competent persons\nIsolation and lockout\nSuitable protection devices\nInspection and testing\nCable management\nSafe distances\nPermit requirements where applicable',
+          'Competent persons\n'
+          'Isolation and lockout\n'
+          'Suitable protection devices\n'
+          'Inspection and testing\n'
+          'Cable management\n'
+          'Safe distances\n'
+          'Permit requirements where applicable',
       planning:
           'Identify electrical sources and nearby services. Determine isolation requirements and ensure only authorised persons perform electrical work.',
       safePractices:
           'Do not use damaged cables or equipment. Keep electrical equipment away from water where appropriate. Maintain safe distances from overhead lines.',
       ppe:
-          'Safety helmet\nSafety footwear\nEye protection\nElectrical gloves where required\nArc-rated PPE where required by risk assessment',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'Eye protection\n'
+          'Electrical gloves where required\n'
+          'Arc-rated PPE where required by risk assessment',
       checklist:
-          'Isolation identified\nEquipment inspected\nCables protected\nAuthorised persons assigned\nProtection devices available\nArea controlled',
+          'Isolation identified\n'
+          'Equipment inspected\n'
+          'Cables protected\n'
+          'Authorised persons assigned\n'
+          'Protection devices available\n'
+          'Area controlled',
       inspection:
-          'Check cables\nCheck plugs\nCheck sockets\nCheck distribution boards\nCheck earthing arrangements\nCheck temporary electrical installations',
+          'Check cables\n'
+          'Check plugs\n'
+          'Check sockets\n'
+          'Check distribution boards\n'
+          'Check earthing arrangements\n'
+          'Check temporary electrical installations',
       dos:
-          'Use authorised personnel\nIsolate before work\nInspect equipment\nReport defects',
+          'Use authorised personnel\n'
+          'Isolate before work\n'
+          'Inspect equipment\n'
+          'Report defects',
       donts:
-          'Do not use damaged electrical equipment\nDo not bypass safety devices\nDo not work on live systems unless specifically authorised and controlled',
+          'Do not use damaged electrical equipment\n'
+          'Do not bypass safety devices\n'
+          'Do not work on live systems unless specifically authorised and controlled',
       stopWork:
           'Stop work immediately if electrical equipment is damaged, isolation cannot be confirmed or unsafe contact with electrical sources is possible.',
       emergency:
@@ -398,23 +715,52 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Fire safety depends on prevention, early detection, suitable firefighting arrangements, clear escape routes and effective emergency response.',
       hazards:
-          'Fire\nSmoke inhalation\nExplosion\nBlocked escape routes\nFlammable materials\nIgnition sources',
+          'Fire\n'
+          'Smoke inhalation\n'
+          'Explosion\n'
+          'Blocked escape routes\n'
+          'Flammable materials\n'
+          'Ignition sources',
       controls:
-          'Control ignition sources\nStore flammables correctly\nMaintain extinguishers\nKeep exits clear\nProvide alarms\nConduct drills\nTrain workers',
+          'Control ignition sources\n'
+          'Store flammables correctly\n'
+          'Maintain extinguishers\n'
+          'Keep exits clear\n'
+          'Provide alarms\n'
+          'Conduct drills\n'
+          'Train workers',
       planning:
           'Identify fire hazards, emergency exits, assembly points, firefighting equipment, alarm arrangements and emergency contacts.',
       safePractices:
           'Keep escape routes clear. Store flammable materials correctly. Report fire hazards and damaged firefighting equipment immediately.',
       ppe:
-          'Safety helmet\nSafety footwear\nTask-specific PPE\nFire-resistant PPE where required',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'Task-specific PPE\n'
+          'Fire-resistant PPE where required',
       checklist:
-          'Fire exits clear\nExtinguishers available\nAlarm accessible\nAssembly point identified\nFlammable storage controlled\nWorkers briefed',
+          'Fire exits clear\n'
+          'Extinguishers available\n'
+          'Alarm accessible\n'
+          'Assembly point identified\n'
+          'Flammable storage controlled\n'
+          'Workers briefed',
       inspection:
-          'Check extinguishers\nCheck exits\nCheck fire doors\nCheck alarm systems\nCheck emergency signage\nCheck housekeeping',
+          'Check extinguishers\n'
+          'Check exits\n'
+          'Check fire doors\n'
+          'Check alarm systems\n'
+          'Check emergency signage\n'
+          'Check housekeeping',
       dos:
-          'Keep exits clear\nReport fire hazards\nKnow the assembly point\nFollow emergency instructions',
+          'Keep exits clear\n'
+          'Report fire hazards\n'
+          'Know the assembly point\n'
+          'Follow emergency instructions',
       donts:
-          'Do not block emergency exits\nDo not misuse fire equipment\nDo not store flammables near uncontrolled ignition sources',
+          'Do not block emergency exits\n'
+          'Do not misuse fire equipment\n'
+          'Do not store flammables near uncontrolled ignition sources',
       stopWork:
           'Stop work when an immediate fire or explosion hazard is identified and cannot be adequately controlled.',
       emergency:
@@ -435,23 +781,47 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Manual handling can cause strains, sprains and other musculoskeletal injuries. The preferred approach is to eliminate or reduce manual handling through mechanical assistance and good task planning.',
       hazards:
-          'Back injury\nMuscle strain\nCrushing injuries\nDropped loads\nPoor posture\nRepetitive handling',
+          'Back injury\n'
+          'Muscle strain\n'
+          'Crushing injuries\n'
+          'Dropped loads\n'
+          'Poor posture\n'
+          'Repetitive handling',
       controls:
-          'Reduce load weight\nUse mechanical aids\nTeam lifting where appropriate\nImprove workplace layout\nTrain workers\nPlan the route',
+          'Reduce load weight\n'
+          'Use mechanical aids\n'
+          'Team lifting where appropriate\n'
+          'Improve workplace layout\n'
+          'Train workers\n'
+          'Plan the route',
       planning:
           'Assess load weight, shape, distance, route, frequency and worker capability before handling materials.',
       safePractices:
           'Keep the load close to the body. Avoid twisting while carrying. Use mechanical aids where practicable and ask for assistance for difficult loads.',
       ppe:
-          'Safety footwear\nSuitable gloves\nHigh-visibility clothing where required',
+          'Safety footwear\n'
+          'Suitable gloves\n'
+          'High-visibility clothing where required',
       checklist:
-          'Load assessed\nRoute clear\nMechanical aid available\nTeam lift arranged where required\nWorker trained',
+          'Load assessed\n'
+          'Route clear\n'
+          'Mechanical aid available\n'
+          'Team lift arranged where required\n'
+          'Worker trained',
       inspection:
-          'Check handling aids\nCheck route\nCheck storage arrangement\nCheck load stability',
+          'Check handling aids\n'
+          'Check route\n'
+          'Check storage arrangement\n'
+          'Check load stability',
       dos:
-          'Plan the lift\nUse mechanical assistance\nKeep load close\nAsk for assistance',
+          'Plan the lift\n'
+          'Use mechanical assistance\n'
+          'Keep load close\n'
+          'Ask for assistance',
       donts:
-          'Do not attempt unsafe loads alone\nDo not twist while lifting\nDo not carry loads that block your vision',
+          'Do not attempt unsafe loads alone\n'
+          'Do not twist while lifting\n'
+          'Do not carry loads that block your vision',
       stopWork:
           'Stop the task if the load is too heavy, unstable or the route is unsafe.',
       emergency:
@@ -472,9 +842,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'A Permit to Work system formally identifies hazards, controls, responsibilities and conditions for specified high-risk activities.',
       hazards:
-          'Uncontrolled high-risk work\nUnexpected energy release\nFire and explosion\nConflicting activities\nUnauthorised work',
+          'Uncontrolled high-risk work\n'
+          'Unexpected energy release\n'
+          'Fire and explosion\n'
+          'Conflicting activities\n'
+          'Unauthorised work',
       controls:
-          'Correct permit type\nRisk assessment\nIsolation\nAuthorisation\nSite verification\nPermit display\nPermit close-out',
+          'Correct permit type\n'
+          'Risk assessment\n'
+          'Isolation\n'
+          'Authorisation\n'
+          'Site verification\n'
+          'Permit display\n'
+          'Permit close-out',
       planning:
           'Identify the work scope, hazards, controls, isolation requirements and responsible persons before issuing the permit.',
       safePractices:
@@ -482,13 +862,28 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Task-specific PPE as defined by risk assessment and permit',
       checklist:
-          'Correct permit selected\nRisk assessment completed\nControls verified\nIsolation confirmed\nAuthorisation obtained\nPermit displayed\nClose-out completed',
+          'Correct permit selected\n'
+          'Risk assessment completed\n'
+          'Controls verified\n'
+          'Isolation confirmed\n'
+          'Authorisation obtained\n'
+          'Permit displayed\n'
+          'Close-out completed',
       inspection:
-          'Check work area\nCheck isolation\nCheck controls\nCheck permit conditions\nCheck simultaneous activities',
+          'Check work area\n'
+          'Check isolation\n'
+          'Check controls\n'
+          'Check permit conditions\n'
+          'Check simultaneous activities',
       dos:
-          'Read and understand permit conditions\nFollow controls\nStop if conditions change\nClose permit correctly',
+          'Read and understand permit conditions\n'
+          'Follow controls\n'
+          'Stop if conditions change\n'
+          'Close permit correctly',
       donts:
-          'Do not work outside permit scope\nDo not bypass controls\nDo not continue when permit conditions are no longer valid',
+          'Do not work outside permit scope\n'
+          'Do not bypass controls\n'
+          'Do not continue when permit conditions are no longer valid',
       stopWork:
           'Stop work immediately when permit conditions change, controls fail or the work scope changes.',
       emergency:
@@ -509,9 +904,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Abu Dhabi workplaces may be subject to emirate-specific occupational safety and health requirements. Organisations should maintain appropriate systems, procedures, risk assessments and records.',
       hazards:
-          'Workplace-specific hazards\nHigh-risk activities\nOccupational health exposures\nEmergency risks\nCompetency gaps',
+          'Workplace-specific hazards\n'
+          'High-risk activities\n'
+          'Occupational health exposures\n'
+          'Emergency risks\n'
+          'Competency gaps',
       controls:
-          'Implement an appropriate OSH management system\nConduct risk assessments\nProvide competent supervision\nMaintain training and records\nReport and investigate incidents\nMonitor workplace conditions',
+          'Implement an appropriate OSH management system\n'
+          'Conduct risk assessments\n'
+          'Provide competent supervision\n'
+          'Maintain training and records\n'
+          'Report and investigate incidents\n'
+          'Monitor workplace conditions',
       planning:
           'Identify applicable Abu Dhabi OSH requirements and authority expectations for the specific activity, organisation and sector.',
       safePractices:
@@ -519,13 +923,26 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'PPE according to task risk assessment and applicable requirements',
       checklist:
-          'Applicable requirements identified\nRisk assessment available\nProcedures implemented\nCompetency verified\nRecords maintained\nEmergency arrangements available',
+          'Applicable requirements identified\n'
+          'Risk assessment available\n'
+          'Procedures implemented\n'
+          'Competency verified\n'
+          'Records maintained\n'
+          'Emergency arrangements available',
       inspection:
-          'Check workplace controls\nCheck documentation\nCheck training records\nCheck emergency arrangements\nCheck inspection records',
+          'Check workplace controls\n'
+          'Check documentation\n'
+          'Check training records\n'
+          'Check emergency arrangements\n'
+          'Check inspection records',
       dos:
-          'Verify current requirements\nMaintain documented controls\nEnsure competent supervision\nReport incidents',
+          'Verify current requirements\n'
+          'Maintain documented controls\n'
+          'Ensure competent supervision\n'
+          'Report incidents',
       donts:
-          'Do not rely on outdated requirements\nDo not treat reference guidance as a substitute for official requirements',
+          'Do not rely on outdated requirements\n'
+          'Do not treat reference guidance as a substitute for official requirements',
       stopWork:
           'Stop work where a serious uncontrolled OSH risk exists or required controls are absent.',
       emergency:
@@ -546,23 +963,52 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Dubai projects may be subject to emirate-specific requirements, authority regulations, project specifications and approved HSE procedures.',
       hazards:
-          'Construction hazards\nWork at height\nLifting operations\nExcavation\nElectrical hazards\nHeat stress',
+          'Construction hazards\n'
+          'Work at height\n'
+          'Lifting operations\n'
+          'Excavation\n'
+          'Electrical hazards\n'
+          'Heat stress',
       controls:
-          'Project HSE plan\nRisk assessment\nMethod statement\nPermit systems\nCompetent supervision\nInspection and monitoring\nEmergency preparedness',
+          'Project HSE plan\n'
+          'Risk assessment\n'
+          'Method statement\n'
+          'Permit systems\n'
+          'Competent supervision\n'
+          'Inspection and monitoring\n'
+          'Emergency preparedness',
       planning:
           'Identify applicable Dubai authority requirements, project requirements and contractor responsibilities before starting work.',
       safePractices:
           'Follow approved project procedures, method statements, permits and risk controls. Maintain good housekeeping and effective site supervision.',
       ppe:
-          'Safety helmet\nSafety footwear\nHigh-visibility clothing\nEye protection\nTask-specific PPE',
+          'Safety helmet\n'
+          'Safety footwear\n'
+          'High-visibility clothing\n'
+          'Eye protection\n'
+          'Task-specific PPE',
       checklist:
-          'Project HSE plan available\nRisk assessment approved\nMethod statement available\nPermit requirements identified\nCompetent supervision available\nEmergency plan available',
+          'Project HSE plan available\n'
+          'Risk assessment approved\n'
+          'Method statement available\n'
+          'Permit requirements identified\n'
+          'Competent supervision available\n'
+          'Emergency plan available',
       inspection:
-          'Check site conditions\nCheck access\nCheck work-at-height controls\nCheck lifting controls\nCheck housekeeping\nCheck emergency arrangements',
+          'Check site conditions\n'
+          'Check access\n'
+          'Check work-at-height controls\n'
+          'Check lifting controls\n'
+          'Check housekeeping\n'
+          'Check emergency arrangements',
       dos:
-          'Follow approved project controls\nMaintain records\nReport hazards\nFollow Dubai-specific requirements',
+          'Follow approved project controls\n'
+          'Maintain records\n'
+          'Report hazards\n'
+          'Follow Dubai-specific requirements',
       donts:
-          'Do not assume one emirate requirement automatically applies everywhere\nDo not bypass project procedures',
+          'Do not assume one emirate requirement automatically applies everywhere\n'
+          'Do not bypass project procedures',
       stopWork:
           'Stop work when a serious uncontrolled hazard is identified or required project controls are absent.',
       emergency:
@@ -583,7 +1029,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
     return _topics.where((topic) {
       final categoryMatches =
-          _selectedCategory == GuidelineCategory.all ||
+          _selectedCategory == null ||
           topic.category == _selectedCategory;
 
       if (!categoryMatches) {
@@ -742,8 +1188,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   Widget _buildCategoryFilters() {
-    const categories = [
-      GuidelineCategory.all,
+    final categories = <GuidelineCategory?>[
+      null,
       GuidelineCategory.uaeGeneral,
       GuidelineCategory.abuDhabi,
       GuidelineCategory.dubai,
@@ -759,10 +1205,23 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 8),
+          separatorBuilder: (_, __) =>
+              const SizedBox(width: 8),
           itemBuilder: (context, index) {
             final category = categories[index];
-            final selected = _selectedCategory == category;
+
+            final selected =
+                _selectedCategory == category;
+
+            final color = category?.color ??
+                const Color(0xFF159447);
+
+            final label =
+                category?.label ?? 'All UAE';
+
+            final icon =
+                category?.icon ??
+                Icons.public_rounded;
 
             return GestureDetector(
               onTap: () {
@@ -771,39 +1230,43 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 });
               },
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(
+                duration:
+                    const Duration(milliseconds: 180),
+                padding:
+                    const EdgeInsets.symmetric(
                   horizontal: 13,
                 ),
                 decoration: BoxDecoration(
                   color: selected
-                      ? category.color
+                      ? color
                       : const Color(0xFFF3F5F4),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius:
+                      BorderRadius.circular(20),
                   border: Border.all(
                     color: selected
-                        ? category.color
+                        ? color
                         : const Color(0xFFE2E5E3),
                   ),
                 ),
                 child: Row(
                   children: [
                     Icon(
-                      category.icon,
+                      icon,
                       size: 16,
                       color: selected
                           ? Colors.white
-                          : category.color,
+                          : color,
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      category.label,
+                      label,
                       style: TextStyle(
                         color: selected
                             ? Colors.white
                             : const Color(0xFF4B5563),
                         fontSize: 11.5,
-                        fontWeight: FontWeight.w700,
+                        fontWeight:
+                            FontWeight.w700,
                       ),
                     ),
                   ],
@@ -820,11 +1283,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     BuildContext context,
     ReferenceTopic topic,
   ) {
+    final categoryColor = topic.category.color;
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin:
+          const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius:
+            BorderRadius.circular(18),
         border: Border.all(
           color: Colors.grey.shade200,
         ),
@@ -837,40 +1304,45 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         ],
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius:
+            BorderRadius.circular(18),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => GuidelineDetailPage(
+              builder: (_) =>
+                  GuidelineDetailPage(
                 topic: topic,
               ),
             ),
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding:
+              const EdgeInsets.all(15),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Container(
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: topic.category.color.withValues(
-                    alpha: 0.10,
-                  ),
-                  borderRadius: BorderRadius.circular(14),
+                  color: categoryColor
+                      .withValues(alpha: 0.10),
+                  borderRadius:
+                      BorderRadius.circular(14),
                 ),
                 child: Icon(
                   Icons.shield_rounded,
-                  color: topic.category.color,
+                  color: categoryColor,
                   size: 25,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Row(
                       crossAxisAlignment:
@@ -879,18 +1351,23 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         Expanded(
                           child: Text(
                             topic.title,
-                            style: const TextStyle(
+                            style:
+                                const TextStyle(
                               fontSize: 14.5,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF111827),
+                              fontWeight:
+                                  FontWeight.w800,
+                              color:
+                                  Color(0xFF111827),
                             ),
                           ),
                         ),
                         const SizedBox(width: 6),
                         Icon(
-                          Icons.arrow_forward_ios_rounded,
+                          Icons
+                              .arrow_forward_ios_rounded,
                           size: 14,
-                          color: Colors.grey.shade500,
+                          color:
+                              Colors.grey.shade500,
                         ),
                       ],
                     ),
@@ -898,11 +1375,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     Text(
                       topic.shortDescription,
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      overflow:
+                          TextOverflow.ellipsis,
+                      style:
+                          const TextStyle(
                         fontSize: 11.5,
                         height: 1.4,
-                        color: Color(0xFF6B7280),
+                        color:
+                            Color(0xFF6B7280),
                       ),
                     ),
                     const SizedBox(height: 9),
@@ -910,23 +1390,33 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       children: [
                         Flexible(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding:
+                                const EdgeInsets
+                                    .symmetric(
                               horizontal: 8,
                               vertical: 4,
                             ),
-                            decoration: BoxDecoration(
-                              color: topic.category.color
-                                  .withValues(alpha: 0.08),
+                            decoration:
+                                BoxDecoration(
+                              color: categoryColor
+                                  .withValues(
+                                alpha: 0.08,
+                              ),
                               borderRadius:
-                                  BorderRadius.circular(8),
+                                  BorderRadius
+                                      .circular(8),
                             ),
                             child: Text(
                               topic.category.label,
-                              overflow: TextOverflow.ellipsis,
+                              overflow:
+                                  TextOverflow
+                                      .ellipsis,
                               style: TextStyle(
                                 fontSize: 9.5,
-                                fontWeight: FontWeight.w700,
-                                color: topic.category.color,
+                                fontWeight:
+                                    FontWeight.w700,
+                                color:
+                                    categoryColor,
                               ),
                             ),
                           ),
@@ -936,10 +1426,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                           child: Text(
                             topic.sourceLabel,
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            overflow:
+                                TextOverflow
+                                    .ellipsis,
+                            style:
+                                const TextStyle(
                               fontSize: 9.5,
-                              color: Color(0xFF8A8F98),
+                              color:
+                                  Color(0xFF8A8F98),
                             ),
                           ),
                         ),
@@ -956,22 +1450,31 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   Widget _buildEmptyState() {
+    final hasFilter =
+        _query.isNotEmpty ||
+        _selectedCategory != null;
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(30),
+        padding:
+            const EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Container(
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF7EF),
-                borderRadius: BorderRadius.circular(22),
+                color:
+                    const Color(0xFFEAF7EF),
+                borderRadius:
+                    BorderRadius.circular(22),
               ),
               child: const Icon(
                 Icons.search_off_rounded,
-                color: Color(0xFF159447),
+                color:
+                    Color(0xFF159447),
                 size: 34,
               ),
             ),
@@ -980,33 +1483,41 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               'No guidelines found',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF111827),
+                fontWeight:
+                    FontWeight.w800,
+                color:
+                    Color(0xFF111827),
               ),
             ),
             const SizedBox(height: 6),
             const Text(
               'Try another search term or category.',
-              textAlign: TextAlign.center,
+              textAlign:
+                  TextAlign.center,
               style: TextStyle(
                 fontSize: 12,
-                color: Color(0xFF6B7280),
+                color:
+                    Color(0xFF6B7280),
               ),
             ),
-            if (_query.isNotEmpty ||
-                _selectedCategory != GuidelineCategory.all) ...[
+            if (hasFilter) ...[
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: () {
-                  _searchController.clear();
+                  _searchController
+                      .clear();
+
                   setState(() {
                     _query = '';
                     _selectedCategory =
-                        GuidelineCategory.all;
+                        null;
                   });
                 },
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Reset'),
+                icon: const Icon(
+                  Icons.refresh_rounded,
+                ),
+                label:
+                    const Text('Reset'),
               ),
             ],
           ],
