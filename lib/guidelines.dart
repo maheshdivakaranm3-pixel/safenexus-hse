@@ -7,528 +7,567 @@ class GuidelinesPage extends StatefulWidget {
   State<GuidelinesPage> createState() => _GuidelinesPageState();
 }
 
-enum _GuidelineCategory {
-  uae,
-  abuDhabi,
-  dubai,
-  general,
-}
-
 class _GuidelinesPageState extends State<GuidelinesPage> {
   final TextEditingController _searchController = TextEditingController();
 
   String _query = '';
+  _GuidelineCategory _selectedCategory = _GuidelineCategory.all;
 
   static const List<_ReferenceTopic> _topics = [
     // ==========================================================
-    // 🇦🇪 UAE SAFETY — FEDERAL / UAE-WIDE
+    // UAE GENERAL
     // ==========================================================
 
     _ReferenceTopic(
-      category: _GuidelineCategory.uae,
-      title: 'UAE Workplace Safety',
+      title: 'Code of Practice',
+      category: _GuidelineCategory.uaeGeneral,
+      sourceLabel: 'UAE General HSE Reference',
       shortDescription:
-          'Federal-level workplace health and safety responsibilities and general requirements applicable across the UAE.',
+          'Understand how HSE Codes of Practice and approved safety guidance are used to plan and control workplace activities.',
       overview:
-          'This section provides a UAE-wide HSE baseline. Employers and workers must comply with applicable federal occupational health and safety requirements and with requirements issued by competent authorities.',
+          'A Code of Practice provides practical guidance for managing health and safety risks associated with specific activities or workplaces. HSE personnel should consider applicable legislation, regulator requirements, approved Codes of Practice, standards, risk assessments, method statements and project procedures together when planning work.',
       hazards:
-          'Occupational injuries • Unsafe work practices • Inadequate training • Missing PPE • Poor supervision • Failure to control workplace hazards.',
+          'Incorrect interpretation of requirements • Outdated documents • Missing project-specific controls • Inadequate risk assessment • Poor implementation • Lack of competent supervision.',
       controls:
-          'Risk assessment • Worker training • Appropriate PPE • Safe work procedures • Competent supervision • Periodic inspection • Incident reporting.',
+          'Identify applicable requirements • Use current approved documents • Complete risk assessment • Develop method statements • Define responsibilities • Train workers • Inspect implementation • Review controls when conditions change.',
       planning:
-          'Identify the applicable federal and competent-authority requirements for the activity. Review workplace hazards, risk controls, worker competence, emergency arrangements and project procedures before work starts.',
+          'Identify the activity and applicable requirements before work starts. Confirm that the latest approved documents are available. Review the risk assessment and method statement against actual site conditions. Assign competent persons and communicate critical controls to the workforce.',
       safePractices:
-          'Follow approved workplace procedures. Use required PPE. Report hazards and incidents. Follow instructions from competent supervisors and HSE personnel.',
+          'Confirm the applicable requirement before starting work. Make sure the method statement and risk assessment reflect actual site conditions. Communicate important controls through toolbox talks and supervision. Maintain controlled documents and records where required.',
       ppe:
-          'PPE shall be selected according to the activity risk assessment and applicable requirements. Typical construction PPE includes safety helmet, safety footwear, high-visibility clothing and eye protection.',
+          'PPE is determined by the activity risk assessment and applicable requirements. Typical construction PPE may include safety helmet, safety footwear, high-visibility clothing, eye protection and task-specific PPE.',
       checklist:
-          'Applicable requirements identified • Risk assessment available • Workers trained • PPE available • Emergency arrangements • Competent supervision • Inspection completed • Records maintained.',
+          'Applicable requirements identified • Current documents verified • Risk assessment available • Method statement approved • Workers briefed • Competent supervision • Inspection completed • Changes reviewed.',
       inspection:
-          'Check workplace conditions • PPE • signage • access • housekeeping • emergency arrangements • training records • risk controls.',
+          'Verify that approved documents are current • Check implementation against the method statement • Confirm workers understand critical controls • Review inspection and training records • Check that changes are formally assessed.',
       dos:
-          'Follow applicable UAE requirements. Use approved procedures. Report hazards. Attend required training and toolbox talks.',
+          'Use current approved guidance. Follow project procedures. Ask competent HSE or technical personnel when requirements are unclear. Keep evidence of inspections, training and approvals.',
       donts:
-          'Do not ignore workplace hazards. Do not bypass safety controls. Do not use defective PPE or equipment.',
+          'Do not rely on outdated copies. Do not treat general guidance as a replacement for applicable law or project requirements. Do not ignore site-specific risks.',
       stopWork:
-          'Stop work when an immediate serious danger exists, required controls are missing or conditions have changed significantly.',
+          'Stop work if required controls are missing, the approved method cannot be followed, site conditions have materially changed, or the applicable requirement is unclear.',
       emergency:
-          'Raise the alarm, protect people from further danger, contact the site emergency response team and follow the approved emergency procedure.',
-      reference:
-          'UAE Federal workplace HSE requirements / MoHRE and other competent-authority requirements.',
+          'Stop unsafe work, make the area safe, provide emergency response and report the incident through the project emergency and reporting procedure.',
     ),
 
     _ReferenceTopic(
-      category: _GuidelineCategory.uae,
-      title: 'Heat Stress & Midday Break',
+      title: 'Manual Handling',
+      category: _GuidelineCategory.uaeGeneral,
+      sourceLabel: 'UAE General HSE Reference',
       shortDescription:
-          'UAE-wide heat-stress prevention, hydration, rest and summer midday work restrictions.',
+          'Reduce musculoskeletal injuries through task assessment, mechanical aids and safe handling techniques.',
       overview:
-          'Heat stress can affect worker health and safety, especially during outdoor work in hot and humid conditions. UAE requirements include specific summer work restrictions and worker protection measures.',
+          'Manual handling includes lifting, carrying, pushing and pulling. The preferred approach is to avoid unnecessary manual handling and use mechanical assistance where reasonably practicable.',
       hazards:
-          'Heat exhaustion • Heat stroke • Dehydration • Fatigue • Reduced concentration • Increased incident risk.',
+          'Back injuries • Muscle strains • Crush injuries • Dropped loads • Awkward posture • Repetitive strain.',
       controls:
-          'Drinking water • Rest/cooling • Shade • Work planning • Acclimatization • Heat-stress awareness • Worker monitoring • Emergency response.',
+          'Avoid unnecessary handling • Mechanical aids • Reduce load • Improve work height • Team handling • Good technique • Training • Task rotation where appropriate.',
       planning:
-          'Plan outdoor work according to applicable UAE summer requirements and site conditions. Consider work intensity, environmental conditions, worker acclimatization and available cooling arrangements.',
+          'Assess the weight, size, shape, route, frequency and posture required. Consider whether a trolley, hoist, lifting aid or team handling can reduce the risk.',
       safePractices:
-          'Drink water regularly. Use planned recovery periods. Use shaded or cooled rest areas. Report symptoms early. Follow the approved heat-stress management plan.',
+          'Assess the load and route before lifting. Use mechanical aids where available. Keep the load close to the body and avoid twisting while carrying.',
       ppe:
-          'Safety helmet • Safety footwear • Suitable work clothing • Task-specific PPE. PPE selection should also consider heat burden.',
+          'Safety footwear • Suitable gloves • Task-specific PPE.',
       checklist:
-          'Heat-stress plan • Drinking water • Rest/shade • Worker awareness • Work scheduling • Acclimatization • Supervision • Emergency arrangements.',
+          'Load assessed • Weight known or estimated • Route clear • Mechanical aid considered • Team lift where required • Suitable posture • PPE • Worker capability.',
       inspection:
-          'Check water • shade/rest facilities • worker condition • work schedule • heat-stress communication • emergency arrangements.',
+          'Check route • Floor condition • Obstacles • Load stability • Handling equipment • Worker position • Storage arrangements.',
       dos:
-          'Follow applicable summer work restrictions. Hydrate regularly. Take planned recovery breaks. Report heat-stress symptoms immediately.',
+          'Plan the movement. Ask for assistance when required. Use trolleys, hoists or other suitable aids.',
       donts:
-          'Do not ignore symptoms. Do not rely on PPE alone to control heat stress. Do not continue unsafe work when serious heat illness is suspected.',
+          'Do not attempt a load beyond your capability. Do not twist while lifting. Do not carry loads that block your view.',
       stopWork:
-          'Stop or modify work when heat-related illness is suspected or required heat controls are unavailable.',
+          'Stop and reassess if the load is beyond safe capability, the route is blocked, the mechanical aid is defective or the handling method creates excessive risk.',
       emergency:
-          'Move the affected worker to a safe cooler location and activate the site medical/emergency procedure. Suspected serious heat illness requires urgent medical attention.',
-      reference:
-          'UAE Government / MoHRE workplace health and safety requirements.',
+          'Stop activity after injury and provide first aid or medical assessment as appropriate. Report the incident according to site procedures.',
     ),
 
     _ReferenceTopic(
-      category: _GuidelineCategory.uae,
       title: 'Worker Welfare',
+      category: _GuidelineCategory.uaeGeneral,
+      sourceLabel: 'UAE General HSE Reference',
       shortDescription:
-          'General worker welfare, hygiene, drinking water, sanitation and suitable rest arrangements.',
+          'Provide suitable welfare facilities that support worker health, hygiene, rest and wellbeing.',
       overview:
-          'Worker welfare facilities support health, hygiene and safe performance. Requirements can vary according to federal rules, competent authorities, project conditions and the nature of the workplace.',
+          'Worker welfare includes drinking water, sanitation, washing facilities, rest areas, hygiene, cleaning and protection from environmental conditions. Welfare controls support worker health and safe performance.',
       hazards:
-          'Dehydration • Poor hygiene • Heat stress • Fatigue • Unsanitary conditions.',
+          'Dehydration • Poor hygiene • Heat stress • Fatigue • Unsanitary conditions • Poor rest arrangements.',
       controls:
-          'Safe drinking water • Toilets • Washing facilities • Rest areas • Cleaning • Waste management • Heat protection.',
+          'Safe drinking water • Toilets • Washing facilities • Rest areas • Hygiene • Cleaning • Heat protection • Suitable welfare monitoring.',
       planning:
-          'Assess workforce size, location, work duration and environmental conditions. Provide suitable welfare arrangements for the workforce.',
+          'Assess workforce size, work location and environmental conditions. Plan adequate access to drinking water, sanitation, washing, rest and cooling facilities.',
       safePractices:
-          'Keep welfare facilities clean and accessible. Replenish drinking water. Report deficiencies promptly.',
+          'Keep welfare facilities clean and accessible. Replenish drinking water. Monitor cleanliness and report deficiencies. Provide suitable arrangements for the workforce and site conditions.',
       ppe:
-          'PPE is task-specific and does not replace welfare controls.',
+          'PPE is generally task-specific rather than a substitute for welfare controls.',
       checklist:
-          'Drinking water • Toilets • Washing facilities • Rest area • Cleaning • Waste disposal • Heat protection • Accessibility.',
+          'Drinking water • Toilets • Washing facilities • Rest area • Cleaning • Waste disposal • Heat protection • Accessibility • Inspection records where required.',
       inspection:
-          'Check water supply • sanitation • washing facilities • rest areas • cleanliness • waste disposal.',
+          'Check water supply • Toilets • Washing facilities • Rest areas • Cleanliness • Waste disposal • Cooling arrangements • Accessibility.',
       dos:
-          'Maintain clean welfare facilities. Ensure workers can access water and rest facilities.',
+          'Maintain clean facilities. Ensure workers can access water and rest facilities. Report welfare deficiencies.',
       donts:
-          'Do not allow essential welfare facilities to remain unavailable or unhygienic.',
+          'Do not block access to welfare facilities. Do not allow poor hygiene conditions to continue uncorrected.',
       stopWork:
-          'Escalate or stop affected work where essential welfare controls are unavailable and worker health could be affected.',
+          'Escalate or stop affected work when essential welfare arrangements are unavailable and worker health or safety could be adversely affected.',
       emergency:
-          'Activate medical or emergency arrangements for heat illness, dehydration or other welfare-related emergencies.',
-      reference:
-          'Applicable UAE federal and competent-authority workplace requirements.',
+          'For heat illness or other welfare-related emergencies, activate the site medical or emergency procedure immediately.',
     ),
 
     // ==========================================================
-    // 🟣 ABU DHABI SAFETY — ADOSH-SF
+    // ABU DHABI / ADOSH-SF
     // ==========================================================
 
     _ReferenceTopic(
+      title: 'Working at Height',
       category: _GuidelineCategory.abuDhabi,
-      title: 'ADOSH-SF Framework',
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
       shortDescription:
-          'Abu Dhabi Occupational Safety and Health System Framework and its Codes of Practice.',
+          'Control fall risks through suitable access, edge protection, fall protection and rescue planning.',
       overview:
-          'Abu Dhabi has its own Occupational Safety and Health framework known as ADOSH-SF. Its Codes of Practice establish mandatory OSH technical requirements for applicable subjects.',
+          'Working at height creates a risk of falling from one level to another. Work should be properly planned, supervised and controlled using suitable platforms, access systems, edge protection and fall-protection arrangements.',
       hazards:
-          'Incorrect regulatory interpretation • Outdated documents • Missing applicable CoP • Inadequate OSH management • Poor implementation.',
+          'Falls from height • Falling objects • Open edges • Floor openings • Unsafe ladders • Inadequate platforms • Incorrect harness use • Difficult rescue.',
       controls:
-          'Identify applicable ADOSH-SF requirements • Use current versions • Implement OSH management controls • Maintain competent personnel • Verify compliance.',
+          'Avoid work at height where reasonably practicable • Safe working platforms • Guardrails • Edge protection • Suitable access • Fall protection • Equipment inspection • Rescue planning.',
       planning:
-          'Determine whether the activity is subject to an ADOSH-SF Code of Practice. Confirm the current version and applicable requirements before preparing project controls.',
+          'Assess whether the work can be completed from ground level. Select suitable access equipment. Assess edges, openings, weather, falling objects and rescue requirements before starting.',
       safePractices:
-          'Use the current official ADPHC/ADOSH-SF documents. Ensure project procedures and risk controls are consistent with applicable requirements.',
+          'Use suitable working platforms and access systems. Protect edges and openings. Inspect fall-protection equipment before use. Follow the approved method and site requirements.',
       ppe:
-          'Use the PPE requirements applicable to the activity and the relevant ADOSH-SF Code of Practice.',
+          'Safety helmet • Safety footwear • Full-body harness where required • Gloves • Eye protection • Task-specific PPE.',
       checklist:
-          'Applicable CoP identified • Current version verified • OSH requirements reviewed • Risk assessment • Procedures • Competent personnel • Records.',
+          'Risk assessment • Safe access • Suitable platform • Edge protection • Openings protected • Harness inspected • Suitable anchorage • Falling-object controls • Rescue plan • Competent workers.',
       inspection:
-          'Verify applicable CoPs • document versions • implementation • training • inspections • corrective actions.',
+          'Check working platform • Guardrails • Edge protection • Floor openings • Access equipment • Harness and lanyard • Anchorage • Tool securing • Rescue arrangements.',
       dos:
-          'Use current official ADOSH-SF documents. Verify emirate-specific requirements before compliance decisions.',
+          'Plan work before starting. Use approved access equipment. Keep tools and materials secure. Follow the approved fall-protection system.',
       donts:
-          'Do not treat a generic UAE guideline as a substitute for an applicable Abu Dhabi requirement.',
+          'Do not work from unstable surfaces. Do not use damaged fall-protection equipment. Do not attach to unsuitable anchor points. Do not remove edge protection without authorization.',
       stopWork:
-          'Stop or suspend work when required ADOSH-SF controls are absent or the work cannot be safely performed according to the approved system.',
+          'Stop work if edge protection is missing, access is unsafe, fall protection is defective, anchorage is unsuitable or conditions become unsafe.',
       emergency:
-          'Follow the project emergency arrangements and applicable Abu Dhabi OSH requirements.',
-      reference:
-          'Abu Dhabi Public Health Centre (ADPHC) — ADOSH-SF official legislation and Codes of Practice.',
+          'Activate the approved rescue plan. Avoid creating a second casualty during rescue. Provide first aid and medical assistance as required.',
     ),
 
     _ReferenceTopic(
+      title: 'Scaffolding',
       category: _GuidelineCategory.abuDhabi,
-      title: 'Abu Dhabi Construction OSH',
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
       shortDescription:
-          'Construction occupational safety management requirements specific to Abu Dhabi.',
+          'Control scaffold erection, inspection, access, loading, stability and use.',
       overview:
-          'Construction activities in Abu Dhabi are subject to the applicable ADOSH-SF requirements, including construction OSH management requirements and relevant Codes of Practice.',
+          'Scaffolding provides temporary access and working platforms. It must be appropriately designed or selected, erected, inspected, maintained and used by competent personnel.',
       hazards:
-          'Falls • Struck-by incidents • Lifting hazards • Excavation collapse • Electrical hazards • Temporary works failure • Poor coordination.',
+          'Falls from height • Scaffold collapse • Falling objects • Overloading • Unsafe access • Missing guardrails • Unstable foundation • Unauthorized modification.',
       controls:
-          'OSH management system • Risk assessment • Construction OSH planning • Competent supervision • Inspections • Training • Corrective action.',
+          'Competent erection • Stable foundation • Bracing • Guardrails • Toe boards • Safe access • Load control • Inspection • Scaffold status control • Unauthorized modification prevention.',
       planning:
-          'Review the applicable ADOSH-SF construction requirements before project activities begin. Ensure the project OSH management arrangements reflect actual site risks.',
+          'Select a scaffold suitable for the intended height, access and loading requirements. Confirm foundation and supporting conditions. Plan erection, inspection, access and material loading.',
       safePractices:
-          'Follow approved project OSH procedures. Maintain competent supervision and conduct planned inspections.',
+          'Use inspected and approved scaffolding. Maintain safe access. Keep platforms within their intended loading capacity. Do not modify scaffolding without authorization.',
       ppe:
-          'PPE shall comply with the applicable risk assessment and relevant ADOSH-SF requirements.',
+          'Safety helmet • Safety footwear • Gloves • Full-body harness where required • High-visibility clothing.',
       checklist:
-          'Construction OSH plan • Risk assessment • Competent personnel • Training • Inspection • Emergency arrangements • Corrective actions.',
+          'Foundation stable • Uprights secure • Bracing • Guardrails • Toe boards • Platform condition • Safe access • Load capacity • Inspection status • Unauthorized alterations checked.',
       inspection:
-          'Check implementation of the approved OSH system, site controls, inspections and corrective actions.',
+          'Check foundation and stability • Bracing and connections • Platforms • Guardrails and toe boards • Access • Scaffold status/tag • Damage • Unauthorized alterations.',
       dos:
-          'Verify current ADOSH-SF requirements. Maintain documented OSH arrangements.',
+          'Use approved access. Report defects immediately. Keep platforms tidy. Respect scaffold loading limits.',
       donts:
-          'Do not use outdated Abu Dhabi OSH documents as the sole basis for compliance.',
+          'Do not remove guardrails or braces without authorization. Do not use incomplete or damaged scaffolding. Do not overload platforms.',
       stopWork:
-          'Stop work where critical OSH controls required by the approved system are missing.',
+          'Stop scaffold use if it is incomplete, unstable, damaged, overloaded, missing required protection or has been altered without authorization.',
       emergency:
-          'Follow the project emergency plan and Abu Dhabi-specific emergency requirements.',
-      reference:
-          'ADOSH-SF CoP 53 / CoP 53.1 and other applicable ADOSH-SF requirements.',
+          'Stop use, isolate the affected scaffold and prevent access. Activate the site emergency and rescue procedure if an incident occurs.',
     ),
 
     _ReferenceTopic(
+      title: 'Lifting',
       category: _GuidelineCategory.abuDhabi,
-      title: 'Abu Dhabi Lifting Safety',
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
       shortDescription:
-          'Lifting safety requirements to be considered with applicable ADOSH-SF requirements.',
+          'Plan and control lifting operations involving cranes, lifting accessories, loads and personnel.',
       overview:
-          'Lifting operations in Abu Dhabi must be planned and controlled using the applicable ADOSH-SF requirements together with equipment, manufacturer and project requirements.',
+          'Lifting operations involve moving loads using cranes, hoists or other lifting equipment. Safe lifting requires suitable planning, competent personnel, inspected equipment, load control, stable ground and effective communication.',
       hazards:
-          'Dropped loads • Overloading • Equipment failure • Unstable ground • Suspended loads • Crushing • Poor communication.',
+          'Dropped loads • Overloading • Equipment failure • Unstable ground • Suspended loads • Crushing • Struck-by incidents • Poor communication • Wind and weather.',
       controls:
-          'Lift planning • Competent personnel • Suitable inspected equipment • Correct accessories • Load verification • Ground assessment • Exclusion zone • Communication.',
+          'Approved lift plan • Competent lifting team • Suitable inspected equipment • Correct lifting accessories • Load weight verification • Ground assessment • Exclusion zone • Communication • Weather assessment.',
       planning:
-          'Verify applicable Abu Dhabi requirements before preparing the lift plan. Confirm equipment capacity, load information, ground conditions, lifting route and emergency arrangements.',
+          'Confirm load weight, dimensions, lifting points and centre of gravity. Select suitable lifting equipment and accessories. Assess ground conditions and establish the lifting route and exclusion zone.',
       safePractices:
-          'Use suitable inspected equipment and accessories. Maintain exclusion zones. Keep people away from suspended loads.',
+          'Inspect lifting equipment and accessories before use. Confirm safe working load and load weight. Use suitable slings and shackles. Keep people away from suspended loads.',
+      ppe:
+          'Safety helmet • Safety footwear • High-visibility clothing • Gloves • Eye protection where required • Task-specific PPE.',
+      checklist:
+          'Lift plan • Competent operator • Competent rigger/banksman • Equipment inspection • SWL verified • Accessories inspected • Ground condition checked • Exclusion zone • Communication • Weather checked.',
+      inspection:
+          'Check lifting equipment • Hooks and safety devices • Accessories • Ground stability • Connections • Exclusion zone • Communication arrangements.',
+      dos:
+          'Use suitable certified equipment. Maintain communication. Keep personnel outside the danger zone. Stop the lift when conditions become unsafe.',
+      donts:
+          'Never exceed equipment capacity. Never stand under suspended loads. Do not use damaged lifting accessories. Do not lift in unsafe conditions.',
+      stopWork:
+          'Stop the lift for damaged equipment, uncertain load weight, unstable ground, loss of communication, people entering the exclusion zone or unexpected conditions.',
+      emergency:
+          'Stop the lifting operation, isolate the area, prevent access and activate the site emergency response procedure.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Excavation',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Control ground collapse, underground services, access, plant and excavation hazards.',
+      overview:
+          'Excavation work creates risks from ground collapse, underground services, falling materials, plant movement, water ingress and restricted access. Excavations must be properly planned and controlled before workers enter.',
+      hazards:
+          'Cave-in • Underground utilities • Falling materials • Plant/mobile equipment • Falls into excavation • Water ingress • Hazardous atmosphere • Access problems.',
+      controls:
+          'Excavation risk assessment • Service information and detection • Suitable protective system • Safe access • Edge protection • Spoil control • Plant exclusion • Competent inspection.',
+      planning:
+          'Review drawings and underground service information before breaking ground. Assess soil and surrounding conditions. Select a suitable protective system. Plan access, spoil placement, plant movement and emergency arrangements.',
+      safePractices:
+          'Confirm underground services before excavation. Keep spoil and equipment away from excavation edges as required by the approved method. Provide safe access and egress. Inspect excavations after changing conditions.',
+      ppe:
+          'Safety helmet • Safety footwear • High-visibility clothing • Gloves • Eye protection • Respiratory protection where required.',
+      checklist:
+          'Permit/authorization • Utility survey • Excavation plan • Ground assessment • Protective system • Safe access • Edge protection • Spoil control • Water control • Competent inspection.',
+      inspection:
+          'Check excavation walls • Protective systems • Edge protection • Access • Spoil and plant position • Water accumulation • Ground movement • Cracking.',
+      dos:
+          'Inspect before entry. Maintain safe access. Keep unauthorized personnel away. Stop work when ground conditions change.',
+      donts:
+          'Do not enter an unsafe unsupported excavation. Do not place spoil or heavy equipment dangerously close to the edge. Do not ignore service information.',
+      stopWork:
+          'Stop work if ground movement, cracking, water ingress, damaged protection, unknown services or unsafe access is identified.',
+      emergency:
+          'Raise the alarm and keep people away from a collapse area. Do not enter a collapsed excavation for rescue without an approved rescue system and competent emergency team.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Hot Work',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Control welding, cutting, grinding and other activities producing heat, flames or sparks.',
+      overview:
+          'Hot work can cause fires, explosions, burns, fumes and eye injuries. The work must be planned and controlled with suitable permits, fire protection, combustible control, ventilation and PPE.',
+      hazards:
+          'Fire • Explosion • Burns • Sparks • Fumes • Eye injury • Gas-cylinder hazards • Heat.',
+      controls:
+          'Hot-work authorization where required • Combustible control • Fire extinguisher • Fire watch • Gas-cylinder control • Screens • Ventilation • Post-work inspection.',
+      planning:
+          'Identify combustible materials and nearby operations. Confirm the required authorization or permit. Establish fire protection, cylinder controls, ventilation and post-work monitoring.',
+      safePractices:
+          'Inspect the work area before starting. Remove or protect combustibles. Maintain fire protection. Secure cylinders and hoses. Inspect the area after completion.',
+      ppe:
+          'Welding helmet/goggles • Welding gloves • Flame-resistant clothing • Safety footwear • Face shield where required • Eye protection.',
+      checklist:
+          'Permit/authorization • Combustibles controlled • Fire extinguisher • Fire watch • Cylinders secured • Hoses/regulators • Screens • Ventilation • Post-work inspection.',
+      inspection:
+          'Check combustibles • Fire protection • Welding leads • Gas cylinders • Hoses • Regulators • Screens • Ventilation • Fire-watch arrangements.',
+      dos:
+          'Maintain fire watch where required. Keep cylinders secured. Use suitable PPE. Inspect the area after hot work.',
+      donts:
+          'Do not perform hot work near uncontrolled combustibles. Do not use damaged hoses or regulators. Do not leave without required fire controls.',
+      stopWork:
+          'Stop hot work if combustibles cannot be controlled, fire protection is unavailable, gas equipment is defective, ventilation is inadequate or permit conditions are not satisfied.',
+      emergency:
+          'Raise the alarm and use fire-response equipment only if trained and safe to do so. Evacuate and call emergency services for uncontrolled fires.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Portable Power Tools',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Use portable power tools safely through inspection, guarding, correct accessories and PPE.',
+      overview:
+          'Portable power tools can cause cuts, electric shock, burns, flying particles, noise and vibration injuries. Safe use depends on correct tool selection, condition, guarding and operator competence.',
+      hazards:
+          'Cuts • Flying particles • Electric shock • Burns • Entanglement • Noise • Vibration • Incorrect accessories.',
+      controls:
+          'Correct tool selection • Pre-use inspection • Guards • Electrical protection • Correct accessories • Maintenance • Competent operators • Good housekeeping.',
+      planning:
+          'Select the correct tool for the task. Review manufacturer instructions. Check electrical protection requirements. Assess dust, noise, vibration, sparks and nearby workers.',
+      safePractices:
+          'Inspect tools before use. Use the correct accessory and guard. Keep cables protected. Disconnect power before changing accessories. Maintain a stable working position.',
+      ppe:
+          'Safety glasses or face protection • Safety footwear • Hearing protection • Suitable gloves • Safety helmet • Task-specific PPE.',
+      checklist:
+          'Tool condition • Guard • Cable/plug • Correct accessory • Electrical protection • Operator competence • PPE • Work area • Maintenance status.',
+      inspection:
+          'Check casing • Guards • Switches • Cable and plug • Accessories • Labels • Electrical protection • Overheating or damage.',
+      dos:
+          'Use tools according to manufacturer instructions. Keep guards fitted. Remove defective tools from service.',
+      donts:
+          'Do not use damaged tools. Do not remove guards. Do not carry tools by cables. Do not use unsuitable accessories.',
+      stopWork:
+          'Stop using the tool if the guard, cable, plug, switch or accessory is damaged or abnormal vibration, noise, overheating or sparking occurs.',
+      emergency:
+          'Isolate the energy source, provide first aid and obtain medical assistance for serious injury. Report defective equipment.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Working On or Adjacent to a Road',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Protect workers and road users through traffic management, segregation, barriers and controlled work zones.',
+      overview:
+          'Work on, over or adjacent to roads creates interaction between workers, vehicles and public traffic. Proper traffic management and segregation are essential.',
+      hazards:
+          'Vehicle strike • Reversing • Poor visibility • Unauthorized access • Night work • Traffic congestion • Falling objects into roadways.',
+      controls:
+          'Traffic management arrangement • Barriers • Signs • Cones • Safe pedestrian routes • Trained traffic controllers • High visibility • Lighting • Speed control.',
+      planning:
+          'Review the approved traffic management arrangement. Identify pedestrian and vehicle movements. Plan barriers, signs, lighting, access points and traffic-controller positions.',
+      safePractices:
+          'Separate pedestrians from traffic wherever possible. Maintain clear signs and barriers. Keep work zones tidy and visible. Follow the approved traffic arrangement.',
+      ppe:
+          'High-visibility clothing • Safety footwear • Safety helmet • Eye protection • Task-specific PPE.',
+      checklist:
+          'Approved traffic plan • Signs • Barriers • Lighting • Pedestrian route • Vehicle route • Traffic controller • High-visibility PPE • Inspection.',
+      inspection:
+          'Check signs • Barriers • Cones • Lighting • Pedestrian segregation • Vehicle routes • Work-zone visibility • Damaged controls.',
+      dos:
+          'Maintain the approved traffic arrangement. Check visibility regularly. Keep barriers stable and correctly positioned.',
+      donts:
+          'Do not remove traffic controls without authorization. Do not allow pedestrians into live traffic areas. Do not obstruct road visibility.',
+      stopWork:
+          'Stop work if traffic controls are displaced, visibility is inadequate, unauthorized vehicles enter the work zone or pedestrian segregation fails.',
+      emergency:
+          'Stop affected activities, protect the scene, contact emergency services where required and control traffic according to the emergency plan.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Concrete Placing Equipment',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Control hazards from concrete pumps, delivery systems, hoses, pressure and placing operations.',
+      overview:
+          'Concrete placing equipment can create struck-by, crushing, hose-whip and pressure-related hazards. Equipment, hoses, connections and work areas must be inspected and controlled.',
+      hazards:
+          'Hose whip • Pressure release • Crushing • Struck-by incidents • Equipment failure • Vehicle movement • Concrete contact.',
+      controls:
+          'Equipment inspection • Hose inspection • Secure connections • Exclusion zone • Communication • Competent operators • Safe positioning • Emergency arrangements.',
+      planning:
+          'Plan pump location, delivery route, hose routing, exclusion zones and communication. Confirm that formwork and access arrangements are ready for concrete placement.',
+      safePractices:
+          'Inspect equipment and hoses before use. Keep workers clear of uncontrolled hose movement. Maintain communication between operator and placing team.',
+      ppe:
+          'Safety helmet • Safety footwear • Suitable gloves • Eye protection • Protective clothing • Task-specific PPE.',
+      checklist:
+          'Equipment inspected • Hoses checked • Connections secure • Exclusion zone • Communication • Operator competence • Access • Formwork readiness • PPE.',
+      inspection:
+          'Check pump • Hoses • Couplings • Clamps • Connections • Exclusion zone • Communication • Access • Signs of damage.',
+      dos:
+          'Follow the approved placing sequence. Maintain communication. Keep personnel outside hose danger zones.',
+      donts:
+          'Do not stand in front of an uncontrolled hose. Do not use damaged hoses or connections. Do not enter exclusion zones during unsafe conditions.',
+      stopWork:
+          'Stop placing operations if equipment or hoses are damaged, connections are unsafe, communication is lost or uncontrolled movement occurs.',
+      emergency:
+          'Stop equipment safely, isolate the affected area and activate emergency response for serious injury or equipment failure.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Temporary Structures',
+      category: _GuidelineCategory.abuDhabi,
+      sourceLabel: 'Abu Dhabi – ADOSH-SF',
+      shortDescription:
+          'Control temporary structures through design, approval, installation, inspection and change control.',
+      overview:
+          'Temporary structures and support systems can fail if incorrectly designed, installed, loaded or modified. Proper technical review and inspection are essential.',
+      hazards:
+          'Collapse • Overloading • Instability • Falls • Falling materials • Incorrect installation • Unauthorized modification.',
+      controls:
+          'Design • Approval • Competent supervision • Installation inspection • Load control • Monitoring • Change control • Safe removal.',
+      planning:
+          'Identify the temporary structure and intended function. Confirm design requirements, loads, support conditions, installation sequence, inspection and removal arrangements.',
+      safePractices:
+          'Use approved designs and drawings. Verify installation before loading. Control changes through the appropriate technical process. Maintain inspection records where required.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • Eye protection • Fall protection where required.',
+      checklist:
+          'Design approved • Competent personnel • Foundation/support • Bracing • Connections • Load limits • Inspection • Change control • Removal plan.',
+      inspection:
+          'Check foundations • Supports • Bracing • Connections • Alignment • Load condition • Damage • Unauthorized modification • Signs of movement.',
+      dos:
+          'Follow approved design. Inspect before loading. Report movement, damage or instability immediately.',
+      donts:
+          'Do not modify temporary structures without approval. Do not exceed design loading. Do not remove supports prematurely.',
+      stopWork:
+          'Stop work if temporary structures show movement, instability, damage, overload or unauthorized modification.',
+      emergency:
+          'Evacuate the danger zone if instability is suspected. Prevent access until competent technical personnel confirm the area is safe.',
+    ),
+
+    // ==========================================================
+    // DUBAI / DUBAI MUNICIPALITY
+    // ==========================================================
+
+    _ReferenceTopic(
+      title: 'Construction Safety',
+      category: _GuidelineCategory.dubai,
+      sourceLabel: 'Dubai – Dubai Municipality',
+      shortDescription:
+          'Understand construction safety requirements applicable to construction activities in Dubai.',
+      overview:
+          'Construction activities in Dubai are subject to applicable Dubai legislation, Dubai Municipality requirements and the relevant Code of Construction Safety Practice. Contractors, consultants and site personnel should identify the current requirements applicable to their project and activity.',
+      hazards:
+          'Falls • Structural instability • Excavation collapse • Lifting incidents • Vehicle interaction • Electrical hazards • Fire • Falling objects • Poor site control.',
+      controls:
+          'Approved construction safety arrangements • Risk assessment • Competent supervision • Safe access • Traffic management • Equipment inspection • Emergency planning • Site housekeeping.',
+      planning:
+          'Identify the applicable Dubai requirements and project conditions before work starts. Review approved construction safety arrangements, risk assessments, method statements and permits.',
+      safePractices:
+          'Follow current Dubai Municipality and project requirements. Maintain safe access, segregation, housekeeping and equipment controls. Ensure workers understand site-specific safety arrangements.',
+      ppe:
+          'Safety helmet • Safety footwear • High-visibility clothing • Eye protection • Gloves • Task-specific PPE.',
+      checklist:
+          'Applicable Dubai requirements • Risk assessment • Method statement • Competent supervision • Safe access • Traffic controls • Equipment inspection • Emergency arrangements • Housekeeping.',
+      inspection:
+          'Check site access • Work areas • Barriers • Equipment • Excavations • Temporary works • Traffic arrangements • Housekeeping • Emergency provisions.',
+      dos:
+          'Use current approved Dubai requirements. Follow project procedures. Maintain inspection records. Escalate unclear requirements to competent personnel.',
+      donts:
+          'Do not assume a generic UAE guideline automatically satisfies Dubai-specific requirements. Do not use outdated documents. Do not ignore project-specific controls.',
+      stopWork:
+          'Stop affected work when required controls are missing, unsafe site conditions exist or the approved method cannot be followed.',
+      emergency:
+          'Raise the alarm, make the area safe, provide emergency response and follow the project emergency procedure.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Working at Height – Dubai',
+      category: _GuidelineCategory.dubai,
+      sourceLabel: 'Dubai – Dubai Municipality',
+      shortDescription:
+          'Apply safe working-at-height controls within Dubai construction work requirements.',
+      overview:
+          'Working at height in Dubai construction projects requires appropriate planning, safe access, edge protection, suitable working platforms and fall-protection measures based on the applicable Dubai requirements and project controls.',
+      hazards:
+          'Falls from height • Falling objects • Open edges • Unsafe ladders • Unsafe platforms • Improper fall protection.',
+      controls:
+          'Risk assessment • Safe access • Guardrails • Edge protection • Protected openings • Suitable platforms • Fall protection • Rescue planning.',
+      planning:
+          'Determine the safest method of access and work. Review the project method statement and applicable Dubai requirements before work begins.',
+      safePractices:
+          'Use approved platforms and access equipment. Protect edges and openings. Keep materials secure. Inspect access and fall-protection equipment.',
+      ppe:
+          'Safety helmet • Safety footwear • High-visibility clothing • Full-body harness where required • Gloves • Eye protection.',
+      checklist:
+          'Risk assessment • Access • Platform • Guardrails • Edge protection • Openings protected • Fall protection • Rescue plan • Inspection.',
+      inspection:
+          'Check platforms • Guardrails • Openings • Access • Harness • Anchorage • Falling-object controls • Rescue arrangements.',
+      dos:
+          'Follow the approved Dubai project method. Maintain fall protection. Report defects immediately.',
+      donts:
+          'Do not use unstable platforms. Do not remove edge protection without authorization. Do not use defective fall-protection equipment.',
+      stopWork:
+          'Stop work if safe access or fall protection is not available or if conditions become unsafe.',
+      emergency:
+          'Activate the approved rescue and emergency response procedure. Prevent further exposure to the hazard.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Scaffolding – Dubai',
+      category: _GuidelineCategory.dubai,
+      sourceLabel: 'Dubai – Dubai Municipality',
+      shortDescription:
+          'Control scaffold stability, access, inspection, loading and safe use in Dubai construction projects.',
+      overview:
+          'Scaffolds used for construction work in Dubai must be appropriately planned, erected, inspected and maintained according to applicable Dubai requirements and project controls.',
+      hazards:
+          'Falls • Collapse • Falling objects • Overloading • Unsafe access • Missing protection • Unauthorized modification.',
+      controls:
+          'Suitable scaffold system • Competent erection • Stable foundation • Bracing • Guardrails • Toe boards • Safe access • Inspection • Load control.',
+      planning:
+          'Confirm the intended use, height, loading and supporting conditions. Ensure erection and inspection arrangements are controlled by competent personnel.',
+      safePractices:
+          'Use only inspected scaffolding. Maintain safe access. Do not overload platforms. Prevent unauthorized alteration.',
+      ppe:
+          'Safety helmet • Safety footwear • Gloves • High-visibility clothing • Fall protection where required.',
+      checklist:
+          'Foundation • Bracing • Guardrails • Toe boards • Platform • Access • Load capacity • Inspection status • Alteration control.',
+      inspection:
+          'Check stability • Connections • Platforms • Guardrails • Access • Tags/status • Damage • Unauthorized modification.',
+      dos:
+          'Follow the approved scaffold arrangement. Report defects. Keep platforms clean and within loading limits.',
+      donts:
+          'Do not use incomplete or damaged scaffolding. Do not remove protective components without authorization.',
+      stopWork:
+          'Stop scaffold use when stability, access, protection or inspection status is unacceptable.',
+      emergency:
+          'Isolate the affected scaffold, prevent access and follow the project emergency procedure.',
+    ),
+
+    _ReferenceTopic(
+      title: 'Excavation – Dubai',
+      category: _GuidelineCategory.dubai,
+      sourceLabel: 'Dubai – Dubai Municipality',
+      shortDescription:
+          'Control excavation collapse, underground services, access, edge protection and plant interaction.',
+      overview:
+          'Excavation work in Dubai construction projects requires suitable planning and control of ground stability, underground services, access, plant movement, falling materials and other site-specific risks.',
+      hazards:
+          'Collapse • Underground services • Falls • Falling materials • Plant movement • Water ingress • Unsafe access.',
+      controls:
+          'Risk assessment • Service information • Protective system • Edge protection • Safe access • Spoil control • Plant segregation • Inspection.',
+      planning:
+          'Review drawings, service information and approved excavation arrangements. Assess ground conditions and plan access, plant movement, spoil placement and emergency arrangements.',
+      safePractices:
+          'Inspect excavations before entry and after significant changes. Maintain safe access and prevent unauthorized entry.',
       ppe:
           'Safety helmet • Safety footwear • High-visibility clothing • Gloves • Eye protection • Task-specific PPE.',
       checklist:
-          'Lift plan • Competent team • Equipment inspection • SWL verification • Accessories • Ground condition • Exclusion zone • Communication.',
+          'Excavation plan • Service information • Ground assessment • Protective system • Access • Edge protection • Spoil control • Plant control • Inspection.',
       inspection:
-          'Check equipment, accessories, ground, exclusion zone and communication arrangements.',
+          'Check excavation condition • Protection • Edges • Access • Spoil • Plant position • Water • Ground movement.',
       dos:
-          'Follow the approved lift plan and applicable Abu Dhabi requirements.',
+          'Follow the approved excavation method. Inspect before entry. Report ground changes immediately.',
       donts:
-          'Never exceed equipment capacity. Never stand under suspended loads.',
+          'Do not enter an unsafe excavation. Do not place plant or materials where they create an unacceptable edge risk.',
       stopWork:
-          'Stop the lift for equipment defects, uncertain load information, unstable ground or loss of communication.',
+          'Stop work if collapse risk, unknown services, water ingress, damaged protection or unsafe access is identified.',
       emergency:
-          'Stop the operation, isolate the area and activate the site emergency response.',
-      reference:
-          'Applicable ADOSH-SF lifting requirements and current official ADPHC Codes of Practice.',
+          'Raise the alarm and isolate the area. Do not enter a collapsed excavation without a competent rescue arrangement.',
     ),
 
-    // ==========================================================
-    // 🟠 DUBAI SAFETY — DUBAI MUNICIPALITY
-    // ==========================================================
-
     _ReferenceTopic(
+      title: 'Traffic Management & Site Logistics',
       category: _GuidelineCategory.dubai,
-      title: 'Dubai Construction Safety',
+      sourceLabel: 'Dubai – Dubai Municipality',
       shortDescription:
-          'Dubai Municipality construction safety requirements and approved safety guidance.',
+          'Control vehicle, pedestrian and construction logistics interactions within Dubai projects.',
       overview:
-          'Construction work in Dubai is subject to Dubai Municipality requirements, including the applicable Construction Works Safety Practice and the current Safety Guide for Construction Works in the Emirate of Dubai.',
+          'Construction logistics and traffic management are important controls where vehicles, mobile plant, pedestrians and public roads interact. Project-specific traffic management arrangements must be followed.',
       hazards:
-          'Construction falls • Vehicle interaction • Falling objects • Unsafe excavation • Lifting hazards • Poor site access • Inadequate barriers.',
+          'Vehicle collision • Reversing incidents • Pedestrian strike • Blind spots • Poor visibility • Congestion • Unauthorized access.',
       controls:
-          'Approved construction safety arrangements • Site inspections • Safe access • Traffic control • Barricading • Competent supervision • Housekeeping.',
+          'Traffic management plan • Pedestrian segregation • Vehicle routes • Banksman/traffic controller • Barriers • Signage • Lighting • Speed control • Delivery planning.',
       planning:
-          'Identify the applicable Dubai Municipality requirements and current safety guide before construction work. Ensure the site safety arrangements reflect the approved project requirements.',
+          'Map vehicle and pedestrian routes. Identify reversing areas, delivery points, access gates and interaction zones. Establish clear controls before work starts.',
       safePractices:
-          'Follow the approved Dubai construction safety arrangements. Maintain safe access, barriers, signage and site housekeeping.',
+          'Separate pedestrians and vehicles wherever practicable. Maintain clear routes and signage. Use trained personnel for traffic control where required.',
       ppe:
-          'PPE shall be selected according to the task risk assessment and applicable Dubai requirements.',
+          'High-visibility clothing • Safety helmet • Safety footwear • Eye protection • Task-specific PPE.',
       checklist:
-          'Applicable Dubai requirements • Safety arrangements • Site access • Barriers • Signage • Traffic controls • PPE • Inspection.',
+          'Traffic plan • Vehicle routes • Pedestrian routes • Barriers • Signs • Lighting • Traffic controller • Reversing controls • Delivery arrangements.',
       inspection:
-          'Check construction site controls, barriers, access, signage, lighting, housekeeping and traffic arrangements.',
+          'Check routes • Signs • Barriers • Lighting • Pedestrian segregation • Vehicle movements • Work-zone visibility.',
       dos:
-          'Use current Dubai Municipality guidance. Maintain site safety controls and required inspections.',
+          'Follow the approved traffic arrangement. Maintain clear routes. Report damaged traffic controls.',
       donts:
-          'Do not assume UAE-wide guidance automatically covers Dubai-specific construction requirements.',
+          'Do not remove barriers or signs without authorization. Do not allow uncontrolled vehicle-pedestrian interaction.',
       stopWork:
-          'Stop affected work when critical site safety controls are missing or unsafe conditions create immediate risk.',
+          'Stop affected work if traffic controls fail, visibility is inadequate or pedestrians and vehicles cannot be safely segregated.',
       emergency:
-          'Follow the approved project emergency procedure and relevant Dubai requirements.',
-      reference:
-          'Dubai Municipality — Safety Guide for Construction Works in the Emirate of Dubai / Construction Works Safety Practice.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.dubai,
-      title: 'Dubai Site Barricading',
-      shortDescription:
-          'Dubai construction-site barriers, warning signs, access control and hazard segregation.',
-      overview:
-          'Construction sites in Dubai require effective control of hazards and unauthorized access. Barricading, fencing, warning signs and controlled access should be maintained according to applicable Dubai Municipality requirements.',
-      hazards:
-          'Unauthorized entry • Falls • Vehicle interaction • Falling objects • Public access to construction hazards.',
-      controls:
-          'Stable barriers • Site fencing • Warning signs • Controlled gates • Lighting • Regular inspection • Safe pedestrian routes.',
-      planning:
-          'Identify site hazards and public interfaces. Select barriers and signs appropriate to the hazard and maintain controlled access to the construction area.',
-      safePractices:
-          'Keep barriers stable and visible. Maintain controlled entry and exit points. Repair damaged fencing and barriers promptly.',
-      ppe:
-          'PPE depends on the hazard and task within the controlled area.',
-      checklist:
-          'Barrier • Fence • Warning signs • Gates • Lighting • Pedestrian control • Inspection • Damage control.',
-      inspection:
-          'Check barrier stability, visibility, access points, lighting and damaged sections.',
-      dos:
-          'Maintain barriers until the hazard is removed or controlled.',
-      donts:
-          'Do not remove construction barriers without authorization.',
-      stopWork:
-          'Stop affected work where the public or workers can enter an uncontrolled dangerous area.',
-      emergency:
-          'Secure the affected area and activate the applicable emergency procedure.',
-      reference:
-          'Dubai Municipality construction safety guidance and applicable circulars.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.dubai,
-      title: 'Dubai Traffic & Construction Interface',
-      shortDescription:
-          'Control interaction between construction activities, vehicles, pedestrians and public roads in Dubai.',
-      overview:
-          'Construction work near public roads requires careful coordination of traffic, pedestrians, site access and construction activities. Dubai-specific requirements should be verified before implementing traffic arrangements.',
-      hazards:
-          'Vehicle strike • Reversing • Poor visibility • Public access • Congestion • Night-work hazards.',
-      controls:
-          'Traffic management • Barriers • Signs • Lighting • Safe pedestrian routes • Trained traffic controllers • Controlled site entrances.',
-      planning:
-          'Review the approved traffic and construction arrangements. Coordinate site entrances, pedestrian movement, vehicle movement and public-road interfaces.',
-      safePractices:
-          'Maintain clear traffic controls. Keep pedestrian routes separated where possible. Ensure signs and barriers remain visible and correctly positioned.',
-      ppe:
-          'High-visibility clothing • Safety footwear • Safety helmet • Task-specific PPE.',
-      checklist:
-          'Traffic plan • Signs • Barriers • Lighting • Pedestrian route • Vehicle route • Site entrance • Inspection.',
-      inspection:
-          'Check signs, barriers, lighting, pedestrian routes, vehicle routes and work-zone visibility.',
-      dos:
-          'Follow the approved traffic arrangement and Dubai requirements.',
-      donts:
-          'Do not remove traffic controls without authorization.',
-      stopWork:
-          'Stop affected work if traffic controls are displaced or safe separation cannot be maintained.',
-      emergency:
-          'Protect the scene, control traffic and activate the applicable emergency response.',
-      reference:
-          'Dubai Municipality construction safety requirements and applicable traffic/site-control requirements.',
-    ),
-
-    // ==========================================================
-    // 🟢 GENERAL HSE — PRACTICAL
-    // ==========================================================
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Risk Assessment',
-      shortDescription:
-          'Identify hazards, evaluate risks and establish effective controls before work.',
-      overview:
-          'Risk assessment is a fundamental HSE process used to identify hazards, evaluate risk and determine suitable controls before and during work.',
-      hazards:
-          'Unidentified hazards • Inadequate controls • Changing site conditions • Poor communication.',
-      controls:
-          'Hazard identification • Risk evaluation • Hierarchy of controls • Worker consultation • Review.',
-      planning:
-          'Break the task into steps, identify hazards, determine risk and establish controls before work starts.',
-      safePractices:
-          'Review the assessment when conditions, equipment, people or methods change.',
-      ppe:
-          'PPE is the final layer of control and should be selected according to the risk assessment.',
-      checklist:
-          'Task identified • Hazards identified • Risk assessed • Controls defined • Workers briefed • Review completed.',
-      inspection:
-          'Verify that controls identified in the risk assessment are actually implemented.',
-      dos:
-          'Keep risk assessments current and practical.',
-      donts:
-          'Do not treat risk assessment as paperwork only.',
-      stopWork:
-          'Stop work if the actual conditions are significantly different from the assessed conditions.',
-      emergency:
-          'Follow the applicable emergency plan and report incidents and near misses.',
-      reference:
-          'General HSE good practice; always verify applicable UAE/emirate/project requirements.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Working at Height',
-      shortDescription:
-          'Prevent falls through safe access, platforms, edge protection and suitable fall protection.',
-      overview:
-          'Working at height requires careful planning and effective controls to prevent falls and falling objects.',
-      hazards:
-          'Falls • Falling objects • Open edges • Unsafe ladders • Poor platforms.',
-      controls:
-          'Avoid work at height where possible • Safe platforms • Guardrails • Edge protection • Fall protection • Rescue planning.',
-      planning:
-          'Select the safest access system and assess edges, openings, weather and rescue requirements.',
-      safePractices:
-          'Use suitable working platforms. Protect edges and openings. Inspect fall-protection equipment.',
-      ppe:
-          'Safety helmet • Safety footwear • Full-body harness where required • Eye protection.',
-      checklist:
-          'Risk assessment • Safe access • Platform • Edge protection • Harness • Anchorage • Rescue plan.',
-      inspection:
-          'Check platforms, guardrails, openings, ladders, harnesses and anchorages.',
-      dos:
-          'Plan before starting. Use approved access systems.',
-      donts:
-          'Do not work from unstable surfaces or unsuitable anchor points.',
-      stopWork:
-          'Stop work when fall protection or safe access is unavailable.',
-      emergency:
-          'Activate the rescue plan and emergency response.',
-      reference:
-          'General HSE guidance; verify applicable emirate-specific requirements.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Lifting Operations',
-      shortDescription:
-          'General principles for safe lifting, load control and exclusion zones.',
-      overview:
-          'Safe lifting requires proper planning, suitable equipment, competent personnel and control of the lifting area.',
-      hazards:
-          'Dropped loads • Overloading • Crushing • Struck-by incidents • Equipment failure.',
-      controls:
-          'Lift planning • Equipment inspection • Load verification • Exclusion zone • Communication.',
-      planning:
-          'Confirm load weight, lifting points, equipment capacity, ground conditions and lifting route.',
-      safePractices:
-          'Use inspected equipment and accessories. Keep people away from suspended loads.',
-      ppe:
-          'Safety helmet • Safety footwear • High-visibility clothing • Gloves • Eye protection.',
-      checklist:
-          'Lift plan • Competent team • Equipment • Accessories • SWL • Ground • Exclusion zone • Communication.',
-      inspection:
-          'Inspect equipment, accessories, ground and exclusion zones.',
-      dos:
-          'Follow the approved lifting plan.',
-      donts:
-          'Never stand under suspended loads.',
-      stopWork:
-          'Stop for equipment defects, uncertain loads or unsafe conditions.',
-      emergency:
-          'Stop the operation and activate emergency response.',
-      reference:
-          'General HSE guidance; verify applicable UAE/emirate-specific lifting requirements.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Confined Space',
-      shortDescription:
-          'Control atmospheric, access, isolation and rescue hazards in confined spaces.',
-      overview:
-          'Confined-space work can involve hazardous atmospheres, restricted access and difficult rescue conditions.',
-      hazards:
-          'Oxygen deficiency • Toxic gases • Flammable atmosphere • Engulfment • Heat • Difficult rescue.',
-      controls:
-          'Permit • Isolation • Atmospheric testing • Ventilation • Communication • Attendant • Rescue plan.',
-      planning:
-          'Determine whether entry can be avoided. Establish testing, isolation, ventilation, communication and rescue controls.',
-      safePractices:
-          'Test the atmosphere as required. Maintain communication and rescue readiness.',
-      ppe:
-          'Safety helmet • Safety footwear • Gloves • Eye protection • Respiratory protection where required • Harness where required.',
-      checklist:
-          'Permit • Isolation • Gas test • Ventilation • Attendant • Communication • Rescue equipment.',
-      inspection:
-          'Check permit, isolation, atmosphere, ventilation, access and rescue arrangements.',
-      dos:
-          'Follow the approved entry procedure.',
-      donts:
-          'Never perform an unprotected rescue entry.',
-      stopWork:
-          'Stop entry if atmospheric conditions become unsafe or rescue arrangements fail.',
-      emergency:
-          'Raise the alarm and activate the approved rescue plan.',
-      reference:
-          'General HSE guidance; verify applicable UAE/emirate-specific requirements.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Permit to Work',
-      shortDescription:
-          'Control high-risk work through authorization, isolation and verification.',
-      overview:
-          'A Permit to Work system provides a controlled process for authorizing specified high-risk activities.',
-      hazards:
-          'Uncontrolled energy • Fire • Toxic atmosphere • Simultaneous activities • Incorrect isolation.',
-      controls:
-          'Task identification • Risk assessment • Isolation • Authorization • Toolbox talk • Site verification • Close-out.',
-      planning:
-          'Identify the task, location, hazards, isolations and precautions before issuing the permit.',
-      safePractices:
-          'Verify that the permit matches the actual task and location. Stop when conditions change.',
-      ppe:
-          'PPE shall be selected according to the activity risk assessment.',
-      checklist:
-          'Permit • Risk assessment • Method statement • Isolation • Gas test where required • Authorization • Toolbox talk • Close-out.',
-      inspection:
-          'Check permit validity, location, task, isolation and precautions.',
-      dos:
-          'Follow permit conditions.',
-      donts:
-          'Do not work outside permit boundaries or bypass isolation.',
-      stopWork:
-          'Stop work if the permit is expired, incorrect, suspended or conditions have changed.',
-      emergency:
-          'Stop work, raise the alarm and follow the emergency procedure.',
-      reference:
-          'General HSE guidance; verify applicable project and emirate requirements.',
-    ),
-
-    _ReferenceTopic(
-      category: _GuidelineCategory.general,
-      title: 'Electrical Safety',
-      shortDescription:
-          'Prevent electric shock, burns and electrical fires through inspection and isolation.',
-      overview:
-          'Electrical hazards can cause shock, burns, fire and serious injury. Electrical work must be controlled by competent persons.',
-      hazards:
-          'Electric shock • Burns • Arc flash • Fire • Damaged cables • Wet conditions.',
-      controls:
-          'Competent persons • Isolation • Inspection • Protective devices • Earthing • Cable protection.',
-      planning:
-          'Identify electrical sources and equipment. Plan isolation and protection before work.',
-      safePractices:
-          'Inspect cables, plugs and tools. Keep equipment protected from water and damage.',
-      ppe:
-          'Safety footwear • Eye/face protection • Electrical-rated PPE where required.',
-      checklist:
-          'Competent person • Distribution board • Protection devices • Earthing • Cables • Tools • Isolation.',
-      inspection:
-          'Check cables, plugs, sockets, boards and protective devices.',
-      dos:
-          'Remove damaged electrical equipment from service.',
-      donts:
-          'Do not bypass protective devices or perform unauthorized electrical work.',
-      stopWork:
-          'Stop when isolation is uncertain or electrical equipment is damaged.',
-      emergency:
-          'Isolate the energy source safely and activate emergency response. Do not touch an energized casualty.',
-      reference:
-          'General HSE guidance; verify applicable UAE/emirate/project electrical requirements.',
+          'Stop movement in the affected area, protect the scene and activate the emergency response procedure.',
     ),
   ];
 
@@ -541,13 +580,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   List<_ReferenceTopic> _filteredTopics() {
     final query = _query.trim().toLowerCase();
 
-    if (query.isEmpty) {
-      return _topics;
-    }
-
     return _topics.where((topic) {
+      final categoryMatches = _selectedCategory == _GuidelineCategory.all ||
+          topic.category == _selectedCategory;
+
+      if (!categoryMatches) {
+        return false;
+      }
+
+      if (query.isEmpty) {
+        return true;
+      }
+
       final searchable = [
         topic.title,
+        topic.sourceLabel,
         topic.shortDescription,
         topic.overview,
         topic.hazards,
@@ -561,50 +608,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         topic.donts,
         topic.stopWork,
         topic.emergency,
-        topic.reference,
       ].join(' ').toLowerCase();
 
       return searchable.contains(query);
     }).toList();
-  }
-
-  String _categoryTitle(_GuidelineCategory category) {
-    switch (category) {
-      case _GuidelineCategory.uae:
-        return '🇦🇪 UAE SAFETY';
-      case _GuidelineCategory.abuDhabi:
-        return '🟣 ABU DHABI SAFETY';
-      case _GuidelineCategory.dubai:
-        return '🟠 DUBAI SAFETY';
-      case _GuidelineCategory.general:
-        return '🟢 GENERAL HSE';
-    }
-  }
-
-  String _categoryDescription(_GuidelineCategory category) {
-    switch (category) {
-      case _GuidelineCategory.uae:
-        return 'Federal / UAE-wide HSE requirements';
-      case _GuidelineCategory.abuDhabi:
-        return 'ADOSH-SF and Abu Dhabi-specific requirements';
-      case _GuidelineCategory.dubai:
-        return 'Dubai Municipality and Dubai-specific requirements';
-      case _GuidelineCategory.general:
-        return 'Practical HSE learning and general safety guidance';
-    }
-  }
-
-  Color _categoryColor(_GuidelineCategory category) {
-    switch (category) {
-      case _GuidelineCategory.uae:
-        return const Color(0xFF087A38);
-      case _GuidelineCategory.abuDhabi:
-        return const Color(0xFF5E35B1);
-      case _GuidelineCategory.dubai:
-        return const Color(0xFFE65100);
-      case _GuidelineCategory.general:
-        return const Color(0xFF087A38);
-    }
   }
 
   @override
@@ -626,16 +633,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
         children: [
           _buildIntroCard(),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
+          _buildCategorySelector(),
+          const SizedBox(height: 16),
           _buildSearchField(),
           const SizedBox(height: 22),
           _buildSectionHeader(
             searching ? 'SEARCH RESULTS' : 'HSE REFERENCE LIBRARY',
             searching
                 ? '${topics.length} topics found'
-                : '${topics.length} verified-structure topics',
+                : '${topics.length} practical HSE topics',
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           if (topics.isEmpty)
             _buildEmptyState()
           else
@@ -703,7 +712,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  'UAE-wide, Abu Dhabi and Dubai HSE guidance in separate reference sections.',
+                  'UAE-wide HSE learning and reference with separate Abu Dhabi and Dubai guidance.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.5,
@@ -714,6 +723,99 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategorySelector() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'REFERENCE SCOPE',
+          style: TextStyle(
+            color: Color(0xFF087A38),
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 9),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _categoryChip(
+                label: 'All',
+                category: _GuidelineCategory.all,
+                icon: Icons.apps_rounded,
+              ),
+              _categoryChip(
+                label: 'UAE General',
+                category: _GuidelineCategory.uaeGeneral,
+                icon: Icons.public_rounded,
+              ),
+              _categoryChip(
+                label: 'Abu Dhabi',
+                category: _GuidelineCategory.abuDhabi,
+                icon: Icons.location_city_rounded,
+              ),
+              _categoryChip(
+                label: 'Dubai',
+                category: _GuidelineCategory.dubai,
+                icon: Icons.apartment_rounded,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _categoryChip({
+    required String label,
+    required _GuidelineCategory category,
+    required IconData icon,
+  }) {
+    final selected = _selectedCategory == category;
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: ChoiceChip(
+        selected: selected,
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 17,
+              color: selected
+                  ? Colors.white
+                  : const Color(0xFF0B5D4B),
+            ),
+            const SizedBox(width: 6),
+            Text(label),
+          ],
+        ),
+        selectedColor: const Color(0xFF0B5D4B),
+        backgroundColor: Colors.white,
+        side: BorderSide(
+          color: selected
+              ? const Color(0xFF0B5D4B)
+              : Colors.grey.shade200,
+        ),
+        labelStyle: TextStyle(
+          color: selected
+              ? Colors.white
+              : const Color(0xFF333333),
+          fontWeight: FontWeight.w700,
+          fontSize: 12,
+        ),
+        onSelected: (_) {
+          setState(() {
+            _selectedCategory = category;
+          });
+        },
       ),
     );
   }
@@ -811,8 +913,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     int number,
     _ReferenceTopic topic,
   ) {
-    final categoryColor = _categoryColor(topic.category);
-
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       elevation: 0,
@@ -844,13 +944,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 height: 46,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: categoryColor.withValues(alpha: 0.10),
+                  color: const Color(0xFFE7F3EF),
                   borderRadius: BorderRadius.circular(13),
                 ),
                 child: Text(
                   '$number',
-                  style: TextStyle(
-                    color: categoryColor,
+                  style: const TextStyle(
+                    color: Color(0xFF0B5D4B),
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
                   ),
@@ -862,15 +962,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _categoryTitle(topic.category),
-                      style: TextStyle(
-                        color: categoryColor,
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
                       topic.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -879,7 +970,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
+                    _sourceBadge(topic.category),
+                    const SizedBox(height: 5),
                     Text(
                       topic.shortDescription,
                       maxLines: 2,
@@ -909,6 +1002,45 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
+  Widget _sourceBadge(_GuidelineCategory category) {
+    String label;
+
+    switch (category) {
+      case _GuidelineCategory.uaeGeneral:
+        label = 'UAE GENERAL';
+        break;
+      case _GuidelineCategory.abuDhabi:
+        label = 'ABU DHABI • ADOSH-SF';
+        break;
+      case _GuidelineCategory.dubai:
+        label = 'DUBAI • DUBAI MUNICIPALITY';
+        break;
+      case _GuidelineCategory.all:
+        label = 'UAE HSE';
+        break;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+        vertical: 4,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEAF5F0),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Color(0xFF0B5D4B),
+          fontSize: 9.5,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.3,
+        ),
+      ),
+    );
+  }
+
   Widget _buildEmptyState() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 48),
@@ -929,7 +1061,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Try another keyword.',
+            'Try another keyword or reference scope.',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xFF777777),
@@ -955,8 +1087,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoryColor = _categoryColor(topic.category);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
       appBar: AppBar(
@@ -974,7 +1104,7 @@ class GuidelineDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeroCard(categoryColor),
+            _buildHeroCard(),
             const SizedBox(height: 16),
 
             _infoCard(
@@ -1047,7 +1177,7 @@ class GuidelineDetailPage extends StatelessWidget {
               content: topic.emergency,
             ),
 
-            _referenceCard(categoryColor),
+            _referenceNote(),
 
             const SizedBox(height: 8),
 
@@ -1075,20 +1205,7 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Color _categoryColor(_GuidelineCategory category) {
-    switch (category) {
-      case _GuidelineCategory.uae:
-        return const Color(0xFF087A38);
-      case _GuidelineCategory.abuDhabi:
-        return const Color(0xFF5E35B1);
-      case _GuidelineCategory.dubai:
-        return const Color(0xFFE65100);
-      case _GuidelineCategory.general:
-        return const Color(0xFF087A38);
-    }
-  }
-
-  Widget _buildHeroCard(Color categoryColor) {
+  Widget _buildHeroCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -1110,134 +1227,59 @@ class GuidelineDetailPage extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: const BoxDecoration(
-              color: Color(0x22FFFFFF),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.shield_rounded,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: const BoxDecoration(
+                  color: Color(0x22FFFFFF),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.shield_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      topic.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      topic.sourceLabel,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            topic.shortDescription,
+            style: const TextStyle(
               color: Colors.white,
-              size: 30,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _categoryTitle(topic.category),
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  topic.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 7),
-                const Text(
-                  'HSE Learning & Reference',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  topic.shortDescription,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.5,
-                    height: 1.45,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _categoryTitle(_GuidelineCategory category) {
-    switch (category) {
-      case _GuidelineCategory.uae:
-        return '🇦🇪 UAE SAFETY';
-      case _GuidelineCategory.abuDhabi:
-        return '🟣 ABU DHABI SAFETY';
-      case _GuidelineCategory.dubai:
-        return '🟠 DUBAI SAFETY';
-      case _GuidelineCategory.general:
-        return '🟢 GENERAL HSE';
-    }
-  }
-
-  Widget _referenceCard(Color categoryColor) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: categoryColor.withValues(alpha: 0.25),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.library_books_outlined,
-            color: categoryColor,
-            size: 24,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Reference',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  topic.reference,
-                  style: const TextStyle(
-                    color: Color(0xFF666666),
-                    fontSize: 12,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Important: This app is a learning and practical reference tool. Always verify the latest official requirement before making a compliance decision.',
-                  style: TextStyle(
-                    color: Color(0xFF777777),
-                    fontSize: 11,
-                    height: 1.45,
-                  ),
-                ),
-              ],
+              fontSize: 12.5,
+              height: 1.45,
             ),
           ),
         ],
@@ -1359,6 +1401,72 @@ class GuidelineDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _referenceNote() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F7F5),
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(
+          color: const Color(0xFFD7E8E1),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.info_outline_rounded,
+            color: Color(0xFF0B5D4B),
+            size: 24,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Important HSE Reference Note',
+                  style: TextStyle(
+                    color: Color(0xFF0B5D4B),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Text(
+                  _referenceNoteText(),
+                  style: const TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _referenceNoteText() {
+    switch (topic.category) {
+      case _GuidelineCategory.uaeGeneral:
+        return 'This UAE General reference is intended for HSE learning and practical workplace awareness. It does not replace applicable UAE legislation, regulator requirements, approved Codes of Practice, standards, risk assessments, method statements, permits or project procedures.';
+
+      case _GuidelineCategory.abuDhabi:
+        return 'This section is an Abu Dhabi / ADOSH-SF reference for learning and practical workplace awareness. It does not replace the current applicable ADOSH-SF requirements, legislation, Codes of Practice, mechanisms, project procedures, risk assessments or permits. Always verify the latest official requirement before making a compliance decision.';
+
+      case _GuidelineCategory.dubai:
+        return 'This section is a Dubai / Dubai Municipality reference for learning and practical workplace awareness. It does not replace current Dubai legislation, the applicable Code of Construction Safety Practice, Dubai Municipality requirements, project procedures, risk assessments or permits. Always verify the latest official requirement before making a compliance decision.';
+
+      case _GuidelineCategory.all:
+        return 'This page is intended for HSE learning and practical workplace reference. Requirements can vary by emirate, activity and project. Always verify the latest applicable official requirement before making a compliance decision.';
+    }
   }
 
   Widget _doDontCard({
@@ -1517,12 +1625,24 @@ class GuidelineDetailPage extends StatelessWidget {
 }
 
 // ============================================================
+// ENUMS
+// ============================================================
+
+enum _GuidelineCategory {
+  all,
+  uaeGeneral,
+  abuDhabi,
+  dubai,
+}
+
+// ============================================================
 // DATA MODEL
 // ============================================================
 
 class _ReferenceTopic {
-  final _GuidelineCategory category;
   final String title;
+  final _GuidelineCategory category;
+  final String sourceLabel;
   final String shortDescription;
   final String overview;
   final String hazards;
@@ -1536,11 +1656,11 @@ class _ReferenceTopic {
   final String donts;
   final String stopWork;
   final String emergency;
-  final String reference;
 
   const _ReferenceTopic({
-    required this.category,
     required this.title,
+    required this.category,
+    required this.sourceLabel,
     required this.shortDescription,
     required this.overview,
     required this.hazards,
@@ -1554,6 +1674,5 @@ class _ReferenceTopic {
     required this.donts,
     required this.stopWork,
     required this.emergency,
-    required this.reference,
   });
 }
