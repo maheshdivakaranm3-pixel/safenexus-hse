@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'models/reference_topic.dart';
 import 'guideline_detail_page.dart';
 
+import 'data/uae_general_guidelines.dart';
+import 'data/abu_dhabi_guidelines.dart';
+import 'data/dubai_guidelines.dart';
+
 class GuidelinesPage extends StatefulWidget {
   const GuidelinesPage({super.key});
 
@@ -15,6 +19,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       TextEditingController();
 
   String _searchQuery = '';
+
   GuidelineCategory _selectedCategory =
       GuidelineCategory.all;
 
@@ -27,514 +32,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   static const Color pageBackground =
       Color(0xFFF6F8F7);
 
-  final List<ReferenceTopic> _topics = const [
-    ReferenceTopic(
-      id: 'accident_incident_reporting',
-      title: 'Accident & Incident Reporting',
-      shortTitle: 'Accident & Incident Reporting',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for reporting, recording, investigating and learning from workplace accidents, incidents, near misses and dangerous occurrences.',
-      keyRequirements: [
-        'Report workplace accidents and incidents promptly.',
-        'Record near misses and dangerous occurrences.',
-        'Preserve relevant evidence where required.',
-        'Conduct appropriate incident investigation.',
-        'Identify root and contributing causes.',
-        'Implement corrective and preventive actions.',
-      ],
-      safetyControls: [
-        'Establish a clear incident reporting procedure.',
-        'Ensure workers know who to notify.',
-        'Use an incident investigation process.',
-        'Track corrective actions to closure.',
-        'Share relevant lessons learned.',
-      ],
-      responsibilities: [
-        'Management must provide an effective reporting system.',
-        'Supervisors should ensure incidents are reported and controlled.',
-        'Workers should immediately report incidents and unsafe conditions.',
-        'HSE personnel should support investigation and corrective actions.',
-      ],
-      references: [
-        'UAE occupational health and safety requirements',
-        'Company HSE Management System',
-        'Applicable Emirate-specific requirements',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'confined_space',
-      title: 'Confined Space Safety',
-      shortTitle: 'Confined Space',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Safety guidance for work in tanks, vessels, pits, chambers and other spaces where hazardous atmospheres or restricted access may create serious risks.',
-      keyRequirements: [
-        'Identify and classify confined spaces.',
-        'Conduct a suitable risk assessment.',
-        'Use a confined space entry permit where required.',
-        'Test the atmosphere before and during entry.',
-        'Provide suitable ventilation.',
-        'Establish emergency rescue arrangements.',
-      ],
-      safetyControls: [
-        'Gas testing',
-        'Continuous atmospheric monitoring where necessary',
-        'Isolation and lockout',
-        'Forced ventilation',
-        'Standby attendant',
-        'Emergency rescue plan',
-        'Suitable PPE and respiratory protection where required',
-      ],
-      responsibilities: [
-        'Employers must provide safe systems of work.',
-        'Supervisors must verify controls before entry.',
-        'Authorized entrants must follow the entry procedure.',
-        'Standby personnel must maintain communication and initiate emergency response.',
-      ],
-      references: [
-        'UAE occupational safety requirements',
-        'Company Confined Space Procedure',
-        'Applicable permit-to-work system',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'construction_safety',
-      title: 'Construction Safety',
-      shortTitle: 'Construction Safety',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'General HSE guidance for construction activities including site access, work at height, lifting, excavation, temporary works, plant and equipment.',
-      keyRequirements: [
-        'Provide site-specific risk assessments.',
-        'Implement safe systems of work.',
-        'Control construction traffic.',
-        'Inspect plant and equipment.',
-        'Control high-risk activities through permits where applicable.',
-        'Provide competent supervision.',
-      ],
-      safetyControls: [
-        'Site induction',
-        'Risk assessment and method statement',
-        'Permit to work',
-        'Barricading and signage',
-        'PPE',
-        'Inspection and maintenance',
-        'Emergency preparedness',
-      ],
-      responsibilities: [
-        'Project management provides resources and safe systems.',
-        'Supervisors implement controls at work fronts.',
-        'Workers follow approved procedures and report hazards.',
-        'HSE teams monitor compliance and provide guidance.',
-      ],
-      references: [
-        'UAE construction HSE requirements',
-        'Project HSE Plan',
-        'Applicable Emirate requirements',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'electrical_safety',
-      title: 'Electrical Safety',
-      shortTitle: 'Electrical Safety',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for controlling electrical hazards including electric shock, arc flash, fire, damaged equipment and unauthorized electrical work.',
-      keyRequirements: [
-        'Electrical work must be carried out by competent persons.',
-        'Use suitable isolation procedures.',
-        'Protect cables and electrical equipment from damage.',
-        'Inspect portable electrical equipment.',
-        'Use appropriate residual-current protection where applicable.',
-        'Maintain safe clearances.',
-      ],
-      safetyControls: [
-        'Lockout/tagout',
-        'Electrical isolation',
-        'Inspection and testing',
-        'Proper earthing',
-        'Cable management',
-        'Suitable PPE',
-        'Restricted access to electrical rooms',
-      ],
-      responsibilities: [
-        'Management must ensure competent electrical personnel.',
-        'Supervisors must verify safe isolation.',
-        'Workers must not use defective equipment.',
-        'HSE personnel should monitor electrical safety controls.',
-      ],
-      references: [
-        'UAE electrical safety requirements',
-        'Applicable authority requirements',
-        'Company Electrical Safety Procedure',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'excavation_trenching',
-      title: 'Excavation & Trenching Safety',
-      shortTitle: 'Excavation & Trenching',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Safety guidance for excavation and trenching activities to prevent collapse, falls, underground service strikes and equipment-related incidents.',
-      keyRequirements: [
-        'Obtain required approvals before excavation.',
-        'Identify underground services.',
-        'Assess soil and ground conditions.',
-        'Provide suitable shoring, sloping or other protection.',
-        'Provide safe access and egress.',
-        'Keep spoil and equipment away from excavation edges.',
-      ],
-      safetyControls: [
-        'Excavation permit',
-        'Utility scanning',
-        'Barricading',
-        'Safe access',
-        'Shoring or sloping',
-        'Daily inspection',
-        'Water control',
-      ],
-      responsibilities: [
-        'Supervisors must inspect excavations.',
-        'Workers must remain within designated safe areas.',
-        'Plant operators must follow exclusion zones.',
-        'HSE personnel should verify excavation controls.',
-      ],
-      references: [
-        'UAE construction safety requirements',
-        'Project excavation procedure',
-        'Applicable utility authority requirements',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'fire_safety',
-      title: 'Fire Safety',
-      shortTitle: 'Fire Safety',
-      category: 'UAE General',
-      authority: 'UAE Civil Defence / Applicable Authority',
-      jurisdiction: 'UAE',
-      description:
-          'General workplace fire prevention and emergency preparedness guidance covering ignition sources, fire protection, evacuation and emergency response.',
-      keyRequirements: [
-        'Identify fire hazards.',
-        'Maintain suitable fire prevention measures.',
-        'Keep emergency exits clear.',
-        'Provide appropriate fire protection equipment.',
-        'Maintain emergency evacuation arrangements.',
-        'Conduct fire drills as required.',
-      ],
-      safetyControls: [
-        'Fire extinguishers',
-        'Fire alarm systems',
-        'Emergency exits',
-        'Hot work controls',
-        'Good housekeeping',
-        'Emergency lighting',
-        'Fire drills',
-      ],
-      responsibilities: [
-        'Management provides suitable fire protection arrangements.',
-        'Supervisors maintain clear escape routes.',
-        'Workers follow fire prevention procedures.',
-        'Emergency teams respond according to established plans.',
-      ],
-      references: [
-        'UAE Fire and Life Safety requirements',
-        'UAE Civil Defence requirements',
-        'Site Emergency Response Plan',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'heat_stress',
-      title: 'Heat Stress Management',
-      shortTitle: 'Heat Stress',
-      category: 'UAE General',
-      authority: 'UAE Labour / HSE Requirements',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for preventing heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work.',
-      keyRequirements: [
-        'Identify workers exposed to heat stress.',
-        'Provide adequate drinking water.',
-        'Provide suitable rest arrangements.',
-        'Implement heat stress awareness and training.',
-        'Schedule work appropriately during high-risk periods.',
-        'Recognize symptoms of heat-related illness.',
-      ],
-      safetyControls: [
-        'Potable drinking water',
-        'Shaded or cooled rest areas',
-        'Work-rest cycles',
-        'Heat stress monitoring',
-        'Worker acclimatization',
-        'Suitable PPE and clothing',
-        'Emergency response arrangements',
-      ],
-      responsibilities: [
-        'Management must implement a heat stress prevention programme.',
-        'Supervisors must monitor workers and environmental conditions.',
-        'Workers should maintain hydration and report symptoms.',
-        'HSE teams should monitor programme implementation.',
-      ],
-      references: [
-        'UAE Midday Break requirements where applicable',
-        'UAE occupational health and safety requirements',
-        'Company Heat Stress Management Plan',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'lifting_operations',
-      title: 'Lifting Operations',
-      shortTitle: 'Lifting Operations',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for safe crane, hoist and lifting operations including planning, equipment inspection, lifting accessories and exclusion zones.',
-      keyRequirements: [
-        'Plan lifting operations according to the risk.',
-        'Use competent lifting personnel.',
-        'Inspect lifting equipment and accessories.',
-        'Confirm load weight and centre of gravity.',
-        'Establish exclusion zones.',
-        'Use suitable communication methods.',
-      ],
-      safetyControls: [
-        'Lifting plan',
-        'Crane inspection',
-        'Lifting accessory inspection',
-        'Certified operators',
-        'Competent riggers',
-        'Banksman/signaller',
-        'Exclusion zone',
-      ],
-      responsibilities: [
-        'Lifting supervisors coordinate lifting operations.',
-        'Operators operate equipment safely.',
-        'Riggers connect and secure loads correctly.',
-        'HSE personnel monitor compliance.',
-      ],
-      references: [
-        'UAE lifting equipment requirements',
-        'Applicable equipment standards',
-        'Project lifting procedure',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'personal_protective_equipment',
-      title: 'Personal Protective Equipment',
-      shortTitle: 'PPE',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for selecting, providing, using, inspecting and maintaining personal protective equipment based on workplace hazards.',
-      keyRequirements: [
-        'PPE should be selected based on risk assessment.',
-        'Provide suitable PPE to workers.',
-        'Ensure correct fit and compatibility.',
-        'Train workers in correct use.',
-        'Inspect PPE before use.',
-        'Replace damaged or defective PPE.',
-      ],
-      safetyControls: [
-        'Hazard assessment',
-        'PPE selection',
-        'Worker training',
-        'Inspection',
-        'Maintenance',
-        'Replacement',
-        'PPE compliance monitoring',
-      ],
-      responsibilities: [
-        'Employers provide suitable PPE.',
-        'Supervisors enforce PPE requirements.',
-        'Workers correctly wear and maintain PPE.',
-        'HSE teams monitor PPE compliance.',
-      ],
-      references: [
-        'UAE occupational safety requirements',
-        'Company PPE Procedure',
-        'Applicable PPE standards',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'scaffolding_safety',
-      title: 'Scaffolding Safety',
-      shortTitle: 'Scaffolding',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for erection, inspection, modification and safe use of scaffolding systems used for temporary access and work platforms.',
-      keyRequirements: [
-        'Scaffolds must be erected by competent personnel.',
-        'Provide stable foundations.',
-        'Install suitable guardrails and toe boards.',
-        'Provide safe access.',
-        'Inspect scaffolds before use and after significant changes.',
-        'Clearly identify scaffold status.',
-      ],
-      safetyControls: [
-        'Competent erection',
-        'Base plates',
-        'Guardrails',
-        'Toe boards',
-        'Safe access',
-        'Scaffold inspection',
-        'Load control',
-      ],
-      responsibilities: [
-        'Scaffolders erect and modify scaffolds safely.',
-        'Supervisors prevent unauthorized modifications.',
-        'Workers use scaffolds correctly.',
-        'HSE personnel monitor scaffold condition.',
-      ],
-      references: [
-        'UAE construction safety requirements',
-        'Applicable scaffolding standards',
-        'Project scaffolding procedure',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'work_at_height',
-      title: 'Work at Height',
-      shortTitle: 'Work at Height',
-      category: 'UAE General',
-      authority: 'UAE HSE Practice',
-      jurisdiction: 'UAE',
-      description:
-          'Guidance for preventing falls from height during construction, maintenance, access and other elevated work activities.',
-      keyRequirements: [
-        'Avoid work at height where reasonably practicable.',
-        'Assess fall hazards before work.',
-        'Use suitable collective protection.',
-        'Provide safe access and work platforms.',
-        'Use fall protection systems where required.',
-        'Inspect equipment before use.',
-      ],
-      safetyControls: [
-        'Guardrails',
-        'Scaffolding',
-        'MEWPs',
-        'Fall arrest systems',
-        'Lifelines',
-        'Safe access',
-        'Exclusion zones',
-      ],
-      responsibilities: [
-        'Management provides safe systems.',
-        'Supervisors verify controls before work starts.',
-        'Workers use fall protection correctly.',
-        'HSE personnel inspect and monitor work-at-height activities.',
-      ],
-      references: [
-        'UAE occupational safety requirements',
-        'Project work-at-height procedure',
-        'Applicable access equipment standards',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'adosh_sf',
-      title: 'ADOSH-SF Occupational Safety & Health',
-      shortTitle: 'ADOSH-SF',
-      category: 'Abu Dhabi',
-      authority:
-          'Abu Dhabi Occupational Safety and Health Center',
-      jurisdiction: 'Abu Dhabi',
-      description:
-          'Reference information for occupational safety and health requirements applicable within the Abu Dhabi Emirate under the Abu Dhabi OSH framework.',
-      keyRequirements: [
-        'Implement applicable OSH management requirements.',
-        'Identify hazards and assess risks.',
-        'Maintain appropriate OSH documentation.',
-        'Provide competent supervision and training.',
-        'Report applicable incidents and occupational events.',
-        'Monitor compliance with applicable OSH requirements.',
-      ],
-      safetyControls: [
-        'OSH management system',
-        'Risk assessment',
-        'Training and competency',
-        'Inspection and audit',
-        'Incident reporting',
-        'Emergency preparedness',
-        'Corrective action tracking',
-      ],
-      responsibilities: [
-        'Employers must implement applicable OSH requirements.',
-        'Managers and supervisors are responsible for workplace controls.',
-        'Workers must follow safe work practices.',
-        'HSE professionals support implementation, monitoring and continual improvement.',
-      ],
-      references: [
-        'Abu Dhabi OSH System Framework',
-        'Applicable ADOSH-SF Codes of Practice',
-        'Relevant Abu Dhabi OSH regulatory requirements',
-      ],
-    ),
-
-    ReferenceTopic(
-      id: 'dubai_construction_safety',
-      title: 'Dubai Construction Safety',
-      shortTitle: 'Dubai Construction Safety',
-      category: 'Dubai',
-      authority:
-          'Dubai Municipality / Applicable Authority',
-      jurisdiction: 'Dubai',
-      description:
-          'Reference information for construction health and safety practices applicable to projects within the Emirate of Dubai.',
-      keyRequirements: [
-        'Comply with applicable Dubai construction requirements.',
-        'Implement project-specific HSE plans.',
-        'Control high-risk construction activities.',
-        'Provide competent supervision.',
-        'Maintain inspection and training records.',
-        'Report applicable incidents.',
-      ],
-      safetyControls: [
-        'Risk assessment',
-        'Method statements',
-        'Permit systems',
-        'Site inspection',
-        'Worker induction',
-        'Emergency preparedness',
-        'Corrective actions',
-      ],
-      responsibilities: [
-        'Project management provides resources and safe systems.',
-        'Supervisors implement controls.',
-        'Workers follow site procedures.',
-        'HSE teams monitor compliance.',
-      ],
-      references: [
-        'Dubai Municipality requirements',
-        'Applicable Dubai construction regulations',
-        'Project HSE Plan',
-      ],
-    ),
-  ];
+  /// All guideline data is maintained in separate files.
+  List<ReferenceTopic> get _topics => [
+        ...uaeGeneralGuidelines,
+        ...abuDhabiGuidelines,
+        ...dubaiGuidelines,
+      ];
 
   @override
   void dispose() {
@@ -609,8 +112,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       case 'dubai':
         return Icons.apartment;
 
-      default:
+      case 'uae':
+      case 'uae general':
         return Icons.flag_outlined;
+
+      default:
+        return Icons.security_outlined;
     }
   }
 
@@ -622,7 +129,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
+        padding:
+            const EdgeInsets.symmetric(
           horizontal: 3,
         ),
         child: Material(
@@ -649,7 +157,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   color: selected
                       ? primaryGreen
                       : Colors.grey.shade300,
-                  width: 1,
                 ),
               ),
               child: Center(
@@ -660,7 +167,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         MainAxisSize.min,
                     children: [
                       if (selected) ...[
-                        Icon(
+                        const Icon(
                           Icons.check,
                           size: 18,
                           color: Colors.white,
@@ -701,10 +208,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           final categories =
               GuidelineCategory.values;
 
-          // Four categories currently fit on normal
-          // phone screens. If more categories are
-          // added later, horizontal scrolling starts
-          // automatically.
           if (categories.length <= 4) {
             return Padding(
               padding:
@@ -787,9 +290,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                               size: 18,
                               color: Colors.white,
                             ),
-                            const SizedBox(
-                              width: 5,
-                            ),
+                            const SizedBox(width: 5),
                           ],
                           Text(
                             _categoryLabel(
@@ -823,7 +324,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
     return Scaffold(
       backgroundColor: pageBackground,
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor: primaryGreen,
@@ -835,13 +335,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
         ),
       ),
-
       body: SafeArea(
         child: Column(
           children: [
-            // --------------------------------------------------
-            // HEADER
-            // --------------------------------------------------
             Container(
               width: double.infinity,
               padding:
@@ -875,9 +371,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                           FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 6),
-
                   const Text(
                     'UAE-wide safety guidance and emirate-specific references',
                     style: TextStyle(
@@ -886,17 +380,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       height: 1.4,
                     ),
                   ),
-
                   const SizedBox(height: 16),
-
-                  // SEARCH
                   TextField(
                     controller:
                         _searchController,
                     onChanged: (value) {
                       setState(() {
-                        _searchQuery =
-                            value;
+                        _searchQuery = value;
                       });
                     },
                     textInputAction:
@@ -962,16 +452,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
             const SizedBox(height: 14),
 
-            // --------------------------------------------------
-            // CATEGORY SELECTOR
-            // --------------------------------------------------
             _buildCategorySelector(),
 
             const SizedBox(height: 10),
 
-            // --------------------------------------------------
-            // SECTION HEADER
-            // --------------------------------------------------
             Padding(
               padding:
                   const EdgeInsets.symmetric(
@@ -988,9 +472,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       color: darkGreen,
                     ),
                   ),
-
                   const Spacer(),
-
                   Text(
                     '${topics.length} topics',
                     style: TextStyle(
@@ -1006,9 +488,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
             const SizedBox(height: 8),
 
-            // --------------------------------------------------
-            // TOPIC LIST
-            // --------------------------------------------------
             Expanded(
               child: topics.isEmpty
                   ? _buildEmptyState()
@@ -1055,15 +534,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       shape:
           RoundedRectangleBorder(
         borderRadius:
-            BorderRadius.circular(
-          18,
-        ),
+            BorderRadius.circular(18),
       ),
       child: InkWell(
         borderRadius:
-            BorderRadius.circular(
-          18,
-        ),
+            BorderRadius.circular(18),
         onTap: () =>
             _openTopic(topic),
         child: Padding(
@@ -1073,7 +548,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
-              // ICON
               Container(
                 width: 52,
                 height: 52,
@@ -1100,7 +574,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const SizedBox(width: 14),
 
-              // CONTENT
               Expanded(
                 child: Column(
                   crossAxisAlignment:
@@ -1167,18 +640,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const SizedBox(width: 6),
 
-              // ARROW
               const Padding(
                 padding:
                     EdgeInsets.only(
                   top: 2,
                 ),
                 child: Icon(
-                  Icons
-                      .arrow_forward_ios,
+                  Icons.arrow_forward_ios,
                   size: 16,
-                  color:
-                      Colors.grey,
+                  color: Colors.grey,
                 ),
               ),
             ],
@@ -1228,9 +698,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     return Center(
       child: Padding(
         padding:
-            const EdgeInsets.all(
-          30,
-        ),
+            const EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center,
@@ -1241,11 +709,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               color:
                   Colors.grey.shade400,
             ),
-
-            const SizedBox(
-              height: 14,
-            ),
-
+            const SizedBox(height: 14),
             const Text(
               'No guidelines found',
               style: TextStyle(
@@ -1255,11 +719,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 color: darkGreen,
               ),
             ),
-
-            const SizedBox(
-              height: 7,
-            ),
-
+            const SizedBox(height: 7),
             Text(
               'Try another search term or category.',
               textAlign:
