@@ -1,51 +1,5 @@
 import 'package:flutter/material.dart';
-
-class ReferenceTopic {
-  final String title;
-  final String category;
-  final String sourceLabel;
-  final String copNumber;
-  final String version;
-  final String effectiveDate;
-
-  final String shortDescription;
-  final String overview;
-  final String hazards;
-  final String controls;
-  final String planning;
-  final String safePractices;
-  final String ppe;
-  final String checklist;
-  final String inspection;
-  final String dos;
-  final String donts;
-  final String stopWork;
-  final String emergency;
-  final String malayalam;
-
-  const ReferenceTopic({
-    required this.title,
-    required this.category,
-    required this.sourceLabel,
-    required this.copNumber,
-    required this.version,
-    required this.effectiveDate,
-    required this.shortDescription,
-    required this.overview,
-    required this.hazards,
-    required this.controls,
-    required this.planning,
-    required this.safePractices,
-    required this.ppe,
-    required this.checklist,
-    required this.inspection,
-    required this.dos,
-    required this.donts,
-    required this.stopWork,
-    required this.emergency,
-    required this.malayalam,
-  });
-}
+import 'guideline.dart';
 
 class GuidelineDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
@@ -76,7 +30,6 @@ class GuidelineDetailPage extends StatelessWidget {
           children: [
             _heroCard(),
             const SizedBox(height: 16),
-
             _officialReferenceCard(),
 
             _infoCard(
@@ -399,8 +352,7 @@ class GuidelineDetailPage extends StatelessWidget {
                     (item) => Padding(
                       padding: const EdgeInsets.only(bottom: 7),
                       child: Row(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
                             padding: EdgeInsets.only(top: 5),
@@ -481,8 +433,7 @@ class GuidelineDetailPage extends StatelessWidget {
             (item) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.check_box_outlined,
@@ -539,8 +490,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -592,8 +542,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'When to Stop Work',
@@ -643,8 +592,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Malayalam – പ്രധാന സുരക്ഷാ നിർദ്ദേശങ്ങൾ',
@@ -694,8 +642,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Important HSE Reference Note',
