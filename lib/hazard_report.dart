@@ -20,6 +20,7 @@ class _HazardReportPageState
   // Hazard reports and Safety Observations use the same
   // storage key so that the History screen can display
   // both types of reports together.
+
   static const String _storageKey =
       'safenexus_observations';
 
@@ -345,14 +346,6 @@ class _HazardReportPageState
 
       // --------------------------------------------------------
       // CREATE UNIFIED REPORT RECORD
-      // --------------------------------------------------------
-      //
-      // This record intentionally uses the same field names
-      // understood by ObservationHistoryPage.
-      //
-      // The "reportType" field tells History that this is a
-      // manually submitted Hazard Report rather than an AI
-      // Safety Observation.
       // --------------------------------------------------------
 
       final report =
@@ -768,8 +761,12 @@ class _HazardReportPageState
             const EdgeInsets.all(16),
         child: DropdownButtonFormField<
             String>(
-          initialValue:
+          // Flutter 3.19 compatibility:
+          // use value instead of initialValue.
+
+          value:
               _severity,
+
           decoration:
               const InputDecoration(
             labelText:
@@ -847,8 +844,12 @@ class _HazardReportPageState
 
             DropdownButtonFormField<
                 String>(
-              initialValue:
+              // Flutter 3.19 compatibility:
+              // use value instead of initialValue.
+
+              value:
                   _category,
+
               decoration:
                   const InputDecoration(
                 labelText:
@@ -891,8 +892,12 @@ class _HazardReportPageState
 
             DropdownButtonFormField<
                 String>(
-              initialValue:
+              // Flutter 3.19 compatibility:
+              // use value instead of initialValue.
+
+              value:
                   _hazardType,
+
               decoration:
                   const InputDecoration(
                 labelText:
