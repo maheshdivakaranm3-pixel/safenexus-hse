@@ -8,20 +8,36 @@ import 'data/abu_dhabi_guidelines.dart';
 import 'data/dubai_guidelines.dart';
 
 class GuidelinesPage extends StatefulWidget {
-  const GuidelinesPage({super.key});
+  const GuidelinesPage({
+    super.key,
+  });
 
   @override
-  State<GuidelinesPage> createState() => _GuidelinesPageState();
+  State<GuidelinesPage> createState() =>
+      _GuidelinesPageState();
 }
 
-class _GuidelinesPageState extends State<GuidelinesPage> {
+class _GuidelinesPageState
+    extends State<GuidelinesPage> {
+  // ============================================================
+  // CONTROLLERS
+  // ============================================================
+
   final TextEditingController _searchController =
       TextEditingController();
+
+  // ============================================================
+  // STATE
+  // ============================================================
 
   String _searchQuery = '';
 
   GuidelineCategory _selectedCategory =
       GuidelineCategory.all;
+
+  // ============================================================
+  // COLORS
+  // ============================================================
 
   static const Color primaryGreen =
       Color(0xFF159447);
@@ -32,12 +48,31 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   static const Color pageBackground =
       Color(0xFFF6F8F7);
 
-  /// All guideline data is maintained in separate files.
-  List<ReferenceTopic> get _topics => [
-        ...uaeGeneralGuidelines,
-        ...abuDhabiGuidelines,
-        ...dubaiGuidelines,
-      ];
+  // ============================================================
+  // ALL TOPICS
+  //
+  // IMPORTANT:
+  // Guideline content remains in separate data files.
+  //
+  // UAE General
+  // Abu Dhabi
+  // Dubai
+  //
+  // Future emirates can be added without rewriting the
+  // guideline detail UI.
+  // ============================================================
+
+  List<ReferenceTopic> get _topics {
+    return [
+      ...uaeGeneralGuidelines,
+      ...abuDhabiGuidelines,
+      ...dubaiGuidelines,
+    ];
+  }
+
+  // ============================================================
+  // DISPOSE
+  // ============================================================
 
   @override
   void dispose() {
@@ -45,46 +80,78 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     super.dispose();
   }
 
+  // ============================================================
+  // FILTERED TOPICS
+  // ============================================================
+
   List<ReferenceTopic> get _filteredTopics {
-    final query = _searchQuery.trim().toLowerCase();
+    final query =
+        _searchQuery.trim().toLowerCase();
 
-    return _topics.where((topic) {
-      final matchesCategory =
-          _selectedCategory == GuidelineCategory.all ||
-              topic.guidelineCategory ==
-                  _selectedCategory;
+    return _topics.where(
+      (topic) {
+        // ------------------------------------------------------
+        // CATEGORY
+        // ------------------------------------------------------
 
-      final matchesSearch =
-          query.isEmpty ||
-              topic.title
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.shortTitle
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.description
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.category
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.authority
-                  .toLowerCase()
-                  .contains(query);
+        final matchesCategory =
+            _selectedCategory ==
+                    GuidelineCategory.all ||
+                topic.guidelineCategory ==
+                    _selectedCategory;
 
-      return matchesCategory && matchesSearch;
-    }).toList();
+        // ------------------------------------------------------
+        // SEARCH
+        // ------------------------------------------------------
+
+        final matchesSearch =
+            query.isEmpty ||
+                topic.title
+                    .toLowerCase()
+                    .contains(query) ||
+                topic.shortTitle
+                    .toLowerCase()
+                    .contains(query) ||
+                topic.description
+                    .toLowerCase()
+                    .contains(query) ||
+                topic.category
+                    .toLowerCase()
+                    .contains(query) ||
+                topic.authority
+                    .toLowerCase()
+                    .contains(query) ||
+                topic.jurisdiction
+                    .toLowerCase()
+                    .contains(query);
+
+        return matchesCategory &&
+            matchesSearch;
+      },
+    ).toList();
   }
 
-  void _openTopic(ReferenceTopic topic) {
+  // ============================================================
+  // OPEN DETAIL PAGE
+  // ============================================================
+
+  void _openTopic(
+    ReferenceTopic topic,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) =>
-            GuidelineDetailPage(topic: topic),
+            GuidelineDetailPage(
+          topic: topic,
+        ),
       ),
     );
   }
+
+  // ============================================================
+  // CATEGORY LABEL
+  // ============================================================
 
   String _categoryLabel(
     GuidelineCategory category,
@@ -104,8 +171,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     }
   }
 
-  IconData _categoryIcon(String category) {
-    switch (category.toLowerCase()) {
+  // ============================================================
+  // CATEGORY ICON
+  // ============================================================
+
+  IconData _categoryIcon(
+    String category,
+  ) {
+    switch (category
+        .trim()
+        .toLowerCase()) {
       case 'abu dhabi':
         return Icons.location_city;
 
@@ -121,235 +196,188 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     }
   }
 
-  Widget _buildCategoryButton(
-    GuidelineCategory category,
-  ) {
-    final selected =
-        _selectedCategory == category;
-
-    return Expanded(
-      child: Padding(
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 3,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius:
-                BorderRadius.circular(14),
-            onTap: () {
-              setState(() {
-                _selectedCategory = category;
-              });
-            },
-            child: AnimatedContainer(
-              duration:
-                  const Duration(milliseconds: 180),
-              height: 46,
-              decoration: BoxDecoration(
-                color: selected
-                    ? primaryGreen
-                    : Colors.white,
-                borderRadius:
-                    BorderRadius.circular(14),
-                border: Border.all(
-                  color: selected
-                      ? primaryGreen
-                      : Colors.grey.shade300,
-                ),
-              ),
-              child: Center(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    mainAxisSize:
-                        MainAxisSize.min,
-                    children: [
-                      if (selected) ...[
-                        const Icon(
-                          Icons.check,
-                          size: 18,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 5),
-                      ],
-                      Text(
-                        _categoryLabel(category),
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: selected
-                              ? Colors.white
-                              : darkGreen,
-                          fontSize: 14,
-                          fontWeight:
-                              FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // ============================================================
+  // CATEGORY SELECTOR
+  // ============================================================
 
   Widget _buildCategorySelector() {
+    final categories =
+        GuidelineCategory.values;
+
     return SizedBox(
       height: 50,
-      child: LayoutBuilder(
-        builder: (
-          context,
-          constraints,
-        ) {
-          final categories =
-              GuidelineCategory.values;
-
-          if (categories.length <= 4) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 13,
-              ),
-              child: Row(
-                children: [
-                  for (final category in categories)
-                    _buildCategoryButton(
-                      category,
-                    ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding:
-                const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            physics:
-                const BouncingScrollPhysics(),
-            itemCount: categories.length,
-            separatorBuilder: (
-              context,
-              index,
-            ) =>
-                const SizedBox(width: 8),
-            itemBuilder: (
-              context,
-              index,
-            ) {
-              final category =
-                  categories[index];
-
-              final selected =
-                  _selectedCategory ==
-                      category;
-
-              return Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius:
-                      BorderRadius.circular(14),
-                  onTap: () {
-                    setState(() {
-                      _selectedCategory =
-                          category;
-                    });
-                  },
-                  child: Container(
-                    height: 46,
-                    padding:
-                        const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: selected
-                          ? primaryGreen
-                          : Colors.white,
-                      borderRadius:
-                          BorderRadius.circular(14),
-                      border: Border.all(
-                        color: selected
-                            ? primaryGreen
-                            : Colors.grey.shade300,
-                      ),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize:
-                            MainAxisSize.min,
-                        children: [
-                          if (selected) ...[
-                            const Icon(
-                              Icons.check,
-                              size: 18,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 5),
-                          ],
-                          Text(
-                            _categoryLabel(
-                              category,
-                            ),
-                            style: TextStyle(
-                              color: selected
-                                  ? Colors.white
-                                  : darkGreen,
-                              fontWeight:
-                                  FontWeight.w700,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
+      child: ListView.separated(
+        scrollDirection:
+            Axis.horizontal,
+        padding:
+            const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
+        physics:
+            const BouncingScrollPhysics(),
+        itemCount:
+            categories.length,
+        separatorBuilder:
+            (_, __) =>
+                const SizedBox(
+          width: 8,
+        ),
+        itemBuilder:
+            (context, index) {
+          return _buildCategoryButton(
+            categories[index],
           );
         },
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final topics = _filteredTopics;
+  // ============================================================
+  // CATEGORY BUTTON
+  // ============================================================
 
-    // Android edge-to-edge / gesture navigation safe area.
-    // We intentionally read viewPadding BEFORE any SafeArea
-    // can consume the bottom inset.
-    final double bottomSafeSpace =
-        MediaQuery.of(context).viewPadding.bottom;
+  Widget _buildCategoryButton(
+    GuidelineCategory category,
+  ) {
+    final selected =
+        _selectedCategory ==
+            category;
+
+    return Material(
+      color:
+          Colors.transparent,
+      child: InkWell(
+        borderRadius:
+            BorderRadius.circular(
+          14,
+        ),
+        onTap: () {
+          setState(() {
+            _selectedCategory =
+                category;
+          });
+        },
+        child: AnimatedContainer(
+          duration:
+              const Duration(
+            milliseconds: 180,
+          ),
+          height: 46,
+          padding:
+              const EdgeInsets.symmetric(
+            horizontal: 15,
+          ),
+          decoration:
+              BoxDecoration(
+            color: selected
+                ? primaryGreen
+                : Colors.white,
+            borderRadius:
+                BorderRadius.circular(
+              14,
+            ),
+            border:
+                Border.all(
+              color: selected
+                  ? primaryGreen
+                  : Colors.grey.shade300,
+            ),
+          ),
+          child: Center(
+            child: Row(
+              mainAxisSize:
+                  MainAxisSize.min,
+              children: [
+                if (selected) ...[
+                  const Icon(
+                    Icons.check,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                ],
+                Text(
+                  _categoryLabel(
+                    category,
+                  ),
+                  maxLines: 1,
+                  overflow:
+                      TextOverflow
+                          .ellipsis,
+                  style:
+                      TextStyle(
+                    color: selected
+                        ? Colors.white
+                        : darkGreen,
+                    fontSize: 14,
+                    fontWeight:
+                        FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // BUILD
+  // ============================================================
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    final topics =
+        _filteredTopics;
+
+    final bottomSafeSpace =
+        MediaQuery.of(context)
+            .viewPadding
+            .bottom;
 
     return Scaffold(
-      backgroundColor: pageBackground,
+      backgroundColor:
+          pageBackground,
+
+      // ========================================================
+      // APP BAR
+      // ========================================================
 
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: primaryGreen,
-        foregroundColor: Colors.white,
-        title: const Text(
+        backgroundColor:
+            primaryGreen,
+        foregroundColor:
+            Colors.white,
+        title:
+            const Text(
           'UAE HSE Guidelines',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style:
+              TextStyle(
+            fontWeight:
+                FontWeight.bold,
           ),
         ),
       ),
 
+      // ========================================================
+      // BODY
+      // ========================================================
+
       body: Column(
         children: [
-          // =====================================================
+          // ======================================================
           // HEADER
-          // =====================================================
+          // ======================================================
+
           Container(
-            width: double.infinity,
+            width:
+                double.infinity,
             padding:
                 const EdgeInsets.fromLTRB(
               16,
@@ -359,76 +387,97 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
             decoration:
                 const BoxDecoration(
-              color: primaryGreen,
+              color:
+                  primaryGreen,
               borderRadius:
                   BorderRadius.only(
                 bottomLeft:
-                    Radius.circular(24),
+                    Radius.circular(
+                  24,
+                ),
                 bottomRight:
-                    Radius.circular(24),
+                    Radius.circular(
+                  24,
+                ),
               ),
             ),
-            child: Column(
+            child:
+                Column(
               crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  CrossAxisAlignment
+                      .start,
               children: [
                 const Text(
                   'Professional HSE Reference',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
+                  style:
+                      TextStyle(
+                    color:
+                        Colors.white,
+                    fontSize:
+                        22,
                     fontWeight:
                         FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(
+                  height: 6,
+                ),
 
                 const Text(
                   'UAE-wide safety guidance and emirate-specific references',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                    height: 1.4,
+                  style:
+                      TextStyle(
+                    color:
+                        Colors.white70,
+                    fontSize:
+                        14,
+                    height:
+                        1.4,
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(
+                  height: 16,
+                ),
+
+                // ==============================================
+                // SEARCH
+                // ==============================================
 
                 TextField(
                   controller:
                       _searchController,
-
-                  onChanged: (value) {
+                  onChanged:
+                      (value) {
                     setState(() {
-                      _searchQuery = value;
+                      _searchQuery =
+                          value;
                     });
                   },
-
                   textInputAction:
                       TextInputAction.search,
-
                   decoration:
                       InputDecoration(
                     hintText:
                         'Search HSE guidelines...',
-
                     hintStyle:
                         TextStyle(
                       color:
                           Colors.grey.shade600,
                     ),
-
                     prefixIcon:
                         const Icon(
                       Icons.search,
-                      size: 28,
+                      size:
+                          28,
                     ),
-
                     suffixIcon:
                         _searchQuery
                                 .isNotEmpty
                             ? IconButton(
+                                tooltip:
+                                    'Clear search',
                                 icon:
                                     const Icon(
                                   Icons.clear,
@@ -438,26 +487,27 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                                   _searchController
                                       .clear();
 
-                                  setState(() {
-                                    _searchQuery =
-                                        '';
-                                  });
+                                  setState(
+                                    () {
+                                      _searchQuery =
+                                          '';
+                                    },
+                                  );
                                 },
                               )
                             : null,
-
-                    filled: true,
-
+                    filled:
+                        true,
                     fillColor:
                         Colors.white,
-
                     contentPadding:
                         const EdgeInsets
                             .symmetric(
-                      vertical: 16,
-                      horizontal: 16,
+                      vertical:
+                          16,
+                      horizontal:
+                          16,
                     ),
-
                     border:
                         OutlineInputBorder(
                       borderRadius:
@@ -474,32 +524,43 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(
+            height: 14,
+          ),
 
-          // =====================================================
-          // CATEGORY SELECTOR
-          // =====================================================
+          // ======================================================
+          // CATEGORY FILTER
+          // ======================================================
+
           _buildCategorySelector(),
 
-          const SizedBox(height: 10),
+          const SizedBox(
+            height: 10,
+          ),
 
-          // =====================================================
-          // TITLE + COUNT
-          // =====================================================
+          // ======================================================
+          // LIST HEADER
+          // ======================================================
+
           Padding(
             padding:
-                const EdgeInsets.symmetric(
+                const EdgeInsets
+                    .symmetric(
               horizontal: 16,
             ),
-            child: Row(
+            child:
+                Row(
               children: [
                 const Text(
                   'Guidelines',
-                  style: TextStyle(
-                    fontSize: 19,
+                  style:
+                      TextStyle(
+                    fontSize:
+                        19,
                     fontWeight:
                         FontWeight.bold,
-                    color: darkGreen,
+                    color:
+                        darkGreen,
                   ),
                 ),
 
@@ -507,7 +568,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                 Text(
                   '${topics.length} topics',
-                  style: TextStyle(
+                  style:
+                      TextStyle(
                     color:
                         Colors.grey.shade700,
                     fontWeight:
@@ -518,48 +580,51 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(
+            height: 8,
+          ),
 
-          // =====================================================
+          // ======================================================
           // GUIDELINE LIST
-          // =====================================================
+          // ======================================================
+
           Expanded(
-            child: topics.isEmpty
-                ? _buildEmptyState()
-                : ListView.builder(
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior
-                            .onDrag,
-
-                    // IMPORTANT:
-                    // Extra bottom space is calculated from
-                    // Android's real navigation/gesture inset.
-                    //
-                    // This prevents the last card from hiding
-                    // behind the Android navigation bar.
-                    padding:
-                        EdgeInsets.fromLTRB(
-                      16,
-                      4,
-                      16,
-                      bottomSafeSpace + 40,
-                    ),
-
-                    itemCount:
-                        topics.length,
-
-                    itemBuilder:
-                        (context, index) {
-                      return _buildTopicCard(
-                        topics[index],
-                      );
-                    },
-                  ),
+            child:
+                topics.isEmpty
+                    ? _buildEmptyState()
+                    : ListView.builder(
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior
+                                .onDrag,
+                        padding:
+                            EdgeInsets.fromLTRB(
+                          16,
+                          4,
+                          16,
+                          bottomSafeSpace +
+                              40,
+                        ),
+                        itemCount:
+                            topics.length,
+                        itemBuilder:
+                            (
+                          context,
+                          index,
+                        ) {
+                          return _buildTopicCard(
+                            topics[index],
+                          );
+                        },
+                      ),
           ),
         ],
       ),
     );
   }
+
+  // ============================================================
+  // TOPIC CARD
+  // ============================================================
 
   Widget _buildTopicCard(
     ReferenceTopic topic,
@@ -569,95 +634,105 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           const EdgeInsets.only(
         bottom: 12,
       ),
-
       elevation: 1.5,
-
-      color: Colors.white,
-
+      color:
+          Colors.white,
       shadowColor:
           Colors.black12,
-
       shape:
           RoundedRectangleBorder(
         borderRadius:
-            BorderRadius.circular(18),
+            BorderRadius.circular(
+          18,
+        ),
       ),
-
-      child: InkWell(
+      child:
+          InkWell(
         borderRadius:
-            BorderRadius.circular(18),
-
-        onTap: () =>
-            _openTopic(topic),
-
-        child: Padding(
+            BorderRadius.circular(
+          18,
+        ),
+        onTap:
+            () => _openTopic(
+          topic,
+        ),
+        child:
+            Padding(
           padding:
-              const EdgeInsets.all(16),
-
-          child: Row(
+              const EdgeInsets.all(
+            16,
+          ),
+          child:
+              Row(
             crossAxisAlignment:
-                CrossAxisAlignment.start,
-
+                CrossAxisAlignment
+                    .start,
             children: [
-              // =================================================
+              // ==================================================
               // ICON
-              // =================================================
-              Container(
-                width: 52,
-                height: 52,
+              // ==================================================
 
+              Container(
+                width:
+                    52,
+                height:
+                    52,
                 decoration:
                     BoxDecoration(
                   color:
-                      primaryGreen.withValues(
-                    alpha: 0.10,
+                      primaryGreen
+                          .withValues(
+                    alpha:
+                        0.10,
                   ),
-
                   borderRadius:
                       BorderRadius.circular(
                     14,
                   ),
                 ),
-
-                child: Icon(
+                child:
+                    Icon(
                   _categoryIcon(
                     topic.category,
                   ),
-
                   color:
                       primaryGreen,
-
-                  size: 27,
+                  size:
+                      27,
                 ),
               ),
 
-              const SizedBox(width: 14),
+              const SizedBox(
+                width: 14,
+              ),
 
-              // =================================================
+              // ==================================================
               // CONTENT
-              // =================================================
+              // ==================================================
+
               Expanded(
-                child: Column(
+                child:
+                    Column(
                   crossAxisAlignment:
                       CrossAxisAlignment
                           .start,
-
                   children: [
                     Text(
                       topic.title,
-
-                      maxLines: 2,
-
+                      maxLines:
+                          2,
                       overflow:
                           TextOverflow
                               .ellipsis,
-
                       style:
                           const TextStyle(
-                        fontSize: 16,
-                        height: 1.25,
+                        fontSize:
+                            16,
+                        height:
+                            1.25,
                         fontWeight:
-                            FontWeight.bold,
+                            FontWeight
+                                .bold,
                         color:
                             darkGreen,
                       ),
@@ -669,18 +744,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                     Text(
                       topic.description,
-
-                      maxLines: 3,
-
+                      maxLines:
+                          3,
                       overflow:
                           TextOverflow
                               .ellipsis,
-
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: 1.35,
+                      style:
+                          TextStyle(
+                        fontSize:
+                            13,
+                        height:
+                            1.35,
                         color:
-                            Colors.grey
+                            Colors
+                                .grey
                                 .shade700,
                       ),
                     ),
@@ -689,16 +766,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       height: 10,
                     ),
 
-                    Wrap(
-                      spacing: 7,
-                      runSpacing: 5,
+                    // ==========================================
+                    // TAGS
+                    // ==========================================
 
+                    Wrap(
+                      spacing:
+                          7,
+                      runSpacing:
+                          5,
                       children: [
                         _buildTag(
                           topic.category,
                           primaryGreen,
                         ),
-
                         _buildTag(
                           topic.jurisdiction,
                           Colors.blueGrey,
@@ -709,21 +790,27 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
               ),
 
-              const SizedBox(width: 6),
+              const SizedBox(
+                width: 6,
+              ),
 
-              // =================================================
+              // ==================================================
               // ARROW
-              // =================================================
+              // ==================================================
+
               const Padding(
                 padding:
                     EdgeInsets.only(
                   top: 2,
                 ),
-
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: Colors.grey,
+                child:
+                    Icon(
+                  Icons
+                      .arrow_forward_ios,
+                  size:
+                      16,
+                  color:
+                      Colors.grey,
                 ),
               ),
             ],
@@ -733,41 +820,48 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
+  // ============================================================
+  // TAG
+  // ============================================================
+
   Widget _buildTag(
     String text,
     Color color,
   ) {
     return Container(
+      constraints:
+          const BoxConstraints(
+        maxWidth: 150,
+      ),
       padding:
           const EdgeInsets.symmetric(
         horizontal: 9,
         vertical: 5,
       ),
-
       decoration:
           BoxDecoration(
         color:
             color.withValues(
           alpha: 0.09,
         ),
-
         borderRadius:
             BorderRadius.circular(
           20,
         ),
       ),
-
-      child: Text(
+      child:
+          Text(
         text,
-
-        maxLines: 1,
-
+        maxLines:
+            1,
         overflow:
             TextOverflow.ellipsis,
-
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
+        style:
+            TextStyle(
+          color:
+              color,
+          fontSize:
+              11,
           fontWeight:
               FontWeight.w700,
         ),
@@ -775,47 +869,63 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
+  // ============================================================
+  // EMPTY STATE
+  // ============================================================
+
   Widget _buildEmptyState() {
     return Center(
-      child: Padding(
+      child:
+          Padding(
         padding:
-            const EdgeInsets.all(30),
-
-        child: Column(
+            const EdgeInsets.all(
+          30,
+        ),
+        child:
+            Column(
           mainAxisAlignment:
-              MainAxisAlignment.center,
-
+              MainAxisAlignment
+                  .center,
           children: [
             Icon(
               Icons.search_off,
-              size: 64,
+              size:
+                  64,
               color:
-                  Colors.grey.shade400,
+                  Colors.grey
+                      .shade400,
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
 
             const Text(
               'No guidelines found',
-              style: TextStyle(
-                fontSize: 19,
+              style:
+                  TextStyle(
+                fontSize:
+                    19,
                 fontWeight:
                     FontWeight.bold,
-                color: darkGreen,
+                color:
+                    darkGreen,
               ),
             ),
 
-            const SizedBox(height: 7),
+            const SizedBox(
+              height: 7,
+            ),
 
             Text(
               'Try another search term or category.',
-
               textAlign:
                   TextAlign.center,
-
-              style: TextStyle(
+              style:
+                  TextStyle(
                 color:
-                    Colors.grey.shade600,
+                    Colors.grey
+                        .shade600,
               ),
             ),
           ],
