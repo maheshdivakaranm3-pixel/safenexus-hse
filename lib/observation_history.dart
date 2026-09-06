@@ -44,7 +44,6 @@ class _ObservationHistoryPageState
   @override
   void initState() {
     super.initState();
-
     _loadReports();
   }
 
@@ -87,10 +86,6 @@ class _ObservationHistoryPageState
             decoded,
           );
 
-          // ------------------------------------------------------
-          // Ignore empty/corrupted records.
-          // ------------------------------------------------------
-
           final id =
               _stringValue(
             report['id'],
@@ -100,24 +95,13 @@ class _ObservationHistoryPageState
             continue;
           }
 
-          // ------------------------------------------------------
-          // Normalize old records so that records created by
-          // different versions of the app can still be displayed.
-          // ------------------------------------------------------
-
           _normalizeReport(report);
 
           loadedReports.add(report);
         } catch (_) {
-          // Ignore only the corrupted record.
-          // Do not crash the entire History screen.
-          continue;
+          // Ignore corrupted individual records.
         }
       }
-
-      // ----------------------------------------------------------
-      // Sort newest first.
-      // ----------------------------------------------------------
 
       loadedReports.sort(
         (a, b) {
@@ -136,15 +120,14 @@ class _ObservationHistoryPageState
       setState(() {
         _reports =
             loadedReports;
-
         _loading = false;
       });
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
 
       setState(() {
-        _reports = <Map<String, dynamic>>[];
-
+        _reports =
+            <Map<String, dynamic>>[];
         _loading = false;
       });
 
@@ -162,10 +145,6 @@ class _ObservationHistoryPageState
   void _normalizeReport(
     Map<String, dynamic> report,
   ) {
-    // ----------------------------------------------------------
-    // Determine report type.
-    // ----------------------------------------------------------
-
     final existingType =
         _stringValue(
       report['reportType'],
@@ -184,7 +163,7 @@ class _ObservationHistoryPageState
 
       if (observationType
           .toLowerCase()
-          .contains('hazard report')) {
+          .contains('hazard')) {
         report['reportType'] =
             'Hazard Report';
       } else {
@@ -193,19 +172,14 @@ class _ObservationHistoryPageState
       }
     }
 
-    // ----------------------------------------------------------
-    // Normalize date.
-    // ----------------------------------------------------------
-
     final date =
         _dateFromReport(report);
 
-    report['submittedAt'] =
-        date.toIso8601String();
-
-    // ----------------------------------------------------------
-    // Normalize common fields.
-    // ----------------------------------------------------------
+    if (date.millisecondsSinceEpoch !=
+        0) {
+      report['submittedAt'] =
+          date.toIso8601String();
+    }
 
     if (_stringValue(
           report['riskLevel'],
@@ -237,30 +211,26 @@ class _ObservationHistoryPageState
       );
     }
 
-    if (_stringValue(
-          report['description'],
-        ).isEmpty) {
-      report['description'] = '';
-    }
+    report['description'] =
+        _stringValue(
+      report['description'],
+    );
 
-    if (_stringValue(
-          report['location'],
-        ).isEmpty) {
-      report['location'] = '';
-    }
+    report['location'] =
+        _stringValue(
+      report['location'],
+    );
 
-    if (_stringValue(
-          report['photoPath'],
-        ).isEmpty) {
-      report['photoPath'] = '';
-    }
+    report['photoPath'] =
+        _stringValue(
+      report['photoPath'],
+    );
 
-    if (_stringValue(
-          report['status'],
-        ).isEmpty) {
-      report['status'] =
-          'Open';
-    }
+    report['status'] =
+        _stringValue(
+      report['status'],
+      fallback: 'Open',
+    );
   }
 
   // ============================================================
@@ -273,8 +243,9 @@ class _ObservationHistoryPageState
     final normalized =
         value.trim().toLowerCase();
 
-    if (normalized
-        .contains('hazard')) {
+    if (normalized.contains(
+      'hazard',
+    )) {
       return 'Hazard Report';
     }
 
@@ -294,7 +265,8 @@ class _ObservationHistoryPageState
       report['createdAt'],
     ];
 
-    for (final candidate in candidates) {
+    for (final candidate
+        in candidates) {
       final text =
           _stringValue(candidate);
 
@@ -310,9 +282,8 @@ class _ObservationHistoryPageState
       }
     }
 
-    return DateTime.fromMillisecondsSinceEpoch(
-      0,
-    );
+    return DateTime
+        .fromMillisecondsSinceEpoch(0);
   }
 
   // ============================================================
@@ -401,13 +372,14 @@ class _ObservationHistoryPageState
         backgroundColor: error
             ? Colors.red.shade700
             : Colors.green.shade700,
-        content: Text(message),
+        content:
+            Text(message),
       ),
     );
   }
 
   // ============================================================
-  // DELETE
+  // DELETE REPORT
   // ============================================================
 
   Future<void> _deleteReport(
@@ -425,7 +397,8 @@ class _ObservationHistoryPageState
     final confirmed =
         await showDialog<bool>(
       context: context,
-      builder: (dialogContext) {
+      builder:
+          (dialogContext) {
         return AlertDialog(
           title:
               const Text(
@@ -489,6 +462,7 @@ class _ObservationHistoryPageState
               jsonDecode(raw);
 
           if (decoded is! Map) {
+            updated.add(raw);
             continue;
           }
 
@@ -506,8 +480,6 @@ class _ObservationHistoryPageState
             updated.add(raw);
           }
         } catch (_) {
-          // Preserve unrelated records even if one old record
-          // cannot be decoded.
           updated.add(raw);
         }
       }
@@ -516,10 +488,6 @@ class _ObservationHistoryPageState
         _storageKey,
         updated,
       );
-
-      // ----------------------------------------------------------
-      // Delete local photo if one exists.
-      // ----------------------------------------------------------
 
       final photoPath =
           _stringValue(
@@ -534,10 +502,7 @@ class _ObservationHistoryPageState
           if (await file.exists()) {
             await file.delete();
           }
-        } catch (_) {
-          // History deletion should still succeed even if the
-          // image file cannot be removed.
-        }
+        } catch (_) {}
       }
 
       if (!mounted) return;
@@ -564,7 +529,7 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // SHARE
+  // SHARE REPORT
   // ============================================================
 
   Future<void> _shareReport(
@@ -604,6 +569,8 @@ class _ObservationHistoryPageState
     final id =
         _stringValue(
       report['id'],
+      fallback:
+          'N/A',
     );
 
     final date =
@@ -660,36 +627,41 @@ class _ObservationHistoryPageState
           'Open',
     );
 
-    final ai =
-        report['aiAnalysis'];
-
     String aiSummary = '';
 
-    if (ai is Map) {
-      final aiMap =
+    final rawAi =
+        report['aiAnalysis'];
+
+    if (rawAi is Map) {
+      final ai =
           Map<String, dynamic>.from(
-        ai,
+        rawAi,
       );
 
       final completed =
-          aiMap['completed'] ==
-              true;
+          ai['completed'] == true;
 
       final explanation =
           _stringValue(
-        aiMap['explanation'],
+        ai['explanation'],
       );
 
       if (completed &&
           explanation.isNotEmpty) {
         aiSummary =
-            '\nAI Analysis:\n$explanation\n';
+            '\nAI Analysis:\n'
+            '$explanation\n';
       }
     }
 
+    // IMPORTANT:
+    // Fixed previous TypeLabel error.
+    // Do NOT use $TypeLabel here.
+
     return '''
 SafeNexus HSE
-$TypeLabel: $type
+
+Report Type: $type
 
 Report ID: $id
 Date: $date
@@ -707,10 +679,7 @@ Corrective Action:
 $action
 $aiSummary
 Generated by SafeNexus HSE.
-'''.replaceFirst(
-      '\$TypeLabel',
-      'Report Type',
-    );
+''';
   }
 
   // ============================================================
@@ -733,7 +702,7 @@ Generated by SafeNexus HSE.
   }
 
   // ============================================================
-  // PHOTO EXISTS
+  // PHOTO CHECK
   // ============================================================
 
   bool _hasPhoto(
@@ -755,32 +724,27 @@ Generated by SafeNexus HSE.
   Color _riskColor(
     String risk,
   ) {
-    switch (risk
-        .toLowerCase()) {
+    switch (
+        risk.toLowerCase()) {
       case 'low':
-        return Colors.green
-            .shade700;
+        return Colors.green.shade700;
 
       case 'medium':
-        return Colors.orange
-            .shade700;
+        return Colors.orange.shade700;
 
       case 'high':
-        return Colors.red
-            .shade700;
+        return Colors.red.shade700;
 
       case 'critical':
-        return Colors.deepPurple
-            .shade700;
+        return Colors.deepPurple.shade700;
 
       default:
-        return Colors.blueGrey
-            .shade700;
+        return Colors.blueGrey.shade700;
     }
   }
 
   // ============================================================
-  // REPORT TYPE COLOR
+  // TYPE COLOR
   // ============================================================
 
   Color _typeColor(
@@ -788,12 +752,10 @@ Generated by SafeNexus HSE.
   ) {
     if (type ==
         'Hazard Report') {
-      return Colors.red
-          .shade700;
+      return Colors.red.shade700;
     }
 
-    return Colors.green
-        .shade700;
+    return Colors.green.shade700;
   }
 
   // ============================================================
@@ -806,9 +768,11 @@ Generated by SafeNexus HSE.
   ) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:
+            const Text(
           'Reports & History',
-          style: TextStyle(
+          style:
+              TextStyle(
             fontWeight:
                 FontWeight.w800,
           ),
@@ -820,7 +784,8 @@ Generated by SafeNexus HSE.
                 'Refresh',
             onPressed:
                 _loadReports,
-            icon: const Icon(
+            icon:
+                const Icon(
               Icons
                   .refresh_rounded,
             ),
@@ -882,7 +847,7 @@ Generated by SafeNexus HSE.
   }
 
   // ============================================================
-  // SUMMARY
+  // SUMMARY CARD
   // ============================================================
 
   Widget _buildSummaryCard() {
@@ -891,37 +856,68 @@ Generated by SafeNexus HSE.
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child: Row(
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment
+                  .start,
           children: [
-            Expanded(
-              child:
-                  _buildSummaryItem(
-                label: 'Total',
-                value:
-                    _totalCount.toString(),
-                icon:
-                    Icons.assessment_rounded,
+            const Text(
+              'Safety Report Summary',
+              style:
+                  TextStyle(
+                fontSize: 19,
+                fontWeight:
+                    FontWeight.w800,
               ),
             ),
-            Expanded(
-              child:
-                  _buildSummaryItem(
-                label: 'Observations',
-                value:
-                    _observationCount.toString(),
-                icon:
-                    Icons.visibility_rounded,
-              ),
+
+            const SizedBox(
+              height: 14,
             ),
-            Expanded(
-              child:
-                  _buildSummaryItem(
-                label: 'Hazards',
-                value:
-                    _hazardCount.toString(),
-                icon:
-                    Icons.warning_rounded,
-              ),
+
+            Row(
+              children: [
+                Expanded(
+                  child:
+                      _buildCountBox(
+                    'Total',
+                    _totalCount,
+                    Icons
+                        .description_outlined,
+                    Colors.blueGrey,
+                  ),
+                ),
+
+                const SizedBox(
+                  width: 10,
+                ),
+
+                Expanded(
+                  child:
+                      _buildCountBox(
+                    'Observations',
+                    _observationCount,
+                    Icons
+                        .visibility_outlined,
+                    Colors.green,
+                  ),
+                ),
+
+                const SizedBox(
+                  width: 10,
+                ),
+
+                Expanded(
+                  child:
+                      _buildCountBox(
+                    'Hazards',
+                    _hazardCount,
+                    Icons
+                        .warning_amber_rounded,
+                    Colors.red,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -930,45 +926,71 @@ Generated by SafeNexus HSE.
   }
 
   // ============================================================
-  // SUMMARY ITEM
+  // COUNT BOX
   // ============================================================
 
-  Widget _buildSummaryItem({
-    required String label,
-    required String value,
-    required IconData icon,
-  }) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          size: 24,
+  Widget _buildCountBox(
+    String label,
+    int count,
+    IconData icon,
+    Color color,
+  ) {
+    return Container(
+      padding:
+          const EdgeInsets.all(12),
+      decoration:
+          BoxDecoration(
+        color: color.withValues(
+          alpha: 0.08,
         ),
-        const SizedBox(
-          height: 6,
+        borderRadius:
+            BorderRadius.circular(
+          14,
         ),
-        Text(
-          value,
-          style:
-              const TextStyle(
-            fontSize: 22,
-            fontWeight:
-                FontWeight.w800,
+      ),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 24,
           ),
-        ),
-        const SizedBox(
-          height: 2,
-        ),
-        Text(
-          label,
-          textAlign:
-              TextAlign.center,
-          style:
-              Theme.of(context)
-                  .textTheme
-                  .bodySmall,
-        ),
-      ],
+
+          const SizedBox(
+            height: 6,
+          ),
+
+          Text(
+            '$count',
+            style:
+                TextStyle(
+              fontSize: 20,
+              fontWeight:
+                  FontWeight.w800,
+              color: color,
+            ),
+          ),
+
+          const SizedBox(
+            height: 3,
+          ),
+
+          Text(
+            label,
+            textAlign:
+                TextAlign.center,
+            maxLines: 1,
+            overflow:
+                TextOverflow.ellipsis,
+            style:
+                const TextStyle(
+              fontSize: 11,
+              fontWeight:
+                  FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -990,16 +1012,14 @@ Generated by SafeNexus HSE.
 
             return Padding(
               padding:
-                  const EdgeInsets
-                      .only(
+                  const EdgeInsets.only(
                 right: 8,
               ),
-              child:
-                  FilterChip(
-                selected:
-                    selected,
+              child: ChoiceChip(
                 label:
                     Text(filter),
+                selected:
+                    selected,
                 onSelected:
                     (value) {
                   if (!value) {
@@ -1020,7 +1040,7 @@ Generated by SafeNexus HSE.
   }
 
   // ============================================================
-  // EMPTY
+  // EMPTY STATE
   // ============================================================
 
   Widget _buildEmptyState() {
@@ -1028,49 +1048,50 @@ Generated by SafeNexus HSE.
       elevation: 0,
       child: Padding(
         padding:
-            const EdgeInsets.all(
-          32,
+            const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 42,
         ),
         child: Column(
           children: [
             Icon(
               Icons
-                  .assignment_outlined,
-              size: 64,
+                  .inventory_2_outlined,
+              size: 58,
               color:
-                  Theme.of(context)
-                      .colorScheme
-                      .primary,
+                  Colors.blueGrey.shade300,
             ),
+
             const SizedBox(
-              height: 16,
+              height: 14,
             ),
-            Text(
-              _filter ==
-                      'All'
-                  ? 'No reports yet'
-                  : 'No $_filter reports',
+
+            const Text(
+              'No reports found',
               style:
-                  const TextStyle(
-                fontSize: 18,
+                  TextStyle(
+                fontSize: 19,
                 fontWeight:
-                    FontWeight.w700,
+                    FontWeight.w800,
               ),
             ),
+
             const SizedBox(
               height: 8,
             ),
+
             Text(
-              _filter ==
-                      'All'
+              _filter == 'All'
                   ? 'Submitted safety observations and hazard reports will appear here.'
-                  : 'Reports matching this filter will appear here.',
+                  : 'No $_filter records are available.',
               textAlign:
                   TextAlign.center,
               style:
-                  Theme.of(context)
-                      .textTheme
-                      .bodyMedium,
+                  TextStyle(
+                color:
+                    Colors.grey.shade700,
+                height: 1.4,
+              ),
             ),
           ],
         ),
@@ -1092,9 +1113,11 @@ Generated by SafeNexus HSE.
           'Safety Observation',
     );
 
-    final id =
+    final risk =
         _stringValue(
-      report['id'],
+      report['riskLevel'],
+      fallback:
+          'Medium',
     );
 
     final category =
@@ -1111,18 +1134,11 @@ Generated by SafeNexus HSE.
           'General Workplace Hazard',
     );
 
-    final risk =
-        _stringValue(
-      report['riskLevel'],
-      fallback:
-          'Medium',
-    );
-
     final location =
         _stringValue(
       report['location'],
       fallback:
-          'Location not specified',
+          'Not specified',
     );
 
     final description =
@@ -1130,13 +1146,6 @@ Generated by SafeNexus HSE.
       report['description'],
       fallback:
           'No description provided.',
-    );
-
-    final status =
-        _stringValue(
-      report['status'],
-      fallback:
-          'Open',
     );
 
     final typeColor =
@@ -1164,7 +1173,7 @@ Generated by SafeNexus HSE.
         child: Padding(
           padding:
               const EdgeInsets.all(
-            14,
+            16,
           ),
           child: Column(
             crossAxisAlignment:
@@ -1172,7 +1181,7 @@ Generated by SafeNexus HSE.
                     .start,
             children: [
               // ------------------------------------------------
-              // HEADER
+              // TOP ROW
               // ------------------------------------------------
 
               Row(
@@ -1185,8 +1194,8 @@ Generated by SafeNexus HSE.
                     height: 44,
                     decoration:
                         BoxDecoration(
-                      color: typeColor
-                          .withValues(
+                      color:
+                          typeColor.withValues(
                         alpha: 0.10,
                       ),
                       borderRadius:
@@ -1195,8 +1204,7 @@ Generated by SafeNexus HSE.
                         13,
                       ),
                     ),
-                    child:
-                        Icon(
+                    child: Icon(
                       type ==
                               'Hazard Report'
                           ? Icons
@@ -1209,7 +1217,7 @@ Generated by SafeNexus HSE.
                   ),
 
                   const SizedBox(
-                    width: 12,
+                    width: 11,
                   ),
 
                   Expanded(
@@ -1225,21 +1233,24 @@ Generated by SafeNexus HSE.
                             fontSize:
                                 16,
                             fontWeight:
-                                FontWeight
-                                    .w800,
+                                FontWeight.w800,
                           ),
                         ),
+
                         const SizedBox(
                           height: 3,
                         ),
+
                         Text(
-                          id,
+                          _stringValue(
+                            report['id'],
+                          ),
                           style:
                               Theme.of(
                             context,
                           )
-                                  .textTheme
-                                  .bodySmall,
+                                      .textTheme
+                                      .bodySmall,
                         ),
                       ],
                     ),
@@ -1254,7 +1265,9 @@ Generated by SafeNexus HSE.
                         _shareReport(
                           report,
                         );
-                      } else if (value ==
+                      }
+
+                      if (value ==
                           'delete') {
                         _deleteReport(
                           report,
@@ -1262,88 +1275,95 @@ Generated by SafeNexus HSE.
                       }
                     },
                     itemBuilder:
-                        (context) {
-                      return const [
-                        PopupMenuItem<
-                            String>(
-                          value:
-                              'share',
-                          child:
-                              ListTile(
-                            contentPadding:
-                                EdgeInsets
-                                    .zero,
-                            leading:
-                                Icon(
+                        (context) =>
+                            const [
+                      PopupMenuItem(
+                        value:
+                            'share',
+                        child:
+                            Row(
+                          children: [
+                            Icon(
                               Icons
                                   .share_rounded,
                             ),
-                            title:
-                                Text(
+                            SizedBox(
+                              width:
+                                  8,
+                            ),
+                            Text(
                               'Share',
                             ),
-                          ),
+                          ],
                         ),
-                        PopupMenuItem<
-                            String>(
-                          value:
-                              'delete',
-                          child:
-                              ListTile(
-                            contentPadding:
-                                EdgeInsets
-                                    .zero,
-                            leading:
-                                Icon(
+                      ),
+                      PopupMenuItem(
+                        value:
+                            'delete',
+                        child:
+                            Row(
+                          children: [
+                            Icon(
                               Icons
                                   .delete_outline_rounded,
                             ),
-                            title:
-                                Text(
+                            SizedBox(
+                              width:
+                                  8,
+                            ),
+                            Text(
                               'Delete',
                             ),
-                          ),
+                          ],
                         ),
-                      ];
-                    },
-                  ),
-                ],
-              ),
-
-              const SizedBox(
-                height: 14,
-              ),
-
-              // ------------------------------------------------
-              // TYPE / RISK
-              // ------------------------------------------------
-
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _buildBadge(
-                    category,
-                    Icons
-                        .category_outlined,
-                  ),
-                  _buildBadge(
-                    risk,
-                    Icons
-                        .warning_amber_rounded,
-                    color:
-                        riskColor,
-                  ),
-                  _buildBadge(
-                    status,
-                    Icons
-                        .radio_button_checked,
+                      ),
+                    ],
                   ),
                 ],
               ),
 
               const SizedBox(
                 height: 12,
+              ),
+
+              // ------------------------------------------------
+              // BADGES
+              // ------------------------------------------------
+
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: [
+                  _buildBadge(
+                    type,
+                    type ==
+                            'Hazard Report'
+                        ? Icons
+                            .warning_amber_rounded
+                        : Icons
+                            .visibility_outlined,
+                    color:
+                        typeColor,
+                  ),
+
+                  _buildBadge(
+                    risk,
+                    Icons
+                        .speed_rounded,
+                    color:
+                        riskColor,
+                  ),
+
+                  _buildBadge(
+                    category,
+                    Icons
+                        .category_outlined,
+                  ),
+                ],
+              ),
+
+              const SizedBox(
+                height: 13,
               ),
 
               // ------------------------------------------------
@@ -1360,7 +1380,7 @@ Generated by SafeNexus HSE.
               ),
 
               const SizedBox(
-                height: 6,
+                height: 7,
               ),
 
               // ------------------------------------------------
@@ -1377,11 +1397,14 @@ Generated by SafeNexus HSE.
                         .location_on_outlined,
                     size: 18,
                   ),
+
                   const SizedBox(
                     width: 6,
                   ),
+
                   Expanded(
-                    child: Text(
+                    child:
+                        Text(
                       location,
                     ),
                   ),
@@ -1402,6 +1425,10 @@ Generated by SafeNexus HSE.
                 overflow:
                     TextOverflow
                         .ellipsis,
+                style:
+                    const TextStyle(
+                  height: 1.4,
+                ),
               ),
 
               // ------------------------------------------------
@@ -1452,9 +1479,11 @@ Generated by SafeNexus HSE.
                         .schedule_outlined,
                     size: 17,
                   ),
+
                   const SizedBox(
                     width: 6,
                   ),
+
                   Text(
                     _formatDate(
                       _dateFromReport(
@@ -1465,10 +1494,12 @@ Generated by SafeNexus HSE.
                         Theme.of(
                       context,
                     )
-                            .textTheme
-                            .bodySmall,
+                                .textTheme
+                                .bodySmall,
                   ),
+
                   const Spacer(),
+
                   const Icon(
                     Icons
                         .chevron_right_rounded,
@@ -1499,15 +1530,14 @@ Generated by SafeNexus HSE.
 
     return Container(
       padding:
-          const EdgeInsets
-              .symmetric(
+          const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 6,
       ),
       decoration:
           BoxDecoration(
-        color: badgeColor
-            .withValues(
+        color:
+            badgeColor.withValues(
           alpha: 0.10,
         ),
         borderRadius:
@@ -1525,9 +1555,11 @@ Generated by SafeNexus HSE.
             color:
                 badgeColor,
           ),
+
           const SizedBox(
             width: 5,
           ),
+
           Text(
             text,
             style:
@@ -1545,7 +1577,7 @@ Generated by SafeNexus HSE.
   }
 
   // ============================================================
-  // DETAILS
+  // REPORT DETAILS
   // ============================================================
 
   Future<void>
@@ -1558,9 +1590,11 @@ Generated by SafeNexus HSE.
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      builder: (sheetContext) {
+      builder:
+          (sheetContext) {
         return SafeArea(
-          child: DraggableScrollableSheet(
+          child:
+              DraggableScrollableSheet(
             expand: false,
             initialChildSize:
                 0.78,
@@ -1636,6 +1670,8 @@ Generated by SafeNexus HSE.
                         _stringValue(
                           report[
                               'category'],
+                          fallback:
+                              'General Safety',
                         ),
                       ),
                       _buildDetailRow(
@@ -1643,6 +1679,8 @@ Generated by SafeNexus HSE.
                         _stringValue(
                           report[
                               'hazard'],
+                          fallback:
+                              'General Workplace Hazard',
                         ),
                       ),
                       _buildDetailRow(
@@ -1650,6 +1688,8 @@ Generated by SafeNexus HSE.
                         _stringValue(
                           report[
                               'riskLevel'],
+                          fallback:
+                              'Medium',
                         ),
                       ),
                     ],
@@ -1741,9 +1781,11 @@ Generated by SafeNexus HSE.
                           ),
                         ),
                       ),
+
                       const SizedBox(
                         width: 10,
                       ),
+
                       Expanded(
                         child:
                             FilledButton.icon(
@@ -1803,13 +1845,12 @@ Generated by SafeNexus HSE.
           height: 50,
           decoration:
               BoxDecoration(
-            color: color
-                .withValues(
+            color:
+                color.withValues(
               alpha: 0.10,
             ),
             borderRadius:
-                BorderRadius
-                    .circular(
+                BorderRadius.circular(
               15,
             ),
           ),
@@ -1824,9 +1865,11 @@ Generated by SafeNexus HSE.
                 color,
           ),
         ),
+
         const SizedBox(
           width: 12,
         ),
+
         Expanded(
           child: Column(
             crossAxisAlignment:
@@ -1842,17 +1885,23 @@ Generated by SafeNexus HSE.
                       FontWeight.w800,
                 ),
               ),
+
               const SizedBox(
                 height: 4,
               ),
+
               Text(
                 _stringValue(
                   report['id'],
+                  fallback:
+                      'Unknown ID',
                 ),
                 style:
-                    Theme.of(context)
-                        .textTheme
-                        .bodySmall,
+                    Theme.of(
+                  context,
+                )
+                            .textTheme
+                            .bodySmall,
               ),
             ],
           ),
@@ -1888,15 +1937,16 @@ Generated by SafeNexus HSE.
                   FontWeight.w800,
             ),
           ),
+
           const SizedBox(
             height: 10,
           ),
+
           Card(
             elevation: 0,
             child: Padding(
               padding:
-                  const EdgeInsets
-                      .all(
+                  const EdgeInsets.all(
                 14,
               ),
               child: Column(
@@ -1939,9 +1989,11 @@ Generated by SafeNexus HSE.
               ),
             ),
           ),
+
           const SizedBox(
             width: 8,
           ),
+
           Expanded(
             child: Text(
               value.isEmpty
@@ -1981,20 +2033,20 @@ Generated by SafeNexus HSE.
                   FontWeight.w800,
             ),
           ),
+
           const SizedBox(
             height: 10,
           ),
+
           Card(
             elevation: 0,
             child: Padding(
               padding:
-                  const EdgeInsets
-                      .all(
+                  const EdgeInsets.all(
                 14,
               ),
-              child: Text(
-                text,
-              ),
+              child:
+                  Text(text),
             ),
           ),
         ],
@@ -2041,38 +2093,56 @@ Generated by SafeNexus HSE.
       ai['riskLevel'],
     );
 
+    final children =
+        <Widget>[];
+
+    if (risk.isNotEmpty) {
+      children.add(
+        _buildDetailRow(
+          'AI Risk',
+          risk,
+        ),
+      );
+    }
+
+    if (confidence != null) {
+      children.add(
+        _buildDetailRow(
+          'Confidence',
+          _formatConfidence(
+            confidence,
+          ),
+        ),
+      );
+    }
+
+    if (explanation
+        .isNotEmpty) {
+      children.add(
+        Padding(
+          padding:
+              const EdgeInsets.only(
+            top: 4,
+          ),
+          child: Align(
+            alignment:
+                Alignment.centerLeft,
+            child: Text(
+              explanation,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (children.isEmpty) {
+      return const SizedBox
+          .shrink();
+    }
+
     return _buildDetailSection(
       'AI Safety Analysis',
-      [
-        if (risk.isNotEmpty)
-          _buildDetailRow(
-            'AI Risk',
-            risk,
-          ),
-        if (confidence !=
-            null)
-          _buildDetailRow(
-            'Confidence',
-            _formatConfidence(
-              confidence,
-            ),
-          ),
-        if (explanation
-            .isNotEmpty)
-          Padding(
-            padding:
-                const EdgeInsets.only(
-              top: 4,
-            ),
-            child: Align(
-              alignment:
-                  Alignment.centerLeft,
-              child: Text(
-                explanation,
-              ),
-            ),
-          ),
-      ],
+      children,
     );
   }
 
@@ -2083,8 +2153,7 @@ Generated by SafeNexus HSE.
   String _formatConfidence(
     dynamic value,
   ) {
-    double confidence =
-        0.0;
+    double confidence = 0.0;
 
     if (value is num) {
       confidence =
