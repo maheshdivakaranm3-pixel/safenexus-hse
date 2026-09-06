@@ -25,45 +25,40 @@ class AiHseResult {
     required this.explanation,
   });
 
-  factory AiHseResult.fromJson(Map<String, dynamic> json) {
+  factory AiHseResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return AiHseResult(
-      observationType:
-          _stringValue(json['observation_type'], 'Unsafe Condition'),
-
-      category:
-          _stringValue(json['category'], 'General Safety'),
-
-      hazard:
-          _stringValue(
-            json['hazard'],
-            'General Workplace Hazard',
-          ),
-
-      riskLevel:
-          _normalizeRiskLevel(
-            json['risk_level'],
-          ),
-
-      potentialConsequence:
-          _stringValue(
-            json['potential_consequence'],
-            'Potential injury or property damage',
-          ),
-
-      correctiveAction:
-          _stringValue(
-            json['corrective_action'],
-            'Follow applicable HSE controls and site procedures.',
-          ),
-
-      confidence:
-          _confidenceValue(json['confidence']),
-
-      explanation:
-          _stringValue(
-            json['explanation'],
-            'AI analysis completed.',
-          ),
+      observationType: _stringValue(
+        json['observation_type'],
+        'Unsafe Condition',
+      ),
+      category: _stringValue(
+        json['category'],
+        'General Safety',
+      ),
+      hazard: _stringValue(
+        json['hazard'],
+        'General Workplace Hazard',
+      ),
+      riskLevel: _normalizeRiskLevel(
+        json['risk_level'],
+      ),
+      potentialConsequence: _stringValue(
+        json['potential_consequence'],
+        'Potential injury or property damage',
+      ),
+      correctiveAction: _stringValue(
+        json['corrective_action'],
+        'Follow applicable HSE controls and site procedures.',
+      ),
+      confidence: _confidenceValue(
+        json['confidence'],
+      ),
+      explanation: _stringValue(
+        json['explanation'],
+        'AI analysis completed.',
+      ),
     );
   }
 
@@ -88,78 +83,71 @@ class AiHseResult {
       return fallback;
     }
 
-    final String text = value.toString().trim();
+    final text = value.toString().trim();
 
-    if (text.isEmpty) {
-      return fallback;
-    }
-
-    return text;
+    return text.isEmpty ? fallback : text;
   }
 
-  static double _confidenceValue(dynamic value) {
-    if (value == null) {
-      return 0.0;
-    }
-
-    double? result;
-
-    if (value is num) {
-      result = value.toDouble();
-    } else {
-      result = double.tryParse(
-        value.toString().trim(),
-      );
-    }
-
-    if (result == null) {
-      return 0.0;
-    }
-
-    // Support both:
-    // 0.0 - 1.0
-    // and
-    // 0 - 100
-    if (result > 1.0 && result <= 100.0) {
-      result = result / 100.0;
-    }
-
-    return result.clamp(0.0, 1.0).toDouble();
-  }
-
-  static String _normalizeRiskLevel(dynamic value) {
-    final String risk =
-        value?.toString().trim().toLowerCase() ?? '';
+  static String _normalizeRiskLevel(
+    dynamic value,
+  ) {
+    final risk = value
+        ?.toString()
+        .trim()
+        .toLowerCase();
 
     switch (risk) {
       case 'low':
-      case 'low risk':
         return 'Low';
 
       case 'medium':
-      case 'moderate':
-      case 'medium risk':
         return 'Medium';
 
       case 'high':
-      case 'high risk':
         return 'High';
 
       case 'critical':
-      case 'critical risk':
-      case 'very high':
         return 'Critical';
 
       default:
         return 'Medium';
     }
   }
+
+  static double _confidenceValue(
+    dynamic value,
+  ) {
+    double result = 0.0;
+
+    if (value is num) {
+      result = value.toDouble();
+    } else if (value != null) {
+      result =
+          double.tryParse(value.toString()) ?? 0.0;
+    }
+
+    if (result > 1 && result <= 100) {
+      result = result / 100;
+    }
+
+    if (result < 0) {
+      result = 0;
+    }
+
+    if (result > 1) {
+      result = 1;
+    }
+
+    return result;
+  }
 }
 
-/// SafeNexus HSE AI service.
+/// Service responsible for communicating with the
+/// SafeNexus HSE AI backend.
 ///
-/// The OpenAI API key is NEVER stored in the Flutter application.
-/// Flutter communicates only with the Cloudflare Worker.
+/// IMPORTANT:
+/// The OpenAI API key is never stored in this Flutter app.
+/// The app communicates only with the Cloudflare Worker.
 class AiHseService {
   static const String endpoint =
       'https://safenexus-hse-v2.maheshdivakar-m3.workers.dev/analyze-hse';
@@ -167,15 +155,19 @@ class AiHseService {
   static const Duration requestTimeout =
       Duration(seconds: 90);
 
-  /// Analyze a workplace photo using the SafeNexus HSE AI backend.
+  /// Analyze a workplace photo.
+  ///
+  /// The image is sent to the SafeNexus Cloudflare Worker.
+  /// The Worker securely communicates with OpenAI.
   Future<AiHseResult> analyzePhoto({
     required File imageFile,
     String description = '',
     String location = '',
+    String language = 'en',
   }) async {
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
     // FILE VALIDATION
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
 
     if (!await imageFile.exists()) {
       throw const AiHseException(
@@ -187,10 +179,10 @@ class AiHseService {
 
     try {
       bytes = await imageFile.readAsBytes();
-    } catch (e) {
+    } catch (error) {
       throw AiHseException(
         'Unable to read the selected image.',
-        details: e.toString(),
+        details: error.toString(),
       );
     }
 
@@ -200,42 +192,74 @@ class AiHseService {
       );
     }
 
-    // ----------------------------------------------------------
-    // IMAGE INFORMATION
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
+    // IMAGE SIZE
+    // ------------------------------------------------------------
+
+    const maxImageBytes = 10 * 1024 * 1024;
+
+    if (bytes.length > maxImageBytes) {
+      throw const AiHseException(
+        'Image is too large. Maximum allowed size is 10 MB.',
+      );
+    }
+
+    // ------------------------------------------------------------
+    // BASE64
+    // ------------------------------------------------------------
 
     final String base64Image =
         base64Encode(bytes);
 
+    // ------------------------------------------------------------
+    // MIME TYPE
+    // ------------------------------------------------------------
+
     final String mimeType =
         _mimeType(imageFile.path);
 
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
+    // LANGUAGE
+    // ------------------------------------------------------------
+
+    final String normalizedLanguage =
+        language.toLowerCase().trim();
+
+    final String responseLanguage =
+        normalizedLanguage.startsWith('ml')
+            ? 'ml'
+            : 'en';
+
+    // ------------------------------------------------------------
     // REQUEST BODY
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
 
     final Map<String, dynamic> requestBody = {
       'image_base64': base64Image,
       'mime_type': mimeType,
       'description': description.trim(),
       'location': location.trim(),
-      'language': 'en',
+      'language': responseLanguage,
     };
+
+    // ------------------------------------------------------------
+    // URI
+    // ------------------------------------------------------------
 
     final Uri uri;
 
     try {
       uri = Uri.parse(endpoint);
-    } catch (e) {
+    } catch (error) {
       throw AiHseException(
         'Invalid HSE AI server address.',
-        details: e.toString(),
+        details: error.toString(),
       );
     }
 
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
     // HTTP REQUEST
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
 
     http.Response response;
 
@@ -263,23 +287,24 @@ class AiHseService {
       throw const AiHseException(
         'Invalid HSE AI server address.',
       );
-    } on http.ClientException catch (e) {
+    } on http.ClientException catch (error) {
       throw AiHseException(
         'HSE AI network request failed.',
-        details: e.message,
+        details: error.message,
       );
-    } catch (e) {
+    } catch (error) {
       throw AiHseException(
         'Network error while contacting the HSE AI server.',
-        details: e.toString(),
+        details: error.toString(),
       );
     }
 
-    // ----------------------------------------------------------
-    // RESPONSE VALIDATION
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
+    // DECODE RESPONSE
+    // ------------------------------------------------------------
 
-    final dynamic decoded = _decodeJsonResponse(
+    final dynamic decoded =
+        _decodeJsonResponse(
       response.body,
       response.statusCode,
     );
@@ -288,31 +313,29 @@ class AiHseService {
       throw AiHseException(
         'Invalid AI server response.',
         details:
-            'Expected JSON object but received ${decoded.runtimeType}.',
+            'Expected JSON object but received '
+            '${decoded.runtimeType}.',
       );
     }
 
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(decoded);
 
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
     // HTTP ERROR
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
 
     if (response.statusCode < 200 ||
         response.statusCode >= 300) {
-      final String serverError =
-          _extractServerError(data);
-
       throw AiHseException(
-        serverError,
+        _extractServerError(data),
         statusCode: response.statusCode,
       );
     }
 
-    // ----------------------------------------------------------
-    // APPLICATION-LEVEL ERROR
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
+    // APPLICATION ERROR
+    // ------------------------------------------------------------
 
     if (data['success'] != true) {
       throw AiHseException(
@@ -321,9 +344,9 @@ class AiHseService {
       );
     }
 
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
     // RESULT
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------
 
     final dynamic rawResult =
         data['result'];
@@ -357,11 +380,11 @@ class AiHseService {
 
     try {
       return jsonDecode(body);
-    } catch (e) {
+    } catch (error) {
       throw AiHseException(
         'Invalid response received from HSE AI server.',
         statusCode: statusCode,
-        details: e.toString(),
+        details: error.toString(),
       );
     }
   }
@@ -373,7 +396,8 @@ class AiHseService {
   String _extractServerError(
     Map<String, dynamic> data,
   ) {
-    final dynamic error = data['error'];
+    final dynamic error =
+        data['error'];
 
     if (error != null) {
       final String message =
@@ -415,10 +439,6 @@ class AiHseService {
       return 'image/webp';
     }
 
-    if (lower.endsWith('.gif')) {
-      return 'image/gif';
-    }
-
     if (lower.endsWith('.jpg') ||
         lower.endsWith('.jpeg')) {
       return 'image/jpeg';
@@ -430,7 +450,8 @@ class AiHseService {
   }
 }
 
-/// Application-level exception used by the AI service.
+/// Application-level exception used by
+/// the SafeNexus HSE AI service.
 class AiHseException implements Exception {
   final String message;
   final int? statusCode;
