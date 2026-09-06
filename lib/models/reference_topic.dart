@@ -33,11 +33,27 @@ class ReferenceTopic {
   });
 
   GuidelineCategory get guidelineCategory {
-    switch (category.toLowerCase()) {
+    final normalizedCategory = category
+        .trim()
+        .toLowerCase()
+        .replaceAll('_', ' ')
+        .replaceAll('-', ' ')
+        .replaceAll(RegExp(r'\s+'), ' ');
+
+    switch (normalizedCategory) {
       case 'abu dhabi':
         return GuidelineCategory.abuDhabi;
+
       case 'dubai':
         return GuidelineCategory.dubai;
+
+      case 'uae':
+      case 'uae general':
+      case 'general':
+      case 'all':
+      case '':
+        return GuidelineCategory.uaeGeneral;
+
       default:
         return GuidelineCategory.uaeGeneral;
     }
