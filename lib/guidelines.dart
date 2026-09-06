@@ -15,7 +15,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   static const List<_ReferenceTopic> _topics = [
     // ==========================================================
-    // ADPHC / ABU DHABI SAFETY GUIDELINES
+    // ABU DHABI – ADPHC CODE OF PRACTICES
     // ==========================================================
 
     _ReferenceTopic(
@@ -26,7 +26,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       version: 'V4.1',
       effectiveDate: '27 February 2026',
       shortDescription:
-          'Detailed safety guidance for excavation planning, ground stability, underground services, access and protection.',
+          'Safety guidance for excavation planning, ground stability, underground services, access and protection.',
       overview:
           'Excavation work involves removing soil or other material from the ground and can expose workers to collapse, falling materials, underground services, mobile plant, water ingress and falls. Excavation must be properly planned, assessed and controlled before workers enter.',
       hazards:
@@ -227,7 +227,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       checklist:
           'Correct permit • Risk assessment • Isolation • Controls • Authorization • Workers briefed • Permit displayed/available • Validity checked • Close-out.',
       inspection:
-          'Check permit conditions • Isolation • Work area • Required controls • Gas testing where applicable • Worker understanding • Permit status.',
+          'Permit conditions • Isolation • Work area • Required controls • Gas testing where applicable • Worker understanding • Permit status.',
       dos:
           'Read and understand the permit. Follow every condition. Stop and seek reauthorization when conditions change.',
       donts:
@@ -616,7 +616,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       title: 'Hot Works',
       category: _GuidelineCategory.abuDhabi,
       sourceLabel: 'ADPHC • CoP 28.0',
-      copNumber: 'CoP 28.0 – Hot Work Operations (e.g. Welding and Cutting)',
+      copNumber: 'CoP 28.0 – Hot Work Operations',
       version: 'V4.1',
       effectiveDate: '27 February 2026',
       shortDescription:
@@ -660,7 +660,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     final query = _query.trim().toLowerCase();
 
     return _topics.where((topic) {
-      final categoryMatches = _selectedCategory == _GuidelineCategory.all ||
+      final categoryMatches =
+          _selectedCategory == _GuidelineCategory.all ||
           topic.category == _selectedCategory;
 
       if (!categoryMatches) {
@@ -793,7 +794,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  'Detailed UAE HSE safety guidance with official Abu Dhabi ADPHC Code of Practice references.',
+                  'Practical HSE safety guidance with official Abu Dhabi ADPHC Code of Practice references.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.5,
@@ -937,7 +938,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
-  Widget _buildSectionHeader(String title, String subtitle) {
+  Widget _buildSectionHeader(
+    String title,
+    String subtitle,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1102,9 +1106,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Try another keyword.',
+            'Try another keyword or select a different reference scope.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF777777)),
+            style: TextStyle(
+              color: Color(0xFF777777),
+            ),
           ),
         ],
       ),
@@ -1133,11 +1139,18 @@ class GuidelineDetailPage extends StatelessWidget {
           topic.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.w800),
+          style: const TextStyle(
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          30,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1290,7 +1303,8 @@ class GuidelineDetailPage extends StatelessWidget {
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       topic.title,
@@ -1351,7 +1365,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Official Source',
@@ -1444,7 +1459,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Malayalam – പ്രധാന സുരക്ഷാ നിർദ്ദേശങ്ങൾ',
@@ -1481,10 +1497,13 @@ class GuidelineDetailPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
@@ -1506,9 +1525,11 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(height: 12),
           ...items.map(
             (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding:
+                  const EdgeInsets.only(bottom: 10),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.check_box_outlined,
@@ -1548,7 +1569,8 @@ class GuidelineDetailPage extends StatelessWidget {
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.pan_tool_alt_rounded,
@@ -1558,7 +1580,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 const Text(
                   'When to Stop Work',
@@ -1598,7 +1621,8 @@ class GuidelineDetailPage extends StatelessWidget {
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.info_outline_rounded,
@@ -1608,7 +1632,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Important HSE Reference Note',
@@ -1620,7 +1645,7 @@ class GuidelineDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 7),
                 const Text(
-                  'This Safety Guideline is provided for HSE learning and practical workplace reference. The ADPHC Code of Practices provides minimum mandatory OSH technical requirements for applicable subjects. Always verify the latest official requirement, applicable legislation, project procedures, risk assessment, method statement and permit requirements before making a compliance decision.',
+                  'This Safety Guideline is provided for HSE learning and practical workplace reference. Always verify the latest official requirement, applicable legislation, project procedures, risk assessment, method statement and permit requirements before making a compliance decision.',
                   style: TextStyle(
                     color: Color(0xFF666666),
                     fontSize: 12,
@@ -1648,10 +1673,13 @@ class GuidelineDetailPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Icon(
             icon,
@@ -1663,7 +1691,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -1698,7 +1727,8 @@ class GuidelineDetailPage extends StatelessWidget {
     required String content,
     bool bulletStyle = false,
   }) {
-    final items = bulletStyle ? _splitBullets(content) : <String>[];
+    final items =
+        bulletStyle ? _splitBullets(content) : <String>[];
 
     return Container(
       width: double.infinity,
@@ -1707,10 +1737,13 @@ class GuidelineDetailPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Icon(
             icon,
@@ -1720,7 +1753,8 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -1733,12 +1767,15 @@ class GuidelineDetailPage extends StatelessWidget {
                 if (bulletStyle)
                   ...items.map(
                     (item) => Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
+                      padding:
+                          const EdgeInsets.only(bottom: 7),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
                         children: [
                           const Padding(
-                            padding: EdgeInsets.only(top: 5),
+                            padding:
+                                EdgeInsets.only(top: 5),
                             child: Icon(
                               Icons.circle,
                               size: 5,
@@ -1787,7 +1824,7 @@ class GuidelineDetailPage extends StatelessWidget {
 }
 
 // ============================================================
-// ENUM
+// CATEGORY ENUM
 // ============================================================
 
 enum _GuidelineCategory {
