@@ -10,6 +10,7 @@ android {
 
     defaultConfig {
         applicationId 'com.safenexus.hse'
+
         minSdk 24
         targetSdk 36
 
@@ -28,6 +29,9 @@ android {
 
     buildTypes {
         release {
+            // Temporary release signing.
+            // Replace with a proper release keystore before
+            // publishing the app to Google Play.
             signingConfig signingConfigs.debug
         }
     }
