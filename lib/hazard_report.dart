@@ -16,10 +16,9 @@ class HazardReportPage extends StatefulWidget {
 
 class _HazardReportPageState
     extends State<HazardReportPage> {
-  // IMPORTANT:
-  // Hazard reports and Safety Observations use the same
-  // storage key so that the History screen can display
-  // both types of reports together.
+  // ============================================================
+  // STORAGE
+  // ============================================================
 
   static const String _storageKey =
       'safenexus_observations';
@@ -126,7 +125,8 @@ class _HazardReportPageState
         backgroundColor: error
             ? Colors.red.shade700
             : Colors.green.shade700,
-        content: Text(message),
+        content:
+            Text(message),
       ),
     );
   }
@@ -147,11 +147,15 @@ class _HazardReportPageState
                 MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(
-                  Icons.camera_alt_rounded,
+                leading:
+                    const Icon(
+                  Icons
+                      .camera_alt_rounded,
                 ),
                 title:
-                    const Text('Camera'),
+                    const Text(
+                  'Camera',
+                ),
                 onTap: () {
                   Navigator.pop(
                     sheetContext,
@@ -163,11 +167,15 @@ class _HazardReportPageState
                 },
               ),
               ListTile(
-                leading: const Icon(
-                  Icons.photo_library_rounded,
+                leading:
+                    const Icon(
+                  Icons
+                      .photo_library_rounded,
                 ),
                 title:
-                    const Text('Gallery'),
+                    const Text(
+                  'Gallery',
+                ),
                 onTap: () {
                   Navigator.pop(
                     sheetContext,
@@ -211,7 +219,7 @@ class _HazardReportPageState
       setState(() {
         _photo = image;
       });
-    } catch (error) {
+    } catch (_) {
       _showMessage(
         'Unable to select photo.',
         error: true,
@@ -253,7 +261,7 @@ class _HazardReportPageState
   }
 
   // ============================================================
-  // SAVE HAZARD REPORT
+  // SUBMIT HAZARD REPORT
   // ============================================================
 
   Future<void>
@@ -310,7 +318,8 @@ class _HazardReportPageState
         final originalPath =
             _photo!.path;
 
-        if (originalPath.contains('.')) {
+        if (originalPath
+            .contains('.')) {
           final detectedExtension =
               originalPath
                   .split('.')
@@ -345,7 +354,7 @@ class _HazardReportPageState
       }
 
       // --------------------------------------------------------
-      // CREATE UNIFIED REPORT RECORD
+      // REPORT RECORD
       // --------------------------------------------------------
 
       final report =
@@ -423,7 +432,7 @@ class _HazardReportPageState
       };
 
       // --------------------------------------------------------
-      // READ EXISTING REPORTS
+      // LOAD EXISTING REPORTS
       // --------------------------------------------------------
 
       final prefs =
@@ -437,7 +446,7 @@ class _HazardReportPageState
               <String>[];
 
       // --------------------------------------------------------
-      // PREPEND NEW REPORT
+      // ADD NEW REPORT
       // --------------------------------------------------------
 
       final updated =
@@ -468,7 +477,7 @@ class _HazardReportPageState
         id,
         submittedAt,
       );
-    } catch (error) {
+    } catch (_) {
       if (!mounted) return;
 
       setState(() {
@@ -505,15 +514,18 @@ class _HazardReportPageState
       builder: (dialogContext) {
         return AlertDialog(
           icon: Icon(
-            Icons.check_circle_rounded,
+            Icons
+                .check_circle_rounded,
             color:
                 Colors.green.shade700,
             size: 52,
           ),
-          title: const Text(
+          title:
+              const Text(
             'Hazard Report Submitted',
           ),
-          content: Column(
+          content:
+              Column(
             mainAxisSize:
                 MainAxisSize.min,
             children: [
@@ -554,7 +566,8 @@ class _HazardReportPageState
 
                 _resetForm();
               },
-              child: const Text(
+              child:
+                  const Text(
                 'Done',
               ),
             ),
@@ -565,7 +578,7 @@ class _HazardReportPageState
   }
 
   // ============================================================
-  // RESET
+  // RESET FORM
   // ============================================================
 
   void _resetForm() {
@@ -603,9 +616,11 @@ class _HazardReportPageState
   ) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:
+            const Text(
           'Hazard Report',
-          style: TextStyle(
+          style:
+              TextStyle(
             fontWeight:
                 FontWeight.w800,
           ),
@@ -710,9 +725,11 @@ class _HazardReportPageState
                 size: 28,
               ),
             ),
+
             const SizedBox(
               width: 14,
             ),
+
             Expanded(
               child: Column(
                 crossAxisAlignment:
@@ -728,9 +745,11 @@ class _HazardReportPageState
                           FontWeight.w800,
                     ),
                   ),
+
                   const SizedBox(
                     height: 4,
                   ),
+
                   Text(
                     'Record a workplace hazard for follow-up and corrective action.',
                     style:
@@ -759,38 +778,43 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child: DropdownButtonFormField<
-            String>(
-          // Flutter 3.19 compatibility:
-          // use value instead of initialValue.
+        child:
+            DropdownButtonFormField<
+                String>(
+          // FIX:
+          // Deprecated value removed.
+          // Use initialValue for current Flutter analyzer.
 
-          value:
+          initialValue:
               _severity,
 
           decoration:
               const InputDecoration(
             labelText:
                 'Severity / Risk Level',
-            prefixIcon: Icon(
+            prefixIcon:
+                Icon(
               Icons
                   .warning_amber_rounded,
             ),
             border:
                 OutlineInputBorder(),
           ),
+
           items:
               _severityOptions
                   .map(
             (value) =>
                 DropdownMenuItem<
                     String>(
-              value: value,
-              child: Text(
-                value,
-              ),
+              value:
+                  value,
+              child:
+                  Text(value),
             ),
           )
                   .toList(),
+
           onChanged:
               _submitting
                   ? null
@@ -842,12 +866,16 @@ class _HazardReportPageState
               height: 14,
             ),
 
+            // --------------------------------------------------
+            // CATEGORY
+            // --------------------------------------------------
+
             DropdownButtonFormField<
                 String>(
-              // Flutter 3.19 compatibility:
-              // use value instead of initialValue.
+              // FIX:
+              // Deprecated value removed.
 
-              value:
+              initialValue:
                   _category,
 
               decoration:
@@ -857,19 +885,21 @@ class _HazardReportPageState
                 border:
                     OutlineInputBorder(),
               ),
+
               items:
                   _categoryOptions
                       .map(
                 (value) =>
                     DropdownMenuItem<
                         String>(
-                  value: value,
-                  child: Text(
-                    value,
-                  ),
+                  value:
+                      value,
+                  child:
+                      Text(value),
                 ),
               )
                       .toList(),
+
               onChanged:
                   _submitting
                       ? null
@@ -890,12 +920,16 @@ class _HazardReportPageState
               height: 14,
             ),
 
+            // --------------------------------------------------
+            // HAZARD TYPE
+            // --------------------------------------------------
+
             DropdownButtonFormField<
                 String>(
-              // Flutter 3.19 compatibility:
-              // use value instead of initialValue.
+              // FIX:
+              // Deprecated value removed.
 
-              value:
+              initialValue:
                   _hazardType,
 
               decoration:
@@ -905,19 +939,21 @@ class _HazardReportPageState
                 border:
                     OutlineInputBorder(),
               ),
+
               items:
                   _hazardOptions
                       .map(
                 (value) =>
                     DropdownMenuItem<
                         String>(
-                  value: value,
-                  child: Text(
-                    value,
-                  ),
+                  value:
+                      value,
+                  child:
+                      Text(value),
                 ),
               )
                       .toList(),
+
               onChanged:
                   _submitting
                       ? null
@@ -949,27 +985,34 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child: TextFormField(
+        child:
+            TextFormField(
           controller:
               _locationController,
+
           textInputAction:
               TextInputAction.next,
+
           decoration:
               const InputDecoration(
             labelText:
                 'Location',
             hintText:
                 'Example: Workshop / Warehouse / Site Area',
-            prefixIcon: Icon(
+            prefixIcon:
+                Icon(
               Icons
                   .location_on_outlined,
             ),
             border:
                 OutlineInputBorder(),
           ),
+
           validator: (value) {
             if (value == null ||
-                value.trim().isEmpty) {
+                value
+                    .trim()
+                    .isEmpty) {
               return 'Please enter the location.';
             }
 
@@ -991,10 +1034,13 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child: TextFormField(
+        child:
+            TextFormField(
           controller:
               _descriptionController,
+
           maxLines: 5,
+
           decoration:
               const InputDecoration(
             labelText:
@@ -1006,13 +1052,18 @@ class _HazardReportPageState
             border:
                 OutlineInputBorder(),
           ),
+
           validator: (value) {
             if (value == null ||
-                value.trim().isEmpty) {
+                value
+                    .trim()
+                    .isEmpty) {
               return 'Please enter the hazard description.';
             }
 
-            if (value.trim().length <
+            if (value
+                    .trim()
+                    .length <
                 5) {
               return 'Please provide more details.';
             }
@@ -1025,7 +1076,7 @@ class _HazardReportPageState
   }
 
   // ============================================================
-  // ACTION
+  // CORRECTIVE ACTION
   // ============================================================
 
   Widget _buildActionCard() {
@@ -1034,10 +1085,13 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child: TextFormField(
+        child:
+            TextFormField(
           controller:
               _actionController,
+
           maxLines: 5,
+
           decoration:
               const InputDecoration(
             labelText:
@@ -1049,9 +1103,12 @@ class _HazardReportPageState
             border:
                 OutlineInputBorder(),
           ),
+
           validator: (value) {
             if (value == null ||
-                value.trim().isEmpty) {
+                value
+                    .trim()
+                    .isEmpty) {
               return 'Please enter corrective action.';
             }
 
@@ -1087,9 +1144,11 @@ class _HazardReportPageState
                   Icons
                       .photo_camera_back_rounded,
                 ),
+
                 const SizedBox(
                   width: 8,
                 ),
+
                 Text(
                   'Photo Evidence',
                   style:
@@ -1122,7 +1181,9 @@ class _HazardReportPageState
                     BoxDecoration(
                   borderRadius:
                       BorderRadius
-                          .circular(16),
+                          .circular(
+                    16,
+                  ),
                   border:
                       Border.all(
                     color:
@@ -1138,15 +1199,19 @@ class _HazardReportPageState
                       color:
                           scheme.primary,
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
+
                     const Text(
                       'Add photo evidence',
                     ),
+
                     const SizedBox(
                       height: 14,
                     ),
+
                     OutlinedButton.icon(
                       onPressed:
                           _submitting
@@ -1169,7 +1234,9 @@ class _HazardReportPageState
               ClipRRect(
                 borderRadius:
                     BorderRadius
-                        .circular(16),
+                        .circular(
+                  16,
+                ),
                 child: Stack(
                   children: [
                     Image.file(
@@ -1218,6 +1285,7 @@ class _HazardReportPageState
               const SizedBox(
                 height: 10,
               ),
+
               Text(
                 'Photo attached to this hazard report.',
                 style:
@@ -1233,7 +1301,7 @@ class _HazardReportPageState
   }
 
   // ============================================================
-  // SUBMIT
+  // SUBMIT BUTTON
   // ============================================================
 
   Widget _buildSubmitButton() {
@@ -1241,11 +1309,13 @@ class _HazardReportPageState
       width:
           double.infinity,
       height: 54,
-      child: FilledButton.icon(
+      child:
+          FilledButton.icon(
         onPressed:
             _submitting
                 ? null
                 : _submitHazardReport,
+
         icon: _submitting
             ? const SizedBox(
                 width: 20,
@@ -1258,8 +1328,10 @@ class _HazardReportPageState
                 ),
               )
             : const Icon(
-                Icons.send_rounded,
+                Icons
+                    .send_rounded,
               ),
+
         label: Text(
           _submitting
               ? 'Saving...'
