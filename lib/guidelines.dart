@@ -14,9 +14,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   String _query = '';
   GuidelineCategory _selectedCategory = GuidelineCategory.all;
 
+  bool _uaeSafetyExpanded = true;
+
   final List<ReferenceTopic> _topics = const [
     // ============================================================
-    // UAE GENERAL
+    // UAE GENERAL SAFETY
     // ============================================================
 
     ReferenceTopic(
@@ -588,7 +590,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     ),
 
     // ============================================================
-    // ABU DHABI
+    // ABU DHABI SAFETY
     // ============================================================
 
     ReferenceTopic(
@@ -792,7 +794,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     ),
 
     // ============================================================
-    // DUBAI
+    // DUBAI SAFETY
     // ============================================================
 
     ReferenceTopic(
@@ -1008,7 +1010,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     return _topics.where((topic) {
       final matchesCategory =
           _selectedCategory == GuidelineCategory.all ||
-              topic.category == _selectedCategory;
+          topic.category == _selectedCategory;
 
       final matchesSearch =
           query.isEmpty ||
@@ -1040,7 +1042,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         child: Column(
           children: [
             _buildHeader(),
-            _buildCategoryFilter(),
+            _buildUaeSafetySection(),
             Expanded(
               child: topics.isEmpty
                   ? _buildEmptyState()
@@ -1065,21 +1067,46 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'UAE HSE Safety Reference',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF0B5D4B),
-            ),
-          ),
-          const SizedBox(height: 5),
-          const Text(
-            'UAE General • Abu Dhabi • Dubai',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color(0xFF666666),
-            ),
+          Row(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0B5D4B).withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.menu_book_rounded,
+                  color: Color(0xFF0B5D4B),
+                  size: 25,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'UAE Safety',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF0B5D4B),
+                      ),
+                    ),
+                    SizedBox(height: 3),
+                    Text(
+                      'UAE-wide HSE Safety Reference',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF666666),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 14),
           TextField(
@@ -1090,7 +1117,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               });
             },
             decoration: InputDecoration(
-              hintText: 'Search guidelines...',
+              hintText: 'Search UAE HSE guidelines...',
               prefixIcon: const Icon(Icons.search_rounded),
               suffixIcon: _query.isNotEmpty
                   ? IconButton(
@@ -1116,42 +1143,207 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     );
   }
 
-  Widget _buildCategoryFilter() {
+  // ============================================================
+  // UAE SAFETY PARENT SECTION
+  // ============================================================
+
+  Widget _buildUaeSafetySection() {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8FAF9),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: const Color(0xFFE1E8E5),
+          ),
+        ),
+        child: Column(
           children: [
-            _filterChip('All', GuidelineCategory.all),
-            _filterChip('UAE General', GuidelineCategory.uaeGeneral),
-            _filterChip('Abu Dhabi', GuidelineCategory.abuDhabi),
-            _filterChip('Dubai', GuidelineCategory.dubai),
+            InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () {
+                setState(() {
+                  _uaeSafetyExpanded = !_uaeSafetyExpanded;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 13,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0B5D4B),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.shield_rounded,
+                        color: Colors.white,
+                        size: 23,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'UAE Safety',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF17201D),
+                            ),
+                          ),
+                          SizedBox(height: 3),
+                          Text(
+                            'Select an emirate or UAE-wide guidance',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF777777),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Color(0xFF555555),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (_uaeSafetyExpanded)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Column(
+                  children: [
+                    _buildSafetyOption(
+                      title: 'All UAE Safety',
+                      subtitle: 'UAE General + Dubai + Abu Dhabi',
+                      icon: Icons.public_rounded,
+                      category: GuidelineCategory.all,
+                    ),
+                    _buildSafetyOption(
+                      title: 'UAE General Safety',
+                      subtitle: 'UAE-wide HSE reference',
+                      icon: Icons.flag_rounded,
+                      category: GuidelineCategory.uaeGeneral,
+                    ),
+                    _buildSafetyOption(
+                      title: 'Dubai Safety',
+                      subtitle: 'Dubai-specific HSE guidance',
+                      icon: Icons.location_city_rounded,
+                      category: GuidelineCategory.dubai,
+                    ),
+                    _buildSafetyOption(
+                      title: 'Abu Dhabi Safety',
+                      subtitle: 'Abu Dhabi / ADOSH-SF guidance',
+                      icon: Icons.account_balance_rounded,
+                      category: GuidelineCategory.abuDhabi,
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _filterChip(String label, GuidelineCategory category) {
+  Widget _buildSafetyOption({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required GuidelineCategory category,
+  }) {
     final selected = _selectedCategory == category;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: selected,
-        onSelected: (_) {
+      padding: const EdgeInsets.only(top: 6),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(13),
+        onTap: () {
           setState(() {
             _selectedCategory = category;
           });
         },
-        selectedColor: const Color(0xFF159447),
-        labelStyle: TextStyle(
-          color: selected ? Colors.white : const Color(0xFF444444),
-          fontWeight: FontWeight.w700,
-          fontSize: 12,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 11,
+            vertical: 10,
+          ),
+          decoration: BoxDecoration(
+            color: selected
+                ? const Color(0xFF0B5D4B).withValues(alpha: 0.08)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(13),
+            border: Border.all(
+              color: selected
+                  ? const Color(0xFF0B5D4B)
+                  : const Color(0xFFE6EBE9),
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: selected
+                      ? const Color(0xFF0B5D4B)
+                      : const Color(0xFFF1F4F3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: selected
+                      ? Colors.white
+                      : const Color(0xFF0B5D4B),
+                ),
+              ),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: selected
+                            ? const Color(0xFF0B5D4B)
+                            : const Color(0xFF222222),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF777777),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (selected)
+                const Icon(
+                  Icons.check_circle_rounded,
+                  color: Color(0xFF159447),
+                  size: 21,
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -1235,7 +1427,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            topic.category.label,
+                            _categoryLabel(topic.category),
                             style: TextStyle(
                               color: categoryColor,
                               fontSize: 10,
@@ -1283,7 +1475,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
             const SizedBox(height: 6),
             const Text(
-              'Try another search or category.',
+              'Try another search or UAE Safety category.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF777777),
@@ -1293,6 +1485,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         ),
       ),
     );
+  }
+
+  String _categoryLabel(GuidelineCategory category) {
+    switch (category) {
+      case GuidelineCategory.uaeGeneral:
+        return 'UAE GENERAL';
+      case GuidelineCategory.abuDhabi:
+        return 'ABU DHABI';
+      case GuidelineCategory.dubai:
+        return 'DUBAI';
+      case GuidelineCategory.all:
+        return 'UAE SAFETY';
+    }
   }
 
   Color _categoryColor(GuidelineCategory category) {
@@ -1311,13 +1516,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   IconData _categoryIcon(GuidelineCategory category) {
     switch (category) {
       case GuidelineCategory.uaeGeneral:
-        return Icons.shield_rounded;
+        return Icons.flag_rounded;
       case GuidelineCategory.abuDhabi:
-        return Icons.location_city_rounded;
+        return Icons.account_balance_rounded;
       case GuidelineCategory.dubai:
-        return Icons.business_rounded;
+        return Icons.location_city_rounded;
       case GuidelineCategory.all:
-        return Icons.menu_book_rounded;
+        return Icons.public_rounded;
     }
   }
 }
