@@ -4,812 +4,649 @@ class GuidelineDetailPage extends StatelessWidget {
   final Map<String, String> guideline;
 
   const GuidelineDetailPage({
-    Key? key,
+    super.key,
     required this.guideline,
-  }) : super(key: key);
+  });
 
-  String get letter => guideline['letter'] ?? '';
   String get title => guideline['title'] ?? '';
   String get desc => guideline['desc'] ?? '';
 
+  // ------------------------------------------------------------
+  // TOPIC-SPECIFIC HSE CONTENT
+  // ------------------------------------------------------------
+
   Map<String, Map<String, String>> get details {
     return {
-      'A': {
-        'what': 'What is ADOSH?',
-        'whatText':
-            'ADOSH-SF is the Abu Dhabi Occupational Safety and Health System Framework. It provides a structured system for managing occupational safety and health in Abu Dhabi.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To protect workers, prevent occupational injuries and illnesses, and establish effective OSH management systems.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Implement an effective OSH management system, identify hazards, assess risks, provide controls, training, supervision and reporting.',
-        'responsibilities': 'HSE Responsibilities',
-        'responsibilitiesText':
-            'HSE personnel should monitor compliance, conduct inspections, support risk assessment, investigate incidents and promote continual improvement.',
-        'checklist': 'Site Checklist',
-        'checklistText':
-            'Risk assessment available • Safe systems of work • Training records • PPE • Emergency arrangements • Inspections • Incident reporting.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Missing risk assessments, inadequate supervision, poor housekeeping, insufficient PPE and failure to report incidents.',
-        'best': 'Best Practice',
-        'bestText':
-            'Use the applicable official ADOSH requirements, maintain documented procedures and continuously improve workplace safety.',
-        'reference': 'Reference',
-        'referenceText':
-            'Abu Dhabi Public Health Centre (ADPHC) – ADOSH-SF legislation and Codes of Practice.',
-      },
-
-      'B': {
-        'what': 'What are Basic Safety Rules?',
-        'whatText':
-            'Basic Safety Rules are fundamental workplace practices designed to prevent injuries, incidents and unsafe conditions.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To establish safe behaviour and minimum safety expectations for everyone at the workplace.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Follow site rules, use required PPE, maintain housekeeping, follow approved procedures and report unsafe conditions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Workers must follow instructions and report hazards. Supervisors must provide proper instruction, supervision and controls.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'PPE • Housekeeping • Access • Safe tools • Warning signs • Emergency routes • Permit requirements.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Ignoring PPE requirements, unsafe shortcuts, blocked access routes and failure to report hazards.',
-        'best': 'Best Practice',
-        'bestText':
-            'Stop unsafe work, correct hazards immediately where possible and communicate safety expectations clearly.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE and site-specific occupational safety requirements.',
-      },
-
-      'C': {
+      'Code of Practice': {
         'what': 'What is a Code of Practice?',
         'whatText':
-            'A Code of Practice provides technical occupational safety and health requirements for specific workplace subjects.',
+            'A Code of Practice (CoP) provides practical occupational safety and health requirements and guidance for specific workplace hazards and activities.',
         'purpose': 'Purpose',
         'purposeText':
-            'To provide consistent technical requirements and controls for managing specific OSH risks.',
+            'To provide clear technical guidance for controlling workplace risks and supporting consistent HSE practices.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Identify the applicable CoP, understand its requirements and implement the relevant controls within the workplace.',
-        'responsibilities': 'Responsibilities',
+            'Identify the applicable Code of Practice, review the relevant requirements, implement suitable controls, communicate requirements to workers and maintain evidence of compliance.',
+        'responsibilities': 'HSE Responsibilities',
         'responsibilitiesText':
-            'Employers and responsible personnel should ensure applicable requirements are understood and implemented.',
-        'checklist': 'Checklist',
+            'HSE personnel should identify applicable requirements, support implementation, conduct inspections, monitor compliance and follow up corrective actions.',
+        'checklist': 'Site Checklist',
         'checklistText':
-            'Applicable CoP identified • Requirements reviewed • Controls implemented • Records maintained • Compliance monitored.',
+            'Applicable CoP identified • Requirements reviewed • Risk assessment • Safe work procedure • Worker briefing • Inspection • Records.',
         'violations': 'Common Issues',
         'violationsText':
-            'Failure to identify applicable requirements, incomplete controls and poor documentation.',
+            'Using outdated requirements, incomplete implementation, poor documentation and treating the CoP as paperwork only.',
         'best': 'Best Practice',
         'bestText':
-            'Always verify the latest applicable official Code of Practice before making compliance decisions.',
+            'Always verify the latest applicable official authority requirements and integrate them into the project HSE management system.',
         'reference': 'Reference',
         'referenceText':
-            'Abu Dhabi Public Health Centre (ADPHC) – Codes of Practice.',
+            'Applicable ADPHC / ADOSH-SF Codes of Practice and current project or authority requirements.',
       },
 
-      'D': {
-        'what': 'What is a Toolbox Talk?',
-        'whatText':
-            'A Toolbox Talk is a short safety discussion conducted before work to communicate job-specific hazards and controls.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To make workers aware of the hazards, controls and safe working methods for the planned task.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Discuss the task, hazards, controls, PPE, emergency arrangements and worker questions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'The supervisor or competent person should conduct the briefing and ensure workers understand the information.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Task explained • Hazards identified • Controls discussed • PPE checked • Attendance recorded.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Generic talks, no attendance record, poor worker participation and failure to discuss task-specific hazards.',
-        'best': 'Best Practice',
-        'bestText':
-            'Keep the discussion practical, short and directly related to the work being performed.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable site HSE procedures and UAE OSH requirements.',
-      },
-
-      'E': {
-        'what': 'What is Emergency Preparedness?',
-        'whatText':
-            'Emergency preparedness means planning and preparing for situations such as fire, serious injury, chemical release or other emergencies.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To reduce injury, loss and confusion during an emergency.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Emergency plans, alarms, evacuation routes, assembly points, emergency contacts, trained personnel and drills.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Workers should know the alarm, evacuation route and assembly point. Supervisors should coordinate emergency response arrangements.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Emergency plan • Alarm • Exit routes • Assembly point • Fire equipment • First aid • Emergency contacts.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Blocked exits, missing signs, poor emergency awareness and inadequate drills.',
-        'best': 'Best Practice',
-        'bestText':
-            'Conduct appropriate emergency drills and regularly review emergency arrangements.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE fire, emergency and occupational safety requirements.',
-      },
-
-      'F': {
-        'what': 'What is Fire Safety?',
-        'whatText':
-            'Fire safety includes measures used to prevent fires, protect people and respond effectively when a fire occurs.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To prevent fire incidents and minimise consequences if a fire occurs.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Control ignition sources, maintain fire equipment, keep escape routes clear and manage hot work safely.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Workers must follow fire precautions and report fire hazards. Supervisors must ensure required controls are implemented.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Extinguishers • Fire exits • Alarm • Hot work controls • Flammable materials • Emergency access.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Blocked fire exits, uncontrolled hot work, poor storage of flammable materials and inaccessible extinguishers.',
-        'best': 'Best Practice',
-        'bestText':
-            'Control ignition sources and maintain effective fire prevention and emergency arrangements.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE fire and life safety requirements and site procedures.',
-      },
-
-      'G': {
-        'what': 'What are Green Building Regulations?',
-        'whatText':
-            'Green building practices focus on sustainable construction, efficient resource use and environmental protection.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To reduce environmental impact and improve resource efficiency throughout construction and building operation.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Energy efficiency, water conservation, waste reduction, sustainable materials and environmental controls as applicable.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Project teams should implement applicable environmental and sustainability requirements.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Waste segregation • Water management • Energy efficiency • Environmental controls • Approved materials.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Poor waste segregation, excessive resource consumption and inadequate environmental controls.',
-        'best': 'Best Practice',
-        'bestText':
-            'Integrate environmental controls into planning, procurement and daily site activities.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE and local authority sustainability requirements.',
-      },
-
-      'H': {
-        'what': 'What is Heat Stress Management?',
-        'whatText':
-            'Heat stress management protects workers from excessive heat exposure and related illnesses.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To prevent heat-related illness through planning, hydration, rest, shade, training and monitoring.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Provide drinking water, suitable rest arrangements, heat awareness, supervision and comply with applicable UAE midday work restrictions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Supervisors should monitor workers for heat stress symptoms and implement required controls.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Water • Shade/rest • Worker awareness • Heat monitoring • Work/rest planning • First aid.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Insufficient drinking water, inadequate rest, poor supervision and failure to follow applicable midday restrictions.',
-        'best': 'Best Practice',
-        'bestText':
-            'Plan physically demanding work around heat conditions and encourage early reporting of symptoms.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE Ministry of Human Resources and Emiratisation and local OSH requirements.',
-      },
-
-      'I': {
-        'what': 'What is Incident Investigation?',
-        'whatText':
-            'Incident investigation is a systematic process used to understand what happened and identify underlying causes.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To prevent recurrence by identifying root and contributing causes.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Secure the scene, collect evidence, interview relevant persons, identify causes and implement corrective actions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Competent investigation personnel should conduct the investigation objectively and document findings.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Scene secured • Evidence collected • Interviews • Cause analysis • Corrective actions • Follow-up.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Blaming individuals without root-cause analysis, incomplete evidence and weak corrective actions.',
-        'best': 'Best Practice',
-        'bestText':
-            'Focus on system and contributing factors rather than simply assigning blame.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable incident reporting procedures and UAE OSH requirements.',
-      },
-
-      'J': {
-        'what': 'What is Job Safety Analysis?',
-        'whatText':
-            'JSA is a structured process for breaking a job into steps, identifying hazards and establishing controls.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To reduce risk before work starts and ensure workers understand safe work methods.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Identify job steps, hazards, risk controls, required PPE and responsible persons.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Supervisors and competent personnel should ensure the JSA reflects actual site conditions.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Job steps • Hazards • Risk rating • Controls • PPE • Worker briefing.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Copy-paste JSAs, missing hazards and controls that do not match actual work conditions.',
-        'best': 'Best Practice',
-        'bestText':
-            'Review the JSA whenever the task, equipment, environment or conditions change.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable project risk assessment and safe work procedures.',
-      },
-
-      'K': {
-        'what': 'What are HSE Key Performance Indicators?',
-        'whatText':
-            'KPIs are measurable indicators used to monitor safety performance and identify improvement areas.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To measure performance, identify trends and support continual improvement.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Use meaningful leading and lagging indicators and review trends regularly.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'HSE teams should collect reliable data and communicate performance results.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Inspections • Training • Near misses • Incidents • Corrective actions • Trends.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Focusing only on accident numbers and ignoring leading indicators.',
-        'best': 'Best Practice',
-        'bestText':
-            'Use KPIs to drive preventive action rather than simply reporting statistics.',
-        'reference': 'Reference',
-        'referenceText':
-            'Company HSE management system and applicable OSH requirements.',
-      },
-
-      'L': {
+      'Lifting': {
         'what': 'What are Lifting Operations?',
         'whatText':
-            'Lifting operations involve moving loads using cranes, lifting equipment or accessories.',
+            'Lifting operations involve raising, lowering or moving loads using cranes, hoists or other lifting equipment and accessories.',
         'purpose': 'Purpose',
         'purposeText':
-            'To safely plan and execute lifting activities while preventing dropped loads and equipment failure.',
+            'To prevent dropped loads, equipment failure, struck-by incidents and uncontrolled movement of loads.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Competent personnel, suitable lifting equipment, inspection, lifting plan where required, exclusion zones and communication.',
+            'Use competent personnel, suitable lifting equipment and accessories, verified load capacity, appropriate lifting plans where required, stable ground conditions, exclusion zones and effective communication.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Lifting supervisors, operators, riggers and signalers must perform their assigned roles competently.',
-        'checklist': 'Checklist',
+            'Lifting supervisors, crane operators, riggers and signalers must be competent and perform their assigned roles safely.',
+        'checklist': 'Lifting Checklist',
         'checklistText':
-            'Equipment inspection • SWL/WLL • Rigging • Ground condition • Exclusion zone • Communication.',
+            'Lift plan • Crane inspection • Lifting accessories • SWL/WLL • Ground condition • Outriggers • Exclusion zone • Banksman/signalman • Communication.',
         'violations': 'Common Issues',
         'violationsText':
-            'Overloading, damaged lifting accessories, poor rigging and people standing under suspended loads.',
+            'Overloading, damaged lifting accessories, poor rigging, side loading, lifting over people and inadequate exclusion zones.',
         'best': 'Best Practice',
         'bestText':
-            'Plan the lift, verify equipment capacity and keep people away from suspended loads.',
+            'Plan every lift, verify the load and equipment capacity, inspect lifting accessories and keep people away from suspended loads.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE OSH lifting requirements and approved lifting procedures.',
+            'Applicable UAE and Abu Dhabi lifting requirements, authority Codes of Practice and approved project lifting procedures.',
       },
 
-      'M': {
-        'what': 'What is Manual Handling?',
+      'Excavation': {
+        'what': 'What is Excavation Safety?',
         'whatText':
-            'Manual handling involves lifting, carrying, pushing, pulling or moving objects using physical effort.',
+            'Excavation safety covers hazards associated with digging, trenching and earthworks, including collapse, underground services, falling materials and plant movement.',
         'purpose': 'Purpose',
         'purposeText':
-            'To prevent musculoskeletal injuries and other manual handling-related harm.',
+            'To prevent trench collapse, worker falls, underground service strikes, flooding and plant-related incidents.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Assess the task, reduce load weight where possible, use mechanical aids and provide suitable training.',
+            'Conduct risk assessment, identify underground services, provide suitable excavation protection, maintain safe access and egress, control plant movement and inspect excavations regularly.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Supervisors should identify high-risk manual tasks and workers should use safe handling techniques.',
-        'checklist': 'Checklist',
+            'Supervisors must ensure excavation controls are implemented. Competent persons should inspect excavation conditions and protection systems.',
+        'checklist': 'Excavation Checklist',
         'checklistText':
-            'Load assessed • Mechanical aid • Safe route • Team lift where appropriate • Correct technique.',
+            'Permit where required • Service drawings • Service detection • Shoring/sloping • Safe access • Edge protection • Spoil setback • Water control • Inspection.',
         'violations': 'Common Issues',
         'violationsText':
-            'Lifting excessive loads, twisting while lifting and carrying loads over unsafe distances.',
+            'Unprotected trenches, spoil too close to edges, unsafe access, missing service identification and workers entering unstable excavations.',
         'best': 'Best Practice',
         'bestText':
-            'Eliminate or reduce manual handling by using mechanical assistance wherever reasonably practicable.',
+            'Never enter an unsafe excavation. Identify underground services before digging and provide suitable protective systems based on the risk.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable workplace risk assessment and ergonomic requirements.',
+            'Applicable UAE / Abu Dhabi excavation, trenching, temporary works and underground service requirements.',
       },
 
-      'N': {
-        'what': 'What is Near Miss Reporting?',
-        'whatText':
-            'A near miss is an event that could have resulted in injury, damage or loss but did not.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To identify weaknesses before they result in actual incidents.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Encourage reporting, investigate significant near misses and implement corrective actions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Everyone should report near misses without fear of blame or retaliation.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Report • Investigate • Identify cause • Correct • Share lesson learned.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Under-reporting, blaming workers and failing to close corrective actions.',
-        'best': 'Best Practice',
-        'bestText':
-            'Treat near misses as valuable opportunities for prevention and learning.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable company incident and near-miss reporting procedures.',
-      },
-
-      'O': {
-        'what': 'What are OSHA & ISO Standards?',
-        'whatText':
-            'OSHA regulations and ISO standards provide widely used approaches to occupational safety and health management.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To support effective safety management, risk control and continual improvement.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Apply the standard or legal requirement relevant to the organisation and maintain documented processes where required.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Management must provide resources and HSE teams should monitor implementation.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Legal register • Risk assessment • Training • Monitoring • Auditing • Corrective actions.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Treating certification or standards as paperwork without effective implementation.',
-        'best': 'Best Practice',
-        'bestText':
-            'Integrate safety standards into daily operations rather than treating them as separate paperwork.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable OSHA resources, ISO 45001 and UAE legal requirements.',
-      },
-
-      'P': {
-        'what': 'What is PPE Compliance?',
-        'whatText':
-            'PPE compliance means selecting, providing, using and maintaining personal protective equipment appropriate to identified hazards.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To provide additional protection when hazards cannot be adequately controlled through other measures.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'PPE should be suitable for the hazard, correctly fitted, maintained and used according to instructions.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Employers provide suitable PPE and workers use and maintain it correctly.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Helmet • Safety footwear • Eye protection • Gloves • Hearing protection • Fall protection as applicable.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Wrong PPE, damaged PPE, poor fit and failure to wear required PPE.',
-        'best': 'Best Practice',
-        'bestText':
-            'Control hazards at source first and use PPE as the appropriate final layer of protection.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable ADPHC PPE requirements and project-specific PPE procedures.',
-      },
-
-      'Q': {
-        'what': 'What is HSE Auditing?',
-        'whatText':
-            'An HSE audit is a systematic examination of safety management arrangements and compliance.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To identify gaps, verify compliance and drive continual improvement.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Define scope, collect evidence, identify findings, assign corrective actions and verify closure.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Auditors should remain objective and base findings on evidence.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Scope • Documents • Site inspection • Interviews • Findings • Corrective actions.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Paper-only audits, weak evidence and corrective actions that are not closed.',
-        'best': 'Best Practice',
-        'bestText':
-            'Use audit findings to identify systemic improvements, not just individual failures.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable company HSE audit procedures and OSH management requirements.',
-      },
-
-      'R': {
-        'what': 'What is Risk Assessment?',
-        'whatText':
-            'Risk assessment is the process of identifying hazards, evaluating risks and determining suitable controls.',
-        'purpose': 'Purpose',
-        'purposeText':
-            'To prevent harm by controlling risks before and during work.',
-        'requirements': 'Key Requirements',
-        'requirementsText':
-            'Identify hazards, determine risk, implement controls and review the assessment when conditions change.',
-        'responsibilities': 'Responsibilities',
-        'responsibilitiesText':
-            'Competent personnel should conduct or support risk assessments with worker involvement where appropriate.',
-        'checklist': 'Checklist',
-        'checklistText':
-            'Hazards • People at risk • Existing controls • Risk rating • Additional controls • Review date.',
-        'violations': 'Common Issues',
-        'violationsText':
-            'Generic assessments, missing hazards and controls that are not implemented in practice.',
-        'best': 'Best Practice',
-        'bestText':
-            'Use the hierarchy of controls and involve people who understand the actual task.',
-        'reference': 'Reference',
-        'referenceText':
-            'Applicable UAE OSH risk management requirements and company procedures.',
-      },
-
-      'S': {
+      'Scaffolding': {
         'what': 'What is Scaffolding Safety?',
         'whatText':
-            'Scaffolding safety covers the safe design, erection, inspection, tagging, alteration and use of scaffolds.',
+            'Scaffolding safety covers the design, erection, inspection, alteration, tagging and safe use of scaffold systems.',
         'purpose': 'Purpose',
         'purposeText':
-            'To prevent falls, scaffold collapse and falling-object incidents.',
+            'To prevent falls from height, scaffold collapse, falling objects and unsafe access.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Competent erection, suitable foundations, proper access, guardrails, toe boards, inspection and safe loading.',
+            'Use competent scaffold personnel, provide stable foundations, proper access, guardrails, toe boards, suitable platforms, safe loading and required inspections.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Only authorised and competent personnel should erect, alter or inspect scaffolding as required.',
-        'checklist': 'Checklist',
+            'Only authorised and competent personnel should erect, alter or inspect scaffolding. Users must not make unauthorised modifications.',
+        'checklist': 'Scaffold Checklist',
         'checklistText':
-            'Foundation • Access • Guardrails • Toe boards • Platform • Inspection/tag • Safe load.',
+            'Foundation • Standards • Bracing • Guardrails • Toe boards • Platforms • Access ladder/stair • Inspection • Tag • Safe load.',
         'violations': 'Common Issues',
         'violationsText':
-            'Missing guardrails, unsafe access, damaged components, overloading and unauthorised alteration.',
+            'Missing guardrails, damaged components, unsafe access, overloading, incomplete platforms and unauthorised alterations.',
         'best': 'Best Practice',
         'bestText':
-            'Do not use scaffolding until it has been properly inspected and released for use according to the applicable system.',
+            'Do not use a scaffold until it has been inspected and released for use under the applicable site system.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE/Abu Dhabi scaffolding requirements and project procedures.',
+            'Applicable UAE / Abu Dhabi scaffolding requirements, authority guidance and project procedures.',
       },
 
-      'T': {
-        'what': 'What are Training & Induction?',
+      'Working at Height': {
+        'what': 'What is Working at Height?',
         'whatText':
-            'Training and induction provide workers with the knowledge and information needed to work safely.',
+            'Working at height includes work where a person could fall from one level to another and suffer injury.',
         'purpose': 'Purpose',
         'purposeText':
-            'To ensure workers understand site hazards, rules, emergency arrangements and safe work methods.',
+            'To prevent falls from roofs, scaffolds, platforms, ladders, openings and other elevated work areas.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Provide appropriate induction, task-specific training and refresher training where required.',
+            'Avoid work at height where possible, assess risks, provide suitable platforms and edge protection, control openings and use fall protection systems where required.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Management provides resources and supervisors ensure workers are competent for assigned tasks.',
-        'checklist': 'Checklist',
+            'Supervisors must ensure suitable access, protection and rescue arrangements. Workers must use provided systems correctly.',
+        'checklist': 'Height Safety Checklist',
         'checklistText':
-            'Site induction • Task training • Competency • Attendance records • Refresher training.',
+            'Risk assessment • Safe access • Guardrails • Edge protection • Floor opening protection • Harness where required • Anchor points • Rescue plan.',
         'violations': 'Common Issues',
         'violationsText':
-            'Untrained workers, expired competency and incomplete training records.',
+            'Unprotected edges, unsafe ladders, missing guardrails, incorrect harness use and working without a rescue arrangement.',
         'best': 'Best Practice',
         'bestText':
-            'Verify competence before assigning workers to safety-critical tasks.',
+            'Prioritise collective protection such as guardrails and safe platforms before relying on personal fall protection.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE OSH and project training requirements.',
+            'Applicable UAE / Abu Dhabi work-at-height requirements and approved project procedures.',
       },
 
-      'U': {
-        'what': 'What is UAE Labour Law?',
+      'Power Tools': {
+        'what': 'What are Power Tool Safety Requirements?',
         'whatText':
-            'UAE labour legislation establishes legal requirements governing employment relationships and worker protections.',
+            'Power tools include portable electrical, pneumatic and other powered tools used for cutting, drilling, grinding and similar activities.',
         'purpose': 'Purpose',
         'purposeText':
-            'To establish legal protections and responsibilities within employment.',
+            'To prevent electric shock, cuts, eye injuries, entanglement, burns, noise exposure and flying-particle injuries.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Employers and workers must comply with applicable UAE labour legislation and related regulations.',
+            'Use suitable tools, inspect before use, maintain guards, use correct accessories, provide electrical protection where required and wear appropriate PPE.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Organisations should maintain compliance with applicable legal requirements and communicate relevant workplace obligations.',
-        'checklist': 'Checklist',
+            'Workers must use tools correctly and report damaged equipment. Supervisors should ensure inspection, maintenance and competency.',
+        'checklist': 'Power Tool Checklist',
         'checklistText':
-            'Legal requirements • Worker welfare • Working conditions • Records • HSE obligations.',
+            'Pre-use inspection • Guards • Cable/plug • Correct disc/blade • RCD/GFCI where applicable • PPE • Safe position • Maintenance.',
         'violations': 'Common Issues',
         'violationsText':
-            'Failure to understand applicable legal requirements or maintain required records and controls.',
+            'Damaged cables, removed guards, incorrect discs, improvised repairs and using tools without suitable PPE.',
         'best': 'Best Practice',
         'bestText':
-            'Always verify the latest official UAE legislation before making a legal compliance decision.',
+            'Inspect tools before use and remove defective equipment from service immediately.',
         'reference': 'Reference',
         'referenceText':
-            'UAE official labour legislation and Ministry of Human Resources and Emiratisation resources.',
+            'Applicable UAE electrical safety requirements, manufacturer instructions and project HSE procedures.',
       },
 
-      'V': {
-        'what': 'What are Ventilation & Confined Spaces?',
+      'Formwork': {
+        'what': 'What is Formwork Safety?',
         'whatText':
-            'Confined spaces may have limited entry or exit and can contain serious atmospheric or physical hazards.',
+            'Formwork is a temporary structure used to support fresh concrete until it gains sufficient strength.',
         'purpose': 'Purpose',
         'purposeText':
-            'To prevent poisoning, oxygen deficiency, engulfment, fire, explosion and other confined-space incidents.',
+            'To prevent formwork collapse, falling materials, struck-by incidents and worker falls.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Risk assessment, permit controls where required, atmospheric testing, ventilation, isolation, communication and rescue arrangements.',
+            'Use approved design, suitable materials, proper bracing and supports, safe access, inspection before loading and controlled stripping procedures.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Only trained and authorised personnel should enter where applicable, with appropriate supervision and rescue arrangements.',
-        'checklist': 'Checklist',
+            'Engineers and competent personnel should verify the formwork system. Supervisors must ensure erection and use follow the approved design.',
+        'checklist': 'Formwork Checklist',
         'checklistText':
-            'Permit • Gas testing • Ventilation • Isolation • Communication • Attendant • Rescue plan.',
+            'Approved design • Props • Bracing • Base condition • Connections • Working platforms • Access • Inspection • Pour sequence.',
         'violations': 'Common Issues',
         'violationsText':
-            'Entering without testing, inadequate ventilation, poor isolation and no rescue plan.',
+            'Inadequate bracing, damaged components, unstable props, unauthorised changes and premature stripping.',
         'best': 'Best Practice',
         'bestText':
-            'Avoid entry where possible; where entry is necessary, implement all applicable controls before entry.',
+            'Follow the approved temporary works design and inspect the formwork before concrete placement.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE OSH confined-space requirements and approved procedures.',
+            'Applicable UAE / Abu Dhabi temporary works, formwork and construction safety requirements.',
       },
 
-      'W': {
-        'what': 'What is Waste Management?',
+      'Permit to Work': {
+        'what': 'What is a Permit to Work?',
         'whatText':
-            'Waste management is the safe segregation, collection, storage, transport and disposal of workplace waste.',
+            'A Permit to Work (PTW) is a formal control system used to manage specified high-risk activities under defined conditions.',
         'purpose': 'Purpose',
         'purposeText':
-            'To prevent pollution, injuries, fire hazards and unsafe working conditions.',
+            'To ensure hazards are identified, controls are established and responsible persons understand the conditions before work starts.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Segregate waste, use suitable containers, maintain housekeeping and dispose of waste through approved methods.',
+            'Define the work scope, identify hazards, establish controls, verify isolations where applicable, authorise the permit and close it after work.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Workers should segregate waste correctly and supervisors should monitor waste areas.',
-        'checklist': 'Checklist',
+            'Permit issuers, performing authorities, supervisors and workers must understand and comply with the permit conditions.',
+        'checklist': 'PTW Checklist',
         'checklistText':
-            'Segregation • Containers • Labelling • Storage • Housekeeping • Approved disposal.',
+            'Correct scope • Risk assessment • Isolation • Gas testing where required • Controls • Authorisation • Validity • Display • Closure.',
         'violations': 'Common Issues',
         'violationsText':
-            'Mixed waste, overflowing bins, unsafe storage and improper disposal.',
+            'Working without a permit, expired permits, changed conditions, missing isolations and poor permit close-out.',
         'best': 'Best Practice',
         'bestText':
-            'Reduce waste at source and maintain clear segregation and housekeeping arrangements.',
+            'Stop work and reassess whenever conditions change from those covered by the permit.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE environmental and waste management requirements.',
+            'Applicable UAE / Abu Dhabi PTW requirements and project permit-to-work procedures.',
       },
 
-      'X': {
-        'what': 'What is Radiation Safety?',
+      'Working in Hot & Humid Climate': {
+        'what': 'What is Heat Stress Management?',
         'whatText':
-            'Radiation safety controls exposure to ionising radiation and protects workers and the public.',
+            'Heat stress management protects workers from illness caused by high temperatures, humidity, workload and prolonged exposure.',
         'purpose': 'Purpose',
         'purposeText':
-            'To keep radiation exposure as low as reasonably achievable and within applicable limits.',
+            'To prevent heat exhaustion, heat stroke, dehydration and other heat-related illnesses.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Controlled areas, authorised personnel, suitable shielding, monitoring, warning signs and approved procedures.',
+            'Provide drinking water, shaded or suitable rest areas, heat awareness training, work/rest planning, supervision and compliance with applicable UAE heat-related work restrictions.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Only authorised and appropriately trained personnel should perform radiation-related work.',
-        'checklist': 'Checklist',
+            'Supervisors should monitor workers, recognise symptoms and take prompt action when heat stress is suspected.',
+        'checklist': 'Heat Stress Checklist',
         'checklistText':
-            'Controlled area • Warning signs • Dosimetry • Shielding • Equipment checks • Authorisation.',
+            'Drinking water • Shade • Rest area • Acclimatisation • Heat awareness • Work/rest planning • First aid • Emergency response.',
         'violations': 'Common Issues',
         'violationsText':
-            'Unauthorised access, inadequate exclusion zones and failure to follow radiation procedures.',
+            'Insufficient water, inadequate rest, poor supervision, lack of acclimatisation and failure to follow applicable work restrictions.',
         'best': 'Best Practice',
         'bestText':
-            'Follow the approved radiation protection programme and applicable regulatory requirements.',
+            'Plan demanding work around heat conditions and encourage workers to report symptoms early without fear of blame.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE radiation protection and regulatory requirements.',
+            'Applicable UAE Ministry of Human Resources and Emiratisation requirements and local OSH authority guidance.',
       },
 
-      'Y': {
-        'what': 'What is Yard & Traffic Safety?',
+      'Confined Space': {
+        'what': 'What is a Confined Space?',
         'whatText':
-            'Yard and traffic safety controls interaction between vehicles, mobile equipment and pedestrians.',
+            'A confined space is an enclosed or partially enclosed space that may present serious hazards because of its configuration, atmosphere or other conditions.',
         'purpose': 'Purpose',
         'purposeText':
-            'To prevent vehicle collisions, struck-by incidents and pedestrian injuries.',
+            'To prevent asphyxiation, toxic exposure, fire, explosion, engulfment and other confined-space incidents.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Traffic routes, speed controls, pedestrian segregation, reversing controls, signs and competent drivers.',
+            'Avoid entry where possible. Where entry is necessary, use risk assessment, permit controls where required, atmospheric testing, ventilation, isolation, communication, standby and rescue arrangements.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Drivers must follow site traffic rules and pedestrians must use designated routes.',
-        'checklist': 'Checklist',
+            'Only trained and authorised personnel should enter where applicable. Supervisors must ensure controls remain effective throughout the work.',
+        'checklist': 'Confined Space Checklist',
         'checklistText':
-            'Speed limits • Walkways • Barriers • Signage • Reversing controls • Vehicle inspection.',
+            'Permit • Gas test • Oxygen level • Toxic/flammable gases • Ventilation • Isolation • Attendant • Communication • Rescue plan.',
         'violations': 'Common Issues',
         'violationsText':
-            'Speeding, poor segregation, unsafe reversing and blocked pedestrian routes.',
+            'Entry without testing, inadequate ventilation, poor isolation, no attendant and no effective rescue arrangement.',
         'best': 'Best Practice',
         'bestText':
-            'Separate people and vehicles wherever reasonably practicable and control vehicle movements.',
+            'Treat every confined-space entry as a high-risk activity and verify atmospheric and physical controls before entry.',
         'reference': 'Reference',
         'referenceText':
-            'Applicable UAE traffic and workplace vehicle safety requirements.',
+            'Applicable UAE / Abu Dhabi confined-space requirements and approved project procedures.',
       },
 
-      'Z': {
-        'what': 'What is the Zero Accident Goal?',
+      'Working Near Live Road': {
+        'what': 'What is Roadside / Live Traffic Safety?',
         'whatText':
-            'The zero-accident goal represents a commitment to preventing injuries and improving workplace safety continuously.',
+            'Working near a live road involves construction or maintenance activities close to moving public or site traffic.',
         'purpose': 'Purpose',
         'purposeText':
-            'To create a strong prevention-focused safety culture.',
+            'To prevent vehicle collisions, worker struck-by incidents and traffic-related injuries.',
         'requirements': 'Key Requirements',
         'requirementsText':
-            'Leadership commitment, hazard identification, risk control, worker participation, reporting and continual improvement.',
+            'Use an approved traffic management arrangement, barriers, signs, lighting, trained traffic marshals and suitable separation between workers and moving vehicles.',
         'responsibilities': 'Responsibilities',
         'responsibilitiesText':
-            'Everyone has a role in identifying hazards, following controls and reporting unsafe conditions.',
-        'checklist': 'Checklist',
+            'Supervisors must maintain the approved traffic control arrangement. Workers must stay within designated safe areas.',
+        'checklist': 'Road Safety Checklist',
         'checklistText':
-            'Leadership • Risk assessment • Training • Inspections • Reporting • Corrective actions.',
+            'Traffic plan • Barriers • Signs • Cones • Lighting • Safe pedestrian route • Traffic marshal • Speed control • Emergency access.',
         'violations': 'Common Issues',
         'violationsText':
-            'Production pressure, unsafe shortcuts, poor reporting culture and incomplete corrective actions.',
+            'Poor barricading, inadequate signs, workers entering traffic lanes and uncontrolled vehicle movements.',
         'best': 'Best Practice',
         'bestText':
-            'Focus on prevention, learning and continuous improvement rather than treating zero accidents as only a numerical target.',
+            'Physically separate workers from live traffic wherever reasonably practicable and inspect traffic controls regularly.',
         'reference': 'Reference',
         'referenceText':
-            'Company HSE policy and applicable UAE occupational safety requirements.',
+            'Applicable UAE / Abu Dhabi traffic management and road-work safety requirements.',
+      },
+
+      'Concreting': {
+        'what': 'What is Concreting Safety?',
+        'whatText':
+            'Concreting involves delivery, pumping, placing, vibrating and finishing fresh concrete.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To prevent struck-by incidents, formwork failure, hose movement, chemical exposure and manual handling injuries.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Verify formwork stability, control concrete pumps and hoses, establish exclusion zones, use suitable PPE and maintain safe communication during concrete placement.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Supervisors must coordinate the concrete operation and ensure formwork, access and equipment are safe before the pour.',
+        'checklist': 'Concreting Checklist',
+        'checklistText':
+            'Formwork inspection • Pump inspection • Hose control • Exclusion zone • Access • PPE • Communication • Emergency arrangements.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Uncontrolled pump hoses, unstable access, inadequate PPE and starting a pour without verifying formwork condition.',
+        'best': 'Best Practice',
+        'bestText':
+            'Conduct a pre-pour inspection and briefing before concrete placement starts.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE / Abu Dhabi construction safety and temporary works requirements.',
+      },
+
+      'Barricading of Hazards': {
+        'what': 'What is Hazard Barricading?',
+        'whatText':
+            'Hazard barricading uses physical barriers, warning signs or controlled access arrangements to prevent people entering dangerous areas.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To clearly identify hazards and prevent unauthorised access to unsafe areas.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Use suitable barriers, warning signs and access controls appropriate to the hazard. Maintain clear emergency routes and inspect barricades regularly.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Workers should not remove or cross barricades without authorisation. Supervisors must ensure barriers remain effective.',
+        'checklist': 'Barricading Checklist',
+        'checklistText':
+            'Correct barrier • Warning signs • Adequate visibility • Stable installation • Access controlled • Emergency route maintained.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Weak barricades, missing signs, open gaps, damaged barriers and using tape alone where stronger protection is required.',
+        'best': 'Best Practice',
+        'bestText':
+            'Choose the level of physical protection according to the severity and nature of the hazard.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE / Abu Dhabi site safety, access control and hazard identification requirements.',
+      },
+
+      'Worker Welfare': {
+        'what': 'What is Worker Welfare?',
+        'whatText':
+            'Worker welfare covers workplace arrangements that support workers health, comfort, dignity and basic needs.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To provide suitable welfare conditions and support safe and healthy working environments.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Provide suitable drinking water, sanitation, rest facilities, welfare areas, accommodation arrangements where applicable and appropriate emergency support.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Management must provide suitable welfare arrangements and supervisors should monitor conditions and report deficiencies.',
+        'checklist': 'Welfare Checklist',
+        'checklistText':
+            'Drinking water • Toilets • Washing facilities • Rest area • Shade/temperature control • Cleanliness • First aid • Emergency contacts.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Poor sanitation, insufficient drinking water, inadequate rest areas and poor welfare-area housekeeping.',
+        'best': 'Best Practice',
+        'bestText':
+            'Inspect welfare facilities regularly and correct deficiencies promptly.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE labour, worker welfare and occupational safety requirements.',
+      },
+
+      'MEWP': {
+        'what': 'What is MEWP Safety?',
+        'whatText':
+            'A Mobile Elevating Work Platform (MEWP) is mobile equipment designed to raise people to elevated working positions.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To prevent falls, overturning, crushing, collision and equipment-related incidents.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Use trained operators, inspect equipment, assess ground conditions, control overhead hazards, use required fall protection and maintain exclusion zones.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Only authorised and competent operators should use MEWPs. Supervisors must verify equipment suitability and working conditions.',
+        'checklist': 'MEWP Checklist',
+        'checklistText':
+            'Pre-use inspection • Operator competency • Ground condition • Guardrails • Harness where required • Overhead clearance • Exclusion zone • Emergency lowering.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Unauthorised operation, bypassed safety devices, unstable ground, climbing guardrails and poor exclusion zones.',
+        'best': 'Best Practice',
+        'bestText':
+            'Complete a pre-use inspection and confirm ground, overhead and surrounding conditions before positioning the MEWP.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE / Abu Dhabi MEWP requirements, manufacturer instructions and project procedures.',
+      },
+
+      'Electricity on Site & Electrical Tools': {
+        'what': 'What is Electrical Safety on Site?',
+        'whatText':
+            'Construction electrical safety covers temporary electrical installations, distribution systems, cables, portable electrical tools and associated equipment.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To prevent electric shock, burns, arc-related injuries, fire and electrical equipment incidents.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Use competent electrical personnel, suitable distribution boards, protection devices, proper earthing, inspected cables and tools, and protect electrical equipment from damage and environmental conditions.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Electrical work should be performed by authorised competent personnel. Workers must report damaged electrical equipment and never make unauthorised repairs.',
+        'checklist': 'Electrical Checklist',
+        'checklistText':
+            'Distribution board • RCD/GFCI • Earthing • Cable condition • Plugs • Tool inspection • Protection from water • Isolation/LOTO where required.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Damaged cables, exposed conductors, overloaded sockets, improvised connections and unauthorised electrical work.',
+        'best': 'Best Practice',
+        'bestText':
+            'Remove defective electrical equipment from service immediately and ensure electrical systems are inspected by competent personnel.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE / Abu Dhabi electrical safety requirements, manufacturer instructions and project procedures.',
+      },
+
+      'Temporary Works': {
+        'what': 'What are Temporary Works?',
+        'whatText':
+            'Temporary works are structures or systems installed to support, protect or facilitate construction activities and may later be removed.',
+        'purpose': 'Purpose',
+        'purposeText':
+            'To ensure temporary structures remain stable and safe throughout their intended use.',
+        'requirements': 'Key Requirements',
+        'requirementsText':
+            'Use suitable design, competent review, appropriate materials, controlled installation, inspection, monitoring and an approved sequence for loading or removal.',
+        'responsibilities': 'Responsibilities',
+        'responsibilitiesText':
+            'Engineers and competent personnel should control temporary works design and implementation. Supervisors must follow the approved method and sequence.',
+        'checklist': 'Temporary Works Checklist',
+        'checklistText':
+            'Approved design • Design review • Foundations • Bracing • Connections • Inspection • Load limits • Installation sequence • Removal sequence.',
+        'violations': 'Common Issues',
+        'violationsText':
+            'Unauthorised modifications, inadequate bracing, overloading, missing inspections and removing supports prematurely.',
+        'best': 'Best Practice',
+        'bestText':
+            'Treat temporary works as engineered systems and do not alter them without appropriate technical approval.',
+        'reference': 'Reference',
+        'referenceText':
+            'Applicable UAE / Abu Dhabi temporary works and construction safety requirements.',
       },
     };
   }
 
-  String _value(String key) {
-    final item = details[letter];
+  // ------------------------------------------------------------
+  // FIND CONTENT BY TOPIC TITLE
+  // ------------------------------------------------------------
 
-    if (item == null) {
-      return '';
+  Map<String, String>? get currentDetail {
+    // Exact title match
+    if (details.containsKey(title)) {
+      return details[title];
     }
 
-    return item[key] ?? '';
+    // Normalised match to handle small differences in spacing/case
+    final normalizedTitle = title.trim().toLowerCase();
+
+    for (final entry in details.entries) {
+      if (entry.key.trim().toLowerCase() == normalizedTitle) {
+        return entry.value;
+      }
+    }
+
+    return null;
   }
+
+  String _value(String key) {
+    return currentDetail?[key] ?? '';
+  }
+
+  // ------------------------------------------------------------
+  // UI
+  // ------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.blueAccent,
+        title: Text(
+          title.isEmpty ? 'HSE Guideline' : title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.green.shade700,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: CircleAvatar(
-                radius: 38,
-                backgroundColor: Colors.blueAccent,
-                child: Text(
-                  letter,
-                  style: const TextStyle(
+            // Header
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.green.shade800,
+                    Colors.green.shade600,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.health_and_safety,
+                    size: 52,
                     color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            Center(
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            Center(
-              child: Text(
-                desc,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 15,
-                  height: 1.5,
-                  color: Colors.black54,
-                ),
+                  const SizedBox(height: 12),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (desc.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      desc,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
 
             const SizedBox(height: 20),
 
-            _section('📖', _value('what'), _value('whatText')),
-            _section('🎯', _value('purpose'), _value('purposeText')),
-            _section('⚠️', _value('requirements'), _value('requirementsText')),
-            _section('👷', _value('responsibilities'), _value('responsibilitiesText')),
-            _section('📋', _value('checklist'), _value('checklistText')),
-            _section('🚨', _value('violations'), _value('violationsText')),
-            _section('✅', _value('best'), _value('bestText')),
-            _section('📚', _value('reference'), _value('referenceText')),
+            _section(
+              '📖',
+              _value('what'),
+              _value('whatText'),
+            ),
 
-            const SizedBox(height: 20),
+            _section(
+              '🎯',
+              _value('purpose'),
+              _value('purposeText'),
+            ),
 
+            _section(
+              '⚠️',
+              _value('requirements'),
+              _value('requirementsText'),
+            ),
+
+            _section(
+              '👷',
+              _value('responsibilities'),
+              _value('responsibilitiesText'),
+            ),
+
+            _section(
+              '📋',
+              _value('checklist'),
+              _value('checklistText'),
+            ),
+
+            _section(
+              '🚨',
+              _value('violations'),
+              _value('violationsText'),
+            ),
+
+            _section(
+              '✅',
+              _value('best'),
+              _value('bestText'),
+            ),
+
+            _section(
+              '📚',
+              _value('reference'),
+              _value('referenceText'),
+            ),
+
+            const SizedBox(height: 8),
+
+            // Important notice
             Card(
+              elevation: 1,
               color: Colors.orange.shade50,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
               child: const Padding(
-                padding: EdgeInsets.all(14),
+                padding: EdgeInsets.all(15),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.info_outline, color: Colors.orange),
+                    Icon(
+                      Icons.info_outline,
+                      color: Colors.orange,
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Important: This information is for HSE awareness and guidance. Always verify the latest applicable UAE legislation, authority requirements, Codes of Practice and project procedures before making compliance decisions.',
+                        'Important: This information is provided for HSE awareness and practical guidance. Always verify the latest applicable UAE legislation, authority requirements, Codes of Practice, manufacturer instructions and project procedures before making compliance decisions.',
                         style: TextStyle(
                           fontSize: 13,
-                          height: 1.4,
+                          height: 1.45,
                         ),
                       ),
                     ),
@@ -817,11 +654,17 @@ class GuidelineDetailPage extends StatelessWidget {
                 ),
               ),
             ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
+
+  // ------------------------------------------------------------
+  // SECTION CARD
+  // ------------------------------------------------------------
 
   Widget _section(
     String icon,
@@ -834,26 +677,32 @@ class GuidelineDetailPage extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
-      elevation: 2,
+      elevation: 1.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(17),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   icon,
-                  style: const TextStyle(fontSize: 22),
+                  style: const TextStyle(
+                    fontSize: 23,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     heading,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
+                      color: Colors.green.shade800,
                     ),
                   ),
                 ),
@@ -864,7 +713,8 @@ class GuidelineDetailPage extends StatelessWidget {
               content,
               style: const TextStyle(
                 fontSize: 15,
-                height: 1.5,
+                height: 1.55,
+                color: Colors.black87,
               ),
             ),
           ],
