@@ -10,8 +10,7 @@ class VoiceReportPage extends StatefulWidget {
       _VoiceReportPageState();
 }
 
-class _VoiceReportPageState
-    extends State<VoiceReportPage> {
+class _VoiceReportPageState extends State<VoiceReportPage> {
   // ============================================================
   // STATE
   // ============================================================
@@ -24,21 +23,18 @@ class _VoiceReportPageState
   // COLORS
   // ============================================================
 
-  static const Color primaryGreen =
-      Color(0xFF159447);
+  static const Color primaryGreen = Color(0xFF159447);
 
-  static const Color darkGreen =
-      Color(0xFF0B5D4B);
+  static const Color darkGreen = Color(0xFF0B5D4B);
 
-  static const Color pageBackground =
-      Color(0xFFF6F8F7);
+  static const Color pageBackground = Color(0xFFF6F8F7);
 
   // ============================================================
   // RECORDING STATE
   //
   // NOTE:
   // This screen currently provides the UI layer only.
-  // Actual microphone / speech-to-text integration should be
+  // Actual microphone / speech-to-text integration can be
   // added later through a dedicated service.
   // ============================================================
 
@@ -59,7 +55,7 @@ class _VoiceReportPageState
   }
 
   // ============================================================
-  // CLEAR
+  // CLEAR TRANSCRIPT
   // ============================================================
 
   void _clearTranscript() {
@@ -72,21 +68,15 @@ class _VoiceReportPageState
   // MESSAGE
   // ============================================================
 
-  void _showMessage(
-    String message,
-  ) {
+  void _showMessage(String message) {
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context)
-        .hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior:
-            SnackBarBehavior.floating,
-        content:
-            Text(message),
+        behavior: SnackBarBehavior.floating,
+        content: Text(message),
       ),
     );
   }
@@ -96,33 +86,24 @@ class _VoiceReportPageState
   // ============================================================
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          pageBackground,
+      backgroundColor: pageBackground,
 
       // ========================================================
       // APP BAR
       // ========================================================
 
       appBar: AppBar(
-        title:
-            const Text(
+        title: const Text(
           'Voice Report',
-          style:
-              TextStyle(
-            fontWeight:
-                FontWeight.w800,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor:
-            primaryGreen,
-        foregroundColor:
-            Colors.white,
-        centerTitle:
-            true,
+        backgroundColor: primaryGreen,
+        foregroundColor: Colors.white,
+        centerTitle: true,
       ),
 
       // ========================================================
@@ -130,10 +111,8 @@ class _VoiceReportPageState
       // ========================================================
 
       body: SafeArea(
-        child:
-            ListView(
-          padding:
-              const EdgeInsets.fromLTRB(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(
             16,
             20,
             16,
@@ -171,28 +150,19 @@ class _VoiceReportPageState
 
   Widget _buildHeader() {
     return Card(
-      child:
-          Padding(
-        padding:
-            const EdgeInsets.all(
+      child: Padding(
+        padding: const EdgeInsets.all(
           20,
         ),
-        child:
-            Column(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Voice Safety Report',
-              style:
-                  TextStyle(
-                fontSize:
-                    23,
-                fontWeight:
-                    FontWeight.w900,
-                color:
-                    darkGreen,
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
               ),
             ),
 
@@ -202,12 +172,9 @@ class _VoiceReportPageState
 
             Text(
               'Use your voice to prepare a workplace safety report.',
-              style:
-                  Theme.of(
-                context,
-              )
-                      .textTheme
-                      .bodyMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium,
             ),
           ],
         ),
@@ -221,91 +188,61 @@ class _VoiceReportPageState
 
   Widget _buildMicrophoneCard() {
     return Card(
-      child:
-          Padding(
-        padding:
-            const EdgeInsets.all(
+      child: Padding(
+        padding: const EdgeInsets.all(
           24,
         ),
-        child:
-            Column(
+        child: Column(
           children: [
             AnimatedContainer(
-              duration:
-                  const Duration(
-                milliseconds:
-                    250,
+              duration: const Duration(
+                milliseconds: 250,
               ),
-              width:
-                  130,
-              height:
-                  130,
-              decoration:
-                  BoxDecoration(
-                shape:
-                    BoxShape.circle,
+              width: 130,
+              height: 130,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
 
-                // FIX:
-                // withValues(alpha: ...) replaced with
-                // withOpacity(...) for compatibility.
+                // ==================================================
+                // Flutter modern Color API
+                // ==================================================
 
-                color:
-                    _isRecording
-                        ? Colors.red
-                            .withOpacity(
-                            0.12,
-                          )
-                        : primaryGreen
-                            .withOpacity(
-                            0.10,
-                          ),
+                color: _isRecording
+                    ? Colors.red.withValues(
+                        alpha: 0.12,
+                      )
+                    : primaryGreen.withValues(
+                        alpha: 0.10,
+                      ),
 
-                border:
-                    Border.all(
-                  color:
-                      _isRecording
-                          ? Colors.red
-                          : primaryGreen,
-                  width:
-                      2,
+                border: Border.all(
+                  color: _isRecording
+                      ? Colors.red
+                      : primaryGreen,
+                  width: 2,
                 ),
               ),
-              child:
-                  Center(
-                child:
-                    Container(
-                  width:
-                      92,
-                  height:
-                      92,
-                  decoration:
-                      BoxDecoration(
-                    shape:
-                        BoxShape.circle,
-                    color:
-                        _isRecording
-                            ? Colors.red
-                            : primaryGreen,
+              child: Center(
+                child: Container(
+                  width: 92,
+                  height: 92,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _isRecording
+                        ? Colors.red
+                        : primaryGreen,
                   ),
-                  child:
-                      IconButton(
-                    tooltip:
-                        _isRecording
-                            ? 'Stop'
-                            : 'Start',
-                    onPressed:
-                        _toggleRecording,
-                    icon:
-                        Icon(
+                  child: IconButton(
+                    tooltip: _isRecording
+                        ? 'Stop'
+                        : 'Start',
+                    onPressed: _toggleRecording,
+                    icon: Icon(
                       _isRecording
-                          ? Icons
-                              .stop_rounded
-                          : Icons
-                              .mic_rounded,
-                      color:
-                          Colors.white,
-                      size:
-                          44,
+                          ? Icons.stop_rounded
+                          : Icons.mic_rounded,
+                      color: Colors.white,
+                      size: 44,
                     ),
                   ),
                 ),
@@ -320,12 +257,9 @@ class _VoiceReportPageState
               _isRecording
                   ? 'Recording'
                   : 'Ready to record',
-              style:
-                  const TextStyle(
-                fontSize:
-                    20,
-                fontWeight:
-                    FontWeight.w800,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
               ),
             ),
 
@@ -337,14 +271,10 @@ class _VoiceReportPageState
               _isRecording
                   ? 'Tap the microphone to stop.'
                   : 'Tap the microphone to start.',
-              textAlign:
-                  TextAlign.center,
-              style:
-                  Theme.of(
-                context,
-              )
-                      .textTheme
-                      .bodyMedium,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium,
             ),
 
             if (_isRecording) ...[
@@ -366,25 +296,18 @@ class _VoiceReportPageState
 
   Widget _buildTranscriptCard() {
     return Card(
-      child:
-          Padding(
-        padding:
-            const EdgeInsets.all(
+      child: Padding(
+        padding: const EdgeInsets.all(
           18,
         ),
-        child:
-            Column(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 const Icon(
-                  Icons
-                      .description_outlined,
-                  color:
-                      primaryGreen,
+                  Icons.description_outlined,
+                  color: primaryGreen,
                 ),
 
                 const SizedBox(
@@ -392,30 +315,21 @@ class _VoiceReportPageState
                 ),
 
                 const Expanded(
-                  child:
-                      Text(
+                  child: Text(
                     'Voice Transcript',
-                    style:
-                        TextStyle(
-                      fontSize:
-                          17,
-                      fontWeight:
-                          FontWeight.w800,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
 
-                if (_transcript
-                    .isNotEmpty)
+                if (_transcript.isNotEmpty)
                   IconButton(
-                    tooltip:
-                        'Clear',
-                    onPressed:
-                        _clearTranscript,
-                    icon:
-                        const Icon(
-                      Icons
-                          .delete_outline_rounded,
+                    tooltip: 'Clear',
+                    onPressed: _clearTranscript,
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
                     ),
                   ),
               ],
@@ -426,50 +340,31 @@ class _VoiceReportPageState
             ),
 
             Container(
-              width:
-                  double.infinity,
-              constraints:
-                  const BoxConstraints(
-                minHeight:
-                    110,
+              width: double.infinity,
+              constraints: const BoxConstraints(
+                minHeight: 110,
               ),
-              padding:
-                  const EdgeInsets.all(
+              padding: const EdgeInsets.all(
                 14,
               ),
-              decoration:
-                  BoxDecoration(
-                color:
-                    Colors.grey
-                        .shade100,
-                borderRadius:
-                    BorderRadius.circular(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(
                   14,
                 ),
-                border:
-                    Border.all(
-                  color:
-                      Colors.grey
-                          .shade300,
+                border: Border.all(
+                  color: Colors.grey.shade300,
                 ),
               ),
-              child:
-                  Text(
+              child: Text(
                 _transcript.isEmpty
                     ? 'Your spoken safety report will appear here when speech-to-text is connected.'
                     : _transcript,
-                style:
-                    TextStyle(
-                  color:
-                      _transcript
-                              .isEmpty
-                          ? Colors
-                              .grey
-                              .shade600
-                          : Colors
-                              .black87,
-                  height:
-                      1.45,
+                style: TextStyle(
+                  color: _transcript.isEmpty
+                      ? Colors.grey.shade600
+                      : Colors.black87,
+                  height: 1.45,
                 ),
               ),
             ),
@@ -485,46 +380,32 @@ class _VoiceReportPageState
 
   Widget _buildInformationCard() {
     return Card(
-      child:
-          Padding(
-        padding:
-            const EdgeInsets.all(
+      child: Padding(
+        padding: const EdgeInsets.all(
           18,
         ),
-        child:
-            Row(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width:
-                  42,
-              height:
-                  42,
-              decoration:
-                  BoxDecoration(
-                // FIX:
-                // withValues(alpha: ...) replaced with
-                // withOpacity(...).
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                // ==================================================
+                // Flutter modern Color API
+                // ==================================================
 
-                color:
-                    primaryGreen
-                        .withOpacity(
-                  0.10,
+                color: primaryGreen.withValues(
+                  alpha: 0.10,
                 ),
 
-                borderRadius:
-                    BorderRadius.circular(
+                borderRadius: BorderRadius.circular(
                   12,
                 ),
               ),
-              child:
-                  const Icon(
-                Icons
-                    .info_outline_rounded,
-                color:
-                    primaryGreen,
+              child: const Icon(
+                Icons.info_outline_rounded,
+                color: primaryGreen,
               ),
             ),
 
@@ -533,18 +414,13 @@ class _VoiceReportPageState
             ),
 
             Expanded(
-              child:
-                  Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Voice reporting',
-                    style:
-                        TextStyle(
-                      fontWeight:
-                          FontWeight.w800,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
 
@@ -554,12 +430,9 @@ class _VoiceReportPageState
 
                   Text(
                     'The voice interface is separated from the main hazard and observation reporting modules so that speech recognition can be added safely later without affecting the existing reporting workflow.',
-                    style:
-                        Theme.of(
-                      context,
-                    )
-                            .textTheme
-                            .bodySmall,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall,
                   ),
                 ],
               ),
