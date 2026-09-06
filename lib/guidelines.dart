@@ -322,8 +322,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   Widget build(BuildContext context) {
     final topics = _filteredTopics;
 
+    // Android edge-to-edge / gesture navigation safe area.
+    // We intentionally read viewPadding BEFORE any SafeArea
+    // can consume the bottom inset.
+    final double bottomSafeSpace =
+        MediaQuery.of(context).viewPadding.bottom;
+
     return Scaffold(
       backgroundColor: pageBackground,
+
       appBar: AppBar(
         elevation: 0,
         backgroundColor: primaryGreen,
@@ -335,186 +342,221 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.fromLTRB(
-                16,
-                18,
-                16,
-                18,
+
+      body: Column(
+        children: [
+          // =====================================================
+          // HEADER
+          // =====================================================
+          Container(
+            width: double.infinity,
+            padding:
+                const EdgeInsets.fromLTRB(
+              16,
+              18,
+              16,
+              18,
+            ),
+            decoration:
+                const BoxDecoration(
+              color: primaryGreen,
+              borderRadius:
+                  BorderRadius.only(
+                bottomLeft:
+                    Radius.circular(24),
+                bottomRight:
+                    Radius.circular(24),
               ),
-              decoration:
-                  const BoxDecoration(
-                color: primaryGreen,
-                borderRadius:
-                    BorderRadius.only(
-                  bottomLeft:
-                      Radius.circular(24),
-                  bottomRight:
-                      Radius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Professional HSE Reference',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight:
+                        FontWeight.bold,
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Professional HSE Reference',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+
+                const SizedBox(height: 6),
+
+                const Text(
+                  'UAE-wide safety guidance and emirate-specific references',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                    height: 1.4,
                   ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    'UAE-wide safety guidance and emirate-specific references',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller:
-                        _searchController,
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
-                    textInputAction:
-                        TextInputAction.search,
-                    decoration:
-                        InputDecoration(
-                      hintText:
-                          'Search HSE guidelines...',
-                      hintStyle:
-                          TextStyle(
-                        color:
-                            Colors.grey.shade600,
-                      ),
-                      prefixIcon:
-                          const Icon(
-                        Icons.search,
-                        size: 28,
-                      ),
-                      suffixIcon:
-                          _searchQuery
-                                  .isNotEmpty
-                              ? IconButton(
-                                  icon:
-                                      const Icon(
-                                    Icons.clear,
-                                  ),
-                                  onPressed:
-                                      () {
-                                    _searchController
-                                        .clear();
+                ),
 
-                                    setState(() {
-                                      _searchQuery =
-                                          '';
-                                    });
-                                  },
-                                )
-                              : null,
-                      filled: true,
-                      fillColor:
-                          Colors.white,
-                      contentPadding:
-                          const EdgeInsets
-                              .symmetric(
-                        vertical: 16,
-                        horizontal: 16,
-                      ),
-                      border:
-                          OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius
-                                .circular(
-                          16,
-                        ),
-                        borderSide:
-                            BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                const SizedBox(height: 16),
 
-            const SizedBox(height: 14),
+                TextField(
+                  controller:
+                      _searchController,
 
-            _buildCategorySelector(),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
 
-            const SizedBox(height: 10),
+                  textInputAction:
+                      TextInputAction.search,
 
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Row(
-                children: [
-                  const Text(
-                    'Guidelines',
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight:
-                          FontWeight.bold,
-                      color: darkGreen,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '${topics.length} topics',
-                    style: TextStyle(
+                  decoration:
+                      InputDecoration(
+                    hintText:
+                        'Search HSE guidelines...',
+
+                    hintStyle:
+                        TextStyle(
                       color:
-                          Colors.grey.shade700,
-                      fontWeight:
-                          FontWeight.w600,
+                          Colors.grey.shade600,
+                    ),
+
+                    prefixIcon:
+                        const Icon(
+                      Icons.search,
+                      size: 28,
+                    ),
+
+                    suffixIcon:
+                        _searchQuery
+                                .isNotEmpty
+                            ? IconButton(
+                                icon:
+                                    const Icon(
+                                  Icons.clear,
+                                ),
+                                onPressed:
+                                    () {
+                                  _searchController
+                                      .clear();
+
+                                  setState(() {
+                                    _searchQuery =
+                                        '';
+                                  });
+                                },
+                              )
+                            : null,
+
+                    filled: true,
+
+                    fillColor:
+                        Colors.white,
+
+                    contentPadding:
+                        const EdgeInsets
+                            .symmetric(
+                      vertical: 16,
+                      horizontal: 16,
+                    ),
+
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        16,
+                      ),
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
 
-            const SizedBox(height: 8),
+          const SizedBox(height: 14),
 
-            Expanded(
-              child: topics.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.builder(
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior
-                              .onDrag,
-                      padding:
-                          const EdgeInsets
-                              .fromLTRB(
-                        16,
-                        4,
-                        16,
-                        24,
-                      ),
-                      itemCount:
-                          topics.length,
-                      itemBuilder:
-                          (context, index) {
-                        return _buildTopicCard(
-                          topics[index],
-                        );
-                      },
+          // =====================================================
+          // CATEGORY SELECTOR
+          // =====================================================
+          _buildCategorySelector(),
+
+          const SizedBox(height: 10),
+
+          // =====================================================
+          // TITLE + COUNT
+          // =====================================================
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: Row(
+              children: [
+                const Text(
+                  'Guidelines',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight:
+                        FontWeight.bold,
+                    color: darkGreen,
+                  ),
+                ),
+
+                const Spacer(),
+
+                Text(
+                  '${topics.length} topics',
+                  style: TextStyle(
+                    color:
+                        Colors.grey.shade700,
+                    fontWeight:
+                        FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // =====================================================
+          // GUIDELINE LIST
+          // =====================================================
+          Expanded(
+            child: topics.isEmpty
+                ? _buildEmptyState()
+                : ListView.builder(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior
+                            .onDrag,
+
+                    // IMPORTANT:
+                    // Extra bottom space is calculated from
+                    // Android's real navigation/gesture inset.
+                    //
+                    // This prevents the last card from hiding
+                    // behind the Android navigation bar.
+                    padding:
+                        EdgeInsets.fromLTRB(
+                      16,
+                      4,
+                      16,
+                      bottomSafeSpace + 40,
                     ),
-            ),
-          ],
-        ),
+
+                    itemCount:
+                        topics.length,
+
+                    itemBuilder:
+                        (context, index) {
+                      return _buildTopicCard(
+                        topics[index],
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -527,65 +569,89 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           const EdgeInsets.only(
         bottom: 12,
       ),
+
       elevation: 1.5,
+
       color: Colors.white,
+
       shadowColor:
           Colors.black12,
+
       shape:
           RoundedRectangleBorder(
         borderRadius:
             BorderRadius.circular(18),
       ),
+
       child: InkWell(
         borderRadius:
             BorderRadius.circular(18),
+
         onTap: () =>
             _openTopic(topic),
+
         child: Padding(
           padding:
               const EdgeInsets.all(16),
+
           child: Row(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
+
             children: [
+              // =================================================
+              // ICON
+              // =================================================
               Container(
                 width: 52,
                 height: 52,
+
                 decoration:
                     BoxDecoration(
                   color:
                       primaryGreen.withValues(
                     alpha: 0.10,
                   ),
+
                   borderRadius:
                       BorderRadius.circular(
                     14,
                   ),
                 ),
+
                 child: Icon(
                   _categoryIcon(
                     topic.category,
                   ),
+
                   color:
                       primaryGreen,
+
                   size: 27,
                 ),
               ),
 
               const SizedBox(width: 14),
 
+              // =================================================
+              // CONTENT
+              // =================================================
               Expanded(
                 child: Column(
                   crossAxisAlignment:
                       CrossAxisAlignment
                           .start,
+
                   children: [
                     Text(
                       topic.title,
+
                       maxLines: 2,
+
                       overflow:
                           TextOverflow
                               .ellipsis,
+
                       style:
                           const TextStyle(
                         fontSize: 16,
@@ -603,10 +669,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                     Text(
                       topic.description,
+
                       maxLines: 3,
+
                       overflow:
                           TextOverflow
                               .ellipsis,
+
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
@@ -623,11 +692,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     Wrap(
                       spacing: 7,
                       runSpacing: 5,
+
                       children: [
                         _buildTag(
                           topic.category,
                           primaryGreen,
                         ),
+
                         _buildTag(
                           topic.jurisdiction,
                           Colors.blueGrey,
@@ -640,11 +711,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const SizedBox(width: 6),
 
+              // =================================================
+              // ARROW
+              // =================================================
               const Padding(
                 padding:
                     EdgeInsets.only(
                   top: 2,
                 ),
+
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
@@ -668,22 +743,28 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         horizontal: 9,
         vertical: 5,
       ),
+
       decoration:
           BoxDecoration(
         color:
             color.withValues(
           alpha: 0.09,
         ),
+
         borderRadius:
             BorderRadius.circular(
           20,
         ),
       ),
+
       child: Text(
         text,
+
         maxLines: 1,
+
         overflow:
             TextOverflow.ellipsis,
+
         style: TextStyle(
           color: color,
           fontSize: 11,
@@ -699,9 +780,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       child: Padding(
         padding:
             const EdgeInsets.all(30),
+
         child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center,
+
           children: [
             Icon(
               Icons.search_off,
@@ -709,7 +792,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               color:
                   Colors.grey.shade400,
             ),
+
             const SizedBox(height: 14),
+
             const Text(
               'No guidelines found',
               style: TextStyle(
@@ -719,11 +804,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 color: darkGreen,
               ),
             ),
+
             const SizedBox(height: 7),
+
             Text(
               'Try another search term or category.',
+
               textAlign:
                   TextAlign.center,
+
               style: TextStyle(
                 color:
                     Colors.grey.shade600,
