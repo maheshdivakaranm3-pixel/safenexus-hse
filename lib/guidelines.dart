@@ -681,9 +681,8 @@ class _GuidelinesPageState
                     BoxDecoration(
                   color:
                       primaryGreen
-                          .withValues(
-                    alpha:
-                        0.10,
+                          .withOpacity(
+                    0.10,
                   ),
                   borderRadius:
                       BorderRadius.circular(
@@ -841,8 +840,8 @@ class _GuidelinesPageState
       decoration:
           BoxDecoration(
         color:
-            color.withValues(
-          alpha: 0.09,
+            color.withOpacity(
+          0.09,
         ),
         borderRadius:
             BorderRadius.circular(
