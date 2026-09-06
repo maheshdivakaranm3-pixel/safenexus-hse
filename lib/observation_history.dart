@@ -6,7 +6,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ObservationHistoryPage extends StatefulWidget {
-  const ObservationHistoryPage({super.key});
+  const ObservationHistoryPage({
+    super.key,
+  });
 
   @override
   State<ObservationHistoryPage> createState() =>
@@ -15,294 +17,549 @@ class ObservationHistoryPage extends StatefulWidget {
 
 class _ObservationHistoryPageState
     extends State<ObservationHistoryPage> {
-  static const String _storageKey = 'safenexus_observations';
+  static const String _storageKey =
+      'safenexus_observations';
 
-  final List<Map<String, dynamic>> _observations =
+  List<Map<String, dynamic>> _reports =
       <Map<String, dynamic>>[];
 
-  bool _isLoading = true;
+  bool _loading = true;
+
+  String _filter = 'All';
+
+  // ============================================================
+  // FILTERS
+  // ============================================================
+
+  static const List<String> _filters = [
+    'All',
+    'Safety Observation',
+    'Hazard Report',
+  ];
+
+  // ============================================================
+  // INIT
+  // ============================================================
 
   @override
   void initState() {
     super.initState();
-    _loadObservations();
+
+    _loadReports();
   }
 
   // ============================================================
-  // LOAD OBSERVATIONS
+  // LOAD REPORTS
   // ============================================================
 
-  Future<void> _loadObservations() async {
+  Future<void> _loadReports() async {
+    if (mounted) {
+      setState(() {
+        _loading = true;
+      });
+    }
+
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs =
+          await SharedPreferences.getInstance();
 
       final stored =
-          prefs.getStringList(_storageKey) ?? <String>[];
+          prefs.getStringList(
+                _storageKey,
+              ) ??
+              <String>[];
 
-      final loaded = <Map<String, dynamic>>[];
+      final List<Map<String, dynamic>>
+          loadedReports =
+          <Map<String, dynamic>>[];
 
-      for (final item in stored) {
+      for (final raw in stored) {
         try {
-          final decoded = jsonDecode(item);
+          final decoded =
+              jsonDecode(raw);
 
-          if (decoded is Map) {
-            loaded.add(
-              Map<String, dynamic>.from(decoded),
-            );
+          if (decoded is! Map) {
+            continue;
           }
+
+          final report =
+              Map<String, dynamic>.from(
+            decoded,
+          );
+
+          // ------------------------------------------------------
+          // Ignore empty/corrupted records.
+          // ------------------------------------------------------
+
+          final id =
+              _stringValue(
+            report['id'],
+          );
+
+          if (id.isEmpty) {
+            continue;
+          }
+
+          // ------------------------------------------------------
+          // Normalize old records so that records created by
+          // different versions of the app can still be displayed.
+          // ------------------------------------------------------
+
+          _normalizeReport(report);
+
+          loadedReports.add(report);
         } catch (_) {
-          // Ignore corrupted records.
+          // Ignore only the corrupted record.
+          // Do not crash the entire History screen.
+          continue;
         }
       }
 
+      // ----------------------------------------------------------
+      // Sort newest first.
+      // ----------------------------------------------------------
+
+      loadedReports.sort(
+        (a, b) {
+          final dateA =
+              _dateFromReport(a);
+
+          final dateB =
+              _dateFromReport(b);
+
+          return dateB.compareTo(dateA);
+        },
+      );
+
       if (!mounted) return;
 
       setState(() {
-        _observations
-          ..clear()
-          ..addAll(loaded);
-        _isLoading = false;
+        _reports =
+            loadedReports;
+
+        _loading = false;
       });
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
 
       setState(() {
-        _observations.clear();
-        _isLoading = false;
+        _reports = <Map<String, dynamic>>[];
+
+        _loading = false;
       });
 
-      _message(
-        'Unable to load observation history.',
+      _showMessage(
+        'Unable to load report history.',
         error: true,
       );
     }
   }
 
   // ============================================================
-  // VALUE HELPERS
+  // NORMALIZE REPORT
   // ============================================================
 
-  String _value(
-    Map<String, dynamic> item,
-    List<String> keys,
+  void _normalizeReport(
+    Map<String, dynamic> report,
   ) {
-    for (final key in keys) {
-      final value = item[key];
+    // ----------------------------------------------------------
+    // Determine report type.
+    // ----------------------------------------------------------
 
-      if (value != null &&
-          value.toString().trim().isNotEmpty) {
-        return value.toString().trim();
+    final existingType =
+        _stringValue(
+      report['reportType'],
+    );
+
+    if (existingType.isNotEmpty) {
+      report['reportType'] =
+          _normalizeReportType(
+        existingType,
+      );
+    } else {
+      final observationType =
+          _stringValue(
+        report['observationType'],
+      );
+
+      if (observationType
+          .toLowerCase()
+          .contains('hazard report')) {
+        report['reportType'] =
+            'Hazard Report';
+      } else {
+        report['reportType'] =
+            'Safety Observation';
       }
     }
 
-    return '';
+    // ----------------------------------------------------------
+    // Normalize date.
+    // ----------------------------------------------------------
+
+    final date =
+        _dateFromReport(report);
+
+    report['submittedAt'] =
+        date.toIso8601String();
+
+    // ----------------------------------------------------------
+    // Normalize common fields.
+    // ----------------------------------------------------------
+
+    if (_stringValue(
+          report['riskLevel'],
+        ).isEmpty) {
+      report['riskLevel'] =
+          _stringValue(
+        report['severity'],
+        fallback: 'Medium',
+      );
+    }
+
+    if (_stringValue(
+          report['hazard'],
+        ).isEmpty) {
+      report['hazard'] =
+          _stringValue(
+        report['hazardType'],
+        fallback:
+            'General Workplace Hazard',
+      );
+    }
+
+    if (_stringValue(
+          report['correctiveAction'],
+        ).isEmpty) {
+      report['correctiveAction'] =
+          _stringValue(
+        report['action'],
+      );
+    }
+
+    if (_stringValue(
+          report['description'],
+        ).isEmpty) {
+      report['description'] = '';
+    }
+
+    if (_stringValue(
+          report['location'],
+        ).isEmpty) {
+      report['location'] = '';
+    }
+
+    if (_stringValue(
+          report['photoPath'],
+        ).isEmpty) {
+      report['photoPath'] = '';
+    }
+
+    if (_stringValue(
+          report['status'],
+        ).isEmpty) {
+      report['status'] =
+          'Open';
+    }
   }
 
-  String _photoPath(Map<String, dynamic> item) {
-    return _value(
-      item,
-      <String>[
-        'photoPath',
-        'photo_path',
-        'imagePath',
-        'image_path',
-        'photo',
-        'image',
-      ],
+  // ============================================================
+  // REPORT TYPE
+  // ============================================================
+
+  String _normalizeReportType(
+    String value,
+  ) {
+    final normalized =
+        value.trim().toLowerCase();
+
+    if (normalized
+        .contains('hazard')) {
+      return 'Hazard Report';
+    }
+
+    return 'Safety Observation';
+  }
+
+  // ============================================================
+  // DATE
+  // ============================================================
+
+  DateTime _dateFromReport(
+    Map<String, dynamic> report,
+  ) {
+    final candidates = [
+      report['submittedAt'],
+      report['dateTime'],
+      report['createdAt'],
+    ];
+
+    for (final candidate in candidates) {
+      final text =
+          _stringValue(candidate);
+
+      if (text.isEmpty) {
+        continue;
+      }
+
+      final parsed =
+          DateTime.tryParse(text);
+
+      if (parsed != null) {
+        return parsed;
+      }
+    }
+
+    return DateTime.fromMillisecondsSinceEpoch(
+      0,
     );
   }
 
-  bool _hasPhoto(Map<String, dynamic> item) {
-    final path = _photoPath(item);
+  // ============================================================
+  // STRING VALUE
+  // ============================================================
 
-    if (path.isEmpty) return false;
+  String _stringValue(
+    dynamic value, {
+    String fallback = '',
+  }) {
+    if (value == null) {
+      return fallback;
+    }
 
-    return File(path).existsSync();
+    final text =
+        value.toString().trim();
+
+    return text.isEmpty
+        ? fallback
+        : text;
   }
 
   // ============================================================
-  // RISK HELPERS
+  // FILTERED REPORTS
   // ============================================================
 
-  Color _riskColor(String risk) {
-    switch (risk.toLowerCase()) {
-      case 'critical':
-        return Colors.deepPurple.shade700;
-      case 'high':
-        return Colors.red.shade700;
-      case 'medium':
-        return Colors.orange.shade700;
-      case 'low':
-        return Colors.green.shade700;
-      default:
-        return Colors.blueGrey.shade700;
+  List<Map<String, dynamic>>
+      get _filteredReports {
+    if (_filter == 'All') {
+      return _reports;
     }
-  }
 
-  IconData _riskIcon(String risk) {
-    switch (risk.toLowerCase()) {
-      case 'critical':
-        return Icons.dangerous_rounded;
-      case 'high':
-        return Icons.warning_rounded;
-      case 'medium':
-        return Icons.warning_amber_rounded;
-      case 'low':
-        return Icons.check_circle_rounded;
-      default:
-        return Icons.help_outline_rounded;
-    }
+    return _reports.where(
+      (report) {
+        return _stringValue(
+              report['reportType'],
+            ) ==
+            _filter;
+      },
+    ).toList();
   }
 
   // ============================================================
-  // DATE FORMAT
+  // COUNTS
   // ============================================================
 
-  String _formatDate(String value) {
-    if (value.trim().isEmpty) {
-      return '';
-    }
+  int get _totalCount =>
+      _reports.length;
 
-    try {
-      final date = DateTime.parse(value).toLocal();
+  int get _observationCount =>
+      _reports.where(
+        (report) =>
+            _stringValue(
+              report['reportType'],
+            ) ==
+            'Safety Observation',
+      ).length;
 
-      const months = <String>[
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
+  int get _hazardCount =>
+      _reports.where(
+        (report) =>
+            _stringValue(
+              report['reportType'],
+            ) ==
+            'Hazard Report',
+      ).length;
 
-      final hour =
-          date.hour % 12 == 0 ? 12 : date.hour % 12;
+  // ============================================================
+  // MESSAGE
+  // ============================================================
 
-      final minute =
-          date.minute.toString().padLeft(2, '0');
+  void _showMessage(
+    String message, {
+    bool error = false,
+  }) {
+    if (!mounted) return;
 
-      final period = date.hour >= 12 ? 'PM' : 'AM';
+    ScaffoldMessenger.of(context)
+        .hideCurrentSnackBar();
 
-      return '${date.day.toString().padLeft(2, '0')} '
-          '${months[date.month - 1]} '
-          '${date.year} • '
-          '$hour:$minute $period';
-    } catch (_) {
-      return value;
-    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        behavior:
+            SnackBarBehavior.floating,
+        backgroundColor: error
+            ? Colors.red.shade700
+            : Colors.green.shade700,
+        content: Text(message),
+      ),
+    );
   }
 
   // ============================================================
   // DELETE
   // ============================================================
 
-  Future<void> _deleteObservation(int index) async {
-    if (index < 0 || index >= _observations.length) {
+  Future<void> _deleteReport(
+    Map<String, dynamic> report,
+  ) async {
+    final id =
+        _stringValue(
+      report['id'],
+    );
+
+    if (id.isEmpty) {
       return;
     }
 
-    final observation = _observations[index];
-    final photo = _photoPath(observation);
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final updated =
-          List<Map<String, dynamic>>.from(_observations);
-
-      updated.removeAt(index);
-
-      final storage =
-          updated.map(jsonEncode).toList();
-
-      final saved = await prefs.setStringList(
-        _storageKey,
-        storage,
-      );
-
-      if (!saved) {
-        throw Exception('Unable to save updated history.');
-      }
-
-      if (photo.isNotEmpty) {
-        try {
-          final file = File(photo);
-
-          if (await file.exists()) {
-            await file.delete();
-          }
-        } catch (_) {
-          // Do not fail deletion if photo removal fails.
-        }
-      }
-
-      if (!mounted) return;
-
-      setState(() {
-        _observations
-          ..clear()
-          ..addAll(updated);
-      });
-
-      _message('Observation deleted.');
-    } catch (_) {
-      if (!mounted) return;
-
-      _message(
-        'Unable to delete observation.',
-        error: true,
-      );
-    }
-  }
-
-  Future<void> _confirmDelete(int index) async {
-    if (index < 0 || index >= _observations.length) {
-      return;
-    }
-
-    final confirmed = await showDialog<bool>(
+    final confirmed =
+        await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text(
-            'Delete Observation?',
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-            ),
+          title:
+              const Text(
+            'Delete Report?',
           ),
-          content: const Text(
-            'This observation will be permanently removed from this device.',
+          content:
+              const Text(
+            'This report will be permanently removed from local history.',
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(dialogContext).pop(false);
+                Navigator.pop(
+                  dialogContext,
+                  false,
+                );
               },
-              child: const Text('Cancel'),
+              child:
+                  const Text(
+                'Cancel',
+              ),
             ),
             FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
               onPressed: () {
-                Navigator.of(dialogContext).pop(true);
+                Navigator.pop(
+                  dialogContext,
+                  true,
+                );
               },
-              child: const Text('Delete'),
+              child:
+                  const Text(
+                'Delete',
+              ),
             ),
           ],
         );
       },
     );
 
-    if (confirmed == true) {
-      await _deleteObservation(index);
+    if (confirmed != true) {
+      return;
+    }
+
+    try {
+      final prefs =
+          await SharedPreferences
+              .getInstance();
+
+      final stored =
+          prefs.getStringList(
+                _storageKey,
+              ) ??
+              <String>[];
+
+      final updated =
+          <String>[];
+
+      for (final raw in stored) {
+        try {
+          final decoded =
+              jsonDecode(raw);
+
+          if (decoded is! Map) {
+            continue;
+          }
+
+          final item =
+              Map<String, dynamic>.from(
+            decoded,
+          );
+
+          final itemId =
+              _stringValue(
+            item['id'],
+          );
+
+          if (itemId != id) {
+            updated.add(raw);
+          }
+        } catch (_) {
+          // Preserve unrelated records even if one old record
+          // cannot be decoded.
+          updated.add(raw);
+        }
+      }
+
+      await prefs.setStringList(
+        _storageKey,
+        updated,
+      );
+
+      // ----------------------------------------------------------
+      // Delete local photo if one exists.
+      // ----------------------------------------------------------
+
+      final photoPath =
+          _stringValue(
+        report['photoPath'],
+      );
+
+      if (photoPath.isNotEmpty) {
+        try {
+          final file =
+              File(photoPath);
+
+          if (await file.exists()) {
+            await file.delete();
+          }
+        } catch (_) {
+          // History deletion should still succeed even if the
+          // image file cannot be removed.
+        }
+      }
+
+      if (!mounted) return;
+
+      setState(() {
+        _reports.removeWhere(
+          (item) =>
+              _stringValue(
+                item['id'],
+              ) ==
+              id,
+        );
+      });
+
+      _showMessage(
+        'Report deleted.',
+      );
+    } catch (_) {
+      _showMessage(
+        'Unable to delete report.',
+        error: true,
+      );
     }
   }
 
@@ -310,724 +567,317 @@ class _ObservationHistoryPageState
   // SHARE
   // ============================================================
 
-  Future<void> _shareObservation(
-    Map<String, dynamic> item,
+  Future<void> _shareReport(
+    Map<String, dynamic> report,
   ) async {
-    final id = _value(
-      item,
-      <String>[
-        'id',
-        'observation_id',
-        'observationId',
-      ],
-    );
-
-    final type = _value(
-      item,
-      <String>[
-        'type',
-        'observation_type',
-      ],
-    );
-
-    final category = _value(
-      item,
-      <String>['category'],
-    );
-
-    final hazard = _value(
-      item,
-      <String>['hazard'],
-    );
-
-    final risk = _value(
-      item,
-      <String>[
-        'risk',
-        'risk_level',
-        'severity',
-      ],
-    );
-
-    final consequence = _value(
-      item,
-      <String>[
-        'consequence',
-        'potential_consequence',
-      ],
-    );
-
-    final description = _value(
-      item,
-      <String>[
-        'description',
-        'observation',
-        'finding',
-      ],
-    );
-
-    final action = _value(
-      item,
-      <String>[
-        'action',
-        'corrective_action',
-      ],
-    );
-
-    final location = _value(
-      item,
-      <String>['location'],
-    );
-
-    final dateTime = _value(
-      item,
-      <String>[
-        'dateTime',
-        'date',
-        'created_at',
-      ],
-    );
-
-    final buffer = StringBuffer();
-
-    buffer.writeln(
-      'SafeNexus HSE - Safety Observation',
-    );
-    buffer.writeln();
-
-    if (id.isNotEmpty) {
-      buffer.writeln('Observation ID: $id');
-    }
-
-    if (type.isNotEmpty) {
-      buffer.writeln('Observation Type: $type');
-    }
-
-    if (category.isNotEmpty) {
-      buffer.writeln('Category: $category');
-    }
-
-    if (hazard.isNotEmpty) {
-      buffer.writeln('Hazard: $hazard');
-    }
-
-    if (risk.isNotEmpty) {
-      buffer.writeln('Risk Level: $risk');
-    }
-
-    if (consequence.isNotEmpty) {
-      buffer.writeln(
-        'Potential Consequence: $consequence',
-      );
-    }
-
-    if (description.isNotEmpty) {
-      buffer.writeln(
-        'Description: $description',
-      );
-    }
-
-    if (action.isNotEmpty) {
-      buffer.writeln(
-        'Corrective Action: $action',
-      );
-    }
-
-    if (location.isNotEmpty) {
-      buffer.writeln('Location: $location');
-    }
-
-    if (dateTime.isNotEmpty) {
-      buffer.writeln(
-        'Date: ${_formatDate(dateTime)}',
-      );
-    }
-
-    buffer.writeln();
-    buffer.writeln('Generated by SafeNexus HSE');
+    final text =
+        _buildShareText(report);
 
     try {
-      final photo = _photoPath(item);
-
-      if (photo.isNotEmpty &&
-          File(photo).existsSync()) {
-        await Share.shareXFiles(
-          <XFile>[
-            XFile(photo),
-          ],
-          text: buffer.toString(),
-          subject: id.isNotEmpty
-              ? 'Safety Observation $id'
-              : 'Safety Observation',
-        );
-      } else {
-        await Share.share(
-          buffer.toString(),
-          subject: id.isNotEmpty
-              ? 'Safety Observation $id'
-              : 'Safety Observation',
-        );
-      }
+      await Share.share(
+        text,
+        subject:
+            '${_stringValue(report['reportType'])} - ${_stringValue(report['id'])}',
+      );
     } catch (_) {
-      if (!mounted) return;
-
-      _message(
-        'Unable to share observation.',
+      _showMessage(
+        'Unable to share report.',
         error: true,
       );
     }
   }
 
   // ============================================================
-  // MESSAGE
+  // SHARE TEXT
   // ============================================================
 
-  void _message(
-    String message, {
-    bool error = false,
-  }) {
-    if (!mounted) return;
+  String _buildShareText(
+    Map<String, dynamic> report,
+  ) {
+    final type =
+        _stringValue(
+      report['reportType'],
+      fallback:
+          'Safety Report',
+    );
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor:
-              error
-                  ? Colors.red.shade700
-                  : Colors.green.shade700,
-          behavior: SnackBarBehavior.floating,
-          content: Text(message),
-        ),
+    final id =
+        _stringValue(
+      report['id'],
+    );
+
+    final date =
+        _formatDate(
+      _dateFromReport(report),
+    );
+
+    final category =
+        _stringValue(
+      report['category'],
+      fallback:
+          'General Safety',
+    );
+
+    final hazard =
+        _stringValue(
+      report['hazard'],
+      fallback:
+          'General Workplace Hazard',
+    );
+
+    final risk =
+        _stringValue(
+      report['riskLevel'],
+      fallback:
+          'Medium',
+    );
+
+    final location =
+        _stringValue(
+      report['location'],
+      fallback:
+          'Not specified',
+    );
+
+    final description =
+        _stringValue(
+      report['description'],
+      fallback:
+          'No description provided.',
+    );
+
+    final action =
+        _stringValue(
+      report['correctiveAction'],
+      fallback:
+          'No corrective action provided.',
+    );
+
+    final status =
+        _stringValue(
+      report['status'],
+      fallback:
+          'Open',
+    );
+
+    final ai =
+        report['aiAnalysis'];
+
+    String aiSummary = '';
+
+    if (ai is Map) {
+      final aiMap =
+          Map<String, dynamic>.from(
+        ai,
       );
-  }
 
-  // ============================================================
-  // PHOTO VIEWER
-  // ============================================================
+      final completed =
+          aiMap['completed'] ==
+              true;
 
-  void _showPhoto(String path) {
-    final file = File(path);
-
-    if (!file.existsSync()) {
-      _message(
-        'Photo file not found.',
-        error: true,
+      final explanation =
+          _stringValue(
+        aiMap['explanation'],
       );
-      return;
+
+      if (completed &&
+          explanation.isNotEmpty) {
+        aiSummary =
+            '\nAI Analysis:\n$explanation\n';
+      }
     }
 
-    showDialog<void>(
-      context: context,
-      barrierColor: Colors.black,
-      builder: (_) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
-            title: const Text(
-              'Photo Evidence',
-            ),
-          ),
-          body: Center(
-            child: InteractiveViewer(
-              minScale: 0.8,
-              maxScale: 4,
-              child: Image.file(
-                file,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-        );
-      },
+    return '''
+SafeNexus HSE
+$TypeLabel: $type
+
+Report ID: $id
+Date: $date
+Status: $status
+
+Category: $category
+Hazard: $hazard
+Risk Level: $risk
+Location: $location
+
+Description:
+$description
+
+Corrective Action:
+$action
+$aiSummary
+Generated by SafeNexus HSE.
+'''.replaceFirst(
+      '\$TypeLabel',
+      'Report Type',
     );
   }
 
   // ============================================================
-  // AI CONFIDENCE
+  // DATE FORMAT
   // ============================================================
 
-  double _confidence(dynamic value) {
-    double result = 0;
-
-    if (value is num) {
-      result = value.toDouble();
-    } else {
-      result =
-          double.tryParse(value.toString()) ?? 0;
+  String _formatDate(
+    DateTime date,
+  ) {
+    if (date.millisecondsSinceEpoch ==
+        0) {
+      return 'Unknown';
     }
 
-    if (result > 1 && result <= 100) {
-      result /= 100;
-    }
-
-    return result.clamp(0, 1).toDouble();
+    return '${date.day.toString().padLeft(2, '0')}/'
+        '${date.month.toString().padLeft(2, '0')}/'
+        '${date.year} '
+        '${date.hour.toString().padLeft(2, '0')}:'
+        '${date.minute.toString().padLeft(2, '0')}';
   }
 
   // ============================================================
-  // DETAIL TILE
+  // PHOTO EXISTS
   // ============================================================
 
-  Widget _detailTile(
-    IconData icon,
-    String title,
-    String value, {
-    Color? iconColor,
-  }) {
-    final color =
-        iconColor ?? Colors.green.shade700;
+  bool _hasPhoto(
+    Map<String, dynamic> report,
+  ) {
+    final path =
+        _stringValue(
+      report['photoPath'],
+    );
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Icon(
-            icon,
-            color: color,
-            size: 20,
+    return path.isNotEmpty &&
+        File(path).existsSync();
+  }
+
+  // ============================================================
+  // RISK COLOR
+  // ============================================================
+
+  Color _riskColor(
+    String risk,
+  ) {
+    switch (risk
+        .toLowerCase()) {
+      case 'low':
+        return Colors.green
+            .shade700;
+
+      case 'medium':
+        return Colors.orange
+            .shade700;
+
+      case 'high':
+        return Colors.red
+            .shade700;
+
+      case 'critical':
+        return Colors.deepPurple
+            .shade700;
+
+      default:
+        return Colors.blueGrey
+            .shade700;
+    }
+  }
+
+  // ============================================================
+  // REPORT TYPE COLOR
+  // ============================================================
+
+  Color _typeColor(
+    String type,
+  ) {
+    if (type ==
+        'Hazard Report') {
+      return Colors.red
+          .shade700;
+    }
+
+    return Colors.green
+        .shade700;
+  }
+
+  // ============================================================
+  // BUILD
+  // ============================================================
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Reports & History',
+          style: TextStyle(
+            fontWeight:
+                FontWeight.w800,
           ),
-          const SizedBox(width: 11),
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 13.5,
-                    height: 1.4,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            tooltip:
+                'Refresh',
+            onPressed:
+                _loadReports,
+            icon: const Icon(
+              Icons
+                  .refresh_rounded,
             ),
           ),
         ],
       ),
-    );
-  }
-
-  // ============================================================
-  // DETAILS
-  // ============================================================
-
-  void _showDetails(
-    Map<String, dynamic> item,
-    int index,
-  ) {
-    final id = _value(
-      item,
-      <String>['id'],
-    );
-
-    final type = _value(
-      item,
-      <String>[
-        'type',
-        'observation_type',
-      ],
-    );
-
-    final category = _value(
-      item,
-      <String>['category'],
-    );
-
-    final hazard = _value(
-      item,
-      <String>['hazard'],
-    );
-
-    final risk = _value(
-      item,
-      <String>[
-        'risk',
-        'risk_level',
-        'severity',
-      ],
-    );
-
-    final consequence = _value(
-      item,
-      <String>[
-        'consequence',
-        'potential_consequence',
-      ],
-    );
-
-    final description = _value(
-      item,
-      <String>[
-        'description',
-        'observation',
-        'finding',
-      ],
-    );
-
-    final action = _value(
-      item,
-      <String>[
-        'action',
-        'corrective_action',
-      ],
-    );
-
-    final location = _value(
-      item,
-      <String>['location'],
-    );
-
-    final date = _value(
-      item,
-      <String>[
-        'dateTime',
-        'date',
-        'created_at',
-      ],
-    );
-
-    final aiExplanation = _value(
-      item,
-      <String>[
-        'aiExplanation',
-        'explanation',
-      ],
-    );
-
-    final aiConfidence = item['aiConfidence'];
-
-    final photo = _photoPath(item);
-
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      backgroundColor: Colors.white,
-      builder: (sheetContext) {
-        return SafeArea(
-          child: SizedBox(
-            height:
-                MediaQuery.of(sheetContext).size.height *
-                    0.90,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                18,
-                4,
-                18,
-                18,
+      body: SafeArea(
+        child: _loading
+            ? const Center(
+                child:
+                    CircularProgressIndicator(),
+              )
+            : RefreshIndicator(
+                onRefresh:
+                    _loadReports,
+                child:
+                    _buildContent(),
               ),
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text(
-                          'Observation Details',
-                          style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                      if (risk.isNotEmpty)
-                        Container(
-                          padding:
-                              const EdgeInsets.symmetric(
-                            horizontal: 11,
-                            vertical: 7,
-                          ),
-                          decoration: BoxDecoration(
-                            color: _riskColor(risk),
-                            borderRadius:
-                                BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            risk.toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        if (_hasPhoto(item))
-                          GestureDetector(
-                            onTap: () {
-                              _showPhoto(photo);
-                            },
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(18),
-                              child: Image.file(
-                                File(photo),
-                                height: 190,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-
-                        if (_hasPhoto(item))
-                          const SizedBox(height: 16),
-
-                        if (id.isNotEmpty)
-                          _detailTile(
-                            Icons.tag_rounded,
-                            'Observation ID',
-                            id,
-                          ),
-
-                        if (type.isNotEmpty)
-                          _detailTile(
-                            Icons.visibility_outlined,
-                            'Observation Type',
-                            type,
-                          ),
-
-                        if (category.isNotEmpty)
-                          _detailTile(
-                            Icons.category_outlined,
-                            'Category',
-                            category,
-                          ),
-
-                        if (hazard.isNotEmpty)
-                          _detailTile(
-                            Icons.warning_amber_rounded,
-                            'Hazard',
-                            hazard,
-                            iconColor:
-                                Colors.orange.shade700,
-                          ),
-
-                        if (risk.isNotEmpty)
-                          _detailTile(
-                            _riskIcon(risk),
-                            'Risk Level',
-                            risk,
-                            iconColor:
-                                _riskColor(risk),
-                          ),
-
-                        if (consequence.isNotEmpty)
-                          _detailTile(
-                            Icons.report_problem_outlined,
-                            'Potential Consequence',
-                            consequence,
-                            iconColor:
-                                Colors.red.shade700,
-                          ),
-
-                        if (description.isNotEmpty)
-                          _detailTile(
-                            Icons.description_outlined,
-                            'Description',
-                            description,
-                          ),
-
-                        if (action.isNotEmpty)
-                          _detailTile(
-                            Icons.build_circle_outlined,
-                            'Corrective Action',
-                            action,
-                            iconColor:
-                                Colors.green.shade700,
-                          ),
-
-                        if (location.isNotEmpty)
-                          _detailTile(
-                            Icons.location_on_outlined,
-                            'Location',
-                            location,
-                          ),
-
-                        if (date.isNotEmpty)
-                          _detailTile(
-                            Icons.calendar_today_outlined,
-                            'Date',
-                            _formatDate(date),
-                          ),
-
-                        if (aiExplanation.isNotEmpty)
-                          _detailTile(
-                            Icons.auto_awesome_rounded,
-                            'AI Explanation',
-                            aiExplanation,
-                            iconColor:
-                                Colors.purple.shade700,
-                          ),
-
-                        if (aiConfidence != null)
-                          _detailTile(
-                            Icons.analytics_outlined,
-                            'AI Confidence',
-                            '${(_confidence(aiConfidence) * 100).toStringAsFixed(0)}%',
-                          ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () async {
-                            Navigator.of(
-                              sheetContext,
-                            ).pop();
-
-                            await _shareObservation(
-                              item,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.share_outlined,
-                          ),
-                          label: const Text(
-                            'Share',
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 10),
-
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          style:
-                              OutlinedButton.styleFrom(
-                            foregroundColor:
-                                Colors.red.shade700,
-                          ),
-                          onPressed: () async {
-                            Navigator.of(
-                              sheetContext,
-                            ).pop();
-
-                            await _confirmDelete(
-                              index,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.delete_outline,
-                          ),
-                          label: const Text(
-                            'Delete',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () {
-                        Navigator.of(
-                          sheetContext,
-                        ).pop();
-                      },
-                      child: const Text(
-                        'Close',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // ============================================================
-  // EMPTY STATE
-  // ============================================================
-
-  Widget _emptyState() {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                color:
-                    Colors.green.withValues(alpha: 0.08),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.history_rounded,
-                size: 45,
-                color: Colors.green.shade700,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'No Safety Observations',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              'Your submitted safety observations will appear here.\nCreate an observation to start building your HSE record.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 13,
-                height: 1.45,
-              ),
-            ),
-          ],
-        ),
       ),
+    );
+  }
+
+  // ============================================================
+  // CONTENT
+  // ============================================================
+
+  Widget _buildContent() {
+    return ListView(
+      physics:
+          const AlwaysScrollableScrollPhysics(),
+      padding:
+          const EdgeInsets.fromLTRB(
+        16,
+        16,
+        16,
+        32,
+      ),
+      children: [
+        _buildSummaryCard(),
+
+        const SizedBox(
+          height: 16,
+        ),
+
+        _buildFilterBar(),
+
+        const SizedBox(
+          height: 16,
+        ),
+
+        if (_filteredReports.isEmpty)
+          _buildEmptyState()
+        else
+          ..._filteredReports.map(
+            _buildReportCard,
+          ),
+      ],
     );
   }
 
@@ -1035,335 +885,423 @@ class _ObservationHistoryPageState
   // SUMMARY
   // ============================================================
 
-  Widget _historySummary() {
-    final total = _observations.length;
-
-    final high = _observations.where(
-      (item) {
-        return _value(
-              item,
-              <String>[
-                'risk',
-                'risk_level',
-                'severity',
-              ],
-            ).toLowerCase() ==
-            'high';
-      },
-    ).length;
-
-    final critical = _observations.where(
-      (item) {
-        return _value(
-              item,
-              <String>[
-                'risk',
-                'risk_level',
-                'severity',
-              ],
-            ).toLowerCase() ==
-            'critical';
-      },
-    ).length;
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(
-        16,
-        16,
-        16,
-        14,
-      ),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.grey.shade200,
+  Widget _buildSummaryCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Expanded(
+              child:
+                  _buildSummaryItem(
+                label: 'Total',
+                value:
+                    _totalCount.toString(),
+                icon:
+                    Icons.assessment_rounded,
+              ),
+            ),
+            Expanded(
+              child:
+                  _buildSummaryItem(
+                label: 'Observations',
+                value:
+                    _observationCount.toString(),
+                icon:
+                    Icons.visibility_rounded,
+              ),
+            ),
+            Expanded(
+              child:
+                  _buildSummaryItem(
+                label: 'Hazards',
+                value:
+                    _hazardCount.toString(),
+                icon:
+                    Icons.warning_rounded,
+              ),
+            ),
+          ],
         ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _summaryMetric(
-              Icons.assignment_rounded,
-              'Total',
-              '$total',
-            ),
-          ),
-          _summaryDivider(),
-          Expanded(
-            child: _summaryMetric(
-              Icons.warning_amber_rounded,
-              'High',
-              '$high',
-            ),
-          ),
-          _summaryDivider(),
-          Expanded(
-            child: _summaryMetric(
-              Icons.dangerous_rounded,
-              'Critical',
-              '$critical',
-            ),
-          ),
-        ],
       ),
     );
   }
 
-  Widget _summaryMetric(
-    IconData icon,
-    String label,
-    String value,
-  ) {
+  // ============================================================
+  // SUMMARY ITEM
+  // ============================================================
+
+  Widget _buildSummaryItem({
+    required String label,
+    required String value,
+    required IconData icon,
+  }) {
     return Column(
       children: [
         Icon(
           icon,
-          size: 20,
-          color: Colors.green.shade700,
+          size: 24,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(
+          height: 6,
+        ),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
+          style:
+              const TextStyle(
+            fontSize: 22,
+            fontWeight:
+                FontWeight.w800,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(
+          height: 2,
+        ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 10.5,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey.shade600,
-          ),
+          textAlign:
+              TextAlign.center,
+          style:
+              Theme.of(context)
+                  .textTheme
+                  .bodySmall,
         ),
       ],
     );
   }
 
-  Widget _summaryDivider() {
-    return Container(
-      width: 1,
-      height: 48,
-      color: Colors.grey.shade200,
+  // ============================================================
+  // FILTER BAR
+  // ============================================================
+
+  Widget _buildFilterBar() {
+    return SingleChildScrollView(
+      scrollDirection:
+          Axis.horizontal,
+      child: Row(
+        children:
+            _filters.map(
+          (filter) {
+            final selected =
+                _filter ==
+                    filter;
+
+            return Padding(
+              padding:
+                  const EdgeInsets
+                      .only(
+                right: 8,
+              ),
+              child:
+                  FilterChip(
+                selected:
+                    selected,
+                label:
+                    Text(filter),
+                onSelected:
+                    (value) {
+                  if (!value) {
+                    return;
+                  }
+
+                  setState(() {
+                    _filter =
+                        filter;
+                  });
+                },
+              ),
+            );
+          },
+        ).toList(),
+      ),
     );
   }
 
   // ============================================================
-  // OBSERVATION CARD
+  // EMPTY
   // ============================================================
 
-  Widget _observationCard(
-    Map<String, dynamic> item,
-    int index,
+  Widget _buildEmptyState() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(
+          32,
+        ),
+        child: Column(
+          children: [
+            Icon(
+              Icons
+                  .assignment_outlined,
+              size: 64,
+              color:
+                  Theme.of(context)
+                      .colorScheme
+                      .primary,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              _filter ==
+                      'All'
+                  ? 'No reports yet'
+                  : 'No $_filter reports',
+              style:
+                  const TextStyle(
+                fontSize: 18,
+                fontWeight:
+                    FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              _filter ==
+                      'All'
+                  ? 'Submitted safety observations and hazard reports will appear here.'
+                  : 'Reports matching this filter will appear here.',
+              textAlign:
+                  TextAlign.center,
+              style:
+                  Theme.of(context)
+                      .textTheme
+                      .bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // REPORT CARD
+  // ============================================================
+
+  Widget _buildReportCard(
+    Map<String, dynamic> report,
   ) {
-    final id = _value(
-      item,
-      <String>['id'],
+    final type =
+        _stringValue(
+      report['reportType'],
+      fallback:
+          'Safety Observation',
     );
 
-    final type = _value(
-      item,
-      <String>[
-        'type',
-        'observation_type',
-      ],
+    final id =
+        _stringValue(
+      report['id'],
     );
 
-    final category = _value(
-      item,
-      <String>['category'],
+    final category =
+        _stringValue(
+      report['category'],
+      fallback:
+          'General Safety',
     );
 
-    final hazard = _value(
-      item,
-      <String>['hazard'],
+    final hazard =
+        _stringValue(
+      report['hazard'],
+      fallback:
+          'General Workplace Hazard',
     );
 
-    final risk = _value(
-      item,
-      <String>[
-        'risk',
-        'risk_level',
-        'severity',
-      ],
+    final risk =
+        _stringValue(
+      report['riskLevel'],
+      fallback:
+          'Medium',
     );
 
-    final description = _value(
-      item,
-      <String>[
-        'description',
-        'observation',
-        'finding',
-      ],
+    final location =
+        _stringValue(
+      report['location'],
+      fallback:
+          'Location not specified',
     );
 
-    final date = _value(
-      item,
-      <String>[
-        'dateTime',
-        'date',
-        'created_at',
-      ],
+    final description =
+        _stringValue(
+      report['description'],
+      fallback:
+          'No description provided.',
     );
 
-    final riskColor = _riskColor(risk);
+    final status =
+        _stringValue(
+      report['status'],
+      fallback:
+          'Open',
+    );
 
-    return Container(
-      margin: const EdgeInsets.only(
+    final typeColor =
+        _typeColor(type);
+
+    final riskColor =
+        _riskColor(risk);
+
+    return Card(
+      elevation: 0,
+      margin:
+          const EdgeInsets.only(
         bottom: 14,
       ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(21),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:
-                Colors.black.withValues(alpha: 0.035),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
       child: InkWell(
+        borderRadius:
+            BorderRadius.circular(
+          16,
+        ),
         onTap: () {
-          _showDetails(
-            item,
-            index,
+          _showReportDetails(
+            report,
           );
         },
-        borderRadius: BorderRadius.circular(21),
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding:
+              const EdgeInsets.all(
+            14,
+          ),
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment
+                    .start,
             children: [
+              // ------------------------------------------------
+              // HEADER
+              // ------------------------------------------------
+
               Row(
                 crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    CrossAxisAlignment
+                        .start,
                 children: [
                   Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.green.withValues(
-                        alpha: 0.08,
+                    width: 44,
+                    height: 44,
+                    decoration:
+                        BoxDecoration(
+                      color: typeColor
+                          .withValues(
+                        alpha: 0.10,
                       ),
                       borderRadius:
-                          BorderRadius.circular(14),
+                          BorderRadius
+                              .circular(
+                        13,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.health_and_safety_rounded,
-                      color: Colors.green.shade700,
+                    child:
+                        Icon(
+                      type ==
+                              'Hazard Report'
+                          ? Icons
+                              .warning_rounded
+                          : Icons
+                              .visibility_rounded,
+                      color:
+                          typeColor,
                     ),
                   ),
 
-                  const SizedBox(width: 11),
+                  const SizedBox(
+                    width: 12,
+                  ),
 
                   Expanded(
                     child: Column(
                       crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          CrossAxisAlignment
+                              .start,
                       children: [
                         Text(
-                          id.isNotEmpty
-                              ? id
-                              : 'Safety Observation',
-                          maxLines: 1,
-                          overflow:
-                              TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
+                          type,
+                          style:
+                              const TextStyle(
+                            fontSize:
+                                16,
+                            fontWeight:
+                                FontWeight
+                                    .w800,
                           ),
                         ),
-                        if (date.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            _formatDate(date),
-                            maxLines: 1,
-                            overflow:
-                                TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color:
-                                  Colors.grey.shade600,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Text(
+                          id,
+                          style:
+                              Theme.of(
+                            context,
+                          )
+                                  .textTheme
+                                  .bodySmall,
+                        ),
                       ],
                     ),
                   ),
 
-                  if (risk.isNotEmpty)
-                    Container(
-                      margin:
-                          const EdgeInsets.only(
-                        left: 6,
-                      ),
-                      padding:
-                          const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 7,
-                      ),
-                      decoration: BoxDecoration(
-                        color: riskColor,
-                        borderRadius:
-                            BorderRadius.circular(30),
-                      ),
-                      child: Text(
-                        risk.toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-
-                  PopupMenuButton<String>(
-                    padding: EdgeInsets.zero,
-                    onSelected: (value) {
-                      switch (value) {
-                        case 'share':
-                          _shareObservation(item);
-                          break;
-                        case 'delete':
-                          _confirmDelete(index);
-                          break;
+                  PopupMenuButton<
+                      String>(
+                    onSelected:
+                        (value) {
+                      if (value ==
+                          'share') {
+                        _shareReport(
+                          report,
+                        );
+                      } else if (value ==
+                          'delete') {
+                        _deleteReport(
+                          report,
+                        );
                       }
                     },
-                    itemBuilder: (_) {
-                      return [
-                        const PopupMenuItem<String>(
-                          value: 'share',
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.share_outlined,
-                              ),
-                              SizedBox(width: 9),
-                              Text('Share'),
-                            ],
+                    itemBuilder:
+                        (context) {
+                      return const [
+                        PopupMenuItem<
+                            String>(
+                          value:
+                              'share',
+                          child:
+                              ListTile(
+                            contentPadding:
+                                EdgeInsets
+                                    .zero,
+                            leading:
+                                Icon(
+                              Icons
+                                  .share_rounded,
+                            ),
+                            title:
+                                Text(
+                              'Share',
+                            ),
                           ),
                         ),
-                        PopupMenuItem<String>(
-                          value: 'delete',
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.delete_outline,
-                                color:
-                                    Colors.red,
-                              ),
-                              const SizedBox(width: 9),
-                              Text('Delete'),
-                            ],
+                        PopupMenuItem<
+                            String>(
+                          value:
+                              'delete',
+                          child:
+                              ListTile(
+                            contentPadding:
+                                EdgeInsets
+                                    .zero,
+                            leading:
+                                Icon(
+                              Icons
+                                  .delete_outline_rounded,
+                            ),
+                            title:
+                                Text(
+                              'Delete',
+                            ),
                           ),
                         ),
                       ];
@@ -1372,75 +1310,168 @@ class _ObservationHistoryPageState
                 ],
               ),
 
-              if (description.isNotEmpty) ...[
-                const SizedBox(height: 13),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    description,
-                    maxLines: 3,
-                    overflow:
-                        TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      height: 1.4,
+              const SizedBox(
+                height: 14,
+              ),
+
+              // ------------------------------------------------
+              // TYPE / RISK
+              // ------------------------------------------------
+
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildBadge(
+                    category,
+                    Icons
+                        .category_outlined,
+                  ),
+                  _buildBadge(
+                    risk,
+                    Icons
+                        .warning_amber_rounded,
+                    color:
+                        riskColor,
+                  ),
+                  _buildBadge(
+                    status,
+                    Icons
+                        .radio_button_checked,
+                  ),
+                ],
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
+              // ------------------------------------------------
+              // HAZARD
+              // ------------------------------------------------
+
+              Text(
+                hazard,
+                style:
+                    const TextStyle(
+                  fontWeight:
+                      FontWeight.w700,
+                ),
+              ),
+
+              const SizedBox(
+                height: 6,
+              ),
+
+              // ------------------------------------------------
+              // LOCATION
+              // ------------------------------------------------
+
+              Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
+                children: [
+                  const Icon(
+                    Icons
+                        .location_on_outlined,
+                    size: 18,
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Expanded(
+                    child: Text(
+                      location,
                     ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(
+                height: 8,
+              ),
+
+              // ------------------------------------------------
+              // DESCRIPTION
+              // ------------------------------------------------
+
+              Text(
+                description,
+                maxLines: 3,
+                overflow:
+                    TextOverflow
+                        .ellipsis,
+              ),
+
+              // ------------------------------------------------
+              // PHOTO
+              // ------------------------------------------------
+
+              if (_hasPhoto(
+                report,
+              )) ...[
+                const SizedBox(
+                  height: 12,
+                ),
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius
+                          .circular(
+                    12,
+                  ),
+                  child:
+                      Image.file(
+                    File(
+                      _stringValue(
+                        report[
+                            'photoPath'],
+                      ),
+                    ),
+                    width:
+                        double.infinity,
+                    height: 160,
+                    fit:
+                        BoxFit.cover,
                   ),
                 ),
               ],
 
-              if (description.isNotEmpty)
-                const SizedBox(height: 11),
-
-              Wrap(
-                spacing: 7,
-                runSpacing: 7,
-                children: [
-                  if (type.isNotEmpty)
-                    _chip(
-                      Icons.visibility_outlined,
-                      type,
-                    ),
-                  if (category.isNotEmpty)
-                    _chip(
-                      Icons.category_outlined,
-                      category,
-                    ),
-                  if (hazard.isNotEmpty)
-                    _chip(
-                      Icons.warning_amber_rounded,
-                      hazard,
-                    ),
-                  if (_hasPhoto(item))
-                    _chip(
-                      Icons.photo_camera_outlined,
-                      'Photo',
-                    ),
-                ],
+              const SizedBox(
+                height: 10,
               ),
 
-              const SizedBox(height: 12),
+              // ------------------------------------------------
+              // DATE
+              // ------------------------------------------------
 
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'Tap to view details',
-                    style: TextStyle(
-                      color:
-                          Colors.grey.shade500,
-                      fontSize: 10.5,
-                      fontWeight:
-                          FontWeight.w600,
-                    ),
+                  const Icon(
+                    Icons
+                        .schedule_outlined,
+                    size: 17,
                   ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 11,
-                    color:
-                        Colors.grey.shade500,
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                    _formatDate(
+                      _dateFromReport(
+                        report,
+                      ),
+                    ),
+                    style:
+                        Theme.of(
+                      context,
+                    )
+                            .textTheme
+                            .bodySmall,
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    Icons
+                        .chevron_right_rounded,
                   ),
                 ],
               ),
@@ -1452,148 +1483,630 @@ class _ObservationHistoryPageState
   }
 
   // ============================================================
-  // CHIP
+  // BADGE
   // ============================================================
 
-  Widget _chip(
-    IconData icon,
+  Widget _buildBadge(
     String text,
-  ) {
+    IconData icon, {
+    Color? color,
+  }) {
+    final badgeColor =
+        color ??
+            Theme.of(context)
+                .colorScheme
+                .primary;
+
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 9,
+      padding:
+          const EdgeInsets
+              .symmetric(
+        horizontal: 10,
         vertical: 6,
       ),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(30),
+      decoration:
+          BoxDecoration(
+        color: badgeColor
+            .withValues(
+          alpha: 0.10,
+        ),
+        borderRadius:
+            BorderRadius.circular(
+          20,
+        ),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize:
+            MainAxisSize.min,
         children: [
           Icon(
             icon,
-            size: 14,
-            color: Colors.grey.shade700,
+            size: 15,
+            color:
+                badgeColor,
           ),
-          const SizedBox(width: 5),
-          ConstrainedBox(
-            constraints:
-                const BoxConstraints(
-              maxWidth: 150,
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            text,
+            style:
+                TextStyle(
+              color:
+                  badgeColor,
+              fontWeight:
+                  FontWeight.w600,
+              fontSize: 12,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // DETAILS
+  // ============================================================
+
+  Future<void>
+      _showReportDetails(
+    Map<String, dynamic> report,
+  ) async {
+    if (!mounted) return;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize:
+                0.78,
+            minChildSize:
+                0.45,
+            maxChildSize:
+                0.95,
+            builder: (
+              context,
+              controller,
+            ) {
+              return ListView(
+                controller:
+                    controller,
+                padding:
+                    const EdgeInsets
+                        .fromLTRB(
+                  20,
+                  8,
+                  20,
+                  32,
+                ),
+                children: [
+                  _buildDetailsHeader(
+                    report,
+                  ),
+
+                  const SizedBox(
+                    height: 18,
+                  ),
+
+                  if (_hasPhoto(
+                    report,
+                  )) ...[
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        16,
+                      ),
+                      child:
+                          Image.file(
+                        File(
+                          _stringValue(
+                            report[
+                                'photoPath'],
+                          ),
+                        ),
+                        width:
+                            double.infinity,
+                        height: 230,
+                        fit:
+                            BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                  ],
+
+                  _buildDetailSection(
+                    'Classification',
+                    [
+                      _buildDetailRow(
+                        'Report Type',
+                        _stringValue(
+                          report[
+                              'reportType'],
+                        ),
+                      ),
+                      _buildDetailRow(
+                        'Category',
+                        _stringValue(
+                          report[
+                              'category'],
+                        ),
+                      ),
+                      _buildDetailRow(
+                        'Hazard',
+                        _stringValue(
+                          report[
+                              'hazard'],
+                        ),
+                      ),
+                      _buildDetailRow(
+                        'Risk Level',
+                        _stringValue(
+                          report[
+                              'riskLevel'],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  _buildDetailSection(
+                    'Site Details',
+                    [
+                      _buildDetailRow(
+                        'Location',
+                        _stringValue(
+                          report[
+                              'location'],
+                          fallback:
+                              'Not specified',
+                        ),
+                      ),
+                      _buildDetailRow(
+                        'Date',
+                        _formatDate(
+                          _dateFromReport(
+                            report,
+                          ),
+                        ),
+                      ),
+                      _buildDetailRow(
+                        'Status',
+                        _stringValue(
+                          report[
+                              'status'],
+                          fallback:
+                              'Open',
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  _buildTextSection(
+                    'Description',
+                    _stringValue(
+                      report[
+                          'description'],
+                      fallback:
+                          'No description provided.',
+                    ),
+                  ),
+
+                  _buildTextSection(
+                    'Corrective Action',
+                    _stringValue(
+                      report[
+                          'correctiveAction'],
+                      fallback:
+                          'No corrective action provided.',
+                    ),
+                  ),
+
+                  _buildAiDetails(
+                    report,
+                  ),
+
+                  const SizedBox(
+                    height: 16,
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child:
+                            OutlinedButton.icon(
+                          onPressed:
+                              () {
+                            Navigator.pop(
+                              sheetContext,
+                            );
+
+                            _shareReport(
+                              report,
+                            );
+                          },
+                          icon:
+                              const Icon(
+                            Icons
+                                .share_rounded,
+                          ),
+                          label:
+                              const Text(
+                            'Share',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child:
+                            FilledButton.icon(
+                          onPressed:
+                              () {
+                            Navigator.pop(
+                              sheetContext,
+                            );
+
+                            _deleteReport(
+                              report,
+                            );
+                          },
+                          icon:
+                              const Icon(
+                            Icons
+                                .delete_outline_rounded,
+                          ),
+                          label:
+                              const Text(
+                            'Delete',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  // ============================================================
+  // DETAILS HEADER
+  // ============================================================
+
+  Widget _buildDetailsHeader(
+    Map<String, dynamic> report,
+  ) {
+    final type =
+        _stringValue(
+      report['reportType'],
+      fallback:
+          'Safety Observation',
+    );
+
+    final color =
+        _typeColor(type);
+
+    return Row(
+      children: [
+        Container(
+          width: 50,
+          height: 50,
+          decoration:
+              BoxDecoration(
+            color: color
+                .withValues(
+              alpha: 0.10,
+            ),
+            borderRadius:
+                BorderRadius
+                    .circular(
+              15,
+            ),
+          ),
+          child: Icon(
+            type ==
+                    'Hazard Report'
+                ? Icons
+                    .warning_rounded
+                : Icons
+                    .visibility_rounded,
+            color:
+                color,
+          ),
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment
+                    .start,
+            children: [
+              Text(
+                type,
+                style:
+                    const TextStyle(
+                  fontSize: 20,
+                  fontWeight:
+                      FontWeight.w800,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                _stringValue(
+                  report['id'],
+                ),
+                style:
+                    Theme.of(context)
+                        .textTheme
+                        .bodySmall,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ============================================================
+  // DETAIL SECTION
+  // ============================================================
+
+  Widget _buildDetailSection(
+    String title,
+    List<Widget> children,
+  ) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(
+        bottom: 18,
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .start,
+        children: [
+          Text(
+            title,
+            style:
+                const TextStyle(
+              fontSize: 16,
+              fontWeight:
+                  FontWeight.w800,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding:
+                  const EdgeInsets
+                      .all(
+                14,
+              ),
+              child: Column(
+                children:
+                    children,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // DETAIL ROW
+  // ============================================================
+
+  Widget _buildDetailRow(
+    String label,
+    String value,
+  ) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(
+        bottom: 10,
+      ),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .start,
+        children: [
+          SizedBox(
+            width: 115,
             child: Text(
-              text,
-              maxLines: 1,
-              overflow:
-                  TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 10.5,
-                color:
-                    Colors.grey.shade700,
+              label,
+              style:
+                  const TextStyle(
                 fontWeight:
                     FontWeight.w600,
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // BODY
-  // ============================================================
-
-  Widget _body() {
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (_observations.isEmpty) {
-      return _emptyState();
-    }
-
-    return RefreshIndicator(
-      onRefresh: _loadObservations,
-      child: ListView.builder(
-        physics:
-            const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(
-          bottom: 30,
-        ),
-        itemCount:
-            _observations.length + 1,
-        itemBuilder: (_, index) {
-          if (index == 0) {
-            return _historySummary();
-          }
-
-          final observationIndex =
-              index - 1;
-
-          return Padding(
-            padding:
-                const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: _observationCard(
-              _observations[
-                  observationIndex],
-              observationIndex,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  // ============================================================
-  // BUILD
-  // ============================================================
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:
-          const Color(0xFFF5F8F6),
-      appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
-        title: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Reports & History',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            Text(
-              '${_observations.length} observation(s)',
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey.shade600,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Refresh',
-            onPressed: _loadObservations,
-            icon: const Icon(
-              Icons.refresh_rounded,
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: Text(
+              value.isEmpty
+                  ? 'Not specified'
+                  : value,
             ),
           ),
         ],
       ),
-      body: _body(),
     );
+  }
+
+  // ============================================================
+  // TEXT SECTION
+  // ============================================================
+
+  Widget _buildTextSection(
+    String title,
+    String text,
+  ) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(
+        bottom: 18,
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .start,
+        children: [
+          Text(
+            title,
+            style:
+                const TextStyle(
+              fontSize: 16,
+              fontWeight:
+                  FontWeight.w800,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding:
+                  const EdgeInsets
+                      .all(
+                14,
+              ),
+              child: Text(
+                text,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // AI DETAILS
+  // ============================================================
+
+  Widget _buildAiDetails(
+    Map<String, dynamic> report,
+  ) {
+    final rawAi =
+        report['aiAnalysis'];
+
+    if (rawAi is! Map) {
+      return const SizedBox
+          .shrink();
+    }
+
+    final ai =
+        Map<String, dynamic>.from(
+      rawAi,
+    );
+
+    if (ai['completed'] !=
+        true) {
+      return const SizedBox
+          .shrink();
+    }
+
+    final explanation =
+        _stringValue(
+      ai['explanation'],
+    );
+
+    final confidence =
+        ai['confidence'];
+
+    final risk =
+        _stringValue(
+      ai['riskLevel'],
+    );
+
+    return _buildDetailSection(
+      'AI Safety Analysis',
+      [
+        if (risk.isNotEmpty)
+          _buildDetailRow(
+            'AI Risk',
+            risk,
+          ),
+        if (confidence !=
+            null)
+          _buildDetailRow(
+            'Confidence',
+            _formatConfidence(
+              confidence,
+            ),
+          ),
+        if (explanation
+            .isNotEmpty)
+          Padding(
+            padding:
+                const EdgeInsets.only(
+              top: 4,
+            ),
+            child: Align(
+              alignment:
+                  Alignment.centerLeft,
+              child: Text(
+                explanation,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  // ============================================================
+  // CONFIDENCE
+  // ============================================================
+
+  String _formatConfidence(
+    dynamic value,
+  ) {
+    double confidence =
+        0.0;
+
+    if (value is num) {
+      confidence =
+          value.toDouble();
+    } else {
+      confidence =
+          double.tryParse(
+                value.toString(),
+              ) ??
+              0.0;
+    }
+
+    if (confidence <= 1) {
+      confidence *= 100;
+    }
+
+    confidence =
+        confidence.clamp(
+      0,
+      100,
+    );
+
+    return '${confidence.round()}%';
   }
 }
