@@ -22,207 +22,251 @@ class GuidelineDetailPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
-        title: const Text(
-          'Guideline Details',
-          style: TextStyle(
+        title: Text(
+          topic.shortTitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 18, 16, 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            const SizedBox(height: 16),
-            _buildInfoCard(),
-            const SizedBox(height: 16),
-            _buildSection(
-              title: 'Overview',
-              icon: Icons.info_outline,
-              child: Text(
-                topic.description,
-                style: TextStyle(
-                  fontSize: 15,
-                  height: 1.55,
-                  color: Colors.grey.shade800,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(
+            16,
+            18,
+            16,
+            30,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderCard(),
+
+              const SizedBox(height: 16),
+
+              _buildSection(
+                title: 'Overview',
+                icon: Icons.info_outline,
+                child: Text(
+                  topic.description,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    height: 1.55,
+                    color: Color(0xFF37474F),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 14),
-            _buildListSection(
-              title: 'Key Requirements',
-              icon: Icons.check_circle_outline,
-              items: topic.keyRequirements,
-            ),
-            const SizedBox(height: 14),
-            _buildListSection(
-              title: 'Safety Controls',
-              icon: Icons.security,
-              items: topic.safetyControls,
-            ),
-            const SizedBox(height: 14),
-            _buildListSection(
-              title: 'Responsibilities',
-              icon: Icons.groups_outlined,
-              items: topic.responsibilities,
-            ),
-            const SizedBox(height: 14),
-            _buildListSection(
-              title: 'References',
-              icon: Icons.menu_book_outlined,
-              items: topic.references,
-            ),
-            const SizedBox(height: 20),
-            _buildDisclaimer(),
-          ],
+
+              const SizedBox(height: 14),
+
+              _buildSection(
+                title: 'Key Requirements',
+                icon: Icons.check_circle_outline,
+                child: _buildBulletList(
+                  topic.keyRequirements,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              _buildSection(
+                title: 'Safety Controls',
+                icon: Icons.shield_outlined,
+                child: _buildBulletList(
+                  topic.safetyControls,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              _buildSection(
+                title: 'Responsibilities',
+                icon: Icons.people_outline,
+                child: _buildBulletList(
+                  topic.responsibilities,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              _buildSection(
+                title: 'References',
+                icon: Icons.menu_book_outlined,
+                child: _buildReferenceList(
+                  topic.references,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              _buildDisclaimer(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeaderCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            primaryGreen,
-            darkGreen,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 6,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.16),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              topic.category,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  _categoryIcon(topic.category),
+                  color: primaryGreen,
+                  size: 30,
+                ),
               ),
-            ),
+
+              const SizedBox(width: 14),
+
+              Expanded(
+                child: Text(
+                  topic.title,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    height: 1.2,
+                    fontWeight: FontWeight.bold,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 14),
-          Text(
-            topic.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              height: 1.2,
-              fontWeight: FontWeight.bold,
-            ),
+
+          const SizedBox(height: 18),
+
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildInfoChip(
+                icon: Icons.category_outlined,
+                label: topic.category,
+              ),
+              _buildInfoChip(
+                icon: Icons.public,
+                label: topic.jurisdiction,
+              ),
+            ],
           ),
+
+          const SizedBox(height: 18),
+
+          _buildMetadataRow(
+            icon: Icons.account_balance_outlined,
+            label: 'Authority',
+            value: topic.authority,
+          ),
+
           const SizedBox(height: 10),
-          Text(
-            topic.authority,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 13,
-              height: 1.4,
-            ),
+
+          _buildMetadataRow(
+            icon: Icons.location_on_outlined,
+            label: 'Jurisdiction',
+            value: topic.jurisdiction,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoCard() {
-    return Card(
-      elevation: 1,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildInfoRow(
-              Icons.location_on_outlined,
-              'Jurisdiction',
-              topic.jurisdiction,
-            ),
-            const Divider(height: 22),
-            _buildInfoRow(
-              Icons.account_balance_outlined,
-              'Authority',
-              topic.authority,
-            ),
-            const Divider(height: 22),
-            _buildInfoRow(
-              Icons.category_outlined,
-              'Category',
-              topic.category,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(
-    IconData icon,
-    String label,
-    String value,
-  ) {
+  Widget _buildMetadataRow({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 38,
-          height: 38,
-          decoration: BoxDecoration(
-            color: primaryGreen.withValues(alpha: 0.10),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(
-            icon,
-            color: primaryGreen,
-            size: 21,
+        Icon(
+          icon,
+          size: 20,
+          color: primaryGreen,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          '$label: ',
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: darkGreen,
           ),
         ),
-        const SizedBox(width: 12),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: darkGreen,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              height: 1.4,
+              color: Color(0xFF455A64),
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildInfoChip({
+    required IconData icon,
+    required String label,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 11,
+        vertical: 7,
+      ),
+      decoration: BoxDecoration(
+        color: primaryGreen.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: primaryGreen,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              color: darkGreen,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -231,99 +275,176 @@ class GuidelineDetailPage extends StatelessWidget {
     required IconData icon,
     required Widget child,
   }) {
-    return Card(
-      elevation: 1,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(17),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: Icon(
                   icon,
                   color: primaryGreen,
-                  size: 22,
+                  size: 21,
                 ),
-                const SizedBox(width: 9),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      color: darkGreen,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+              ),
+
+              const SizedBox(width: 11),
+
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: darkGreen,
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 13),
-            child,
-          ],
-        ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 15),
+
+          child,
+        ],
       ),
     );
   }
 
-  Widget _buildListSection({
-    required String title,
-    required IconData icon,
-    required List<String> items,
-  }) {
-    return _buildSection(
-      title: title,
-      icon: icon,
-      child: Column(
-        children: List.generate(
-          items.length,
-          (index) {
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: index == items.length - 1 ? 0 : 11,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: primaryGreen.withValues(alpha: 0.10),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: const TextStyle(
-                          color: primaryGreen,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      items[index],
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.45,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+  Widget _buildBulletList(List<String> items) {
+    if (items.isEmpty) {
+      return const Text(
+        'No information available.',
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey,
         ),
-      ),
+      );
+    }
+
+    return Column(
+      children: items.map((item) {
+        return Padding(
+          padding: const EdgeInsets.only(
+            bottom: 11,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 6,
+                ),
+                width: 7,
+                height: 7,
+                decoration: const BoxDecoration(
+                  color: primaryGreen,
+                  shape: BoxShape.circle,
+                ),
+              ),
+
+              const SizedBox(width: 11),
+
+              Expanded(
+                child: Text(
+                  item,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.5,
+                    color: Color(0xFF37474F),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildReferenceList(List<String> references) {
+    if (references.isEmpty) {
+      return const Text(
+        'No references available.',
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey,
+        ),
+      );
+    }
+
+    return Column(
+      children: references.asMap().entries.map((entry) {
+        final index = entry.key;
+        final reference = entry.value;
+
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: index == references.length - 1
+                ? 0
+                : 11,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${index + 1}',
+                  style: const TextStyle(
+                    color: primaryGreen,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              Expanded(
+                child: Text(
+                  reference,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.45,
+                    color: Color(0xFF37474F),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -341,26 +462,42 @@ class GuidelineDetailPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.warning_amber_rounded,
-            color: Colors.orange.shade800,
+          const Icon(
+            Icons.info_outline,
+            color: Colors.orange,
+            size: 21,
           ),
+
           const SizedBox(width: 10),
+
           Expanded(
             child: Text(
-              'This section is provided as an HSE reference. '
-              'Always verify the latest applicable UAE federal, '
-              'Emirate-specific, authority, client and project requirements '
-              'before applying any requirement to a workplace.',
+              'This content is provided as a professional HSE reference. '
+              'Always verify the latest applicable UAE federal, emirate-level, '
+              'authority and project-specific requirements before relying on '
+              'this guidance.',
               style: TextStyle(
                 fontSize: 12,
                 height: 1.45,
-                color: Colors.orange.shade900,
+                color: Colors.grey.shade800,
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  IconData _categoryIcon(String category) {
+    switch (category.toLowerCase()) {
+      case 'abu dhabi':
+        return Icons.location_city;
+
+      case 'dubai':
+        return Icons.apartment;
+
+      default:
+        return Icons.flag_outlined;
+    }
   }
 }
