@@ -35,13 +35,9 @@ class GuidelineDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(),
-
             const SizedBox(height: 16),
-
             _buildInfoCard(),
-
             const SizedBox(height: 16),
-
             _buildSection(
               title: 'Overview',
               icon: Icons.info_outline,
@@ -54,41 +50,31 @@ class GuidelineDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 14),
-
             _buildListSection(
               title: 'Key Requirements',
               icon: Icons.check_circle_outline,
               items: topic.keyRequirements,
             ),
-
             const SizedBox(height: 14),
-
             _buildListSection(
               title: 'Safety Controls',
               icon: Icons.security,
               items: topic.safetyControls,
             ),
-
             const SizedBox(height: 14),
-
             _buildListSection(
               title: 'Responsibilities',
               icon: Icons.groups_outlined,
               items: topic.responsibilities,
             ),
-
             const SizedBox(height: 14),
-
             _buildListSection(
               title: 'References',
               icon: Icons.menu_book_outlined,
               items: topic.references,
             ),
-
             const SizedBox(height: 20),
-
             _buildDisclaimer(),
           ],
         ),
@@ -120,7 +106,7 @@ class GuidelineDetailPage extends StatelessWidget {
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.16),
+              color: Colors.white.withValues(alpha: 0.16),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -132,9 +118,7 @@ class GuidelineDetailPage extends StatelessWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 14),
-
           Text(
             topic.title,
             style: const TextStyle(
@@ -144,9 +128,7 @@ class GuidelineDetailPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 10),
-
           Text(
             topic.authority,
             style: const TextStyle(
@@ -206,7 +188,7 @@ class GuidelineDetailPage extends StatelessWidget {
           width: 38,
           height: 38,
           decoration: BoxDecoration(
-            color: primaryGreen.withOpacity(0.10),
+            color: primaryGreen.withValues(alpha: 0.10),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
@@ -311,7 +293,7 @@ class GuidelineDetailPage extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: primaryGreen.withOpacity(0.10),
+                      color: primaryGreen.withValues(alpha: 0.10),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -350,10 +332,10 @@ class GuidelineDetailPage extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.08),
+        color: Colors.orange.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: Colors.orange.withOpacity(0.25),
+          color: Colors.orange.withValues(alpha: 0.25),
         ),
       ),
       child: Row(
