@@ -1,77 +1,640 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/reference_topic.dart';
+class HazardReportPage extends StatefulWidget {
+  const HazardReportPage({super.key});
 
-class GuidelineDetailPage extends StatelessWidget {
-  final ReferenceTopic topic;
+  @override
+  State<HazardReportPage> createState() =>
+      _HazardReportPageState();
+}
 
-  const GuidelineDetailPage({
-    super.key,
-    required this.topic,
-  });
+class _HazardReportPageState
+    extends State<HazardReportPage> {
+  // ============================================================
+  // STORAGE
+  // ============================================================
+
+  static const String _storageKey =
+      'safenexus_observations';
+
+  final _formKey =
+      GlobalKey<FormState>();
+
+  final _descriptionController =
+      TextEditingController();
+
+  final _locationController =
+      TextEditingController();
+
+  final _actionController =
+      TextEditingController();
+
+  final ImagePicker _picker =
+      ImagePicker();
 
   // ============================================================
-  // COLORS
+  // FORM VALUES
   // ============================================================
 
-  static const Color primaryGreen =
-      Color(0xFF159447);
+  String _severity = 'Medium';
 
-  static const Color darkGreen =
-      Color(0xFF0B5D4B);
+  String _category =
+      'General Safety';
 
-  static const Color pageBackground =
-      Color(0xFFF6F8F7);
+  String _hazardType =
+      'General Workplace Hazard';
+
+  XFile? _photo;
+
+  bool _submitting = false;
+
+  // ============================================================
+  // OPTIONS
+  // ============================================================
+
+  static const List<String>
+      _severityOptions = [
+    'Low',
+    'Medium',
+    'High',
+    'Critical',
+  ];
+
+  static const List<String>
+      _categoryOptions = [
+    'General Safety',
+    'Fire Safety',
+    'Electrical Safety',
+    'Work at Height',
+    'Confined Space',
+    'Lifting Operations',
+    'PPE',
+    'Housekeeping',
+  ];
+
+  static const List<String>
+      _hazardOptions = [
+    'General Workplace Hazard',
+    'Slip Trip Fall',
+    'Falling Objects',
+    'Electrical Hazard',
+    'Fire Hazard',
+    'Chemical Hazard',
+    'Mechanical Hazard',
+    'Ergonomic Hazard',
+    'Environmental Hazard',
+  ];
+
+  // ============================================================
+  // DISPOSE
+  // ============================================================
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    _locationController.dispose();
+    _actionController.dispose();
+
+    super.dispose();
+  }
+
+  // ============================================================
+  // MESSAGE
+  // ============================================================
+
+  void _showMessage(
+    String message, {
+    bool error = false,
+  }) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context)
+        .hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        behavior:
+            SnackBarBehavior.floating,
+        backgroundColor: error
+            ? Colors.red.shade700
+            : Colors.green.shade700,
+        content:
+            Text(message),
+      ),
+    );
+  }
+
+  // ============================================================
+  // PHOTO SOURCE
+  // ============================================================
+
+  Future<void>
+      _choosePhotoSource() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize:
+                MainAxisSize.min,
+            children: [
+              ListTile(
+                leading:
+                    const Icon(
+                  Icons
+                      .camera_alt_rounded,
+                ),
+                title:
+                    const Text(
+                  'Camera',
+                ),
+                onTap: () {
+                  Navigator.pop(
+                    sheetContext,
+                  );
+
+                  _pickImage(
+                    ImageSource.camera,
+                  );
+                },
+              ),
+              ListTile(
+                leading:
+                    const Icon(
+                  Icons
+                      .photo_library_rounded,
+                ),
+                title:
+                    const Text(
+                  'Gallery',
+                ),
+                onTap: () {
+                  Navigator.pop(
+                    sheetContext,
+                  );
+
+                  _pickImage(
+                    ImageSource.gallery,
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // ============================================================
+  // PICK IMAGE
+  // ============================================================
+
+  Future<void> _pickImage(
+    ImageSource source,
+  ) async {
+    try {
+      final image =
+          await _picker.pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1600,
+      );
+
+      if (image == null ||
+          !mounted) {
+        return;
+      }
+
+      setState(() {
+        _photo = image;
+      });
+    } catch (_) {
+      _showMessage(
+        'Unable to select photo.',
+        error: true,
+      );
+    }
+  }
+
+  // ============================================================
+  // REMOVE PHOTO
+  // ============================================================
+
+  void _removePhoto() {
+    if (_submitting) return;
+
+    setState(() {
+      _photo = null;
+    });
+  }
+
+  // ============================================================
+  // GENERATE ID
+  // ============================================================
+
+  String _generateHazardId() {
+    final now =
+        DateTime.now();
+
+    final date =
+        '${now.year}'
+        '${now.month.toString().padLeft(2, '0')}'
+        '${now.day.toString().padLeft(2, '0')}';
+
+    final time =
+        '${now.hour.toString().padLeft(2, '0')}'
+        '${now.minute.toString().padLeft(2, '0')}'
+        '${now.second.toString().padLeft(2, '0')}';
+
+    return 'HZD-$date-$time';
+  }
+
+  // ============================================================
+  // SUBMIT HAZARD REPORT
+  // ============================================================
+
+  Future<void>
+      _submitHazardReport() async {
+    if (_submitting) {
+      return;
+    }
+
+    if (!_formKey.currentState!
+        .validate()) {
+      return;
+    }
+
+    FocusScope.of(context)
+        .unfocus();
+
+    setState(() {
+      _submitting = true;
+    });
+
+    try {
+      final id =
+          _generateHazardId();
+
+      final submittedAt =
+          DateTime.now();
+
+      String? savedPhotoPath;
+
+      // --------------------------------------------------------
+      // SAVE PHOTO
+      // --------------------------------------------------------
+
+      if (_photo != null) {
+        final appDirectory =
+            await getApplicationDocumentsDirectory();
+
+        final observationsDirectory =
+            Directory(
+          '${appDirectory.path}/safenexus_observations',
+        );
+
+        if (!await observationsDirectory
+            .exists()) {
+          await observationsDirectory
+              .create(
+            recursive: true,
+          );
+        }
+
+        String extension =
+            'jpg';
+
+        final originalPath =
+            _photo!.path;
+
+        if (originalPath
+            .contains('.')) {
+          final detectedExtension =
+              originalPath
+                  .split('.')
+                  .last
+                  .toLowerCase();
+
+          if ([
+            'jpg',
+            'jpeg',
+            'png',
+            'webp',
+          ].contains(
+            detectedExtension,
+          )) {
+            extension =
+                detectedExtension;
+          }
+        }
+
+        final destination =
+            File(
+          '${observationsDirectory.path}/$id.$extension',
+        );
+
+        await File(originalPath)
+            .copy(
+          destination.path,
+        );
+
+        savedPhotoPath =
+            destination.path;
+      }
+
+      // --------------------------------------------------------
+      // REPORT RECORD
+      // --------------------------------------------------------
+
+      final report =
+          <String, dynamic>{
+        'id': id,
+
+        'submittedAt':
+            submittedAt
+                .toIso8601String(),
+
+        'dateTime':
+            submittedAt
+                .toIso8601String(),
+
+        'reportType':
+            'Hazard Report',
+
+        'observationType':
+            'Hazard Report',
+
+        'type':
+            'Hazard Report',
+
+        'category':
+            _category,
+
+        'hazardType':
+            _hazardType,
+
+        'hazard':
+            _hazardType,
+
+        'severity':
+            _severity,
+
+        'riskLevel':
+            _severity,
+
+        'risk':
+            _severity,
+
+        'location':
+            _locationController
+                .text
+                .trim(),
+
+        'description':
+            _descriptionController
+                .text
+                .trim(),
+
+        'correctiveAction':
+            _actionController
+                .text
+                .trim(),
+
+        'action':
+            _actionController
+                .text
+                .trim(),
+
+        'photoPath':
+            savedPhotoPath ?? '',
+
+        'smartAnalysis':
+            false,
+
+        'aiAnalysis': {
+          'completed': false,
+          'source': 'manual',
+        },
+
+        'status':
+            'Open',
+      };
+
+      // --------------------------------------------------------
+      // LOAD EXISTING REPORTS
+      // --------------------------------------------------------
+
+      final prefs =
+          await SharedPreferences
+              .getInstance();
+
+      final existing =
+          prefs.getStringList(
+                _storageKey,
+              ) ??
+              <String>[];
+
+      // --------------------------------------------------------
+      // ADD NEW REPORT
+      // --------------------------------------------------------
+
+      final updated =
+          <String>[
+        jsonEncode(report),
+        ...existing,
+      ];
+
+      final saved =
+          await prefs.setStringList(
+        _storageKey,
+        updated,
+      );
+
+      if (!saved) {
+        throw Exception(
+          'Unable to save hazard report.',
+        );
+      }
+
+      if (!mounted) return;
+
+      setState(() {
+        _submitting = false;
+      });
+
+      await _showSuccessDialog(
+        id,
+        submittedAt,
+      );
+    } catch (_) {
+      if (!mounted) return;
+
+      setState(() {
+        _submitting = false;
+      });
+
+      _showMessage(
+        'Unable to save hazard report. Please try again.',
+        error: true,
+      );
+    }
+  }
+
+  // ============================================================
+  // SUCCESS DIALOG
+  // ============================================================
+
+  Future<void> _showSuccessDialog(
+    String id,
+    DateTime submittedAt,
+  ) async {
+    if (!mounted) return;
+
+    final formatted =
+        '${submittedAt.day.toString().padLeft(2, '0')}/'
+        '${submittedAt.month.toString().padLeft(2, '0')}/'
+        '${submittedAt.year} '
+        '${submittedAt.hour.toString().padLeft(2, '0')}:'
+        '${submittedAt.minute.toString().padLeft(2, '0')}';
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return AlertDialog(
+          icon: Icon(
+            Icons
+                .check_circle_rounded,
+            color:
+                Colors.green.shade700,
+            size: 52,
+          ),
+          title:
+              const Text(
+            'Hazard Report Submitted',
+          ),
+          content:
+              Column(
+            mainAxisSize:
+                MainAxisSize.min,
+            children: [
+              const Text(
+                'The hazard report has been saved successfully.',
+                textAlign:
+                    TextAlign.center,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                'ID: $id',
+                textAlign:
+                    TextAlign.center,
+                style:
+                    const TextStyle(
+                  fontWeight:
+                      FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
+                formatted,
+                textAlign:
+                    TextAlign.center,
+              ),
+            ],
+          ),
+          actions: [
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(
+                  dialogContext,
+                );
+
+                _resetForm();
+              },
+              child:
+                  const Text(
+                'Done',
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // ============================================================
+  // RESET FORM
+  // ============================================================
+
+  void _resetForm() {
+    _formKey.currentState
+        ?.reset();
+
+    _descriptionController
+        .clear();
+
+    _locationController.clear();
+
+    _actionController.clear();
+
+    setState(() {
+      _severity =
+          'Medium';
+
+      _category =
+          'General Safety';
+
+      _hazardType =
+          'General Workplace Hazard';
+
+      _photo = null;
+    });
+  }
 
   // ============================================================
   // BUILD
   // ============================================================
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
-      backgroundColor:
-          pageBackground,
-
-      // ========================================================
-      // APP BAR
-      // ========================================================
-
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor:
-            primaryGreen,
-        foregroundColor:
-            Colors.white,
-        title: Text(
-          topic.shortTitle,
-          maxLines: 1,
-          overflow:
-              TextOverflow.ellipsis,
-          style: const TextStyle(
+        title:
+            const Text(
+          'Hazard Report',
+          style:
+              TextStyle(
             fontWeight:
-                FontWeight.bold,
+                FontWeight.w800,
           ),
         ),
+        centerTitle: true,
       ),
-
-      // ========================================================
-      // BODY
-      // ========================================================
-
       body: SafeArea(
-        child:
-            SingleChildScrollView(
-          padding:
-              const EdgeInsets.fromLTRB(
-            16,
-            18,
-            16,
-            30,
-          ),
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding:
+                const EdgeInsets.all(
+              16,
+            ),
             children: [
               _buildHeaderCard(),
 
@@ -79,86 +642,47 @@ class GuidelineDetailPage extends StatelessWidget {
                 height: 16,
               ),
 
-              _buildSection(
-                title: 'Overview',
-                icon:
-                    Icons.info_outline,
-                child: Text(
-                  topic.description,
-                  style:
-                      const TextStyle(
-                    fontSize: 15,
-                    height: 1.55,
-                    color:
-                        Color(0xFF37474F),
-                  ),
-                ),
-              ),
+              _buildSeverityCard(),
 
               const SizedBox(
-                height: 14,
+                height: 16,
               ),
 
-              _buildSection(
-                title:
-                    'Key Requirements',
-                icon: Icons
-                    .check_circle_outline,
-                child:
-                    _buildBulletList(
-                  topic.keyRequirements,
-                ),
-              ),
+              _buildClassificationCard(),
 
               const SizedBox(
-                height: 14,
+                height: 16,
               ),
 
-              _buildSection(
-                title:
-                    'Safety Controls',
-                icon: Icons
-                    .shield_outlined,
-                child:
-                    _buildBulletList(
-                  topic.safetyControls,
-                ),
-              ),
+              _buildLocationCard(),
 
               const SizedBox(
-                height: 14,
+                height: 16,
               ),
 
-              _buildSection(
-                title:
-                    'Responsibilities',
-                icon:
-                    Icons.people_outline,
-                child:
-                    _buildBulletList(
-                  topic.responsibilities,
-                ),
-              ),
+              _buildDescriptionCard(),
 
               const SizedBox(
-                height: 14,
+                height: 16,
               ),
 
-              _buildSection(
-                title: 'References',
-                icon:
-                    Icons.menu_book_outlined,
-                child:
-                    _buildReferenceList(
-                  topic.references,
-                ),
-              ),
+              _buildActionCard(),
 
               const SizedBox(
-                height: 20,
+                height: 16,
               ),
 
-              _buildDisclaimer(),
+              _buildPhotoCard(),
+
+              const SizedBox(
+                height: 24,
+              ),
+
+              _buildSubmitButton(),
+
+              const SizedBox(
+                height: 32,
+              ),
             ],
           ),
         ),
@@ -167,591 +691,658 @@ class GuidelineDetailPage extends StatelessWidget {
   }
 
   // ============================================================
-  // HEADER CARD
+  // HEADER
   // ============================================================
 
   Widget _buildHeaderCard() {
-    return Container(
-      width:
-          double.infinity,
-      padding:
-          const EdgeInsets.all(20),
-      decoration:
-          BoxDecoration(
-        color:
-            Colors.white,
-        borderRadius:
-            BorderRadius.circular(
-          20,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:
-                Colors.black.withOpacity(
-              0.06,
+    final scheme =
+        Theme.of(context)
+            .colorScheme;
+
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(18),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration:
+                  BoxDecoration(
+                color:
+                    scheme.primaryContainer,
+                borderRadius:
+                    BorderRadius
+                        .circular(16),
+              ),
+              child: Icon(
+                Icons
+                    .report_problem_rounded,
+                color:
+                    scheme.onPrimaryContainer,
+                size: 28,
+              ),
             ),
-            blurRadius: 12,
-            offset:
-                const Offset(0, 4),
-          ),
-        ],
+
+            const SizedBox(
+              width: 14,
+            ),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
+                children: [
+                  const Text(
+                    'Report a Hazard',
+                    style:
+                        TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.w800,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 4,
+                  ),
+
+                  Text(
+                    'Record a workplace hazard for follow-up and corrective action.',
+                    style:
+                        Theme.of(
+                      context,
+                    )
+                            .textTheme
+                            .bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
+    );
+  }
+
+  // ============================================================
+  // SEVERITY
+  // ============================================================
+
+  Widget _buildSeverityCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child:
+            DropdownButtonFormField<
+                String>(
+          // FIX:
+          // Deprecated value removed.
+          // Use initialValue for current Flutter analyzer.
+
+          initialValue:
+              _severity,
+
+          decoration:
+              const InputDecoration(
+            labelText:
+                'Severity / Risk Level',
+            prefixIcon:
+                Icon(
+              Icons
+                  .warning_amber_rounded,
+            ),
+            border:
+                OutlineInputBorder(),
+          ),
+
+          items:
+              _severityOptions
+                  .map(
+            (value) =>
+                DropdownMenuItem<
+                    String>(
+              value:
+                  value,
+              child:
+                  Text(value),
+            ),
+          )
+                  .toList(),
+
+          onChanged:
+              _submitting
+                  ? null
+                  : (value) {
+                      if (value ==
+                          null) {
+                        return;
+                      }
+
+                      setState(() {
+                        _severity =
+                            value;
+                      });
+                    },
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // CLASSIFICATION
+  // ============================================================
+
+  Widget
+      _buildClassificationCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment
+                  .start,
+          children: [
+            Text(
+              'Hazard Classification',
+              style:
+                  Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(
+                        fontWeight:
+                            FontWeight.bold,
+                      ),
+            ),
+
+            const SizedBox(
+              height: 14,
+            ),
+
+            // --------------------------------------------------
+            // CATEGORY
+            // --------------------------------------------------
+
+            DropdownButtonFormField<
+                String>(
+              // FIX:
+              // Deprecated value removed.
+
+              initialValue:
+                  _category,
+
+              decoration:
+                  const InputDecoration(
+                labelText:
+                    'Category',
+                border:
+                    OutlineInputBorder(),
+              ),
+
+              items:
+                  _categoryOptions
+                      .map(
+                (value) =>
+                    DropdownMenuItem<
+                        String>(
+                  value:
+                      value,
+                  child:
+                      Text(value),
+                ),
+              )
+                      .toList(),
+
+              onChanged:
+                  _submitting
+                      ? null
+                      : (value) {
+                          if (value ==
+                              null) {
+                            return;
+                          }
+
+                          setState(() {
+                            _category =
+                                value;
+                          });
+                        },
+            ),
+
+            const SizedBox(
+              height: 14,
+            ),
+
+            // --------------------------------------------------
+            // HAZARD TYPE
+            // --------------------------------------------------
+
+            DropdownButtonFormField<
+                String>(
+              // FIX:
+              // Deprecated value removed.
+
+              initialValue:
+                  _hazardType,
+
+              decoration:
+                  const InputDecoration(
+                labelText:
+                    'Hazard Type',
+                border:
+                    OutlineInputBorder(),
+              ),
+
+              items:
+                  _hazardOptions
+                      .map(
+                (value) =>
+                    DropdownMenuItem<
+                        String>(
+                  value:
+                      value,
+                  child:
+                      Text(value),
+                ),
+              )
+                      .toList(),
+
+              onChanged:
+                  _submitting
+                      ? null
+                      : (value) {
+                          if (value ==
+                              null) {
+                            return;
+                          }
+
+                          setState(() {
+                            _hazardType =
+                                value;
+                          });
+                        },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // LOCATION
+  // ============================================================
+
+  Widget _buildLocationCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child:
+            TextFormField(
+          controller:
+              _locationController,
+
+          textInputAction:
+              TextInputAction.next,
+
+          decoration:
+              const InputDecoration(
+            labelText:
+                'Location',
+            hintText:
+                'Example: Workshop / Warehouse / Site Area',
+            prefixIcon:
+                Icon(
+              Icons
+                  .location_on_outlined,
+            ),
+            border:
+                OutlineInputBorder(),
+          ),
+
+          validator: (value) {
+            if (value == null ||
+                value
+                    .trim()
+                    .isEmpty) {
+              return 'Please enter the location.';
+            }
+
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // DESCRIPTION
+  // ============================================================
+
+  Widget
+      _buildDescriptionCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child:
+            TextFormField(
+          controller:
+              _descriptionController,
+
+          maxLines: 5,
+
+          decoration:
+              const InputDecoration(
+            labelText:
+                'Hazard Description',
+            hintText:
+                'Describe the hazard clearly...',
+            alignLabelWithHint:
+                true,
+            border:
+                OutlineInputBorder(),
+          ),
+
+          validator: (value) {
+            if (value == null ||
+                value
+                    .trim()
+                    .isEmpty) {
+              return 'Please enter the hazard description.';
+            }
+
+            if (value
+                    .trim()
+                    .length <
+                5) {
+              return 'Please provide more details.';
+            }
+
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // CORRECTIVE ACTION
+  // ============================================================
+
+  Widget _buildActionCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child:
+            TextFormField(
+          controller:
+              _actionController,
+
+          maxLines: 5,
+
+          decoration:
+              const InputDecoration(
+            labelText:
+                'Corrective Action',
+            hintText:
+                'Describe action taken or recommended...',
+            alignLabelWithHint:
+                true,
+            border:
+                OutlineInputBorder(),
+          ),
+
+          validator: (value) {
+            if (value == null ||
+                value
+                    .trim()
+                    .isEmpty) {
+              return 'Please enter corrective action.';
+            }
+
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // PHOTO
+  // ============================================================
+
+  Widget _buildPhotoCard() {
+    final scheme =
+        Theme.of(context)
+            .colorScheme;
+
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment
+                  .start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons
+                      .photo_camera_back_rounded,
+                ),
+
+                const SizedBox(
+                  width: 8,
+                ),
+
+                Text(
+                  'Photo Evidence',
+                  style:
+                      Theme.of(
+                    context,
+                  )
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 14,
+            ),
+
+            if (_photo == null)
               Container(
-                width: 58,
-                height: 58,
+                width:
+                    double.infinity,
+                padding:
+                    const EdgeInsets.all(
+                  20,
+                ),
                 decoration:
                     BoxDecoration(
-                  color:
-                      primaryGreen
-                          .withOpacity(
-                    0.10,
-                  ),
                   borderRadius:
-                      BorderRadius.circular(
+                      BorderRadius
+                          .circular(
                     16,
                   ),
-                ),
-                child: Icon(
-                  _categoryIcon(
-                    topic.category,
-                  ),
-                  color:
-                      primaryGreen,
-                  size: 30,
-                ),
-              ),
-
-              const SizedBox(
-                width: 14,
-              ),
-
-              Expanded(
-                child: Text(
-                  topic.title,
-                  style:
-                      const TextStyle(
-                    fontSize: 22,
-                    height: 1.2,
-                    fontWeight:
-                        FontWeight.bold,
+                  border:
+                      Border.all(
                     color:
-                        darkGreen,
+                        scheme.outlineVariant,
                   ),
                 ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons
+                          .image_outlined,
+                      size: 46,
+                      color:
+                          scheme.primary,
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    const Text(
+                      'Add photo evidence',
+                    ),
+
+                    const SizedBox(
+                      height: 14,
+                    ),
+
+                    OutlinedButton.icon(
+                      onPressed:
+                          _submitting
+                              ? null
+                              : _choosePhotoSource,
+                      icon:
+                          const Icon(
+                        Icons
+                            .add_a_photo_rounded,
+                      ),
+                      label:
+                          const Text(
+                        'Add Photo',
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              ClipRRect(
+                borderRadius:
+                    BorderRadius
+                        .circular(
+                  16,
+                ),
+                child: Stack(
+                  children: [
+                    Image.file(
+                      File(
+                        _photo!.path,
+                      ),
+                      width:
+                          double.infinity,
+                      height: 230,
+                      fit:
+                          BoxFit.cover,
+                    ),
+
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Material(
+                        color:
+                            Colors.black54,
+                        borderRadius:
+                            BorderRadius
+                                .circular(
+                          30,
+                        ),
+                        child:
+                            IconButton(
+                          onPressed:
+                              _submitting
+                                  ? null
+                                  : _removePhoto,
+                          color:
+                              Colors.white,
+                          icon:
+                              const Icon(
+                            Icons
+                                .delete_outline,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            if (_photo != null) ...[
+              const SizedBox(
+                height: 10,
+              ),
+
+              Text(
+                'Photo attached to this hazard report.',
+                style:
+                    Theme.of(context)
+                        .textTheme
+                        .bodySmall,
               ),
             ],
-          ),
-
-          const SizedBox(
-            height: 18,
-          ),
-
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildInfoChip(
-                icon:
-                    Icons.category_outlined,
-                label:
-                    topic.category,
-              ),
-              _buildInfoChip(
-                icon:
-                    Icons.public,
-                label:
-                    topic.jurisdiction,
-              ),
-            ],
-          ),
-
-          const SizedBox(
-            height: 18,
-          ),
-
-          _buildMetadataRow(
-            icon:
-                Icons.account_balance_outlined,
-            label:
-                'Authority',
-            value:
-                topic.authority,
-          ),
-
-          const SizedBox(
-            height: 10,
-          ),
-
-          _buildMetadataRow(
-            icon:
-                Icons.location_on_outlined,
-            label:
-                'Jurisdiction',
-            value:
-                topic.jurisdiction,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   // ============================================================
-  // METADATA ROW
+  // SUBMIT BUTTON
   // ============================================================
 
-  Widget _buildMetadataRow({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          size: 20,
-          color:
-              primaryGreen,
-        ),
+  Widget _buildSubmitButton() {
+    return SizedBox(
+      width:
+          double.infinity,
+      height: 54,
+      child:
+          FilledButton.icon(
+        onPressed:
+            _submitting
+                ? null
+                : _submitHazardReport,
 
-        const SizedBox(
-          width: 10,
-        ),
+        icon: _submitting
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child:
+                    CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color:
+                      Colors.white,
+                ),
+              )
+            : const Icon(
+                Icons
+                    .send_rounded,
+              ),
 
-        Text(
-          '$label: ',
+        label: Text(
+          _submitting
+              ? 'Saving...'
+              : 'Submit Hazard Report',
           style:
               const TextStyle(
-            fontSize: 13,
             fontWeight:
-                FontWeight.bold,
-            color:
-                darkGreen,
+                FontWeight.w700,
           ),
         ),
-
-        Expanded(
-          child: Text(
-            value,
-            style:
-                const TextStyle(
-              fontSize: 13,
-              height: 1.4,
-              color:
-                  Color(0xFF455A64),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ============================================================
-  // INFO CHIP
-  // ============================================================
-
-  Widget _buildInfoChip({
-    required IconData icon,
-    required String label,
-  }) {
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(
-        horizontal: 11,
-        vertical: 7,
-      ),
-      decoration:
-          BoxDecoration(
-        color:
-            primaryGreen.withOpacity(
-          0.08,
-        ),
-        borderRadius:
-            BorderRadius.circular(
-          20,
-        ),
-      ),
-      child: Row(
-        mainAxisSize:
-            MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 16,
-            color:
-                primaryGreen,
-          ),
-
-          const SizedBox(
-            width: 6,
-          ),
-
-          Text(
-            label,
-            style:
-                const TextStyle(
-              color:
-                  darkGreen,
-              fontSize: 12,
-              fontWeight:
-                  FontWeight.w700,
-            ),
-          ),
-        ],
       ),
     );
-  }
-
-  // ============================================================
-  // SECTION
-  // ============================================================
-
-  Widget _buildSection({
-    required String title,
-    required IconData icon,
-    required Widget child,
-  }) {
-    return Container(
-      width:
-          double.infinity,
-      padding:
-          const EdgeInsets.all(18),
-      decoration:
-          BoxDecoration(
-        color:
-            Colors.white,
-        borderRadius:
-            BorderRadius.circular(
-          18,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:
-                Colors.black.withOpacity(
-              0.04,
-            ),
-            blurRadius: 8,
-            offset:
-                const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      primaryGreen
-                          .withOpacity(
-                    0.10,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(
-                    11,
-                  ),
-                ),
-                child: Icon(
-                  icon,
-                  color:
-                      primaryGreen,
-                  size: 21,
-                ),
-              ),
-
-              const SizedBox(
-                width: 11,
-              ),
-
-              Expanded(
-                child: Text(
-                  title,
-                  style:
-                      const TextStyle(
-                    fontSize: 18,
-                    fontWeight:
-                        FontWeight.bold,
-                    color:
-                        darkGreen,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(
-            height: 15,
-          ),
-
-          child,
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // BULLET LIST
-  // ============================================================
-
-  Widget _buildBulletList(
-    List<String> items,
-  ) {
-    if (items.isEmpty) {
-      return const Text(
-        'No information available.',
-        style:
-            TextStyle(
-          fontSize: 14,
-          color:
-              Colors.grey,
-        ),
-      );
-    }
-
-    return Column(
-      children:
-          items.map(
-        (item) {
-          return Padding(
-            padding:
-                const EdgeInsets.only(
-              bottom: 11,
-            ),
-            child: Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin:
-                      const EdgeInsets.only(
-                    top: 6,
-                  ),
-                  width: 7,
-                  height: 7,
-                  decoration:
-                      const BoxDecoration(
-                    color:
-                        primaryGreen,
-                    shape:
-                        BoxShape.circle,
-                  ),
-                ),
-
-                const SizedBox(
-                  width: 11,
-                ),
-
-                Expanded(
-                  child: Text(
-                    item,
-                    style:
-                        const TextStyle(
-                      fontSize: 14,
-                      height: 1.5,
-                      color:
-                          Color(0xFF37474F),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ).toList(),
-    );
-  }
-
-  // ============================================================
-  // REFERENCE LIST
-  // ============================================================
-
-  Widget _buildReferenceList(
-    List<String> references,
-  ) {
-    if (references.isEmpty) {
-      return const Text(
-        'No references available.',
-        style:
-            TextStyle(
-          fontSize: 14,
-          color:
-              Colors.grey,
-        ),
-      );
-    }
-
-    return Column(
-      children:
-          references.asMap().entries.map(
-        (entry) {
-          final index =
-              entry.key;
-
-          final reference =
-              entry.value;
-
-          return Padding(
-            padding:
-                EdgeInsets.only(
-              bottom:
-                  index ==
-                          references.length -
-                              1
-                      ? 0
-                      : 11,
-            ),
-            child: Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 28,
-                  height: 28,
-                  alignment:
-                      Alignment.center,
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        primaryGreen
-                            .withOpacity(
-                      0.10,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                  child: Text(
-                    '${index + 1}',
-                    style:
-                        const TextStyle(
-                      color:
-                          primaryGreen,
-                      fontSize: 12,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  width: 10,
-                ),
-
-                Expanded(
-                  child: Text(
-                    reference,
-                    style:
-                        const TextStyle(
-                      fontSize: 14,
-                      height: 1.45,
-                      color:
-                          Color(0xFF37474F),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ).toList(),
-    );
-  }
-
-  // ============================================================
-  // DISCLAIMER
-  // ============================================================
-
-  Widget _buildDisclaimer() {
-    return Container(
-      width:
-          double.infinity,
-      padding:
-          const EdgeInsets.all(15),
-      decoration:
-          BoxDecoration(
-        color:
-            Colors.orange.withOpacity(
-          0.08,
-        ),
-        borderRadius:
-            BorderRadius.circular(
-          14,
-        ),
-        border:
-            Border.all(
-          color:
-              Colors.orange.withOpacity(
-            0.25,
-          ),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.info_outline,
-            color:
-                Colors.orange,
-            size: 21,
-          ),
-
-          const SizedBox(
-            width: 10,
-          ),
-
-          Expanded(
-            child: Text(
-              'This content is provided as a professional HSE reference. '
-              'Always verify the latest applicable UAE federal, emirate-level, '
-              'authority and project-specific requirements before relying on '
-              'this guidance.',
-              style:
-                  TextStyle(
-                fontSize: 12,
-                height: 1.45,
-                color:
-                    Colors.grey.shade800,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // CATEGORY ICON
-  // ============================================================
-
-  IconData _categoryIcon(
-    String category,
-  ) {
-    switch (category.toLowerCase()) {
-      case 'abu dhabi':
-        return Icons.location_city;
-
-      case 'dubai':
-        return Icons.apartment;
-
-      default:
-        return Icons.flag_outlined;
-    }
   }
 }
