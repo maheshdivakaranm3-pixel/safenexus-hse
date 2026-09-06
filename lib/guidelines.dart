@@ -27,9 +27,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Scaffolding is a temporary access and working platform used for construction, maintenance and other work at height. It must be properly designed, erected, inspected and used by competent persons.',
       hazards:
-          'Falls from height\nFalling materials\nScaffold collapse\nUnstable or incomplete platforms\nUnsafe access',
+          'Falls from height\n'
+          'Falling materials\n'
+          'Scaffold collapse\n'
+          'Unstable or incomplete platforms\n'
+          'Unsafe access',
       controls:
-          'Use competent scaffolders.\nProvide guardrails, midrails and toe boards.\nProvide safe access and egress.\nInspect before first use and after alteration or adverse conditions.\nPrevent unauthorised modification.',
+          'Use competent scaffolders.\n'
+          'Provide guardrails, midrails and toe boards.\n'
+          'Provide safe access and egress.\n'
+          'Inspect before first use and after alteration or adverse conditions.\n'
+          'Prevent unauthorised modification.',
       planning:
           'Review the work-at-height risk assessment, scaffold design requirements, ground conditions, access arrangements and loading requirements before erection.',
       safePractices:
@@ -37,7 +45,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Safety helmet, safety footwear, gloves and suitable fall-protection equipment where required by the risk assessment and scaffold system.',
       checklist:
-          'Foundation and base are stable\nStandards and braces are correctly installed\nPlatforms are complete and secure\nGuardrails and toe boards are installed\nSafe access is provided\nScaffold inspection status is visible',
+          'Foundation and base are stable\n'
+          'Standards and braces are correctly installed\n'
+          'Platforms are complete and secure\n'
+          'Guardrails and toe boards are installed\n'
+          'Safe access is provided\n'
+          'Scaffold inspection status is visible',
       inspection:
           'Check foundations, standards, braces, platforms, guardrails, toe boards, access ladders/stairs, ties and signs of damage or unauthorised alteration.',
       dos:
@@ -51,6 +64,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'സ്കാഫോൾഡിംഗ് ഉപയോഗിക്കുന്നതിന് മുമ്പ് അത് ശരിയായി സ്ഥാപിച്ചിട്ടുണ്ടോ, ഗാർഡ്‌റെയിൽ, ടോ ബോർഡ്, സുരക്ഷിതമായ ആക്സസ് എന്നിവയുണ്ടോ എന്ന് പരിശോധിക്കുക. കേടായതോ incomplete ആയതോ ആയ scaffold ഉപയോഗിക്കരുത്.',
     ),
+
     ReferenceTopic(
       title: 'Work at Height',
       category: GuidelineCategory.uaeGeneral,
@@ -63,9 +77,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Work at height includes work where a person could fall and suffer injury. The preferred approach is to eliminate work at height where reasonably practicable and use suitable collective protection where it cannot be eliminated.',
       hazards:
-          'Falls from edges\nFalls through openings\nFalling objects\nIncorrect ladder use\nFailure of fall-protection systems',
+          'Falls from edges\n'
+          'Falls through openings\n'
+          'Falling objects\n'
+          'Incorrect ladder use\n'
+          'Failure of fall-protection systems',
       controls:
-          'Plan the task before starting.\nUse suitable platforms and edge protection.\nProtect openings.\nUse fall-arrest or restraint systems where required.\nControl falling objects.',
+          'Plan the task before starting.\n'
+          'Use suitable platforms and edge protection.\n'
+          'Protect openings.\n'
+          'Use fall-arrest or restraint systems where required.\n'
+          'Control falling objects.',
       planning:
           'Complete risk assessment and method statement. Confirm access, rescue arrangements, weather conditions, equipment inspection and worker competency.',
       safePractices:
@@ -73,7 +95,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Safety helmet, safety footwear and appropriate fall-protection equipment where specified by the risk assessment.',
       checklist:
-          'Risk assessment completed\nSafe access provided\nEdge protection installed\nOpenings protected\nFall-protection equipment inspected\nRescue plan available',
+          'Risk assessment completed\n'
+          'Safe access provided\n'
+          'Edge protection installed\n'
+          'Openings protected\n'
+          'Fall-protection equipment inspected\n'
+          'Rescue plan available',
       inspection:
           'Inspect platforms, ladders, guardrails, anchor points, harnesses, lanyards and access routes before use.',
       dos:
@@ -87,6 +114,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'ഉയരത്തിൽ ജോലി ചെയ്യുന്നതിന് മുമ്പ് സുരക്ഷിതമായ access, edge protection, fall protection, rescue plan എന്നിവ ഉറപ്പാക്കണം.',
     ),
+
     ReferenceTopic(
       title: 'Heat Stress Management',
       category: GuidelineCategory.uaeGeneral,
@@ -99,9 +127,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Heat stress can occur when the body cannot effectively control its temperature. Outdoor and high-temperature work requires appropriate planning, hydration, rest and monitoring.',
       hazards:
-          'Heat exhaustion\nHeat cramps\nHeat stroke\nDehydration\nReduced concentration and fatigue',
+          'Heat exhaustion\n'
+          'Heat cramps\n'
+          'Heat stroke\n'
+          'Dehydration\n'
+          'Reduced concentration and fatigue',
       controls:
-          'Provide drinking water.\nProvide suitable shaded or cooled rest areas.\nPlan work to reduce exposure during extreme heat.\nProvide worker awareness and supervision.\nMonitor workers for symptoms.',
+          'Provide drinking water.\n'
+          'Provide suitable shaded or cooled rest areas.\n'
+          'Plan work to reduce exposure during extreme heat.\n'
+          'Provide worker awareness and supervision.\n'
+          'Monitor workers for symptoms.',
       planning:
           'Consider weather conditions, work intensity, worker acclimatisation, hydration, rest arrangements and emergency response before starting work.',
       safePractices:
@@ -109,7 +145,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Suitable work clothing, safety footwear, helmet and task-specific PPE. PPE should be selected with heat exposure in mind.',
       checklist:
-          'Water available\nRest/shade area available\nHeat-stress awareness completed\nWeather conditions reviewed\nEmergency arrangements available',
+          'Water available\n'
+          'Rest/shade area available\n'
+          'Heat-stress awareness completed\n'
+          'Weather conditions reviewed\n'
+          'Emergency arrangements available',
       inspection:
           'Check water availability, shaded rest facilities, work scheduling, worker condition and communication arrangements.',
       dos:
@@ -123,6 +163,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'ചൂട് കൂടുതലുള്ള സാഹചര്യത്തിൽ വെള്ളം കുടിക്കുക, നിശ്ചിത rest എടുക്കുക, heat-stress ലക്ഷണങ്ങൾ ഉടൻ report ചെയ്യുക. ഗുരുതരമായ ലക്ഷണങ്ങൾ കണ്ടാൽ ജോലി നിർത്തി അടിയന്തര സഹായം തേടണം.',
     ),
+
     ReferenceTopic(
       title: 'Lifting Operations',
       category: GuidelineCategory.uaeGeneral,
@@ -135,9 +176,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Lifting operations require competent planning, suitable equipment, competent personnel and effective exclusion zones.',
       hazards:
-          'Dropped loads\nCrane overturning\nLoad swing\nEquipment failure\nPeople entering lifting zones',
+          'Dropped loads\n'
+          'Crane overturning\n'
+          'Load swing\n'
+          'Equipment failure\n'
+          'People entering lifting zones',
       controls:
-          'Use approved lifting plans.\nConfirm equipment capacity.\nInspect lifting accessories.\nUse competent operators and riggers.\nEstablish exclusion zones.',
+          'Use approved lifting plans.\n'
+          'Confirm equipment capacity.\n'
+          'Inspect lifting accessories.\n'
+          'Use competent operators and riggers.\n'
+          'Establish exclusion zones.',
       planning:
           'Confirm load weight, centre of gravity, lifting points, crane capacity, ground conditions, weather and communication arrangements.',
       safePractices:
@@ -145,7 +194,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Safety helmet, safety footwear, gloves, high-visibility clothing and task-specific PPE.',
       checklist:
-          'Lift plan approved\nEquipment inspected\nAccessories inspected\nLoad weight confirmed\nExclusion zone established\nCompetent lifting team available',
+          'Lift plan approved\n'
+          'Equipment inspected\n'
+          'Accessories inspected\n'
+          'Load weight confirmed\n'
+          'Exclusion zone established\n'
+          'Competent lifting team available',
       inspection:
           'Inspect crane, lifting accessories, hooks, shackles, slings, ground conditions and exclusion zones.',
       dos:
@@ -159,6 +213,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Lifting operation തുടങ്ങുന്നതിന് മുമ്പ് lifting plan, load weight, crane capacity, lifting accessories, ground condition, exclusion zone എന്നിവ പരിശോധിക്കണം.',
     ),
+
     ReferenceTopic(
       title: 'Excavation Safety',
       category: GuidelineCategory.uaeGeneral,
@@ -171,9 +226,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Excavation work can expose workers to collapse, underground services, falls, flooding and hazardous atmospheres.',
       hazards:
-          'Cave-in or collapse\nUnderground services\nFalls into excavation\nWater ingress\nHazardous atmosphere',
+          'Cave-in or collapse\n'
+          'Underground services\n'
+          'Falls into excavation\n'
+          'Water ingress\n'
+          'Hazardous atmosphere',
       controls:
-          'Locate underground services before excavation.\nProvide suitable shoring, sloping or other protection.\nControl access.\nProvide safe access and egress.\nKeep spoil away from edges.',
+          'Locate underground services before excavation.\n'
+          'Provide suitable shoring, sloping or other protection.\n'
+          'Control access.\n'
+          'Provide safe access and egress.\n'
+          'Keep spoil away from edges.',
       planning:
           'Review drawings and service information, conduct risk assessment and confirm excavation protection and emergency arrangements.',
       safePractices:
@@ -181,7 +244,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Safety helmet, safety footwear, gloves, high-visibility clothing and task-specific PPE.',
       checklist:
-          'Services identified\nExcavation protection provided\nSafe access provided\nEdges protected\nSpoil controlled\nInspection completed',
+          'Services identified\n'
+          'Excavation protection provided\n'
+          'Safe access provided\n'
+          'Edges protected\n'
+          'Spoil controlled\n'
+          'Inspection completed',
       inspection:
           'Check excavation walls, access, water accumulation, edge protection, spoil placement and signs of ground movement.',
       dos:
@@ -195,6 +263,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Excavation തുടങ്ങുന്നതിന് മുമ്പ് underground services കണ്ടെത്തണം. ആവശ്യമായ shoring/sloping/protection, safe access, edge protection എന്നിവ ഉറപ്പാക്കണം.',
     ),
+
     ReferenceTopic(
       title: 'Electrical Safety',
       category: GuidelineCategory.uaeGeneral,
@@ -207,9 +276,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'Electrical energy can cause shock, burns, arc flash, fire and fatal injury. Electrical work must be carried out by competent persons using approved systems.',
       hazards:
-          'Electric shock\nArc flash\nElectrical fire\nDamaged cables\nContact with overhead or underground services',
+          'Electric shock\n'
+          'Arc flash\n'
+          'Electrical fire\n'
+          'Damaged cables\n'
+          'Contact with overhead or underground services',
       controls:
-          'Isolate energy where possible.\nUse suitable protection devices.\nInspect cables and equipment.\nProtect temporary electrical systems.\nMaintain safe distances from electrical services.',
+          'Isolate energy where possible.\n'
+          'Use suitable protection devices.\n'
+          'Inspect cables and equipment.\n'
+          'Protect temporary electrical systems.\n'
+          'Maintain safe distances from electrical services.',
       planning:
           'Identify electrical sources and services before work. Confirm isolation, permits, competent personnel and emergency arrangements.',
       safePractices:
@@ -217,7 +294,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Task-specific electrical PPE as determined by the risk assessment and authorised electrical procedure.',
       checklist:
-          'Isolation confirmed\nEquipment inspected\nCables protected\nDistribution boards protected\nCompetent person assigned',
+          'Isolation confirmed\n'
+          'Equipment inspected\n'
+          'Cables protected\n'
+          'Distribution boards protected\n'
+          'Competent person assigned',
       inspection:
           'Inspect cables, plugs, sockets, distribution boards, protective devices and temporary electrical installations.',
       dos:
@@ -231,6 +312,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Electrical work competent ആയ വ്യക്തികൾ മാത്രം ചെയ്യണം. Damaged cable/equipment ഉപയോഗിക്കരുത്. Isolation ഉറപ്പാക്കാതെ electrical work ആരംഭിക്കരുത്.',
     ),
+
     ReferenceTopic(
       title: 'Personal Protective Equipment',
       category: GuidelineCategory.uaeGeneral,
@@ -243,9 +325,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       overview:
           'PPE is the last line of defence and should be selected based on the hazards and risk assessment. It does not replace engineering or administrative controls.',
       hazards:
-          'Head injury\nEye injury\nFoot injury\nHand injury\nHearing damage\nRespiratory exposure',
+          'Head injury\n'
+          'Eye injury\n'
+          'Foot injury\n'
+          'Hand injury\n'
+          'Hearing damage\n'
+          'Respiratory exposure',
       controls:
-          'Identify hazards first.\nSelect suitable PPE.\nProvide training.\nInspect PPE before use.\nReplace damaged PPE.',
+          'Identify hazards first.\n'
+          'Select suitable PPE.\n'
+          'Provide training.\n'
+          'Inspect PPE before use.\n'
+          'Replace damaged PPE.',
       planning:
           'Determine PPE requirements from the risk assessment and task-specific procedure.',
       safePractices:
@@ -253,7 +344,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Safety helmet, safety footwear, gloves, eye protection, hearing protection, respiratory protection and fall protection as required by the task.',
       checklist:
-          'Correct PPE selected\nPPE available\nPPE inspected\nWorker trained\nDamaged PPE replaced',
+          'Correct PPE selected\n'
+          'PPE available\n'
+          'PPE inspected\n'
+          'Worker trained\n'
+          'Damaged PPE replaced',
       inspection:
           'Check condition, fit, cleanliness, certification where applicable and suitability for the task.',
       dos:
@@ -267,6 +362,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'PPE risk assessment അടിസ്ഥാനമാക്കി തിരഞ്ഞെടുക്കണം. Damaged PPE ഉപയോഗിക്കരുത്. PPE മാത്രം ആശ്രയിക്കാതെ engineering/control measures ഉപയോഗിക്കണം.',
     ),
+
     ReferenceTopic(
       title: 'Abu Dhabi OSH Requirements',
       category: GuidelineCategory.abuDhabi,
@@ -281,7 +377,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       hazards:
           'Requirements vary by activity and work environment. Project-specific hazards must be identified through risk assessment.',
       controls:
-          'Follow applicable Abu Dhabi OSH requirements.\nUse approved risk assessment and safe systems of work.\nMaintain required records and inspections.\nFollow project and employer procedures.',
+          'Follow applicable Abu Dhabi OSH requirements.\n'
+          'Use approved risk assessment and safe systems of work.\n'
+          'Maintain required records and inspections.\n'
+          'Follow project and employer procedures.',
       planning:
           'Identify the applicable Abu Dhabi OSH requirements and project-specific controls before starting work.',
       safePractices:
@@ -289,7 +388,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Use PPE specified by the applicable risk assessment and project requirements.',
       checklist:
-          'Applicable requirement identified\nRisk assessment completed\nSafe system available\nWorkers briefed\nInspections completed',
+          'Applicable requirement identified\n'
+          'Risk assessment completed\n'
+          'Safe system available\n'
+          'Workers briefed\n'
+          'Inspections completed',
       inspection:
           'Verify workplace controls against applicable Abu Dhabi requirements and approved project procedures.',
       dos:
@@ -303,6 +406,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Abu Dhabi-യിൽ ബാധകമായ ADOSH-SF requirements, Codes of Practice, project procedures എന്നിവ പരിശോധിച്ച ശേഷം മാത്രമേ compliance തീരുമാനം എടുക്കാവൂ.',
     ),
+
     ReferenceTopic(
       title: 'Dubai Code of Practice',
       category: GuidelineCategory.dubai,
@@ -317,7 +421,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       hazards:
           'Hazards depend on the work activity and must be assessed through the project risk assessment.',
       controls:
-          'Identify applicable Dubai authority requirements.\nFollow approved project procedures.\nUse competent personnel.\nMaintain inspection and training records.\nImplement suitable risk controls.',
+          'Identify applicable Dubai authority requirements.\n'
+          'Follow approved project procedures.\n'
+          'Use competent personnel.\n'
+          'Maintain inspection and training records.\n'
+          'Implement suitable risk controls.',
       planning:
           'Confirm the applicable Dubai Code of Practice or authority requirement before work begins.',
       safePractices:
@@ -325,7 +433,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ppe:
           'Use task-specific PPE according to the risk assessment and project requirements.',
       checklist:
-          'Applicable Dubai requirement identified\nRisk assessment completed\nPermit requirements checked\nWorkers briefed\nInspection completed',
+          'Applicable Dubai requirement identified\n'
+          'Risk assessment completed\n'
+          'Permit requirements checked\n'
+          'Workers briefed\n'
+          'Inspection completed',
       inspection:
           'Verify controls against applicable Dubai requirements and project procedures.',
       dos:
@@ -468,22 +580,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            _filterChip(
-              'All',
-              GuidelineCategory.all,
-            ),
-            _filterChip(
-              'UAE General',
-              GuidelineCategory.uaeGeneral,
-            ),
-            _filterChip(
-              'Abu Dhabi',
-              GuidelineCategory.abuDhabi,
-            ),
-            _filterChip(
-              'Dubai',
-              GuidelineCategory.dubai,
-            ),
+            _filterChip('All', GuidelineCategory.all),
+            _filterChip('UAE General', GuidelineCategory.uaeGeneral),
+            _filterChip('Abu Dhabi', GuidelineCategory.abuDhabi),
+            _filterChip('Dubai', GuidelineCategory.dubai),
           ],
         ),
       ),
@@ -514,6 +614,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   Widget _buildGuidelineCard(ReferenceTopic topic) {
+    final categoryColor = _categoryColor(topic.category);
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 0,
@@ -543,13 +645,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: _categoryColor(topic.category)
-                      .withValues(alpha: 0.10),
+                  color: categoryColor.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   _categoryIcon(topic.category),
-                  color: _categoryColor(topic.category),
+                  color: categoryColor,
                   size: 25,
                 ),
               ),
@@ -586,14 +687,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: _categoryColor(topic.category)
-                                .withValues(alpha: 0.10),
+                            color: categoryColor.withValues(alpha: 0.10),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             topic.category.label,
                             style: TextStyle(
-                              color: _categoryColor(topic.category),
+                              color: categoryColor,
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                             ),
