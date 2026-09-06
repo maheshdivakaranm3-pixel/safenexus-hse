@@ -70,12 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color(0xFFF5F7F6),
       body: IndexedStack(
         index: _selectedIndex,
-        children: const [
-          _HomeContent(),
-          ObservationHistoryPage(),
-          SizedBox.shrink(),
-          GuidelinesPage(),
-          SettingsPage(),
+        children: [
+          const _HomeContent(),
+          const ObservationHistoryPage(),
+          const SizedBox.shrink(),
+          const GuidelinesPage(),
+          const SettingsPage(),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
@@ -161,7 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
     required VoidCallback onTap,
     required bool active,
   }) {
-    final color = active ? green : const Color(0xFF555555);
+    final Color color =
+        active ? green : const Color(0xFF555555);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
