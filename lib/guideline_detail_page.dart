@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'guideline_model.dart';
+import 'models/reference_topic.dart';
 
 class GuidelineDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
@@ -39,63 +39,79 @@ class GuidelineDetailPage extends StatelessWidget {
               _heroCard(),
               const SizedBox(height: 14),
               _referenceCard(),
+
               _section(
                 Icons.menu_book_rounded,
                 'What is it?',
                 topic.overview,
               ),
+
               _bulletSection(
                 Icons.warning_amber_rounded,
                 'Main Hazards',
                 topic.hazards,
               ),
+
               _bulletSection(
                 Icons.shield_rounded,
                 'Risk Controls',
                 topic.controls,
               ),
+
               _section(
                 Icons.assignment_rounded,
                 'Planning & Preparation',
                 topic.planning,
               ),
+
               _section(
                 Icons.engineering_rounded,
                 'Safe Work Practices',
                 topic.safePractices,
               ),
+
               _bulletSection(
                 Icons.health_and_safety_rounded,
                 'PPE',
                 topic.ppe,
               ),
+
               _checklistCard(),
+
               _bulletSection(
                 Icons.search_rounded,
                 'Inspection Points',
                 topic.inspection,
               ),
+
               _doDontCard(
                 title: 'Do',
                 icon: Icons.check_circle_outline_rounded,
                 content: topic.dos,
                 positive: true,
               ),
+
               _doDontCard(
                 title: 'Do Not',
                 icon: Icons.cancel_outlined,
                 content: topic.donts,
                 positive: false,
               ),
+
               _stopWorkCard(),
+
               _section(
                 Icons.emergency_rounded,
                 'Emergency Response',
                 topic.emergency,
               ),
+
               _malayalamCard(),
+
               _referenceNote(),
+
               const SizedBox(height: 8),
+
               const Text(
                 'SafeNexus HSE',
                 style: TextStyle(
@@ -104,7 +120,9 @@ class GuidelineDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
+
               const SizedBox(height: 3),
+
               const Text(
                 'UAE HSE Safety Learning & Reference',
                 style: TextStyle(
@@ -235,17 +253,35 @@ class GuidelineDetailPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          _referenceRow('Category', topic.category.label),
-          _referenceRow('Source', topic.sourceLabel),
-          _referenceRow('CoP / Reference', topic.copNumber),
-          _referenceRow('Version', topic.version),
-          _referenceRow('Effective Date', topic.effectiveDate),
+          _referenceRow(
+            'Category',
+            topic.category.label,
+          ),
+          _referenceRow(
+            'Source',
+            topic.sourceLabel,
+          ),
+          _referenceRow(
+            'CoP / Reference',
+            topic.copNumber,
+          ),
+          _referenceRow(
+            'Version',
+            topic.version,
+          ),
+          _referenceRow(
+            'Effective Date',
+            topic.effectiveDate,
+          ),
         ],
       ),
     );
   }
 
-  Widget _referenceRow(String label, String value) {
+  Widget _referenceRow(
+    String label,
+    String value,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
