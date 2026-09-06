@@ -102,85 +102,68 @@ class GuidelineDetailPage extends StatelessWidget {
             children: [
               _buildHeroCard(),
               const SizedBox(height: 16),
-
               _officialReferenceCard(),
-
               _infoCard(
                 icon: Icons.menu_book_rounded,
                 title: 'What is it?',
                 content: topic.overview,
               ),
-
               _infoCard(
                 icon: Icons.warning_amber_rounded,
                 title: 'Main Hazards',
                 content: topic.hazards,
                 bulletStyle: true,
               ),
-
               _infoCard(
                 icon: Icons.shield_rounded,
                 title: 'Risk Controls',
                 content: topic.controls,
                 bulletStyle: true,
               ),
-
               _infoCard(
                 icon: Icons.assignment_rounded,
                 title: 'Planning & Preparation',
                 content: topic.planning,
               ),
-
               _infoCard(
                 icon: Icons.engineering_rounded,
                 title: 'Safe Work Practices',
                 content: topic.safePractices,
               ),
-
               _infoCard(
                 icon: Icons.health_and_safety_rounded,
                 title: 'PPE',
                 content: topic.ppe,
                 bulletStyle: true,
               ),
-
               _checklistCard(),
-
               _infoCard(
                 icon: Icons.search_rounded,
                 title: 'Inspection Points',
                 content: topic.inspection,
                 bulletStyle: true,
               ),
-
               _doDontCard(
                 title: 'Do',
                 icon: Icons.check_circle_outline_rounded,
                 content: topic.dos,
                 isPositive: true,
               ),
-
               _doDontCard(
                 title: 'Do Not',
                 icon: Icons.cancel_outlined,
                 content: topic.donts,
                 isPositive: false,
               ),
-
               _stopWorkCard(),
-
               _infoCard(
                 icon: Icons.emergency_rounded,
                 title: 'Emergency Response',
                 content: topic.emergency,
               ),
-
               _malayalamCard(),
-
               _referenceNote(),
-
               const SizedBox(height: 8),
-
               const Text(
                 'SafeNexus HSE',
                 style: TextStyle(
@@ -189,9 +172,7 @@ class GuidelineDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-
               const SizedBox(height: 4),
-
               const Text(
                 'UAE HSE Safety Learning & Reference',
                 style: TextStyle(
