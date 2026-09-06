@@ -1,89 +1,45 @@
-import 'package:flutter/material.dart';
-
 enum GuidelineCategory {
+  all,
   uaeGeneral,
   abuDhabi,
   dubai,
 }
 
-extension GuidelineCategoryExtension on GuidelineCategory {
-  String get label {
-    switch (this) {
-      case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
-      case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
-      case GuidelineCategory.dubai:
-        return 'Dubai';
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case GuidelineCategory.uaeGeneral:
-        return const Color(0xFF159447);
-      case GuidelineCategory.abuDhabi:
-        return const Color(0xFF2563EB);
-      case GuidelineCategory.dubai:
-        return const Color(0xFF7C3AED);
-    }
-  }
-
-  IconData get icon {
-    switch (this) {
-      case GuidelineCategory.uaeGeneral:
-        return Icons.public_rounded;
-      case GuidelineCategory.abuDhabi:
-        return Icons.location_city_rounded;
-      case GuidelineCategory.dubai:
-        return Icons.apartment_rounded;
-    }
-  }
-}
-
 class ReferenceTopic {
+  final String id;
   final String title;
-  final GuidelineCategory category;
-  final String sourceLabel;
-  final String copNumber;
-  final String version;
-  final String effectiveDate;
-
-  final String shortDescription;
-  final String overview;
-  final String hazards;
-  final String controls;
-  final String planning;
-  final String safePractices;
-  final String ppe;
-  final String checklist;
-  final String inspection;
-  final String dos;
-  final String donts;
-  final String stopWork;
-  final String emergency;
-  final String malayalam;
+  final String shortTitle;
+  final String description;
+  final String category;
+  final String authority;
+  final String jurisdiction;
+  final List<String> keyRequirements;
+  final List<String> safetyControls;
+  final List<String> responsibilities;
+  final List<String> references;
 
   const ReferenceTopic({
+    required this.id,
     required this.title,
+    required this.shortTitle,
+    required this.description,
     required this.category,
-    required this.sourceLabel,
-    required this.copNumber,
-    required this.version,
-    required this.effectiveDate,
-    required this.shortDescription,
-    required this.overview,
-    required this.hazards,
-    required this.controls,
-    required this.planning,
-    required this.safePractices,
-    required this.ppe,
-    required this.checklist,
-    required this.inspection,
-    required this.dos,
-    required this.donts,
-    required this.stopWork,
-    required this.emergency,
-    required this.malayalam,
+    required this.authority,
+    required this.jurisdiction,
+    required this.keyRequirements,
+    required this.safetyControls,
+    required this.responsibilities,
+    required this.references,
   });
+
+  GuidelineCategory get guidelineCategory {
+    switch (category.toLowerCase()) {
+      case 'abu dhabi':
+        return GuidelineCategory.abuDhabi;
+      case 'dubai':
+        return GuidelineCategory.dubai;
+      default:
+        return GuidelineCategory.uaeGeneral;
+    }
+  }
 }
