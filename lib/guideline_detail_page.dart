@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// ============================================================
-/// REFERENCE TOPIC MODEL
-/// ============================================================
-
 enum GuidelineCategory {
+  all,
   uaeGeneral,
   abuDhabi,
   dubai,
@@ -13,6 +10,8 @@ enum GuidelineCategory {
 extension GuidelineCategoryExtension on GuidelineCategory {
   String get label {
     switch (this) {
+      case GuidelineCategory.all:
+        return 'All';
       case GuidelineCategory.uaeGeneral:
         return 'UAE General';
       case GuidelineCategory.abuDhabi:
@@ -26,7 +25,6 @@ extension GuidelineCategoryExtension on GuidelineCategory {
 class ReferenceTopic {
   final String title;
   final GuidelineCategory category;
-
   final String sourceLabel;
   final String copNumber;
   final String version;
@@ -71,10 +69,6 @@ class ReferenceTopic {
   });
 }
 
-/// ============================================================
-/// GUIDELINE DETAIL PAGE
-/// ============================================================
-
 class GuidelineDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
 
@@ -102,12 +96,7 @@ class GuidelineDetailPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(
-            16,
-            16,
-            16,
-            30,
-          ),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -217,10 +206,6 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  /// ==========================================================
-  /// HERO CARD
-  /// ==========================================================
-
   Widget _buildHeroCard() {
     return Container(
       width: double.infinity,
@@ -289,196 +274,95 @@ class GuidelineDetailPage extends StatelessWidget {
               ),
             ],
           ),
-
-          const SizedBox(height: 12),
-
+          const SizedBox(height: 16),
           Text(
             topic.shortDescription,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 12.5,
+              fontSize: 13,
               height: 1.45,
             ),
-          ),
-
-          const SizedBox(height: 14),
-
-          Wrap(
-            spacing: 7,
-            runSpacing: 7,
-            children: [
-              _heroChip(topic.category.label),
-              if (topic.copNumber.isNotEmpty)
-                _heroChip(topic.copNumber),
-              if (topic.version.isNotEmpty)
-                _heroChip('Version ${topic.version}'),
-            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _heroChip(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 9,
-        vertical: 6,
-      ),
-      decoration: BoxDecoration(
-        color: const Color(0x22FFFFFF),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0x33FFFFFF),
-        ),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 10.5,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-
-  /// ==========================================================
-  /// OFFICIAL REFERENCE
-  /// ==========================================================
-
   Widget _officialReferenceCard() {
-    final isAbuDhabi =
-        topic.category == GuidelineCategory.abuDhabi;
-
-    final isDubai =
-        topic.category == GuidelineCategory.dubai;
-
-    final String authority;
-
-    if (isAbuDhabi) {
-      authority = 'ADPHC – ADOSH-SF Codes of Practice';
-    } else if (isDubai) {
-      authority = 'Dubai Municipality – Construction Safety';
-    } else {
-      authority = 'UAE General HSE Reference';
-    }
-
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF8F4),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(17),
         border: Border.all(
-          color: const Color(0xFFCBE3D8),
+          color: Colors.grey.shade200,
         ),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(
+                Icons.verified_outlined,
+                color: Color(0xFF0B5D4B),
+                size: 23,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Reference Information',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF111827),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          _referenceRow('Category', topic.category.label),
+          _referenceRow('Source', topic.sourceLabel),
+          _referenceRow('CoP / Reference', topic.copNumber),
+          _referenceRow('Version', topic.version),
+          _referenceRow('Effective Date', topic.effectiveDate),
+        ],
+      ),
+    );
+  }
+
+  Widget _referenceRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.verified_rounded,
-            color: Color(0xFF0B5D4B),
-            size: 27,
+          SizedBox(
+            width: 125,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 11.5,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF777777),
+              ),
+            ),
           ),
-          const SizedBox(width: 12),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Reference Source',
-                  style: TextStyle(
-                    color: Color(0xFF0B5D4B),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-
-                const SizedBox(height: 7),
-
-                Text(
-                  authority,
-                  style: const TextStyle(
-                    color: Color(0xFF333333),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                if (topic.sourceLabel.isNotEmpty) ...[
-                  const SizedBox(height: 5),
-                  Text(
-                    topic.sourceLabel,
-                    style: const TextStyle(
-                      color: Color(0xFF555555),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-
-                if (topic.copNumber.isNotEmpty) ...[
-                  const SizedBox(height: 5),
-                  Text(
-                    topic.copNumber,
-                    style: const TextStyle(
-                      color: Color(0xFF555555),
-                      fontSize: 12,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-
-                if (topic.version.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    'Version: ${topic.version}',
-                    style: const TextStyle(
-                      color: Color(0xFF555555),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-
-                if (topic.effectiveDate.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    'Effective / Reference Date: '
-                    '${topic.effectiveDate}',
-                    style: const TextStyle(
-                      color: Color(0xFF555555),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-
-                const SizedBox(height: 10),
-
-                Text(
-                  isAbuDhabi
-                      ? 'Authority: Abu Dhabi Public Health Centre'
-                      : isDubai
-                          ? 'Authority: Dubai Municipality'
-                          : 'Scope: UAE General Reference',
-                  style: const TextStyle(
-                    color: Color(0xFF0B5D4B),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 11.5,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF333333),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
-  /// ==========================================================
-  /// INFORMATION CARD
-  /// ==========================================================
 
   Widget _infoCard({
     required IconData icon,
@@ -490,9 +374,6 @@ class GuidelineDetailPage extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final items =
-        bulletStyle ? _splitBullets(content) : <String>[];
-
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
@@ -503,38 +384,20 @@ class GuidelineDetailPage extends StatelessWidget {
         border: Border.all(
           color: Colors.grey.shade200,
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x08000000),
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF5F0),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF159447),
-              size: 21,
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: const Color(0xFF159447),
+                size: 24,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
                   title,
                   style: const TextStyle(
                     fontSize: 14,
@@ -542,62 +405,69 @@ class GuidelineDetailPage extends StatelessWidget {
                     color: Color(0xFF111827),
                   ),
                 ),
-
-                const SizedBox(height: 9),
-
-                if (bulletStyle)
-                  ...items.map(
-                    (item) => Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 7,
-                      ),
-                      child: Row(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 6),
-                            child: Icon(
-                              Icons.circle,
-                              size: 5,
-                              color: Color(0xFF159447),
-                            ),
-                          ),
-                          const SizedBox(width: 9),
-                          Expanded(
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                color: Color(0xFF666666),
-                                fontSize: 12,
-                                height: 1.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                else
-                  Text(
-                    content,
-                    style: const TextStyle(
-                      color: Color(0xFF666666),
-                      fontSize: 12,
-                      height: 1.55,
-                    ),
-                  ),
-              ],
-            ),
+              ),
+            ],
           ),
+          const SizedBox(height: 12),
+          bulletStyle
+              ? _bulletText(content)
+              : Text(
+                  content,
+                  style: const TextStyle(
+                    color: Color(0xFF555555),
+                    fontSize: 12.5,
+                    height: 1.55,
+                  ),
+                ),
         ],
       ),
     );
   }
 
-  /// ==========================================================
-  /// CHECKLIST
-  /// ==========================================================
+  Widget _bulletText(String text) {
+    final items = _splitBullets(text);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: items.map((item) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 9),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: Icon(
+                  Icons.circle,
+                  size: 6,
+                  color: Color(0xFF159447),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  item,
+                  style: const TextStyle(
+                    color: Color(0xFF555555),
+                    fontSize: 12.5,
+                    height: 1.45,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  List<String> _splitBullets(String text) {
+    return text
+        .split('\n')
+        .map((item) => item.trim())
+        .where((item) => item.isNotEmpty)
+        .toList();
+  }
 
   Widget _checklistCard() {
     if (topic.checklist.trim().isEmpty) {
@@ -638,17 +508,12 @@ class GuidelineDetailPage extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 12),
-
           ...items.map(
             (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: 10,
-              ),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.check_box_outlined,
@@ -674,10 +539,6 @@ class GuidelineDetailPage extends StatelessWidget {
       ),
     );
   }
-
-  /// ==========================================================
-  /// DO / DO NOT
-  /// ==========================================================
 
   Widget _doDontCard({
     required String title,
@@ -715,8 +576,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -742,10 +602,6 @@ class GuidelineDetailPage extends StatelessWidget {
       ),
     );
   }
-
-  /// ==========================================================
-  /// STOP WORK
-  /// ==========================================================
 
   Widget _stopWorkCard() {
     if (topic.stopWork.trim().isEmpty) {
@@ -774,8 +630,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'When to Stop Work',
@@ -802,10 +657,6 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  /// ==========================================================
-  /// MALAYALAM
-  /// ==========================================================
-
   Widget _malayalamCard() {
     if (topic.malayalam.trim().isEmpty) {
       return const SizedBox.shrink();
@@ -823,8 +674,7 @@ class GuidelineDetailPage extends StatelessWidget {
         ),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.translate_rounded,
@@ -834,8 +684,7 @@ class GuidelineDetailPage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Malayalam – പ്രധാന സുരക്ഷാ നിർദ്ദേശങ്ങൾ',
@@ -862,10 +711,6 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  /// ==========================================================
-  /// REFERENCE NOTE
-  /// ==========================================================
-
   Widget _referenceNote() {
     return Container(
       width: double.infinity,
@@ -878,20 +723,18 @@ class GuidelineDetailPage extends StatelessWidget {
           color: const Color(0xFFD7E8E1),
         ),
       ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
+          Icon(
             Icons.info_outline_rounded,
             color: Color(0xFF0B5D4B),
             size: 24,
           ),
-          const SizedBox(width: 12),
-          const Expanded(
+          SizedBox(width: 12),
+          Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Important HSE Reference Note',
@@ -903,13 +746,7 @@ class GuidelineDetailPage extends StatelessWidget {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  'This Safety Guideline is provided for HSE '
-                  'learning and practical workplace reference. '
-                  'Always verify the latest official requirement, '
-                  'applicable legislation, authority requirements, '
-                  'project procedures, risk assessment, method '
-                  'statement and permit requirements before making '
-                  'a compliance decision.',
+                  'This Safety Guideline is provided for HSE learning and practical workplace reference. Always verify the latest official requirement, applicable legislation, authority requirements, project procedures, risk assessment, method statement and permit requirements before making a compliance decision.',
                   style: TextStyle(
                     color: Color(0xFF666666),
                     fontSize: 12,
@@ -922,17 +759,5 @@ class GuidelineDetailPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  /// ==========================================================
-  /// BULLET SPLITTER
-  /// ==========================================================
-
-  List<String> _splitBullets(String value) {
-    return value
-        .split('•')
-        .map((item) => item.trim())
-        .where((item) => item.isNotEmpty)
-        .toList();
   }
 }
