@@ -1,187 +1,783 @@
 import 'package:flutter/material.dart';
 
 import 'models/reference_topic.dart';
+import 'guideline_detail_page.dart';
 
-class GuidelineDetailPage extends StatelessWidget {
-  final ReferenceTopic topic;
+class GuidelinesPage extends StatefulWidget {
+  const GuidelinesPage({super.key});
 
-  const GuidelineDetailPage({
-    super.key,
-    required this.topic,
-  });
+  @override
+  State<GuidelinesPage> createState() => _GuidelinesPageState();
+}
+
+class _GuidelinesPageState extends State<GuidelinesPage> {
+  final TextEditingController _searchController = TextEditingController();
+
+  String _searchQuery = '';
+  GuidelineCategory _selectedCategory = GuidelineCategory.all;
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color pageBackground = Color(0xFFF6F8F7);
 
+  final List<ReferenceTopic> _topics = const [
+    ReferenceTopic(
+      id: 'accident_incident_reporting',
+      title: 'Accident & Incident Reporting',
+      shortTitle: 'Accident & Incident Reporting',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for reporting, recording, investigating and learning from workplace accidents, incidents, near misses and dangerous occurrences.',
+      keyRequirements: [
+        'Report workplace accidents and incidents promptly.',
+        'Record near misses and dangerous occurrences.',
+        'Preserve relevant evidence where required.',
+        'Conduct appropriate incident investigation.',
+        'Identify root and contributing causes.',
+        'Implement corrective and preventive actions.',
+      ],
+      safetyControls: [
+        'Establish a clear incident reporting procedure.',
+        'Ensure workers know who to notify.',
+        'Use an incident investigation process.',
+        'Track corrective actions to closure.',
+        'Share relevant lessons learned.',
+      ],
+      responsibilities: [
+        'Management must provide an effective reporting system.',
+        'Supervisors should ensure incidents are reported and controlled.',
+        'Workers should immediately report incidents and unsafe conditions.',
+        'HSE personnel should support investigation and corrective actions.',
+      ],
+      references: [
+        'UAE occupational health and safety requirements',
+        'Company HSE Management System',
+        'Applicable Emirate-specific requirements',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'confined_space',
+      title: 'Confined Space Safety',
+      shortTitle: 'Confined Space',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Safety guidance for work in tanks, vessels, pits, chambers and other spaces where hazardous atmospheres or restricted access may create serious risks.',
+      keyRequirements: [
+        'Identify and classify confined spaces.',
+        'Conduct a suitable risk assessment.',
+        'Use a confined space entry permit where required.',
+        'Test the atmosphere before and during entry.',
+        'Provide suitable ventilation.',
+        'Establish emergency rescue arrangements.',
+      ],
+      safetyControls: [
+        'Gas testing',
+        'Continuous atmospheric monitoring where necessary',
+        'Isolation and lockout',
+        'Forced ventilation',
+        'Standby attendant',
+        'Emergency rescue plan',
+        'Suitable PPE and respiratory protection where required',
+      ],
+      responsibilities: [
+        'Employers must provide safe systems of work.',
+        'Supervisors must verify controls before entry.',
+        'Authorized entrants must follow the entry procedure.',
+        'Standby personnel must maintain communication and initiate emergency response.',
+      ],
+      references: [
+        'UAE occupational safety requirements',
+        'Company Confined Space Procedure',
+        'Applicable permit-to-work system',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'construction_safety',
+      title: 'Construction Safety',
+      shortTitle: 'Construction Safety',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'General HSE guidance for construction activities including site access, work at height, lifting, excavation, temporary works, plant and equipment.',
+      keyRequirements: [
+        'Provide site-specific risk assessments.',
+        'Implement safe systems of work.',
+        'Control construction traffic.',
+        'Inspect plant and equipment.',
+        'Control high-risk activities through permits where applicable.',
+        'Provide competent supervision.',
+      ],
+      safetyControls: [
+        'Site induction',
+        'Risk assessment and method statement',
+        'Permit to work',
+        'Barricading and signage',
+        'PPE',
+        'Inspection and maintenance',
+        'Emergency preparedness',
+      ],
+      responsibilities: [
+        'Project management provides resources and safe systems.',
+        'Supervisors implement controls at work fronts.',
+        'Workers follow approved procedures and report hazards.',
+        'HSE teams monitor compliance and provide guidance.',
+      ],
+      references: [
+        'UAE construction HSE requirements',
+        'Project HSE Plan',
+        'Applicable Emirate requirements',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'electrical_safety',
+      title: 'Electrical Safety',
+      shortTitle: 'Electrical Safety',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for controlling electrical hazards including electric shock, arc flash, fire, damaged equipment and unauthorized electrical work.',
+      keyRequirements: [
+        'Electrical work must be carried out by competent persons.',
+        'Use suitable isolation procedures.',
+        'Protect cables and electrical equipment from damage.',
+        'Inspect portable electrical equipment.',
+        'Use appropriate residual-current protection where applicable.',
+        'Maintain safe clearances.',
+      ],
+      safetyControls: [
+        'Lockout/tagout',
+        'Electrical isolation',
+        'Inspection and testing',
+        'Proper earthing',
+        'Cable management',
+        'Suitable PPE',
+        'Restricted access to electrical rooms',
+      ],
+      responsibilities: [
+        'Management must ensure competent electrical personnel.',
+        'Supervisors must verify safe isolation.',
+        'Workers must not use defective equipment.',
+        'HSE personnel should monitor electrical safety controls.',
+      ],
+      references: [
+        'UAE electrical safety requirements',
+        'Applicable authority requirements',
+        'Company Electrical Safety Procedure',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'excavation_trenching',
+      title: 'Excavation & Trenching Safety',
+      shortTitle: 'Excavation & Trenching',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Safety guidance for excavation and trenching activities to prevent collapse, falls, underground service strikes and equipment-related incidents.',
+      keyRequirements: [
+        'Obtain required approvals before excavation.',
+        'Identify underground services.',
+        'Assess soil and ground conditions.',
+        'Provide suitable shoring, sloping or other protection.',
+        'Provide safe access and egress.',
+        'Keep spoil and equipment away from excavation edges.',
+      ],
+      safetyControls: [
+        'Excavation permit',
+        'Utility scanning',
+        'Barricading',
+        'Safe access',
+        'Shoring or sloping',
+        'Daily inspection',
+        'Water control',
+      ],
+      responsibilities: [
+        'Supervisors must inspect excavations.',
+        'Workers must remain within designated safe areas.',
+        'Plant operators must follow exclusion zones.',
+        'HSE personnel should verify excavation controls.',
+      ],
+      references: [
+        'UAE construction safety requirements',
+        'Project excavation procedure',
+        'Applicable utility authority requirements',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'fire_safety',
+      title: 'Fire Safety',
+      shortTitle: 'Fire Safety',
+      category: 'UAE General',
+      authority: 'UAE Civil Defence / Applicable Authority',
+      jurisdiction: 'UAE',
+      description:
+          'General workplace fire prevention and emergency preparedness guidance covering ignition sources, fire protection, evacuation and emergency response.',
+      keyRequirements: [
+        'Identify fire hazards.',
+        'Maintain suitable fire prevention measures.',
+        'Keep emergency exits clear.',
+        'Provide appropriate fire protection equipment.',
+        'Maintain emergency evacuation arrangements.',
+        'Conduct fire drills as required.',
+      ],
+      safetyControls: [
+        'Fire extinguishers',
+        'Fire alarm systems',
+        'Emergency exits',
+        'Hot work controls',
+        'Good housekeeping',
+        'Emergency lighting',
+        'Fire drills',
+      ],
+      responsibilities: [
+        'Management provides suitable fire protection arrangements.',
+        'Supervisors maintain clear escape routes.',
+        'Workers follow fire prevention procedures.',
+        'Emergency teams respond according to established plans.',
+      ],
+      references: [
+        'UAE Fire and Life Safety requirements',
+        'UAE Civil Defence requirements',
+        'Site Emergency Response Plan',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'heat_stress',
+      title: 'Heat Stress Management',
+      shortTitle: 'Heat Stress',
+      category: 'UAE General',
+      authority: 'UAE Labour / HSE Requirements',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for preventing heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work.',
+      keyRequirements: [
+        'Identify workers exposed to heat stress.',
+        'Provide adequate drinking water.',
+        'Provide suitable rest arrangements.',
+        'Implement heat stress awareness and training.',
+        'Schedule work appropriately during high-risk periods.',
+        'Recognize symptoms of heat-related illness.',
+      ],
+      safetyControls: [
+        'Potable drinking water',
+        'Shaded or cooled rest areas',
+        'Work-rest cycles',
+        'Heat stress monitoring',
+        'Worker acclimatization',
+        'Suitable PPE and clothing',
+        'Emergency response arrangements',
+      ],
+      responsibilities: [
+        'Management must implement a heat stress prevention programme.',
+        'Supervisors must monitor workers and environmental conditions.',
+        'Workers should maintain hydration and report symptoms.',
+        'HSE teams should monitor programme implementation.',
+      ],
+      references: [
+        'UAE Midday Break requirements where applicable',
+        'UAE occupational health and safety requirements',
+        'Company Heat Stress Management Plan',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'lifting_operations',
+      title: 'Lifting Operations',
+      shortTitle: 'Lifting Operations',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for safe crane, hoist and lifting operations including planning, equipment inspection, lifting accessories and exclusion zones.',
+      keyRequirements: [
+        'Plan lifting operations according to the risk.',
+        'Use competent lifting personnel.',
+        'Inspect lifting equipment and accessories.',
+        'Confirm load weight and centre of gravity.',
+        'Establish exclusion zones.',
+        'Use suitable communication methods.',
+      ],
+      safetyControls: [
+        'Lifting plan',
+        'Crane inspection',
+        'Lifting accessory inspection',
+        'Certified operators',
+        'Competent riggers',
+        'Banksman/signaller',
+        'Exclusion zone',
+      ],
+      responsibilities: [
+        'Lifting supervisors coordinate lifting operations.',
+        'Operators operate equipment safely.',
+        'Riggers connect and secure loads correctly.',
+        'HSE personnel monitor compliance.',
+      ],
+      references: [
+        'UAE lifting equipment requirements',
+        'Applicable equipment standards',
+        'Project lifting procedure',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'personal_protective_equipment',
+      title: 'Personal Protective Equipment',
+      shortTitle: 'PPE',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for selecting, providing, using, inspecting and maintaining personal protective equipment based on workplace hazards.',
+      keyRequirements: [
+        'PPE should be selected based on risk assessment.',
+        'Provide suitable PPE to workers.',
+        'Ensure correct fit and compatibility.',
+        'Train workers in correct use.',
+        'Inspect PPE before use.',
+        'Replace damaged or defective PPE.',
+      ],
+      safetyControls: [
+        'Hazard assessment',
+        'PPE selection',
+        'Worker training',
+        'Inspection',
+        'Maintenance',
+        'Replacement',
+        'PPE compliance monitoring',
+      ],
+      responsibilities: [
+        'Employers provide suitable PPE.',
+        'Supervisors enforce PPE requirements.',
+        'Workers correctly wear and maintain PPE.',
+        'HSE teams monitor PPE compliance.',
+      ],
+      references: [
+        'UAE occupational safety requirements',
+        'Company PPE Procedure',
+        'Applicable PPE standards',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'scaffolding_safety',
+      title: 'Scaffolding Safety',
+      shortTitle: 'Scaffolding',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for erection, inspection, modification and safe use of scaffolding systems used for temporary access and work platforms.',
+      keyRequirements: [
+        'Scaffolds must be erected by competent personnel.',
+        'Provide stable foundations.',
+        'Install suitable guardrails and toe boards.',
+        'Provide safe access.',
+        'Inspect scaffolds before use and after significant changes.',
+        'Clearly identify scaffold status.',
+      ],
+      safetyControls: [
+        'Competent erection',
+        'Base plates',
+        'Guardrails',
+        'Toe boards',
+        'Safe access',
+        'Scaffold inspection',
+        'Load control',
+      ],
+      responsibilities: [
+        'Scaffolders erect and modify scaffolds safely.',
+        'Supervisors prevent unauthorized modifications.',
+        'Workers use scaffolds correctly.',
+        'HSE personnel monitor scaffold condition.',
+      ],
+      references: [
+        'UAE construction safety requirements',
+        'Applicable scaffolding standards',
+        'Project scaffolding procedure',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'work_at_height',
+      title: 'Work at Height',
+      shortTitle: 'Work at Height',
+      category: 'UAE General',
+      authority: 'UAE HSE Practice',
+      jurisdiction: 'UAE',
+      description:
+          'Guidance for preventing falls from height during construction, maintenance, access and other elevated work activities.',
+      keyRequirements: [
+        'Avoid work at height where reasonably practicable.',
+        'Assess fall hazards before work.',
+        'Use suitable collective protection.',
+        'Provide safe access and work platforms.',
+        'Use fall protection systems where required.',
+        'Inspect equipment before use.',
+      ],
+      safetyControls: [
+        'Guardrails',
+        'Scaffolding',
+        'MEWPs',
+        'Fall arrest systems',
+        'Lifelines',
+        'Safe access',
+        'Exclusion zones',
+      ],
+      responsibilities: [
+        'Management provides safe systems.',
+        'Supervisors verify controls before work starts.',
+        'Workers use fall protection correctly.',
+        'HSE personnel inspect and monitor work-at-height activities.',
+      ],
+      references: [
+        'UAE occupational safety requirements',
+        'Project work-at-height procedure',
+        'Applicable access equipment standards',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'adosh_sf',
+      title: 'ADOSH-SF Occupational Safety & Health',
+      shortTitle: 'ADOSH-SF',
+      category: 'Abu Dhabi',
+      authority: 'Abu Dhabi Occupational Safety and Health Center',
+      jurisdiction: 'Abu Dhabi',
+      description:
+          'Reference information for occupational safety and health requirements applicable within the Abu Dhabi Emirate under the Abu Dhabi OSH framework.',
+      keyRequirements: [
+        'Implement applicable OSH management requirements.',
+        'Identify hazards and assess risks.',
+        'Maintain appropriate OSH documentation.',
+        'Provide competent supervision and training.',
+        'Report applicable incidents and occupational events.',
+        'Monitor compliance with applicable OSH requirements.',
+      ],
+      safetyControls: [
+        'OSH management system',
+        'Risk assessment',
+        'Training and competency',
+        'Inspection and audit',
+        'Incident reporting',
+        'Emergency preparedness',
+        'Corrective action tracking',
+      ],
+      responsibilities: [
+        'Employers must implement applicable OSH requirements.',
+        'Managers and supervisors are responsible for workplace controls.',
+        'Workers must follow safe work practices.',
+        'HSE professionals support implementation, monitoring and continual improvement.',
+      ],
+      references: [
+        'Abu Dhabi OSH System Framework',
+        'Applicable ADOSH-SF Codes of Practice',
+        'Relevant Abu Dhabi OSH regulatory requirements',
+      ],
+    ),
+
+    ReferenceTopic(
+      id: 'dubai_construction_safety',
+      title: 'Dubai Construction Safety',
+      shortTitle: 'Dubai Construction Safety',
+      category: 'Dubai',
+      authority: 'Dubai Municipality / Applicable Authority',
+      jurisdiction: 'Dubai',
+      description:
+          'Reference information for construction health and safety practices applicable to projects within the Emirate of Dubai.',
+      keyRequirements: [
+        'Comply with applicable Dubai construction requirements.',
+        'Implement project-specific HSE plans.',
+        'Control high-risk construction activities.',
+        'Provide competent supervision.',
+        'Maintain inspection and training records.',
+        'Report applicable incidents.',
+      ],
+      safetyControls: [
+        'Risk assessment',
+        'Method statements',
+        'Permit systems',
+        'Site inspection',
+        'Worker induction',
+        'Emergency preparedness',
+        'Corrective actions',
+      ],
+      responsibilities: [
+        'Project management provides resources and safe systems.',
+        'Supervisors implement controls.',
+        'Workers follow site procedures.',
+        'HSE teams monitor compliance.',
+      ],
+      references: [
+        'Dubai Municipality requirements',
+        'Applicable Dubai construction regulations',
+        'Project HSE Plan',
+      ],
+    ),
+  ];
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<ReferenceTopic> get _filteredTopics {
+    final query = _searchQuery.trim().toLowerCase();
+
+    return _topics.where((topic) {
+      final matchesCategory =
+          _selectedCategory == GuidelineCategory.all ||
+          topic.guidelineCategory == _selectedCategory;
+
+      final matchesSearch = query.isEmpty ||
+          topic.title.toLowerCase().contains(query) ||
+          topic.shortTitle.toLowerCase().contains(query) ||
+          topic.description.toLowerCase().contains(query) ||
+          topic.category.toLowerCase().contains(query) ||
+          topic.authority.toLowerCase().contains(query);
+
+      return matchesCategory && matchesSearch;
+    }).toList();
+  }
+
+  void _openTopic(ReferenceTopic topic) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => GuidelineDetailPage(topic: topic),
+      ),
+    );
+  }
+
+  String _categoryLabel(GuidelineCategory category) {
+    switch (category) {
+      case GuidelineCategory.all:
+        return 'All';
+      case GuidelineCategory.uaeGeneral:
+        return 'UAE General';
+      case GuidelineCategory.abuDhabi:
+        return 'Abu Dhabi';
+      case GuidelineCategory.dubai:
+        return 'Dubai';
+    }
+  }
+
+  IconData _categoryIcon(String category) {
+    switch (category.toLowerCase()) {
+      case 'abu dhabi':
+        return Icons.location_city;
+      case 'dubai':
+        return Icons.apartment;
+      default:
+        return Icons.flag_outlined;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final topics = _filteredTopics;
+
     return Scaffold(
       backgroundColor: pageBackground,
       appBar: AppBar(
-        title: Text(
-          topic.title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
+        elevation: 0,
+        backgroundColor: primaryGreen,
+        foregroundColor: Colors.white,
+        title: const Text(
+          'UAE HSE Guidelines',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _heroCard(),
-              const SizedBox(height: 14),
-              _referenceCard(),
-
-              _section(
-                Icons.menu_book_rounded,
-                'What is it?',
-                topic.overview,
-              ),
-
-              _bulletSection(
-                Icons.warning_amber_rounded,
-                'Main Hazards',
-                topic.hazards,
-              ),
-
-              _bulletSection(
-                Icons.shield_rounded,
-                'Risk Controls',
-                topic.controls,
-              ),
-
-              _section(
-                Icons.assignment_rounded,
-                'Planning & Preparation',
-                topic.planning,
-              ),
-
-              _section(
-                Icons.engineering_rounded,
-                'Safe Work Practices',
-                topic.safePractices,
-              ),
-
-              _bulletSection(
-                Icons.health_and_safety_rounded,
-                'PPE',
-                topic.ppe,
-              ),
-
-              _checklistCard(),
-
-              _bulletSection(
-                Icons.search_rounded,
-                'Inspection Points',
-                topic.inspection,
-              ),
-
-              _doDontCard(
-                title: 'Do',
-                icon: Icons.check_circle_outline_rounded,
-                content: topic.dos,
-                positive: true,
-              ),
-
-              _doDontCard(
-                title: 'Do Not',
-                icon: Icons.cancel_outlined,
-                content: topic.donts,
-                positive: false,
-              ),
-
-              _stopWorkCard(),
-
-              _section(
-                Icons.emergency_rounded,
-                'Emergency Response',
-                topic.emergency,
-              ),
-
-              _malayalamCard(),
-
-              _referenceNote(),
-
-              const SizedBox(height: 8),
-
-              const Text(
-                'SafeNexus HSE',
-                style: TextStyle(
-                  color: primaryGreen,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
+              decoration: const BoxDecoration(
+                color: primaryGreen,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
                 ),
               ),
-
-              const SizedBox(height: 3),
-
-              const Text(
-                'UAE HSE Safety Learning & Reference',
-                style: TextStyle(
-                  color: Color(0xFF666666),
-                  fontSize: 12,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Professional HSE Reference',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'UAE-wide safety guidance and emirate-specific references',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search HSE guidelines...',
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                          : null,
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 14),
+
+            SizedBox(
+              height: 44,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                scrollDirection: Axis.horizontal,
+                itemCount: GuidelineCategory.values.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final category = GuidelineCategory.values[index];
+                  final selected = _selectedCategory == category;
+
+                  return ChoiceChip(
+                    label: Text(_categoryLabel(category)),
+                    selected: selected,
+                    onSelected: (_) {
+                      setState(() {
+                        _selectedCategory = category;
+                      });
+                    },
+                    selectedColor: primaryGreen,
+                    backgroundColor: Colors.white,
+                    labelStyle: TextStyle(
+                      color: selected ? Colors.white : darkGreen,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    side: BorderSide(
+                      color: selected ? primaryGreen : Colors.grey.shade300,
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  const Text(
+                    'Guidelines',
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${topics.length} topics',
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Expanded(
+              child: topics.isEmpty
+                  ? _buildEmptyState()
+                  : ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                      itemCount: topics.length,
+                      itemBuilder: (context, index) {
+                        return _buildTopicCard(topics[index]);
+                      },
+                    ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _heroCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
-        gradient: const LinearGradient(
-          colors: [
-            darkGreen,
-            primaryGreen,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x22000000),
-            blurRadius: 14,
-            offset: Offset(0, 7),
-          ),
-        ],
+  Widget _buildTopicCard(ReferenceTopic topic) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 1.5,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => _openTopic(topic),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 52,
-                height: 52,
-                decoration: const BoxDecoration(
-                  color: Color(0x22FFFFFF),
-                  shape: BoxShape.circle,
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Icon(
-                  Icons.shield_rounded,
-                  color: Colors.white,
-                  size: 30,
+                child: Icon(
+                  _categoryIcon(topic.category),
+                  color: primaryGreen,
+                  size: 27,
                 ),
               ),
-
               const SizedBox(width: 14),
-
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,650 +785,106 @@ class GuidelineDetailPage extends StatelessWidget {
                     Text(
                       topic.title,
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: darkGreen,
                       ),
                     ),
-
-                    const SizedBox(height: 6),
-
+                    const SizedBox(height: 7),
                     Text(
-                      topic.sourceLabel,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w600,
+                      topic.description,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        height: 1.35,
+                        color: Colors.grey.shade700,
                       ),
+                    ),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 7,
+                      runSpacing: 5,
+                      children: [
+                        _buildTag(
+                          topic.category,
+                          primaryGreen,
+                        ),
+                        _buildTag(
+                          topic.jurisdiction,
+                          Colors.blueGrey,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey,
+              ),
             ],
           ),
-
-          const SizedBox(height: 16),
-
-          Text(
-            topic.shortDescription,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              height: 1.45,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _referenceCard() {
+  Widget _buildTag(String text, Color color) {
     return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9,
+        vertical: 5,
+      ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: Colors.grey.shade200,
+        color: color.withOpacity(0.09),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: color,
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(
-                Icons.verified_outlined,
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: Colors.grey.shade400,
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'No guidelines found',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
                 color: darkGreen,
-                size: 23,
-              ),
-
-              SizedBox(width: 10),
-
-              Text(
-                'Reference Information',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF111827),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 14),
-
-          _referenceRow(
-            'Category',
-            topic.category.label,
-          ),
-
-          _referenceRow(
-            'Source',
-            topic.sourceLabel,
-          ),
-
-          _referenceRow(
-            'CoP / Reference',
-            topic.copNumber,
-          ),
-
-          _referenceRow(
-            'Version',
-            topic.version,
-          ),
-
-          _referenceRow(
-            'Effective Date',
-            topic.effectiveDate,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _referenceRow(
-    String label,
-    String value,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 125,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF777777),
               ),
             ),
-          ),
-
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF333333),
+            const SizedBox(height: 7),
+            Text(
+              'Try another search term or category.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey.shade600,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _section(
-    IconData icon,
-    String title,
-    String content,
-  ) {
-    if (content.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return _card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _sectionTitle(
-            icon,
-            title,
-          ),
-
-          const SizedBox(height: 12),
-
-          Text(
-            content,
-            style: const TextStyle(
-              color: Color(0xFF555555),
-              fontSize: 12.5,
-              height: 1.55,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _bulletSection(
-    IconData icon,
-    String title,
-    String content,
-  ) {
-    if (content.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final items = _splitLines(content);
-
-    return _card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _sectionTitle(
-            icon,
-            title,
-          ),
-
-          const SizedBox(height: 12),
-
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: 9,
-              ),
-              child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      top: 5,
-                    ),
-                    child: Icon(
-                      Icons.circle,
-                      size: 6,
-                      color: primaryGreen,
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 12.5,
-                        height: 1.45,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _checklistCard() {
-    if (topic.checklist.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final items = _splitLines(
-      topic.checklist,
-    );
-
-    return _card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _sectionTitle(
-            Icons.checklist_rounded,
-            'HSE Checklist',
-          ),
-
-          const SizedBox(height: 12),
-
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: 10,
-              ),
-              child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.check_box_outlined,
-                    size: 19,
-                    color: primaryGreen,
-                  ),
-
-                  const SizedBox(width: 9),
-
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 12.5,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _doDontCard({
-    required String title,
-    required IconData icon,
-    required String content,
-    required bool positive,
-  }) {
-    if (content.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final color = positive
-        ? primaryGreen
-        : const Color(0xFFD32F2F);
-
-    final items = _splitLines(content);
-
-    return _card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: color,
-                size: 25,
-              ),
-
-              const SizedBox(width: 10),
-
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: 8,
-              ),
-              child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    positive
-                        ? Icons.check_rounded
-                        : Icons.close_rounded,
-                    color: color,
-                    size: 17,
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        color: Color(0xFF666666),
-                        fontSize: 12,
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _stopWorkCard() {
-    if (topic.stopWork.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final items = _splitLines(
-      topic.stopWork,
-    );
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF8F8),
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: const Color(0xFFF0CACA),
+          ],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(
-                Icons.pan_tool_alt_rounded,
-                color: Color(0xFFD32F2F),
-                size: 25,
-              ),
-
-              SizedBox(width: 10),
-
-              Text(
-                'When to Stop Work',
-                style: TextStyle(
-                  color: Color(0xFFD32F2F),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: 7,
-              ),
-              child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.stop_circle_outlined,
-                    color: Color(0xFFD32F2F),
-                    size: 16,
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        color: Color(0xFF666666),
-                        fontSize: 12,
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
-  }
-
-  Widget _malayalamCard() {
-    if (topic.malayalam.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFBF2),
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: const Color(0xFFE9DDBD),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(
-                Icons.translate_rounded,
-                color: Color(0xFF8A6500),
-                size: 25,
-              ),
-
-              SizedBox(width: 10),
-
-              Expanded(
-                child: Text(
-                  'Malayalam – പ്രധാന സുരക്ഷാ നിർദ്ദേശങ്ങൾ',
-                  style: TextStyle(
-                    color: Color(0xFF765800),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          Text(
-            topic.malayalam,
-            style: const TextStyle(
-              color: Color(0xFF665A42),
-              fontSize: 12.5,
-              height: 1.55,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _referenceNote() {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF2F7F5),
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: const Color(0xFFD7E8E1),
-        ),
-      ),
-      child: const Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.info_outline_rounded,
-            color: darkGreen,
-            size: 24,
-          ),
-
-          SizedBox(width: 12),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Important HSE Reference Note',
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-
-                SizedBox(height: 7),
-
-                Text(
-                  'This Safety Guideline is provided for HSE learning and practical workplace reference. Always verify the latest official requirement, applicable legislation, authority requirements, project procedures, risk assessment, method statement and permit requirements before making a compliance decision.',
-                  style: TextStyle(
-                    color: Color(0xFF666666),
-                    fontSize: 12,
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _card({
-    required Widget child,
-  }) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: child,
-    );
-  }
-
-  Widget _sectionTitle(
-    IconData icon,
-    String title,
-  ) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: primaryGreen,
-          size: 24,
-        ),
-
-        const SizedBox(width: 10),
-
-        Expanded(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF111827),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  List<String> _splitLines(String text) {
-    return text
-        .split('\n')
-        .map((item) {
-          var value = item.trim();
-
-          value = value.replaceFirst(
-            RegExp(r'^[•●▪◦\-–—]+\s*'),
-            '',
-          );
-
-          value = value.replaceFirst(
-            RegExp(r'^\d+[\.\)]\s*'),
-            '',
-          );
-
-          return value.trim();
-        })
-        .where(
-          (item) => item.isNotEmpty,
-        )
-        .toList();
   }
 }
