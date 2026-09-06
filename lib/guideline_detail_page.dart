@@ -1,99 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum GuidelineCategory {
-  all,
-  uaeGeneral,
-  abuDhabi,
-  dubai,
-}
-
-extension GuidelineCategoryExtension on GuidelineCategory {
-  String get label {
-    switch (this) {
-      case GuidelineCategory.all:
-        return 'All';
-      case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
-      case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
-      case GuidelineCategory.dubai:
-        return 'Dubai';
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case GuidelineCategory.all:
-        return const Color(0xFF159447);
-      case GuidelineCategory.uaeGeneral:
-        return const Color(0xFF0B5D4B);
-      case GuidelineCategory.abuDhabi:
-        return const Color(0xFF1565C0);
-      case GuidelineCategory.dubai:
-        return const Color(0xFF8E24AA);
-    }
-  }
-
-  IconData get icon {
-    switch (this) {
-      case GuidelineCategory.all:
-        return Icons.apps_rounded;
-      case GuidelineCategory.uaeGeneral:
-        return Icons.public_rounded;
-      case GuidelineCategory.abuDhabi:
-        return Icons.location_city_rounded;
-      case GuidelineCategory.dubai:
-        return Icons.apartment_rounded;
-    }
-  }
-}
-
-class ReferenceTopic {
-  final String title;
-  final GuidelineCategory category;
-  final String sourceLabel;
-  final String copNumber;
-  final String version;
-  final String effectiveDate;
-
-  final String shortDescription;
-  final String overview;
-  final String hazards;
-  final String controls;
-  final String planning;
-  final String safePractices;
-  final String ppe;
-  final String checklist;
-  final String inspection;
-  final String dos;
-  final String donts;
-  final String stopWork;
-  final String emergency;
-  final String malayalam;
-
-  const ReferenceTopic({
-    required this.title,
-    required this.category,
-    required this.sourceLabel,
-    required this.copNumber,
-    required this.version,
-    required this.effectiveDate,
-    required this.shortDescription,
-    required this.overview,
-    required this.hazards,
-    required this.controls,
-    required this.planning,
-    required this.safePractices,
-    required this.ppe,
-    required this.checklist,
-    required this.inspection,
-    required this.dos,
-    required this.donts,
-    required this.stopWork,
-    required this.emergency,
-    required this.malayalam,
-  });
-}
+import 'guideline_model.dart';
 
 class GuidelineDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
@@ -112,19 +18,17 @@ class GuidelineDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: pageBackground,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 0,
-        titleSpacing: 16,
         title: Text(
           topic.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontWeight: FontWeight.w800,
-            fontSize: 17,
           ),
         ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 0,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -132,69 +36,65 @@ class GuidelineDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeroCard(),
+              _heroCard(),
               const SizedBox(height: 14),
-              _buildReferenceCard(),
-              _buildInfoCard(
-                icon: Icons.menu_book_rounded,
-                title: 'What is it?',
-                content: topic.overview,
+              _referenceCard(),
+              _section(
+                Icons.menu_book_rounded,
+                'What is it?',
+                topic.overview,
               ),
-              _buildInfoCard(
-                icon: Icons.warning_amber_rounded,
-                title: 'Main Hazards',
-                content: topic.hazards,
-                bullets: true,
+              _bulletSection(
+                Icons.warning_amber_rounded,
+                'Main Hazards',
+                topic.hazards,
               ),
-              _buildInfoCard(
-                icon: Icons.shield_rounded,
-                title: 'Risk Controls',
-                content: topic.controls,
-                bullets: true,
+              _bulletSection(
+                Icons.shield_rounded,
+                'Risk Controls',
+                topic.controls,
               ),
-              _buildInfoCard(
-                icon: Icons.assignment_rounded,
-                title: 'Planning & Preparation',
-                content: topic.planning,
+              _section(
+                Icons.assignment_rounded,
+                'Planning & Preparation',
+                topic.planning,
               ),
-              _buildInfoCard(
-                icon: Icons.engineering_rounded,
-                title: 'Safe Work Practices',
-                content: topic.safePractices,
+              _section(
+                Icons.engineering_rounded,
+                'Safe Work Practices',
+                topic.safePractices,
               ),
-              _buildInfoCard(
-                icon: Icons.health_and_safety_rounded,
-                title: 'PPE',
-                content: topic.ppe,
-                bullets: true,
+              _bulletSection(
+                Icons.health_and_safety_rounded,
+                'PPE',
+                topic.ppe,
               ),
-              _buildChecklistCard(),
-              _buildInfoCard(
-                icon: Icons.search_rounded,
-                title: 'Inspection Points',
-                content: topic.inspection,
-                bullets: true,
+              _checklistCard(),
+              _bulletSection(
+                Icons.search_rounded,
+                'Inspection Points',
+                topic.inspection,
               ),
-              _buildDoDontCard(
+              _doDontCard(
                 title: 'Do',
                 icon: Icons.check_circle_outline_rounded,
                 content: topic.dos,
                 positive: true,
               ),
-              _buildDoDontCard(
+              _doDontCard(
                 title: 'Do Not',
                 icon: Icons.cancel_outlined,
                 content: topic.donts,
                 positive: false,
               ),
-              _buildStopWorkCard(),
-              _buildInfoCard(
-                icon: Icons.emergency_rounded,
-                title: 'Emergency Response',
-                content: topic.emergency,
+              _stopWorkCard(),
+              _section(
+                Icons.emergency_rounded,
+                'Emergency Response',
+                topic.emergency,
               ),
-              _buildMalayalamCard(),
-              _buildReferenceNote(),
+              _malayalamCard(),
+              _referenceNote(),
               const SizedBox(height: 8),
               const Text(
                 'SafeNexus HSE',
@@ -204,7 +104,7 @@ class GuidelineDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 3),
               const Text(
                 'UAE HSE Safety Learning & Reference',
                 style: TextStyle(
@@ -219,7 +119,7 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroCard() {
+  Widget _heroCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -248,8 +148,8 @@ class GuidelineDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 54,
-                height: 54,
+                width: 52,
+                height: 52,
                 decoration: const BoxDecoration(
                   color: Color(0x22FFFFFF),
                   shape: BoxShape.circle,
@@ -257,7 +157,7 @@ class GuidelineDetailPage extends StatelessWidget {
                 child: const Icon(
                   Icons.shield_rounded,
                   color: Colors.white,
-                  size: 31,
+                  size: 30,
                 ),
               ),
               const SizedBox(width: 14),
@@ -270,27 +170,16 @@ class GuidelineDetailPage extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        height: 1.2,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 7),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.16),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        topic.category.label,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    const SizedBox(height: 6),
+                    Text(
+                      topic.sourceLabel,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -300,20 +189,11 @@ class GuidelineDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            topic.sourceLabel,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 11.5,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
             topic.shortDescription,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 13,
-              height: 1.5,
+              height: 1.45,
             ),
           ),
         ],
@@ -321,8 +201,18 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildReferenceCard() {
-    return _card(
+  Widget _referenceCard() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -356,12 +246,8 @@ class GuidelineDetailPage extends StatelessWidget {
   }
 
   Widget _referenceRow(String label, String value) {
-    if (value.trim().isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     return Padding(
-      padding: const EdgeInsets.only(bottom: 9),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -391,12 +277,11 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard({
-    required IconData icon,
-    required String title,
-    required String content,
-    bool bullets = false,
-  }) {
+  Widget _section(
+    IconData icon,
+    String title,
+    String content,
+  ) {
     if (content.trim().isEmpty) {
       return const SizedBox.shrink();
     }
@@ -405,143 +290,86 @@ class GuidelineDetailPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: primaryGreen,
-                size: 24,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF111827),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          _sectionTitle(icon, title),
           const SizedBox(height: 12),
-          if (bullets)
-            _bulletText(content)
-          else
-            Text(
-              content,
-              style: const TextStyle(
-                color: Color(0xFF555555),
-                fontSize: 12.5,
-                height: 1.55,
-              ),
+          Text(
+            content,
+            style: const TextStyle(
+              color: Color(0xFF555555),
+              fontSize: 12.5,
+              height: 1.55,
             ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _bulletText(String text) {
-    final items = _splitLines(text);
-
-    if (items.isEmpty) {
+  Widget _bulletSection(
+    IconData icon,
+    String title,
+    String content,
+  ) {
+    if (content.trim().isEmpty) {
       return const SizedBox.shrink();
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: items.map((item) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 9),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: Icon(
-                  Icons.circle,
-                  size: 6,
-                  color: primaryGreen,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    color: Color(0xFF555555),
-                    fontSize: 12.5,
-                    height: 1.45,
+    final items = _splitLines(content);
+
+    return _card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _sectionTitle(icon, title),
+          const SizedBox(height: 12),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 9),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 5),
+                    child: Icon(
+                      Icons.circle,
+                      size: 6,
+                      color: primaryGreen,
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 12.5,
+                        height: 1.45,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        );
-      }).toList(),
+        ],
+      ),
     );
   }
 
-  List<String> _splitLines(String text) {
-    return text
-        .split('\n')
-        .map((item) {
-          var value = item.trim();
-
-          if (value.startsWith('•')) {
-            value = value.substring(1).trim();
-          }
-
-          if (value.startsWith('-')) {
-            value = value.substring(1).trim();
-          }
-
-          if (RegExp(r'^\d+[\.\)]').hasMatch(value)) {
-            value = value.replaceFirst(
-              RegExp(r'^\d+[\.\)]\s*'),
-              '',
-            );
-          }
-
-          return value;
-        })
-        .where((item) => item.isNotEmpty)
-        .toList();
-  }
-
-  Widget _buildChecklistCard() {
+  Widget _checklistCard() {
     if (topic.checklist.trim().isEmpty) {
       return const SizedBox.shrink();
     }
 
     final items = _splitLines(topic.checklist);
 
-    if (items.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
-            children: [
-              Icon(
-                Icons.checklist_rounded,
-                color: primaryGreen,
-                size: 24,
-              ),
-              SizedBox(width: 12),
-              Text(
-                'HSE Checklist',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF111827),
-                ),
-              ),
-            ],
+          _sectionTitle(
+            Icons.checklist_rounded,
+            'HSE Checklist',
           ),
           const SizedBox(height: 12),
           ...items.map(
@@ -575,7 +403,7 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDoDontCard({
+  Widget _doDontCard({
     required String title,
     required IconData icon,
     required String content,
@@ -586,53 +414,60 @@ class GuidelineDetailPage extends StatelessWidget {
     }
 
     final color = positive
-        ? const Color(0xFF159447)
+        ? primaryGreen
         : const Color(0xFFD32F2F);
 
-    final background = positive
-        ? const Color(0xFFF3FBF6)
-        : const Color(0xFFFFF5F5);
+    final items = _splitLines(content);
 
-    final border = positive
-        ? const Color(0xFFD5ECDD)
-        : const Color(0xFFF0D0D0);
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: border),
-      ),
-      child: Row(
+    return _card(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            color: color,
-            size: 25,
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: color,
+                size: 25,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
+          const SizedBox(height: 10),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    positive
+                        ? Icons.check_rounded
+                        : Icons.close_rounded,
                     color: color,
+                    size: 17,
                   ),
-                ),
-                const SizedBox(height: 7),
-                _bulletTextColored(
-                  content,
-                  color,
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: Color(0xFF666666),
+                        fontSize: 12,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -640,47 +475,12 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _bulletTextColored(String text, Color color) {
-    final items = _splitLines(text);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: items.map((item) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 7),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Icon(
-                  Icons.circle,
-                  size: 5,
-                  color: color,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    color: Color(0xFF555555),
-                    fontSize: 12,
-                    height: 1.45,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildStopWorkCard() {
+  Widget _stopWorkCard() {
     if (topic.stopWork.trim().isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final items = _splitLines(topic.stopWork);
 
     return Container(
       width: double.infinity,
@@ -693,33 +493,52 @@ class GuidelineDetailPage extends StatelessWidget {
           color: const Color(0xFFF0CACA),
         ),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.pan_tool_alt_rounded,
-            color: Color(0xFFD32F2F),
-            size: 25,
+          const Row(
+            children: [
+              Icon(
+                Icons.pan_tool_alt_rounded,
+                color: Color(0xFFD32F2F),
+                size: 25,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'When to Stop Work',
+                style: TextStyle(
+                  color: Color(0xFFD32F2F),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'When to Stop Work',
-                  style: TextStyle(
+          const SizedBox(height: 10),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 7),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.stop_circle_outlined,
                     color: Color(0xFFD32F2F),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
+                    size: 16,
                   ),
-                ),
-                const SizedBox(height: 7),
-                _bulletTextColored(
-                  topic.stopWork,
-                  const Color(0xFFD32F2F),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: Color(0xFF666666),
+                        fontSize: 12,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -727,7 +546,7 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMalayalamCard() {
+  Widget _malayalamCard() {
     if (topic.malayalam.trim().isEmpty) {
       return const SizedBox.shrink();
     }
@@ -743,20 +562,19 @@ class GuidelineDetailPage extends StatelessWidget {
           color: const Color(0xFFE9DDBD),
         ),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.translate_rounded,
-            color: Color(0xFF8A6500),
-            size: 25,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
+          const Row(
+            children: [
+              Icon(
+                Icons.translate_rounded,
+                color: Color(0xFF8A6500),
+                size: 25,
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
                   'Malayalam – പ്രധാന സുരക്ഷാ നിർദ്ദേശങ്ങൾ',
                   style: TextStyle(
                     color: Color(0xFF765800),
@@ -764,16 +582,16 @@ class GuidelineDetailPage extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  topic.malayalam,
-                  style: const TextStyle(
-                    color: Color(0xFF665A42),
-                    fontSize: 12.5,
-                    height: 1.55,
-                  ),
-                ),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            topic.malayalam,
+            style: const TextStyle(
+              color: Color(0xFF665A42),
+              fontSize: 12.5,
+              height: 1.55,
             ),
           ),
         ],
@@ -781,7 +599,7 @@ class GuidelineDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildReferenceNote() {
+  Widget _referenceNote() {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
@@ -847,5 +665,53 @@ class GuidelineDetailPage extends StatelessWidget {
       ),
       child: child,
     );
+  }
+
+  Widget _sectionTitle(
+    IconData icon,
+    String title,
+  ) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: primaryGreen,
+          size: 24,
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF111827),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<String> _splitLines(String text) {
+    return text
+        .split('\n')
+        .map((item) {
+          var value = item.trim();
+
+          value = value.replaceFirst(
+            RegExp(r'^[•●▪◦\-–—]+\s*'),
+            '',
+          );
+
+          value = value.replaceFirst(
+            RegExp(r'^\d+[\.\)]\s*'),
+            '',
+          );
+
+          return value.trim();
+        })
+        .where((item) => item.isNotEmpty)
+        .toList();
   }
 }
