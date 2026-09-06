@@ -44,8 +44,7 @@ class _VoiceReportPageState
 
   void _toggleRecording() {
     setState(() {
-      _isRecording =
-          !_isRecording;
+      _isRecording = !_isRecording;
     });
 
     if (_isRecording) {
@@ -245,18 +244,22 @@ class _VoiceReportPageState
                   BoxDecoration(
                 shape:
                     BoxShape.circle,
+
+                // FIX:
+                // withValues(alpha: ...) replaced with
+                // withOpacity(...) for compatibility.
+
                 color:
                     _isRecording
                         ? Colors.red
-                            .withValues(
-                            alpha:
-                                0.12,
+                            .withOpacity(
+                            0.12,
                           )
                         : primaryGreen
-                            .withValues(
-                            alpha:
-                                0.10,
+                            .withOpacity(
+                            0.10,
                           ),
+
                 border:
                     Border.all(
                   color:
@@ -501,12 +504,16 @@ class _VoiceReportPageState
                   42,
               decoration:
                   BoxDecoration(
+                // FIX:
+                // withValues(alpha: ...) replaced with
+                // withOpacity(...).
+
                 color:
                     primaryGreen
-                        .withValues(
-                  alpha:
-                      0.10,
+                        .withOpacity(
+                  0.10,
                 ),
+
                 borderRadius:
                     BorderRadius.circular(
                   12,
