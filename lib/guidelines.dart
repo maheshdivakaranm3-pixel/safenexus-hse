@@ -51,7 +51,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'സ്കാഫോൾഡിംഗ് ഉപയോഗിക്കുന്നതിന് മുമ്പ് അത് ശരിയായി സ്ഥാപിച്ചിട്ടുണ്ടോ, ഗാർഡ്‌റെയിൽ, ടോ ബോർഡ്, സുരക്ഷിതമായ ആക്സസ് എന്നിവയുണ്ടോ എന്ന് പരിശോധിക്കുക. കേടായതോ incomplete ആയതോ ആയ scaffold ഉപയോഗിക്കരുത്.',
     ),
-
     ReferenceTopic(
       title: 'Work at Height',
       category: GuidelineCategory.uaeGeneral,
@@ -88,7 +87,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'ഉയരത്തിൽ ജോലി ചെയ്യുന്നതിന് മുമ്പ് സുരക്ഷിതമായ access, edge protection, fall protection, rescue plan എന്നിവ ഉറപ്പാക്കണം.',
     ),
-
     ReferenceTopic(
       title: 'Heat Stress Management',
       category: GuidelineCategory.uaeGeneral,
@@ -125,7 +123,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'ചൂട് കൂടുതലുള്ള സാഹചര്യത്തിൽ വെള്ളം കുടിക്കുക, നിശ്ചിത rest എടുക്കുക, heat-stress ലക്ഷണങ്ങൾ ഉടൻ report ചെയ്യുക. ഗുരുതരമായ ലക്ഷണങ്ങൾ കണ്ടാൽ ജോലി നിർത്തി അടിയന്തര സഹായം തേടണം.',
     ),
-
     ReferenceTopic(
       title: 'Lifting Operations',
       category: GuidelineCategory.uaeGeneral,
@@ -162,7 +159,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Lifting operation തുടങ്ങുന്നതിന് മുമ്പ് lifting plan, load weight, crane capacity, lifting accessories, ground condition, exclusion zone എന്നിവ പരിശോധിക്കണം.',
     ),
-
     ReferenceTopic(
       title: 'Excavation Safety',
       category: GuidelineCategory.uaeGeneral,
@@ -199,7 +195,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Excavation തുടങ്ങുന്നതിന് മുമ്പ് underground services കണ്ടെത്തണം. ആവശ്യമായ shoring/sloping/protection, safe access, edge protection എന്നിവ ഉറപ്പാക്കണം.',
     ),
-
     ReferenceTopic(
       title: 'Electrical Safety',
       category: GuidelineCategory.uaeGeneral,
@@ -236,7 +231,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Electrical work competent ആയ വ്യക്തികൾ മാത്രം ചെയ്യണം. Damaged cable/equipment ഉപയോഗിക്കരുത്. Isolation ഉറപ്പാക്കാതെ electrical work ആരംഭിക്കരുത്.',
     ),
-
     ReferenceTopic(
       title: 'Personal Protective Equipment',
       category: GuidelineCategory.uaeGeneral,
@@ -273,7 +267,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'PPE risk assessment അടിസ്ഥാനമാക്കി തിരഞ്ഞെടുക്കണം. Damaged PPE ഉപയോഗിക്കരുത്. PPE മാത്രം ആശ്രയിക്കാതെ engineering/control measures ഉപയോഗിക്കണം.',
     ),
-
     ReferenceTopic(
       title: 'Abu Dhabi OSH Requirements',
       category: GuidelineCategory.abuDhabi,
@@ -310,7 +303,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       malayalam:
           'Abu Dhabi-യിൽ ബാധകമായ ADOSH-SF requirements, Codes of Practice, project procedures എന്നിവ പരിശോധിച്ച ശേഷം മാത്രമേ compliance തീരുമാനം എടുക്കാവൂ.',
     ),
-
     ReferenceTopic(
       title: 'Dubai Code of Practice',
       category: GuidelineCategory.dubai,
@@ -359,10 +351,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     final query = _query.trim().toLowerCase();
 
     return _topics.where((topic) {
-      final matchesCategory = _selectedCategory == GuidelineCategory.all ||
-          topic.category == _selectedCategory;
+      final matchesCategory =
+          _selectedCategory == GuidelineCategory.all ||
+              topic.category == _selectedCategory;
 
-      final matchesSearch = query.isEmpty ||
+      final matchesSearch =
+          query.isEmpty ||
           topic.title.toLowerCase().contains(query) ||
           topic.sourceLabel.toLowerCase().contains(query) ||
           topic.shortDescription.toLowerCase().contains(query);
@@ -549,7 +543,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: _categoryColor(topic.category).withOpacity(0.10),
+                  color: _categoryColor(topic.category)
+                      .withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
@@ -592,7 +587,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                           ),
                           decoration: BoxDecoration(
                             color: _categoryColor(topic.category)
-                                .withOpacity(0.10),
+                                .withValues(alpha: 0.10),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
