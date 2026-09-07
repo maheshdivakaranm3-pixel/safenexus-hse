@@ -1,742 +1,767 @@
 import '../models/reference_topic.dart';
 
 /// ============================================================
-/// HSE SAFETY REFERENCE
+/// SafeNexus HSE
+/// Professional HSE Safety Reference
 ///
-/// Practical construction HSE safety reference topics.
-/// These are general HSE references and are separate from
-/// UAE General, Abu Dhabi and Dubai-specific standards.
+/// UAE-wide general HSE reference topics.
+/// Keep this file separate from emirate-specific guidelines.
 /// ============================================================
 
-const List<ReferenceTopic> hseSafetyReference = [
+const List<ReferenceTopic> hseSafetyReferences = [
   // ============================================================
-  // 1. EXCAVATION
+  // 1. Risk Assessment
   // ============================================================
 
   ReferenceTopic(
-    id: 'excavation_safety',
-    title: 'Excavation Safety',
-    shortTitle: 'Excavation',
+    id: 'hse_risk_assessment',
+    title: 'Risk Assessment',
+    shortTitle: 'Risk Assessment',
     description:
-        'Safety requirements and good practices for excavation and trenching activities, including ground stability, access, underground services and protection against collapse.',
+        'A systematic process for identifying hazards, evaluating risks and implementing suitable control measures before and during work activities.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Conduct a risk assessment before excavation work starts.',
-      'Identify underground utilities and services before digging.',
-      'Provide safe access and egress to excavations.',
-      'Assess soil and ground stability.',
-      'Provide suitable protective systems where required.',
-      'Inspect excavations before work starts and after significant changes.',
+      'Identify hazards associated with the work activity.',
+      'Identify people who may be affected by the hazards.',
+      'Evaluate the likelihood and potential severity of harm.',
+      'Determine appropriate risk control measures.',
+      'Implement controls before starting the activity.',
+      'Review the assessment when conditions or work methods change.',
     ],
     safetyControls: [
-      'Use suitable shoring, shielding or battering systems.',
-      'Keep excavated materials and equipment away from excavation edges.',
-      'Provide barricades and warning signs around open excavations.',
-      'Control vehicle and plant movement near excavation edges.',
-      'Prevent water accumulation inside excavations.',
-      'Stop work if unsafe ground movement or collapse indicators are observed.',
+      'Elimination of hazards where reasonably practicable.',
+      'Substitution with safer methods or materials.',
+      'Engineering controls and physical protection.',
+      'Administrative controls and safe work procedures.',
+      'Suitable personal protective equipment.',
+      'Regular monitoring of implemented controls.',
     ],
     responsibilities: [
-      'Supervisors must ensure excavation controls are implemented.',
-      'Workers must follow excavation procedures and access requirements.',
-      'HSE personnel should verify inspections and risk controls.',
-      'Plant operators must maintain a safe distance from excavation edges.',
+      'Management shall provide resources for effective risk control.',
+      'Supervisors shall ensure controls are implemented at the workplace.',
+      'Workers shall follow approved procedures and report hazards.',
+      'HSE personnel shall support risk assessment and monitoring.',
     ],
     references: [
-      'Approved project risk assessment and method statement.',
-      'Approved excavation permit where applicable.',
-      'Applicable UAE construction safety requirements.',
-      'Project HSE plan and emergency arrangements.',
+      'UAE occupational health and safety requirements.',
+      'Organisation-approved HSE procedures.',
+      'Project risk assessments and method statements.',
     ],
   ),
 
   // ============================================================
-  // 2. SCAFFOLDING
+  // 2. Permit to Work
   // ============================================================
 
   ReferenceTopic(
-    id: 'scaffolding_safety',
-    title: 'Scaffolding Safety',
-    shortTitle: 'Scaffolding',
+    id: 'hse_permit_to_work',
+    title: 'Permit to Work System',
+    shortTitle: 'PTW',
     description:
-        'Safe erection, inspection, modification, use and dismantling of scaffolding systems, including stability, access, guardrails and fall prevention.',
+        'A formal control system used to authorise and control high-risk work activities through defined precautions, responsibilities and approval requirements.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Scaffolding must be erected by competent personnel.',
-      'Scaffolds must be stable and adequately supported.',
-      'Provide safe access and egress.',
-      'Provide suitable guardrails, midrails and toe boards where required.',
-      'Inspect scaffolding before use and at required intervals.',
-      'Do not use incomplete or unsafe scaffolding.',
+      'Identify activities requiring a permit.',
+      'Define hazards and required precautions before work starts.',
+      'Obtain approval from authorised personnel.',
+      'Verify site conditions before issuing the permit.',
+      'Communicate permit requirements to the work team.',
+      'Close or suspend the permit when work conditions change.',
     ],
     safetyControls: [
-      'Use proper foundations and base plates.',
-      'Provide adequate bracing and ties.',
-      'Prevent unauthorised modification.',
-      'Display scaffold inspection status where applicable.',
-      'Keep platforms clear of unnecessary materials.',
-      'Provide suitable fall protection during erection and dismantling.',
+      'Isolation and lockout where required.',
+      'Gas testing for applicable activities.',
+      'Barricading and controlled access.',
+      'Fire prevention and emergency arrangements.',
+      'Competent supervision.',
+      'Permit display and status monitoring.',
     ],
     responsibilities: [
-      'Scaffolders must follow approved erection procedures.',
-      'Supervisors must ensure scaffolds are inspected.',
-      'Workers must not alter scaffolding without authorisation.',
-      'HSE personnel should verify scaffold inspection arrangements.',
+      'Authorised personnel shall issue and control permits.',
+      'Supervisors shall ensure workers understand permit conditions.',
+      'Workers shall comply with permit requirements.',
+      'HSE personnel shall monitor compliance with the PTW system.',
     ],
     references: [
-      'Approved scaffold design where required.',
-      'Project scaffold inspection procedure.',
-      'Manufacturer instructions.',
-      'Applicable UAE construction safety requirements.',
+      'Project Permit to Work procedure.',
+      'Approved method statement and risk assessment.',
+      'Applicable UAE HSE requirements.',
     ],
   ),
 
   // ============================================================
-  // 3. WORKING AT HEIGHT
+  // 3. Working at Height
   // ============================================================
 
   ReferenceTopic(
-    id: 'working_at_height',
+    id: 'hse_working_at_height',
     title: 'Working at Height',
-    shortTitle: 'Working at Height',
+    shortTitle: 'Work at Height',
     description:
-        'Safety practices for activities where workers may fall from an elevated position, including work platforms, ladders, scaffolds and fall protection systems.',
+        'Requirements for preventing falls of people and materials when work is performed at elevated locations or where a person could fall and suffer injury.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Plan work at height before starting.',
-      'Assess fall hazards and select suitable controls.',
-      'Use collective protection wherever reasonably practicable.',
-      'Use suitable personal fall protection when required.',
-      'Ensure access equipment is suitable and inspected.',
-      'Provide an emergency rescue plan.',
+      'Plan work at height before starting the activity.',
+      'Avoid work at height where reasonably practicable.',
+      'Use suitable access equipment.',
+      'Inspect scaffolds, ladders and access systems before use.',
+      'Provide suitable fall prevention or protection systems.',
+      'Secure tools and materials against falling.',
     ],
     safetyControls: [
-      'Use guardrails and properly protected platforms.',
-      'Secure ladders and provide safe access.',
-      'Inspect harnesses and fall arrest equipment.',
-      'Protect floor openings and edges.',
-      'Prevent dropped objects from elevated work areas.',
-      'Stop work during unsafe weather conditions where necessary.',
+      'Guardrails and edge protection.',
+      'Safe and properly erected scaffolding.',
+      'Suitable ladders and access equipment.',
+      'Full body harness with suitable anchorage where required.',
+      'Toe boards and debris protection.',
+      'Exclusion zones below elevated work.',
     ],
     responsibilities: [
-      'Supervisors must verify work-at-height controls.',
-      'Workers must use required fall protection correctly.',
-      'HSE personnel should monitor high-risk activities.',
-      'Employers must provide suitable equipment and training.',
+      'Supervisors shall ensure work-at-height controls are established.',
+      'Workers shall use access and fall-protection systems correctly.',
+      'Competent persons shall inspect relevant equipment.',
+      'HSE personnel shall monitor compliance and workplace conditions.',
     ],
     references: [
       'Approved work-at-height procedure.',
-      'Risk assessment and method statement.',
-      'Manufacturer instructions for fall protection equipment.',
+      'Scaffold inspection requirements.',
+      'Project risk assessment and method statement.',
+    ],
+  ),
+
+  // ============================================================
+  // 4. Excavation Safety
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_excavation_safety',
+    title: 'Excavation and Trenching Safety',
+    shortTitle: 'Excavation Safety',
+    description:
+        'Safety controls for excavation and trenching activities to prevent collapse, falls, underground service damage, struck-by incidents and access hazards.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Assess excavation hazards before work begins.',
+      'Identify underground services before excavation.',
+      'Provide suitable excavation support where required.',
+      'Provide safe access and egress.',
+      'Keep people and equipment away from unsupported edges.',
+      'Inspect excavations regularly and after changing conditions.',
+    ],
+    safetyControls: [
+      'Shoring, benching or safe battering.',
+      'Barricading around excavation edges.',
+      'Safe access ladders or ramps.',
+      'Underground utility identification.',
+      'Spoil and material setback from excavation edges.',
+      'Water control and dewatering where required.',
+    ],
+    responsibilities: [
+      'Supervisors shall verify excavation controls before work.',
+      'Competent persons shall inspect excavations.',
+      'Workers shall remain within designated safe areas.',
+      'Plant operators shall follow exclusion and access controls.',
+    ],
+    references: [
+      'Approved excavation procedure.',
+      'Utility survey and permit requirements.',
+      'Project risk assessment and method statement.',
+    ],
+  ),
+
+  // ============================================================
+  // 5. Lifting Operations
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_lifting_operations',
+    title: 'Lifting Operations',
+    shortTitle: 'Lifting Safety',
+    description:
+        'Safety requirements for planning, preparing and conducting lifting operations involving cranes, lifting equipment and lifting accessories.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Plan lifting operations according to the load and site conditions.',
+      'Use competent and authorised lifting personnel.',
+      'Verify lifting equipment suitability and capacity.',
+      'Inspect lifting accessories before use.',
+      'Establish suitable exclusion zones.',
+      'Maintain clear communication between the lifting team.',
+    ],
+    safetyControls: [
+      'Approved lifting plan where required.',
+      'Certified lifting equipment and accessories.',
+      'Competent operator, rigger and signalman.',
+      'Load-control and exclusion zones.',
+      'Suitable ground conditions and crane setup.',
+      'Tag lines where appropriate.',
+    ],
+    responsibilities: [
+      'Lifting supervisors shall control lifting activities.',
+      'Operators shall operate equipment within approved limits.',
+      'Riggers shall attach loads safely.',
+      'Workers shall stay clear of suspended loads.',
+    ],
+    references: [
+      'Approved lifting plan.',
+      'Lifting equipment inspection records.',
+      'Project lifting procedure.',
+    ],
+  ),
+
+  // ============================================================
+  // 6. Scaffolding
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_scaffolding_safety',
+    title: 'Scaffolding Safety',
+    shortTitle: 'Scaffolding',
+    description:
+        'Safety requirements for the erection, inspection, modification and use of scaffolding systems used to provide temporary access and working platforms.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Scaffolding shall be erected by competent personnel.',
+      'Scaffolds shall be inspected before use and after significant changes.',
+      'Platforms shall be adequately supported and secured.',
+      'Safe access shall be provided.',
+      'Guardrails and toe boards shall be provided where required.',
+      'Unauthorised modification shall be prohibited.',
+    ],
+    safetyControls: [
+      'Stable foundations.',
+      'Proper bracing and ties.',
+      'Guardrails and toe boards.',
+      'Safe ladder or stair access.',
+      'Inspection tags or status identification.',
+      'Safe loading limits.',
+    ],
+    responsibilities: [
+      'Scaffolders shall erect and modify scaffolds safely.',
+      'Competent inspectors shall inspect scaffolds.',
+      'Users shall report defects immediately.',
+      'Supervisors shall prevent unauthorised modifications.',
+    ],
+    references: [
+      'Scaffold inspection procedure.',
+      'Approved scaffold design where required.',
+      'Project working-at-height requirements.',
+    ],
+  ),
+
+  // ============================================================
+  // 7. Electrical Safety
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_electrical_safety',
+    title: 'Electrical Safety',
+    shortTitle: 'Electrical Safety',
+    description:
+        'Controls for preventing electric shock, burns, electrical fires and other incidents arising from electrical systems and equipment.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Electrical work shall be performed by competent personnel.',
+      'Electrical equipment shall be suitable for its intended use.',
+      'Damaged cables and equipment shall be removed from service.',
+      'Suitable isolation procedures shall be followed.',
+      'Temporary electrical installations shall be properly protected.',
+      'Electrical panels shall remain accessible and protected.',
+    ],
+    safetyControls: [
+      'Lockout and tagout where required.',
+      'Residual current protection where applicable.',
+      'Proper earthing and bonding.',
+      'Cable protection and suitable routing.',
+      'Electrical inspection and testing.',
+      'Warning signs and restricted access.',
+    ],
+    responsibilities: [
+      'Electrical personnel shall perform authorised electrical work.',
+      'Supervisors shall ensure safe electrical arrangements.',
+      'Workers shall not tamper with electrical systems.',
+      'HSE personnel shall monitor electrical safety controls.',
+    ],
+    references: [
+      'Approved electrical safety procedure.',
+      'Lockout/Tagout procedure.',
+      'Applicable electrical standards and project requirements.',
+    ],
+  ),
+
+  // ============================================================
+  // 8. Fire Safety
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_fire_safety',
+    title: 'Fire Safety and Prevention',
+    shortTitle: 'Fire Safety',
+    description:
+        'Controls for preventing fires and ensuring effective emergency response, evacuation and firefighting arrangements at the workplace.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Identify workplace fire hazards.',
+      'Maintain suitable firefighting equipment.',
+      'Keep emergency exits and access routes clear.',
+      'Control ignition sources and combustible materials.',
+      'Provide emergency procedures and evacuation arrangements.',
+      'Conduct appropriate emergency drills.',
+    ],
+    safetyControls: [
+      'Suitable fire extinguishers.',
+      'Fire detection and alarm systems where required.',
+      'Emergency exits and evacuation routes.',
+      'Hot-work controls.',
+      'Safe storage of flammable materials.',
+      'Emergency assembly points.',
+    ],
+    responsibilities: [
+      'Management shall provide suitable fire protection arrangements.',
+      'Supervisors shall maintain safe housekeeping and access.',
+      'Workers shall follow fire prevention and emergency procedures.',
+      'Emergency teams shall be trained for assigned duties.',
+    ],
+    references: [
+      'UAE Fire and Life Safety requirements.',
+      'Civil Defence requirements applicable to the project.',
+      'Project emergency response plan.',
+    ],
+  ),
+
+  // ============================================================
+  // 9. PPE
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_personal_protective_equipment',
+    title: 'Personal Protective Equipment',
+    shortTitle: 'PPE',
+    description:
+        'Selection, provision, use, inspection and maintenance of personal protective equipment based on workplace hazards and risk assessments.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Select PPE based on identified hazards.',
+      'Provide suitable PPE to workers.',
+      'Ensure PPE fits the user correctly.',
+      'Train workers in correct PPE use.',
+      'Inspect PPE before use.',
+      'Replace damaged or unsuitable PPE.',
+    ],
+    safetyControls: [
+      'Safety helmets.',
+      'Safety footwear.',
+      'Eye and face protection.',
+      'Hearing protection.',
+      'Protective gloves.',
+      'Fall protection equipment where required.',
+    ],
+    responsibilities: [
+      'Employers shall provide suitable PPE as required.',
+      'Supervisors shall enforce PPE requirements.',
+      'Workers shall wear and maintain assigned PPE.',
+      'HSE personnel shall monitor PPE compliance.',
+    ],
+    references: [
+      'Project PPE procedure.',
+      'Risk assessment requirements.',
+      'Applicable PPE standards.',
+    ],
+  ),
+
+  // ============================================================
+  // 10. Heat Stress
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_heat_stress',
+    title: 'Heat Stress Management',
+    shortTitle: 'Heat Stress',
+    description:
+        'Measures to prevent heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Assess heat-stress risks for outdoor and hot work.',
+      'Provide drinking water and suitable hydration arrangements.',
+      'Provide suitable rest areas and recovery periods.',
+      'Schedule demanding work appropriately where practicable.',
+      'Train workers to recognise heat-stress symptoms.',
+      'Provide prompt response to suspected heat-related illness.',
+    ],
+    safetyControls: [
+      'Adequate drinking water.',
+      'Shaded or cooled rest areas.',
+      'Work-rest arrangements.',
+      'Heat-stress awareness training.',
+      'Buddy monitoring.',
+      'Emergency response arrangements.',
+    ],
+    responsibilities: [
+      'Management shall implement heat-stress prevention measures.',
+      'Supervisors shall monitor workers and site conditions.',
+      'Workers shall follow hydration and rest requirements.',
+      'HSE personnel shall conduct heat-stress monitoring.',
+    ],
+    references: [
+      'UAE heat-stress and midday-break requirements.',
+      'Project heat-stress management plan.',
+      'Applicable occupational health requirements.',
+    ],
+  ),
+
+  // ============================================================
+  // 11. Confined Space
+  // ============================================================
+
+  ReferenceTopic(
+    id: 'hse_confined_space',
+    title: 'Confined Space Safety',
+    shortTitle: 'Confined Space',
+    description:
+        'Safety controls for work in spaces that may have restricted entry or exit and may contain hazardous atmospheres or other serious risks.',
+    category: 'UAE General',
+    authority: 'UAE HSE Practice',
+    jurisdiction: 'UAE',
+    keyRequirements: [
+      'Identify and classify confined spaces.',
+      'Conduct a risk assessment before entry.',
+      'Use a permit system where required.',
+      'Test the atmosphere before and during entry as necessary.',
+      'Provide suitable ventilation.',
+      'Establish rescue arrangements before entry.',
+    ],
+    safetyControls: [
+      'Atmospheric monitoring.',
+      'Mechanical ventilation.',
+      'Isolation of energy and hazardous substances.',
+      'Standby attendant.',
+      'Communication systems.',
+      'Dedicated rescue equipment and trained personnel.',
+    ],
+    responsibilities: [
+      'Supervisors shall verify entry controls.',
+      'Authorised entrants shall follow entry procedures.',
+      'Standby personnel shall continuously monitor the entry as required.',
+      'Rescue personnel shall be suitably trained.',
+    ],
+    references: [
+      'Confined-space entry procedure.',
+      'Permit to Work system.',
       'Project emergency rescue plan.',
     ],
   ),
 
   // ============================================================
-  // 4. POWER TOOLS
+  // 12. Hot Work
   // ============================================================
 
   ReferenceTopic(
-    id: 'power_tools_safety',
-    title: 'Power Tools Safety',
-    shortTitle: 'Power Tools',
+    id: 'hse_hot_work',
+    title: 'Hot Work Safety',
+    shortTitle: 'Hot Work',
     description:
-        'Safe selection, inspection, operation and maintenance of portable power tools to control electrical, mechanical, cutting and flying-particle hazards.',
+        'Controls for activities such as welding, cutting, grinding and other work that can generate heat, sparks, flames or ignition sources.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Use the correct tool for the intended task.',
-      'Inspect tools before use.',
-      'Only authorised and competent workers should operate tools.',
-      'Use suitable guards and protective devices.',
-      'Use required PPE.',
-      'Remove defective tools from service.',
+      'Obtain the required hot-work permit.',
+      'Remove or protect combustible materials.',
+      'Provide suitable firefighting equipment.',
+      'Inspect the work area before starting.',
+      'Use appropriate PPE.',
+      'Conduct post-work fire watch where required.',
     ],
     safetyControls: [
-      'Check cables, plugs and switches before use.',
-      'Ensure guards are correctly installed.',
-      'Use eye and face protection where required.',
-      'Keep hands away from moving or cutting parts.',
-      'Disconnect tools before adjustment or maintenance.',
-      'Maintain good housekeeping around tool-use areas.',
+      'Hot-work permit.',
+      'Fire extinguishers.',
+      'Fire-resistant blankets and screens.',
+      'Gas-cylinder controls.',
+      'Suitable ventilation.',
+      'Fire watch.',
     ],
     responsibilities: [
-      'Workers must inspect tools before use.',
-      'Supervisors must ensure defective tools are removed.',
-      'HSE personnel should monitor safe tool practices.',
-      'Employers must provide suitable tools and training.',
+      'Supervisors shall ensure hot-work controls are established.',
+      'Workers shall follow the approved hot-work procedure.',
+      'Fire watchers shall monitor the area as required.',
+      'HSE personnel shall verify compliance.',
     ],
     references: [
-      'Manufacturer operating instructions.',
-      'Electrical safety procedure.',
-      'Tool inspection procedure.',
-      'Project HSE plan.',
-    ],
-  ),
-
-  // ============================================================
-  // 5. FORMWORK
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'formwork_safety',
-    title: 'Formwork Safety',
-    shortTitle: 'Formwork',
-    description:
-        'Safety practices for formwork installation, support, inspection, concrete pouring, stripping and dismantling.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Formwork must be designed and installed appropriately.',
-      'Temporary supports must have adequate capacity.',
-      'Inspect formwork before concrete placement.',
-      'Control access to formwork areas.',
-      'Follow approved concrete pouring procedures.',
-      'Do not remove supports without authorisation.',
-    ],
-    safetyControls: [
-      'Verify alignment, stability and support systems.',
-      'Prevent unauthorised access below formwork.',
-      'Control concrete placement rates.',
-      'Monitor signs of movement or instability.',
-      'Provide suitable working platforms.',
-      'Use safe dismantling procedures.',
-    ],
-    responsibilities: [
-      'Supervisors must ensure approved formwork systems are used.',
-      'Workers must follow the approved method statement.',
-      'Engineers must verify design requirements where applicable.',
-      'HSE personnel should monitor critical formwork activities.',
-    ],
-    references: [
-      'Approved formwork design.',
-      'Temporary works procedure.',
-      'Method statement and risk assessment.',
-      'Project structural requirements.',
-    ],
-  ),
-
-  // ============================================================
-  // 6. PERMIT TO WORK
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'permit_to_work',
-    title: 'Permit to Work',
-    shortTitle: 'PTW',
-    description:
-        'A controlled system for authorising high-risk work and confirming that hazards, isolations, precautions and responsibilities have been addressed before work starts.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Identify work requiring a permit.',
-      'Complete risk assessment before issuing the permit.',
-      'Define required control measures.',
-      'Verify isolations where applicable.',
-      'Ensure workers understand permit conditions.',
-      'Close or suspend permits when conditions change.',
-    ],
-    safetyControls: [
-      'Display permits at the work location where required.',
-      'Conduct toolbox talks before high-risk activities.',
-      'Verify gas testing where applicable.',
-      'Control simultaneous activities.',
-      'Stop work when permit conditions are no longer valid.',
-      'Close permits after work completion and area inspection.',
-    ],
-    responsibilities: [
-      'Permit issuer must verify required controls.',
-      'Permit receiver must comply with permit conditions.',
-      'Supervisors must monitor work activities.',
-      'HSE personnel should audit the PTW system.',
-    ],
-    references: [
-      'Project Permit to Work procedure.',
-      'Risk assessment.',
-      'Method statement.',
-      'Isolation and lockout procedures.',
-    ],
-  ),
-
-  // ============================================================
-  // 7. HOT & HUMID CLIMATE
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'hot_humid_climate',
-    title: 'Working in Hot & Humid Climate',
-    shortTitle: 'Heat Stress',
-    description:
-        'Practical controls for protecting workers from heat stress, dehydration, fatigue and heat-related illness when working in hot and humid conditions.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Implement a heat-stress management programme.',
-      'Provide adequate drinking water.',
-      'Provide suitable shaded or cooled rest areas.',
-      'Plan work according to environmental conditions.',
-      'Train workers to recognise heat-related illness.',
-      'Provide prompt first aid and emergency response.',
-    ],
-    safetyControls: [
-      'Schedule heavy work during safer periods where possible.',
-      'Use work-rest arrangements based on applicable requirements.',
-      'Encourage regular hydration.',
-      'Monitor workers for heat-stress symptoms.',
-      'Provide suitable clothing and PPE for the task.',
-      'Use buddy systems for high-risk activities.',
-    ],
-    responsibilities: [
-      'Supervisors must monitor workers during hot conditions.',
-      'Workers must maintain hydration and report symptoms.',
-      'HSE personnel should monitor heat-stress controls.',
-      'Employers must provide suitable welfare arrangements.',
-    ],
-    references: [
-      'Applicable UAE heat-stress requirements.',
-      'Project heat-stress management plan.',
-      'Occupational health procedure.',
-      'Emergency response procedure.',
-    ],
-  ),
-
-  // ============================================================
-  // 8. CONFINED SPACE
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'confined_space_safety',
-    title: 'Confined Space Safety',
-    shortTitle: 'Confined Space',
-    description:
-        'Safety controls for entry into confined spaces, including hazard assessment, atmospheric testing, ventilation, isolation, communication and rescue.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Identify and assess confined-space hazards.',
-      'Use a confined-space entry permit where required.',
-      'Conduct atmospheric testing before and during entry as necessary.',
-      'Provide adequate ventilation.',
-      'Isolate hazardous energy and materials.',
-      'Provide a suitable rescue plan.',
-    ],
-    safetyControls: [
-      'Use calibrated gas detection equipment.',
-      'Maintain continuous communication.',
-      'Provide trained standby personnel.',
-      'Control entry and exit.',
-      'Use suitable respiratory protection where required.',
-      'Keep rescue equipment ready at the entry point.',
-    ],
-    responsibilities: [
-      'Entry supervisor must verify permit conditions.',
-      'Entrants must follow confined-space procedures.',
-      'Standby personnel must maintain communication.',
-      'Rescue personnel must be trained and prepared.',
-    ],
-    references: [
-      'Confined-space entry procedure.',
-      'Permit to Work system.',
-      'Risk assessment and method statement.',
-      'Emergency rescue plan.',
-    ],
-  ),
-
-  // ============================================================
-  // 9. WORKING NEAR LIVE ROADS
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'working_near_live_roads',
-    title: 'Working Near Live Roads',
-    shortTitle: 'Live Road Safety',
-    description:
-        'Safety measures for construction and maintenance activities near live traffic, including traffic control, barriers, signs, lighting and worker visibility.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Prepare an approved traffic management arrangement.',
-      'Separate workers from moving traffic.',
-      'Provide appropriate signs and warning devices.',
-      'Use suitable barriers and traffic control measures.',
-      'Ensure workers are visible to road users.',
-      'Coordinate with relevant authorities where required.',
-    ],
-    safetyControls: [
-      'Maintain safe separation from live traffic.',
-      'Use trained traffic marshals where required.',
-      'Provide adequate lighting for night work.',
-      'Control construction vehicle movements.',
-      'Maintain clear emergency access.',
-      'Inspect traffic controls regularly.',
-    ],
-    responsibilities: [
-      'Traffic management personnel must implement approved controls.',
-      'Supervisors must monitor the work zone.',
-      'Workers must remain within designated safe areas.',
-      'HSE personnel should inspect traffic safety arrangements.',
-    ],
-    references: [
-      'Approved traffic management plan.',
-      'Project road-work requirements.',
-      'Applicable authority requirements.',
+      'Hot-work permit procedure.',
+      'Project fire prevention procedure.',
       'Risk assessment and method statement.',
     ],
   ),
 
   // ============================================================
-  // 10. CONCRETING
+  // 13. Chemical Safety
   // ============================================================
 
   ReferenceTopic(
-    id: 'concreting_safety',
-    title: 'Concreting Safety',
-    shortTitle: 'Concreting',
+    id: 'hse_chemical_safety',
+    title: 'Chemical Safety',
+    shortTitle: 'Chemical Safety',
     description:
-        'Safe practices for concrete delivery, pumping, placing, vibrating and finishing activities, including control of plant, pressure and material hazards.',
+        'Safe handling, storage, transportation and use of hazardous chemicals to prevent exposure, fire, environmental release and other incidents.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Inspect concrete pumps and associated equipment.',
-      'Establish safe exclusion zones.',
-      'Ensure formwork is ready before concrete placement.',
-      'Control concrete hose movement.',
-      'Use suitable PPE against cement and concrete exposure.',
-      'Maintain communication between operators and workers.',
+      'Maintain an inventory of hazardous chemicals.',
+      'Provide current Safety Data Sheets.',
+      'Label chemical containers correctly.',
+      'Store chemicals according to compatibility requirements.',
+      'Provide appropriate PPE and exposure controls.',
+      'Train workers in chemical hazards and emergency response.',
     ],
     safetyControls: [
-      'Secure pump lines and connections.',
-      'Keep workers away from suspended or pressurised equipment.',
-      'Use suitable eye and skin protection.',
-      'Control access around concrete pumps.',
-      'Prevent uncontrolled hose movement.',
-      'Clean spills promptly to prevent slips.',
+      'Safety Data Sheets.',
+      'Chemical labelling.',
+      'Suitable storage cabinets or areas.',
+      'Spill containment.',
+      'Ventilation.',
+      'Emergency eyewash or shower facilities where required.',
     ],
     responsibilities: [
-      'Pump operators must follow operating procedures.',
-      'Supervisors must coordinate concrete placement activities.',
-      'Workers must use required PPE.',
-      'HSE personnel should monitor exclusion zones and controls.',
+      'Management shall provide suitable chemical controls.',
+      'Supervisors shall ensure safe storage and handling.',
+      'Workers shall follow chemical handling procedures.',
+      'HSE personnel shall monitor chemical safety arrangements.',
     ],
     references: [
-      'Concrete pouring method statement.',
-      'Equipment manufacturer instructions.',
-      'Risk assessment.',
-      'Project HSE plan.',
+      'Safety Data Sheets.',
+      'Chemical management procedure.',
+      'Applicable UAE hazardous-material requirements.',
     ],
   ),
 
   // ============================================================
-  // 11. BARRICADING OF HAZARDS
+  // 14. Emergency Preparedness
   // ============================================================
 
   ReferenceTopic(
-    id: 'barricading_of_hazards',
-    title: 'Barricading of Hazards',
-    shortTitle: 'Barricading',
+    id: 'hse_emergency_preparedness',
+    title: 'Emergency Preparedness and Response',
+    shortTitle: 'Emergency Response',
     description:
-        'Requirements and good practices for isolating hazardous areas using suitable barricades, warning signs and controlled access arrangements.',
+        'Planning and preparedness measures to ensure an effective response to foreseeable workplace emergencies and minimise harm to people, property and the environment.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Identify hazards requiring physical isolation.',
-      'Use suitable barricades for the hazard level.',
-      'Provide warning signs and hazard information.',
-      'Prevent unauthorised entry.',
-      'Maintain emergency access where required.',
-      'Inspect barricades regularly.',
+      'Identify foreseeable emergency scenarios.',
+      'Develop and maintain emergency response procedures.',
+      'Provide suitable emergency communication arrangements.',
+      'Identify emergency assembly points.',
+      'Provide trained emergency response personnel.',
+      'Conduct drills and review emergency performance.',
     ],
     safetyControls: [
-      'Use rigid barriers where physical protection is required.',
-      'Use warning tape only for suitable low-risk applications.',
-      'Clearly identify openings, edges and restricted areas.',
-      'Maintain adequate visibility of barricades.',
-      'Replace damaged barricades immediately.',
-      'Remove barricades only when the hazard is eliminated.',
+      'Emergency response plan.',
+      'Alarm and communication systems.',
+      'Emergency contact information.',
+      'First-aid arrangements.',
+      'Fire response equipment.',
+      'Emergency assembly areas.',
     ],
     responsibilities: [
-      'Workers must not remove barricades without authorisation.',
-      'Supervisors must ensure hazardous areas are properly isolated.',
-      'HSE personnel should inspect barricading arrangements.',
-      'Contractors must maintain barriers around their work areas.',
+      'Management shall provide emergency resources.',
+      'Supervisors shall ensure workers understand emergency procedures.',
+      'Workers shall follow emergency instructions.',
+      'Emergency response teams shall perform assigned duties.',
     ],
     references: [
-      'Project barricading procedure.',
-      'Risk assessment.',
-      'Site traffic management requirements.',
-      'Project HSE plan.',
+      'Project Emergency Response Plan.',
+      'Fire and life-safety requirements.',
+      'Applicable UAE emergency requirements.',
     ],
   ),
 
   // ============================================================
-  // 12. WORKER WELFARE
+  // 15. Incident Reporting
   // ============================================================
 
   ReferenceTopic(
-    id: 'worker_welfare',
-    title: 'Worker Welfare',
-    shortTitle: 'Worker Welfare',
+    id: 'hse_incident_reporting',
+    title: 'Incident Reporting and Investigation',
+    shortTitle: 'Incident Reporting',
     description:
-        'Essential workplace welfare provisions including drinking water, sanitation, rest areas, hygiene and worker wellbeing.',
+        'A structured process for reporting, investigating and learning from incidents, near misses and unsafe conditions to prevent recurrence.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Provide adequate potable drinking water.',
-      'Provide suitable sanitation facilities.',
-      'Provide appropriate rest and welfare areas.',
-      'Maintain good hygiene standards.',
-      'Provide arrangements appropriate to site conditions.',
-      'Monitor welfare facilities regularly.',
+      'Report incidents and near misses promptly.',
+      'Preserve relevant evidence where appropriate.',
+      'Investigate significant incidents systematically.',
+      'Identify immediate and underlying causes.',
+      'Develop corrective and preventive actions.',
+      'Track actions until effective closure.',
     ],
     safetyControls: [
-      'Keep welfare facilities clean and hygienic.',
-      'Provide adequate waste disposal.',
-      'Maintain drinking water supplies.',
-      'Provide suitable shaded or cooled rest areas where required.',
-      'Ensure welfare facilities are accessible.',
-      'Report and correct welfare deficiencies promptly.',
+      'Incident reporting procedure.',
+      'Root-cause analysis.',
+      'Corrective action tracking.',
+      'Lessons-learned communication.',
+      'Trend analysis.',
+      'Management review.',
     ],
     responsibilities: [
-      'Employers must provide suitable welfare facilities.',
-      'Supervisors must monitor site welfare conditions.',
-      'Workers must maintain cleanliness and report deficiencies.',
-      'HSE personnel should conduct welfare inspections.',
+      'Workers shall report incidents and unsafe conditions.',
+      'Supervisors shall secure the area and initiate reporting.',
+      'HSE personnel shall coordinate investigations as required.',
+      'Management shall ensure corrective actions are implemented.',
     ],
     references: [
-      'Applicable UAE labour and welfare requirements.',
-      'Project welfare procedure.',
-      'Site HSE plan.',
-      'Occupational health requirements.',
+      'Organisation incident reporting procedure.',
+      'Project HSE management system.',
+      'Applicable UAE reporting requirements.',
     ],
   ),
 
   // ============================================================
-  // 13. MEWP
+  // 16. Housekeeping
   // ============================================================
 
   ReferenceTopic(
-    id: 'mewp_safety',
-    title: 'Mobile Elevated Work Platform (MEWP)',
-    shortTitle: 'MEWP',
+    id: 'hse_housekeeping',
+    title: 'Workplace Housekeeping',
+    shortTitle: 'Housekeeping',
     description:
-        'Safe selection, inspection, positioning and operation of mobile elevated work platforms, including stability, fall protection and emergency lowering.',
+        'Good housekeeping practices that maintain clean, orderly and accessible workplaces and reduce slips, trips, falls, fire and material-handling hazards.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'MEWP operators must be trained and authorised.',
-      'Conduct pre-use inspections.',
-      'Use the correct MEWP for the task and ground conditions.',
-      'Use required fall protection.',
-      'Maintain safe clearance from overhead hazards.',
-      'Ensure emergency lowering arrangements are available.',
+      'Keep work areas clean and organised.',
+      'Remove waste and unnecessary materials regularly.',
+      'Maintain clear access and emergency routes.',
+      'Store materials safely.',
+      'Control spills promptly.',
+      'Keep fire equipment and electrical panels accessible.',
     ],
     safetyControls: [
-      'Check ground stability before positioning.',
-      'Use outriggers where applicable.',
-      'Maintain exclusion zones below elevated work.',
-      'Do not exceed rated platform capacity.',
-      'Do not bypass safety devices.',
-      'Follow manufacturer operating instructions.',
+      'Defined waste collection areas.',
+      'Routine housekeeping inspections.',
+      'Safe material storage.',
+      'Spill-control arrangements.',
+      'Clear walkways.',
+      'Good lighting.',
     ],
     responsibilities: [
-      'Operators must complete pre-use checks.',
-      'Supervisors must ensure competent operators are assigned.',
-      'HSE personnel should verify inspection and training records.',
-      'Workers must follow MEWP operating restrictions.',
+      'Workers shall maintain good housekeeping.',
+      'Supervisors shall conduct regular workplace checks.',
+      'Contractors shall maintain their work areas.',
+      'HSE personnel shall monitor housekeeping standards.',
     ],
     references: [
-      'Manufacturer operating manual.',
-      'MEWP inspection procedure.',
-      'Operator training requirements.',
-      'Work-at-height risk assessment.',
+      'Project housekeeping procedure.',
+      'Daily workplace inspection checklist.',
+      'Project HSE requirements.',
     ],
   ),
 
   // ============================================================
-  // 14. ELECTRICITY & ELECTRICAL TOOLS
+  // 17. Manual Handling
   // ============================================================
 
   ReferenceTopic(
-    id: 'site_electricity_electrical_tools',
-    title: 'Electricity on Site & Electrical Tools',
-    shortTitle: 'Electrical Safety',
-    description:
-        'Controls for temporary site electrical systems, distribution boards, cables, portable electrical tools, grounding and protection devices.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Electrical installations must be installed by competent personnel.',
-      'Use suitable protective devices.',
-      'Inspect electrical tools and cables regularly.',
-      'Protect cables from mechanical damage.',
-      'Provide suitable grounding and protection.',
-      'Isolate electrical equipment before maintenance.',
-    ],
-    safetyControls: [
-      'Use appropriate RCD/GFCI protection where applicable.',
-      'Keep distribution boards protected and accessible.',
-      'Do not use damaged cables or plugs.',
-      'Prevent cables from creating trip hazards.',
-      'Use suitable weather protection for outdoor equipment.',
-      'Apply lockout and isolation procedures when required.',
-    ],
-    responsibilities: [
-      'Electricians must perform authorised electrical work.',
-      'Workers must report damaged electrical equipment.',
-      'Supervisors must control temporary electrical installations.',
-      'HSE personnel should conduct electrical safety inspections.',
-    ],
-    references: [
-      'Project electrical safety procedure.',
-      'Approved temporary electrical design.',
-      'Manufacturer instructions.',
-      'Applicable electrical safety requirements.',
-    ],
-  ),
-
-  // ============================================================
-  // 15. TEMPORARY WORKS
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'temporary_works',
-    title: 'Temporary Works',
-    shortTitle: 'Temporary Works',
-    description:
-        'Safety management of temporary structures and systems such as formwork, falsework, temporary supports, access systems and other temporary installations.',
-    category: 'UAE General',
-    authority: 'HSE Safety Reference',
-    jurisdiction: 'UAE',
-    keyRequirements: [
-      'Identify temporary works during project planning.',
-      'Ensure designs are prepared and reviewed by competent persons.',
-      'Define installation and dismantling procedures.',
-      'Inspect temporary works before use.',
-      'Control changes and modifications.',
-      'Remove temporary works safely when no longer required.',
-    ],
-    safetyControls: [
-      'Use approved drawings and calculations where required.',
-      'Control loading and imposed forces.',
-      'Inspect supports and connections.',
-      'Prevent unauthorised modification.',
-      'Maintain exclusion zones where necessary.',
-      'Monitor temporary works during critical operations.',
-    ],
-    responsibilities: [
-      'Temporary works coordinator must manage the process where appointed.',
-      'Supervisors must ensure approved systems are used.',
-      'Workers must follow approved procedures.',
-      'HSE personnel should monitor implementation of controls.',
-    ],
-    references: [
-      'Temporary works procedure.',
-      'Approved design and drawings.',
-      'Risk assessment and method statement.',
-      'Project structural requirements.',
-    ],
-  ),
-
-  // ============================================================
-  // 16. MANUAL HANDLING
-  // ============================================================
-
-  ReferenceTopic(
-    id: 'manual_handling',
-    title: 'Manual Handling',
+    id: 'hse_manual_handling',
+    title: 'Manual Handling Safety',
     shortTitle: 'Manual Handling',
     description:
-        'Safe manual handling practices covering lifting, carrying, pushing, pulling, team handling, load assessment and prevention of musculoskeletal injuries.',
+        'Controls for reducing musculoskeletal injuries and other risks associated with lifting, carrying, pushing, pulling and moving materials manually.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Assess manual handling risks before starting.',
-      'Avoid manual handling where mechanical assistance is reasonably practicable.',
-      'Consider load weight, size, shape and stability.',
-      'Use correct lifting techniques.',
-      'Provide suitable manual handling training.',
-      'Use team lifting where appropriate.',
+      'Assess manual-handling tasks before work.',
+      'Avoid unnecessary manual handling where practicable.',
+      'Use mechanical aids for heavy or awkward loads.',
+      'Provide suitable training.',
+      'Use safe lifting techniques.',
+      'Consider load weight, shape and working environment.',
     ],
     safetyControls: [
-      'Use trolleys, hoists or mechanical aids where possible.',
-      'Keep loads close to the body during lifting.',
-      'Avoid twisting while carrying loads.',
-      'Maintain clear travel routes.',
-      'Do not lift loads beyond individual capability.',
-      'Stop and seek assistance when a load is unsafe to handle.',
+      'Trolleys and mechanical handling aids.',
+      'Team lifting where appropriate.',
+      'Suitable storage heights.',
+      'Task rotation where required.',
+      'Clear handling routes.',
+      'Manual-handling training.',
     ],
     responsibilities: [
-      'Workers must follow safe lifting practices.',
-      'Supervisors must identify manual handling risks.',
-      'Employers should provide suitable mechanical aids.',
-      'HSE personnel should monitor ergonomic risks.',
+      'Supervisors shall plan handling activities safely.',
+      'Workers shall use correct handling methods.',
+      'Management shall provide suitable handling equipment.',
+      'HSE personnel shall monitor manual-handling risks.',
     ],
     references: [
       'Manual handling risk assessment.',
       'Ergonomics procedure.',
-      'Safe lifting training material.',
-      'Project HSE plan.',
+      'Project HSE requirements.',
     ],
   ),
 
   // ============================================================
-  // 17. HOT WORKS
+  // 18. Vehicle and Traffic Safety
   // ============================================================
 
   ReferenceTopic(
-    id: 'hot_works_safety',
-    title: 'Hot Works Safety',
-    shortTitle: 'Hot Works',
+    id: 'hse_vehicle_traffic_safety',
+    title: 'Vehicle and Traffic Safety',
+    shortTitle: 'Traffic Safety',
     description:
-        'Safety controls for welding, cutting, grinding, brazing and other hot work activities, including fire prevention, gas cylinder safety and permit requirements.',
+        'Controls for managing vehicle movement, pedestrian interaction, reversing, loading and unloading within workplaces and construction sites.',
     category: 'UAE General',
-    authority: 'HSE Safety Reference',
+    authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
     keyRequirements: [
-      'Obtain a hot-work permit where required.',
-      'Inspect the work area before starting.',
-      'Remove or protect combustible materials.',
-      'Provide suitable fire extinguishers.',
-      'Inspect welding and cutting equipment.',
-      'Provide suitable PPE and ventilation.',
+      'Develop suitable site traffic arrangements.',
+      'Separate pedestrians and vehicles where practicable.',
+      'Control vehicle speeds.',
+      'Use trained and authorised drivers.',
+      'Inspect vehicles before use.',
+      'Control reversing operations.',
     ],
     safetyControls: [
-      'Use fire-resistant screens and blankets where required.',
-      'Maintain suitable fire watch arrangements.',
-      'Secure gas cylinders upright.',
-      'Keep oxygen and fuel gases properly separated as required.',
-      'Check hoses, regulators and connections.',
-      'Conduct post-work fire checks.',
+      'Traffic management plan.',
+      'Pedestrian walkways.',
+      'Speed limits and signage.',
+      'Banksman or spotter where required.',
+      'Vehicle alarms and warning systems.',
+      'Adequate lighting.',
     ],
     responsibilities: [
-      'Workers must follow hot-work permit conditions.',
-      'Supervisors must inspect the work area before authorisation.',
-      'Fire watch personnel must monitor for ignition hazards.',
-      'HSE personnel should verify hot-work controls.',
+      'Drivers shall follow site traffic rules.',
+      'Supervisors shall control site vehicle movement.',
+      'Pedestrians shall use designated routes.',
+      'HSE personnel shall monitor traffic safety.',
     ],
     references: [
-      'Hot Work Permit procedure.',
-      'Fire prevention and emergency procedure.',
-      'Welding and cutting equipment instructions.',
-      'Project HSE plan.',
+      'Project Traffic Management Plan.',
+      'Vehicle inspection procedure.',
+      'Site access and traffic rules.',
     ],
   ),
 ];
