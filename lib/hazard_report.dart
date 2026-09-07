@@ -16,10 +16,6 @@ class HazardReportPage extends StatefulWidget {
 
 class _HazardReportPageState
     extends State<HazardReportPage> {
-  // ============================================================
-  // STORAGE
-  // ============================================================
-
   static const String _storageKey =
       'safenexus_observations';
 
@@ -38,10 +34,6 @@ class _HazardReportPageState
   final ImagePicker _picker =
       ImagePicker();
 
-  // ============================================================
-  // FORM VALUES
-  // ============================================================
-
   String _severity = 'Medium';
 
   String _category =
@@ -53,10 +45,6 @@ class _HazardReportPageState
   XFile? _photo;
 
   bool _submitting = false;
-
-  // ============================================================
-  // OPTIONS
-  // ============================================================
 
   static const List<String>
       _severityOptions = [
@@ -91,10 +79,6 @@ class _HazardReportPageState
     'Environmental Hazard',
   ];
 
-  // ============================================================
-  // DISPOSE
-  // ============================================================
-
   @override
   void dispose() {
     _descriptionController.dispose();
@@ -103,10 +87,6 @@ class _HazardReportPageState
 
     super.dispose();
   }
-
-  // ============================================================
-  // MESSAGE
-  // ============================================================
 
   void _showMessage(
     String message, {
@@ -125,15 +105,10 @@ class _HazardReportPageState
         backgroundColor: error
             ? Colors.red.shade700
             : Colors.green.shade700,
-        content:
-            Text(message),
+        content: Text(message),
       ),
     );
   }
-
-  // ============================================================
-  // PHOTO SOURCE
-  // ============================================================
 
   Future<void>
       _choosePhotoSource() async {
@@ -149,8 +124,7 @@ class _HazardReportPageState
               ListTile(
                 leading:
                     const Icon(
-                  Icons
-                      .camera_alt_rounded,
+                  Icons.camera_alt_rounded,
                 ),
                 title:
                     const Text(
@@ -169,8 +143,7 @@ class _HazardReportPageState
               ListTile(
                 leading:
                     const Icon(
-                  Icons
-                      .photo_library_rounded,
+                  Icons.photo_library_rounded,
                 ),
                 title:
                     const Text(
@@ -195,10 +168,6 @@ class _HazardReportPageState
       },
     );
   }
-
-  // ============================================================
-  // PICK IMAGE
-  // ============================================================
 
   Future<void> _pickImage(
     ImageSource source,
@@ -227,10 +196,6 @@ class _HazardReportPageState
     }
   }
 
-  // ============================================================
-  // REMOVE PHOTO
-  // ============================================================
-
   void _removePhoto() {
     if (_submitting) return;
 
@@ -239,13 +204,8 @@ class _HazardReportPageState
     });
   }
 
-  // ============================================================
-  // GENERATE ID
-  // ============================================================
-
   String _generateHazardId() {
-    final now =
-        DateTime.now();
+    final now = DateTime.now();
 
     final date =
         '${now.year}'
@@ -259,10 +219,6 @@ class _HazardReportPageState
 
     return 'HZD-$date-$time';
   }
-
-  // ============================================================
-  // SUBMIT HAZARD REPORT
-  // ============================================================
 
   Future<void>
       _submitHazardReport() async {
@@ -291,10 +247,6 @@ class _HazardReportPageState
 
       String? savedPhotoPath;
 
-      // --------------------------------------------------------
-      // SAVE PHOTO
-      // --------------------------------------------------------
-
       if (_photo != null) {
         final appDirectory =
             await getApplicationDocumentsDirectory();
@@ -312,8 +264,7 @@ class _HazardReportPageState
           );
         }
 
-        String extension =
-            'jpg';
+        String extension = 'jpg';
 
         final originalPath =
             _photo!.path;
@@ -353,87 +304,58 @@ class _HazardReportPageState
             destination.path;
       }
 
-      // --------------------------------------------------------
-      // REPORT RECORD
-      // --------------------------------------------------------
-
       final report =
           <String, dynamic>{
         'id': id,
-
         'submittedAt':
-            submittedAt
-                .toIso8601String(),
-
+            submittedAt.toIso8601String(),
         'dateTime':
-            submittedAt
-                .toIso8601String(),
-
+            submittedAt.toIso8601String(),
         'reportType':
             'Hazard Report',
-
         'observationType':
             'Hazard Report',
-
         'type':
             'Hazard Report',
-
         'category':
             _category,
-
         'hazardType':
             _hazardType,
-
         'hazard':
             _hazardType,
-
         'severity':
             _severity,
-
         'riskLevel':
             _severity,
-
         'risk':
             _severity,
-
         'location':
             _locationController
                 .text
                 .trim(),
-
         'description':
             _descriptionController
                 .text
                 .trim(),
-
         'correctiveAction':
             _actionController
                 .text
                 .trim(),
-
         'action':
             _actionController
                 .text
                 .trim(),
-
         'photoPath':
             savedPhotoPath ?? '',
-
         'smartAnalysis':
             false,
-
         'aiAnalysis': {
           'completed': false,
           'source': 'manual',
         },
-
         'status':
             'Open',
       };
-
-      // --------------------------------------------------------
-      // LOAD EXISTING REPORTS
-      // --------------------------------------------------------
 
       final prefs =
           await SharedPreferences
@@ -444,10 +366,6 @@ class _HazardReportPageState
                 _storageKey,
               ) ??
               <String>[];
-
-      // --------------------------------------------------------
-      // ADD NEW REPORT
-      // --------------------------------------------------------
 
       final updated =
           <String>[
@@ -491,10 +409,6 @@ class _HazardReportPageState
     }
   }
 
-  // ============================================================
-  // SUCCESS DIALOG
-  // ============================================================
-
   Future<void> _showSuccessDialog(
     String id,
     DateTime submittedAt,
@@ -514,18 +428,14 @@ class _HazardReportPageState
       builder: (dialogContext) {
         return AlertDialog(
           icon: Icon(
-            Icons
-                .check_circle_rounded,
-            color:
-                Colors.green.shade700,
+            Icons.check_circle_rounded,
+            color: Colors.green.shade700,
             size: 52,
           ),
-          title:
-              const Text(
+          title: const Text(
             'Hazard Report Submitted',
           ),
-          content:
-              Column(
+          content: Column(
             mainAxisSize:
                 MainAxisSize.min,
             children: [
@@ -541,8 +451,7 @@ class _HazardReportPageState
                 'ID: $id',
                 textAlign:
                     TextAlign.center,
-                style:
-                    const TextStyle(
+                style: const TextStyle(
                   fontWeight:
                       FontWeight.bold,
                 ),
@@ -566,8 +475,7 @@ class _HazardReportPageState
 
                 _resetForm();
               },
-              child:
-                  const Text(
+              child: const Text(
                 'Done',
               ),
             ),
@@ -577,99 +485,90 @@ class _HazardReportPageState
     );
   }
 
-  // ============================================================
-  // RESET FORM
-  // ============================================================
-
   void _resetForm() {
-    _formKey.currentState
-        ?.reset();
+    _formKey.currentState?.reset();
 
-    _descriptionController
-        .clear();
-
+    _descriptionController.clear();
     _locationController.clear();
-
     _actionController.clear();
 
     setState(() {
-      _severity =
-          'Medium';
-
-      _category =
-          'General Safety';
-
+      _severity = 'Medium';
+      _category = 'General Safety';
       _hazardType =
           'General Workplace Hazard';
-
       _photo = null;
     });
   }
-
-  // ============================================================
-  // BUILD
-  // ============================================================
 
   @override
   Widget build(
     BuildContext context,
   ) {
     return Scaffold(
+      // ========================================================
+      // COMPACT APP BAR
+      // ========================================================
+
       appBar: AppBar(
-        title:
-            const Text(
+        toolbarHeight: 48,
+        title: const Text(
           'Hazard Report',
-          style:
-              TextStyle(
+          style: TextStyle(
             fontWeight:
                 FontWeight.w800,
+            fontSize: 18,
           ),
         ),
         centerTitle: true,
       ),
+
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: ListView(
             padding:
-                const EdgeInsets.all(
+                const EdgeInsets.fromLTRB(
               16,
+              10,
+              16,
+              32,
             ),
             children: [
               _buildHeaderCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildSeverityCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildClassificationCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildLocationCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildDescriptionCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildActionCard(),
 
               const SizedBox(
-                height: 16,
+                height: 14,
               ),
 
               _buildPhotoCard(),
@@ -691,13 +590,12 @@ class _HazardReportPageState
   }
 
   // ============================================================
-  // HEADER
+  // HEADER CARD
   // ============================================================
 
   Widget _buildHeaderCard() {
     final scheme =
-        Theme.of(context)
-            .colorScheme;
+        Theme.of(context).colorScheme;
 
     return Card(
       elevation: 0,
@@ -714,12 +612,10 @@ class _HazardReportPageState
                 color:
                     scheme.primaryContainer,
                 borderRadius:
-                    BorderRadius
-                        .circular(16),
+                    BorderRadius.circular(16),
               ),
               child: Icon(
-                Icons
-                    .report_problem_rounded,
+                Icons.report_problem_rounded,
                 color:
                     scheme.onPrimaryContainer,
                 size: 28,
@@ -733,13 +629,11 @@ class _HazardReportPageState
             Expanded(
               child: Column(
                 crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Report a Hazard',
-                    style:
-                        TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight:
                           FontWeight.w800,
@@ -753,9 +647,7 @@ class _HazardReportPageState
                   Text(
                     'Record a workplace hazard for follow-up and corrective action.',
                     style:
-                        Theme.of(
-                      context,
-                    )
+                        Theme.of(context)
                             .textTheme
                             .bodyMedium,
                   ),
@@ -779,42 +671,26 @@ class _HazardReportPageState
         padding:
             const EdgeInsets.all(16),
         child:
-            DropdownButtonFormField<
-                String>(
-          // FIX:
-          // Deprecated value removed.
-          // Use initialValue for current Flutter analyzer.
-
-          initialValue:
-              _severity,
-
+            DropdownButtonFormField<String>(
+          initialValue: _severity,
           decoration:
               const InputDecoration(
             labelText:
                 'Severity / Risk Level',
-            prefixIcon:
-                Icon(
-              Icons
-                  .warning_amber_rounded,
+            prefixIcon: Icon(
+              Icons.warning_amber_rounded,
             ),
             border:
                 OutlineInputBorder(),
           ),
-
           items:
-              _severityOptions
-                  .map(
+              _severityOptions.map(
             (value) =>
-                DropdownMenuItem<
-                    String>(
-              value:
-                  value,
-              child:
-                  Text(value),
+                DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
             ),
-          )
-                  .toList(),
-
+          ).toList(),
           onChanged:
               _submitting
                   ? null
@@ -838,8 +714,7 @@ class _HazardReportPageState
   // CLASSIFICATION
   // ============================================================
 
-  Widget
-      _buildClassificationCard() {
+  Widget _buildClassificationCard() {
     return Card(
       elevation: 0,
       child: Padding(
@@ -847,8 +722,7 @@ class _HazardReportPageState
             const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+              CrossAxisAlignment.start,
           children: [
             Text(
               'Hazard Classification',
@@ -866,18 +740,8 @@ class _HazardReportPageState
               height: 14,
             ),
 
-            // --------------------------------------------------
-            // CATEGORY
-            // --------------------------------------------------
-
-            DropdownButtonFormField<
-                String>(
-              // FIX:
-              // Deprecated value removed.
-
-              initialValue:
-                  _category,
-
+            DropdownButtonFormField<String>(
+              initialValue: _category,
               decoration:
                   const InputDecoration(
                 labelText:
@@ -885,21 +749,14 @@ class _HazardReportPageState
                 border:
                     OutlineInputBorder(),
               ),
-
               items:
-                  _categoryOptions
-                      .map(
+                  _categoryOptions.map(
                 (value) =>
-                    DropdownMenuItem<
-                        String>(
-                  value:
-                      value,
-                  child:
-                      Text(value),
+                    DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
                 ),
-              )
-                      .toList(),
-
+              ).toList(),
               onChanged:
                   _submitting
                       ? null
@@ -920,18 +777,8 @@ class _HazardReportPageState
               height: 14,
             ),
 
-            // --------------------------------------------------
-            // HAZARD TYPE
-            // --------------------------------------------------
-
-            DropdownButtonFormField<
-                String>(
-              // FIX:
-              // Deprecated value removed.
-
-              initialValue:
-                  _hazardType,
-
+            DropdownButtonFormField<String>(
+              initialValue: _hazardType,
               decoration:
                   const InputDecoration(
                 labelText:
@@ -939,21 +786,14 @@ class _HazardReportPageState
                 border:
                     OutlineInputBorder(),
               ),
-
               items:
-                  _hazardOptions
-                      .map(
+                  _hazardOptions.map(
                 (value) =>
-                    DropdownMenuItem<
-                        String>(
-                  value:
-                      value,
-                  child:
-                      Text(value),
+                    DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
                 ),
-              )
-                      .toList(),
-
+              ).toList(),
               onChanged:
                   _submitting
                       ? null
@@ -985,34 +825,26 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child:
-            TextFormField(
+        child: TextFormField(
           controller:
               _locationController,
-
           textInputAction:
               TextInputAction.next,
-
           decoration:
               const InputDecoration(
             labelText:
                 'Location',
             hintText:
                 'Example: Workshop / Warehouse / Site Area',
-            prefixIcon:
-                Icon(
-              Icons
-                  .location_on_outlined,
+            prefixIcon: Icon(
+              Icons.location_on_outlined,
             ),
             border:
                 OutlineInputBorder(),
           ),
-
           validator: (value) {
             if (value == null ||
-                value
-                    .trim()
-                    .isEmpty) {
+                value.trim().isEmpty) {
               return 'Please enter the location.';
             }
 
@@ -1027,20 +859,16 @@ class _HazardReportPageState
   // DESCRIPTION
   // ============================================================
 
-  Widget
-      _buildDescriptionCard() {
+  Widget _buildDescriptionCard() {
     return Card(
       elevation: 0,
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child:
-            TextFormField(
+        child: TextFormField(
           controller:
               _descriptionController,
-
           maxLines: 5,
-
           decoration:
               const InputDecoration(
             labelText:
@@ -1052,18 +880,13 @@ class _HazardReportPageState
             border:
                 OutlineInputBorder(),
           ),
-
           validator: (value) {
             if (value == null ||
-                value
-                    .trim()
-                    .isEmpty) {
+                value.trim().isEmpty) {
               return 'Please enter the hazard description.';
             }
 
-            if (value
-                    .trim()
-                    .length <
+            if (value.trim().length <
                 5) {
               return 'Please provide more details.';
             }
@@ -1085,13 +908,10 @@ class _HazardReportPageState
       child: Padding(
         padding:
             const EdgeInsets.all(16),
-        child:
-            TextFormField(
+        child: TextFormField(
           controller:
               _actionController,
-
           maxLines: 5,
-
           decoration:
               const InputDecoration(
             labelText:
@@ -1103,12 +923,9 @@ class _HazardReportPageState
             border:
                 OutlineInputBorder(),
           ),
-
           validator: (value) {
             if (value == null ||
-                value
-                    .trim()
-                    .isEmpty) {
+                value.trim().isEmpty) {
               return 'Please enter corrective action.';
             }
 
@@ -1125,8 +942,7 @@ class _HazardReportPageState
 
   Widget _buildPhotoCard() {
     final scheme =
-        Theme.of(context)
-            .colorScheme;
+        Theme.of(context).colorScheme;
 
     return Card(
       elevation: 0,
@@ -1135,14 +951,12 @@ class _HazardReportPageState
             const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+              CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 const Icon(
-                  Icons
-                      .photo_camera_back_rounded,
+                  Icons.photo_camera_back_rounded,
                 ),
 
                 const SizedBox(
@@ -1152,9 +966,7 @@ class _HazardReportPageState
                 Text(
                   'Photo Evidence',
                   style:
-                      Theme.of(
-                    context,
-                  )
+                      Theme.of(context)
                           .textTheme
                           .titleMedium
                           ?.copyWith(
@@ -1171,8 +983,7 @@ class _HazardReportPageState
 
             if (_photo == null)
               Container(
-                width:
-                    double.infinity,
+                width: double.infinity,
                 padding:
                     const EdgeInsets.all(
                   20,
@@ -1180,8 +991,7 @@ class _HazardReportPageState
                 decoration:
                     BoxDecoration(
                   borderRadius:
-                      BorderRadius
-                          .circular(
+                      BorderRadius.circular(
                     16,
                   ),
                   border:
@@ -1193,8 +1003,7 @@ class _HazardReportPageState
                 child: Column(
                   children: [
                     Icon(
-                      Icons
-                          .image_outlined,
+                      Icons.image_outlined,
                       size: 46,
                       color:
                           scheme.primary,
@@ -1217,10 +1026,8 @@ class _HazardReportPageState
                           _submitting
                               ? null
                               : _choosePhotoSource,
-                      icon:
-                          const Icon(
-                        Icons
-                            .add_a_photo_rounded,
+                      icon: const Icon(
+                        Icons.add_a_photo_rounded,
                       ),
                       label:
                           const Text(
@@ -1233,8 +1040,7 @@ class _HazardReportPageState
             else
               ClipRRect(
                 borderRadius:
-                    BorderRadius
-                        .circular(
+                    BorderRadius.circular(
                   16,
                 ),
                 child: Stack(
@@ -1246,8 +1052,7 @@ class _HazardReportPageState
                       width:
                           double.infinity,
                       height: 230,
-                      fit:
-                          BoxFit.cover,
+                      fit: BoxFit.cover,
                     ),
 
                     Positioned(
@@ -1257,12 +1062,10 @@ class _HazardReportPageState
                         color:
                             Colors.black54,
                         borderRadius:
-                            BorderRadius
-                                .circular(
+                            BorderRadius.circular(
                           30,
                         ),
-                        child:
-                            IconButton(
+                        child: IconButton(
                           onPressed:
                               _submitting
                                   ? null
@@ -1271,8 +1074,7 @@ class _HazardReportPageState
                               Colors.white,
                           icon:
                               const Icon(
-                            Icons
-                                .delete_outline,
+                            Icons.delete_outline,
                           ),
                         ),
                       ),
@@ -1306,16 +1108,13 @@ class _HazardReportPageState
 
   Widget _buildSubmitButton() {
     return SizedBox(
-      width:
-          double.infinity,
+      width: double.infinity,
       height: 54,
-      child:
-          FilledButton.icon(
+      child: FilledButton.icon(
         onPressed:
             _submitting
                 ? null
                 : _submitHazardReport,
-
         icon: _submitting
             ? const SizedBox(
                 width: 20,
@@ -1323,21 +1122,17 @@ class _HazardReportPageState
                 child:
                     CircularProgressIndicator(
                   strokeWidth: 2,
-                  color:
-                      Colors.white,
+                  color: Colors.white,
                 ),
               )
             : const Icon(
-                Icons
-                    .send_rounded,
+                Icons.send_rounded,
               ),
-
         label: Text(
           _submitting
               ? 'Saving...'
               : 'Submit Hazard Report',
-          style:
-              const TextStyle(
+          style: const TextStyle(
             fontWeight:
                 FontWeight.w700,
           ),
