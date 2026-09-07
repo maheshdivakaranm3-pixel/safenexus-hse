@@ -28,19 +28,21 @@ class GuidelineDetailPage extends StatelessWidget {
   // ============================================================
 
   IconData _categoryIcon() {
-    switch (topic.category.trim().toLowerCase()) {
-      case 'abu dhabi':
-        return Icons.location_city;
+    switch (topic.guidelineCategory) {
+      case GuidelineCategory.all:
+        return Icons.apps_outlined;
 
-      case 'dubai':
-        return Icons.apartment;
-
-      case 'uae':
-      case 'uae general':
+      case GuidelineCategory.uaeGeneral:
         return Icons.flag_outlined;
 
-      default:
-        return Icons.security_outlined;
+      case GuidelineCategory.abuDhabi:
+        return Icons.location_city_outlined;
+
+      case GuidelineCategory.dubai:
+        return Icons.apartment_outlined;
+
+      case GuidelineCategory.hseReference:
+        return Icons.menu_book_outlined;
     }
   }
 
@@ -61,6 +63,9 @@ class GuidelineDetailPage extends StatelessWidget {
 
       case GuidelineCategory.dubai:
         return 'Dubai';
+
+      case GuidelineCategory.hseReference:
+        return 'HSE Safety Reference';
     }
   }
 
@@ -87,7 +92,7 @@ class GuidelineDetailPage extends StatelessWidget {
       backgroundColor: pageBackground,
 
       // ========================================================
-      // COMPACT APP BAR
+      // APP BAR
       // ========================================================
 
       appBar: AppBar(
@@ -596,7 +601,7 @@ class GuidelineDetailPage extends StatelessWidget {
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.link_rounded,
                         size: 20,
                         color: primaryGreen,
@@ -702,7 +707,7 @@ class GuidelineDetailPage extends StatelessWidget {
           crossAxisAlignment:
               CrossAxisAlignment.start,
           children: [
-            Icon(
+            const Icon(
               Icons.verified_outlined,
               color: primaryGreen,
               size: 25,
