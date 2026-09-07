@@ -80,6 +80,15 @@ class GuidelineDetailPage extends StatelessWidget {
   }
 
   // ============================================================
+  // PROFESSIONAL HSE REFERENCE CHECK
+  // ============================================================
+
+  bool _isProfessionalHseReference() {
+    return topic.title.trim().toLowerCase() ==
+        'professional hse reference';
+  }
+
+  // ============================================================
   // BUILD
   // ============================================================
 
@@ -172,6 +181,9 @@ class GuidelineDetailPage extends StatelessWidget {
   // ============================================================
 
   Widget _buildTitleCard() {
+    final isProfessionalReference =
+        _isProfessionalHseReference();
+
     return Card(
       elevation: 1.5,
       color: Colors.white,
@@ -183,95 +195,193 @@ class GuidelineDetailPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment:
-              CrossAxisAlignment.start,
+              isProfessionalReference
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 58,
-                  height: 58,
-                  decoration: BoxDecoration(
-                    color: primaryGreen.withValues(
-                      alpha: 0.10,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(16),
+            // ==================================================
+            // TOP TITLE AREA
+            // ==================================================
+
+            if (isProfessionalReference) ...[
+              // Center the icon
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(
+                    alpha: 0.10,
                   ),
-                  child: Icon(
-                    _categoryIcon(),
-                    color: primaryGreen,
-                    size: 30,
+                  borderRadius:
+                      BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  _categoryIcon(),
+                  color: primaryGreen,
+                  size: 30,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              // Exact centered title
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  topic.title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 21,
+                    height: 1.25,
+                    fontWeight: FontWeight.w800,
+                    color: darkGreen,
                   ),
                 ),
+              ),
 
-                const SizedBox(width: 14),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        topic.title,
-                        style: const TextStyle(
-                          fontSize: 21,
-                          height: 1.25,
-                          fontWeight:
-                              FontWeight.w800,
-                          color: darkGreen,
-                        ),
-                      ),
-
-                      if (topic.shortTitle
-                          .trim()
-                          .isNotEmpty) ...[
-                        const SizedBox(height: 6),
-                        Text(
-                          topic.shortTitle,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color:
-                                Colors.grey.shade700,
-                            fontWeight:
-                                FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ],
+              if (topic.shortTitle
+                  .trim()
+                  .isNotEmpty) ...[
+                const SizedBox(height: 6),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    topic.shortTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
-            ),
+            ] else ...[
+              // =================================================
+              // NORMAL TOPIC LAYOUT
+              // =================================================
+
+              Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      color: primaryGreen.withValues(
+                        alpha: 0.10,
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(16),
+                    ),
+                    child: Icon(
+                      _categoryIcon(),
+                      color: primaryGreen,
+                      size: 30,
+                    ),
+                  ),
+
+                  const SizedBox(width: 14),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          topic.title,
+                          style: const TextStyle(
+                            fontSize: 21,
+                            height: 1.25,
+                            fontWeight:
+                                FontWeight.w800,
+                            color: darkGreen,
+                          ),
+                        ),
+
+                        if (topic.shortTitle
+                            .trim()
+                            .isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            topic.shortTitle,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color:
+                                  Colors.grey.shade700,
+                              fontWeight:
+                                  FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
+            // ==================================================
+            // DESCRIPTION
+            // ==================================================
 
             const SizedBox(height: 16),
 
-            Text(
-              topic.description,
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.55,
-                color: Colors.grey.shade800,
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                topic.description,
+                textAlign: isProfessionalReference
+                    ? TextAlign.center
+                    : TextAlign.start,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1.55,
+                  color: Colors.grey.shade800,
+                ),
               ),
             ),
 
             const SizedBox(height: 16),
 
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _buildTag(
-                  _categoryLabel(),
-                  primaryGreen,
+            // ==================================================
+            // TAGS
+            // ==================================================
+
+            if (isProfessionalReference)
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    _buildTag(
+                      _categoryLabel(),
+                      primaryGreen,
+                    ),
+                    _buildTag(
+                      topic.jurisdiction,
+                      Colors.blueGrey,
+                    ),
+                  ],
                 ),
-                _buildTag(
-                  topic.jurisdiction,
-                  Colors.blueGrey,
-                ),
-              ],
-            ),
+              )
+            else
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildTag(
+                    _categoryLabel(),
+                    primaryGreen,
+                  ),
+                  _buildTag(
+                    topic.jurisdiction,
+                    Colors.blueGrey,
+                  ),
+                ],
+              ),
           ],
         ),
       ),
