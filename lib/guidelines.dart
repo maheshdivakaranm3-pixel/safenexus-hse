@@ -164,6 +164,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       // ========================================================
 
       appBar: AppBar(
+        toolbarHeight: 48,
         elevation: 0,
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
@@ -171,6 +172,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           'UAE HSE Guidelines',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
@@ -182,17 +184,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: Column(
         children: [
           // ======================================================
-          // GREEN HEADER
+          // COMPACT GREEN HEADER
           // ======================================================
 
           Container(
             width: double.infinity,
-            padding:
-                const EdgeInsets.fromLTRB(
+            padding: const EdgeInsets.fromLTRB(
               16,
-              18,
+              10,
               16,
-              22,
+              14,
             ),
             decoration:
                 const BoxDecoration(
@@ -200,9 +201,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               borderRadius:
                   BorderRadius.only(
                 bottomLeft:
-                    Radius.circular(26),
+                    Radius.circular(22),
                 bottomRight:
-                    Radius.circular(26),
+                    Radius.circular(22),
               ),
             ),
             child: Column(
@@ -217,13 +218,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   'Professional HSE Reference',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 20,
                     fontWeight:
                         FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
 
                 // =================================================
                 // SUBTITLE
@@ -233,12 +234,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 14,
-                    height: 1.4,
+                    fontSize: 13,
+                    height: 1.3,
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // =================================================
                 // SEARCH
@@ -266,7 +267,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     prefixIcon:
                         const Icon(
                       Icons.search,
-                      size: 28,
+                      size: 26,
                     ),
                     suffixIcon:
                         _searchQuery.isNotEmpty
@@ -294,15 +295,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     contentPadding:
                         const EdgeInsets
                             .symmetric(
-                      vertical: 16,
-                      horizontal: 16,
+                      vertical: 12,
+                      horizontal: 14,
                     ),
                     border:
                         OutlineInputBorder(
                       borderRadius:
                           BorderRadius
                               .circular(
-                        16,
+                        14,
                       ),
                       borderSide:
                           BorderSide.none,
@@ -313,7 +314,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
           // ======================================================
           // LIST HEADER
@@ -493,10 +494,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       height: 10,
                     ),
 
-                    // ==========================================
-                    // TAGS
-                    // ==========================================
-
                     Wrap(
                       spacing: 7,
                       runSpacing: 5,
@@ -517,18 +514,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const SizedBox(width: 6),
 
-              // ==================================================
-              // ARROW
-              // ==================================================
-
               const Padding(
                 padding:
                     EdgeInsets.only(
                   top: 2,
                 ),
                 child: Icon(
-                  Icons
-                      .arrow_forward_ios,
+                  Icons.arrow_forward_ios,
                   size: 16,
                   color: Colors.grey,
                 ),
