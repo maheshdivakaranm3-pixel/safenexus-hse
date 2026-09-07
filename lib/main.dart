@@ -32,7 +32,6 @@ class SafeNexusApp extends StatelessWidget {
   });
 
   static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +44,7 @@ class SafeNexusApp extends StatelessWidget {
           seedColor: primaryGreen,
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor:
-            const Color(0xFFF6F8F7),
+        scaffoldBackgroundColor: const Color(0xFFF6F8F7),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -57,8 +55,7 @@ class SafeNexusApp extends StatelessWidget {
           elevation: 0,
           margin: EdgeInsets.zero,
         ),
-        inputDecorationTheme:
-            const InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
         ),
       ),
@@ -83,6 +80,10 @@ class SafeNexusHomePage extends StatefulWidget {
 
 class _SafeNexusHomePageState
     extends State<SafeNexusHomePage> {
+  // ==========================================================
+  // CONSTANTS
+  // ==========================================================
+
   static const String _storageKey =
       'safenexus_observations';
 
@@ -91,6 +92,10 @@ class _SafeNexusHomePageState
 
   static const Color darkGreen =
       Color(0xFF0B5D4B);
+
+  // ==========================================================
+  // DASHBOARD STATE
+  // ==========================================================
 
   int _currentIndex = 0;
 
@@ -108,11 +113,15 @@ class _SafeNexusHomePageState
   @override
   void initState() {
     super.initState();
+
     _loadDashboardStats();
   }
 
   // ==========================================================
   // REFERENCE COUNTS
+  //
+  // These are read directly from the existing data lists.
+  // Nothing is hard-coded or deleted.
   // ==========================================================
 
   int get _uaeGeneralCount =>
@@ -186,11 +195,14 @@ class _SafeNexusHomePageState
             open++;
           }
         } catch (_) {
+          // Ignore corrupted records.
           continue;
         }
       }
 
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       setState(() {
         _totalReports = total;
@@ -200,7 +212,9 @@ class _SafeNexusHomePageState
         _loadingStats = false;
       });
     } catch (_) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       setState(() {
         _totalReports = 0;
@@ -225,15 +239,11 @@ class _SafeNexusHomePageState
   }
 
   // ==========================================================
-  // REFRESH
+  // REFRESH DASHBOARD
   // ==========================================================
 
   Future<void> _refreshDashboard() async {
     await _loadDashboardStats();
-
-    if (!mounted) return;
-
-    setState(() {});
   }
 
   // ==========================================================
@@ -267,7 +277,9 @@ class _SafeNexusHomePageState
       ),
     );
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {});
   }
@@ -384,7 +396,7 @@ class _SafeNexusHomePageState
             const SizedBox(height: 22),
 
             // ==================================================
-            // DIRECT HSE REFERENCE TABS
+            // DIRECT HSE REFERENCE CATEGORIES
             // ==================================================
 
             _buildReferenceSection(),
@@ -552,6 +564,10 @@ class _SafeNexusHomePageState
     );
   }
 
+  // ==========================================================
+  // STAT CARD
+  // ==========================================================
+
   Widget _buildStatCard({
     required String title,
     required int value,
@@ -687,6 +703,10 @@ class _SafeNexusHomePageState
     );
   }
 
+  // ==========================================================
+  // ACTION CARD
+  // ==========================================================
+
   Widget _buildActionCard({
     required String title,
     required String subtitle,
@@ -746,8 +766,7 @@ class _SafeNexusHomePageState
                     subtitle,
                     style: const TextStyle(
                       fontSize: 11,
-                      color:
-                          Color(0xFF607D8B),
+                      color: Color(0xFF607D8B),
                     ),
                   ),
                 ],
@@ -789,42 +808,68 @@ class _SafeNexusHomePageState
 
         const SizedBox(height: 12),
 
+        // ------------------------------------------------------
+        // UAE GENERAL
+        // ------------------------------------------------------
+
         _buildReferenceTile(
           title: 'UAE General',
           count: _uaeGeneralCount,
           subtitle: 'UAE-wide HSE guidance',
           icon: Icons.flag_outlined,
-          category: GuidelineCategory.uaeGeneral,
+          category:
+              GuidelineCategory.uaeGeneral,
         ),
 
         const SizedBox(height: 10),
+
+        // ------------------------------------------------------
+        // ABU DHABI
+        // ------------------------------------------------------
 
         _buildReferenceTile(
           title: 'Abu Dhabi',
           count: _abuDhabiCount,
-          subtitle: 'Abu Dhabi HSE requirements',
-          icon: Icons.location_city_outlined,
-          category: GuidelineCategory.abuDhabi,
+          subtitle:
+              'Abu Dhabi HSE requirements',
+          icon:
+              Icons.location_city_outlined,
+          category:
+              GuidelineCategory.abuDhabi,
         ),
 
         const SizedBox(height: 10),
+
+        // ------------------------------------------------------
+        // DUBAI
+        // ------------------------------------------------------
 
         _buildReferenceTile(
           title: 'Dubai',
           count: _dubaiCount,
-          subtitle: 'Dubai HSE requirements',
-          icon: Icons.apartment_outlined,
-          category: GuidelineCategory.dubai,
+          subtitle:
+              'Dubai HSE requirements',
+          icon:
+              Icons.apartment_outlined,
+          category:
+              GuidelineCategory.dubai,
         ),
 
         const SizedBox(height: 10),
 
+        // ------------------------------------------------------
+        // HSE REFERENCE
+        // ------------------------------------------------------
+
         _buildReferenceTile(
           title: 'HSE Reference',
           count: _hseReferenceCount,
-          subtitle: 'Professional HSE reference topics',
-          icon: Icons.menu_book_outlined,
-          category: GuidelineCategory.hseReference,
+          subtitle:
+              'Professional HSE reference topics',
+          icon:
+              Icons.menu_book_outlined,
+          category:
+              GuidelineCategory.hseReference,
         ),
       ],
     );
@@ -845,7 +890,9 @@ class _SafeNexusHomePageState
       borderRadius:
           BorderRadius.circular(18),
       onTap: () {
-        _openGuidelineCategory(category);
+        _openGuidelineCategory(
+          category,
+        );
       },
       child: Container(
         width: double.infinity,
@@ -869,6 +916,10 @@ class _SafeNexusHomePageState
         ),
         child: Row(
           children: [
+            // --------------------------------------------------
+            // ICON
+            // --------------------------------------------------
+
             Container(
               width: 48,
               height: 48,
@@ -887,6 +938,10 @@ class _SafeNexusHomePageState
             ),
 
             const SizedBox(width: 13),
+
+            // --------------------------------------------------
+            // TEXT + COUNT
+            // --------------------------------------------------
 
             Expanded(
               child: Column(
@@ -955,6 +1010,10 @@ class _SafeNexusHomePageState
 
             const SizedBox(width: 7),
 
+            // --------------------------------------------------
+            // ARROW
+            // --------------------------------------------------
+
             const Icon(
               Icons.chevron_right_rounded,
               color: primaryGreen,
@@ -967,101 +1026,7 @@ class _SafeNexusHomePageState
   }
 
   // ==========================================================
-  // OLD SAFETY REFERENCE CARD
-  //
-  // Kept intentionally so nothing existing is deleted.
-  // ==========================================================
-
-  Widget _buildSafetyReferenceCard() {
-    return InkWell(
-      borderRadius:
-          BorderRadius.circular(20),
-      onTap: () {
-        _openPage(
-          const GuidelinesPage(),
-        );
-      },
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(20),
-          border: Border.all(
-            color: const Color(0xFFDDE8E3),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(
-                alpha: 0.04,
-              ),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: primaryGreen.withValues(
-                  alpha: 0.10,
-                ),
-                borderRadius:
-                    BorderRadius.circular(15),
-              ),
-              child: const Icon(
-                Icons.menu_book_rounded,
-                color: primaryGreen,
-                size: 28,
-              ),
-            ),
-
-            const SizedBox(width: 14),
-
-            const Expanded(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'HSE Safety Reference',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight:
-                          FontWeight.bold,
-                      color: darkGreen,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'UAE General • Abu Dhabi • Dubai',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color:
-                          Color(0xFF607D8B),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Icon(
-              Icons.chevron_right_rounded,
-              color: primaryGreen,
-              size: 28,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // UAE IDENTITY
+  // UAE IDENTITY CARD
   // ==========================================================
 
   Widget _buildUaeIdentityCard() {
