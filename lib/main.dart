@@ -40,11 +40,15 @@ class SafeNexusApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: const Color(0xFFF6F8F7),
+
+        // Compact AppBar
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          toolbarHeight: 48,
         ),
+
         cardTheme: const CardThemeData(
           elevation: 0,
           margin: EdgeInsets.zero,
@@ -74,7 +78,8 @@ class SafeNexusHomePage extends StatefulWidget {
 
 class _SafeNexusHomePageState
     extends State<SafeNexusHomePage> {
-  static const String _storageKey = 'safenexus_observations';
+  static const String _storageKey =
+      'safenexus_observations';
 
   int _currentIndex = 0;
 
@@ -312,14 +317,14 @@ class _SafeNexusHomePageState
               const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(
             16,
-            12,
+            8,
             16,
             32,
           ),
           children: [
             _buildDashboardHeader(),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 12),
 
             _buildWelcomeCard(),
 
@@ -345,30 +350,30 @@ class _SafeNexusHomePageState
   }
 
   // ==========================================================
-  // HEADER
+  // COMPACT HEADER
   // ==========================================================
 
   Widget _buildDashboardHeader() {
     return Row(
       children: [
         Container(
-          width: 48,
-          height: 48,
+          width: 42,
+          height: 42,
           decoration: BoxDecoration(
             color:
                 const Color(0xFF159447)
                     .withValues(alpha: 0.10),
             borderRadius:
-                BorderRadius.circular(15),
+                BorderRadius.circular(12),
           ),
           child: const Icon(
             Icons.health_and_safety_rounded,
             color: Color(0xFF159447),
-            size: 28,
+            size: 24,
           ),
         ),
 
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
 
         const Expanded(
           child: Column(
@@ -378,16 +383,16 @@ class _SafeNexusHomePageState
               Text(
                 'SafeNexus HSE',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF0B5D4B),
                 ),
               ),
-              SizedBox(height: 2),
+              SizedBox(height: 1),
               Text(
                 'UAE HSE Safety Platform',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   color: Color(0xFF607D8B),
                 ),
               ),
@@ -397,9 +402,17 @@ class _SafeNexusHomePageState
 
         IconButton(
           tooltip: 'Refresh',
+          visualDensity:
+              VisualDensity.compact,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(
+            minWidth: 36,
+            minHeight: 36,
+          ),
           onPressed: _loadDashboardStats,
           icon: const Icon(
             Icons.refresh_rounded,
+            size: 22,
           ),
         ),
       ],
