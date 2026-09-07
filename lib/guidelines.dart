@@ -17,8 +17,7 @@ class GuidelinesPage extends StatefulWidget {
   });
 
   @override
-  State<GuidelinesPage> createState() =>
-      _GuidelinesPageState();
+  State<GuidelinesPage> createState() => _GuidelinesPageState();
 }
 
 class _GuidelinesPageState extends State<GuidelinesPage> {
@@ -41,14 +40,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   // COLORS
   // ============================================================
 
-  static const Color primaryGreen =
-      Color(0xFF159447);
+  static const Color primaryGreen = Color(0xFF159447);
 
-  static const Color darkGreen =
-      Color(0xFF0B5D4B);
+  static const Color darkGreen = Color(0xFF0B5D4B);
 
-  static const Color pageBackground =
-      Color(0xFFF6F8F7);
+  static const Color pageBackground = Color(0xFFF6F8F7);
 
   // ============================================================
   // INIT
@@ -58,14 +54,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   void initState() {
     super.initState();
 
-    _selectedCategory =
-        widget.initialCategory;
+    _selectedCategory = widget.initialCategory;
   }
 
   // ============================================================
   // ALL HSE TOPICS
-  //
-  // NOTHING IS DELETED.
   //
   // UAE General + Abu Dhabi + Dubai +
   // HSE Safety Reference
@@ -144,8 +137,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     return _topics
         .where(
           (topic) =>
-              topic.guidelineCategory ==
-              category,
+              topic.guidelineCategory == category,
         )
         .length;
   }
@@ -177,22 +169,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   // ============================================================
 
   List<ReferenceTopic> get _filteredTopics {
-    final query =
-        _searchQuery.trim().toLowerCase();
+    final query = _searchQuery.trim().toLowerCase();
 
-    Iterable<ReferenceTopic> result =
-        _topics;
+    Iterable<ReferenceTopic> result = _topics;
 
     // ----------------------------------------------------------
     // CATEGORY
     // ----------------------------------------------------------
 
-    if (_selectedCategory !=
-        GuidelineCategory.all) {
+    if (_selectedCategory != GuidelineCategory.all) {
       result = result.where(
         (topic) =>
-            topic.guidelineCategory ==
-            _selectedCategory,
+            topic.guidelineCategory == _selectedCategory,
       );
     }
 
@@ -202,24 +190,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
     if (query.isNotEmpty) {
       result = result.where((topic) {
-        return topic.title
-                .toLowerCase()
-                .contains(query) ||
-            topic.shortTitle
-                .toLowerCase()
-                .contains(query) ||
-            topic.description
-                .toLowerCase()
-                .contains(query) ||
-            topic.category
-                .toLowerCase()
-                .contains(query) ||
-            topic.authority
-                .toLowerCase()
-                .contains(query) ||
-            topic.jurisdiction
-                .toLowerCase()
-                .contains(query);
+        return topic.title.toLowerCase().contains(query) ||
+            topic.shortTitle.toLowerCase().contains(query) ||
+            topic.description.toLowerCase().contains(query) ||
+            topic.category.toLowerCase().contains(query) ||
+            topic.authority.toLowerCase().contains(query) ||
+            topic.jurisdiction.toLowerCase().contains(query);
       });
     }
 
@@ -236,8 +212,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            GuidelineDetailPage(
+        builder: (_) => GuidelineDetailPage(
           topic: topic,
         ),
       ),
@@ -253,31 +228,24 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     final topics = _filteredTopics;
 
     final bottomSafeSpace =
-        MediaQuery.of(context)
-            .viewPadding
-            .bottom;
+        MediaQuery.of(context).viewPadding.bottom;
 
     return Scaffold(
-      backgroundColor:
-          pageBackground,
+      backgroundColor: pageBackground,
 
       // ========================================================
       // APP BAR
       // ========================================================
 
       appBar: AppBar(
-        // Reduced from 48
-        toolbarHeight: 44,
+        toolbarHeight: 40,
         elevation: 0,
-        backgroundColor:
-            primaryGreen,
-        foregroundColor:
-            Colors.white,
+        backgroundColor: primaryGreen,
+        foregroundColor: Colors.white,
         title: const Text(
           'HSE Safety Reference',
           style: TextStyle(
-            fontWeight:
-                FontWeight.bold,
+            fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
@@ -295,31 +263,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
           Container(
             width: double.infinity,
-
-            // Reduced vertical padding
-            padding:
-                const EdgeInsets.fromLTRB(
+            padding: const EdgeInsets.fromLTRB(
               16,
-              6,
+              3,
               16,
-              8,
+              5,
             ),
-
-            decoration:
-                const BoxDecoration(
+            decoration: const BoxDecoration(
               color: primaryGreen,
-              borderRadius:
-                  BorderRadius.only(
-                bottomLeft:
-                    Radius.circular(18),
-                bottomRight:
-                    Radius.circular(18),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
               ),
             ),
-
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ------------------------------------------------
                 // MAIN HEADER TITLE
@@ -329,14 +287,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   'Professional HSE Reference',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
                 const SizedBox(
-                  height: 2,
+                  height: 1,
                 ),
 
                 // ------------------------------------------------
@@ -347,13 +304,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 13,
-                    height: 1.2,
+                    fontSize: 12,
+                    height: 1.15,
                   ),
                 ),
 
                 const SizedBox(
-                  height: 7,
+                  height: 5,
                 ),
 
                 // ------------------------------------------------
@@ -361,78 +318,50 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 // ------------------------------------------------
 
                 TextField(
-                  controller:
-                      _searchController,
+                  controller: _searchController,
                   onChanged: (value) {
                     setState(() {
-                      _searchQuery =
-                          value;
+                      _searchQuery = value;
                     });
                   },
-                  textInputAction:
-                      TextInputAction.search,
-                  decoration:
-                      InputDecoration(
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
                     hintText:
                         'Search HSE guidelines...',
-                    hintStyle:
-                        TextStyle(
-                      color:
-                          Colors.grey.shade600,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
                     ),
-
-                    prefixIcon:
-                        const Icon(
+                    prefixIcon: const Icon(
                       Icons.search,
                       size: 25,
                     ),
-
                     suffixIcon:
-                        _searchQuery
-                                .isNotEmpty
+                        _searchQuery.isNotEmpty
                             ? IconButton(
-                                tooltip:
-                                    'Clear search',
-                                icon:
-                                    const Icon(
+                                tooltip: 'Clear search',
+                                icon: const Icon(
                                   Icons.clear,
                                 ),
-                                onPressed:
-                                    () {
-                                  _searchController
-                                      .clear();
+                                onPressed: () {
+                                  _searchController.clear();
 
                                   setState(() {
-                                    _searchQuery =
-                                        '';
+                                    _searchQuery = '';
                                   });
                                 },
                               )
                             : null,
-
                     filled: true,
-
-                    fillColor:
-                        Colors.white,
-
-                    // Reduced search box
-                    // vertical padding
+                    fillColor: Colors.white,
                     contentPadding:
-                        const EdgeInsets
-                            .symmetric(
-                      vertical: 9,
-                      horizontal: 14,
+                        const EdgeInsets.symmetric(
+                      vertical: 7,
+                      horizontal: 12,
                     ),
-
-                    border:
-                        OutlineInputBorder(
+                    border: OutlineInputBorder(
                       borderRadius:
-                          BorderRadius
-                              .circular(
-                        12,
-                      ),
-                      borderSide:
-                          BorderSide.none,
+                          BorderRadius.circular(11),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
@@ -440,9 +369,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          // Reduced gap below header
+          // ======================================================
+          // SMALL GAP BELOW HEADER
+          // ======================================================
+
           const SizedBox(
-            height: 8,
+            height: 5,
           ),
 
           // ======================================================
@@ -452,26 +384,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           SizedBox(
             height: 50,
             child: ListView(
-              scrollDirection:
-                  Axis.horizontal,
+              scrollDirection: Axis.horizontal,
               padding:
-                  const EdgeInsets
-                      .symmetric(
+                  const EdgeInsets.symmetric(
                 horizontal: 16,
               ),
               children: [
                 _buildCategoryChip(
                   GuidelineCategory.uaeGeneral,
                 ),
-
                 _buildCategoryChip(
                   GuidelineCategory.abuDhabi,
                 ),
-
                 _buildCategoryChip(
                   GuidelineCategory.dubai,
                 ),
-
                 _buildCategoryChip(
                   GuidelineCategory.hseReference,
                 ),
@@ -489,8 +416,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
           Padding(
             padding:
-                const EdgeInsets
-                    .symmetric(
+                const EdgeInsets.symmetric(
               horizontal: 16,
             ),
             child: Row(
@@ -498,25 +424,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 Container(
                   width: 38,
                   height: 38,
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        primaryGreen
-                            .withValues(
+                  decoration: BoxDecoration(
+                    color: primaryGreen.withValues(
                       alpha: 0.10,
                     ),
                     borderRadius:
-                        BorderRadius
-                            .circular(
-                      11,
-                    ),
+                        BorderRadius.circular(11),
                   ),
                   child: Icon(
                     _categoryIcon(
                       _selectedCategory,
                     ),
-                    color:
-                        primaryGreen,
+                    color: primaryGreen,
                     size: 21,
                   ),
                 ),
@@ -530,11 +449,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     _categoryLabel(
                       _selectedCategory,
                     ),
-                    style:
-                        const TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
-                      fontWeight:
-                          FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                       color: darkGreen,
                     ),
                   ),
@@ -543,10 +460,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 Text(
                   '${topics.length} topics',
                   style: TextStyle(
-                    color:
-                        Colors.grey.shade700,
-                    fontWeight:
-                        FontWeight.w600,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -573,11 +488,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       16,
                       4,
                       16,
-                      bottomSafeSpace +
-                          40,
+                      bottomSafeSpace + 40,
                     ),
-                    itemCount:
-                        topics.length,
+                    itemCount: topics.length,
                     itemBuilder:
                         (context, index) {
                       return _buildTopicCard(
@@ -599,8 +512,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     GuidelineCategory category,
   ) {
     final isSelected =
-        _selectedCategory ==
-            category;
+        _selectedCategory == category;
 
     final count =
         _categoryCount(category);
@@ -611,17 +523,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         right: 8,
       ),
       child: ChoiceChip(
-        selected:
-            isSelected,
+        selected: isSelected,
         onSelected: (_) {
-          _selectCategory(
-            category,
-          );
+          _selectCategory(category);
         },
         avatar: Icon(
-          _categoryIcon(
-            category,
-          ),
+          _categoryIcon(category),
           size: 18,
           color: isSelected
               ? Colors.white
@@ -630,38 +537,30 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         label: Text(
           '${_categoryLabel(category)} ($count)',
         ),
-        labelStyle:
-            TextStyle(
+        labelStyle: TextStyle(
           color: isSelected
               ? Colors.white
               : darkGreen,
           fontSize: 12,
-          fontWeight:
-              FontWeight.w700,
+          fontWeight: FontWeight.w700,
         ),
-        backgroundColor:
-            Colors.white,
-        selectedColor:
-            primaryGreen,
+        backgroundColor: Colors.white,
+        selectedColor: primaryGreen,
         side: BorderSide(
           color: isSelected
               ? primaryGreen
               : Colors.grey.shade300,
         ),
-        shape:
-            RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius:
-              BorderRadius.circular(
-            22,
-          ),
+              BorderRadius.circular(22),
         ),
         padding:
             const EdgeInsets.symmetric(
           horizontal: 7,
           vertical: 4,
         ),
-        showCheckmark:
-            false,
+        showCheckmark: false,
       ),
     );
   }
@@ -680,31 +579,22 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ),
       elevation: 1.5,
       color: Colors.white,
-      shadowColor:
-          Colors.black12,
+      shadowColor: Colors.black12,
       shape:
           RoundedRectangleBorder(
         borderRadius:
-            BorderRadius.circular(
-          18,
-        ),
+            BorderRadius.circular(18),
       ),
       child: InkWell(
         borderRadius:
-            BorderRadius.circular(
-          18,
-        ),
-        onTap: () =>
-            _openTopic(topic),
+            BorderRadius.circular(18),
+        onTap: () => _openTopic(topic),
         child: Padding(
           padding:
-              const EdgeInsets.all(
-            16,
-          ),
+              const EdgeInsets.all(16),
           child: Row(
             crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+                CrossAxisAlignment.start,
             children: [
               // ICON
               Container(
@@ -713,23 +603,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 decoration:
                     BoxDecoration(
                   color:
-                      primaryGreen
-                          .withValues(
+                      primaryGreen.withValues(
                     alpha: 0.10,
                   ),
                   borderRadius:
-                      BorderRadius
-                          .circular(
-                    14,
-                  ),
+                      BorderRadius.circular(14),
                 ),
                 child: Icon(
                   _categoryIcon(
-                    topic
-                        .guidelineCategory,
+                    topic.guidelineCategory,
                   ),
-                  color:
-                      primaryGreen,
+                  color: primaryGreen,
                   size: 27,
                 ),
               ),
@@ -742,24 +626,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               Expanded(
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       topic.title,
                       maxLines: 2,
                       overflow:
-                          TextOverflow
-                              .ellipsis,
+                          TextOverflow.ellipsis,
                       style:
                           const TextStyle(
                         fontSize: 16,
                         height: 1.25,
                         fontWeight:
-                            FontWeight
-                                .bold,
-                        color:
-                            darkGreen,
+                            FontWeight.bold,
+                        color: darkGreen,
                       ),
                     ),
 
@@ -771,14 +651,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       topic.description,
                       maxLines: 3,
                       overflow:
-                          TextOverflow
-                              .ellipsis,
+                          TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
-                        color: Colors
-                            .grey
-                            .shade700,
+                        color:
+                            Colors.grey.shade700,
                       ),
                     ),
 
@@ -810,15 +688,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const Padding(
                 padding:
-                    EdgeInsets.only(
-                  top: 2,
-                ),
+                    EdgeInsets.only(top: 2),
                 child: Icon(
-                  Icons
-                      .arrow_forward_ios,
+                  Icons.arrow_forward_ios,
                   size: 16,
-                  color:
-                      Colors.grey,
+                  color: Colors.grey,
                 ),
               ),
             ],
@@ -836,12 +710,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     String text,
     Color color,
   ) {
-    final cleanText =
-        text.trim();
+    final cleanText = text.trim();
 
     if (cleanText.isEmpty) {
-      return const SizedBox
-          .shrink();
+      return const SizedBox.shrink();
     }
 
     return Container(
@@ -850,21 +722,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         maxWidth: 150,
       ),
       padding:
-          const EdgeInsets
-              .symmetric(
+          const EdgeInsets.symmetric(
         horizontal: 9,
         vertical: 5,
       ),
       decoration:
           BoxDecoration(
-        color:
-            color.withValues(
+        color: color.withValues(
           alpha: 0.09,
         ),
         borderRadius:
-            BorderRadius.circular(
-          20,
-        ),
+            BorderRadius.circular(20),
       ),
       child: Text(
         cleanText,
@@ -874,8 +742,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         style: TextStyle(
           color: color,
           fontSize: 11,
-          fontWeight:
-              FontWeight.w700,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -887,37 +754,26 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   Widget _buildEmptyState() {
     final hasSearch =
-        _searchQuery
-            .trim()
-            .isNotEmpty;
+        _searchQuery.trim().isNotEmpty;
 
     final isHseReference =
         _selectedCategory ==
-            GuidelineCategory
-                .hseReference;
+            GuidelineCategory.hseReference;
 
     return Center(
       child: Padding(
         padding:
-            const EdgeInsets.all(
-          30,
-        ),
+            const EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment:
-              MainAxisAlignment
-                  .center,
+              MainAxisAlignment.center,
           children: [
             Icon(
               hasSearch
                   ? Icons.search_off
-                  : isHseReference
-                      ? Icons
-                          .menu_book_outlined
-                      : Icons
-                          .menu_book_outlined,
+                  : Icons.menu_book_outlined,
               size: 64,
-              color:
-                  Colors.grey.shade400,
+              color: Colors.grey.shade400,
             ),
 
             const SizedBox(
@@ -930,15 +786,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   : isHseReference
                       ? 'No HSE Reference topics yet'
                       : 'No guidelines found',
-              textAlign:
-                  TextAlign.center,
-              style:
-                  const TextStyle(
+              textAlign: TextAlign.center,
+              style: const TextStyle(
                 fontSize: 19,
-                fontWeight:
-                    FontWeight.bold,
-                color:
-                    darkGreen,
+                fontWeight: FontWeight.bold,
+                color: darkGreen,
               ),
             ),
 
@@ -952,11 +804,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   : isHseReference
                       ? 'HSE Reference topics can be added here later without changing the other guideline sections.'
                       : 'No guidelines are available in this category.',
-              textAlign:
-                  TextAlign.center,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                color:
-                    Colors.grey.shade600,
+                color: Colors.grey.shade600,
                 height: 1.4,
               ),
             ),
@@ -965,22 +815,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               const SizedBox(
                 height: 16,
               ),
+
               OutlinedButton.icon(
                 onPressed: () {
-                  _searchController
-                      .clear();
+                  _searchController.clear();
 
                   setState(() {
-                    _searchQuery =
-                        '';
+                    _searchQuery = '';
                   });
                 },
-                icon:
-                    const Icon(
+                icon: const Icon(
                   Icons.clear,
                 ),
-                label:
-                    const Text(
+                label: const Text(
                   'Clear Search',
                 ),
               ),
