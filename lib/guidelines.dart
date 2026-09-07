@@ -6,6 +6,7 @@ import 'guideline_detail_page.dart';
 import 'data/uae_general_guidelines.dart';
 import 'data/abu_dhabi_guidelines.dart';
 import 'data/dubai_guidelines.dart';
+import 'data/hse_safety_reference.dart';
 
 class GuidelinesPage extends StatefulWidget {
   const GuidelinesPage({
@@ -18,25 +19,13 @@ class GuidelinesPage extends StatefulWidget {
 }
 
 class _GuidelinesPageState extends State<GuidelinesPage> {
-  // ============================================================
-  // CONTROLLERS
-  // ============================================================
-
   final TextEditingController _searchController =
       TextEditingController();
-
-  // ============================================================
-  // STATE
-  // ============================================================
 
   String _searchQuery = '';
 
   GuidelineCategory _selectedCategory =
       GuidelineCategory.all;
-
-  // ============================================================
-  // COLORS
-  // ============================================================
 
   static const Color primaryGreen =
       Color(0xFF159447);
@@ -49,10 +38,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   // ============================================================
   // ALL HSE TOPICS
-  //
-  // UAE General + Abu Dhabi + Dubai
-  //
-  // Existing data files are intentionally kept separate.
   // ============================================================
 
   List<ReferenceTopic> get _topics {
@@ -60,6 +45,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ...uaeGeneralGuidelines,
       ...abuDhabiGuidelines,
       ...dubaiGuidelines,
+      ...hseSafetyReference,
     ];
   }
 
@@ -75,13 +61,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         return 'All';
 
       case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
+        return 'UAE Safety Standard';
 
       case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
+        return 'Abu Dhabi Safety Standard';
 
       case GuidelineCategory.dubai:
-        return 'Dubai';
+        return 'Dubai Safety Standard';
+
+      case GuidelineCategory.hseReference:
+        return 'HSE Safety Reference';
     }
   }
 
@@ -104,6 +93,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
       case GuidelineCategory.dubai:
         return Icons.apartment_outlined;
+
+      case GuidelineCategory.hseReference:
+        return Icons.menu_book_outlined;
     }
   }
 
@@ -154,9 +146,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   // ============================================================
   // FILTERED TOPICS
-  //
-  // Category filter + search filter
-  // work together.
   // ============================================================
 
   List<ReferenceTopic> get _filteredTopics {
@@ -164,10 +153,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         _searchQuery.trim().toLowerCase();
 
     Iterable<ReferenceTopic> result = _topics;
-
-    // ----------------------------------------------------------
-    // CATEGORY FILTER
-    // ----------------------------------------------------------
 
     if (_selectedCategory !=
         GuidelineCategory.all) {
@@ -177,10 +162,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             _selectedCategory,
       );
     }
-
-    // ----------------------------------------------------------
-    // SEARCH FILTER
-    // ----------------------------------------------------------
 
     if (query.isNotEmpty) {
       result = result.where((topic) {
@@ -241,10 +222,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     return Scaffold(
       backgroundColor: pageBackground,
 
-      // ========================================================
-      // APP BAR
-      // ========================================================
-
       appBar: AppBar(
         toolbarHeight: 48,
         elevation: 0,
@@ -258,10 +235,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           ),
         ),
       ),
-
-      // ========================================================
-      // BODY
-      // ========================================================
 
       body: Column(
         children: [
@@ -290,10 +263,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               crossAxisAlignment:
                   CrossAxisAlignment.start,
               children: [
-                // ------------------------------------------------
-                // TITLE
-                // ------------------------------------------------
-
                 const Text(
                   'Professional HSE Reference',
                   style: TextStyle(
@@ -306,10 +275,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                 const SizedBox(height: 4),
 
-                // ------------------------------------------------
-                // SUBTITLE
-                // ------------------------------------------------
-
                 const Text(
                   'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
@@ -321,23 +286,17 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                 const SizedBox(height: 10),
 
-                // ------------------------------------------------
-                // SEARCH
-                // ------------------------------------------------
-
                 TextField(
                   controller:
                       _searchController,
                   onChanged: (value) {
                     setState(() {
-                      _searchQuery =
-                          value;
+                      _searchQuery = value;
                     });
                   },
                   textInputAction:
                       TextInputAction.search,
-                  decoration:
-                      InputDecoration(
+                  decoration: InputDecoration(
                     hintText:
                         'Search HSE guidelines...',
                     hintStyle: TextStyle(
@@ -382,9 +341,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         OutlineInputBorder(
                       borderRadius:
                           BorderRadius
-                              .circular(
-                        14,
-                      ),
+                              .circular(14),
                       borderSide:
                           BorderSide.none,
                     ),
@@ -414,17 +371,25 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   category:
                       GuidelineCategory.all,
                 ),
+
                 _buildCategoryChip(
                   category:
                       GuidelineCategory.uaeGeneral,
                 ),
+
                 _buildCategoryChip(
                   category:
                       GuidelineCategory.abuDhabi,
                 ),
+
                 _buildCategoryChip(
                   category:
                       GuidelineCategory.dubai,
+                ),
+
+                _buildCategoryChip(
+                  category:
+                      GuidelineCategory.hseReference,
                 ),
               ],
             ),
@@ -472,8 +437,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     _categoryLabel(
                       _selectedCategory,
                     ),
-                    style:
-                        const TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight:
                           FontWeight.bold,
@@ -543,325 +507,4 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     final count =
         _categoryCount(category);
 
-    return Padding(
-      padding:
-          const EdgeInsets.only(
-        right: 8,
-      ),
-      child: ChoiceChip(
-        selected: isSelected,
-        onSelected: (_) {
-          _selectCategory(category);
-        },
-        avatar: Icon(
-          _categoryIcon(category),
-          size: 18,
-          color: isSelected
-              ? Colors.white
-              : primaryGreen,
-        ),
-        label: Text(
-          '${_categoryLabel(category)} ($count)',
-        ),
-        labelStyle: TextStyle(
-          color: isSelected
-              ? Colors.white
-              : darkGreen,
-          fontSize: 12,
-          fontWeight:
-              FontWeight.w700,
-        ),
-        backgroundColor:
-            Colors.white,
-        selectedColor:
-            primaryGreen,
-        side: BorderSide(
-          color: isSelected
-              ? primaryGreen
-              : Colors.grey.shade300,
-        ),
-        shape:
-            RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(22),
-        ),
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 7,
-          vertical: 4,
-        ),
-        showCheckmark: false,
-      ),
-    );
-  }
-
-  // ============================================================
-  // TOPIC CARD
-  // ============================================================
-
-  Widget _buildTopicCard(
-    ReferenceTopic topic,
-  ) {
-    return Card(
-      margin:
-          const EdgeInsets.only(
-        bottom: 12,
-      ),
-      elevation: 1.5,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape:
-          RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(18),
-      ),
-      child: InkWell(
-        borderRadius:
-            BorderRadius.circular(18),
-        onTap: () =>
-            _openTopic(topic),
-        child: Padding(
-          padding:
-              const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              // ==================================================
-              // ICON
-              // ==================================================
-
-              Container(
-                width: 52,
-                height: 52,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      primaryGreen.withValues(
-                    alpha: 0.10,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(
-                    14,
-                  ),
-                ),
-                child: Icon(
-                  _categoryIcon(
-                    topic.guidelineCategory,
-                  ),
-                  color: primaryGreen,
-                  size: 27,
-                ),
-              ),
-
-              const SizedBox(width: 14),
-
-              // ==================================================
-              // CONTENT
-              // ==================================================
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
-                  children: [
-                    Text(
-                      topic.title,
-                      maxLines: 2,
-                      overflow:
-                          TextOverflow.ellipsis,
-                      style:
-                          const TextStyle(
-                        fontSize: 16,
-                        height: 1.25,
-                        fontWeight:
-                            FontWeight.bold,
-                        color: darkGreen,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 7,
-                    ),
-
-                    Text(
-                      topic.description,
-                      maxLines: 3,
-                      overflow:
-                          TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: 1.35,
-                        color:
-                            Colors.grey.shade700,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    Wrap(
-                      spacing: 7,
-                      runSpacing: 5,
-                      children: [
-                        _buildTag(
-                          topic.category,
-                          primaryGreen,
-                        ),
-                        _buildTag(
-                          topic.jurisdiction,
-                          Colors.blueGrey,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 6),
-
-              const Padding(
-                padding:
-                    EdgeInsets.only(
-                  top: 2,
-                ),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // TAG
-  // ============================================================
-
-  Widget _buildTag(
-    String text,
-    Color color,
-  ) {
-    final cleanText =
-        text.trim();
-
-    if (cleanText.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      constraints:
-          const BoxConstraints(
-        maxWidth: 150,
-      ),
-      padding:
-          const EdgeInsets.symmetric(
-        horizontal: 9,
-        vertical: 5,
-      ),
-      decoration:
-          BoxDecoration(
-        color:
-            color.withValues(
-          alpha: 0.09,
-        ),
-        borderRadius:
-            BorderRadius.circular(20),
-      ),
-      child: Text(
-        cleanText,
-        maxLines: 1,
-        overflow:
-            TextOverflow.ellipsis,
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight:
-              FontWeight.w700,
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // EMPTY STATE
-  // ============================================================
-
-  Widget _buildEmptyState() {
-    final hasSearch =
-        _searchQuery.trim().isNotEmpty;
-
-    return Center(
-      child: Padding(
-        padding:
-            const EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-          children: [
-            Icon(
-              hasSearch
-                  ? Icons.search_off
-                  : Icons.menu_book_outlined,
-              size: 64,
-              color:
-                  Colors.grey.shade400,
-            ),
-
-            const SizedBox(height: 14),
-
-            const Text(
-              'No guidelines found',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight:
-                    FontWeight.bold,
-                color: darkGreen,
-              ),
-            ),
-
-            const SizedBox(height: 7),
-
-            Text(
-              hasSearch
-                  ? 'Try another search term.'
-                  : 'No guidelines are available in this category.',
-              textAlign:
-                  TextAlign.center,
-              style: TextStyle(
-                color:
-                    Colors.grey.shade600,
-              ),
-            ),
-
-            if (hasSearch) ...[
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: () {
-                  _searchController
-                      .clear();
-
-                  setState(() {
-                    _searchQuery = '';
-                  });
-                },
-                icon: const Icon(
-                  Icons.clear,
-                ),
-                label: const Text(
-                  'Clear Search',
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
+    return
