@@ -9,19 +9,19 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Overview of the current Dubai framework governing safety in construction works, including the Dubai Safety Guide for Construction Works.',
+        'Overview of the Dubai regulatory and guidance framework for safety in construction works. This topic distinguishes legislation from the Safety Guide for Construction Works and related technical guidance.',
     keyRequirements: [
-      'Comply with the applicable Dubai construction safety requirements.',
-      'Apply the approved Safety Guide for Construction Works.',
+      'Comply with applicable Dubai construction safety legislation and requirements.',
+      'Apply the current Safety Guide for Construction Works where applicable.',
       'Identify and control construction-site hazards.',
       'Protect workers, the public, property and equipment.',
-      'Implement suitable safety management arrangements.',
-      'Maintain appropriate safety documentation and records.',
+      'Establish suitable construction safety management arrangements.',
+      'Maintain required safety documentation and records.',
       'Monitor compliance and correct unsafe conditions.',
-      'Review requirements when regulations or project conditions change.',
+      'Review requirements when legislation, guidance or project conditions change.',
     ],
     safetyControls: [
-      'Construction HSE plan',
+      'Construction safety plan',
       'Risk assessment',
       'Safe work procedures',
       'Site inspections',
@@ -31,16 +31,17 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Corrective action',
     ],
     responsibilities: [
-      'Contractors must comply with applicable construction safety requirements.',
-      'Engineering consultants support compliance and supervision within their responsibilities.',
-      'Project management provides resources and leadership.',
+      'Contractors comply with applicable construction safety requirements.',
+      'Engineering consultants support compliance within their responsibilities.',
+      'Project management provides leadership and resources.',
       'Supervisors implement controls at work-front level.',
       'Workers follow approved procedures and report hazards.',
     ],
     references: [
       'Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works',
-      'Dubai Municipality Administrative Resolution No. (112) of 2026',
+      'Dubai Municipality Administrative Resolution No. (112) of 2026 Approving the Safety Guide for Construction Works in the Emirate of Dubai',
       'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Applicable Dubai Municipality Health & Safety Technical Guidelines',
     ],
   ),
 
@@ -52,7 +53,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for establishing and maintaining an effective occupational health, safety and environmental management system for Dubai workplaces and projects.',
+        'General HSE management guidance for establishing responsibilities, risk controls, monitoring and continual improvement. This is a management framework topic rather than a single standalone Dubai CoP.',
     keyRequirements: [
       'Define HSE responsibilities and accountability.',
       'Identify applicable legal and regulatory requirements.',
@@ -62,13 +63,13 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Provide training and competency arrangements.',
       'Monitor HSE performance.',
       'Investigate incidents and implement corrective actions.',
-      'Review the effectiveness of the HSE management system.',
+      'Review the effectiveness of HSE arrangements.',
     ],
     safetyControls: [
       'HSE policy',
       'HSE plan',
       'Risk register',
-      'Procedures',
+      'Safe work procedures',
       'Training matrix',
       'Inspection programme',
       'Audit programme',
@@ -78,11 +79,12 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Management provides leadership and resources.',
       'HSE personnel coordinate and monitor the system.',
       'Supervisors implement requirements in daily operations.',
-      'Workers comply with HSE procedures.',
+      'Workers comply with applicable HSE procedures.',
     ],
     references: [
       'Dubai Municipality Health & Safety requirements',
-      'Dubai construction safety framework',
+      'Dubai Safety Guide for Construction Works',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Applicable project HSE requirements',
     ],
   ),
@@ -92,28 +94,29 @@ const List<ReferenceTopic> dubaiGuidelines = [
     title: 'Health & Safety Risk Assessment',
     shortTitle: 'Risk Assessment',
     category: 'Dubai',
-    authority: 'Dubai Municipality',
+    authority: 'Dubai Municipality Health & Safety Department',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for systematic identification, assessment and control of workplace health and safety risks in Dubai.',
+        'Dedicated Dubai Municipality Health & Safety Technical Guideline for systematic identification, assessment and control of health and safety risks.',
     keyRequirements: [
       'Identify hazards associated with work activities.',
       'Assess the likelihood and consequence of identified risks.',
-      'Determine suitable control measures.',
+      'Determine suitable risk-control measures.',
       'Apply the hierarchy of controls.',
       'Communicate significant risks to affected workers.',
-      'Review assessments when activities or conditions change.',
+      'Review risk assessments when activities or conditions change.',
       'Maintain appropriate risk assessment records.',
-      'Include contractor and simultaneous-operation risks.',
+      'Consider contractor and simultaneous-operation risks where applicable.',
     ],
     safetyControls: [
       'Risk assessment',
-      'JSA',
       'Task risk assessment',
+      'JSA',
       'Hierarchy of controls',
-      'Dynamic risk assessment',
-      'Management of change',
       'Risk communication',
+      'Dynamic review',
+      'Management of change',
+      'Risk register',
     ],
     responsibilities: [
       'Management provides resources for risk control.',
@@ -122,8 +125,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel facilitate and review risk assessments.',
     ],
     references: [
-      'Dubai Municipality Technical Guidelines for Health and Safety Risk Assessment',
-      'Dubai Municipality Health & Safety Department',
+      'Dubai Municipality Technical Guideline No. 137 - Health and Safety Risk Assessment',
+      'Document Ref: DM-HSD-GU137-RA2',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Applicable Dubai construction safety requirements',
     ],
   ),
@@ -136,7 +140,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for preparing a project-specific HSE plan covering construction activities, hazards, controls, responsibilities and emergency arrangements.',
+        'Project-level HSE planning guidance derived from applicable Dubai construction safety legislation, the Safety Guide for Construction Works and project requirements. This is a project management framework rather than a standalone single CoP.',
     keyRequirements: [
       'Define project HSE objectives.',
       'Identify project-specific hazards and risks.',
@@ -165,9 +169,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Workers comply with approved procedures.',
     ],
     references: [
-      'Dubai Municipality construction safety requirements',
-      'Dubai Safety Guide for Construction Works',
-      'Project HSE Plan',
+      'Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality Health & Safety Technical Guidelines',
+      'Project-specific HSE requirements',
     ],
   ),
 
@@ -179,25 +184,25 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for preventing falls of persons and objects during elevated construction, maintenance and other work activities.',
+        'Construction safety guidance for preventing falls of persons and objects during elevated construction, maintenance and related activities.',
     keyRequirements: [
       'Assess work-at-height risks before work starts.',
       'Avoid work at height where reasonably practicable.',
       'Provide safe access and working platforms.',
       'Use suitable collective fall protection.',
       'Use personal fall protection where required.',
-      'Inspect fall protection equipment.',
+      'Inspect fall-protection equipment before use.',
       'Control dropped-object hazards.',
-      'Provide suitable rescue arrangements.',
+      'Provide suitable rescue arrangements where required.',
     ],
     safetyControls: [
       'Guardrails',
       'Scaffolds',
+      'Mobile access towers',
       'MEWPs',
       'Fall restraint',
       'Fall arrest',
       'Lifelines',
-      'Safety nets where appropriate',
       'Exclusion zones',
       'Rescue plan',
     ],
@@ -208,8 +213,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor compliance.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
-      'Dubai Municipality Health & Safety requirements',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality Health & Safety Technical Guidelines',
+      'Technical Guideline No. 74 for Mobile Access Towers',
+      'Technical Guideline No. 73 for Safe Use of Ladders',
       'Project Work at Height Procedure',
     ],
   ),
@@ -222,7 +229,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for safe erection, alteration, inspection and use of scaffolding systems on Dubai construction sites.',
+        'Construction safety guidance for safe erection, alteration, inspection and use of scaffolding systems.',
     keyRequirements: [
       'Use competent personnel for erection and modification.',
       'Provide stable foundations and adequate support.',
@@ -251,8 +258,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor scaffold safety.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Dubai Municipality construction safety requirements',
+      'Applicable Dubai Municipality Health & Safety Technical Guidelines',
       'Project Scaffolding Procedure',
     ],
   ),
@@ -272,7 +280,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Verify equipment suitability and condition.',
       'Verify lifting accessories before use.',
       'Confirm load weight and lifting capacity.',
-      'Establish exclusion zones.',
+      'Establish suitable exclusion zones.',
       'Control suspended loads.',
       'Use effective signalling and communication.',
       'Consider weather and site conditions.',
@@ -296,10 +304,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor lifting controls.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Dubai Municipality construction safety requirements',
+      'Applicable lifting-equipment requirements',
       'Manufacturer instructions',
-      'Applicable lifting requirements',
     ],
   ),
 
@@ -311,7 +319,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling excavation hazards including collapse, underground services, falls, plant interaction and water accumulation.',
+        'Construction safety guidance for controlling excavation hazards including collapse, underground services, falls, plant interaction and water accumulation.',
     keyRequirements: [
       'Obtain required approvals before excavation.',
       'Identify underground services.',
@@ -341,7 +349,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel inspect and monitor excavations.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Dubai Municipality construction requirements',
       'Project Excavation Procedure',
       'Applicable utility authority requirements',
@@ -353,10 +361,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
     title: 'Confined Space Entry',
     shortTitle: 'Confined Space',
     category: 'Dubai',
-    authority: 'Dubai Municipality',
+    authority: 'Dubai Municipality Health & Safety Department',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling atmospheric, physical and operational hazards associated with confined-space entry.',
+        'Dedicated Dubai Municipality technical guidance for controlling atmospheric, physical and operational hazards associated with confined-space entry.',
     keyRequirements: [
       'Identify and assess confined spaces.',
       'Establish an entry procedure.',
@@ -386,7 +394,8 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor compliance.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Dubai Municipality Technical Guideline No. 39 for Confined Spaces Entry',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Project Confined Space Procedure',
       'Permit to Work System',
       'Emergency Rescue Plan',
@@ -401,7 +410,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Applicable Authority',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling electrical shock, arc-flash, fire, defective equipment and electrical isolation hazards.',
+        'Electrical safety topic covering shock, fire, defective equipment, electrical isolation and applicable technical requirements in Dubai.',
     keyRequirements: [
       'Electrical work must be carried out by competent persons.',
       'Isolate electrical energy before work where required.',
@@ -429,8 +438,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor electrical safety.',
     ],
     references: [
+      'Dubai Local Order No. (10) of 2003 concerning technical conditions for electrical equipment',
       'Dubai Municipality construction safety requirements',
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Applicable electrical authority requirements',
       'Company Electrical Safety Procedure',
     ],
@@ -444,7 +454,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Dubai Civil Defence',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for welding, cutting, grinding and other activities that produce flames, heat or sparks.',
+        'General fire and construction safety guidance for welding, cutting, grinding and other activities that produce flames, heat or sparks.',
     keyRequirements: [
       'Conduct a suitable risk assessment.',
       'Use a hot-work permit where required.',
@@ -468,12 +478,13 @@ const List<ReferenceTopic> dubaiGuidelines = [
     responsibilities: [
       'Supervisors verify permit conditions.',
       'Workers follow hot-work controls.',
-      'Fire watch personnel monitor the area.',
+      'Fire-watch personnel monitor the area.',
       'HSE personnel verify compliance.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
-      'Applicable Dubai fire safety requirements',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Applicable Dubai fire-safety requirements',
+      'Dubai Civil Defence requirements where applicable',
       'Company Hot Work Procedure',
       'Permit to Work System',
     ],
@@ -487,7 +498,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / RTA',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for managing vehicle, mobile plant and pedestrian interaction on construction sites in Dubai.',
+        'Guidance for managing vehicle, mobile plant and pedestrian interaction on construction sites, including applicable Dubai Municipality and RTA requirements.',
     keyRequirements: [
       'Develop a suitable traffic management arrangement.',
       'Separate pedestrians and vehicles where practicable.',
@@ -517,8 +528,8 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor traffic controls.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
-      'Dubai Municipality requirements',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality construction requirements',
       'RTA requirements where applicable',
       'Project Traffic Management Plan',
     ],
@@ -532,7 +543,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling structural, falling-object, plant, dust and public-safety risks during demolition activities.',
+        'Construction safety guidance for controlling structural, falling-object, plant, dust and public-safety risks during demolition activities.',
     keyRequirements: [
       'Plan demolition work before commencement.',
       'Assess structural stability.',
@@ -562,7 +573,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor site controls.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Dubai Municipality construction requirements',
       'Project Demolition Plan',
       'Applicable authority requirements',
@@ -577,7 +588,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for managing temporary structures and temporary works that may affect structural stability and worker safety.',
+        'General construction-safety guidance for managing temporary structures and temporary works that may affect structural stability and worker safety.',
     keyRequirements: [
       'Identify temporary works requiring engineering control.',
       'Use competent design and installation personnel.',
@@ -603,9 +614,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor safety controls.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
-      'Dubai Building Code',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Building Code where applicable',
       'Project Temporary Works Procedure',
+      'Applicable engineering and construction requirements',
     ],
   ),
 
@@ -617,12 +629,12 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / MoHRE',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling heat-related occupational health risks for workers exposed to high temperatures and physically demanding work.',
+        'Dedicated Dubai Municipality technical guidance for managing heat-stress risks, supplemented by applicable UAE labour requirements.',
     keyRequirements: [
       'Identify workers exposed to heat stress.',
       'Provide adequate drinking water.',
       'Provide suitable shaded or cooled rest arrangements.',
-      'Provide heat-stress awareness.',
+      'Provide heat-stress awareness and training.',
       'Plan work to reduce heat exposure.',
       'Monitor workers for heat-related symptoms.',
       'Provide appropriate first aid and emergency arrangements.',
@@ -645,8 +657,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor implementation.',
     ],
     references: [
+      'Dubai Municipality Technical Guideline No. 38 for Management of Heat Stress at Work',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Applicable UAE Ministry of Human Resources and Emiratisation requirements',
-      'Dubai Municipality Health & Safety requirements',
       'Company Heat Stress Management Plan',
     ],
   ),
@@ -659,7 +672,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Applicable Health Authority',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for identifying and controlling occupational health hazards including chemical, physical, biological and ergonomic exposures.',
+        'General occupational-health guidance covering chemical, physical, biological and ergonomic exposures and related workplace health controls.',
     keyRequirements: [
       'Identify occupational health hazards.',
       'Assess worker exposure.',
@@ -683,11 +696,12 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Management provides occupational health resources.',
       'Supervisors implement exposure controls.',
       'Workers follow health-protection procedures.',
-      'HSE and occupational health professionals provide specialist support.',
+      'HSE and occupational-health professionals provide specialist support.',
     ],
     references: [
-      'Dubai Municipality Health & Safety requirements',
-      'Applicable Dubai public health requirements',
+      'Dubai Municipality Health & Safety Technical Guidelines',
+      'Applicable Dubai public-health requirements',
+      'Applicable occupational-health requirements',
       'Company Occupational Health Programme',
     ],
   ),
@@ -700,7 +714,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for selecting, providing, using, inspecting and maintaining PPE according to workplace risks.',
+        'General PPE guidance based on workplace risk assessment, supplemented by Dubai Municipality technical guidance for specific PPE categories.',
     keyRequirements: [
       'Select PPE based on risk assessment.',
       'Provide suitable PPE for identified hazards.',
@@ -728,10 +742,11 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor compliance.',
     ],
     references: [
-      'Dubai Municipality Health & Safety requirements',
-      'Dubai Safety Guide for Construction Works',
+      'Dubai Municipality Health & Safety Technical Guidelines',
+      'Technical Guideline No. 98 for Personal Protective Equipment - Hand Protection',
+      'Technical Guideline No. 97 for Personal Protective Equipment - Foot Protection',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Company PPE Procedure',
-      'Applicable PPE standards',
     ],
   ),
 
@@ -743,7 +758,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Dubai Civil Defence',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for identifying foreseeable emergencies and preparing effective response arrangements for workplaces and construction sites.',
+        'General emergency-preparedness guidance for workplaces and construction sites, coordinated with applicable fire and emergency authority requirements.',
     keyRequirements: [
       'Identify credible emergency scenarios.',
       'Prepare an emergency response plan.',
@@ -773,8 +788,8 @@ const List<ReferenceTopic> dubaiGuidelines = [
     ],
     references: [
       'Dubai Municipality Health & Safety requirements',
-      'Dubai Safety Guide for Construction Works',
-      'Dubai Civil Defence requirements',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Applicable Dubai Civil Defence requirements',
       'Project Emergency Response Plan',
     ],
   ),
@@ -787,7 +802,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Applicable Authority',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for reporting, investigating and learning from workplace incidents, injuries, near misses and dangerous occurrences.',
+        'General guidance for reporting, investigating and learning from workplace incidents, injuries, near misses and dangerous occurrences.',
     keyRequirements: [
       'Report incidents through applicable internal and regulatory channels.',
       'Notify responsible management and HSE personnel.',
@@ -815,7 +830,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     ],
     references: [
       'Dubai Municipality Health & Safety requirements',
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Applicable incident reporting requirements',
       'Company Incident Investigation Procedure',
     ],
@@ -829,7 +844,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for managing HSE risks arising from contractors, subcontractors and multiple employers working on the same project.',
+        'General contractor-management framework for controlling HSE risks arising from contractors, subcontractors and multiple employers working on the same project.',
     keyRequirements: [
       'Evaluate contractor HSE capability where required.',
       'Communicate project HSE requirements.',
@@ -857,8 +872,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel verify compliance.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
-      'Dubai Municipality construction requirements',
+      'Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality Health & Safety requirements',
       'Project Contractor HSE Procedure',
     ],
   ),
@@ -868,10 +884,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
     title: 'Environmental & Waste Management',
     shortTitle: 'Environment & Waste',
     category: 'Dubai',
-    authority: 'Dubai Municipality / Dubai Environment & Climate Change Authority',
+    authority: 'Dubai Municipality / Applicable Environmental Authority',
     jurisdiction: 'Dubai',
     description:
-        'General guidance for controlling environmental impacts and managing waste generated by construction and workplace activities in Dubai.',
+        'Environmental and waste-management guidance covering construction impacts, pollution prevention and waste controls. This topic is treated as environmental guidance rather than a construction safety CoP.',
     keyRequirements: [
       'Identify significant environmental aspects.',
       'Control waste generation.',
@@ -902,8 +918,9 @@ const List<ReferenceTopic> dubaiGuidelines = [
     references: [
       'Applicable Dubai environmental legislation',
       'Dubai Municipality environmental requirements',
+      'Applicable Environmental Sustainability Technical Guidelines',
       'Project Environmental Management Plan',
-      'Applicable waste management requirements',
+      'Applicable waste-management requirements',
     ],
   ),
 
@@ -915,14 +932,14 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for monitoring workplace compliance through planned inspections, audits, observations and corrective action management.',
+        'General HSE management guidance for monitoring workplace compliance through planned inspections, audits, observations and corrective-action management.',
     keyRequirements: [
       'Establish an inspection and audit programme.',
       'Conduct inspections according to workplace risk.',
       'Record significant findings.',
       'Assign corrective actions.',
       'Set appropriate completion dates.',
-      'Verify corrective action effectiveness.',
+      'Verify corrective-action effectiveness.',
       'Analyse recurring findings.',
       'Use inspection results for continual improvement.',
     ],
@@ -943,7 +960,8 @@ const List<ReferenceTopic> dubaiGuidelines = [
     ],
     references: [
       'Dubai Municipality Health & Safety requirements',
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Project HSE Inspection Programme',
       'Company Audit Procedure',
     ],
@@ -957,12 +975,12 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for monitoring HSE performance through leading indicators, lagging indicators, inspections, incidents and corrective actions.',
+        'General HSE management guidance for monitoring performance through leading indicators, lagging indicators, inspections, incidents and corrective actions.',
     keyRequirements: [
       'Establish relevant HSE performance indicators.',
       'Monitor incident and injury trends.',
       'Monitor inspection and audit findings.',
-      'Track corrective action closure.',
+      'Track corrective-action closure.',
       'Monitor training and competency performance.',
       'Review HSE performance against objectives.',
       'Use performance data to improve controls.',
@@ -974,7 +992,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Incident statistics',
       'Inspection statistics',
       'Training metrics',
-      'Corrective action tracking',
+      'Corrective-action tracking',
       'Management review',
     ],
     responsibilities: [
@@ -985,7 +1003,8 @@ const List<ReferenceTopic> dubaiGuidelines = [
     ],
     references: [
       'Dubai Municipality Health & Safety requirements',
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
+      'Dubai Municipality Health & Safety Technical Guidelines',
       'Project HSE KPI system',
     ],
   ),
@@ -995,12 +1014,12 @@ const List<ReferenceTopic> dubaiGuidelines = [
     title: 'Dubai Building Code & Safety',
     shortTitle: 'Dubai Building Code',
     category: 'Dubai',
-    authority: 'Dubai Municipality',
+    authority: 'Dubai Municipality Building Regulation and Permit Agency',
     jurisdiction: 'Dubai',
     description:
-        'Overview of the Dubai Building Code as a technical framework addressing minimum requirements for building safety, health, welfare and environmental considerations.',
+        'Building-code guidance covering minimum requirements for health, safety, welfare and environmental considerations in and around buildings. This is a building-code framework, not a construction HSE CoP.',
     keyRequirements: [
-      'Apply the applicable Dubai Building Code requirements.',
+      'Apply applicable Dubai Building Code requirements.',
       'Ensure designs meet minimum safety requirements.',
       'Consider health and safety of building occupants and affected persons.',
       'Apply applicable technical requirements.',
@@ -1016,14 +1035,16 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Construction quality control',
     ],
     responsibilities: [
-      'Design professionals ensure applicable code requirements are addressed.',
+      'Design professionals address applicable code requirements.',
       'Contractors execute approved designs and specifications.',
       'Consultants provide technical supervision within their scope.',
       'Authorities conduct applicable inspections and approvals.',
     ],
     references: [
       'Dubai Building Code',
+      'Dubai Municipality Dubai Building Code official resource',
       'Dubai Municipality Building Permit Procedures',
+      'Law No. (3) of 2026 Concerning Buildings Quality and Safety in the Emirate of Dubai',
       'Applicable Dubai construction legislation',
     ],
   ),
@@ -1036,7 +1057,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     authority: 'Dubai Municipality / Project Authority',
     jurisdiction: 'Dubai',
     description:
-        'Guidance for controlling high-risk work through a formal permit-to-work process where required by the project or activity.',
+        'Project-level control framework for high-risk activities through formal permit-to-work arrangements where required by the project, employer or activity. This is not presented as a standalone Dubai Municipality CoP.',
     keyRequirements: [
       'Identify activities requiring formal permits.',
       'Verify hazards and control measures before authorisation.',
@@ -1051,7 +1072,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'Confined space permit',
       'Electrical isolation',
       'Excavation permit',
-      'Work at height controls',
+      'Work-at-height controls',
       'Gas testing',
       'LOTO',
       'Permit close-out',
@@ -1063,9 +1084,10 @@ const List<ReferenceTopic> dubaiGuidelines = [
       'HSE personnel monitor permit compliance.',
     ],
     references: [
-      'Dubai Safety Guide for Construction Works',
+      'Safety Guide for Construction Works in the Emirate of Dubai',
       'Project Permit to Work Procedure',
-      'Applicable Dubai Municipality requirements',
+      'Dubai Municipality Health & Safety requirements',
+      'Applicable activity-specific technical guidelines',
     ],
   ),
 ];
