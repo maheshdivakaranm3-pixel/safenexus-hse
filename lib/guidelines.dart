@@ -31,9 +31,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   String _searchQuery = '';
 
-  GuidelineCategory _selectedCategory =
-      GuidelineCategory.all;
-
   // ============================================================
   // COLORS
   // ============================================================
@@ -48,7 +45,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       Color(0xFFF6F8F7);
 
   // ============================================================
-  // ALL TOPICS
+  // ALL HSE TOPICS
+  //
+  // UAE General + Abu Dhabi + Dubai data are combined here.
+  //
+  // IMPORTANT:
+  // There are NO Abu Dhabi / Dubai category buttons in the UI.
   // ============================================================
 
   List<ReferenceTopic> get _topics {
@@ -77,35 +79,29 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     final query =
         _searchQuery.trim().toLowerCase();
 
+    if (query.isEmpty) {
+      return _topics;
+    }
+
     return _topics.where((topic) {
-      final matchesCategory =
-          _selectedCategory ==
-                  GuidelineCategory.all ||
-              topic.guidelineCategory ==
-                  _selectedCategory;
-
-      final matchesSearch =
-          query.isEmpty ||
-              topic.title
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.shortTitle
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.description
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.category
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.authority
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.jurisdiction
-                  .toLowerCase()
-                  .contains(query);
-
-      return matchesCategory && matchesSearch;
+      return topic.title
+              .toLowerCase()
+              .contains(query) ||
+          topic.shortTitle
+              .toLowerCase()
+              .contains(query) ||
+          topic.description
+              .toLowerCase()
+              .contains(query) ||
+          topic.category
+              .toLowerCase()
+              .contains(query) ||
+          topic.authority
+              .toLowerCase()
+              .contains(query) ||
+          topic.jurisdiction
+              .toLowerCase()
+              .contains(query);
     }).toList();
   }
 
@@ -119,151 +115,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       MaterialPageRoute(
         builder: (_) => GuidelineDetailPage(
           topic: topic,
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // CATEGORY LABEL
-  // ============================================================
-
-  String _categoryLabel(
-    GuidelineCategory category,
-  ) {
-    switch (category) {
-      case GuidelineCategory.all:
-        return 'All';
-
-      case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
-
-      case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
-
-      case GuidelineCategory.dubai:
-        return 'Dubai';
-    }
-  }
-
-  // ============================================================
-  // CATEGORY SELECTOR
-  // ============================================================
-
-  Widget _buildCategorySelector() {
-    final categories = GuidelineCategory.values;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.06,
-            ),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: SizedBox(
-        height: 50,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          physics:
-              const BouncingScrollPhysics(),
-          itemCount: categories.length,
-          separatorBuilder: (_, __) =>
-              const SizedBox(width: 10),
-          itemBuilder: (context, index) {
-            return _buildCategoryButton(
-              categories[index],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // CATEGORY BUTTON
-  // ============================================================
-
-  Widget _buildCategoryButton(
-    GuidelineCategory category,
-  ) {
-    final selected =
-        _selectedCategory == category;
-
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius:
-            BorderRadius.circular(14),
-        onTap: () {
-          setState(() {
-            _selectedCategory = category;
-          });
-        },
-        child: AnimatedContainer(
-          duration: const Duration(
-            milliseconds: 180,
-          ),
-          height: 46,
-          padding:
-              const EdgeInsets.symmetric(
-            horizontal: 18,
-          ),
-          decoration: BoxDecoration(
-            color: selected
-                ? primaryGreen
-                : Colors.white,
-            borderRadius:
-                BorderRadius.circular(14),
-            border: Border.all(
-              color: selected
-                  ? primaryGreen
-                  : Colors.grey.shade300,
-              width: 1,
-            ),
-          ),
-          child: Center(
-            child: Row(
-              mainAxisSize:
-                  MainAxisSize.min,
-              children: [
-                if (selected) ...[
-                  const Icon(
-                    Icons.check,
-                    size: 18,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 6),
-                ],
-                Text(
-                  _categoryLabel(category),
-                  maxLines: 1,
-                  overflow:
-                      TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: selected
-                        ? Colors.white
-                        : darkGreen,
-                    fontSize: 14,
-                    fontWeight:
-                        FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -331,7 +182,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: Column(
         children: [
           // ======================================================
-          // GREEN HEADER ONLY
+          // GREEN HEADER
           // ======================================================
 
           Container(
@@ -358,6 +209,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               crossAxisAlignment:
                   CrossAxisAlignment.start,
               children: [
+                // =================================================
+                // TITLE
+                // =================================================
+
                 const Text(
                   'Professional HSE Reference',
                   style: TextStyle(
@@ -370,8 +225,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                 const SizedBox(height: 6),
 
+                // =================================================
+                // SUBTITLE
+                // =================================================
+
                 const Text(
-                  'UAE-wide safety guidance and emirate-specific references',
+                  'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
@@ -454,22 +313,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          // ======================================================
-          // CLEAR SEPARATION
-          // ======================================================
-
-          const SizedBox(height: 12),
-
-          // ======================================================
-          // CATEGORY FILTER
-          //
-          // IMPORTANT:
-          // This is completely OUTSIDE the green header.
-          // ======================================================
-
-          _buildCategorySelector(),
-
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
 
           // ======================================================
           // LIST HEADER
@@ -483,7 +327,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             child: Row(
               children: [
                 const Text(
-                  'Guidelines',
+                  'HSE References',
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight:
@@ -773,7 +617,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             const SizedBox(height: 7),
 
             Text(
-              'Try another search term or category.',
+              'Try another search term.',
               textAlign:
                   TextAlign.center,
               style: TextStyle(
