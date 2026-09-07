@@ -147,49 +147,47 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   }
 
   // ============================================================
-  // CATEGORY ICON
-  // ============================================================
-
-  IconData _categoryIcon(String category) {
-    switch (category.trim().toLowerCase()) {
-      case 'abu dhabi':
-        return Icons.location_city;
-
-      case 'dubai':
-        return Icons.apartment;
-
-      case 'uae':
-      case 'uae general':
-        return Icons.flag_outlined;
-
-      default:
-        return Icons.security_outlined;
-    }
-  }
-
-  // ============================================================
   // CATEGORY SELECTOR
   // ============================================================
 
   Widget _buildCategorySelector() {
     final categories = GuidelineCategory.values;
 
-    return SizedBox(
-      height: 50,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: 0.06,
+            ),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: SizedBox(
+        height: 50,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          physics:
+              const BouncingScrollPhysics(),
+          itemCount: categories.length,
+          separatorBuilder: (_, __) =>
+              const SizedBox(width: 10),
+          itemBuilder: (context, index) {
+            return _buildCategoryButton(
+              categories[index],
+            );
+          },
         ),
-        physics: const BouncingScrollPhysics(),
-        itemCount: categories.length,
-        separatorBuilder: (_, __) =>
-            const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          return _buildCategoryButton(
-            categories[index],
-          );
-        },
       ),
     );
   }
@@ -207,7 +205,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(14),
         onTap: () {
           setState(() {
             _selectedCategory = category;
@@ -218,8 +217,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             milliseconds: 180,
           ),
           height: 46,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15,
+          padding:
+              const EdgeInsets.symmetric(
+            horizontal: 18,
           ),
           decoration: BoxDecoration(
             color: selected
@@ -231,11 +231,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               color: selected
                   ? primaryGreen
                   : Colors.grey.shade300,
+              width: 1,
             ),
           ),
           child: Center(
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize:
+                  MainAxisSize.min,
               children: [
                 if (selected) ...[
                   const Icon(
@@ -243,7 +245,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     size: 18,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 6),
                 ],
                 Text(
                   _categoryLabel(category),
@@ -265,6 +267,29 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         ),
       ),
     );
+  }
+
+  // ============================================================
+  // CATEGORY ICON
+  // ============================================================
+
+  IconData _categoryIcon(
+    String category,
+  ) {
+    switch (category.trim().toLowerCase()) {
+      case 'abu dhabi':
+        return Icons.location_city;
+
+      case 'dubai':
+        return Icons.apartment;
+
+      case 'uae':
+      case 'uae general':
+        return Icons.flag_outlined;
+
+      default:
+        return Icons.security_outlined;
+    }
   }
 
   // ============================================================
@@ -306,25 +331,27 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: Column(
         children: [
           // ======================================================
-          // HEADER
+          // GREEN HEADER ONLY
           // ======================================================
 
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(
+            padding:
+                const EdgeInsets.fromLTRB(
               16,
               18,
               16,
-              18,
+              22,
             ),
-            decoration: const BoxDecoration(
+            decoration:
+                const BoxDecoration(
               color: primaryGreen,
               borderRadius:
                   BorderRadius.only(
                 bottomLeft:
-                    Radius.circular(24),
+                    Radius.circular(26),
                 bottomRight:
-                    Radius.circular(24),
+                    Radius.circular(26),
               ),
             ),
             child: Column(
@@ -336,7 +363,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                    fontWeight:
+                        FontWeight.bold,
                   ),
                 ),
 
@@ -362,18 +390,22 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       _searchController,
                   onChanged: (value) {
                     setState(() {
-                      _searchQuery = value;
+                      _searchQuery =
+                          value;
                     });
                   },
                   textInputAction:
                       TextInputAction.search,
-                  decoration: InputDecoration(
+                  decoration:
+                      InputDecoration(
                     hintText:
                         'Search HSE guidelines...',
                     hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
+                      color:
+                          Colors.grey.shade600,
                     ),
-                    prefixIcon: const Icon(
+                    prefixIcon:
+                        const Icon(
                       Icons.search,
                       size: 28,
                     ),
@@ -398,16 +430,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                               )
                             : null,
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor:
+                        Colors.white,
                     contentPadding:
-                        const EdgeInsets.symmetric(
+                        const EdgeInsets
+                            .symmetric(
                       vertical: 16,
                       horizontal: 16,
                     ),
                     border:
                         OutlineInputBorder(
                       borderRadius:
-                          BorderRadius.circular(
+                          BorderRadius
+                              .circular(
                         16,
                       ),
                       borderSide:
@@ -419,15 +454,22 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
-          const SizedBox(height: 14),
+          // ======================================================
+          // CLEAR SEPARATION
+          // ======================================================
+
+          const SizedBox(height: 12),
 
           // ======================================================
           // CATEGORY FILTER
+          //
+          // IMPORTANT:
+          // This is completely OUTSIDE the green header.
           // ======================================================
 
           _buildCategorySelector(),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
 
           // ======================================================
           // LIST HEADER
@@ -485,7 +527,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       16,
                       bottomSafeSpace + 40,
                     ),
-                    itemCount: topics.length,
+                    itemCount:
+                        topics.length,
                     itemBuilder:
                         (context, index) {
                       return _buildTopicCard(
@@ -507,7 +550,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     ReferenceTopic topic,
   ) {
     return Card(
-      margin: const EdgeInsets.only(
+      margin:
+          const EdgeInsets.only(
         bottom: 12,
       ),
       elevation: 1.5,
@@ -521,7 +565,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       child: InkWell(
         borderRadius:
             BorderRadius.circular(18),
-        onTap: () => _openTopic(topic),
+        onTap: () =>
+            _openTopic(topic),
         child: Padding(
           padding:
               const EdgeInsets.all(16),
@@ -565,7 +610,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               Expanded(
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      CrossAxisAlignment
+                          .start,
                   children: [
                     Text(
                       topic.title,
@@ -582,7 +628,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 7),
+                    const SizedBox(
+                      height: 7,
+                    ),
 
                     Text(
                       topic.description,
@@ -597,7 +645,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
                     // ==========================================
                     // TAGS
@@ -629,9 +679,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
               const Padding(
                 padding:
-                    EdgeInsets.only(top: 2),
+                    EdgeInsets.only(
+                  top: 2,
+                ),
                 child: Icon(
-                  Icons.arrow_forward_ios,
+                  Icons
+                      .arrow_forward_ios,
                   size: 16,
                   color: Colors.grey,
                 ),
@@ -663,7 +716,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       ),
       decoration:
           BoxDecoration(
-        color: color.withValues(
+        color:
+            color.withValues(
           alpha: 0.09,
         ),
         borderRadius:
