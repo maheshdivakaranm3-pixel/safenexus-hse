@@ -8,6 +8,12 @@ import 'hazard_report.dart';
 import 'observation_history.dart';
 import 'safety_observation.dart';
 
+import 'models/reference_topic.dart';
+import 'data/uae_general_guidelines.dart';
+import 'data/abu_dhabi_guidelines.dart';
+import 'data/dubai_guidelines.dart';
+import 'data/hse_safety_reference.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -39,21 +45,20 @@ class SafeNexusApp extends StatelessWidget {
           seedColor: primaryGreen,
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: const Color(0xFFF6F8F7),
-
-        // Compact AppBar
+        scaffoldBackgroundColor:
+            const Color(0xFFF6F8F7),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
           toolbarHeight: 48,
         ),
-
         cardTheme: const CardThemeData(
           elevation: 0,
           margin: EdgeInsets.zero,
         ),
-        inputDecorationTheme: const InputDecorationTheme(
+        inputDecorationTheme:
+            const InputDecorationTheme(
           border: OutlineInputBorder(),
         ),
       ),
@@ -81,6 +86,12 @@ class _SafeNexusHomePageState
   static const String _storageKey =
       'safenexus_observations';
 
+  static const Color primaryGreen =
+      Color(0xFF159447);
+
+  static const Color darkGreen =
+      Color(0xFF0B5D4B);
+
   int _currentIndex = 0;
 
   int _totalReports = 0;
@@ -97,9 +108,24 @@ class _SafeNexusHomePageState
   @override
   void initState() {
     super.initState();
-
     _loadDashboardStats();
   }
+
+  // ==========================================================
+  // REFERENCE COUNTS
+  // ==========================================================
+
+  int get _uaeGeneralCount =>
+      uaeGeneralGuidelines.length;
+
+  int get _abuDhabiCount =>
+      abuDhabiGuidelines.length;
+
+  int get _dubaiCount =>
+      dubaiGuidelines.length;
+
+  int get _hseReferenceCount =>
+      hseSafetyReferences.length;
 
   // ==========================================================
   // LOAD DASHBOARD STATS
@@ -130,7 +156,8 @@ class _SafeNexusHomePageState
           final report =
               Map<String, dynamic>.from(decoded);
 
-          final id = _stringValue(report['id']);
+          final id =
+              _stringValue(report['id']);
 
           if (id.isEmpty) {
             continue;
@@ -138,8 +165,7 @@ class _SafeNexusHomePageState
 
           total++;
 
-          final type =
-              _stringValue(
+          final type = _stringValue(
             report['reportType'],
           ).toLowerCase();
 
@@ -149,8 +175,7 @@ class _SafeNexusHomePageState
             observations++;
           }
 
-          final status =
-              _stringValue(
+          final status = _stringValue(
             report['status'],
           ).toLowerCase();
 
@@ -161,7 +186,6 @@ class _SafeNexusHomePageState
             open++;
           }
         } catch (_) {
-          // Ignore corrupted records.
           continue;
         }
       }
@@ -225,6 +249,27 @@ class _SafeNexusHomePageState
     );
 
     await _loadDashboardStats();
+  }
+
+  // ==========================================================
+  // OPEN GUIDELINE CATEGORY
+  // ==========================================================
+
+  Future<void> _openGuidelineCategory(
+    GuidelineCategory category,
+  ) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => GuidelinesPage(
+          initialCategory: category,
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+
+    setState(() {});
   }
 
   // ==========================================================
@@ -338,7 +383,11 @@ class _SafeNexusHomePageState
 
             const SizedBox(height: 22),
 
-            _buildSafetyReferenceCard(),
+            // ==================================================
+            // DIRECT HSE REFERENCE TABS
+            // ==================================================
+
+            _buildReferenceSection(),
 
             const SizedBox(height: 16),
 
@@ -360,15 +409,15 @@ class _SafeNexusHomePageState
           width: 42,
           height: 42,
           decoration: BoxDecoration(
-            color:
-                const Color(0xFF159447)
-                    .withValues(alpha: 0.10),
+            color: primaryGreen.withValues(
+              alpha: 0.10,
+            ),
             borderRadius:
                 BorderRadius.circular(12),
           ),
           child: const Icon(
             Icons.health_and_safety_rounded,
-            color: Color(0xFF159447),
+            color: primaryGreen,
             size: 24,
           ),
         ),
@@ -385,7 +434,7 @@ class _SafeNexusHomePageState
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0B5D4B),
+                  color: darkGreen,
                 ),
               ),
               SizedBox(height: 1),
@@ -432,8 +481,8 @@ class _SafeNexusHomePageState
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF159447),
-            Color(0xFF0B5D4B),
+            primaryGreen,
+            darkGreen,
           ],
         ),
         borderRadius:
@@ -530,16 +579,15 @@ class _SafeNexusHomePageState
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color:
-                  const Color(0xFF159447)
-                      .withValues(alpha: 0.10),
+              color: primaryGreen.withValues(
+                alpha: 0.10,
+              ),
               borderRadius:
                   BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              color:
-                  const Color(0xFF159447),
+              color: primaryGreen,
             ),
           ),
 
@@ -559,8 +607,7 @@ class _SafeNexusHomePageState
                       TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 11,
-                    color:
-                        Color(0xFF607D8B),
+                    color: Color(0xFF607D8B),
                   ),
                 ),
                 const SizedBox(height: 3),
@@ -572,8 +619,7 @@ class _SafeNexusHomePageState
                     fontSize: 21,
                     fontWeight:
                         FontWeight.bold,
-                    color:
-                        Color(0xFF0B5D4B),
+                    color: darkGreen,
                   ),
                 ),
               ],
@@ -598,7 +644,7 @@ class _SafeNexusHomePageState
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF0B5D4B),
+            color: darkGreen,
           ),
         ),
 
@@ -667,16 +713,15 @@ class _SafeNexusHomePageState
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color:
-                    const Color(0xFF159447)
-                        .withValues(alpha: 0.10),
+                color: primaryGreen.withValues(
+                  alpha: 0.10,
+                ),
                 borderRadius:
                     BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color:
-                    const Color(0xFF159447),
+                color: primaryGreen,
               ),
             ),
 
@@ -693,8 +738,7 @@ class _SafeNexusHomePageState
                       fontSize: 14,
                       fontWeight:
                           FontWeight.bold,
-                      color:
-                          Color(0xFF0B5D4B),
+                      color: darkGreen,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -716,7 +760,216 @@ class _SafeNexusHomePageState
   }
 
   // ==========================================================
-  // SAFETY REFERENCE
+  // DIRECT HSE REFERENCE SECTION
+  // ==========================================================
+
+  Widget _buildReferenceSection() {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'HSE Safety Reference',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: darkGreen,
+          ),
+        ),
+
+        const SizedBox(height: 5),
+
+        const Text(
+          'Select a UAE safety reference category',
+          style: TextStyle(
+            fontSize: 12,
+            color: Color(0xFF607D8B),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        _buildReferenceTile(
+          title: 'UAE General',
+          count: _uaeGeneralCount,
+          subtitle: 'UAE-wide HSE guidance',
+          icon: Icons.flag_outlined,
+          category: GuidelineCategory.uaeGeneral,
+        ),
+
+        const SizedBox(height: 10),
+
+        _buildReferenceTile(
+          title: 'Abu Dhabi',
+          count: _abuDhabiCount,
+          subtitle: 'Abu Dhabi HSE requirements',
+          icon: Icons.location_city_outlined,
+          category: GuidelineCategory.abuDhabi,
+        ),
+
+        const SizedBox(height: 10),
+
+        _buildReferenceTile(
+          title: 'Dubai',
+          count: _dubaiCount,
+          subtitle: 'Dubai HSE requirements',
+          icon: Icons.apartment_outlined,
+          category: GuidelineCategory.dubai,
+        ),
+
+        const SizedBox(height: 10),
+
+        _buildReferenceTile(
+          title: 'HSE Reference',
+          count: _hseReferenceCount,
+          subtitle: 'Professional HSE reference topics',
+          icon: Icons.menu_book_outlined,
+          category: GuidelineCategory.hseReference,
+        ),
+      ],
+    );
+  }
+
+  // ==========================================================
+  // REFERENCE TILE
+  // ==========================================================
+
+  Widget _buildReferenceTile({
+    required String title,
+    required int count,
+    required String subtitle,
+    required IconData icon,
+    required GuidelineCategory category,
+  }) {
+    return InkWell(
+      borderRadius:
+          BorderRadius.circular(18),
+      onTap: () {
+        _openGuidelineCategory(category);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius:
+              BorderRadius.circular(18),
+          border: Border.all(
+            color: const Color(0xFFDDE8E3),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(
+                alpha: 0.035,
+              ),
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: primaryGreen.withValues(
+                  alpha: 0.10,
+                ),
+                borderRadius:
+                    BorderRadius.circular(14),
+              ),
+              child: Icon(
+                icon,
+                color: primaryGreen,
+                size: 26,
+              ),
+            ),
+
+            const SizedBox(width: 13),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style:
+                              const TextStyle(
+                            fontSize: 16,
+                            fontWeight:
+                                FontWeight.bold,
+                            color: darkGreen,
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        padding:
+                            const EdgeInsets
+                                .symmetric(
+                          horizontal: 9,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color:
+                              primaryGreen.withValues(
+                            alpha: 0.10,
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(
+                            20,
+                          ),
+                        ),
+                        child: Text(
+                          '$count',
+                          style:
+                              const TextStyle(
+                            fontSize: 12,
+                            fontWeight:
+                                FontWeight.bold,
+                            color: primaryGreen,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 3),
+
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color:
+                          Color(0xFF607D8B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(width: 7),
+
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: primaryGreen,
+              size: 27,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ==========================================================
+  // OLD SAFETY REFERENCE CARD
+  //
+  // Kept intentionally so nothing existing is deleted.
   // ==========================================================
 
   Widget _buildSafetyReferenceCard() {
@@ -754,16 +1007,15 @@ class _SafeNexusHomePageState
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color:
-                    const Color(0xFF159447)
-                        .withValues(alpha: 0.10),
+                color: primaryGreen.withValues(
+                  alpha: 0.10,
+                ),
                 borderRadius:
                     BorderRadius.circular(15),
               ),
               child: const Icon(
                 Icons.menu_book_rounded,
-                color:
-                    Color(0xFF159447),
+                color: primaryGreen,
                 size: 28,
               ),
             ),
@@ -781,8 +1033,7 @@ class _SafeNexusHomePageState
                       fontSize: 17,
                       fontWeight:
                           FontWeight.bold,
-                      color:
-                          Color(0xFF0B5D4B),
+                      color: darkGreen,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -800,8 +1051,7 @@ class _SafeNexusHomePageState
 
             const Icon(
               Icons.chevron_right_rounded,
-              color:
-                  Color(0xFF159447),
+              color: primaryGreen,
               size: 28,
             ),
           ],
@@ -819,9 +1069,9 @@ class _SafeNexusHomePageState
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color:
-            const Color(0xFF0B5D4B)
-                .withValues(alpha: 0.06),
+        color: darkGreen.withValues(
+          alpha: 0.06,
+        ),
         borderRadius:
             BorderRadius.circular(18),
       ),
@@ -847,8 +1097,7 @@ class _SafeNexusHomePageState
                     fontSize: 15,
                     fontWeight:
                         FontWeight.bold,
-                    color:
-                        Color(0xFF0B5D4B),
+                    color: darkGreen,
                   ),
                 ),
                 SizedBox(height: 3),
