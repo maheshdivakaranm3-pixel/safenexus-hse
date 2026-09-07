@@ -491,19 +491,33 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         ),
         borderRadius: BorderRadius.circular(22),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Welcome to SafeNexus HSE',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+          // ----------------------------------------------------
+          // HEADING — SINGLE LINE
+          // ----------------------------------------------------
+          SizedBox(
+            width: double.infinity,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Welcome to SafeNexus HSE',
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 8),
-          Text(
+
+          const SizedBox(height: 8),
+
+          const Text(
             'Your UAE-wide HSE safety companion for reporting, observations and safety reference.',
             style: TextStyle(
               color: Colors.white,
