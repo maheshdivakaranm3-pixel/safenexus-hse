@@ -3,6 +3,7 @@ enum GuidelineCategory {
   uaeGeneral,
   abuDhabi,
   dubai,
+  hseReference,
 }
 
 class ReferenceTopic {
@@ -46,6 +47,11 @@ class ReferenceTopic {
 
       case 'dubai':
         return GuidelineCategory.dubai;
+
+      case 'hse safety reference':
+      case 'hse reference':
+      case 'construction safety':
+        return GuidelineCategory.hseReference;
 
       case 'uae':
       case 'uae general':
