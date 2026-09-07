@@ -59,9 +59,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   // ============================================================
   // ALL HSE TOPICS
-  //
-  // UAE General + Abu Dhabi + Dubai +
-  // HSE Safety Reference
   // ============================================================
 
   List<ReferenceTopic> get _topics {
@@ -242,11 +239,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         elevation: 0,
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
+        titleSpacing: 16,
         title: const Text(
           'HSE Safety Reference',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            fontSize: 17,
+            height: 1.0,
           ),
         ),
       ),
@@ -258,16 +257,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: Column(
         children: [
           // ======================================================
-          // COMPACT HEADER
+          // BALANCED HEADER
           // ======================================================
 
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(
               16,
-              3,
+              7,
               16,
-              5,
+              8,
             ),
             decoration: const BoxDecoration(
               color: primaryGreen,
@@ -285,15 +284,23 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                 const Text(
                   'Professional HSE Reference',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    height: 1.15,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.05,
                   ),
                 ),
 
+                // ------------------------------------------------
+                // TITLE / SUBTITLE SPACING
+                // ------------------------------------------------
+
                 const SizedBox(
-                  height: 1,
+                  height: 3,
                 ),
 
                 // ------------------------------------------------
@@ -304,13 +311,18 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 12,
-                    height: 1.15,
+                    fontSize: 11.5,
+                    height: 1.25,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
 
+                // ------------------------------------------------
+                // SUBTITLE / SEARCH SPACING
+                // ------------------------------------------------
+
                 const SizedBox(
-                  height: 5,
+                  height: 7,
                 ),
 
                 // ------------------------------------------------
@@ -325,11 +337,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     });
                   },
                   textInputAction: TextInputAction.search,
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
                   decoration: InputDecoration(
-                    hintText:
-                        'Search HSE guidelines...',
+                    hintText: 'Search HSE guidelines...',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade600,
+                      fontSize: 15,
                     ),
                     prefixIcon: const Icon(
                       Icons.search,
@@ -355,10 +370,20 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     fillColor: Colors.white,
                     contentPadding:
                         const EdgeInsets.symmetric(
-                      vertical: 7,
+                      vertical: 8,
                       horizontal: 12,
                     ),
                     border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(11),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(11),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.circular(11),
                       borderSide: BorderSide.none,
@@ -385,8 +410,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              padding:
-                  const EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16,
               ),
               children: [
@@ -406,6 +430,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
+          // ======================================================
+          // CATEGORY / LIST SPACING
+          // ======================================================
+
           const SizedBox(
             height: 8,
           ),
@@ -415,8 +443,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           // ======================================================
 
           Padding(
-            padding:
-                const EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
             child: Row(
@@ -451,6 +478,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     ),
                     style: const TextStyle(
                       fontSize: 18,
+                      height: 1.1,
                       fontWeight: FontWeight.bold,
                       color: darkGreen,
                     ),
@@ -462,11 +490,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   style: TextStyle(
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w600,
+                    fontSize: 13,
                   ),
                 ),
               ],
             ),
           ),
+
+          // ======================================================
+          // ACTIVE CATEGORY / LIST SPACING
+          // ======================================================
 
           const SizedBox(
             height: 8,
@@ -483,16 +516,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                     keyboardDismissBehavior:
                         ScrollViewKeyboardDismissBehavior
                             .onDrag,
-                    padding:
-                        EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                       16,
                       4,
                       16,
                       bottomSafeSpace + 40,
                     ),
                     itemCount: topics.length,
-                    itemBuilder:
-                        (context, index) {
+                    itemBuilder: (context, index) {
                       return _buildTopicCard(
                         topics[index],
                       );
@@ -518,8 +549,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         _categoryCount(category);
 
     return Padding(
-      padding:
-          const EdgeInsets.only(
+      padding: const EdgeInsets.only(
         right: 8,
       ),
       child: ChoiceChip(
@@ -573,15 +603,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     ReferenceTopic topic,
   ) {
     return Card(
-      margin:
-          const EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: 12,
       ),
       elevation: 1.5,
       color: Colors.white,
       shadowColor: Colors.black12,
-      shape:
-          RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius:
             BorderRadius.circular(18),
       ),
@@ -590,18 +618,19 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             BorderRadius.circular(18),
         onTap: () => _openTopic(topic),
         child: Padding(
-          padding:
-              const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Row(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
+              // ==================================================
               // ICON
+              // ==================================================
+
               Container(
                 width: 52,
                 height: 52,
-                decoration:
-                    BoxDecoration(
+                decoration: BoxDecoration(
                   color:
                       primaryGreen.withValues(
                     alpha: 0.10,
@@ -622,7 +651,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 width: 14,
               ),
 
+              // ==================================================
               // CONTENT
+              // ==================================================
+
               Expanded(
                 child: Column(
                   crossAxisAlignment:
@@ -633,8 +665,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       maxLines: 2,
                       overflow:
                           TextOverflow.ellipsis,
-                      style:
-                          const TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         height: 1.25,
                         fontWeight:
@@ -686,6 +717,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 width: 6,
               ),
 
+              // ==================================================
+              // ARROW
+              // ==================================================
+
               const Padding(
                 padding:
                     EdgeInsets.only(top: 2),
@@ -726,8 +761,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         horizontal: 9,
         vertical: 5,
       ),
-      decoration:
-          BoxDecoration(
+      decoration: BoxDecoration(
         color: color.withValues(
           alpha: 0.09,
         ),
