@@ -8,16 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'services/ai_hse_service.dart';
 
-class SafetyObservationPage extends StatefulWidget {
-  const SafetyObservationPage({super.key});
+class HazardReportPage extends StatefulWidget {
+  const HazardReportPage({super.key});
 
   @override
-  State<SafetyObservationPage> createState() =>
-      _SafetyObservationPageState();
+  State<HazardReportPage> createState() =>
+      _HazardReportPageState();
 }
 
-class _SafetyObservationPageState
-    extends State<SafetyObservationPage> {
+class _HazardReportPageState
+    extends State<HazardReportPage> {
   static const String _storageKey =
       'safenexus_observations';
 
@@ -306,8 +306,7 @@ class _SafetyObservationPageState
     if (_observationTypes.contains(
       result.observationType,
     )) {
-      _observationType =
-          result.observationType;
+      _observationType = result.observationType;
     }
 
     final aiCategory =
@@ -336,8 +335,7 @@ class _SafetyObservationPageState
     );
 
     if (aiConsequence != null) {
-      _potentialConsequence =
-          aiConsequence;
+      _potentialConsequence = aiConsequence;
     }
 
     if (_actionController.text.trim().isEmpty) {
@@ -573,7 +571,7 @@ class _SafetyObservationPageState
         'dateTime':
             submittedAt.toIso8601String(),
         'reportType':
-            'Safety Observation',
+            'Hazard Report',
         'observationType':
             _observationType,
         'type':
@@ -630,7 +628,7 @@ class _SafetyObservationPageState
 
       if (!saved) {
         throw Exception(
-          'Unable to save observation.',
+          'Unable to save hazard report.',
         );
       }
 
@@ -652,7 +650,7 @@ class _SafetyObservationPageState
       });
 
       _showMessage(
-        'Unable to save the observation. Please try again.',
+        'Unable to save the hazard report. Please try again.',
         error: true,
       );
     }
@@ -682,13 +680,13 @@ class _SafetyObservationPageState
             size: 52,
           ),
           title: const Text(
-            'Observation Submitted',
+            'Hazard Report Submitted',
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'The observation has been saved successfully.',
+                'The hazard report has been saved successfully.',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -774,7 +772,7 @@ class _SafetyObservationPageState
       appBar: AppBar(
         toolbarHeight: 48,
         title: const Text(
-          'Safety Observation',
+          'Hazard Report',
           style: TextStyle(
             fontWeight: FontWeight.w800,
             fontSize: 17,
@@ -847,7 +845,7 @@ class _SafetyObservationPageState
                     BorderRadius.circular(12),
               ),
               child: Icon(
-                Icons.health_and_safety_rounded,
+                Icons.report_problem_rounded,
                 color:
                     scheme.onPrimaryContainer,
                 size: 23,
@@ -860,7 +858,7 @@ class _SafetyObservationPageState
                     CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Safety Observation',
+                    'Hazard Report',
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight:
@@ -1204,7 +1202,7 @@ class _SafetyObservationPageState
               CrossAxisAlignment.start,
           children: [
             Text(
-              'Observation Description',
+              'Hazard Description',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -1223,7 +1221,7 @@ class _SafetyObservationPageState
               decoration:
                   const InputDecoration(
                 hintText:
-                    'Describe what you observed...',
+                    'Describe the hazard or unsafe condition...',
                 border:
                     OutlineInputBorder(),
                 alignLabelWithHint: true,
@@ -1231,7 +1229,7 @@ class _SafetyObservationPageState
               validator: (value) {
                 if (value == null ||
                     value.trim().isEmpty) {
-                  return 'Please enter an observation description.';
+                  return 'Please enter a hazard description.';
                 }
 
                 if (value.trim().length < 5) {
@@ -1722,7 +1720,7 @@ class _SafetyObservationPageState
               ? 'Saving...'
               : _analyzing
                   ? 'AI Analyzing...'
-                  : 'Submit Observation',
+                  : 'Submit Hazard Report',
           style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
