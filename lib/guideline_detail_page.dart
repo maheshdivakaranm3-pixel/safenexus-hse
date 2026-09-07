@@ -87,10 +87,11 @@ class GuidelineDetailPage extends StatelessWidget {
       backgroundColor: pageBackground,
 
       // ========================================================
-      // APP BAR
+      // COMPACT APP BAR
       // ========================================================
 
       appBar: AppBar(
+        toolbarHeight: 48,
         elevation: 0,
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
@@ -98,6 +99,7 @@ class GuidelineDetailPage extends StatelessWidget {
           'Guideline Details',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
@@ -109,19 +111,19 @@ class GuidelineDetailPage extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.fromLTRB(
           16,
-          16,
+          10,
           16,
           bottomSafeSpace + 32,
         ),
         children: [
           _buildTitleCard(),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           _buildOverviewCard(),
 
           if (_hasItems(topic.keyRequirements)) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             _buildListCard(
               title: 'Key Requirements',
               icon: Icons.checklist_rounded,
@@ -130,7 +132,7 @@ class GuidelineDetailPage extends StatelessWidget {
           ],
 
           if (_hasItems(topic.safetyControls)) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             _buildListCard(
               title: 'Safety Controls',
               icon: Icons.health_and_safety_outlined,
@@ -139,7 +141,7 @@ class GuidelineDetailPage extends StatelessWidget {
           ],
 
           if (_hasItems(topic.responsibilities)) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             _buildListCard(
               title: 'Responsibilities',
               icon: Icons.groups_outlined,
@@ -148,11 +150,11 @@ class GuidelineDetailPage extends StatelessWidget {
           ],
 
           if (_hasItems(topic.references)) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             _buildReferencesCard(),
           ],
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           _buildProfessionalNote(),
         ],
