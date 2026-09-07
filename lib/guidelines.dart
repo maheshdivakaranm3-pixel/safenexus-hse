@@ -244,6 +244,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
           'HSE Safety Reference',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
             fontSize: 17,
@@ -280,20 +281,21 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               ),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // ------------------------------------------------
                 // MAIN HEADING
                 // ------------------------------------------------
 
                 const SizedBox(
+                  width: double.infinity,
                   height: 22,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text(
                       'Professional HSE Reference',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -306,7 +308,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
 
                 // ------------------------------------------------
-                // HEADING / SUBTITLE
+                // HEADING / SUBTITLE GAP
                 // ------------------------------------------------
 
                 const SizedBox(
@@ -318,13 +320,14 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 // ------------------------------------------------
 
                 const SizedBox(
+                  width: double.infinity,
                   height: 16,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text(
                       'UAE-wide safety guidance and professional HSE references',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 11.5,
@@ -337,7 +340,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
 
                 // ------------------------------------------------
-                // SUBTITLE / SEARCH
+                // SUBTITLE / SEARCH GAP
                 // ------------------------------------------------
 
                 const SizedBox(
@@ -365,7 +368,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       color: Colors.black87,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Search HSE guidelines...',
+                      hintText:
+                          'Search HSE guidelines...',
                       hintStyle: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 15,
@@ -379,13 +383,16 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       suffixIcon:
                           _searchQuery.isNotEmpty
                               ? IconButton(
-                                  tooltip: 'Clear search',
+                                  tooltip:
+                                      'Clear search',
                                   icon: const Icon(
                                     Icons.clear,
-                                    color: Colors.black54,
+                                    color:
+                                        Colors.black54,
                                   ),
                                   onPressed: () {
-                                    _searchController.clear();
+                                    _searchController
+                                        .clear();
 
                                     setState(() {
                                       _searchQuery = '';
@@ -403,17 +410,22 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
-                        borderSide: BorderSide.none,
+                        borderSide:
+                            BorderSide.none,
                       ),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder:
+                          OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
-                        borderSide: BorderSide.none,
+                        borderSide:
+                            BorderSide.none,
                       ),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder:
+                          OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
-                        borderSide: BorderSide.none,
+                        borderSide:
+                            BorderSide.none,
                       ),
                     ),
                   ),
@@ -514,7 +526,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                   Expanded(
                     child: Align(
-                      alignment: Alignment.centerLeft,
+                      alignment:
+                          Alignment.centerLeft,
                       child: Text(
                         _categoryLabel(
                           _selectedCategory,
@@ -525,7 +538,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         style: const TextStyle(
                           fontSize: 18,
                           height: 1.0,
-                          fontWeight: FontWeight.w700,
+                          fontWeight:
+                              FontWeight.w700,
                           color: darkGreen,
                           letterSpacing: 0,
                         ),
@@ -542,13 +556,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   // ------------------------------------------------
 
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment:
+                        Alignment.centerRight,
                     child: Text(
                       '${topics.length} topics',
                       maxLines: 1,
                       style: TextStyle(
                         color: Colors.grey.shade700,
-                        fontWeight: FontWeight.w600,
+                        fontWeight:
+                            FontWeight.w600,
                         fontSize: 13,
                         height: 1.0,
                       ),
@@ -585,7 +601,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       bottomSafeSpace + 40,
                     ),
                     itemCount: topics.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder:
+                        (context, index) {
                       return _buildTopicCard(
                         topics[index],
                       );
