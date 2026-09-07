@@ -266,7 +266,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       // ========================================================
 
       appBar: AppBar(
-        toolbarHeight: 48,
+        // Reduced from 48
+        toolbarHeight: 44,
         elevation: 0,
         backgroundColor:
             primaryGreen,
@@ -289,33 +290,41 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       body: Column(
         children: [
           // ======================================================
-          // HEADER
+          // COMPACT HEADER
           // ======================================================
 
           Container(
             width: double.infinity,
+
+            // Reduced vertical padding
             padding:
                 const EdgeInsets.fromLTRB(
               16,
-              10,
+              6,
               16,
-              14,
+              8,
             ),
+
             decoration:
                 const BoxDecoration(
               color: primaryGreen,
               borderRadius:
                   BorderRadius.only(
                 bottomLeft:
-                    Radius.circular(22),
+                    Radius.circular(18),
                 bottomRight:
-                    Radius.circular(22),
+                    Radius.circular(18),
               ),
             ),
+
             child: Column(
               crossAxisAlignment:
                   CrossAxisAlignment.start,
               children: [
+                // ------------------------------------------------
+                // MAIN HEADER TITLE
+                // ------------------------------------------------
+
                 const Text(
                   'Professional HSE Reference',
                   style: TextStyle(
@@ -327,23 +336,30 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ),
 
                 const SizedBox(
-                  height: 4,
+                  height: 2,
                 ),
+
+                // ------------------------------------------------
+                // SUBTITLE
+                // ------------------------------------------------
 
                 const Text(
                   'UAE-wide safety guidance and professional HSE references',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 13,
-                    height: 1.3,
+                    height: 1.2,
                   ),
                 ),
 
                 const SizedBox(
-                  height: 10,
+                  height: 7,
                 ),
 
+                // ------------------------------------------------
                 // SEARCH
+                // ------------------------------------------------
+
                 TextField(
                   controller:
                       _searchController,
@@ -364,11 +380,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       color:
                           Colors.grey.shade600,
                     ),
+
                     prefixIcon:
                         const Icon(
                       Icons.search,
-                      size: 26,
+                      size: 25,
                     ),
+
                     suffixIcon:
                         _searchQuery
                                 .isNotEmpty
@@ -391,21 +409,27 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                                 },
                               )
                             : null,
+
                     filled: true,
+
                     fillColor:
                         Colors.white,
+
+                    // Reduced search box
+                    // vertical padding
                     contentPadding:
                         const EdgeInsets
                             .symmetric(
-                      vertical: 12,
+                      vertical: 9,
                       horizontal: 14,
                     ),
+
                     border:
                         OutlineInputBorder(
                       borderRadius:
                           BorderRadius
                               .circular(
-                        14,
+                        12,
                       ),
                       borderSide:
                           BorderSide.none,
@@ -416,8 +440,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             ),
           ),
 
+          // Reduced gap below header
           const SizedBox(
-            height: 12,
+            height: 8,
           ),
 
           // ======================================================
