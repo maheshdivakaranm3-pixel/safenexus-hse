@@ -37,3 +37,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # SafeNexus HSE Logo
+  assets:
+    - assets/images/safenexus_hse_logo.png
