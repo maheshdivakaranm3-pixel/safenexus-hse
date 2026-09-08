@@ -25,6 +25,9 @@ dependencies:
   # Share safety reports
   share_plus: ^10.0.2
 
+  # HTTP client for SafeNexus HSE backend
+  http: ^1.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
