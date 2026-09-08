@@ -1,44 +1,78 @@
+/// ============================================================
 /// SafeNexus HSE
 /// Reference Topic Model
 ///
-/// This model is shared by all guideline/reference data sources:
+/// Central model for all UAE HSE guideline references.
+///
+/// Categories:
 /// - UAE General
 /// - Abu Dhabi
 /// - Dubai
-/// - HSE Safety Reference
-///
-/// Keep this model stable. New guideline data should use this model
-/// instead of creating separate models for each emirate.
+/// - Professional HSE Reference
+/// ============================================================
+
+enum GuidelineCategory {
+  all,
+  uaeGeneral,
+  abuDhabi,
+  dubai,
+  hseReference,
+}
 
 class ReferenceTopic {
+  // ============================================================
+  // BASIC INFORMATION
+  // ============================================================
+
   final String id;
   final String title;
   final String shortTitle;
+
+  // ============================================================
+  // CLASSIFICATION
+  // ============================================================
+
   final String category;
+  final GuidelineCategory guidelineCategory;
+
+  // ============================================================
+  // AUTHORITY / JURISDICTION
+  // ============================================================
+
   final String authority;
   final String jurisdiction;
+
+  // ============================================================
+  // DESCRIPTION
+  // ============================================================
+
   final String description;
-  final GuidelineCategory guidelineCategory;
+
+  // ============================================================
+  // HSE CONTENT
+  // ============================================================
+
+  final List<String> keyRequirements;
+  final List<String> safetyControls;
+  final List<String> responsibilities;
+  final List<String> references;
+
+  // ============================================================
+  // CONSTRUCTOR
+  // ============================================================
 
   const ReferenceTopic({
     required this.id,
     required this.title,
     required this.shortTitle,
     required this.category,
+    required this.guidelineCategory,
     required this.authority,
     required this.jurisdiction,
     required this.description,
-    required this.guidelineCategory,
+    required this.keyRequirements,
+    required this.safetyControls,
+    required this.responsibilities,
+    required this.references,
   });
-}
-
-/// Main categories used by the SafeNexus HSE Guidelines module.
-///
-/// Keep these names stable because main.dart and guideline data files
-/// may use them for filtering and displaying categories.
-enum GuidelineCategory {
-  uaeGeneral,
-  abuDhabi,
-  dubai,
-  hseSafety,
 }
