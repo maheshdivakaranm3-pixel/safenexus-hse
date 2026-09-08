@@ -13,8 +13,6 @@ import 'data/dubai_guidelines.dart';
 import 'data/hse_safety_reference.dart';
 import 'data/uae_general_guidelines.dart';
 
-import 'models/reference_topic.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const SafeNexusApp());
@@ -127,7 +125,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // LOAD STATISTICS
+  // LOAD DASHBOARD STATISTICS
   // ==========================================================
 
   Future<void> _loadDashboardStats() async {
@@ -339,7 +337,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             28,
           ),
           children: [
-            // COMPACT PROFESSIONAL TOP HEADER
+            // SAFE NEXUS HSE TOP HEADER
             _buildProfessionalHeader(),
 
             const SizedBox(height: 14),
@@ -379,9 +377,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
   // PROFESSIONAL TOP HEADER
   //
-  // WHITE BACKGROUND
-  // FULL HEADER IMAGE
-  // COMPACT HEIGHT
+  // IMPORTANT:
+  // HEADER USES safenexus_hse_logo.png
+  // NOT the banner image.
   // ==========================================================
 
   Widget _buildProfessionalHeader() {
@@ -406,11 +404,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 6,
+          horizontal: 12,
+          vertical: 8,
         ),
         child: Image.asset(
-          'assets/images/safenexus_hse_banner.png',
+          'assets/images/safenexus_hse_logo.png',
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.contain,
@@ -421,10 +419,24 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             stackTrace,
           ) {
             return const Center(
-              child: Icon(
-                Icons.image_not_supported_rounded,
-                color: Color(0xFF159447),
-                size: 35,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.image_not_supported_rounded,
+                    color: primaryGreen,
+                    size: 30,
+                  ),
+                  SizedBox(height: 3),
+                  Text(
+                    'SafeNexus HSE',
+                    style: TextStyle(
+                      color: navy,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             );
           },
@@ -435,7 +447,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // PROFESSIONAL HERO
-  // UAE + DUBAI SKYLINE BANNER
+  //
+  // IMPORTANT:
+  // HERO USES safenexus_hse_banner.png
   // ==========================================================
 
   Widget _buildProfessionalHero() {
@@ -804,8 +818,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               _overviewDivider(),
               Expanded(
                 child: _overviewMetric(
-                  icon: Icons
-                      .assignment_turned_in_rounded,
+                  icon:
+                      Icons.assignment_turned_in_rounded,
                   iconColor: primaryGreen,
                   value: _loadingStats
                       ? '...'
