@@ -340,19 +340,37 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
           children: [
             _buildHeader(),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 14),
+
+            // ==================================================
+            // NEW PROFESSIONAL UAE BANNER
+            // ==================================================
+
             _buildProfessionalHero(),
+
             const SizedBox(height: 20),
+
             _buildQuickActionsTitle(),
+
             const SizedBox(height: 10),
+
             _buildQuickActions(),
+
             const SizedBox(height: 20),
+
             _buildSafetyOverview(),
+
             const SizedBox(height: 20),
+
             _buildReferencePreview(),
+
             const SizedBox(height: 20),
+
             _buildSafetyMessage(),
+
             const SizedBox(height: 16),
+
             _buildUaeCard(),
           ],
         ),
@@ -363,10 +381,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
   // HEADER
   // CLEAN HEADER
-  // NO LOGO
-  // NO NOTIFICATION
-  // NO SETTINGS
-  // NO WHITE BORDER
   // ==========================================================
 
   Widget _buildHeader() {
@@ -434,136 +448,53 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // PROFESSIONAL HERO
+  // UAE + DUBAI SKYLINE BANNER
   // ==========================================================
 
   Widget _buildProfessionalHero() {
     return Container(
-      height: 205,
+      width: double.infinity,
+      height: 155,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(26),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF063E73),
-            Color(0xFF075B45),
-            Color(0xFF0B9860),
-          ],
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(25),
-            blurRadius: 15,
-            offset: const Offset(0, 6),
+            color: Colors.black.withAlpha(22),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
-      child: Stack(
-        children: [
-          // ==================================================
-          // DECORATIVE CIRCLE
-          // ==================================================
-
-          Positioned(
-            right: -55,
-            top: -65,
-            child: Container(
-              width: 190,
-              height: 190,
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(14),
-                shape: BoxShape.circle,
+      child: Image.asset(
+        'assets/images/safenexus_hse_banner.png',
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF063E73),
+                  Color(0xFF075B45),
+                  Color(0xFF0B9860),
+                ],
               ),
             ),
-          ),
-
-          // ==================================================
-          // DECORATIVE CIRCLE
-          // ==================================================
-
-          Positioned(
-            right: 25,
-            bottom: -50,
-            child: Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(9),
-                shape: BoxShape.circle,
+            child: const Center(
+              child: Icon(
+                Icons.image_not_supported_rounded,
+                color: Colors.white,
+                size: 40,
               ),
             ),
-          ),
-
-          // ==================================================
-          // UAE FLAG
-          // ==================================================
-
-          Positioned(
-            right: 22,
-            top: 22,
-            child: Container(
-              width: 55,
-              height: 55,
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(20),
-                shape: BoxShape.circle,
-              ),
-              child: const Center(
-                child: Text(
-                  '🇦🇪',
-                  style: TextStyle(
-                    fontSize: 28,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          // ==================================================
-          // HERO TEXT
-          // ==================================================
-
-          Positioned(
-            left: 21,
-            top: 22,
-            right: 95,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'UAE HSE SAFETY',
-                  style: TextStyle(
-                    color: Color(0xFFB8F4D2),
-                    fontSize: 11,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Safety Starts\nWith You.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 31,
-                    height: 0.98,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 9),
-                Text(
-                  'Protect People.\nPrevent Risk.',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                    height: 1.3,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
