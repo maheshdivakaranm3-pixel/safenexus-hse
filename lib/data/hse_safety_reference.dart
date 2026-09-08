@@ -17,11 +17,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_risk_assessment',
     title: 'Risk Assessment',
     shortTitle: 'Risk Assessment',
-    description:
-        'A systematic process for identifying hazards, evaluating risks and implementing suitable control measures before and during work activities.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'A systematic process for identifying hazards, evaluating risks and implementing suitable control measures before and during work activities.',
     keyRequirements: [
       'Identify hazards associated with the work activity.',
       'Identify people who may be affected by the hazards.',
@@ -59,11 +60,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_permit_to_work',
     title: 'Permit to Work System',
     shortTitle: 'PTW',
-    description:
-        'A formal control system used to authorise and control high-risk work activities through defined precautions, responsibilities and approval requirements.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'A formal control system used to authorise and control high-risk work activities through defined precautions, responsibilities and approval requirements.',
     keyRequirements: [
       'Identify activities requiring a permit.',
       'Define hazards and required precautions before work starts.',
@@ -101,11 +103,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_working_at_height',
     title: 'Working at Height',
     shortTitle: 'Work at Height',
-    description:
-        'Requirements for preventing falls of people and materials when work is performed at elevated locations or where a person could fall and suffer injury.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Requirements for preventing falls of people and materials when work is performed at elevated locations or where a person could fall and suffer injury.',
     keyRequirements: [
       'Plan work at height before starting the activity.',
       'Avoid work at height where reasonably practicable.',
@@ -143,11 +146,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_excavation_safety',
     title: 'Excavation and Trenching Safety',
     shortTitle: 'Excavation Safety',
-    description:
-        'Safety controls for excavation and trenching activities to prevent collapse, falls, underground service damage, struck-by incidents and access hazards.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Safety controls for excavation and trenching activities to prevent collapse, falls, underground service damage, struck-by incidents and access hazards.',
     keyRequirements: [
       'Assess excavation hazards before work begins.',
       'Identify underground services before excavation.',
@@ -185,11 +189,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_lifting_operations',
     title: 'Lifting Operations',
     shortTitle: 'Lifting Safety',
-    description:
-        'Safety requirements for planning, preparing and conducting lifting operations involving cranes, lifting equipment and lifting accessories.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Safety requirements for planning, preparing and conducting lifting operations involving cranes, lifting equipment and lifting accessories.',
     keyRequirements: [
       'Plan lifting operations according to the load and site conditions.',
       'Use competent and authorised lifting personnel.',
@@ -227,11 +232,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_scaffolding_safety',
     title: 'Scaffolding Safety',
     shortTitle: 'Scaffolding',
-    description:
-        'Safety requirements for the erection, inspection, modification and use of scaffolding systems used to provide temporary access and working platforms.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Safety requirements for the erection, inspection, modification and use of scaffolding systems used to provide temporary access and working platforms.',
     keyRequirements: [
       'Scaffolding shall be erected by competent personnel.',
       'Scaffolds shall be inspected before use and after significant changes.',
@@ -269,11 +275,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_electrical_safety',
     title: 'Electrical Safety',
     shortTitle: 'Electrical Safety',
-    description:
-        'Controls for preventing electric shock, burns, electrical fires and other incidents arising from electrical systems and equipment.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Controls for preventing electric shock, burns, electrical fires and other incidents arising from electrical systems and equipment.',
     keyRequirements: [
       'Electrical work shall be performed by competent personnel.',
       'Electrical equipment shall be suitable for its intended use.',
@@ -311,11 +318,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_fire_safety',
     title: 'Fire Safety and Prevention',
     shortTitle: 'Fire Safety',
-    description:
-        'Controls for preventing fires and ensuring effective emergency response, evacuation and firefighting arrangements at the workplace.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Controls for preventing fires and ensuring effective emergency response, evacuation and firefighting arrangements at the workplace.',
     keyRequirements: [
       'Identify workplace fire hazards.',
       'Maintain suitable firefighting equipment.',
@@ -353,11 +361,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_personal_protective_equipment',
     title: 'Personal Protective Equipment',
     shortTitle: 'PPE',
-    description:
-        'Selection, provision, use, inspection and maintenance of personal protective equipment based on workplace hazards and risk assessments.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Selection, provision, use, inspection and maintenance of personal protective equipment based on workplace hazards and risk assessments.',
     keyRequirements: [
       'Select PPE based on identified hazards.',
       'Provide suitable PPE to workers.',
@@ -395,11 +404,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_heat_stress',
     title: 'Heat Stress Management',
     shortTitle: 'Heat Stress',
-    description:
-        'Measures to prevent heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Measures to prevent heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work.',
     keyRequirements: [
       'Assess heat-stress risks for outdoor and hot work.',
       'Provide drinking water and suitable hydration arrangements.',
@@ -437,11 +447,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_confined_space',
     title: 'Confined Space Safety',
     shortTitle: 'Confined Space',
-    description:
-        'Safety controls for work in spaces that may have restricted entry or exit and may contain hazardous atmospheres or other serious risks.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Safety controls for work in spaces that may have restricted entry or exit and may contain hazardous atmospheres or other serious risks.',
     keyRequirements: [
       'Identify and classify confined spaces.',
       'Conduct a risk assessment before entry.',
@@ -479,11 +490,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_hot_work',
     title: 'Hot Work Safety',
     shortTitle: 'Hot Work',
-    description:
-        'Controls for activities such as welding, cutting, grinding and other work that can generate heat, sparks, flames or ignition sources.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Controls for activities such as welding, cutting, grinding and other work that can generate heat, sparks, flames or ignition sources.',
     keyRequirements: [
       'Obtain the required hot-work permit.',
       'Remove or protect combustible materials.',
@@ -521,11 +533,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_chemical_safety',
     title: 'Chemical Safety',
     shortTitle: 'Chemical Safety',
-    description:
-        'Safe handling, storage, transportation and use of hazardous chemicals to prevent exposure, fire, environmental release and other incidents.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Safe handling, storage, transportation and use of hazardous chemicals to prevent exposure, fire, environmental release and other incidents.',
     keyRequirements: [
       'Maintain an inventory of hazardous chemicals.',
       'Provide current Safety Data Sheets.',
@@ -563,11 +576,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_emergency_preparedness',
     title: 'Emergency Preparedness and Response',
     shortTitle: 'Emergency Response',
-    description:
-        'Planning and preparedness measures to ensure an effective response to foreseeable workplace emergencies and minimise harm to people, property and the environment.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Planning and preparedness measures to ensure an effective response to foreseeable workplace emergencies and minimise harm to people, property and the environment.',
     keyRequirements: [
       'Identify foreseeable emergency scenarios.',
       'Develop and maintain emergency response procedures.',
@@ -605,11 +619,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_incident_reporting',
     title: 'Incident Reporting and Investigation',
     shortTitle: 'Incident Reporting',
-    description:
-        'A structured process for reporting, investigating and learning from incidents, near misses and unsafe conditions to prevent recurrence.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'A structured process for reporting, investigating and learning from incidents, near misses and unsafe conditions to prevent recurrence.',
     keyRequirements: [
       'Report incidents and near misses promptly.',
       'Preserve relevant evidence where appropriate.',
@@ -647,11 +662,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_housekeeping',
     title: 'Workplace Housekeeping',
     shortTitle: 'Housekeeping',
-    description:
-        'Good housekeeping practices that maintain clean, orderly and accessible workplaces and reduce slips, trips, falls, fire and material-handling hazards.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Good housekeeping practices that maintain clean, orderly and accessible workplaces and reduce slips, trips, falls, fire and material-handling hazards.',
     keyRequirements: [
       'Keep work areas clean and organised.',
       'Remove waste and unnecessary materials regularly.',
@@ -689,11 +705,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_manual_handling',
     title: 'Manual Handling Safety',
     shortTitle: 'Manual Handling',
-    description:
-        'Controls for reducing musculoskeletal injuries and other risks associated with lifting, carrying, pushing, pulling and moving materials manually.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Controls for reducing musculoskeletal injuries and other risks associated with lifting, carrying, pushing, pulling and moving materials manually.',
     keyRequirements: [
       'Assess manual-handling tasks before work.',
       'Avoid unnecessary manual handling where practicable.',
@@ -731,11 +748,12 @@ const List<ReferenceTopic> hseSafetyReferences = [
     id: 'hse_vehicle_traffic_safety',
     title: 'Vehicle and Traffic Safety',
     shortTitle: 'Traffic Safety',
-    description:
-        'Controls for managing vehicle movement, pedestrian interaction, reversing, loading and unloading within workplaces and construction sites.',
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.hseSafety,
+    description:
+        'Controls for managing vehicle movement, pedestrian interaction, reversing, loading and unloading within workplaces and construction sites.',
     keyRequirements: [
       'Develop suitable site traffic arrangements.',
       'Separate pedestrians and vehicles where practicable.',
