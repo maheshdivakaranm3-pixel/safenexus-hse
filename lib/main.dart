@@ -75,13 +75,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color navy = Color(0xFF082653);
 
   // ==========================================================
-  // SAFENEXUS HSE LOGO
-  // ==========================================================
-
-  static const String _logoAsset =
-      'assets/images/safenexus_hse_logo.png';
-
-  // ==========================================================
   // STORAGE
   // ==========================================================
 
@@ -369,157 +362,73 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // HEADER
-  // SAFENEXUS HSE LOGO
+  // CLEAN HEADER
+  // NO LOGO
+  // NO NOTIFICATION
+  // NO SETTINGS
+  // NO WHITE BORDER
   // ==========================================================
 
   Widget _buildHeader() {
-    return Row(
-      children: [
-        Container(
-          width: 74,
-          height: 74,
-          padding: const EdgeInsets.all(7),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(21),
-            boxShadow: [
-              BoxShadow(
-                color: primaryGreen.withAlpha(35),
-                blurRadius: 12,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Image.asset(
-            _logoAsset,
-            width: 60,
-            height: 60,
-            fit: BoxFit.contain,
-            filterQuality: FilterQuality.high,
-          ),
-        ),
-
-        const SizedBox(width: 12),
-
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Safe',
-                      style: TextStyle(
-                        color: navy,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w800,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 2,
+        vertical: 4,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Safe',
+                        style: TextStyle(
+                          color: navy,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'Nexus',
-                      style: TextStyle(
-                        color: primaryGreen,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w800,
+                      TextSpan(
+                        text: 'Nexus',
+                        style: TextStyle(
+                          color: primaryGreen,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: ' HSE',
-                      style: TextStyle(
-                        color: navy,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w800,
+                      TextSpan(
+                        text: ' HSE',
+                        style: TextStyle(
+                          color: navy,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Safe People • Safe Workplaces • Safer UAE',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Color(0xFF607D8B),
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 3),
+                const Text(
+                  'Safe People • Safe Workplaces • Safer UAE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Color(0xFF607D8B),
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-
-        _buildHeaderButton(
-          icon: Icons.notifications_none_rounded,
-          showDot: true,
-          onTap: () {
-            _showMessage(
-              'Notifications',
-              'No new safety notifications.',
-            );
-          },
-        ),
-
-        const SizedBox(width: 6),
-
-        _buildHeaderButton(
-          icon: Icons.settings_outlined,
-          onTap: () {
-            _showMessage(
-              'Settings',
-              'SafeNexus HSE settings will be available here.',
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // HEADER BUTTON
-  // ==========================================================
-
-  Widget _buildHeaderButton({
-    required IconData icon,
-    required VoidCallback onTap,
-    bool showDot = false,
-  }) {
-    return Stack(
-      children: [
-        Material(
-          color: const Color(0xFFE8F4FF),
-          shape: const CircleBorder(),
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: onTap,
-            child: SizedBox(
-              width: 43,
-              height: 43,
-              child: Icon(
-                icon,
-                color: navy,
-                size: 23,
-              ),
+              ],
             ),
           ),
-        ),
-        if (showDot)
-          Positioned(
-            right: 1,
-            top: 1,
-            child: Container(
-              width: 10,
-              height: 10,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -552,6 +461,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       ),
       child: Stack(
         children: [
+          // ==================================================
+          // DECORATIVE CIRCLE
+          // ==================================================
+
           Positioned(
             right: -55,
             top: -65,
@@ -564,6 +477,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ),
           ),
+
+          // ==================================================
+          // DECORATIVE CIRCLE
+          // ==================================================
 
           Positioned(
             right: 25,
@@ -591,9 +508,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha(20),
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withAlpha(45),
-                ),
               ),
               child: const Center(
                 child: Text(
@@ -649,17 +563,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ],
             ),
           ),
-
-          // ==================================================
-          // IMPORTANT:
-          // BOTTOM-RIGHT LOGO REMOVED
-          // ==================================================
-          //
-          // The previous white circular SafeNexus logo
-          // has intentionally been removed from here.
-          //
-          // Header logo remains active above.
-          //
         ],
       ),
     );
