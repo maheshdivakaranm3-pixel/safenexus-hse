@@ -618,48 +618,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ],
             ),
           ),
-          Positioned(
-            left: 21,
-            bottom: 20,
-            child: Material(
-              color: const Color(0xFFDFFF91),
-              borderRadius: BorderRadius.circular(14),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 2;
-                  });
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 17,
-                    vertical: 11,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        color: Color(0xFF075B45),
-                        size: 20,
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        'REPORT HAZARD',
-                        style: TextStyle(
-                          color: Color(0xFF075B45),
-                          fontSize: 11,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.4,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+
+          // ==================================================
+          // REPORT HAZARD HERO BUTTON REMOVED
+          // ==================================================
+
           Positioned(
             right: 17,
             bottom: 17,
