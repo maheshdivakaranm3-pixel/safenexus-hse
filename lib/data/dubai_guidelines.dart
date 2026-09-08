@@ -8,6 +8,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Overview of the Dubai regulatory and guidance framework for safety in construction works. This topic distinguishes legislation from the Safety Guide for Construction Works and related technical guidance.',
     keyRequirements: [
@@ -52,6 +53,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General HSE management guidance for establishing responsibilities, risk controls, monitoring and continual improvement. This is a management framework topic rather than a single standalone Dubai CoP.',
     keyRequirements: [
@@ -96,6 +98,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality Health & Safety Department',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Dedicated Dubai Municipality Health & Safety Technical Guideline for systematic identification, assessment and control of health and safety risks.',
     keyRequirements: [
@@ -139,6 +142,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Project-level HSE planning guidance derived from applicable Dubai construction safety legislation, the Safety Guide for Construction Works and project requirements. This is a project management framework rather than a standalone single CoP.',
     keyRequirements: [
@@ -183,6 +187,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Construction safety guidance for preventing falls of persons and objects during elevated construction, maintenance and related activities.',
     keyRequirements: [
@@ -228,6 +233,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Construction safety guidance for safe erection, alteration, inspection and use of scaffolding systems.',
     keyRequirements: [
@@ -272,6 +278,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Guidance for planning and controlling crane operations, lifting equipment, accessories, loads and personnel involved in lifting activities.',
     keyRequirements: [
@@ -318,6 +325,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Construction safety guidance for controlling excavation hazards including collapse, underground services, falls, plant interaction and water accumulation.',
     keyRequirements: [
@@ -363,6 +371,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality Health & Safety Department',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Dedicated Dubai Municipality technical guidance for controlling atmospheric, physical and operational hazards associated with confined-space entry.',
     keyRequirements: [
@@ -409,6 +418,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Applicable Authority',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Electrical safety topic covering shock, fire, defective equipment, electrical isolation and applicable technical requirements in Dubai.',
     keyRequirements: [
@@ -453,6 +463,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Dubai Civil Defence',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General fire and construction safety guidance for welding, cutting, grinding and other activities that produce flames, heat or sparks.',
     keyRequirements: [
@@ -497,6 +508,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / RTA',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Guidance for managing vehicle, mobile plant and pedestrian interaction on construction sites, including applicable Dubai Municipality and RTA requirements.',
     keyRequirements: [
@@ -542,6 +554,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Construction safety guidance for controlling structural, falling-object, plant, dust and public-safety risks during demolition activities.',
     keyRequirements: [
@@ -587,6 +600,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General construction-safety guidance for managing temporary structures and temporary works that may affect structural stability and worker safety.',
     keyRequirements: [
@@ -628,6 +642,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / MoHRE',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Dedicated Dubai Municipality technical guidance for managing heat-stress risks, supplemented by applicable UAE labour requirements.',
     keyRequirements: [
@@ -671,6 +686,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Applicable Health Authority',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General occupational-health guidance covering chemical, physical, biological and ergonomic exposures and related workplace health controls.',
     keyRequirements: [
@@ -713,6 +729,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General PPE guidance based on workplace risk assessment, supplemented by Dubai Municipality technical guidance for specific PPE categories.',
     keyRequirements: [
@@ -757,6 +774,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Dubai Civil Defence',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General emergency-preparedness guidance for workplaces and construction sites, coordinated with applicable fire and emergency authority requirements.',
     keyRequirements: [
@@ -801,6 +819,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Applicable Authority',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General guidance for reporting, investigating and learning from workplace incidents, injuries, near misses and dangerous occurrences.',
     keyRequirements: [
@@ -843,6 +862,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General contractor-management framework for controlling HSE risks arising from contractors, subcontractors and multiple employers working on the same project.',
     keyRequirements: [
@@ -886,6 +906,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Applicable Environmental Authority',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Environmental and waste-management guidance covering construction impacts, pollution prevention and waste controls. This topic is treated as environmental guidance rather than a construction safety CoP.',
     keyRequirements: [
@@ -931,6 +952,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General HSE management guidance for monitoring workplace compliance through planned inspections, audits, observations and corrective-action management.',
     keyRequirements: [
@@ -974,6 +996,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'General HSE management guidance for monitoring performance through leading indicators, lagging indicators, inspections, incidents and corrective actions.',
     keyRequirements: [
@@ -1016,6 +1039,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality Building Regulation and Permit Agency',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Building-code guidance covering minimum requirements for health, safety, welfare and environmental considerations in and around buildings. This is a building-code framework, not a construction HSE CoP.',
     keyRequirements: [
@@ -1056,6 +1080,7 @@ const List<ReferenceTopic> dubaiGuidelines = [
     category: 'Dubai',
     authority: 'Dubai Municipality / Project Authority',
     jurisdiction: 'Dubai',
+    guidelineCategory: GuidelineCategory.dubai,
     description:
         'Project-level control framework for high-risk activities through formal permit-to-work arrangements where required by the project, employer or activity. This is not presented as a standalone Dubai Municipality CoP.',
     keyRequirements: [
