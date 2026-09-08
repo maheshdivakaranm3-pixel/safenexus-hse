@@ -75,6 +75,13 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color navy = Color(0xFF082653);
 
   // ==========================================================
+  // SAFE NEXUS LOGO
+  // ==========================================================
+
+  static const String _logoAsset =
+      'assets/images/safenexus_hse_logo.png';
+
+  // ==========================================================
   // STORAGE
   // ==========================================================
 
@@ -367,18 +374,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Widget _buildHeader() {
     return Row(
       children: [
+        // ======================================================
+        // NEW SAFENEXUS HSE LOGO
+        // ======================================================
+
         Container(
           width: 54,
           height: 54,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF0A9655),
-                Color(0xFF075B45),
-              ],
-            ),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(17),
             boxShadow: [
               BoxShadow(
@@ -388,13 +392,18 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ],
           ),
-          child: const Icon(
-            Icons.health_and_safety_rounded,
-            color: Colors.white,
-            size: 32,
+          clipBehavior: Clip.antiAlias,
+          child: Image.asset(
+            _logoAsset,
+            width: 54,
+            height: 54,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
           ),
         ),
+
         const SizedBox(width: 11),
+
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,9 +412,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 maxLines: 1,
                 text: const TextSpan(
                   children: [
-                    // ==================================================
-                    // SAFE = NAVY
-                    // ==================================================
                     TextSpan(
                       text: 'Safe',
                       style: TextStyle(
@@ -414,10 +420,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-
-                    // ==================================================
-                    // NEXUS = GREEN
-                    // ==================================================
                     TextSpan(
                       text: 'Nexus',
                       style: TextStyle(
@@ -426,10 +428,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-
-                    // ==================================================
-                    // HSE = NAVY
-                    // ==================================================
                     TextSpan(
                       text: ' HSE',
                       style: TextStyle(
@@ -455,6 +453,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             ],
           ),
         ),
+
         _buildHeaderButton(
           icon: Icons.notifications_none_rounded,
           showDot: true,
@@ -465,7 +464,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             );
           },
         ),
+
         const SizedBox(width: 6),
+
         _buildHeaderButton(
           icon: Icons.settings_outlined,
           onTap: () {
@@ -565,6 +566,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ),
           ),
+
           Positioned(
             right: 25,
             bottom: -50,
@@ -577,6 +579,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ),
           ),
+
           Positioned(
             right: 22,
             top: 22,
@@ -598,6 +601,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ),
           ),
+
           Positioned(
             left: 21,
             top: 22,
@@ -639,29 +643,33 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
 
           // ==================================================
-          // REPORT HAZARD HERO BUTTON REMOVED
+          // NEW SAFENEXUS HSE LOGO
           // ==================================================
 
           Positioned(
-            right: 17,
-            bottom: 17,
-            child: Column(
-              children: [
-                const Icon(
-                  Icons.health_and_safety_rounded,
-                  color: Colors.white,
-                  size: 52,
+            right: 12,
+            bottom: 13,
+            child: Container(
+              width: 92,
+              height: 92,
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(22),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withAlpha(35),
+                  width: 1.2,
                 ),
-                const SizedBox(height: 2),
-                Container(
-                  width: 68,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFDFFF91),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  _logoAsset,
+                  width: 78,
+                  height: 78,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.high,
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -1381,7 +1389,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _simplePageHeader(
             title: 'Safety Reports',
-            subtitle: 'Report an unsafe condition or workplace hazard',
+            subtitle:
+                'Report an unsafe condition or workplace hazard',
             icon: Icons.warning_rounded,
           ),
           const SizedBox(height: 12),
