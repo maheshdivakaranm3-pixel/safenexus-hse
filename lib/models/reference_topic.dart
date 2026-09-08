@@ -8,7 +8,7 @@
 // • Dubai Guidelines
 // • HSE Safety References
 //
-// Keep this model independent from UI pages.
+// This model is independent from UI pages.
 // ============================================================
 
 /// Main categories used by the SafeNexus HSE
@@ -17,7 +17,7 @@ enum GuidelineCategory {
   /// Shows all available guideline topics.
   all,
 
-  /// UAE-wide/general safety requirements.
+  /// UAE-wide / general safety requirements.
   uaeGeneral,
 
   /// Abu Dhabi specific HSE requirements.
@@ -35,6 +35,16 @@ class ReferenceTopic {
   // ============================================================
   // BASIC INFORMATION
   // ============================================================
+
+  /// Unique identifier for the topic.
+  ///
+  /// Used for:
+  /// • Search
+  /// • Favorites
+  /// • Future database storage
+  /// • Deep linking
+  /// • Analytics
+  final String id;
 
   /// Main display title.
   final String title;
@@ -82,16 +92,17 @@ class ReferenceTopic {
   // ============================================================
 
   /// Detailed guideline content.
-  ///
-  /// Optional so existing data files that only contain
-  /// summary information can continue to work.
   final String content;
 
   /// Important requirements / controls.
   final List<String> keyRequirements;
 
-  /// Practical safety points for HSE professionals.
-  final List<String> safetyPoints;
+  /// Practical safety controls for HSE professionals.
+  final List<String> safetyControls;
+
+  /// Responsibilities of management, supervisors,
+  /// workers and HSE personnel.
+  final List<String> responsibilities;
 
   /// References or source information.
   final List<String> references;
@@ -101,6 +112,7 @@ class ReferenceTopic {
   // ============================================================
 
   const ReferenceTopic({
+    required this.id,
     required this.title,
     required this.shortTitle,
     required this.description,
@@ -110,7 +122,8 @@ class ReferenceTopic {
     required this.guidelineCategory,
     this.content = '',
     this.keyRequirements = const <String>[],
-    this.safetyPoints = const <String>[],
+    this.safetyControls = const <String>[],
+    this.responsibilities = const <String>[],
     this.references = const <String>[],
   });
 
@@ -119,6 +132,7 @@ class ReferenceTopic {
   // ============================================================
 
   ReferenceTopic copyWith({
+    String? id,
     String? title,
     String? shortTitle,
     String? description,
@@ -128,10 +142,12 @@ class ReferenceTopic {
     GuidelineCategory? guidelineCategory,
     String? content,
     List<String>? keyRequirements,
-    List<String>? safetyPoints,
+    List<String>? safetyControls,
+    List<String>? responsibilities,
     List<String>? references,
   }) {
     return ReferenceTopic(
+      id: id ?? this.id,
       title: title ?? this.title,
       shortTitle: shortTitle ?? this.shortTitle,
       description: description ?? this.description,
@@ -143,8 +159,10 @@ class ReferenceTopic {
       content: content ?? this.content,
       keyRequirements:
           keyRequirements ?? this.keyRequirements,
-      safetyPoints:
-          safetyPoints ?? this.safetyPoints,
+      safetyControls:
+          safetyControls ?? this.safetyControls,
+      responsibilities:
+          responsibilities ?? this.responsibilities,
       references:
           references ?? this.references,
     );
@@ -157,20 +175,32 @@ class ReferenceTopic {
   /// Returns true when the topic contains the supplied
   /// search query.
   bool matchesSearch(String query) {
-    final normalizedQuery =
-        query.trim().toLowerCase();
+    final normalizedQuery = query.trim().toLowerCase();
 
     if (normalizedQuery.isEmpty) {
       return true;
     }
 
-    return title.toLowerCase().contains(normalizedQuery) ||
+    return id.toLowerCase().contains(normalizedQuery) ||
+        title.toLowerCase().contains(normalizedQuery) ||
         shortTitle.toLowerCase().contains(normalizedQuery) ||
         description.toLowerCase().contains(normalizedQuery) ||
         category.toLowerCase().contains(normalizedQuery) ||
         authority.toLowerCase().contains(normalizedQuery) ||
         jurisdiction.toLowerCase().contains(normalizedQuery) ||
-        content.toLowerCase().contains(normalizedQuery);
+        content.toLowerCase().contains(normalizedQuery) ||
+        keyRequirements.any(
+          (item) => item.toLowerCase().contains(normalizedQuery),
+        ) ||
+        safetyControls.any(
+          (item) => item.toLowerCase().contains(normalizedQuery),
+        ) ||
+        responsibilities.any(
+          (item) => item.toLowerCase().contains(normalizedQuery),
+        ) ||
+        references.any(
+          (item) => item.toLowerCase().contains(normalizedQuery),
+        );
   }
 
   // ============================================================
@@ -180,6 +210,7 @@ class ReferenceTopic {
   @override
   String toString() {
     return 'ReferenceTopic('
+        'id: $id, '
         'title: $title, '
         'category: $category, '
         'authority: $authority, '
