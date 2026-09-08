@@ -6,6 +6,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Abu Dhabi Occupational Safety & Health System Framework',
     shortTitle: 'ADOSH-SF',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -50,6 +51,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Occupational Safety & Health Management System',
     shortTitle: 'OSHMS',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / Sector Regulatory Authorities',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -95,6 +97,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Abu Dhabi Risk Management',
     shortTitle: 'Risk Management',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'DMT / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -137,6 +140,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'HSE Plan for Building & Construction',
     shortTitle: 'HSE Plan',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'DMT',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -180,6 +184,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'OSH Roles & Responsibilities',
     shortTitle: 'Roles & Responsibilities',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -220,6 +225,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Incident & Accident Reporting',
     shortTitle: 'Incident Reporting',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -262,6 +268,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Training & Competency',
     shortTitle: 'Training & Competency',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -303,6 +310,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Contractor & Subcontractor Management',
     shortTitle: 'Contractor Management',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -345,6 +353,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Emergency Management',
     shortTitle: 'Emergency Management',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / Applicable Authorities',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -390,6 +399,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Work at Height',
     shortTitle: 'Work at Height',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -434,6 +444,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Scaffolding Safety',
     shortTitle: 'Scaffolding',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -477,6 +488,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Lifting Operations',
     shortTitle: 'Lifting Operations',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -522,6 +534,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Confined Space Entry',
     shortTitle: 'Confined Space',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -567,6 +580,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Excavation & Trenching',
     shortTitle: 'Excavation',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / DMT',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -611,6 +625,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Electrical Safety',
     shortTitle: 'Electrical Safety',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -654,6 +669,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Hot Work Safety',
     shortTitle: 'Hot Work',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -697,6 +713,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Construction Traffic Management',
     shortTitle: 'Traffic Management',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / DMT',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -742,6 +759,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Occupational Health',
     shortTitle: 'Occupational Health',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -784,6 +802,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Heat Stress Management',
     shortTitle: 'Heat Stress',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / MoHRE',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -827,6 +846,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Personal Protective Equipment',
     shortTitle: 'PPE',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -870,6 +890,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Environmental & Waste Management',
     shortTitle: 'Environmental Management',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Applicable Abu Dhabi Authorities',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -913,6 +934,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'HSE Inspection & Audit',
     shortTitle: 'Inspection & Audit',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -954,6 +976,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'OSH Performance Monitoring',
     shortTitle: 'Performance Monitoring',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
@@ -996,6 +1019,7 @@ const List<ReferenceTopic> abuDhabiGuidelines = [
     title: 'Electronic OSH Reporting',
     shortTitle: 'Electronic Reporting',
     category: 'Abu Dhabi',
+    guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'ADPHC / ADOSH-SF',
     jurisdiction: 'Abu Dhabi',
     description:
