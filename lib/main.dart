@@ -729,10 +729,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 icon: Icons.warning_rounded,
                 iconColor: const Color(0xFFC51E30),
                 background: const Color(0xFFFFF2F2),
+
+                // ==================================================
+                // CHANGED:
+                // Report Hazard now opens HazardReportPage directly.
+                // ==================================================
                 onTap: () {
-                  setState(() {
-                    _currentIndex = 2;
-                  });
+                  _openPage(
+                    const HazardReportPage(),
+                  );
                 },
               ),
             ),
@@ -1362,42 +1367,23 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _simplePageHeader(
             title: 'Safety Reports',
-            subtitle: 'Report unsafe conditions and observations',
+            subtitle: 'Report an unsafe condition or workplace hazard',
             icon: Icons.warning_rounded,
           ),
           const SizedBox(height: 12),
-          _reportChoiceCard(
-            title: 'Safety Observation',
-            subtitle: 'Record a positive or unsafe safety observation.',
-            icon: Icons.visibility_rounded,
-            color: const Color(0xFF1475D1),
-            onTap: () {
-              _openPage(
-                const SafetyObservationPage(),
-              );
-            },
-          ),
-          const SizedBox(height: 12),
+
+          // ==================================================
+          // ONLY REPORT HAZARD
+          // ==================================================
           _reportChoiceCard(
             title: 'Report Hazard',
-            subtitle: 'Report an unsafe condition or workplace hazard.',
+            subtitle:
+                'Report an unsafe condition or workplace hazard.',
             icon: Icons.warning_rounded,
             color: const Color(0xFFC51E30),
             onTap: () {
               _openPage(
                 const HazardReportPage(),
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _reportChoiceCard(
-            title: 'Observation History',
-            subtitle: 'View previously submitted reports and observations.',
-            icon: Icons.history_rounded,
-            color: const Color(0xFF6330D7),
-            onTap: () {
-              _openPage(
-                const ObservationHistoryPage(),
               );
             },
           ),
