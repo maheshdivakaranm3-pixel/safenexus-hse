@@ -7,6 +7,7 @@ import 'guidelines.dart';
 import 'hazard_report.dart';
 import 'observation_history.dart';
 import 'safety_observation.dart';
+import 'models/guideline_category.dart';
 
 import 'data/abu_dhabi_guidelines.dart';
 import 'data/dubai_guidelines.dart';
@@ -1129,7 +1130,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today • Healthy Tomorrow • Stronger UAE',
+                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
@@ -1162,7 +1163,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: const Row(
         children: [
           Text(
-            '🇦🇪',
+            '馃嚘馃嚜',
             style: TextStyle(
               fontSize: 30,
             ),
@@ -1338,7 +1339,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           _simplePageHeader(
             title: 'Learning Center',
             subtitle:
-                'Build Knowledge • Build a Safer You',
+                'Build Knowledge 鈥� Build a Safer You',
             icon: Icons.school_rounded,
           ),
           const SizedBox(height: 16),
@@ -1520,7 +1521,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'SafeNexus HSE • UAE',
+                  'SafeNexus HSE 鈥� UAE',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -1558,7 +1559,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
-                'Safe People • Safe Workplaces • Safer UAE',
+                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
               );
             },
           ),
