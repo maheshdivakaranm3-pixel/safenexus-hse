@@ -375,7 +375,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     return Row(
       children: [
         // ======================================================
-        // NEW SAFENEXUS HSE LOGO
+        // SAFENEXUS HSE LOGO
         // ======================================================
 
         Container(
@@ -397,8 +397,21 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             _logoAsset,
             width: 54,
             height: 54,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             filterQuality: FilterQuality.high,
+            errorBuilder: (
+              BuildContext context,
+              Object error,
+              StackTrace? stackTrace,
+            ) {
+              return const Center(
+                child: Icon(
+                  Icons.shield_rounded,
+                  color: Color(0xFF159447),
+                  size: 30,
+                ),
+              );
+            },
           ),
         ),
 
@@ -643,7 +656,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
 
           // ==================================================
-          // NEW SAFENEXUS HSE LOGO
+          // SAFENEXUS HSE LOGO
           // ==================================================
 
           Positioned(
@@ -666,8 +679,21 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   _logoAsset,
                   width: 78,
                   height: 78,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   filterQuality: FilterQuality.high,
+                  errorBuilder: (
+                    BuildContext context,
+                    Object error,
+                    StackTrace? stackTrace,
+                  ) {
+                    return const Center(
+                      child: Icon(
+                        Icons.shield_rounded,
+                        color: Colors.white,
+                        size: 42,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
