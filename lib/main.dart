@@ -75,7 +75,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color navy = Color(0xFF082653);
 
   // ==========================================================
-  // ORIGINAL SAFENEXUS HSE LOGO
+  // SAFENEXUS HSE LOGO
   // ==========================================================
 
   static const String _logoAsset =
@@ -369,16 +369,12 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // HEADER
-  // ORIGINAL SAFENEXUS LOGO
+  // SAFENEXUS HSE LOGO
   // ==========================================================
 
   Widget _buildHeader() {
     return Row(
       children: [
-        // ======================================================
-        // ORIGINAL FULL SAFENEXUS HSE LOGO
-        // ======================================================
-
         Container(
           width: 74,
           height: 74,
@@ -655,45 +651,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
 
           // ==================================================
-          // ORIGINAL SAFENEXUS HSE LOGO
-          // BOTTOM RIGHT
+          // IMPORTANT:
+          // BOTTOM-RIGHT LOGO REMOVED
           // ==================================================
-
-          Positioned(
-            right: 14,
-            bottom: 13,
-            child: Container(
-              width: 92,
-              height: 92,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(22),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withAlpha(35),
-                  width: 1.2,
-                ),
-              ),
-              child: Container(
-                width: 76,
-                height: 76,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.all(4),
-                child: ClipOval(
-                  child: Image.asset(
-                    _logoAsset,
-                    width: 68,
-                    height: 68,
-                    fit: BoxFit.contain,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          //
+          // The previous white circular SafeNexus logo
+          // has intentionally been removed from here.
+          //
+          // Header logo remains active above.
+          //
         ],
       ),
     );
@@ -1416,11 +1382,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             icon: Icons.warning_rounded,
           ),
           const SizedBox(height: 12),
-
-          // ==================================================
-          // ONLY REPORT HAZARD
-          // ==================================================
-
           _reportChoiceCard(
             title: 'Report Hazard',
             subtitle:
