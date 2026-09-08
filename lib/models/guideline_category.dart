@@ -2,19 +2,44 @@
 /// SafeNexus HSE
 /// Guideline Category
 ///
-/// Central category definition for UAE HSE guidelines.
+/// Central category definition for all HSE reference topics.
+///
+/// Categories:
+/// - All
+/// - UAE General
+/// - Abu Dhabi
+/// - Dubai
+/// - HSE Professional Reference
 /// ============================================================
 
 enum GuidelineCategory {
-  /// UAE-wide / general HSE guidance
+  // ============================================================
+  // ALL
+  // ============================================================
+
+  all,
+
+  // ============================================================
+  // UAE GENERAL
+  // ============================================================
+
   uaeGeneral,
 
-  /// Abu Dhabi specific HSE guidance
+  // ============================================================
+  // ABU DHABI
+  // ============================================================
+
   abuDhabi,
 
-  /// Dubai specific HSE guidance
+  // ============================================================
+  // DUBAI
+  // ============================================================
+
   dubai,
 
-  /// Professional HSE reference material
-  professional,
+  // ============================================================
+  // PROFESSIONAL HSE REFERENCE
+  // ============================================================
+
+  hseReference,
 }
