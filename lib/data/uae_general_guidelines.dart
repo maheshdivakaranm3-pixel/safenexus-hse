@@ -8,6 +8,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE Government / MoHRE',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'General guidance on the responsibilities of employers, supervisors, workers and HSE personnel for maintaining a safe and healthy workplace in the UAE.',
     keyRequirements: [
@@ -50,6 +51,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'A structured process for identifying hazards, evaluating risks and implementing controls before and during work activities.',
     keyRequirements: [
@@ -90,6 +92,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for identifying physical, chemical, biological, ergonomic, environmental and operational hazards before they cause harm.',
     keyRequirements: [
@@ -129,6 +132,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'A systematic approach for selecting effective risk controls, prioritising elimination and engineering controls over reliance on administrative measures and PPE alone.',
     keyRequirements: [
@@ -167,6 +171,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for controlling high-risk work through a formal permit-to-work system where required by the workplace risk assessment and company procedures.',
     keyRequirements: [
@@ -207,6 +212,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'A task-based process for breaking work into steps, identifying hazards and defining controls before the activity begins.',
     keyRequirements: [
@@ -246,6 +252,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Short, focused safety communication delivered before or during work to discuss hazards, controls, changes and lessons relevant to the task.',
     keyRequirements: [
@@ -284,6 +291,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE Government / MoHRE',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for reporting, recording, investigating and learning from workplace accidents, incidents, near misses and dangerous occurrences.',
     keyRequirements: [
@@ -326,6 +334,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE / Applicable Authority',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for preparing workplaces to respond effectively to fire, medical emergencies, hazardous releases, severe weather and other foreseeable emergencies.',
     keyRequirements: [
@@ -369,6 +378,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE Civil Defence / Applicable Authority',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'General workplace fire prevention and emergency preparedness guidance covering ignition sources, combustible materials, fire protection, evacuation and emergency response.',
     keyRequirements: [
@@ -411,6 +421,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'MoHRE / UAE Occupational HSE',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for preventing heat-related illness among workers exposed to high temperatures, humidity, radiant heat and physically demanding work, including the UAE Occupational Heat Stress Prevention Policy.',
     keyRequirements: [
@@ -454,6 +465,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for preventing falls from height during construction, maintenance, access and other elevated work activities.',
     keyRequirements: [
@@ -497,6 +509,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for erection, inspection, modification and safe use of scaffolding systems used for temporary access and work platforms.',
     keyRequirements: [
@@ -539,6 +552,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for selecting, inspecting, positioning and using portable and fixed ladders safely.',
     keyRequirements: [
@@ -579,6 +593,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Safety guidance for work in tanks, vessels, pits, chambers and other spaces where hazardous atmospheres, restricted access or other serious risks may exist.',
     keyRequirements: [
@@ -622,6 +637,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Safety guidance for excavation and trenching activities to prevent collapse, falls, underground service strikes, flooding and equipment-related incidents.',
     keyRequirements: [
@@ -665,6 +681,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for safe crane, hoist and lifting operations including planning, equipment inspection, lifting accessories, communication and exclusion zones.',
     keyRequirements: [
@@ -710,6 +727,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE / Applicable Authority',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for controlling electrical hazards including electric shock, arc flash, fire, damaged equipment and unauthorised electrical work.',
     keyRequirements: [
@@ -753,6 +771,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for controlling hazardous energy during maintenance, repair, cleaning and other work where unexpected energisation or release of stored energy could cause harm.',
     keyRequirements: [
@@ -794,6 +813,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE / Fire Safety Requirements',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for controlling welding, cutting, grinding and other activities that generate heat, sparks or flames and may create fire or explosion hazards.',
     keyRequirements: [
@@ -837,6 +857,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE Government / HSE Requirements',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for selecting, providing, using, inspecting and maintaining personal protective equipment based on workplace hazards.',
     keyRequirements: [
@@ -880,6 +901,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for identifying, handling, storing and controlling hazardous chemicals to reduce exposure, fire, spill and environmental risks.',
     keyRequirements: [
@@ -923,6 +945,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for reducing musculoskeletal injuries associated with lifting, carrying, pushing, pulling and repetitive manual handling.',
     keyRequirements: [
@@ -963,6 +986,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE / Applicable Authority',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for controlling vehicle, mobile plant and pedestrian interaction risks in workplaces, construction sites and industrial areas.',
     keyRequirements: [
@@ -1008,6 +1032,7 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
     category: 'UAE General',
     authority: 'UAE HSE Practice',
     jurisdiction: 'UAE',
+    guidelineCategory: GuidelineCategory.uaeGeneral,
     description:
         'Guidance for maintaining clean, orderly and accessible workplaces to prevent slips, trips, falls, fire hazards and other incidents.',
     keyRequirements: [
