@@ -13,6 +13,8 @@ import 'data/dubai_guidelines.dart';
 import 'data/hse_safety_reference.dart';
 import 'data/uae_general_guidelines.dart';
 
+import 'models/reference_topic.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const SafeNexusApp());
@@ -1166,7 +1168,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 color: const Color(0xFFB16A00),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory.hseReference,
+                    GuidelineCategory.hseSafety,
                   );
                 },
               ),
@@ -1378,8 +1380,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             subtitle: 'UAE Regulations & Best Practices',
             icon: Icons.menu_book_rounded,
           ),
-          Expanded(
-            child: const GuidelinesPage(),
+          const Expanded(
+            child: GuidelinesPage(),
           ),
         ],
       ),
@@ -1574,7 +1576,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             color: const Color(0xFFB16A00),
             onTap: () {
               _openGuidelineCategory(
-                GuidelineCategory.hseReference,
+                GuidelineCategory.hseSafety,
               );
             },
           ),
