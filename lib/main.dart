@@ -403,18 +403,37 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 maxLines: 1,
                 text: const TextSpan(
                   children: [
+                    // ==================================================
+                    // SAFE = NAVY
+                    // ==================================================
                     TextSpan(
-                      text: 'SafeNexus ',
+                      text: 'Safe',
                       style: TextStyle(
                         color: navy,
                         fontSize: 23,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
+
+                    // ==================================================
+                    // NEXUS = GREEN
+                    // ==================================================
                     TextSpan(
-                      text: 'HSE',
+                      text: 'Nexus',
                       style: TextStyle(
                         color: primaryGreen,
+                        fontSize: 23,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+
+                    // ==================================================
+                    // HSE = NAVY
+                    // ==================================================
+                    TextSpan(
+                      text: ' HSE',
+                      style: TextStyle(
+                        color: navy,
                         fontSize: 23,
                         fontWeight: FontWeight.w800,
                       ),
@@ -729,11 +748,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 icon: Icons.warning_rounded,
                 iconColor: const Color(0xFFC51E30),
                 background: const Color(0xFFFFF2F2),
-
-                // ==================================================
-                // CHANGED:
-                // Report Hazard now opens HazardReportPage directly.
-                // ==================================================
                 onTap: () {
                   _openPage(
                     const HazardReportPage(),
@@ -1375,6 +1389,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           // ==================================================
           // ONLY REPORT HAZARD
           // ==================================================
+
           _reportChoiceCard(
             title: 'Report Hazard',
             subtitle:
