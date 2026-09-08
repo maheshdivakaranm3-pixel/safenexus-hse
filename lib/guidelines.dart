@@ -145,10 +145,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   void _selectCategory(
     GuidelineCategory category,
   ) {
-    if (_selectedCategory == category) {
-      return;
-    }
-
     setState(() {
       _selectedCategory = category;
     });
@@ -302,7 +298,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         fontSize: 18,
                         height: 1.0,
                         fontWeight: FontWeight.w700,
-                        letterSpacing: 0,
                       ),
                     ),
                   ),
@@ -324,17 +319,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                         fontSize: 11.5,
                         height: 1.0,
                         fontWeight: FontWeight.w400,
-                        letterSpacing: 0,
                       ),
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 7),
-
-                // ==================================================
-                // SEARCH
-                // ==================================================
 
                 SizedBox(
                   height: 54,
@@ -346,63 +336,56 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       });
                     },
                     textInputAction: TextInputAction.search,
-                    textAlignVertical:
-                        TextAlignVertical.center,
+                    textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(
                       fontSize: 15,
                       height: 1.0,
                       color: Colors.black87,
                     ),
                     decoration: InputDecoration(
-                      hintText:
-                          'Search HSE guidelines...',
+                      hintText: 'Search HSE guidelines...',
                       hintStyle: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 15,
-                        height: 1.0,
                       ),
                       prefixIcon: const Icon(
                         Icons.search,
                         size: 25,
                         color: Colors.black54,
                       ),
-                      suffixIcon:
-                          _searchQuery.isNotEmpty
-                              ? IconButton(
-                                  tooltip: 'Clear search',
-                                  icon: const Icon(
-                                    Icons.clear,
-                                    color: Colors.black54,
-                                  ),
-                                  onPressed: () {
-                                    _searchController.clear();
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? IconButton(
+                              tooltip: 'Clear search',
+                              icon: const Icon(
+                                Icons.clear,
+                                color: Colors.black54,
+                              ),
+                              onPressed: () {
+                                _searchController.clear();
 
-                                    setState(() {
-                                      _searchQuery = '';
-                                    });
-                                  },
-                                )
-                              : null,
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                          : null,
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding:
                           const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 0,
                       ),
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
                         borderSide: BorderSide.none,
                       ),
-                      enabledBorder:
-                          OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
                         borderSide: BorderSide.none,
                       ),
-                      focusedBorder:
-                          OutlineInputBorder(
+                      focusedBorder: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(11),
                         borderSide: BorderSide.none,
@@ -460,15 +443,15 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
             child: SizedBox(
               height: 52,
               child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.center,
                 children: [
                   Container(
                     width: 42,
                     height: 42,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: primaryGreen.withAlpha(25),
+                      color: primaryGreen.withValues(
+                        alpha: 0.10,
+                      ),
                       borderRadius:
                           BorderRadius.circular(12),
                     ),
@@ -498,7 +481,6 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                           height: 1.0,
                           fontWeight: FontWeight.w700,
                           color: darkGreen,
-                          letterSpacing: 0,
                         ),
                       ),
                     ),
@@ -506,17 +488,13 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
                   const SizedBox(width: 8),
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '${topics.length} topics',
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: Colors.grey.shade700,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
-                        height: 1.0,
-                      ),
+                  Text(
+                    '${topics.length} topics',
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
                     ),
                   ),
                 ],
@@ -544,7 +522,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       bottomSafeSpace + 40,
                     ),
                     itemCount: topics.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder:
+                        (context, index) {
                       return _buildTopicCard(
                         topics[index],
                       );
@@ -606,9 +585,11 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               : Colors.grey.shade300,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius:
+              BorderRadius.circular(22),
         ),
-        padding: const EdgeInsets.symmetric(
+        padding:
+            const EdgeInsets.symmetric(
           horizontal: 7,
           vertical: 4,
         ),
@@ -632,10 +613,12 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       color: Colors.white,
       shadowColor: Colors.black12,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius:
+            BorderRadius.circular(18),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius:
+            BorderRadius.circular(18),
         onTap: () => _openTopic(topic),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -648,7 +631,10 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 height: 52,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: primaryGreen.withAlpha(25),
+                  color:
+                      primaryGreen.withValues(
+                    alpha: 0.10,
+                  ),
                   borderRadius:
                       BorderRadius.circular(14),
                 ),
@@ -676,7 +662,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       style: const TextStyle(
                         fontSize: 16,
                         height: 1.25,
-                        fontWeight: FontWeight.bold,
+                        fontWeight:
+                            FontWeight.bold,
                         color: darkGreen,
                       ),
                     ),
@@ -691,7 +678,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
-                        color: Colors.grey.shade700,
+                        color:
+                            Colors.grey.shade700,
                       ),
                     ),
 
@@ -718,7 +706,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
               const SizedBox(width: 6),
 
               const Padding(
-                padding: EdgeInsets.only(top: 2),
+                padding:
+                    EdgeInsets.only(top: 2),
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
@@ -747,21 +736,27 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
     }
 
     return Container(
-      constraints: const BoxConstraints(
+      constraints:
+          const BoxConstraints(
         maxWidth: 150,
       ),
-      padding: const EdgeInsets.symmetric(
+      padding:
+          const EdgeInsets.symmetric(
         horizontal: 9,
         vertical: 5,
       ),
       decoration: BoxDecoration(
-        color: color.withAlpha(23),
-        borderRadius: BorderRadius.circular(20),
+        color: color.withValues(
+          alpha: 0.09,
+        ),
+        borderRadius:
+            BorderRadius.circular(20),
       ),
       child: Text(
         cleanText,
         maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+        overflow:
+            TextOverflow.ellipsis,
         style: TextStyle(
           color: color,
           fontSize: 11,
@@ -786,7 +781,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(30),
+        padding:
+            const EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center,
@@ -843,7 +839,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                   });
                 },
                 icon: const Icon(Icons.clear),
-                label: const Text('Clear Search'),
+                label: const Text(
+                  'Clear Search',
+                ),
               ),
             ],
           ],
