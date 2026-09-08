@@ -40,3 +40,4 @@ flutter:
   assets:
     - assets/images/safenexus_hse_banner.png
     - assets/images/safenexus_hse_logo.png
+    - assets/images/safenexus_hse_header_mobile.png
