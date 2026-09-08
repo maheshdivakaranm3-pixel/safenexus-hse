@@ -339,7 +339,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             28,
           ),
           children: [
-            // NEW PROFESSIONAL TOP HEADER
+            // COMPACT PROFESSIONAL TOP HEADER
             _buildProfessionalHeader(),
 
             const SizedBox(height: 14),
@@ -379,24 +379,18 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
   // PROFESSIONAL TOP HEADER
   //
-  // LOGO LEFT
-  // SAFENEXUS HSE CENTER
-  // TAGLINE CENTER
   // WHITE BACKGROUND
+  // FULL HEADER IMAGE
+  // COMPACT HEIGHT
   // ==========================================================
 
   Widget _buildProfessionalHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        10,
-        12,
-        10,
-        12,
-      ),
+      height: 105,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: const Color(0xFFE1E8EE),
           width: 1,
@@ -404,143 +398,37 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(10),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // ==================================================
-          // LEFT LOGO
-          // ==================================================
-
-          SizedBox(
-            width: 72,
-            height: 72,
-            child: Image.asset(
-              'assets/images/safenexus_hse_logo.png',
-              fit: BoxFit.contain,
-              errorBuilder: (
-                context,
-                error,
-                stackTrace,
-              ) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEAF8F0),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.shield_rounded,
-                    color: primaryGreen,
-                    size: 46,
-                  ),
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // ==================================================
-          // CENTER BRANDING
-          // ==================================================
-
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // BRAND NAME
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Safe',
-                          style: TextStyle(
-                            color: navy,
-                            fontSize: 29,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Nexus',
-                          style: TextStyle(
-                            color: primaryGreen,
-                            fontSize: 29,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' HSE',
-                          style: TextStyle(
-                            color: navy,
-                            fontSize: 29,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 5),
-
-                // TAGLINE
-                const Text(
-                  'Safe People • Safe Workplaces • Safer UAE',
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Color(0xFF607D8B),
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w600,
-                    height: 1.25,
-                  ),
-                ),
-
-                const SizedBox(height: 7),
-
-                // UAE INSPIRED COLOUR LINE
-                Container(
-                  width: 120,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: const LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF159447),
-                        Color(0xFF159447),
-                        Color(0xFFE51C2A),
-                        Color(0xFFE51C2A),
-                        Color(0xFF111111),
-                        Color(0xFF111111),
-                        Color(0xFF159447),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // BALANCE SPACE ON RIGHT
-          const SizedBox(
-            width: 72,
-          ),
-        ],
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 6,
+        ),
+        child: Image.asset(
+          'assets/images/safenexus_hse_banner.png',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          errorBuilder: (
+            context,
+            error,
+            stackTrace,
+          ) {
+            return const Center(
+              child: Icon(
+                Icons.image_not_supported_rounded,
+                color: Color(0xFF159447),
+                size: 35,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
