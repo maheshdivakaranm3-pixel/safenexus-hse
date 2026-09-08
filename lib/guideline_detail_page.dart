@@ -10,835 +10,614 @@ class GuidelineDetailPage extends StatelessWidget {
     required this.topic,
   });
 
-  // ============================================================
-  // COLORS
-  // ============================================================
-
-  static const Color primaryGreen =
-      Color(0xFF159447);
-
-  static const Color darkGreen =
-      Color(0xFF0B5D4B);
-
-  static const Color pageBackground =
-      Color(0xFFF6F8F7);
-
-  // ============================================================
-  // CATEGORY ICON
-  // ============================================================
-
-  IconData _categoryIcon() {
-    switch (topic.guidelineCategory) {
-      case GuidelineCategory.all:
-        return Icons.apps_outlined;
-
-      case GuidelineCategory.uaeGeneral:
-        return Icons.flag_outlined;
-
-      case GuidelineCategory.abuDhabi:
-        return Icons.location_city_outlined;
-
-      case GuidelineCategory.dubai:
-        return Icons.apartment_outlined;
-
-      case GuidelineCategory.hseReference:
-        return Icons.menu_book_outlined;
-    }
-  }
-
-  // ============================================================
-  // CATEGORY LABEL
-  // ============================================================
-
-  String _categoryLabel() {
-    switch (topic.guidelineCategory) {
-      case GuidelineCategory.all:
-        return 'All';
-
-      case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
-
-      case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
-
-      case GuidelineCategory.dubai:
-        return 'Dubai';
-
-      case GuidelineCategory.hseReference:
-        return 'HSE Safety Reference';
-    }
-  }
-
-  // ============================================================
-  // SAFE LIST CHECK
-  // ============================================================
-
-  bool _hasItems(List<String> items) {
-    return items.any(
-      (item) => item.trim().isNotEmpty,
-    );
-  }
-
-  // ============================================================
-  // PROFESSIONAL HSE REFERENCE CHECK
-  // ============================================================
-
-  bool _isProfessionalHseReference() {
-    return topic.title.trim().toLowerCase() ==
-        'professional hse reference';
-  }
-
-  // ============================================================
-  // BUILD
-  // ============================================================
-
   @override
   Widget build(BuildContext context) {
-    final bottomSafeSpace =
-        MediaQuery.of(context).viewPadding.bottom;
-
     return Scaffold(
-      backgroundColor: pageBackground,
-
-      // ========================================================
-      // APP BAR
-      // ========================================================
-
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        toolbarHeight: 48,
         elevation: 0,
-        backgroundColor: primaryGreen,
+        backgroundColor: const Color(0xFF0B5D3B),
         foregroundColor: Colors.white,
-        title: const Text(
-          'Guideline Details',
-          style: TextStyle(
+        title: Text(
+          topic.shortTitle,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 18,
           ),
         ),
       ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ============================================================
+              // HEADER CARD
+              // ============================================================
 
-      // ========================================================
-      // BODY
-      // ========================================================
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF0B5D3B),
+                      Color(0xFF087F5B),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.10),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Category badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.16),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        topic.category,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
 
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          10,
-          16,
-          bottomSafeSpace + 32,
+                    const SizedBox(height: 14),
+
+                    Text(
+                      topic.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        height: 1.25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      topic.shortTitle,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.90),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 18),
+
+              // ============================================================
+              // AUTHORITY / JURISDICTION
+              // ============================================================
+
+              _InfoCard(
+                title: 'Authority & Jurisdiction',
+                icon: Icons.account_balance_outlined,
+                children: [
+                  _InfoRow(
+                    label: 'Authority',
+                    value: topic.authority,
+                  ),
+                  const SizedBox(height: 12),
+                  _InfoRow(
+                    label: 'Jurisdiction',
+                    value: topic.jurisdiction,
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // ============================================================
+              // DESCRIPTION
+              // ============================================================
+
+              _SectionCard(
+                title: 'Overview',
+                icon: Icons.info_outline,
+                child: Text(
+                  topic.description,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    height: 1.55,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // ============================================================
+              // KEY REQUIREMENTS
+              // ============================================================
+
+              if (topic.keyRequirements.isNotEmpty)
+                _ListSectionCard(
+                  title: 'Key Requirements',
+                  icon: Icons.checklist_outlined,
+                  items: topic.keyRequirements,
+                ),
+
+              if (topic.keyRequirements.isNotEmpty)
+                const SizedBox(height: 16),
+
+              // ============================================================
+              // SAFETY CONTROLS
+              // ============================================================
+
+              if (topic.safetyControls.isNotEmpty)
+                _ListSectionCard(
+                  title: 'Safety Controls',
+                  icon: Icons.health_and_safety_outlined,
+                  items: topic.safetyControls,
+                ),
+
+              if (topic.safetyControls.isNotEmpty)
+                const SizedBox(height: 16),
+
+              // ============================================================
+              // RESPONSIBILITIES
+              // ============================================================
+
+              if (topic.responsibilities.isNotEmpty)
+                _ListSectionCard(
+                  title: 'Responsibilities',
+                  icon: Icons.groups_outlined,
+                  items: topic.responsibilities,
+                ),
+
+              if (topic.responsibilities.isNotEmpty)
+                const SizedBox(height: 16),
+
+              // ============================================================
+              // REFERENCES
+              // ============================================================
+
+              if (topic.references.isNotEmpty)
+                _ReferenceSection(
+                  references: topic.references,
+                ),
+
+              const SizedBox(height: 24),
+
+              // ============================================================
+              // FOOTER / DISCLAIMER
+              // ============================================================
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      color: Color(0xFFB7791F),
+                      size: 22,
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'This reference is provided for general HSE information. '
+                        'Always verify the latest applicable UAE legislation, '
+                        'authority requirements, company procedures and project-specific controls.',
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          height: 1.5,
+                          color: Color(0xFF4B5563),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// INFO CARD
+// ============================================================================
+
+class _InfoCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+
+  const _InfoCard({
+    required this.title,
+    required this.icon,
+    required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTitleCard(),
-
-          const SizedBox(height: 14),
-
-          _buildOverviewCard(),
-
-          if (_hasItems(topic.keyRequirements)) ...[
-            const SizedBox(height: 14),
-            _buildListCard(
-              title: 'Key Requirements',
-              icon: Icons.checklist_rounded,
-              items: topic.keyRequirements,
-            ),
-          ],
-
-          if (_hasItems(topic.safetyControls)) ...[
-            const SizedBox(height: 14),
-            _buildListCard(
-              title: 'Safety Controls',
-              icon: Icons.health_and_safety_outlined,
-              items: topic.safetyControls,
-            ),
-          ],
-
-          if (_hasItems(topic.responsibilities)) ...[
-            const SizedBox(height: 14),
-            _buildListCard(
-              title: 'Responsibilities',
-              icon: Icons.groups_outlined,
-              items: topic.responsibilities,
-            ),
-          ],
-
-          if (_hasItems(topic.references)) ...[
-            const SizedBox(height: 14),
-            _buildReferencesCard(),
-          ],
-
-          const SizedBox(height: 14),
-
-          _buildProfessionalNote(),
+          _CardTitle(
+            title: title,
+            icon: icon,
+          ),
+          const SizedBox(height: 16),
+          ...children,
         ],
       ),
     );
   }
+}
 
-  // ============================================================
-  // TITLE CARD
-  // ============================================================
+// ============================================================================
+// SECTION CARD
+// ============================================================================
 
-  Widget _buildTitleCard() {
-    final isProfessionalReference =
-        _isProfessionalHseReference();
+class _SectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget child;
 
-    return Card(
-      elevation: 1.5,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+  const _SectionCard({
+    required this.title,
+    required this.icon,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment:
-              isProfessionalReference
-                  ? CrossAxisAlignment.center
-                  : CrossAxisAlignment.start,
-          children: [
-            // ==================================================
-            // TOP TITLE AREA
-            // ==================================================
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _CardTitle(
+            title: title,
+            icon: icon,
+          ),
+          const SizedBox(height: 14),
+          child,
+        ],
+      ),
+    );
+  }
+}
 
-            if (isProfessionalReference) ...[
-              // Center the icon
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  color: primaryGreen.withValues(
-                    alpha: 0.10,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(16),
+// ============================================================================
+// LIST SECTION CARD
+// ============================================================================
+
+class _ListSectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<String> items;
+
+  const _ListSectionCard({
+    required this.title,
+    required this.icon,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _CardTitle(
+            title: title,
+            icon: icon,
+          ),
+          const SizedBox(height: 14),
+
+          ...List.generate(
+            items.length,
+            (index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == items.length - 1 ? 0 : 12,
                 ),
-                child: Icon(
-                  _categoryIcon(),
-                  color: primaryGreen,
-                  size: 30,
+                child: _BulletItem(
+                  number: index + 1,
+                  text: items[index],
                 ),
-              ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-              const SizedBox(height: 14),
+// ============================================================================
+// REFERENCE SECTION
+// ============================================================================
 
-              // Exact centered title
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  topic.title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 21,
-                    height: 1.25,
-                    fontWeight: FontWeight.w800,
-                    color: darkGreen,
-                  ),
+class _ReferenceSection extends StatelessWidget {
+  final List<String> references;
+
+  const _ReferenceSection({
+    required this.references,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _CardTitle(
+            title: 'References',
+            icon: Icons.menu_book_outlined,
+          ),
+          const SizedBox(height: 14),
+
+          ...List.generate(
+            references.length,
+            (index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == references.length - 1 ? 0 : 10,
                 ),
-              ),
-
-              if (topic.shortTitle
-                  .trim()
-                  .isNotEmpty) ...[
-                const SizedBox(height: 6),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    topic.shortTitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ] else ...[
-              // =================================================
-              // NORMAL TOPIC LAYOUT
-              // =================================================
-
-              Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 58,
-                    height: 58,
-                    decoration: BoxDecoration(
-                      color: primaryGreen.withValues(
-                        alpha: 0.10,
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(16),
-                    ),
-                    child: Icon(
-                      _categoryIcon(),
-                      color: primaryGreen,
-                      size: 30,
-                    ),
-                  ),
-
-                  const SizedBox(width: 14),
-
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          topic.title,
-                          style: const TextStyle(
-                            fontSize: 21,
-                            height: 1.25,
-                            fontWeight:
-                                FontWeight.w800,
-                            color: darkGreen,
-                          ),
-                        ),
-
-                        if (topic.shortTitle
-                            .trim()
-                            .isNotEmpty) ...[
-                          const SizedBox(height: 6),
-                          Text(
-                            topic.shortTitle,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color:
-                                  Colors.grey.shade700,
-                              fontWeight:
-                                  FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-
-            // ==================================================
-            // DESCRIPTION
-            // ==================================================
-
-            const SizedBox(height: 16),
-
-            SizedBox(
-              width: double.infinity,
-              child: Text(
-                topic.description,
-                textAlign: isProfessionalReference
-                    ? TextAlign.center
-                    : TextAlign.start,
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.55,
-                  color: Colors.grey.shade800,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // ==================================================
-            // TAGS
-            // ==================================================
-
-            if (isProfessionalReference)
-              Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8,
-                  runSpacing: 8,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildTag(
-                      _categoryLabel(),
-                      primaryGreen,
+                    Container(
+                      width: 26,
+                      height: 26,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5EE),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: const Icon(
+                        Icons.link,
+                        size: 15,
+                        color: Color(0xFF0B5D3B),
+                      ),
                     ),
-                    _buildTag(
-                      topic.jurisdiction,
-                      Colors.blueGrey,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        references[index],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          height: 1.45,
+                          color: Color(0xFF374151),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              )
-            else
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _buildTag(
-                    _categoryLabel(),
-                    primaryGreen,
-                  ),
-                  _buildTag(
-                    topic.jurisdiction,
-                    Colors.blueGrey,
-                  ),
-                ],
-              ),
-          ],
-        ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
+}
 
-  // ============================================================
-  // OVERVIEW CARD
-  // ============================================================
+// ============================================================================
+// CARD TITLE
+// ============================================================================
 
-  Widget _buildOverviewCard() {
-    return Card(
-      elevation: 1.5,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            _buildSectionHeader(
-              icon: Icons.info_outline_rounded,
-              title: 'Reference Information',
-            ),
+class _CardTitle extends StatelessWidget {
+  final String title;
+  final IconData icon;
 
-            const SizedBox(height: 16),
+  const _CardTitle({
+    required this.title,
+    required this.icon,
+  });
 
-            _buildInfoRow(
-              icon: Icons.badge_outlined,
-              label: 'Reference ID',
-              value: topic.id,
-            ),
-
-            const SizedBox(height: 12),
-
-            _buildInfoRow(
-              icon: Icons.account_balance_outlined,
-              label: 'Authority',
-              value: topic.authority,
-            ),
-
-            const SizedBox(height: 12),
-
-            _buildInfoRow(
-              icon: Icons.location_on_outlined,
-              label: 'Jurisdiction',
-              value: topic.jurisdiction,
-            ),
-
-            const SizedBox(height: 12),
-
-            _buildInfoRow(
-              icon: Icons.category_outlined,
-              label: 'Category',
-              value: topic.category,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // SECTION HEADER
-  // ============================================================
-
-  Widget _buildSectionHeader({
-    required IconData icon,
-    required String title,
-  }) {
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
-          width: 42,
-          height: 42,
+          width: 38,
+          height: 38,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: primaryGreen.withValues(
-              alpha: 0.10,
-            ),
-            borderRadius:
-                BorderRadius.circular(12),
+            color: const Color(0xFFE8F5EE),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
             icon,
-            color: primaryGreen,
-            size: 23,
+            color: const Color(0xFF0B5D3B),
+            size: 21,
           ),
         ),
-
-        const SizedBox(width: 12),
-
+        const SizedBox(width: 11),
         Expanded(
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-              color: darkGreen,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF111827),
             ),
           ),
         ),
       ],
     );
   }
+}
 
-  // ============================================================
-  // INFO ROW
-  // ============================================================
+// ============================================================================
+// INFO ROW
+// ============================================================================
 
-  Widget _buildInfoRow({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    final cleanValue = value.trim();
+class _InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
 
-    return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
+  const _InfoRow({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 21,
-          color: primaryGreen,
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF6B7280),
+          ),
         ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14.5,
+            height: 1.4,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF1F2937),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-        const SizedBox(width: 10),
+// ============================================================================
+// BULLET ITEM
+// ============================================================================
 
-        SizedBox(
-          width: 92,
+class _BulletItem extends StatelessWidget {
+  final int number;
+  final String text;
+
+  const _BulletItem({
+    required this.number,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 27,
+          height: 27,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE8F5EE),
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: Colors.grey.shade700,
+            '$number',
+            style: const TextStyle(
+              color: Color(0xFF0B5D3B),
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-
-        const SizedBox(width: 8),
-
+        const SizedBox(width: 10),
         Expanded(
           child: Text(
-            cleanValue.isEmpty
-                ? 'Not specified'
-                : cleanValue,
+            text,
             style: const TextStyle(
-              fontSize: 14,
-              height: 1.35,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              fontSize: 14.5,
+              height: 1.5,
+              color: Color(0xFF374151),
             ),
           ),
         ),
       ],
-    );
-  }
-
-  // ============================================================
-  // LIST CARD
-  // ============================================================
-
-  Widget _buildListCard({
-    required String title,
-    required IconData icon,
-    required List<String> items,
-  }) {
-    final visibleItems = items
-        .where(
-          (item) => item.trim().isNotEmpty,
-        )
-        .toList();
-
-    return Card(
-      elevation: 1.5,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            _buildSectionHeader(
-              icon: icon,
-              title: title,
-            ),
-
-            const SizedBox(height: 14),
-
-            ...List.generate(
-              visibleItems.length,
-              (index) {
-                return _buildBulletItem(
-                  number: index + 1,
-                  text: visibleItems[index],
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // BULLET ITEM
-  // ============================================================
-
-  Widget _buildBulletItem({
-    required int number,
-    required String text,
-  }) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(
-        bottom: 10,
-      ),
-      padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(
-        color: pageBackground,
-        borderRadius:
-            BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 28,
-            height: 28,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: primaryGreen,
-              borderRadius:
-                  BorderRadius.circular(9),
-            ),
-            child: Text(
-              '$number',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 11),
-
-          Expanded(
-            child: Text(
-              text.trim(),
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.45,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // REFERENCES CARD
-  // ============================================================
-
-  Widget _buildReferencesCard() {
-    final visibleReferences = topic.references
-        .where(
-          (item) => item.trim().isNotEmpty,
-        )
-        .toList();
-
-    return Card(
-      elevation: 1.5,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            _buildSectionHeader(
-              icon: Icons.menu_book_outlined,
-              title: 'References',
-            ),
-
-            const SizedBox(height: 14),
-
-            ...List.generate(
-              visibleReferences.length,
-              (index) {
-                return Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(
-                    bottom: 10,
-                  ),
-                  padding:
-                      const EdgeInsets.all(13),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.circular(14),
-                    border: Border.all(
-                      color:
-                          Colors.grey.shade300,
-                    ),
-                  ),
-                  child: Row(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.link_rounded,
-                        size: 20,
-                        color: primaryGreen,
-                      ),
-
-                      const SizedBox(width: 10),
-
-                      Expanded(
-                        child: Text(
-                          visibleReferences[index]
-                              .trim(),
-                          style:
-                              const TextStyle(
-                            fontSize: 13,
-                            height: 1.45,
-                            color:
-                                Colors.black87,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // TAG
-  // ============================================================
-
-  Widget _buildTag(
-    String text,
-    Color color,
-  ) {
-    final cleanText = text.trim();
-
-    if (cleanText.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      constraints:
-          const BoxConstraints(
-        maxWidth: 190,
-      ),
-      padding:
-          const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 6,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(
-          alpha: 0.09,
-        ),
-        borderRadius:
-            BorderRadius.circular(20),
-        border: Border.all(
-          color: color.withValues(
-            alpha: 0.18,
-          ),
-        ),
-      ),
-      child: Text(
-        cleanText,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // PROFESSIONAL NOTE
-  // ============================================================
-
-  Widget _buildProfessionalNote() {
-    return Card(
-      elevation: 0,
-      color: primaryGreen.withValues(
-        alpha: 0.07,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(18),
-        side: BorderSide(
-          color: primaryGreen.withValues(
-            alpha: 0.18,
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            const Icon(
-              Icons.verified_outlined,
-              color: primaryGreen,
-              size: 25,
-            ),
-
-            const SizedBox(width: 10),
-
-            Expanded(
-              child: Text(
-                'Use this reference together with your organisation’s approved HSE procedures, risk assessments and applicable UAE requirements.',
-                style: TextStyle(
-                  fontSize: 13,
-                  height: 1.45,
-                  color: Colors.grey.shade800,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
