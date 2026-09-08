@@ -75,7 +75,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color navy = Color(0xFF082653);
 
   // ==========================================================
-  // SAFE NEXUS LOGO
+  // ORIGINAL SAFENEXUS HSE LOGO
   // ==========================================================
 
   static const String _logoAsset =
@@ -369,21 +369,23 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // HEADER
+  // ORIGINAL SAFENEXUS LOGO
   // ==========================================================
 
   Widget _buildHeader() {
     return Row(
       children: [
         // ======================================================
-        // SAFENEXUS HSE LOGO
+        // ORIGINAL FULL SAFENEXUS HSE LOGO
         // ======================================================
 
         Container(
-          width: 54,
-          height: 54,
+          width: 74,
+          height: 74,
+          padding: const EdgeInsets.all(7),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(17),
+            borderRadius: BorderRadius.circular(21),
             boxShadow: [
               BoxShadow(
                 color: primaryGreen.withAlpha(35),
@@ -392,30 +394,16 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ],
           ),
-          clipBehavior: Clip.antiAlias,
           child: Image.asset(
             _logoAsset,
-            width: 54,
-            height: 54,
+            width: 60,
+            height: 60,
             fit: BoxFit.contain,
             filterQuality: FilterQuality.high,
-            errorBuilder: (
-              BuildContext context,
-              Object error,
-              StackTrace? stackTrace,
-            ) {
-              return const Center(
-                child: Icon(
-                  Icons.shield_rounded,
-                  color: Color(0xFF159447),
-                  size: 30,
-                ),
-              );
-            },
           ),
         ),
 
-        const SizedBox(width: 11),
+        const SizedBox(width: 12),
 
         Expanded(
           child: Column(
@@ -423,6 +411,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             children: [
               RichText(
                 maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 text: const TextSpan(
                   children: [
                     TextSpan(
@@ -593,6 +582,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             ),
           ),
 
+          // ==================================================
+          // UAE FLAG
+          // ==================================================
+
           Positioned(
             right: 22,
             top: 22,
@@ -609,11 +602,17 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               child: const Center(
                 child: Text(
                   '🇦🇪',
-                  style: TextStyle(fontSize: 28),
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
                 ),
               ),
             ),
           ),
+
+          // ==================================================
+          // HERO TEXT
+          // ==================================================
 
           Positioned(
             left: 21,
@@ -656,16 +655,17 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
 
           // ==================================================
-          // SAFENEXUS HSE LOGO
+          // ORIGINAL SAFENEXUS HSE LOGO
+          // BOTTOM RIGHT
           // ==================================================
 
           Positioned(
-            right: 12,
+            right: 14,
             bottom: 13,
             child: Container(
               width: 92,
               height: 92,
-              padding: const EdgeInsets.all(7),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha(22),
                 shape: BoxShape.circle,
@@ -674,26 +674,22 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   width: 1.2,
                 ),
               ),
-              child: ClipOval(
-                child: Image.asset(
-                  _logoAsset,
-                  width: 78,
-                  height: 78,
-                  fit: BoxFit.contain,
-                  filterQuality: FilterQuality.high,
-                  errorBuilder: (
-                    BuildContext context,
-                    Object error,
-                    StackTrace? stackTrace,
-                  ) {
-                    return const Center(
-                      child: Icon(
-                        Icons.shield_rounded,
-                        color: Colors.white,
-                        size: 42,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 76,
+                height: 76,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(4),
+                child: ClipOval(
+                  child: Image.asset(
+                    _logoAsset,
+                    width: 68,
+                    height: 68,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
+                  ),
                 ),
               ),
             ),
