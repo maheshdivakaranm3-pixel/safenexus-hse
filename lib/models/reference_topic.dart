@@ -11,13 +11,7 @@
 /// - Professional HSE Reference
 /// ============================================================
 
-enum GuidelineCategory {
-  all,
-  uaeGeneral,
-  abuDhabi,
-  dubai,
-  hseReference,
-}
+import 'guideline_category.dart';
 
 class ReferenceTopic {
   // ============================================================
