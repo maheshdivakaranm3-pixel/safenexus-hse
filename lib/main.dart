@@ -1168,7 +1168,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 color: const Color(0xFFB16A00),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory.hseSafety,
+                    GuidelineCategory.hseReference,
                   );
                 },
               ),
@@ -1576,7 +1576,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             color: const Color(0xFFB16A00),
             onTap: () {
               _openGuidelineCategory(
-                GuidelineCategory.hseSafety,
+                GuidelineCategory.hseReference,
               );
             },
           ),
