@@ -17,19 +17,13 @@ class ObservationHistoryPage extends StatefulWidget {
 
 class _ObservationHistoryPageState
     extends State<ObservationHistoryPage> {
-  static const String _storageKey =
-      'safenexus_observations';
+  static const String _storageKey = 'safenexus_observations';
 
-  List<Map<String, dynamic>> _reports =
-      <Map<String, dynamic>>[];
+  List<Map<String, dynamic>> _reports = <Map<String, dynamic>>[];
 
   bool _loading = true;
 
   String _filter = 'All';
-
-  // ============================================================
-  // FILTERS
-  // ============================================================
 
   static const List<String> _filters = [
     'All',
@@ -37,19 +31,11 @@ class _ObservationHistoryPageState
     'Hazard Report',
   ];
 
-  // ============================================================
-  // INIT
-  // ============================================================
-
   @override
   void initState() {
     super.initState();
     _loadReports();
   }
-
-  // ============================================================
-  // LOAD REPORTS
-  // ============================================================
 
   Future<void> _loadReports() async {
     if (mounted) {
@@ -59,39 +45,27 @@ class _ObservationHistoryPageState
     }
 
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final stored =
-          prefs.getStringList(
-                _storageKey,
-              ) ??
-              <String>[];
+          prefs.getStringList(_storageKey) ?? <String>[];
 
-      final List<Map<String, dynamic>>
-          loadedReports =
+      final List<Map<String, dynamic>> loadedReports =
           <Map<String, dynamic>>[];
 
       bool storageChanged = false;
 
       for (final raw in stored) {
         try {
-          final decoded =
-              jsonDecode(raw);
+          final decoded = jsonDecode(raw);
 
           if (decoded is! Map) {
             continue;
           }
 
-          final report =
-              Map<String, dynamic>.from(
-            decoded,
-          );
+          final report = Map<String, dynamic>.from(decoded);
 
-          final id =
-              _stringValue(
-            report['id'],
-          );
+          final id = _stringValue(report['id']);
 
           if (id.isEmpty) {
             continue;
@@ -102,6 +76,7 @@ class _ObservationHistoryPageState
           _normalizeReport(report);
 
           final after = jsonEncode(report);
+
           if (before != after) {
             storageChanged = true;
           }
@@ -116,22 +91,17 @@ class _ObservationHistoryPageState
         try {
           await prefs.setStringList(
             _storageKey,
-            loadedReports
-                .map(jsonEncode)
-                .toList(),
+            loadedReports.map(jsonEncode).toList(),
           );
         } catch (_) {
-          // Keep the normalized in-memory records even if persistence fails.
+          // Keep normalized in-memory records.
         }
       }
 
       loadedReports.sort(
         (a, b) {
-          final dateA =
-              _dateFromReport(a);
-
-          final dateB =
-              _dateFromReport(b);
+          final dateA = _dateFromReport(a);
+          final dateB = _dateFromReport(b);
 
           return dateB.compareTo(dateA);
         },
@@ -140,16 +110,14 @@ class _ObservationHistoryPageState
       if (!mounted) return;
 
       setState(() {
-        _reports =
-            loadedReports;
+        _reports = loadedReports;
         _loading = false;
       });
     } catch (_) {
       if (!mounted) return;
 
       setState(() {
-        _reports =
-            <Map<String, dynamic>>[];
+        _reports = <Map<String, dynamic>>[];
         _loading = false;
       });
 
@@ -160,133 +128,85 @@ class _ObservationHistoryPageState
     }
   }
 
-  // ============================================================
-  // NORMALIZE REPORT
-  // ============================================================
-
   void _normalizeReport(
     Map<String, dynamic> report,
   ) {
-    final existingType =
-        _stringValue(
-      report['reportType'],
-    );
+    final existingType = _stringValue(report['reportType']);
 
     if (existingType.isNotEmpty) {
-      report['reportType'] =
-          _normalizeReportType(
-        existingType,
-      );
+      report['reportType'] = _normalizeReportType(existingType);
     } else {
       final observationType =
-          _stringValue(
-        report['observationType'],
-      );
+          _stringValue(report['observationType']);
 
-      final legacyType =
-          _stringValue(
-        report['type'],
-      );
+      final legacyType = _stringValue(report['type']);
 
-      final fallbackType =
-          observationType.isNotEmpty
-              ? observationType
-              : legacyType;
+      final fallbackType = observationType.isNotEmpty
+          ? observationType
+          : legacyType;
 
-      if (fallbackType
-          .toLowerCase()
-          .contains('hazard')) {
-        report['reportType'] =
-            'Hazard Report';
+      if (fallbackType.toLowerCase().contains('hazard')) {
+        report['reportType'] = 'Hazard Report';
       } else {
-        report['reportType'] =
-            'Safety Observation';
+        report['reportType'] = 'Safety Observation';
       }
     }
 
-    final date =
-        _dateFromReport(report);
+    final date = _dateFromReport(report);
 
-    if (date.millisecondsSinceEpoch !=
-        0) {
-      report['submittedAt'] =
-          date.toIso8601String();
+    if (date.millisecondsSinceEpoch != 0) {
+      report['submittedAt'] = date.toIso8601String();
     }
 
-    if (_stringValue(
-          report['riskLevel'],
-        ).isEmpty) {
-      report['riskLevel'] =
-          _stringValue(
+    if (_stringValue(report['riskLevel']).isEmpty) {
+      report['riskLevel'] = _stringValue(
         report['severity'],
         fallback: 'Medium',
       );
     }
 
-    if (_stringValue(
-          report['hazard'],
-        ).isEmpty) {
-      report['hazard'] =
-          _stringValue(
+    if (_stringValue(report['hazard']).isEmpty) {
+      report['hazard'] = _stringValue(
         report['hazardType'],
-        fallback:
-            'General Workplace Hazard',
+        fallback: 'General Workplace Hazard',
       );
     }
 
-    if (_stringValue(
-          report['correctiveAction'],
-        ).isEmpty) {
-      report['correctiveAction'] =
-          _stringValue(
+    if (_stringValue(report['correctiveAction']).isEmpty) {
+      report['correctiveAction'] = _stringValue(
         report['action'],
       );
     }
 
-    report['description'] =
-        _stringValue(
+    report['description'] = _stringValue(
       report['description'],
     );
 
-    report['location'] =
-        _stringValue(
+    report['location'] = _stringValue(
       report['location'],
     );
 
-    report['photoPath'] =
-        _stringValue(
+    report['photoPath'] = _stringValue(
       report['photoPath'],
     );
 
-    report['status'] =
-        _stringValue(
+    report['status'] = _stringValue(
       report['status'],
       fallback: 'Open',
     );
   }
 
-  // ============================================================
-  // REPORT TYPE
-  // ============================================================
-
   String _normalizeReportType(
     String value,
   ) {
-    final normalized =
-        value.trim().toLowerCase();
+    final normalized = value.trim().toLowerCase();
 
-    if (normalized.contains(
-      'hazard',
-    )) {
+    if (normalized.contains('hazard')) {
       return 'Hazard Report';
     }
 
     return 'Safety Observation';
   }
-
-  // ============================================================
-  // DATE
-  // ============================================================
 
   DateTime _dateFromReport(
     Map<String, dynamic> report,
@@ -297,30 +217,22 @@ class _ObservationHistoryPageState
       report['createdAt'],
     ];
 
-    for (final candidate
-        in candidates) {
-      final text =
-          _stringValue(candidate);
+    for (final candidate in candidates) {
+      final text = _stringValue(candidate);
 
       if (text.isEmpty) {
         continue;
       }
 
-      final parsed =
-          DateTime.tryParse(text);
+      final parsed = DateTime.tryParse(text);
 
       if (parsed != null) {
         return parsed;
       }
     }
 
-    return DateTime
-        .fromMillisecondsSinceEpoch(0);
+    return DateTime.fromMillisecondsSinceEpoch(0);
   }
-
-  // ============================================================
-  // STRING VALUE
-  // ============================================================
 
   String _stringValue(
     dynamic value, {
@@ -330,62 +242,42 @@ class _ObservationHistoryPageState
       return fallback;
     }
 
-    final text =
-        value.toString().trim();
+    final text = value.toString().trim();
 
-    return text.isEmpty
-        ? fallback
-        : text;
+    return text.isEmpty ? fallback : text;
   }
 
-  // ============================================================
-  // FILTERED REPORTS
-  // ============================================================
-
-  List<Map<String, dynamic>>
-      get _filteredReports {
+  List<Map<String, dynamic>> get _filteredReports {
     if (_filter == 'All') {
       return _reports;
     }
 
     return _reports.where(
       (report) {
-        return _stringValue(
-              report['reportType'],
-            ) ==
-            _filter;
+        return _stringValue(report['reportType']) == _filter;
       },
     ).toList();
   }
 
-  // ============================================================
-  // COUNTS
-  // ============================================================
+  int get _totalCount => _reports.length;
 
-  int get _totalCount =>
-      _reports.length;
+  int get _observationCount {
+    return _reports.where(
+      (report) {
+        return _stringValue(report['reportType']) ==
+            'Safety Observation';
+      },
+    ).length;
+  }
 
-  int get _observationCount =>
-      _reports.where(
-        (report) =>
-            _stringValue(
-              report['reportType'],
-            ) ==
-            'Safety Observation',
-      ).length;
-
-  int get _hazardCount =>
-      _reports.where(
-        (report) =>
-            _stringValue(
-              report['reportType'],
-            ) ==
-            'Hazard Report',
-      ).length;
-
-  // ============================================================
-  // MESSAGE
-  // ============================================================
+  int get _hazardCount {
+    return _reports.where(
+      (report) {
+        return _stringValue(report['reportType']) ==
+            'Hazard Report';
+      },
+    ).length;
+  }
 
   void _showMessage(
     String message, {
@@ -393,51 +285,35 @@ class _ObservationHistoryPageState
   }) {
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context)
-        .hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior:
-            SnackBarBehavior.floating,
-        backgroundColor: error
-            ? Colors.red.shade700
-            : Colors.green.shade700,
-        content:
-            Text(message),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor:
+            error ? Colors.red.shade700 : Colors.green.shade700,
+        content: Text(message),
       ),
     );
   }
 
-  // ============================================================
-  // DELETE REPORT
-  // ============================================================
-
   Future<void> _deleteReport(
     Map<String, dynamic> report,
   ) async {
-    final id =
-        _stringValue(
-      report['id'],
-    );
+    final id = _stringValue(report['id']);
 
     if (id.isEmpty) {
       return;
     }
 
-    final confirmed =
-        await showDialog<bool>(
+    final confirmed = await showDialog<bool>(
       context: context,
-      builder:
-          (dialogContext) {
+      builder: (dialogContext) {
         return AlertDialog(
-          title:
-              const Text(
+          title: const Text(
             'Delete Report?',
           ),
-          content:
-              const Text(
+          content: const Text(
             'This report will be permanently removed from local history.',
           ),
           actions: [
@@ -448,8 +324,7 @@ class _ObservationHistoryPageState
                   false,
                 );
               },
-              child:
-                  const Text(
+              child: const Text(
                 'Cancel',
               ),
             ),
@@ -460,8 +335,7 @@ class _ObservationHistoryPageState
                   true,
                 );
               },
-              child:
-                  const Text(
+              child: const Text(
                 'Delete',
               ),
             ),
@@ -475,42 +349,37 @@ class _ObservationHistoryPageState
     }
 
     try {
-      final prefs =
-          await SharedPreferences
-              .getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final stored =
-          prefs.getStringList(
-                _storageKey,
-              ) ??
-              <String>[];
+          prefs.getStringList(_storageKey) ?? <String>[];
 
-      final updated =
-          <String>[];
+      final updated = <String>[];
+
+      bool removed = false;
 
       for (final raw in stored) {
         try {
-          final decoded =
-              jsonDecode(raw);
+          final decoded = jsonDecode(raw);
 
           if (decoded is! Map) {
             updated.add(raw);
             continue;
           }
 
-          final item =
-              Map<String, dynamic>.from(
-            decoded,
-          );
+          final item = Map<String, dynamic>.from(decoded);
 
-          final itemId =
-              _stringValue(
-            item['id'],
-          );
+          final itemId = _stringValue(item['id']);
 
-          if (itemId != id) {
-            updated.add(raw);
+          // IMPORTANT:
+          // Remove only the FIRST matching record.
+          // This protects against legacy duplicate IDs.
+          if (!removed && itemId == id) {
+            removed = true;
+            continue;
           }
+
+          updated.add(raw);
         } catch (_) {
           updated.add(raw);
         }
@@ -521,32 +390,44 @@ class _ObservationHistoryPageState
         updated,
       );
 
-      final photoPath =
-          _stringValue(
+      final photoPath = _stringValue(
         report['photoPath'],
       );
 
       if (photoPath.isNotEmpty) {
         try {
-          final file =
-              File(photoPath);
+          final file = File(photoPath);
 
           if (await file.exists()) {
             await file.delete();
           }
-        } catch (_) {}
+        } catch (_) {
+          // Ignore photo deletion errors.
+        }
       }
 
       if (!mounted) return;
 
       setState(() {
-        _reports.removeWhere(
-          (item) =>
-              _stringValue(
-                item['id'],
-              ) ==
-              id,
+        final index = _reports.indexWhere(
+          (item) {
+            return identical(item, report);
+          },
         );
+
+        if (index >= 0) {
+          _reports.removeAt(index);
+        } else {
+          final fallbackIndex = _reports.indexWhere(
+            (item) {
+              return _stringValue(item['id']) == id;
+            },
+          );
+
+          if (fallbackIndex >= 0) {
+            _reports.removeAt(fallbackIndex);
+          }
+        }
       });
 
       _showMessage(
@@ -560,15 +441,10 @@ class _ObservationHistoryPageState
     }
   }
 
-  // ============================================================
-  // SHARE REPORT
-  // ============================================================
-
   Future<void> _shareReport(
     Map<String, dynamic> report,
   ) async {
-    final text =
-        _buildShareText(report);
+    final text = _buildShareText(report);
 
     try {
       await Share.share(
@@ -584,111 +460,77 @@ class _ObservationHistoryPageState
     }
   }
 
-  // ============================================================
-  // SHARE TEXT
-  // ============================================================
-
   String _buildShareText(
     Map<String, dynamic> report,
   ) {
-    final type =
-        _stringValue(
+    final type = _stringValue(
       report['reportType'],
-      fallback:
-          'Safety Report',
+      fallback: 'Safety Report',
     );
 
-    final id =
-        _stringValue(
+    final id = _stringValue(
       report['id'],
-      fallback:
-          'N/A',
+      fallback: 'N/A',
     );
 
-    final date =
-        _formatDate(
+    final date = _formatDate(
       _dateFromReport(report),
     );
 
-    final category =
-        _stringValue(
+    final category = _stringValue(
       report['category'],
-      fallback:
-          'General Safety',
+      fallback: 'General Safety',
     );
 
-    final hazard =
-        _stringValue(
+    final hazard = _stringValue(
       report['hazard'],
-      fallback:
-          'General Workplace Hazard',
+      fallback: 'General Workplace Hazard',
     );
 
-    final risk =
-        _stringValue(
+    final risk = _stringValue(
       report['riskLevel'],
-      fallback:
-          'Medium',
+      fallback: 'Medium',
     );
 
-    final location =
-        _stringValue(
+    final location = _stringValue(
       report['location'],
-      fallback:
-          'Not specified',
+      fallback: 'Not specified',
     );
 
-    final description =
-        _stringValue(
+    final description = _stringValue(
       report['description'],
-      fallback:
-          'No description provided.',
+      fallback: 'No description provided.',
     );
 
-    final action =
-        _stringValue(
+    final action = _stringValue(
       report['correctiveAction'],
-      fallback:
-          'No corrective action provided.',
+      fallback: 'No corrective action provided.',
     );
 
-    final status =
-        _stringValue(
+    final status = _stringValue(
       report['status'],
-      fallback:
-          'Open',
+      fallback: 'Open',
     );
 
     String aiSummary = '';
 
-    final rawAi =
-        report['aiAnalysis'];
+    final rawAi = report['aiAnalysis'];
 
     if (rawAi is Map) {
-      final ai =
-          Map<String, dynamic>.from(
-        rawAi,
-      );
+      final ai = Map<String, dynamic>.from(rawAi);
 
-      final completed =
-          ai['completed'] == true;
+      final completed = ai['completed'] == true;
 
-      final explanation =
-          _stringValue(
+      final explanation = _stringValue(
         ai['explanation'],
       );
 
-      if (completed &&
-          explanation.isNotEmpty) {
+      if (completed && explanation.isNotEmpty) {
         aiSummary =
             '\nAI Analysis:\n'
             '$explanation\n';
       }
     }
-
-    // IMPORTANT:
-    // Fixed previous TypeLabel error.
-    // Do NOT use $TypeLabel here.
 
     return '''
 SafeNexus HSE
@@ -714,15 +556,10 @@ Generated by SafeNexus HSE.
 ''';
   }
 
-  // ============================================================
-  // DATE FORMAT
-  // ============================================================
-
   String _formatDate(
     DateTime date,
   ) {
-    if (date.millisecondsSinceEpoch ==
-        0) {
+    if (date.millisecondsSinceEpoch == 0) {
       return 'Unknown';
     }
 
@@ -733,31 +570,20 @@ Generated by SafeNexus HSE.
         '${date.minute.toString().padLeft(2, '0')}';
   }
 
-  // ============================================================
-  // PHOTO CHECK
-  // ============================================================
-
   bool _hasPhoto(
     Map<String, dynamic> report,
   ) {
-    final path =
-        _stringValue(
+    final path = _stringValue(
       report['photoPath'],
     );
 
-    return path.isNotEmpty &&
-        File(path).existsSync();
+    return path.isNotEmpty && File(path).existsSync();
   }
-
-  // ============================================================
-  // RISK COLOR
-  // ============================================================
 
   Color _riskColor(
     String risk,
   ) {
-    switch (
-        risk.toLowerCase()) {
+    switch (risk.toLowerCase()) {
       case 'low':
         return Colors.green.shade700;
 
@@ -775,24 +601,15 @@ Generated by SafeNexus HSE.
     }
   }
 
-  // ============================================================
-  // TYPE COLOR
-  // ============================================================
-
   Color _typeColor(
     String type,
   ) {
-    if (type ==
-        'Hazard Report') {
+    if (type == 'Hazard Report') {
       return Colors.red.shade700;
     }
 
     return Colors.green.shade700;
   }
-
-  // ============================================================
-  // BUILD
-  // ============================================================
 
   @override
   Widget build(
@@ -800,26 +617,19 @@ Generated by SafeNexus HSE.
   ) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            const Text(
+        title: const Text(
           'Reports & History',
-          style:
-              TextStyle(
-            fontWeight:
-                FontWeight.w800,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
           ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            tooltip:
-                'Refresh',
-            onPressed:
-                _loadReports,
-            icon:
-                const Icon(
-              Icons
-                  .refresh_rounded,
+            tooltip: 'Refresh',
+            onPressed: _loadReports,
+            icon: const Icon(
+              Icons.refresh_rounded,
             ),
           ),
         ],
@@ -827,29 +637,20 @@ Generated by SafeNexus HSE.
       body: SafeArea(
         child: _loading
             ? const Center(
-                child:
-                    CircularProgressIndicator(),
+                child: CircularProgressIndicator(),
               )
             : RefreshIndicator(
-                onRefresh:
-                    _loadReports,
-                child:
-                    _buildContent(),
+                onRefresh: _loadReports,
+                child: _buildContent(),
               ),
       ),
     );
   }
 
-  // ============================================================
-  // CONTENT
-  // ============================================================
-
   Widget _buildContent() {
     return ListView(
-      physics:
-          const AlwaysScrollableScrollPhysics(),
-      padding:
-          const EdgeInsets.fromLTRB(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(
         16,
         16,
         16,
@@ -878,28 +679,19 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // SUMMARY CARD
-  // ============================================================
-
   Widget _buildSummaryCard() {
     return Card(
       elevation: 0,
       child: Padding(
-        padding:
-            const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Safety Report Summary',
-              style:
-                  TextStyle(
+              style: TextStyle(
                 fontSize: 19,
-                fontWeight:
-                    FontWeight.w800,
+                fontWeight: FontWeight.w800,
               ),
             ),
 
@@ -910,12 +702,10 @@ Generated by SafeNexus HSE.
             Row(
               children: [
                 Expanded(
-                  child:
-                      _buildCountBox(
+                  child: _buildCountBox(
                     'Total',
                     _totalCount,
-                    Icons
-                        .description_outlined,
+                    Icons.description_outlined,
                     Colors.blueGrey,
                   ),
                 ),
@@ -925,12 +715,10 @@ Generated by SafeNexus HSE.
                 ),
 
                 Expanded(
-                  child:
-                      _buildCountBox(
+                  child: _buildCountBox(
                     'Observations',
                     _observationCount,
-                    Icons
-                        .visibility_outlined,
+                    Icons.visibility_outlined,
                     Colors.green,
                   ),
                 ),
@@ -940,12 +728,10 @@ Generated by SafeNexus HSE.
                 ),
 
                 Expanded(
-                  child:
-                      _buildCountBox(
+                  child: _buildCountBox(
                     'Hazards',
                     _hazardCount,
-                    Icons
-                        .warning_amber_rounded,
+                    Icons.warning_amber_rounded,
                     Colors.red,
                   ),
                 ),
@@ -957,10 +743,6 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // COUNT BOX
-  // ============================================================
-
   Widget _buildCountBox(
     String label,
     int count,
@@ -968,15 +750,12 @@ Generated by SafeNexus HSE.
     Color color,
   ) {
     return Container(
-      padding:
-          const EdgeInsets.all(12),
-      decoration:
-          BoxDecoration(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
         color: color.withValues(
           alpha: 0.08,
         ),
-        borderRadius:
-            BorderRadius.circular(
+        borderRadius: BorderRadius.circular(
           14,
         ),
       ),
@@ -994,11 +773,9 @@ Generated by SafeNexus HSE.
 
           Text(
             '$count',
-            style:
-                TextStyle(
+            style: TextStyle(
               fontSize: 20,
-              fontWeight:
-                  FontWeight.w800,
+              fontWeight: FontWeight.w800,
               color: color,
             ),
           ),
@@ -1009,16 +786,12 @@ Generated by SafeNexus HSE.
 
           Text(
             label,
-            textAlign:
-                TextAlign.center,
+            textAlign: TextAlign.center,
             maxLines: 1,
-            overflow:
-                TextOverflow.ellipsis,
-            style:
-                const TextStyle(
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
               fontSize: 11,
-              fontWeight:
-                  FontWeight.w600,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -1026,41 +799,28 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // FILTER BAR
-  // ============================================================
-
   Widget _buildFilterBar() {
     return SingleChildScrollView(
-      scrollDirection:
-          Axis.horizontal,
+      scrollDirection: Axis.horizontal,
       child: Row(
-        children:
-            _filters.map(
+        children: _filters.map(
           (filter) {
-            final selected =
-                _filter ==
-                    filter;
+            final selected = _filter == filter;
 
             return Padding(
-              padding:
-                  const EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 right: 8,
               ),
               child: ChoiceChip(
-                label:
-                    Text(filter),
-                selected:
-                    selected,
-                onSelected:
-                    (value) {
+                label: Text(filter),
+                selected: selected,
+                onSelected: (value) {
                   if (!value) {
                     return;
                   }
 
                   setState(() {
-                    _filter =
-                        filter;
+                    _filter = filter;
                   });
                 },
               ),
@@ -1071,27 +831,20 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // EMPTY STATE
-  // ============================================================
-
   Widget _buildEmptyState() {
     return Card(
       elevation: 0,
       child: Padding(
-        padding:
-            const EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 24,
           vertical: 42,
         ),
         child: Column(
           children: [
             Icon(
-              Icons
-                  .inventory_2_outlined,
+              Icons.inventory_2_outlined,
               size: 58,
-              color:
-                  Colors.blueGrey.shade300,
+              color: Colors.blueGrey.shade300,
             ),
 
             const SizedBox(
@@ -1100,11 +853,9 @@ Generated by SafeNexus HSE.
 
             const Text(
               'No reports found',
-              style:
-                  TextStyle(
+              style: TextStyle(
                 fontSize: 19,
-                fontWeight:
-                    FontWeight.w800,
+                fontWeight: FontWeight.w800,
               ),
             ),
 
@@ -1116,12 +867,9 @@ Generated by SafeNexus HSE.
               _filter == 'All'
                   ? 'Submitted safety observations and hazard reports will appear here.'
                   : 'No $_filter records are available.',
-              textAlign:
-                  TextAlign.center,
-              style:
-                  TextStyle(
-                color:
-                    Colors.grey.shade700,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey.shade700,
                 height: 1.4,
               ),
             ),
@@ -1131,120 +879,80 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // REPORT CARD
-  // ============================================================
-
   Widget _buildReportCard(
     Map<String, dynamic> report,
   ) {
-    final type =
-        _stringValue(
+    final type = _stringValue(
       report['reportType'],
-      fallback:
-          'Safety Observation',
+      fallback: 'Safety Observation',
     );
 
-    final risk =
-        _stringValue(
+    final risk = _stringValue(
       report['riskLevel'],
-      fallback:
-          'Medium',
+      fallback: 'Medium',
     );
 
-    final category =
-        _stringValue(
+    final category = _stringValue(
       report['category'],
-      fallback:
-          'General Safety',
+      fallback: 'General Safety',
     );
 
-    final hazard =
-        _stringValue(
+    final hazard = _stringValue(
       report['hazard'],
-      fallback:
-          'General Workplace Hazard',
+      fallback: 'General Workplace Hazard',
     );
 
-    final location =
-        _stringValue(
+    final location = _stringValue(
       report['location'],
-      fallback:
-          'Not specified',
+      fallback: 'Not specified',
     );
 
-    final description =
-        _stringValue(
+    final description = _stringValue(
       report['description'],
-      fallback:
-          'No description provided.',
+      fallback: 'No description provided.',
     );
 
-    final typeColor =
-        _typeColor(type);
-
-    final riskColor =
-        _riskColor(risk);
+    final typeColor = _typeColor(type);
+    final riskColor = _riskColor(risk);
 
     return Card(
       elevation: 0,
-      margin:
-          const EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: 14,
       ),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(
+        borderRadius: BorderRadius.circular(
           16,
         ),
         onTap: () {
-          _showReportDetails(
-            report,
-          );
+          _showReportDetails(report);
         },
         child: Padding(
-          padding:
-              const EdgeInsets.all(
-            16,
-          ),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ------------------------------------------------
-              // TOP ROW
-              // ------------------------------------------------
-
               Row(
                 crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    CrossAxisAlignment.start,
                 children: [
                   Container(
                     width: 44,
                     height: 44,
-                    decoration:
-                        BoxDecoration(
-                      color:
-                          typeColor.withValues(
+                    decoration: BoxDecoration(
+                      color: typeColor.withValues(
                         alpha: 0.10,
                       ),
                       borderRadius:
-                          BorderRadius
-                              .circular(
+                          BorderRadius.circular(
                         13,
                       ),
                     ),
                     child: Icon(
-                      type ==
-                              'Hazard Report'
-                          ? Icons
-                              .warning_rounded
-                          : Icons
-                              .visibility_rounded,
-                      color:
-                          typeColor,
+                      type == 'Hazard Report'
+                          ? Icons.warning_rounded
+                          : Icons.visibility_rounded,
+                      color: typeColor,
                     ),
                   ),
 
@@ -1255,15 +963,12 @@ Generated by SafeNexus HSE.
                   Expanded(
                     child: Column(
                       crossAxisAlignment:
-                          CrossAxisAlignment
-                              .start,
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           type,
-                          style:
-                              const TextStyle(
-                            fontSize:
-                                16,
+                          style: const TextStyle(
+                            fontSize: 16,
                             fontWeight:
                                 FontWeight.w800,
                           ),
@@ -1278,50 +983,34 @@ Generated by SafeNexus HSE.
                             report['id'],
                           ),
                           style:
-                              Theme.of(
-                            context,
-                          )
-                                      .textTheme
-                                      .bodySmall,
+                              Theme.of(context)
+                                  .textTheme
+                                  .bodySmall,
                         ),
                       ],
                     ),
                   ),
 
-                  PopupMenuButton<
-                      String>(
-                    onSelected:
-                        (value) {
-                      if (value ==
-                          'share') {
-                        _shareReport(
-                          report,
-                        );
+                  PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'share') {
+                        _shareReport(report);
                       }
 
-                      if (value ==
-                          'delete') {
-                        _deleteReport(
-                          report,
-                        );
+                      if (value == 'delete') {
+                        _deleteReport(report);
                       }
                     },
-                    itemBuilder:
-                        (context) =>
-                            const [
+                    itemBuilder: (context) => const [
                       PopupMenuItem(
-                        value:
-                            'share',
-                        child:
-                            Row(
+                        value: 'share',
+                        child: Row(
                           children: [
                             Icon(
-                              Icons
-                                  .share_rounded,
+                              Icons.share_rounded,
                             ),
                             SizedBox(
-                              width:
-                                  8,
+                              width: 8,
                             ),
                             Text(
                               'Share',
@@ -1330,18 +1019,14 @@ Generated by SafeNexus HSE.
                         ),
                       ),
                       PopupMenuItem(
-                        value:
-                            'delete',
-                        child:
-                            Row(
+                        value: 'delete',
+                        child: Row(
                           children: [
                             Icon(
-                              Icons
-                                  .delete_outline_rounded,
+                              Icons.delete_outline_rounded,
                             ),
                             SizedBox(
-                              width:
-                                  8,
+                              width: 8,
                             ),
                             Text(
                               'Delete',
@@ -1358,38 +1043,27 @@ Generated by SafeNexus HSE.
                 height: 12,
               ),
 
-              // ------------------------------------------------
-              // BADGES
-              // ------------------------------------------------
-
               Wrap(
                 spacing: 7,
                 runSpacing: 7,
                 children: [
                   _buildBadge(
                     type,
-                    type ==
-                            'Hazard Report'
-                        ? Icons
-                            .warning_amber_rounded
-                        : Icons
-                            .visibility_outlined,
-                    color:
-                        typeColor,
+                    type == 'Hazard Report'
+                        ? Icons.warning_amber_rounded
+                        : Icons.visibility_outlined,
+                    color: typeColor,
                   ),
 
                   _buildBadge(
                     risk,
-                    Icons
-                        .speed_rounded,
-                    color:
-                        riskColor,
+                    Icons.speed_rounded,
+                    color: riskColor,
                   ),
 
                   _buildBadge(
                     category,
-                    Icons
-                        .category_outlined,
+                    Icons.category_outlined,
                   ),
                 ],
               ),
@@ -1398,16 +1072,10 @@ Generated by SafeNexus HSE.
                 height: 13,
               ),
 
-              // ------------------------------------------------
-              // HAZARD
-              // ------------------------------------------------
-
               Text(
                 hazard,
-                style:
-                    const TextStyle(
-                  fontWeight:
-                      FontWeight.w700,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
                 ),
               ),
 
@@ -1415,18 +1083,12 @@ Generated by SafeNexus HSE.
                 height: 7,
               ),
 
-              // ------------------------------------------------
-              // LOCATION
-              // ------------------------------------------------
-
               Row(
                 crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    CrossAxisAlignment.start,
                 children: [
                   const Icon(
-                    Icons
-                        .location_on_outlined,
+                    Icons.location_on_outlined,
                     size: 18,
                   ),
 
@@ -1435,8 +1097,7 @@ Generated by SafeNexus HSE.
                   ),
 
                   Expanded(
-                    child:
-                        Text(
+                    child: Text(
                       location,
                     ),
                   ),
@@ -1447,51 +1108,33 @@ Generated by SafeNexus HSE.
                 height: 8,
               ),
 
-              // ------------------------------------------------
-              // DESCRIPTION
-              // ------------------------------------------------
-
               Text(
                 description,
                 maxLines: 3,
-                overflow:
-                    TextOverflow
-                        .ellipsis,
-                style:
-                    const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
                   height: 1.4,
                 ),
               ),
 
-              // ------------------------------------------------
-              // PHOTO
-              // ------------------------------------------------
-
-              if (_hasPhoto(
-                report,
-              )) ...[
+              if (_hasPhoto(report)) ...[
                 const SizedBox(
                   height: 12,
                 ),
                 ClipRRect(
                   borderRadius:
-                      BorderRadius
-                          .circular(
+                      BorderRadius.circular(
                     12,
                   ),
-                  child:
-                      Image.file(
+                  child: Image.file(
                     File(
                       _stringValue(
-                        report[
-                            'photoPath'],
+                        report['photoPath'],
                       ),
                     ),
-                    width:
-                        double.infinity,
+                    width: double.infinity,
                     height: 160,
-                    fit:
-                        BoxFit.cover,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
@@ -1500,15 +1143,10 @@ Generated by SafeNexus HSE.
                 height: 10,
               ),
 
-              // ------------------------------------------------
-              // DATE
-              // ------------------------------------------------
-
               Row(
                 children: [
                   const Icon(
-                    Icons
-                        .schedule_outlined,
+                    Icons.schedule_outlined,
                     size: 17,
                   ),
 
@@ -1518,23 +1156,18 @@ Generated by SafeNexus HSE.
 
                   Text(
                     _formatDate(
-                      _dateFromReport(
-                        report,
-                      ),
+                      _dateFromReport(report),
                     ),
                     style:
-                        Theme.of(
-                      context,
-                    )
-                                .textTheme
-                                .bodySmall,
+                        Theme.of(context)
+                            .textTheme
+                            .bodySmall,
                   ),
 
                   const Spacer(),
 
                   const Icon(
-                    Icons
-                        .chevron_right_rounded,
+                    Icons.chevron_right_rounded,
                   ),
                 ],
               ),
@@ -1545,47 +1178,36 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // BADGE
-  // ============================================================
-
   Widget _buildBadge(
     String text,
     IconData icon, {
     Color? color,
   }) {
-    final badgeColor =
-        color ??
-            Theme.of(context)
-                .colorScheme
-                .primary;
+    final badgeColor = color ??
+        Theme.of(context)
+            .colorScheme
+            .primary;
 
     return Container(
-      padding:
-          const EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 6,
       ),
-      decoration:
-          BoxDecoration(
-        color:
-            badgeColor.withValues(
+      decoration: BoxDecoration(
+        color: badgeColor.withValues(
           alpha: 0.10,
         ),
-        borderRadius:
-            BorderRadius.circular(
+        borderRadius: BorderRadius.circular(
           20,
         ),
       ),
       child: Row(
-        mainAxisSize:
-            MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
             size: 15,
-            color:
-                badgeColor,
+            color: badgeColor,
           ),
 
           const SizedBox(
@@ -1594,12 +1216,9 @@ Generated by SafeNexus HSE.
 
           Text(
             text,
-            style:
-                TextStyle(
-              color:
-                  badgeColor,
-              fontWeight:
-                  FontWeight.w600,
+            style: TextStyle(
+              color: badgeColor,
+              fontWeight: FontWeight.w600,
               fontSize: 12,
             ),
           ),
@@ -1608,12 +1227,7 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // REPORT DETAILS
-  // ============================================================
-
-  Future<void>
-      _showReportDetails(
+  Future<void> _showReportDetails(
     Map<String, dynamic> report,
   ) async {
     if (!mounted) return;
@@ -1622,66 +1236,50 @@ Generated by SafeNexus HSE.
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      builder:
-          (sheetContext) {
+      builder: (sheetContext) {
         return SafeArea(
-          child:
-              DraggableScrollableSheet(
+          child: DraggableScrollableSheet(
             expand: false,
-            initialChildSize:
-                0.78,
-            minChildSize:
-                0.45,
-            maxChildSize:
-                0.95,
+            initialChildSize: 0.78,
+            minChildSize: 0.45,
+            maxChildSize: 0.95,
             builder: (
               context,
               controller,
             ) {
               return ListView(
-                controller:
-                    controller,
-                padding:
-                    const EdgeInsets
-                        .fromLTRB(
+                controller: controller,
+                padding: const EdgeInsets.fromLTRB(
                   20,
                   8,
                   20,
                   32,
                 ),
                 children: [
-                  _buildDetailsHeader(
-                    report,
-                  ),
+                  _buildDetailsHeader(report),
 
                   const SizedBox(
                     height: 18,
                   ),
 
-                  if (_hasPhoto(
-                    report,
-                  )) ...[
+                  if (_hasPhoto(report)) ...[
                     ClipRRect(
                       borderRadius:
-                          BorderRadius
-                              .circular(
+                          BorderRadius.circular(
                         16,
                       ),
-                      child:
-                          Image.file(
+                      child: Image.file(
                         File(
                           _stringValue(
-                            report[
-                                'photoPath'],
+                            report['photoPath'],
                           ),
                         ),
-                        width:
-                            double.infinity,
+                        width: double.infinity,
                         height: 230,
-                        fit:
-                            BoxFit.cover,
+                        fit: BoxFit.cover,
                       ),
                     ),
+
                     const SizedBox(
                       height: 18,
                     ),
@@ -1693,15 +1291,13 @@ Generated by SafeNexus HSE.
                       _buildDetailRow(
                         'Report Type',
                         _stringValue(
-                          report[
-                              'reportType'],
+                          report['reportType'],
                         ),
                       ),
                       _buildDetailRow(
                         'Category',
                         _stringValue(
-                          report[
-                              'category'],
+                          report['category'],
                           fallback:
                               'General Safety',
                         ),
@@ -1709,8 +1305,7 @@ Generated by SafeNexus HSE.
                       _buildDetailRow(
                         'Hazard',
                         _stringValue(
-                          report[
-                              'hazard'],
+                          report['hazard'],
                           fallback:
                               'General Workplace Hazard',
                         ),
@@ -1718,10 +1313,8 @@ Generated by SafeNexus HSE.
                       _buildDetailRow(
                         'Risk Level',
                         _stringValue(
-                          report[
-                              'riskLevel'],
-                          fallback:
-                              'Medium',
+                          report['riskLevel'],
+                          fallback: 'Medium',
                         ),
                       ),
                     ],
@@ -1733,8 +1326,7 @@ Generated by SafeNexus HSE.
                       _buildDetailRow(
                         'Location',
                         _stringValue(
-                          report[
-                              'location'],
+                          report['location'],
                           fallback:
                               'Not specified',
                         ),
@@ -1750,10 +1342,8 @@ Generated by SafeNexus HSE.
                       _buildDetailRow(
                         'Status',
                         _stringValue(
-                          report[
-                              'status'],
-                          fallback:
-                              'Open',
+                          report['status'],
+                          fallback: 'Open',
                         ),
                       ),
                     ],
@@ -1762,8 +1352,7 @@ Generated by SafeNexus HSE.
                   _buildTextSection(
                     'Description',
                     _stringValue(
-                      report[
-                          'description'],
+                      report['description'],
                       fallback:
                           'No description provided.',
                     ),
@@ -1772,16 +1361,13 @@ Generated by SafeNexus HSE.
                   _buildTextSection(
                     'Corrective Action',
                     _stringValue(
-                      report[
-                          'correctiveAction'],
+                      report['correctiveAction'],
                       fallback:
                           'No corrective action provided.',
                     ),
                   ),
 
-                  _buildAiDetails(
-                    report,
-                  ),
+                  _buildAiDetails(report),
 
                   const SizedBox(
                     height: 16,
@@ -1792,8 +1378,7 @@ Generated by SafeNexus HSE.
                       Expanded(
                         child:
                             OutlinedButton.icon(
-                          onPressed:
-                              () {
+                          onPressed: () {
                             Navigator.pop(
                               sheetContext,
                             );
@@ -1802,13 +1387,10 @@ Generated by SafeNexus HSE.
                               report,
                             );
                           },
-                          icon:
-                              const Icon(
-                            Icons
-                                .share_rounded,
+                          icon: const Icon(
+                            Icons.share_rounded,
                           ),
-                          label:
-                              const Text(
+                          label: const Text(
                             'Share',
                           ),
                         ),
@@ -1821,8 +1403,7 @@ Generated by SafeNexus HSE.
                       Expanded(
                         child:
                             FilledButton.icon(
-                          onPressed:
-                              () {
+                          onPressed: () {
                             Navigator.pop(
                               sheetContext,
                             );
@@ -1831,13 +1412,11 @@ Generated by SafeNexus HSE.
                               report,
                             );
                           },
-                          icon:
-                              const Icon(
+                          icon: const Icon(
                             Icons
                                 .delete_outline_rounded,
                           ),
-                          label:
-                              const Text(
+                          label: const Text(
                             'Delete',
                           ),
                         ),
@@ -1853,32 +1432,23 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // DETAILS HEADER
-  // ============================================================
-
   Widget _buildDetailsHeader(
     Map<String, dynamic> report,
   ) {
-    final type =
-        _stringValue(
+    final type = _stringValue(
       report['reportType'],
-      fallback:
-          'Safety Observation',
+      fallback: 'Safety Observation',
     );
 
-    final color =
-        _typeColor(type);
+    final color = _typeColor(type);
 
     return Row(
       children: [
         Container(
           width: 50,
           height: 50,
-          decoration:
-              BoxDecoration(
-            color:
-                color.withValues(
+          decoration: BoxDecoration(
+            color: color.withValues(
               alpha: 0.10,
             ),
             borderRadius:
@@ -1887,14 +1457,10 @@ Generated by SafeNexus HSE.
             ),
           ),
           child: Icon(
-            type ==
-                    'Hazard Report'
-                ? Icons
-                    .warning_rounded
-                : Icons
-                    .visibility_rounded,
-            color:
-                color,
+            type == 'Hazard Report'
+                ? Icons.warning_rounded
+                : Icons.visibility_rounded,
+            color: color,
           ),
         ),
 
@@ -1905,16 +1471,13 @@ Generated by SafeNexus HSE.
         Expanded(
           child: Column(
             crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+                CrossAxisAlignment.start,
             children: [
               Text(
                 type,
-                style:
-                    const TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
-                  fontWeight:
-                      FontWeight.w800,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
 
@@ -1925,15 +1488,12 @@ Generated by SafeNexus HSE.
               Text(
                 _stringValue(
                   report['id'],
-                  fallback:
-                      'Unknown ID',
+                  fallback: 'Unknown ID',
                 ),
                 style:
-                    Theme.of(
-                  context,
-                )
-                            .textTheme
-                            .bodySmall,
+                    Theme.of(context)
+                        .textTheme
+                        .bodySmall,
               ),
             ],
           ),
@@ -1942,31 +1502,23 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // DETAIL SECTION
-  // ============================================================
-
   Widget _buildDetailSection(
     String title,
     List<Widget> children,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: 18,
       ),
       child: Column(
         crossAxisAlignment:
-            CrossAxisAlignment
-                .start,
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style:
-                const TextStyle(
+            style: const TextStyle(
               fontSize: 16,
-              fontWeight:
-                  FontWeight.w800,
+              fontWeight: FontWeight.w800,
             ),
           ),
 
@@ -1977,13 +1529,9 @@ Generated by SafeNexus HSE.
           Card(
             elevation: 0,
             child: Padding(
-              padding:
-                  const EdgeInsets.all(
-                14,
-              ),
+              padding: const EdgeInsets.all(14),
               child: Column(
-                children:
-                    children,
+                children: children,
               ),
             ),
           ),
@@ -1992,32 +1540,24 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // DETAIL ROW
-  // ============================================================
-
   Widget _buildDetailRow(
     String label,
     String value,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: 10,
       ),
       child: Row(
         crossAxisAlignment:
-            CrossAxisAlignment
-                .start,
+            CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 115,
             child: Text(
               label,
-              style:
-                  const TextStyle(
-                fontWeight:
-                    FontWeight.w600,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -2038,31 +1578,23 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // TEXT SECTION
-  // ============================================================
-
   Widget _buildTextSection(
     String title,
     String text,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: 18,
       ),
       child: Column(
         crossAxisAlignment:
-            CrossAxisAlignment
-                .start,
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style:
-                const TextStyle(
+            style: const TextStyle(
               fontSize: 16,
-              fontWeight:
-                  FontWeight.w800,
+              fontWeight: FontWeight.w800,
             ),
           ),
 
@@ -2073,12 +1605,8 @@ Generated by SafeNexus HSE.
           Card(
             elevation: 0,
             child: Padding(
-              padding:
-                  const EdgeInsets.all(
-                14,
-              ),
-              child:
-                  Text(text),
+              padding: const EdgeInsets.all(14),
+              child: Text(text),
             ),
           ),
         ],
@@ -2086,47 +1614,32 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // AI DETAILS
-  // ============================================================
-
   Widget _buildAiDetails(
     Map<String, dynamic> report,
   ) {
-    final rawAi =
-        report['aiAnalysis'];
+    final rawAi = report['aiAnalysis'];
 
     if (rawAi is! Map) {
-      return const SizedBox
-          .shrink();
+      return const SizedBox.shrink();
     }
 
-    final ai =
-        Map<String, dynamic>.from(
-      rawAi,
-    );
+    final ai = Map<String, dynamic>.from(rawAi);
 
-    if (ai['completed'] !=
-        true) {
-      return const SizedBox
-          .shrink();
+    if (ai['completed'] != true) {
+      return const SizedBox.shrink();
     }
 
-    final explanation =
-        _stringValue(
+    final explanation = _stringValue(
       ai['explanation'],
     );
 
-    final confidence =
-        ai['confidence'];
+    final confidence = ai['confidence'];
 
-    final risk =
-        _stringValue(
+    final risk = _stringValue(
       ai['riskLevel'],
     );
 
-    final children =
-        <Widget>[];
+    final children = <Widget>[];
 
     if (risk.isNotEmpty) {
       children.add(
@@ -2141,24 +1654,19 @@ Generated by SafeNexus HSE.
       children.add(
         _buildDetailRow(
           'Confidence',
-          _formatConfidence(
-            confidence,
-          ),
+          _formatConfidence(confidence),
         ),
       );
     }
 
-    if (explanation
-        .isNotEmpty) {
+    if (explanation.isNotEmpty) {
       children.add(
         Padding(
-          padding:
-              const EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: 4,
           ),
           child: Align(
-            alignment:
-                Alignment.centerLeft,
+            alignment: Alignment.centerLeft,
             child: Text(
               explanation,
             ),
@@ -2168,8 +1676,7 @@ Generated by SafeNexus HSE.
     }
 
     if (children.isEmpty) {
-      return const SizedBox
-          .shrink();
+      return const SizedBox.shrink();
     }
 
     return _buildDetailSection(
@@ -2178,32 +1685,23 @@ Generated by SafeNexus HSE.
     );
   }
 
-  // ============================================================
-  // CONFIDENCE
-  // ============================================================
-
   String _formatConfidence(
     dynamic value,
   ) {
     double confidence = 0.0;
 
     if (value is num) {
-      confidence =
-          value.toDouble();
+      confidence = value.toDouble();
     } else {
       confidence =
-          double.tryParse(
-                value.toString(),
-              ) ??
-              0.0;
+          double.tryParse(value.toString()) ?? 0.0;
     }
 
     if (confidence <= 1) {
       confidence *= 100;
     }
 
-    confidence =
-        confidence.clamp(
+    confidence = confidence.clamp(
       0,
       100,
     );
