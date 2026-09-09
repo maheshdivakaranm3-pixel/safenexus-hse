@@ -65,8 +65,7 @@ class SafeNexusHomePage extends StatefulWidget {
       _SafeNexusHomePageState();
 }
 
-class _SafeNexusHomePageState
-    extends State<SafeNexusHomePage> {
+class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
   // COLORS
   // ==========================================================
@@ -79,8 +78,7 @@ class _SafeNexusHomePageState
   // STORAGE
   // ==========================================================
 
-  static const String _storageKey =
-      'safenexus_observations';
+  static const String _storageKey = 'safenexus_observations';
 
   // ==========================================================
   // NAVIGATION
@@ -134,12 +132,10 @@ class _SafeNexusHomePageState
 
   Future<void> _loadDashboardStats() async {
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final records =
-          prefs.getStringList(_storageKey) ??
-              <String>[];
+          prefs.getStringList(_storageKey) ?? <String>[];
 
       int total = 0;
       int observations = 0;
@@ -154,8 +150,7 @@ class _SafeNexusHomePageState
             continue;
           }
 
-          final report =
-              Map<String, dynamic>.from(decoded);
+          final report = Map<String, dynamic>.from(decoded);
 
           final id = _stringValue(report['id']);
 
@@ -274,8 +269,7 @@ class _SafeNexusHomePageState
           _buildProfileHome(),
         ],
       ),
-      bottomNavigationBar:
-          _buildBottomNavigation(),
+      bottomNavigationBar: _buildBottomNavigation(),
     );
   }
 
@@ -301,35 +295,27 @@ class _SafeNexusHomePageState
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
-          selectedIcon:
-              Icon(Icons.home_rounded),
+          selectedIcon: Icon(Icons.home_rounded),
           label: 'Home',
         ),
         NavigationDestination(
-          icon:
-              Icon(Icons.menu_book_outlined),
-          selectedIcon:
-              Icon(Icons.menu_book_rounded),
+          icon: Icon(Icons.menu_book_outlined),
+          selectedIcon: Icon(Icons.menu_book_rounded),
           label: 'Guidelines',
         ),
         NavigationDestination(
-          icon:
-              Icon(Icons.warning_amber_outlined),
-          selectedIcon:
-              Icon(Icons.warning_rounded),
+          icon: Icon(Icons.warning_amber_outlined),
+          selectedIcon: Icon(Icons.warning_rounded),
           label: 'Report',
         ),
         NavigationDestination(
           icon: Icon(Icons.school_outlined),
-          selectedIcon:
-              Icon(Icons.school_rounded),
+          selectedIcon: Icon(Icons.school_rounded),
           label: 'Learning',
         ),
         NavigationDestination(
-          icon:
-              Icon(Icons.person_outline_rounded),
-          selectedIcon:
-              Icon(Icons.person_rounded),
+          icon: Icon(Icons.person_outline_rounded),
+          selectedIcon: Icon(Icons.person_rounded),
           label: 'Profile',
         ),
       ],
@@ -345,10 +331,8 @@ class _SafeNexusHomePageState
       child: RefreshIndicator(
         onRefresh: _loadDashboardStats,
         child: ListView(
-          physics:
-              const AlwaysScrollableScrollPhysics(),
-          padding:
-              const EdgeInsets.fromLTRB(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(
             16,
             8,
             16,
@@ -356,7 +340,7 @@ class _SafeNexusHomePageState
           ),
           children: [
             // ==================================================
-            // SAFE NEXUS HSE HEADER IMAGE
+            // SAFE NEXUS HSE HEADER
             // ==================================================
 
             _buildProfessionalHeader(),
@@ -364,7 +348,7 @@ class _SafeNexusHomePageState
             const SizedBox(height: 14),
 
             // ==================================================
-            // UAE / DUBAI HERO BANNER
+            // UAE HERO BANNER
             // ==================================================
 
             _buildProfessionalHero(),
@@ -401,10 +385,12 @@ class _SafeNexusHomePageState
   // ==========================================================
   // PROFESSIONAL TOP HEADER
   //
-  // USES:
+  // IMAGE:
   // assets/images/safenexus_hse_header_mobile.png
   //
-  // This is the main SafeNexus HSE header.
+  // IMPORTANT:
+  // BoxFit.contain keeps the FULL HEADER IMAGE visible.
+  // No cropping.
   // ==========================================================
 
   Widget _buildProfessionalHeader() {
@@ -414,28 +400,33 @@ class _SafeNexusHomePageState
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: const Color(0xFFE1E8EE),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color:
-                Colors.black.withAlpha(10),
+            color: Colors.black.withAlpha(10),
             blurRadius: 10,
-            offset:
-                const Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Image.asset(
         'assets/images/safenexus_hse_header_mobile.png',
+
+        // ======================================================
+        // MAIN FIX
+        // ======================================================
+
+        fit: BoxFit.contain,
+
         width: double.infinity,
         height: double.infinity,
-        fit: BoxFit.cover,
+
         alignment: Alignment.center,
+
         errorBuilder: (
           context,
           error,
@@ -443,12 +434,10 @@ class _SafeNexusHomePageState
         ) {
           return const Center(
             child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons
-                      .image_not_supported_rounded,
+                  Icons.image_not_supported_rounded,
                   color: primaryGreen,
                   size: 30,
                 ),
@@ -457,8 +446,7 @@ class _SafeNexusHomePageState
                   'SafeNexus HSE',
                   style: TextStyle(
                     color: navy,
-                    fontWeight:
-                        FontWeight.w800,
+                    fontWeight: FontWeight.w800,
                     fontSize: 12,
                   ),
                 ),
@@ -473,7 +461,7 @@ class _SafeNexusHomePageState
   // ==========================================================
   // PROFESSIONAL HERO
   //
-  // USES:
+  // IMAGE:
   // assets/images/safenexus_hse_banner.png
   // ==========================================================
 
@@ -484,15 +472,12 @@ class _SafeNexusHomePageState
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color:
-                Colors.black.withAlpha(22),
+            color: Colors.black.withAlpha(22),
             blurRadius: 14,
-            offset:
-                const Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -508,14 +493,10 @@ class _SafeNexusHomePageState
           stackTrace,
         ) {
           return Container(
-            decoration:
-                const BoxDecoration(
-              gradient:
-                  LinearGradient(
-                begin:
-                    Alignment.topLeft,
-                end:
-                    Alignment.bottomRight,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
                   Color(0xFF063E73),
                   Color(0xFF075B45),
@@ -525,8 +506,7 @@ class _SafeNexusHomePageState
             ),
             child: const Center(
               child: Icon(
-                Icons
-                    .image_not_supported_rounded,
+                Icons.image_not_supported_rounded,
                 color: Colors.white,
                 size: 40,
               ),
@@ -546,24 +526,21 @@ class _SafeNexusHomePageState
       children: [
         const Expanded(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Quick Actions',
                 style: TextStyle(
                   color: navy,
                   fontSize: 20,
-                  fontWeight:
-                      FontWeight.w900,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               SizedBox(height: 2),
               Text(
                 'Take action for a safer workplace',
                 style: TextStyle(
-                  color:
-                      Color(0xFF607D8B),
+                  color: Color(0xFF607D8B),
                   fontSize: 10.5,
                 ),
               ),
@@ -571,21 +548,16 @@ class _SafeNexusHomePageState
           ),
         ),
         Container(
-          padding:
-              const EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10,
             vertical: 6,
           ),
-          decoration:
-              BoxDecoration(
-            color:
-                const Color(0xFFE3F6EC),
-            borderRadius:
-                BorderRadius.circular(20),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE3F6EC),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: const Row(
-            mainAxisSize:
-                MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.shield_rounded,
@@ -598,8 +570,7 @@ class _SafeNexusHomePageState
                 style: TextStyle(
                   color: darkGreen,
                   fontSize: 8.5,
-                  fontWeight:
-                      FontWeight.w900,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ],
@@ -619,17 +590,12 @@ class _SafeNexusHomePageState
         Row(
           children: [
             Expanded(
-              child:
-                  _quickActionCard(
+              child: _quickActionCard(
                 title: 'Report Hazard',
-                subtitle:
-                    'Unsafe condition',
-                icon:
-                    Icons.warning_rounded,
-                iconColor:
-                    const Color(0xFFC51E30),
-                background:
-                    const Color(0xFFFFF2F2),
+                subtitle: 'Unsafe condition',
+                icon: Icons.warning_rounded,
+                iconColor: const Color(0xFFC51E30),
+                background: const Color(0xFFFFF2F2),
                 onTap: () {
                   _openPage(
                     const HazardReportPage(),
@@ -639,17 +605,12 @@ class _SafeNexusHomePageState
             ),
             const SizedBox(width: 11),
             Expanded(
-              child:
-                  _quickActionCard(
+              child: _quickActionCard(
                 title: 'Voice Report',
-                subtitle:
-                    'Speak your concern',
-                icon:
-                    Icons.mic_rounded,
-                iconColor:
-                    const Color(0xFF5A1BB8),
-                background:
-                    const Color(0xFFF4EEFF),
+                subtitle: 'Speak your concern',
+                icon: Icons.mic_rounded,
+                iconColor: const Color(0xFF5A1BB8),
+                background: const Color(0xFFF4EEFF),
                 onTap: () {
                   _showMessage(
                     'Voice Report',
@@ -664,18 +625,12 @@ class _SafeNexusHomePageState
         Row(
           children: [
             Expanded(
-              child:
-                  _quickActionCard(
-                title:
-                    'Safety Observation',
-                subtitle:
-                    'Observe & record',
-                icon:
-                    Icons.visibility_rounded,
-                iconColor:
-                    const Color(0xFF1475D1),
-                background:
-                    const Color(0xFFEDF7FF),
+              child: _quickActionCard(
+                title: 'Safety Observation',
+                subtitle: 'Observe & record',
+                icon: Icons.visibility_rounded,
+                iconColor: const Color(0xFF1475D1),
+                background: const Color(0xFFEDF7FF),
                 onTap: () {
                   _openPage(
                     const SafetyObservationPage(),
@@ -685,20 +640,13 @@ class _SafeNexusHomePageState
             ),
             const SizedBox(width: 11),
             Expanded(
-              child:
-                  _quickActionCard(
-                title:
-                    'HSE Guidelines',
-                subtitle:
-                    'UAE safety guidance',
-                icon:
-                    Icons.menu_book_rounded,
-                iconColor:
-                    primaryGreen,
-                background:
-                    const Color(0xFFEBF9F1),
-                onTap:
-                    _openGuidelines,
+              child: _quickActionCard(
+                title: 'HSE Guidelines',
+                subtitle: 'UAE safety guidance',
+                icon: Icons.menu_book_rounded,
+                iconColor: primaryGreen,
+                background: const Color(0xFFEBF9F1),
+                onTap: _openGuidelines,
               ),
             ),
           ],
@@ -721,26 +669,20 @@ class _SafeNexusHomePageState
   }) {
     return Material(
       color: background,
-      borderRadius:
-          BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
         child: Padding(
-          padding:
-              const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(14),
           child: Row(
             children: [
               Container(
                 width: 51,
                 height: 51,
-                decoration:
-                    BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(
-                          15),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Icon(
                   icon,
@@ -751,36 +693,25 @@ class _SafeNexusHomePageState
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
                       maxLines: 2,
-                      overflow:
-                          TextOverflow
-                              .ellipsis,
-                      style:
-                          const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
                         color: navy,
                         fontSize: 13.5,
-                        fontWeight:
-                            FontWeight.w900,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(
-                        height: 3),
+                    const SizedBox(height: 3),
                     Text(
                       subtitle,
                       maxLines: 1,
-                      overflow:
-                          TextOverflow
-                              .ellipsis,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
                         fontSize: 9.5,
                       ),
                     ),
@@ -788,8 +719,7 @@ class _SafeNexusHomePageState
                 ),
               ),
               Icon(
-                Icons
-                    .chevron_right_rounded,
+                Icons.chevron_right_rounded,
                 color: iconColor,
                 size: 22,
               ),
@@ -806,30 +736,23 @@ class _SafeNexusHomePageState
 
   Widget _buildSafetyOverview() {
     return Container(
-      padding:
-          const EdgeInsets.all(17),
-      decoration:
-          BoxDecoration(
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(23),
+        borderRadius: BorderRadius.circular(23),
         border: Border.all(
-          color:
-              const Color(0xFFE1EAF0),
+          color: const Color(0xFFE1EAF0),
         ),
         boxShadow: [
           BoxShadow(
-            color:
-                Colors.black.withAlpha(12),
+            color: Colors.black.withAlpha(12),
             blurRadius: 12,
-            offset:
-                const Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -839,32 +762,25 @@ class _SafeNexusHomePageState
                   style: TextStyle(
                     color: navy,
                     fontSize: 18,
-                    fontWeight:
-                        FontWeight.w900,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 9,
                   vertical: 5,
                 ),
-                decoration:
-                    BoxDecoration(
-                  color:
-                      const Color(0xFFEAF8F0),
-                  borderRadius:
-                      BorderRadius.circular(
-                          15),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF8F0),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: const Text(
                   'LIVE',
                   style: TextStyle(
                     color: darkGreen,
                     fontSize: 8,
-                    fontWeight:
-                        FontWeight.w900,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
@@ -875,10 +791,8 @@ class _SafeNexusHomePageState
             children: [
               Expanded(
                 child: _overviewMetric(
-                  icon:
-                      Icons.warning_amber_rounded,
-                  iconColor:
-                      const Color(0xFFC51E30),
+                  icon: Icons.warning_amber_rounded,
+                  iconColor: const Color(0xFFC51E30),
                   value: _loadingStats
                       ? '...'
                       : _hazards.toString(),
@@ -888,10 +802,8 @@ class _SafeNexusHomePageState
               _overviewDivider(),
               Expanded(
                 child: _overviewMetric(
-                  icon:
-                      Icons.visibility_rounded,
-                  iconColor:
-                      const Color(0xFF1475D1),
+                  icon: Icons.visibility_rounded,
+                  iconColor: const Color(0xFF1475D1),
                   value: _loadingStats
                       ? '...'
                       : _observations.toString(),
@@ -901,10 +813,8 @@ class _SafeNexusHomePageState
               _overviewDivider(),
               Expanded(
                 child: _overviewMetric(
-                  icon:
-                      Icons.pending_actions_rounded,
-                  iconColor:
-                      const Color(0xFFB16A00),
+                  icon: Icons.pending_actions_rounded,
+                  iconColor: const Color(0xFFB16A00),
                   value: _loadingStats
                       ? '...'
                       : _openReports.toString(),
@@ -914,10 +824,8 @@ class _SafeNexusHomePageState
               _overviewDivider(),
               Expanded(
                 child: _overviewMetric(
-                  icon:
-                      Icons.assignment_turned_in_rounded,
-                  iconColor:
-                      primaryGreen,
+                  icon: Icons.assignment_turned_in_rounded,
+                  iconColor: primaryGreen,
                   value: _loadingStats
                       ? '...'
                       : _totalReports.toString(),
@@ -946,10 +854,8 @@ class _SafeNexusHomePageState
         Container(
           width: 37,
           height: 37,
-          decoration:
-              BoxDecoration(
-            color:
-                iconColor.withAlpha(18),
+          decoration: BoxDecoration(
+            color: iconColor.withAlpha(18),
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -961,29 +867,22 @@ class _SafeNexusHomePageState
         const SizedBox(height: 7),
         Text(
           value,
-          style:
-              const TextStyle(
+          style: const TextStyle(
             color: navy,
             fontSize: 20,
-            fontWeight:
-                FontWeight.w900,
+            fontWeight: FontWeight.w900,
           ),
         ),
         const SizedBox(height: 2),
         Text(
           title,
           maxLines: 1,
-          overflow:
-              TextOverflow.ellipsis,
-          textAlign:
-              TextAlign.center,
-          style:
-              const TextStyle(
-            color:
-                Color(0xFF607D8B),
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF607D8B),
             fontSize: 8.5,
-            fontWeight:
-                FontWeight.w600,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],
@@ -998,8 +897,7 @@ class _SafeNexusHomePageState
     return Container(
       width: 1,
       height: 66,
-      color:
-          const Color(0xFFE2E9ED),
+      color: const Color(0xFFE2E9ED),
     );
   }
 
@@ -1009,31 +907,27 @@ class _SafeNexusHomePageState
 
   Widget _buildReferencePreview() {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Row(
           children: [
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'UAE HSE Reference',
                     style: TextStyle(
                       color: navy,
                       fontSize: 19,
-                      fontWeight:
-                          FontWeight.w900,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   SizedBox(height: 3),
                   Text(
                     'Safety guidance across the United Arab Emirates',
                     style: TextStyle(
-                      color:
-                          Color(0xFF607D8B),
+                      color: Color(0xFF607D8B),
                       fontSize: 10,
                     ),
                   ),
@@ -1051,38 +945,28 @@ class _SafeNexusHomePageState
         Row(
           children: [
             Expanded(
-              child:
-                  _referenceMiniCard(
+              child: _referenceMiniCard(
                 title: 'UAE General',
-                count:
-                    _uaeGeneralCount,
-                icon:
-                    Icons.flag_rounded,
-                color:
-                    const Color(0xFF1378C7),
+                count: _uaeGeneralCount,
+                icon: Icons.flag_rounded,
+                color: const Color(0xFF1378C7),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory
-                        .uaeGeneral,
+                    GuidelineCategory.uaeGeneral,
                   );
                 },
               ),
             ),
             const SizedBox(width: 9),
             Expanded(
-              child:
-                  _referenceMiniCard(
+              child: _referenceMiniCard(
                 title: 'Abu Dhabi',
-                count:
-                    _abuDhabiCount,
-                icon:
-                    Icons.location_city_rounded,
-                color:
-                    const Color(0xFF0B7B53),
+                count: _abuDhabiCount,
+                icon: Icons.location_city_rounded,
+                color: const Color(0xFF0B7B53),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory
-                        .abuDhabi,
+                    GuidelineCategory.abuDhabi,
                   );
                 },
               ),
@@ -1093,38 +977,28 @@ class _SafeNexusHomePageState
         Row(
           children: [
             Expanded(
-              child:
-                  _referenceMiniCard(
+              child: _referenceMiniCard(
                 title: 'Dubai',
-                count:
-                    _dubaiCount,
-                icon:
-                    Icons.apartment_rounded,
-                color:
-                    const Color(0xFF6A36C8),
+                count: _dubaiCount,
+                icon: Icons.apartment_rounded,
+                color: const Color(0xFF6A36C8),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory
-                        .dubai,
+                    GuidelineCategory.dubai,
                   );
                 },
               ),
             ),
             const SizedBox(width: 9),
             Expanded(
-              child:
-                  _referenceMiniCard(
+              child: _referenceMiniCard(
                 title: 'HSE Reference',
-                count:
-                    _hseReferenceCount,
-                icon:
-                    Icons.library_books_rounded,
-                color:
-                    const Color(0xFFB16A00),
+                count: _hseReferenceCount,
+                icon: Icons.library_books_rounded,
+                color: const Color(0xFFB16A00),
                 onTap: () {
                   _openGuidelineCategory(
-                    GuidelineCategory
-                        .hseReference,
+                    GuidelineCategory.hseReference,
                   );
                 },
               ),
@@ -1148,27 +1022,20 @@ class _SafeNexusHomePageState
   }) {
     return Material(
       color: Colors.white,
-      borderRadius:
-          BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18),
         onTap: onTap,
         child: Padding(
-          padding:
-              const EdgeInsets.all(13),
+          padding: const EdgeInsets.all(13),
           child: Row(
             children: [
               Container(
                 width: 42,
                 height: 42,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      color.withAlpha(20),
-                  borderRadius:
-                      BorderRadius.circular(
-                          13),
+                decoration: BoxDecoration(
+                  color: color.withAlpha(20),
+                  borderRadius: BorderRadius.circular(13),
                 ),
                 child: Icon(
                   icon,
@@ -1179,32 +1046,23 @@ class _SafeNexusHomePageState
               const SizedBox(width: 9),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
                       maxLines: 1,
-                      overflow:
-                          TextOverflow
-                              .ellipsis,
-                      style:
-                          const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
                         color: navy,
                         fontSize: 12.5,
-                        fontWeight:
-                            FontWeight.w900,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(
-                        height: 3),
+                    const SizedBox(height: 3),
                     Text(
                       '$count topics',
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
                         fontSize: 9.5,
                       ),
                     ),
@@ -1212,8 +1070,7 @@ class _SafeNexusHomePageState
                 ),
               ),
               Icon(
-                Icons
-                    .chevron_right_rounded,
+                Icons.chevron_right_rounded,
                 color: color,
                 size: 21,
               ),
@@ -1230,55 +1087,44 @@ class _SafeNexusHomePageState
 
   Widget _buildSafetyMessage() {
     return Container(
-      padding:
-          const EdgeInsets.all(17),
-      decoration:
-          BoxDecoration(
-        gradient:
-            const LinearGradient(
-          begin:
-              Alignment.centerLeft,
-          end:
-              Alignment.centerRight,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
           colors: [
             Color(0xFF075B45),
             Color(0xFF0B9860),
           ],
         ),
-        borderRadius:
-            BorderRadius.circular(23),
+        borderRadius: BorderRadius.circular(23),
       ),
       child: Row(
         children: [
           Container(
             width: 51,
             height: 51,
-            decoration:
-                BoxDecoration(
-              color:
-                  Colors.white.withAlpha(20),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(20),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.eco_rounded,
-              color:
-                  Color(0xFFDFFF91),
+              color: Color(0xFFDFFF91),
               size: 29,
             ),
           ),
           const SizedBox(width: 12),
           const Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Small Actions. Big Difference.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.5,
-                    fontWeight:
-                        FontWeight.w900,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -1286,8 +1132,7 @@ class _SafeNexusHomePageState
                   'Safe Today • Healthy Tomorrow • Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
-                    color:
-                        Color(0xFFE2FFB1),
+                    color: Color(0xFFE2FFB1),
                     fontSize: 9.5,
                     height: 1.3,
                   ),
@@ -1306,17 +1151,12 @@ class _SafeNexusHomePageState
 
   Widget _buildUaeCard() {
     return Container(
-      padding:
-          const EdgeInsets.all(17),
-      decoration:
-          BoxDecoration(
-        color:
-            const Color(0xFFE9F8F1),
-        borderRadius:
-            BorderRadius.circular(21),
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE9F8F1),
+        borderRadius: BorderRadius.circular(21),
         border: Border.all(
-          color:
-              const Color(0xFFCDEBDD),
+          color: const Color(0xFFCDEBDD),
         ),
       ),
       child: const Row(
@@ -1330,24 +1170,21 @@ class _SafeNexusHomePageState
           SizedBox(width: 11),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'UAE-wide HSE Safety App',
                   style: TextStyle(
                     color: darkGreen,
                     fontSize: 14.5,
-                    fontWeight:
-                        FontWeight.w900,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(height: 3),
                 Text(
                   'Built for HSE professionals and safer workplaces across the United Arab Emirates.',
                   style: TextStyle(
-                    color:
-                        Color(0xFF527064),
+                    color: Color(0xFF527064),
                     fontSize: 10,
                     height: 1.35,
                   ),
@@ -1370,10 +1207,8 @@ class _SafeNexusHomePageState
         children: [
           _simplePageHeader(
             title: 'HSE Guidelines',
-            subtitle:
-                'UAE Regulations & Best Practices',
-            icon:
-                Icons.menu_book_rounded,
+            subtitle: 'UAE Regulations & Best Practices',
+            icon: Icons.menu_book_rounded,
           ),
           const Expanded(
             child: GuidelinesPage(),
@@ -1390,25 +1225,21 @@ class _SafeNexusHomePageState
   Widget _buildReportHome() {
     return SafeArea(
       child: ListView(
-        padding:
-            const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         children: [
           _simplePageHeader(
             title: 'Safety Reports',
             subtitle:
                 'Report an unsafe condition or workplace hazard',
-            icon:
-                Icons.warning_rounded,
+            icon: Icons.warning_rounded,
           ),
           const SizedBox(height: 12),
           _reportChoiceCard(
             title: 'Report Hazard',
             subtitle:
                 'Report an unsafe condition or workplace hazard.',
-            icon:
-                Icons.warning_rounded,
-            color:
-                const Color(0xFFC51E30),
+            icon: Icons.warning_rounded,
+            color: const Color(0xFFC51E30),
             onTap: () {
               _openPage(
                 const HazardReportPage(),
@@ -1433,27 +1264,20 @@ class _SafeNexusHomePageState
   }) {
     return Material(
       color: Colors.white,
-      borderRadius:
-          BorderRadius.circular(22),
+      borderRadius: BorderRadius.circular(22),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(22),
         onTap: onTap,
         child: Padding(
-          padding:
-              const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(18),
           child: Row(
             children: [
               Container(
                 width: 58,
                 height: 58,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      color.withAlpha(20),
-                  borderRadius:
-                      BorderRadius.circular(
-                          17),
+                decoration: BoxDecoration(
+                  color: color.withAlpha(20),
+                  borderRadius: BorderRadius.circular(17),
                 ),
                 child: Icon(
                   icon,
@@ -1464,28 +1288,21 @@ class _SafeNexusHomePageState
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style:
-                          const TextStyle(
+                      style: const TextStyle(
                         color: navy,
                         fontSize: 17,
-                        fontWeight:
-                            FontWeight.w800,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(
-                        height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       subtitle,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
                         fontSize: 12,
                         height: 1.35,
                       ),
@@ -1494,8 +1311,7 @@ class _SafeNexusHomePageState
                 ),
               ),
               Icon(
-                Icons
-                    .chevron_right_rounded,
+                Icons.chevron_right_rounded,
                 color: color,
                 size: 28,
               ),
@@ -1513,29 +1329,23 @@ class _SafeNexusHomePageState
   Widget _buildLearningHome() {
     return SafeArea(
       child: ListView(
-        padding:
-            const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         children: [
           _simplePageHeader(
             title: 'Learning Center',
-            subtitle:
-                'Build Knowledge • Build a Safer You',
-            icon:
-                Icons.school_rounded,
+            subtitle: 'Build Knowledge • Build a Safer You',
+            icon: Icons.school_rounded,
           ),
           const SizedBox(height: 16),
           _learningCard(
             title: 'UAE General HSE',
             subtitle:
                 'Explore UAE-wide safety guidance and best practices.',
-            icon:
-                Icons.flag_rounded,
-            color:
-                const Color(0xFF1475D1),
+            icon: Icons.flag_rounded,
+            color: const Color(0xFF1475D1),
             onTap: () {
               _openGuidelineCategory(
-                GuidelineCategory
-                    .uaeGeneral,
+                GuidelineCategory.uaeGeneral,
               );
             },
           ),
@@ -1544,13 +1354,11 @@ class _SafeNexusHomePageState
             title: 'Abu Dhabi HSE',
             subtitle:
                 'Explore Abu Dhabi specific HSE requirements.',
-            icon:
-                Icons.location_city_rounded,
+            icon: Icons.location_city_rounded,
             color: primaryGreen,
             onTap: () {
               _openGuidelineCategory(
-                GuidelineCategory
-                    .abuDhabi,
+                GuidelineCategory.abuDhabi,
               );
             },
           ),
@@ -1559,10 +1367,8 @@ class _SafeNexusHomePageState
             title: 'Dubai HSE',
             subtitle:
                 'Explore Dubai safety requirements and guidance.',
-            icon:
-                Icons.apartment_rounded,
-            color:
-                const Color(0xFF6330D7),
+            icon: Icons.apartment_rounded,
+            color: const Color(0xFF6330D7),
             onTap: () {
               _openGuidelineCategory(
                 GuidelineCategory.dubai,
@@ -1571,18 +1377,14 @@ class _SafeNexusHomePageState
           ),
           const SizedBox(height: 12),
           _learningCard(
-            title:
-                'Professional HSE Reference',
+            title: 'Professional HSE Reference',
             subtitle:
                 'Useful professional HSE reference topics.',
-            icon:
-                Icons.library_books_rounded,
-            color:
-                const Color(0xFFB16A00),
+            icon: Icons.library_books_rounded,
+            color: const Color(0xFFB16A00),
             onTap: () {
               _openGuidelineCategory(
-                GuidelineCategory
-                    .hseReference,
+                GuidelineCategory.hseReference,
               );
             },
           ),
@@ -1604,27 +1406,20 @@ class _SafeNexusHomePageState
   }) {
     return Material(
       color: Colors.white,
-      borderRadius:
-          BorderRadius.circular(21),
+      borderRadius: BorderRadius.circular(21),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(21),
+        borderRadius: BorderRadius.circular(21),
         onTap: onTap,
         child: Padding(
-          padding:
-              const EdgeInsets.all(17),
+          padding: const EdgeInsets.all(17),
           child: Row(
             children: [
               Container(
                 width: 57,
                 height: 57,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      color.withAlpha(20),
-                  borderRadius:
-                      BorderRadius.circular(
-                          16),
+                decoration: BoxDecoration(
+                  color: color.withAlpha(20),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
                   icon,
@@ -1635,28 +1430,21 @@ class _SafeNexusHomePageState
               const SizedBox(width: 13),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style:
-                          const TextStyle(
+                      style: const TextStyle(
                         color: navy,
                         fontSize: 16,
-                        fontWeight:
-                            FontWeight.w800,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(
-                        height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
                         fontSize: 11.5,
                         height: 1.3,
                       ),
@@ -1665,8 +1453,7 @@ class _SafeNexusHomePageState
                 ),
               ),
               Icon(
-                Icons
-                    .chevron_right_rounded,
+                Icons.chevron_right_rounded,
                 color: color,
                 size: 26,
               ),
@@ -1684,43 +1471,34 @@ class _SafeNexusHomePageState
   Widget _buildProfileHome() {
     return SafeArea(
       child: ListView(
-        padding:
-            const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         children: [
           _simplePageHeader(
             title: 'SafeNexus Profile',
-            subtitle:
-                'Your HSE safety workspace',
-            icon:
-                Icons.person_rounded,
+            subtitle: 'Your HSE safety workspace',
+            icon: Icons.person_rounded,
           ),
           const SizedBox(height: 16),
           Container(
-            padding:
-                const EdgeInsets.all(22),
-            decoration:
-                BoxDecoration(
-              gradient:
-                  const LinearGradient(
+            padding: const EdgeInsets.all(22),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
                 colors: [
                   Color(0xFF0A8653),
                   Color(0xFF075B45),
                 ],
               ),
-              borderRadius:
-                  BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: const Column(
               children: [
                 CircleAvatar(
                   radius: 34,
-                  backgroundColor:
-                      Colors.white,
+                  backgroundColor: Colors.white,
                   child: Icon(
                     Icons.person_rounded,
                     size: 39,
-                    color:
-                        Color(0xFF075B45),
+                    color: Color(0xFF075B45),
                   ),
                 ),
                 SizedBox(height: 12),
@@ -1729,8 +1507,7 @@ class _SafeNexusHomePageState
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 19,
-                    fontWeight:
-                        FontWeight.w800,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -1746,12 +1523,9 @@ class _SafeNexusHomePageState
           ),
           const SizedBox(height: 14),
           _profileAction(
-            title:
-                'Observation History',
-            subtitle:
-                'View your submitted safety reports',
-            icon:
-                Icons.history_rounded,
+            title: 'Observation History',
+            subtitle: 'View your submitted safety reports',
+            icon: Icons.history_rounded,
             onTap: () {
               _openPage(
                 const ObservationHistoryPage(),
@@ -1760,23 +1534,16 @@ class _SafeNexusHomePageState
           ),
           const SizedBox(height: 10),
           _profileAction(
-            title:
-                'UAE HSE Guidelines',
-            subtitle:
-                'Open safety reference library',
-            icon:
-                Icons.menu_book_rounded,
-            onTap:
-                _openGuidelines,
+            title: 'UAE HSE Guidelines',
+            subtitle: 'Open safety reference library',
+            icon: Icons.menu_book_rounded,
+            onTap: _openGuidelines,
           ),
           const SizedBox(height: 10),
           _profileAction(
-            title:
-                'About SafeNexus HSE',
-            subtitle:
-                'UAE-wide HSE safety platform',
-            icon:
-                Icons.info_outline_rounded,
+            title: 'About SafeNexus HSE',
+            subtitle: 'UAE-wide HSE safety platform',
+            icon: Icons.info_outline_rounded,
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
@@ -1803,28 +1570,20 @@ class _SafeNexusHomePageState
   }) {
     return Material(
       color: Colors.white,
-      borderRadius:
-          BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18),
         onTap: onTap,
         child: Padding(
-          padding:
-              const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Row(
             children: [
               Container(
                 width: 47,
                 height: 47,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      primaryGreen.withAlpha(
-                          18),
-                  borderRadius:
-                      BorderRadius.circular(
-                          14),
+                decoration: BoxDecoration(
+                  color: primaryGreen.withAlpha(18),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   icon,
@@ -1835,28 +1594,21 @@ class _SafeNexusHomePageState
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style:
-                          const TextStyle(
+                      style: const TextStyle(
                         color: navy,
                         fontSize: 14,
-                        fontWeight:
-                            FontWeight.w800,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(
-                        height: 3),
+                    const SizedBox(height: 3),
                     Text(
                       subtitle,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
                         fontSize: 10.5,
                       ),
                     ),
@@ -1864,8 +1616,7 @@ class _SafeNexusHomePageState
                 ),
               ),
               const Icon(
-                Icons
-                    .chevron_right_rounded,
+                Icons.chevron_right_rounded,
                 color: primaryGreen,
                 size: 25,
               ),
@@ -1886,28 +1637,22 @@ class _SafeNexusHomePageState
     required IconData icon,
   }) {
     return Padding(
-      padding:
-          const EdgeInsets.fromLTRB(
+      padding: const EdgeInsets.fromLTRB(
         18,
         12,
         18,
         4,
       ),
       child: Container(
-        padding:
-            const EdgeInsets.all(17),
-        decoration:
-            BoxDecoration(
+        padding: const EdgeInsets.all(17),
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(21),
+          borderRadius: BorderRadius.circular(21),
           boxShadow: [
             BoxShadow(
-              color:
-                  Colors.black.withAlpha(12),
+              color: Colors.black.withAlpha(12),
               blurRadius: 10,
-              offset:
-                  const Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -1916,14 +1661,9 @@ class _SafeNexusHomePageState
             Container(
               width: 50,
               height: 50,
-              decoration:
-                  BoxDecoration(
-                color:
-                    primaryGreen.withAlpha(
-                        20),
-                borderRadius:
-                    BorderRadius.circular(
-                        15),
+              decoration: BoxDecoration(
+                color: primaryGreen.withAlpha(20),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Icon(
                 icon,
@@ -1934,28 +1674,21 @@ class _SafeNexusHomePageState
             const SizedBox(width: 12),
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style:
-                        const TextStyle(
+                    style: const TextStyle(
                       color: navy,
                       fontSize: 19,
-                      fontWeight:
-                          FontWeight.w800,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(
-                      height: 3),
+                  const SizedBox(height: 3),
                   Text(
                     subtitle,
-                    style:
-                        const TextStyle(
-                      color:
-                          Color(0xFF607D8B),
+                    style: const TextStyle(
+                      color: Color(0xFF607D8B),
                       fontSize: 10.5,
                     ),
                   ),
@@ -1994,40 +1727,32 @@ class _SafeNexusHomePageState
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22),
           ),
           title: Text(
             title,
-            style:
-                const TextStyle(
+            style: const TextStyle(
               color: navy,
-              fontWeight:
-                  FontWeight.w800,
+              fontWeight: FontWeight.w800,
             ),
           ),
           content: Text(
             message,
-            style:
-                const TextStyle(
-              color:
-                  Color(0xFF455A64),
+            style: const TextStyle(
+              color: Color(0xFF455A64),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(
-                    context);
+                Navigator.pop(context);
               },
               child: const Text(
                 'OK',
                 style: TextStyle(
                   color: primaryGreen,
-                  fontWeight:
-                      FontWeight.bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
