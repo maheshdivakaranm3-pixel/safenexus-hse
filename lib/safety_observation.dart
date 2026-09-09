@@ -568,6 +568,7 @@ class _SafetyObservationPageState
       final observation =
           <String, dynamic>{
         'id': id,
+        'reportType': 'Safety Observation',
         'submittedAt':
             submittedAt.toIso8601String(),
         'dateTime':
