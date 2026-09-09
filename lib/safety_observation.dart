@@ -18,8 +18,16 @@ class SafetyObservationPage extends StatefulWidget {
 
 class _SafetyObservationPageState
     extends State<SafetyObservationPage> {
+  // ============================================================
+  // STORAGE
+  // ============================================================
+
   static const String _storageKey =
       'safenexus_observations';
+
+  // ============================================================
+  // FORM
+  // ============================================================
 
   final _formKey = GlobalKey<FormState>();
 
@@ -32,9 +40,17 @@ class _SafetyObservationPageState
   final _locationController =
       TextEditingController();
 
+  // ============================================================
+  // SERVICES
+  // ============================================================
+
   final ImagePicker _picker = ImagePicker();
 
   final AiHseService _aiService = AiHseService();
+
+  // ============================================================
+  // OPTIONS
+  // ============================================================
 
   static const List<String> _observationTypes = [
     'Unsafe Condition',
@@ -82,28 +98,53 @@ class _SafetyObservationPageState
     'No Significant Consequence',
   ];
 
+  // ============================================================
+  // FORM STATE
+  // ============================================================
+
   String _observationType = 'Unsafe Condition';
+
   String _category = 'General Safety';
-  String _hazardType = 'General Workplace Hazard';
+
+  String _hazardType =
+      'General Workplace Hazard';
+
   String _riskLevel = 'Medium';
+
   String _potentialConsequence = 'Injury';
 
   XFile? _photo;
 
+  // ============================================================
+  // AI STATE
+  // ============================================================
+
   bool _submitting = false;
+
   bool _analyzing = false;
+
   bool _smartAnalysisDone = false;
 
   AiHseResult? _aiResult;
+
   String? _aiError;
+
+  // ============================================================
+  // DISPOSE
+  // ============================================================
 
   @override
   void dispose() {
     _descriptionController.dispose();
     _actionController.dispose();
     _locationController.dispose();
+
     super.dispose();
   }
+
+  // ============================================================
+  // OBSERVATION ID
+  // ============================================================
 
   String _generateObservationId() {
     final now = DateTime.now();
@@ -114,10 +155,15 @@ class _SafetyObservationPageState
 
     final time = '${now.hour.toString().padLeft(2, '0')}'
         '${now.minute.toString().padLeft(2, '0')}'
-        '${now.second.toString().padLeft(2, '0')}';
+        '${now.second.toString().padLeft(2, '0')}'
+        '${now.millisecond.toString().padLeft(3, '0')}';
 
     return 'OBS-$date-$time';
   }
+
+  // ============================================================
+  // MESSAGE
+  // ============================================================
 
   void _showMessage(
     String message, {
@@ -130,12 +176,17 @@ class _SafetyObservationPageState
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        backgroundColor:
-            error ? Colors.red.shade700 : Colors.green.shade700,
+        backgroundColor: error
+            ? Colors.red.shade700
+            : Colors.green.shade700,
         content: Text(message),
       ),
     );
   }
+
+  // ============================================================
+  // CAMERA
+  // ============================================================
 
   Future<void> _pickImage() async {
     try {
@@ -149,8 +200,11 @@ class _SafetyObservationPageState
 
       setState(() {
         _photo = image;
+
         _smartAnalysisDone = false;
+
         _aiResult = null;
+
         _aiError = null;
       });
     } catch (_) {
@@ -160,6 +214,10 @@ class _SafetyObservationPageState
       );
     }
   }
+
+  // ============================================================
+  // GALLERY
+  // ============================================================
 
   Future<void> _pickFromGallery() async {
     try {
@@ -173,8 +231,11 @@ class _SafetyObservationPageState
 
       setState(() {
         _photo = image;
+
         _smartAnalysisDone = false;
+
         _aiResult = null;
+
         _aiError = null;
       });
     } catch (_) {
@@ -184,6 +245,10 @@ class _SafetyObservationPageState
       );
     }
   }
+
+  // ============================================================
+  // PHOTO SOURCE
+  // ============================================================
 
   Future<void> _choosePhotoSource() async {
     await showModalBottomSheet<void>(
@@ -195,20 +260,24 @@ class _SafetyObservationPageState
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading:
-                    const Icon(Icons.camera_alt_rounded),
+                leading: const Icon(
+                  Icons.camera_alt_rounded,
+                ),
                 title: const Text('Camera'),
                 onTap: () {
                   Navigator.pop(sheetContext);
+
                   _pickImage();
                 },
               ),
               ListTile(
-                leading:
-                    const Icon(Icons.photo_library_rounded),
+                leading: const Icon(
+                  Icons.photo_library_rounded,
+                ),
                 title: const Text('Gallery'),
                 onTap: () {
                   Navigator.pop(sheetContext);
+
                   _pickFromGallery();
                 },
               ),
@@ -220,16 +289,27 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // REMOVE PHOTO
+  // ============================================================
+
   void _removePhoto() {
     if (_analyzing) return;
 
     setState(() {
       _photo = null;
+
       _smartAnalysisDone = false;
+
       _aiResult = null;
+
       _aiError = null;
     });
   }
+
+  // ============================================================
+  // AI SMART ANALYSIS
+  // ============================================================
 
   Future<void> _runSmartAnalysis() async {
     if (_photo == null) {
@@ -237,15 +317,21 @@ class _SafetyObservationPageState
         'Please add a photo first.',
         error: true,
       );
+
       return;
     }
 
-    if (_analyzing || _submitting) return;
+    if (_analyzing || _submitting) {
+      return;
+    }
 
     setState(() {
       _analyzing = true;
+
       _smartAnalysisDone = false;
+
       _aiResult = null;
+
       _aiError = null;
     });
 
@@ -265,8 +351,11 @@ class _SafetyObservationPageState
 
       setState(() {
         _aiResult = result;
+
         _smartAnalysisDone = true;
+
         _analyzing = false;
+
         _aiError = null;
       });
 
@@ -278,7 +367,9 @@ class _SafetyObservationPageState
 
       setState(() {
         _analyzing = false;
+
         _smartAnalysisDone = false;
+
         _aiError = error.message;
       });
 
@@ -291,7 +382,9 @@ class _SafetyObservationPageState
 
       setState(() {
         _analyzing = false;
+
         _smartAnalysisDone = false;
+
         _aiError = error.toString();
       });
 
@@ -302,12 +395,18 @@ class _SafetyObservationPageState
     }
   }
 
+  // ============================================================
+  // APPLY AI RESULT
+  // ============================================================
+
   void _applyAiResult(AiHseResult result) {
-    if (_observationTypes.contains(
+    final aiObservationType =
+        _matchObservationType(
       result.observationType,
-    )) {
-      _observationType =
-          result.observationType;
+    );
+
+    if (aiObservationType != null) {
+      _observationType = aiObservationType;
     }
 
     final aiCategory =
@@ -324,10 +423,11 @@ class _SafetyObservationPageState
       _hazardType = aiHazard;
     }
 
-    if (_riskLevels.contains(
-      result.riskLevel,
-    )) {
-      _riskLevel = result.riskLevel;
+    final aiRisk =
+        _matchRiskLevel(result.riskLevel);
+
+    if (aiRisk != null) {
+      _riskLevel = aiRisk;
     }
 
     final aiConsequence =
@@ -336,8 +436,7 @@ class _SafetyObservationPageState
     );
 
     if (aiConsequence != null) {
-      _potentialConsequence =
-          aiConsequence;
+      _potentialConsequence = aiConsequence;
     }
 
     if (_actionController.text.trim().isEmpty) {
@@ -350,6 +449,45 @@ class _SafetyObservationPageState
           result.explanation;
     }
   }
+
+  // ============================================================
+  // MATCH OBSERVATION TYPE
+  // ============================================================
+
+  String? _matchObservationType(
+    String value,
+  ) {
+    final normalized =
+        value.trim().toLowerCase();
+
+    for (final item in _observationTypes) {
+      if (item.toLowerCase() == normalized) {
+        return item;
+      }
+    }
+
+    if (normalized.contains('unsafe condition')) {
+      return 'Unsafe Condition';
+    }
+
+    if (normalized.contains('unsafe act')) {
+      return 'Unsafe Act';
+    }
+
+    if (normalized.contains('positive')) {
+      return 'Positive Observation';
+    }
+
+    if (normalized.contains('near miss')) {
+      return 'Near Miss';
+    }
+
+    return null;
+  }
+
+  // ============================================================
+  // MATCH CATEGORY
+  // ============================================================
 
   String? _matchCategory(String value) {
     final normalized =
@@ -383,7 +521,9 @@ class _SafetyObservationPageState
     }
 
     if (normalized.contains('ppe') ||
-        normalized.contains('personal protective')) {
+        normalized.contains(
+          'personal protective',
+        )) {
       return 'PPE';
     }
 
@@ -393,6 +533,10 @@ class _SafetyObservationPageState
 
     return null;
   }
+
+  // ============================================================
+  // MATCH HAZARD
+  // ============================================================
 
   String? _matchHazardType(String value) {
     final normalized =
@@ -441,6 +585,43 @@ class _SafetyObservationPageState
     return null;
   }
 
+  // ============================================================
+  // MATCH RISK
+  // ============================================================
+
+  String? _matchRiskLevel(String value) {
+    final normalized =
+        value.trim().toLowerCase();
+
+    for (final item in _riskLevels) {
+      if (item.toLowerCase() == normalized) {
+        return item;
+      }
+    }
+
+    if (normalized.contains('critical')) {
+      return 'Critical';
+    }
+
+    if (normalized.contains('high')) {
+      return 'High';
+    }
+
+    if (normalized.contains('medium')) {
+      return 'Medium';
+    }
+
+    if (normalized.contains('low')) {
+      return 'Low';
+    }
+
+    return null;
+  }
+
+  // ============================================================
+  // MATCH CONSEQUENCE
+  // ============================================================
+
   String? _matchConsequence(String value) {
     final normalized =
         value.trim().toLowerCase();
@@ -479,8 +660,14 @@ class _SafetyObservationPageState
     return null;
   }
 
+  // ============================================================
+  // SUBMIT OBSERVATION
+  // ============================================================
+
   Future<void> _submitObservation() async {
-    if (_submitting || _analyzing) return;
+    if (_submitting || _analyzing) {
+      return;
+    }
 
     if (!_formKey.currentState!.validate()) {
       return;
@@ -494,9 +681,14 @@ class _SafetyObservationPageState
 
     try {
       final id = _generateObservationId();
+
       final submittedAt = DateTime.now();
 
       String? savedPhotoPath;
+
+      // ========================================================
+      // SAVE PHOTO
+      // ========================================================
 
       if (_photo != null) {
         final documentsDirectory =
@@ -545,6 +737,10 @@ class _SafetyObservationPageState
         savedPhotoPath = photoFile.path;
       }
 
+      // ========================================================
+      // AI DATA
+      // ========================================================
+
       final Map<String, dynamic> aiData = {
         'completed': _smartAnalysisDone,
         'observationType':
@@ -565,47 +761,101 @@ class _SafetyObservationPageState
             _aiResult?.explanation,
       };
 
+      // ========================================================
+      // UNIFIED OBSERVATION RECORD
+      //
+      // Compatible with observation_history.dart
+      // ========================================================
+
       final observation =
           <String, dynamic>{
+        // Core identity
         'id': id,
+
+        // Unified report type
         'reportType': 'Safety Observation',
+
+        // Dates
         'submittedAt':
             submittedAt.toIso8601String(),
+
         'dateTime':
             submittedAt.toIso8601String(),
+
+        'createdAt':
+            submittedAt.toIso8601String(),
+
+        // Observation classification
         'observationType':
             _observationType,
+
+        // Legacy-compatible field
         'type':
             _observationType,
+
+        // Category
         'category':
             _category,
+
+        // Hazard
         'hazardType':
             _hazardType,
+
+        // Unified history field
         'hazard':
             _hazardType,
+
+        // Risk
         'riskLevel':
             _riskLevel,
+
+        // Legacy-compatible field
         'risk':
             _riskLevel,
+
+        // Consequence
         'potentialConsequence':
             _potentialConsequence,
+
+        // Legacy-compatible field
         'consequence':
             _potentialConsequence,
+
+        // Location
         'location':
             _locationController.text.trim(),
+
+        // Description
         'description':
             _descriptionController.text.trim(),
+
+        // Corrective action
         'correctiveAction':
             _actionController.text.trim(),
+
+        // Legacy-compatible field
         'action':
             _actionController.text.trim(),
+
+        // Photo
         'photoPath':
             savedPhotoPath ?? '',
+
+        // Report status
+        'status':
+            'Open',
+
+        // AI
         'smartAnalysis':
             _smartAnalysisDone,
+
         'aiAnalysis':
             aiData,
       };
+
+      // ========================================================
+      // SHARED PREFERENCES
+      // ========================================================
 
       final prefs =
           await SharedPreferences.getInstance();
@@ -616,6 +866,7 @@ class _SafetyObservationPageState
               ) ??
               <String>[];
 
+      // Newest report first.
       final updated = <String>[
         jsonEncode(observation),
         ...stored,
@@ -656,6 +907,10 @@ class _SafetyObservationPageState
       );
     }
   }
+
+  // ============================================================
+  // SUCCESS DIALOG
+  // ============================================================
 
   Future<void> _showSuccessDialog(
     String id,
@@ -733,6 +988,7 @@ class _SafetyObservationPageState
             FilledButton(
               onPressed: () {
                 Navigator.pop(dialogContext);
+
                 _resetForm();
               },
               child: const Text('Done'),
@@ -743,29 +999,50 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // RESET
+  // ============================================================
+
   void _resetForm() {
     _formKey.currentState?.reset();
 
     _descriptionController.clear();
+
     _actionController.clear();
+
     _locationController.clear();
 
     setState(() {
       _observationType =
           'Unsafe Condition';
-      _category = 'General Safety';
+
+      _category =
+          'General Safety';
+
       _hazardType =
           'General Workplace Hazard';
-      _riskLevel = 'Medium';
-      _potentialConsequence = 'Injury';
+
+      _riskLevel =
+          'Medium';
+
+      _potentialConsequence =
+          'Injury';
 
       _photo = null;
+
       _smartAnalysisDone = false;
+
       _analyzing = false;
+
       _aiResult = null;
+
       _aiError = null;
     });
   }
+
+  // ============================================================
+  // BUILD
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -794,26 +1071,44 @@ class _SafetyObservationPageState
             ),
             children: [
               _buildHeaderCard(),
+
               const SizedBox(height: 12),
+
               _buildObservationTypeCard(),
+
               const SizedBox(height: 12),
+
               _buildClassificationCard(),
+
               const SizedBox(height: 12),
+
               _buildRiskCard(),
+
               const SizedBox(height: 12),
+
               _buildLocationCard(),
+
               const SizedBox(height: 12),
+
               _buildDescriptionCard(),
+
               const SizedBox(height: 12),
+
               _buildActionCard(),
+
               const SizedBox(height: 12),
+
               _buildPhotoCard(),
+
               if (_aiResult != null) ...[
                 const SizedBox(height: 12),
                 _buildAiResultCard(),
               ],
+
               const SizedBox(height: 20),
+
               _buildSubmitButton(),
+
               const SizedBox(height: 32),
             ],
           ),
@@ -821,6 +1116,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // HEADER CARD
+  // ============================================================
 
   Widget _buildHeaderCard() {
     final scheme =
@@ -885,6 +1184,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // OBSERVATION TYPE
+  // ============================================================
+
   Widget _buildObservationTypeCard() {
     return Card(
       elevation: 0,
@@ -941,6 +1244,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // CLASSIFICATION
+  // ============================================================
 
   Widget _buildClassificationCard() {
     return Card(
@@ -1023,6 +1330,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // RISK
+  // ============================================================
 
   Widget _buildRiskCard() {
     final riskColor =
@@ -1157,6 +1468,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // LOCATION
+  // ============================================================
+
   Widget _buildLocationCard() {
     return Card(
       elevation: 0,
@@ -1191,6 +1506,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // DESCRIPTION
+  // ============================================================
 
   Widget _buildDescriptionCard() {
     return Card(
@@ -1246,6 +1565,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // CORRECTIVE ACTION
+  // ============================================================
+
   Widget _buildActionCard() {
     return Card(
       elevation: 0,
@@ -1295,6 +1618,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // PHOTO CARD
+  // ============================================================
 
   Widget _buildPhotoCard() {
     final scheme =
@@ -1451,6 +1778,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // AI ERROR
+  // ============================================================
+
   Widget _buildAiErrorCard() {
     return Container(
       width: double.infinity,
@@ -1485,6 +1816,10 @@ class _SafetyObservationPageState
       ),
     );
   }
+
+  // ============================================================
+  // AI RESULT
+  // ============================================================
 
   Widget _buildAiResultCard() {
     final result = _aiResult;
@@ -1649,6 +1984,10 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // AI INFO ROW
+  // ============================================================
+
   Widget _buildAiInfoRow(
     String label,
     String value,
@@ -1679,20 +2018,32 @@ class _SafetyObservationPageState
     );
   }
 
+  // ============================================================
+  // RISK COLOR
+  // ============================================================
+
   Color _getRiskColor(String risk) {
     switch (risk.toLowerCase()) {
       case 'low':
         return Colors.green.shade700;
+
       case 'medium':
         return Colors.orange.shade700;
+
       case 'high':
         return Colors.red.shade700;
+
       case 'critical':
         return Colors.deepPurple.shade700;
+
       default:
         return Colors.blueGrey.shade700;
     }
   }
+
+  // ============================================================
+  // SUBMIT BUTTON
+  // ============================================================
 
   Widget _buildSubmitButton() {
     return SizedBox(
