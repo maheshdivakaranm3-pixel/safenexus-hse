@@ -49,10 +49,6 @@ class GuidelineDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: pageBackground,
 
-      // ======================================================================
-      // APP BAR
-      // ======================================================================
-
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -72,10 +68,6 @@ class GuidelineDetailPage extends StatelessWidget {
         ),
       ),
 
-      // ======================================================================
-      // BODY
-      // ======================================================================
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(
@@ -87,17 +79,9 @@ class GuidelineDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ==============================================================
-              // HEADER CARD
-              // ==============================================================
-
               _buildHeaderCard(),
 
               const SizedBox(height: 16),
-
-              // ==============================================================
-              // AUTHORITY / JURISDICTION
-              // ==============================================================
 
               _InfoCard(
                 title: 'Authority & Jurisdiction',
@@ -117,10 +101,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // ==============================================================
-              // OVERVIEW
-              // ==============================================================
-
               _SectionCard(
                 title: 'Overview',
                 icon: Icons.info_outline,
@@ -138,10 +118,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // ==============================================================
-              // KEY REQUIREMENTS
-              // ==============================================================
-
               if (topic.keyRequirements.isNotEmpty)
                 _ListSectionCard(
                   title: 'Key Requirements',
@@ -151,10 +127,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
               if (topic.keyRequirements.isNotEmpty)
                 const SizedBox(height: 16),
-
-              // ==============================================================
-              // SAFETY CONTROLS
-              // ==============================================================
 
               if (topic.safetyControls.isNotEmpty)
                 _ListSectionCard(
@@ -166,10 +138,6 @@ class GuidelineDetailPage extends StatelessWidget {
               if (topic.safetyControls.isNotEmpty)
                 const SizedBox(height: 16),
 
-              // ==============================================================
-              // RESPONSIBILITIES
-              // ==============================================================
-
               if (topic.responsibilities.isNotEmpty)
                 _ListSectionCard(
                   title: 'Responsibilities',
@@ -180,10 +148,6 @@ class GuidelineDetailPage extends StatelessWidget {
               if (topic.responsibilities.isNotEmpty)
                 const SizedBox(height: 16),
 
-              // ==============================================================
-              // REFERENCES
-              // ==============================================================
-
               if (topic.references.isNotEmpty)
                 _ReferenceSection(
                   references: topic.references,
@@ -191,10 +155,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
               if (topic.references.isNotEmpty)
                 const SizedBox(height: 20),
-
-              // ==============================================================
-              // DISCLAIMER
-              // ==============================================================
 
               _buildDisclaimer(),
 
@@ -239,10 +199,6 @@ class GuidelineDetailPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ------------------------------------------------------------------
-          // CATEGORY
-          // ------------------------------------------------------------------
-
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 12,
@@ -266,10 +222,6 @@ class GuidelineDetailPage extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          // ------------------------------------------------------------------
-          // TITLE
-          // ------------------------------------------------------------------
-
           Text(
             title.isEmpty ? 'HSE Safety Reference' : title,
             style: const TextStyle(
@@ -279,10 +231,6 @@ class GuidelineDetailPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
-          // ------------------------------------------------------------------
-          // SHORT TITLE
-          // ------------------------------------------------------------------
 
           if (shortTitle.isNotEmpty) ...[
             const SizedBox(height: 8),
@@ -560,8 +508,7 @@ class _ReferenceSection extends StatelessWidget {
                       : 10,
                 ),
                 child: Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: 26,
@@ -569,8 +516,7 @@ class _ReferenceSection extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: lightGreen,
-                        borderRadius:
-                            BorderRadius.circular(7),
+                        borderRadius: BorderRadius.circular(7),
                       ),
                       child: const Icon(
                         Icons.link,
@@ -680,9 +626,7 @@ class _InfoRow extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          cleanValue.isEmpty
-              ? 'Not specified'
-              : cleanValue,
+          cleanValue.isEmpty ? 'Not specified' : cleanValue,
           style: const TextStyle(
             fontSize: 14.5,
             height: 1.4,
