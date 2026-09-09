@@ -155,10 +155,13 @@ class _SafetyObservationPageState
 
     final time = '${now.hour.toString().padLeft(2, '0')}'
         '${now.minute.toString().padLeft(2, '0')}'
-        '${now.second.toString().padLeft(2, '0')}'
-        '${now.millisecond.toString().padLeft(3, '0')}';
+        '${now.second.toString().padLeft(2, '0')}';
 
-    return 'OBS-$date-$time';
+    // Include microsecondsSinceEpoch so two reports created in the
+    // same second cannot receive the same observation ID.
+    final uniquePart = now.microsecondsSinceEpoch.toString();
+
+    return 'OBS-$date-$time-$uniquePart';
   }
 
   // ============================================================
