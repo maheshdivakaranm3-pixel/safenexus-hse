@@ -18,23 +18,20 @@ class GuidelineDetailPage extends StatelessWidget {
   static const Color darkGreen = Color(0xFF0B5D3B);
   static const Color lightGreen = Color(0xFFE8F5EE);
 
-  static const Color pageBackground = Color(0xFFF5F7FA);
   static const Color textPrimary = Color(0xFF111827);
-  static const Color textSecondary = Color(0xFF4B5563);
+  static const Color textSecondary = Color(0xFF374151);
   static const Color textMuted = Color(0xFF6B7280);
 
-  // ============================================================
-  // BUILD
-  // ============================================================
+  static const Color pageBackground = Color(0xFFF5F7FA);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pageBackground,
 
-      // ========================================================
+      // ==========================================================
       // APP BAR
-      // ========================================================
+      // ==========================================================
 
       appBar: AppBar(
         elevation: 0,
@@ -53,9 +50,9 @@ class GuidelineDetailPage extends StatelessWidget {
         ),
       ),
 
-      // ========================================================
+      // ==========================================================
       // BODY
-      // ========================================================
+      // ==========================================================
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -63,22 +60,22 @@ class GuidelineDetailPage extends StatelessWidget {
             16,
             16,
             16,
-            28,
+            30,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ==================================================
+              // ====================================================
               // HEADER CARD
-              // ==================================================
+              // ====================================================
 
               _buildHeaderCard(),
 
-              const SizedBox(height: 18),
+              const SizedBox(height: 16),
 
-              // ==================================================
+              // ====================================================
               // AUTHORITY / JURISDICTION
-              // ==================================================
+              // ====================================================
 
               _InfoCard(
                 title: 'Authority & Jurisdiction',
@@ -98,13 +95,13 @@ class GuidelineDetailPage extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // ==================================================
+              // ====================================================
               // OVERVIEW
-              // ==================================================
+              // ====================================================
 
               _SectionCard(
                 title: 'Overview',
-                icon: Icons.info_outline_rounded,
+                icon: Icons.info_outline,
                 child: Text(
                   topic.description,
                   style: const TextStyle(
@@ -115,65 +112,69 @@ class GuidelineDetailPage extends StatelessWidget {
                 ),
               ),
 
-              // ==================================================
-              // KEY REQUIREMENTS
-              // ==================================================
+              const SizedBox(height: 16),
 
-              if (topic.keyRequirements.isNotEmpty) ...[
-                const SizedBox(height: 16),
+              // ====================================================
+              // KEY REQUIREMENTS
+              // ====================================================
+
+              if (topic.keyRequirements.isNotEmpty)
                 _ListSectionCard(
                   title: 'Key Requirements',
                   icon: Icons.checklist_outlined,
                   items: topic.keyRequirements,
                 ),
-              ],
 
-              // ==================================================
-              // SAFETY CONTROLS
-              // ==================================================
-
-              if (topic.safetyControls.isNotEmpty) ...[
+              if (topic.keyRequirements.isNotEmpty)
                 const SizedBox(height: 16),
+
+              // ====================================================
+              // SAFETY CONTROLS
+              // ====================================================
+
+              if (topic.safetyControls.isNotEmpty)
                 _ListSectionCard(
                   title: 'Safety Controls',
                   icon: Icons.health_and_safety_outlined,
                   items: topic.safetyControls,
                 ),
-              ],
 
-              // ==================================================
-              // RESPONSIBILITIES
-              // ==================================================
-
-              if (topic.responsibilities.isNotEmpty) ...[
+              if (topic.safetyControls.isNotEmpty)
                 const SizedBox(height: 16),
+
+              // ====================================================
+              // RESPONSIBILITIES
+              // ====================================================
+
+              if (topic.responsibilities.isNotEmpty)
                 _ListSectionCard(
                   title: 'Responsibilities',
                   icon: Icons.groups_outlined,
                   items: topic.responsibilities,
                 ),
-              ],
 
-              // ==================================================
-              // REFERENCES
-              // ==================================================
-
-              if (topic.references.isNotEmpty) ...[
+              if (topic.responsibilities.isNotEmpty)
                 const SizedBox(height: 16),
+
+              // ====================================================
+              // REFERENCES
+              // ====================================================
+
+              if (topic.references.isNotEmpty)
                 _ReferenceSection(
                   references: topic.references,
                 ),
-              ],
 
-              const SizedBox(height: 24),
+              if (topic.references.isNotEmpty)
+                const SizedBox(height: 20),
 
-              // ==================================================
+              // ====================================================
               // DISCLAIMER
-              // ==================================================
+              // ====================================================
 
               _buildDisclaimer(),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -201,9 +202,7 @@ class GuidelineDetailPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.10,
-            ),
+            color: Colors.black.withValues(alpha: 0.10),
             blurRadius: 12,
             offset: const Offset(0, 5),
           ),
@@ -213,7 +212,7 @@ class GuidelineDetailPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ------------------------------------------------------
-          // CATEGORY BADGE
+          // CATEGORY
           // ------------------------------------------------------
 
           Container(
@@ -222,9 +221,7 @@ class GuidelineDetailPage extends StatelessWidget {
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(
-                alpha: 0.16,
-              ),
+              color: Colors.white.withValues(alpha: 0.16),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -263,37 +260,12 @@ class GuidelineDetailPage extends StatelessWidget {
 
           Text(
             topic.shortTitle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: Colors.white.withValues(
-                alpha: 0.90,
-              ),
+              color: Colors.white.withValues(alpha: 0.90),
               fontSize: 15,
               height: 1.3,
               fontWeight: FontWeight.w600,
             ),
-          ),
-
-          const SizedBox(height: 14),
-
-          // ------------------------------------------------------
-          // CATEGORY / JURISDICTION TAGS
-          // ------------------------------------------------------
-
-          Wrap(
-            spacing: 7,
-            runSpacing: 6,
-            children: [
-              if (topic.category.trim().isNotEmpty)
-                _HeaderTag(
-                  text: topic.category,
-                ),
-              if (topic.jurisdiction.trim().isNotEmpty)
-                _HeaderTag(
-                  text: topic.jurisdiction,
-                ),
-            ],
           ),
         ],
       ),
@@ -344,52 +316,6 @@ class GuidelineDetailPage extends StatelessWidget {
 }
 
 // ============================================================================
-// HEADER TAG
-// ============================================================================
-
-class _HeaderTag extends StatelessWidget {
-  final String text;
-
-  const _HeaderTag({
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxWidth: 190,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(
-          alpha: 0.14,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(
-            alpha: 0.20,
-          ),
-        ),
-      ),
-      child: Text(
-        text.trim(),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 11.5,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-// ============================================================================
 // INFO CARD
 // ============================================================================
 
@@ -414,9 +340,7 @@ class _InfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.05,
-            ),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -462,9 +386,7 @@ class _SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.05,
-            ),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -510,9 +432,7 @@ class _ListSectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.05,
-            ),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -539,9 +459,8 @@ class _ListSectionCard extends StatelessWidget {
 
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == items.length - 1
-                      ? 0
-                      : 12,
+                  bottom:
+                      index == items.length - 1 ? 0 : 12,
                 ),
                 child: _BulletItem(
                   number: index + 1,
@@ -577,9 +496,7 @@ class _ReferenceSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: 0.05,
-            ),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -617,13 +534,13 @@ class _ReferenceSection extends StatelessWidget {
                       CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 28,
-                      height: 28,
+                      width: 26,
+                      height: 26,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: lightGreen,
                         borderRadius:
-                            BorderRadius.circular(8),
+                            BorderRadius.circular(7),
                       ),
                       child: const Icon(
                         Icons.link,
@@ -772,8 +689,8 @@ class _BulletItem extends StatelessWidget {
           CrossAxisAlignment.start,
       children: [
         Container(
-          width: 28,
-          height: 28,
+          width: 27,
+          height: 27,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: lightGreen,
