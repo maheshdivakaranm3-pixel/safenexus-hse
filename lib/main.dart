@@ -338,7 +338,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _buildDashboard(),
           _buildLearningHome(),
-          _buildNotificationHome(),
+          _buildNotificationsHome(),
           _buildSettingsHome(),
           _buildProfileHome(),
         ],
@@ -349,82 +349,75 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // BOTTOM NAVIGATION
+  //
+  // Home | Learning | Notifications | Settings | Profile
+  //
+  // Guidelines and Report are intentionally removed from
+  // bottom navigation.
   // ==========================================================
 
   Widget _buildBottomNavigation() {
-    return NavigationBarTheme(
-      data: NavigationBarThemeData(
-        height: 82,
-        backgroundColor: Colors.white,
-        elevation: 8,
-        indicatorColor: const Color(0xFFDDF1E5),
-        labelTextStyle: WidgetStateProperty.resolveWith(
-          (states) {
-            return const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF37474F),
-            );
-          },
-        ),
-        iconTheme: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.selected)) {
-              return const IconThemeData(
-                color: primaryGreen,
-                size: 25,
-              );
-            }
+    return NavigationBar(
+      height: 82,
+      backgroundColor: Colors.white,
+      elevation: 8,
+      selectedIndex: _currentIndex,
+      onDestinationSelected: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
 
-            return const IconThemeData(
-              color: Color(0xFF4B5450),
-              size: 24,
-            );
-          },
+        if (index == 0) {
+          _loadDashboardStats();
+        }
+      },
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(
+            Icons.home_outlined,
+          ),
+          selectedIcon: Icon(
+            Icons.home_rounded,
+          ),
+          label: 'Home',
         ),
-      ),
-      child: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-
-          if (index == 0) {
-            _loadDashboardStats();
-          }
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
-            label: 'Home',
+        NavigationDestination(
+          icon: Icon(
+            Icons.school_outlined,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.school_outlined),
-            selectedIcon: Icon(Icons.school_rounded),
-            label: 'Learning',
+          selectedIcon: Icon(
+            Icons.school_rounded,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.notifications_none_rounded),
-            selectedIcon:
-                Icon(Icons.notifications_rounded),
-            label: 'Notification',
+          label: 'Learning',
+        ),
+        NavigationDestination(
+          icon: Icon(
+            Icons.notifications_none_rounded,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon:
-                Icon(Icons.settings_rounded),
-            label: 'Settings',
+          selectedIcon: Icon(
+            Icons.notifications_rounded,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline_rounded),
-            selectedIcon:
-                Icon(Icons.person_rounded),
-            label: 'Profile',
+          label: 'Notifications',
+        ),
+        NavigationDestination(
+          icon: Icon(
+            Icons.settings_outlined,
           ),
-        ],
-      ),
+          selectedIcon: Icon(
+            Icons.settings_rounded,
+          ),
+          label: 'Settings',
+        ),
+        NavigationDestination(
+          icon: Icon(
+            Icons.person_outline_rounded,
+          ),
+          selectedIcon: Icon(
+            Icons.person_rounded,
+          ),
+          label: 'Profile',
+        ),
+      ],
     );
   }
 
@@ -483,6 +476,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // PROFESSIONAL TOP HEADER
+  //
+  // Notification + Settings buttons are removed from here.
+  // They are now available in bottom navigation.
   // ==========================================================
 
   Widget _buildProfessionalHeader() {
@@ -1259,7 +1255,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // SAFETY MESSAGE / PROMOTIONAL CARD
+  // SAFETY MESSAGE
   // ==========================================================
 
   Widget _buildSafetyMessage() {
@@ -1581,27 +1577,118 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // NOTIFICATION HOME
+  // LEARNING CARD
   // ==========================================================
 
-  Widget _buildNotificationHome() {
+  Widget _learningCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius:
+          BorderRadius.circular(21),
+      child: InkWell(
+        borderRadius:
+            BorderRadius.circular(21),
+        onTap: onTap,
+        child: Padding(
+          padding:
+              const EdgeInsets.all(17),
+          child: Row(
+            children: [
+              Container(
+                width: 57,
+                height: 57,
+                decoration:
+                    BoxDecoration(
+                  color:
+                      color.withAlpha(20),
+                  borderRadius:
+                      BorderRadius.circular(
+                    16,
+                  ),
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 29,
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style:
+                          const TextStyle(
+                        color: navy,
+                        fontSize: 16,
+                        fontWeight:
+                            FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style:
+                          const TextStyle(
+                        color:
+                            Color(0xFF607D8B),
+                        fontSize: 11.5,
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: color,
+                size: 26,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ==========================================================
+  // NOTIFICATIONS HOME
+  //
+  // Notifications are now ONLY here.
+  // No Notifications option inside Settings.
+  // ==========================================================
+
+  Widget _buildNotificationsHome() {
     return SafeArea(
       child: ListView(
         padding:
-            const EdgeInsets.all(18),
+            const EdgeInsets.fromLTRB(
+          18,
+          12,
+          18,
+          28,
+        ),
         children: [
           _simplePageHeader(
-            title: 'Notification',
+            title: 'Notifications',
             subtitle:
-                'Safety alerts and important updates',
+                'Safety alerts and updates',
             icon:
                 Icons.notifications_rounded,
           ),
           const SizedBox(height: 16),
           Container(
-            width: double.infinity,
             padding:
-                const EdgeInsets.all(22),
+                const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius:
@@ -1614,139 +1701,48 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 BoxShadow(
                   color:
                       Colors.black.withAlpha(10),
-                  blurRadius: 12,
+                  blurRadius: 10,
                   offset:
-                      const Offset(0, 4),
+                      const Offset(0, 3),
                 ),
               ],
             ),
-            child: Column(
+            child: const Column(
               children: [
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        const Color(0xFFEAF8F0),
-                    shape:
-                        BoxShape.circle,
-                  ),
-                  child: const Icon(
+                CircleAvatar(
+                  radius: 32,
+                  backgroundColor:
+                      Color(0xFFEAF8F0),
+                  child: Icon(
                     Icons
                         .notifications_none_rounded,
                     color:
                         primaryGreen,
-                    size: 36,
+                    size: 34,
                   ),
                 ),
-                const SizedBox(height: 16),
-                const Text(
+                SizedBox(height: 14),
+                Text(
                   'You are all caught up',
                   textAlign:
                       TextAlign.center,
-                  style:
-                      TextStyle(
+                  style: TextStyle(
                     color: navy,
                     fontSize: 18,
-                    fontWeight:
-                        FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(height: 7),
-                const Text(
-                  'No new safety notifications or updates at the moment.',
-                  textAlign:
-                      TextAlign.center,
-                  style:
-                      TextStyle(
-                    color:
-                        Color(0xFF607D8B),
-                    fontSize: 12,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          _notificationInfoCard(
-            icon:
-                Icons.shield_rounded,
-            title:
-                'Safety First',
-            message:
-                'Stay alert, report hazards and help create safer workplaces.',
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // NOTIFICATION INFO CARD
-  // ==========================================================
-
-  Widget _notificationInfoCard({
-    required IconData icon,
-    required String title,
-    required String message,
-  }) {
-    return Container(
-      padding:
-          const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color:
-            const Color(0xFFE9F8F1),
-        borderRadius:
-            BorderRadius.circular(18),
-        border: Border.all(
-          color:
-              const Color(0xFFCDEBDD),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 45,
-            height: 45,
-            decoration:
-                BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-                  BorderRadius.circular(13),
-            ),
-            child: Icon(
-              icon,
-              color: primaryGreen,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      const TextStyle(
-                    color: darkGreen,
-                    fontSize: 14,
                     fontWeight:
                         FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 6),
                 Text(
-                  message,
-                  style:
-                      const TextStyle(
+                  'No new safety notifications or updates at the moment.',
+                  textAlign:
+                      TextAlign.center,
+                  style: TextStyle(
                     color:
-                        Color(0xFF527064),
-                    fontSize: 11,
-                    height: 1.35,
+                        Color(0xFF607D8B),
+                    fontSize: 12,
+                    height: 1.4,
                   ),
                 ),
               ],
@@ -1759,39 +1755,53 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // SETTINGS HOME
+  //
+  // IMPORTANT:
+  // Notifications tile has been completely removed.
   // ==========================================================
 
   Widget _buildSettingsHome() {
     return SafeArea(
       child: ListView(
         padding:
-            const EdgeInsets.all(18),
+            const EdgeInsets.fromLTRB(
+          18,
+          12,
+          18,
+          28,
+        ),
         children: [
-          _simplePageHeader(
-            title: 'Settings',
-            subtitle:
-                'Manage your SafeNexus HSE preferences',
+          _settingsHeader(),
+
+          const SizedBox(height: 18),
+
+          _settingsPageTile(
             icon:
-                Icons.settings_rounded,
-          ),
-          const SizedBox(height: 16),
-
-          _settingsTile(
-            Icons.notifications_outlined,
-            'Notifications',
-            'Safety alerts and updates',
-          ),
-
-          _settingsTile(
-            Icons.language_rounded,
-            'Language',
-            'English',
+                Icons.language_rounded,
+            title: 'Language',
+            subtitle: 'English',
+            onTap: () {
+              _showMessage(
+                'Language',
+                'English is currently selected.',
+              );
+            },
           ),
 
-          _settingsTile(
-            Icons.info_outline_rounded,
-            'About SafeNexus HSE',
-            'UAE-wide HSE safety app',
+          const SizedBox(height: 12),
+
+          _settingsPageTile(
+            icon:
+                Icons.info_outline_rounded,
+            title: 'About SafeNexus HSE',
+            subtitle:
+                'UAE-wide HSE safety app',
+            onTap: () {
+              _showMessage(
+                'SafeNexus HSE',
+                'Safe People - Safe Workplaces - Safer UAE',
+              );
+            },
           ),
         ],
       ),
@@ -1799,59 +1809,171 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // SETTINGS TILE
+  // SETTINGS HEADER
   // ==========================================================
 
-  Widget _settingsTile(
-    IconData icon,
-    String title,
-    String subtitle,
-  ) {
+  Widget _settingsHeader() {
     return Container(
-      margin:
-          const EdgeInsets.only(
-        bottom: 10,
+      width: double.infinity,
+      padding:
+          const EdgeInsets.fromLTRB(
+        28,
+        28,
+        24,
+        28,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius:
-            BorderRadius.circular(18),
-        border: Border.all(
-          color:
-              const Color(0xFFE1E8EE),
-        ),
-      ),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 3,
-        ),
-        leading: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
+            BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
             color:
-                primaryGreen.withAlpha(18),
+                Colors.black.withAlpha(10),
+            blurRadius: 14,
+            offset:
+                const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 76,
+            height: 76,
+            decoration: BoxDecoration(
+              color:
+                  const Color(0xFFEAF8F0),
+              borderRadius:
+                  BorderRadius.circular(22),
+            ),
+            child: const Icon(
+              Icons.settings_rounded,
+              color: primaryGreen,
+              size: 42,
+            ),
+          ),
+          const SizedBox(width: 18),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Settings',
+                  style: TextStyle(
+                    color: navy,
+                    fontSize: 27,
+                    fontWeight:
+                        FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  'Manage your SafeNexus HSE preferences',
+                  style: TextStyle(
+                    color:
+                        Color(0xFF71858D),
+                    fontSize: 13.5,
+                    height: 1.25,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ==========================================================
+  // SETTINGS PAGE TILE
+  // ==========================================================
+
+  Widget _settingsPageTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius:
+          BorderRadius.circular(22),
+      child: InkWell(
+        borderRadius:
+            BorderRadius.circular(22),
+        onTap: onTap,
+        child: Container(
+          padding:
+              const EdgeInsets.symmetric(
+            horizontal: 26,
+            vertical: 25,
+          ),
+          decoration: BoxDecoration(
             borderRadius:
-                BorderRadius.circular(13),
+                BorderRadius.circular(22),
+            border: Border.all(
+              color:
+                  const Color(0xFFE1E8EE),
+            ),
           ),
-          child: Icon(
-            icon,
-            color: primaryGreen,
+          child: Row(
+            children: [
+              Container(
+                width: 68,
+                height: 68,
+                decoration: BoxDecoration(
+                  color:
+                      const Color(0xFFEAF8F0),
+                  borderRadius:
+                      BorderRadius.circular(
+                    19,
+                  ),
+                ),
+                child: Icon(
+                  icon,
+                  color: primaryGreen,
+                  size: 34,
+                ),
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style:
+                          const TextStyle(
+                        color: navy,
+                        fontSize: 20,
+                        fontWeight:
+                            FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      subtitle,
+                      style:
+                          const TextStyle(
+                        color:
+                            Color(0xFF526067),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color:
+                    Color(0xFF4F5658),
+                size: 30,
+              ),
+            ],
           ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: navy,
-            fontWeight:
-                FontWeight.w700,
-          ),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(
-          Icons.chevron_right_rounded,
         ),
       ),
     );
@@ -2060,90 +2182,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // LEARNING CARD
-  // ==========================================================
-
-  Widget _learningCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius:
-          BorderRadius.circular(21),
-      child: InkWell(
-        borderRadius:
-            BorderRadius.circular(21),
-        onTap: onTap,
-        child: Padding(
-          padding:
-              const EdgeInsets.all(17),
-          child: Row(
-            children: [
-              Container(
-                width: 57,
-                height: 57,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      color.withAlpha(20),
-                  borderRadius:
-                      BorderRadius.circular(
-                    16,
-                  ),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 29,
-                ),
-              ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style:
-                          const TextStyle(
-                        color: navy,
-                        fontSize: 16,
-                        fontWeight:
-                            FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
-                        fontSize: 11.5,
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 26,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
   // SIMPLE PAGE HEADER
   // ==========================================================
 
@@ -2156,7 +2194,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       padding:
           const EdgeInsets.fromLTRB(
         0,
-        12,
+        0,
         0,
         4,
       ),
