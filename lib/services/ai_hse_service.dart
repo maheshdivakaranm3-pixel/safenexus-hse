@@ -3,7 +3,21 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+/// ============================================================
+/// SafeNexus HSE
+/// AI HSE Result Model
+/// ============================================================
+///
 /// Structured result returned by the SafeNexus HSE AI backend.
+///
+/// The Flutter application does NOT communicate directly with
+/// OpenAI. It communicates with the secure Cloudflare Worker.
+///
+/// Supported response language:
+/// - English
+/// - Malayalam
+/// ============================================================
+
 class AiHseResult {
   final String observationType;
   final String category;
@@ -24,6 +38,10 @@ class AiHseResult {
     required this.confidence,
     required this.explanation,
   });
+
+  // ============================================================
+  // FROM JSON
+  // ============================================================
 
   factory AiHseResult.fromJson(
     Map<String, dynamic> json,
@@ -46,7 +64,7 @@ class AiHseResult {
       ),
       potentialConsequence: _stringValue(
         json['potential_consequence'],
-        'Potential injury or property damage',
+        'Potential injury or property damage.',
       ),
       correctiveAction: _stringValue(
         json['corrective_action'],
@@ -62,6 +80,10 @@ class AiHseResult {
     );
   }
 
+  // ============================================================
+  // TO JSON
+  // ============================================================
+
   Map<String, dynamic> toJson() {
     return {
       'observation_type': observationType,
@@ -75,6 +97,10 @@ class AiHseResult {
     };
   }
 
+  // ============================================================
+  // STRING NORMALIZATION
+  // ============================================================
+
   static String _stringValue(
     dynamic value,
     String fallback,
@@ -83,36 +109,51 @@ class AiHseResult {
       return fallback;
     }
 
-    final text = value.toString().trim();
+    final String text = value.toString().trim();
 
-    return text.isEmpty ? fallback : text;
+    if (text.isEmpty) {
+      return fallback;
+    }
+
+    return text;
   }
+
+  // ============================================================
+  // RISK LEVEL NORMALIZATION
+  // ============================================================
 
   static String _normalizeRiskLevel(
     dynamic value,
   ) {
-    final risk = value
-        ?.toString()
-        .trim()
-        .toLowerCase();
+    final String risk = value
+            ?.toString()
+            .trim()
+            .toLowerCase() ??
+        '';
 
     switch (risk) {
       case 'low':
         return 'Low';
 
       case 'medium':
+      case 'moderate':
         return 'Medium';
 
       case 'high':
         return 'High';
 
       case 'critical':
+      case 'severe':
         return 'Critical';
 
       default:
         return 'Medium';
     }
   }
+
+  // ============================================================
+  // CONFIDENCE NORMALIZATION
+  // ============================================================
 
   static double _confidenceValue(
     dynamic value,
@@ -122,10 +163,16 @@ class AiHseResult {
     if (value is num) {
       result = value.toDouble();
     } else if (value != null) {
-      result =
-          double.tryParse(value.toString()) ?? 0.0;
+      result = double.tryParse(
+            value.toString().trim(),
+          ) ??
+          0.0;
     }
 
+    // Backend may return:
+    // 0.85
+    // or
+    // 85
     if (result > 1 && result <= 100) {
       result = result / 100;
     }
@@ -142,38 +189,73 @@ class AiHseResult {
   }
 }
 
-/// Service responsible for communicating with the
-/// SafeNexus HSE AI backend.
+/// ============================================================
+/// SafeNexus HSE
+/// AI HSE Service
+/// ============================================================
+///
+/// Communicates with the SafeNexus HSE Cloudflare Worker.
 ///
 /// IMPORTANT:
-/// The OpenAI API key is never stored in this Flutter app.
-/// The app communicates only with the Cloudflare Worker.
+/// The OpenAI API key must NEVER be placed inside this Flutter
+/// application.
+///
+/// Flutter App
+///     ↓
+/// Cloudflare Worker
+///     ↓
+/// OpenAI
+///     ↓
+/// Cloudflare Worker
+///     ↓
+/// Flutter App
+/// ============================================================
+
 class AiHseService {
+  // ============================================================
+  // BACKEND ENDPOINT
+  // ============================================================
+
   static const String endpoint =
       'https://safenexus-hse-v2.maheshdivakar-m3.workers.dev/analyze-hse';
+
+  // ============================================================
+  // REQUEST TIMEOUT
+  // ============================================================
 
   static const Duration requestTimeout =
       Duration(seconds: 90);
 
-  /// Analyze a workplace photo.
-  ///
-  /// The image is sent to the SafeNexus Cloudflare Worker.
-  /// The Worker securely communicates with OpenAI.
+  // ============================================================
+  // MAX IMAGE SIZE
+  // ============================================================
+
+  static const int maxImageBytes =
+      10 * 1024 * 1024;
+
+  // ============================================================
+  // ANALYZE PHOTO
+  // ============================================================
+
   Future<AiHseResult> analyzePhoto({
     required File imageFile,
     String description = '',
     String location = '',
     String language = 'en',
   }) async {
-    // ------------------------------------------------------------
-    // FILE VALIDATION
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 1. CHECK FILE
+    // ----------------------------------------------------------
 
     if (!await imageFile.exists()) {
       throw const AiHseException(
         'Selected image file does not exist.',
       );
     }
+
+    // ----------------------------------------------------------
+    // 2. READ FILE
+    // ----------------------------------------------------------
 
     final List<int> bytes;
 
@@ -186,17 +268,19 @@ class AiHseService {
       );
     }
 
+    // ----------------------------------------------------------
+    // 3. EMPTY IMAGE CHECK
+    // ----------------------------------------------------------
+
     if (bytes.isEmpty) {
       throw const AiHseException(
         'Selected image is empty.',
       );
     }
 
-    // ------------------------------------------------------------
-    // IMAGE SIZE
-    // ------------------------------------------------------------
-
-    const maxImageBytes = 10 * 1024 * 1024;
+    // ----------------------------------------------------------
+    // 4. IMAGE SIZE CHECK
+    // ----------------------------------------------------------
 
     if (bytes.length > maxImageBytes) {
       throw const AiHseException(
@@ -204,35 +288,36 @@ class AiHseService {
       );
     }
 
-    // ------------------------------------------------------------
-    // BASE64
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 5. BASE64 ENCODE
+    // ----------------------------------------------------------
 
-    final String base64Image =
-        base64Encode(bytes);
+    final String base64Image = base64Encode(bytes);
 
-    // ------------------------------------------------------------
-    // MIME TYPE
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 6. MIME TYPE
+    // ----------------------------------------------------------
 
     final String mimeType =
         _mimeType(imageFile.path);
 
-    // ------------------------------------------------------------
-    // LANGUAGE
-    // ------------------------------------------------------------
-
-    final String normalizedLanguage =
-        language.toLowerCase().trim();
+    // ----------------------------------------------------------
+    // 7. LANGUAGE
+    // ----------------------------------------------------------
+    //
+    // SafeNexus currently supports:
+    // English = en
+    // Malayalam = ml
+    //
+    // Any unsupported value falls back to English.
+    // ----------------------------------------------------------
 
     final String responseLanguage =
-        normalizedLanguage.startsWith('ml')
-            ? 'ml'
-            : 'en';
+        _normalizeLanguage(language);
 
-    // ------------------------------------------------------------
-    // REQUEST BODY
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 8. REQUEST BODY
+    // ----------------------------------------------------------
 
     final Map<String, dynamic> requestBody = {
       'image_base64': base64Image,
@@ -242,9 +327,9 @@ class AiHseService {
       'language': responseLanguage,
     };
 
-    // ------------------------------------------------------------
-    // URI
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 9. SERVER URI
+    // ----------------------------------------------------------
 
     final Uri uri;
 
@@ -257,9 +342,9 @@ class AiHseService {
       );
     }
 
-    // ------------------------------------------------------------
-    // HTTP REQUEST
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 10. HTTP REQUEST
+    // ----------------------------------------------------------
 
     http.Response response;
 
@@ -292,22 +377,30 @@ class AiHseService {
         'HSE AI network request failed.',
         details: error.message,
       );
-    } catch (error) {
+    } on IOException catch (error) {
       throw AiHseException(
         'Network error while contacting the HSE AI server.',
         details: error.toString(),
       );
+    } catch (error) {
+      throw AiHseException(
+        'Unexpected error while contacting the HSE AI server.',
+        details: error.toString(),
+      );
     }
 
-    // ------------------------------------------------------------
-    // DECODE RESPONSE
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 11. DECODE RESPONSE
+    // ----------------------------------------------------------
 
-    final dynamic decoded =
-        _decodeJsonResponse(
+    final dynamic decoded = _decodeJsonResponse(
       response.body,
       response.statusCode,
     );
+
+    // ----------------------------------------------------------
+    // 12. RESPONSE TYPE CHECK
+    // ----------------------------------------------------------
 
     if (decoded is! Map) {
       throw AiHseException(
@@ -321,9 +414,9 @@ class AiHseService {
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(decoded);
 
-    // ------------------------------------------------------------
-    // HTTP ERROR
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 13. HTTP STATUS CHECK
+    // ----------------------------------------------------------
 
     if (response.statusCode < 200 ||
         response.statusCode >= 300) {
@@ -333,9 +426,9 @@ class AiHseService {
       );
     }
 
-    // ------------------------------------------------------------
-    // APPLICATION ERROR
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 14. APPLICATION SUCCESS CHECK
+    // ----------------------------------------------------------
 
     if (data['success'] != true) {
       throw AiHseException(
@@ -344,12 +437,11 @@ class AiHseService {
       );
     }
 
-    // ------------------------------------------------------------
-    // RESULT
-    // ------------------------------------------------------------
+    // ----------------------------------------------------------
+    // 15. RESULT CHECK
+    // ----------------------------------------------------------
 
-    final dynamic rawResult =
-        data['result'];
+    final dynamic rawResult = data['result'];
 
     if (rawResult is! Map) {
       throw const AiHseException(
@@ -360,7 +452,30 @@ class AiHseService {
     final Map<String, dynamic> result =
         Map<String, dynamic>.from(rawResult);
 
+    // ----------------------------------------------------------
+    // 16. RETURN STRUCTURED RESULT
+    // ----------------------------------------------------------
+
     return AiHseResult.fromJson(result);
+  }
+
+  // ============================================================
+  // LANGUAGE NORMALIZATION
+  // ============================================================
+
+  String _normalizeLanguage(
+    String language,
+  ) {
+    final String value =
+        language.trim().toLowerCase();
+
+    if (value == 'ml' ||
+        value == 'malayalam' ||
+        value.startsWith('ml-')) {
+      return 'ml';
+    }
+
+    return 'en';
   }
 
   // ============================================================
@@ -396,8 +511,7 @@ class AiHseService {
   String _extractServerError(
     Map<String, dynamic> data,
   ) {
-    final dynamic error =
-        data['error'];
+    final dynamic error = data['error'];
 
     if (error != null) {
       final String message =
@@ -408,8 +522,7 @@ class AiHseService {
       }
     }
 
-    final dynamic message =
-        data['message'];
+    final dynamic message = data['message'];
 
     if (message != null) {
       final String text =
@@ -427,7 +540,9 @@ class AiHseService {
   // MIME TYPE
   // ============================================================
 
-  String _mimeType(String path) {
+  String _mimeType(
+    String path,
+  ) {
     final String lower =
         path.toLowerCase();
 
@@ -450,8 +565,10 @@ class AiHseService {
   }
 }
 
-/// Application-level exception used by
-/// the SafeNexus HSE AI service.
+/// ============================================================
+/// SafeNexus HSE AI Exception
+/// ============================================================
+
 class AiHseException implements Exception {
   final String message;
   final int? statusCode;
