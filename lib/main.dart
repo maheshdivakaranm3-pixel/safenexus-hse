@@ -142,6 +142,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       int hazards = 0;
       int open = 0;
 
+      final List<String> normalizedRecords = <String>[];
+      bool storageChanged = false;
+
       for (final raw in records) {
         try {
           final decoded = jsonDecode(raw);
@@ -158,31 +161,51 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             continue;
           }
 
+          final originalType = _stringValue(report['reportType']);
+          final originalObservationType =
+              _stringValue(report['observationType']);
+
+          final canonicalType = _canonicalReportType(
+            reportType: originalType,
+            observationType: originalObservationType,
+          );
+
+          if (originalType != canonicalType) {
+            report['reportType'] = canonicalType;
+            storageChanged = true;
+          } else if (originalType.isEmpty) {
+            report['reportType'] = canonicalType;
+            storageChanged = true;
+          }
+
+          normalizedRecords.add(jsonEncode(report));
+
           total++;
 
-          final type = _stringValue(
-            report['reportType'],
-          ).toLowerCase();
-
-          if (type.contains('hazard')) {
+          if (canonicalType == 'Hazard Report') {
             hazards++;
           } else {
             observations++;
           }
 
-          final status = _stringValue(
-            report['status'],
-          ).toLowerCase();
+          final status = _normalizeStatus(report['status']);
 
-          if (status.isEmpty ||
-              status == 'open' ||
-              status == 'pending' ||
-              status == 'in progress') {
+          if (_isOpenStatus(status)) {
             open++;
           }
         } catch (_) {
+          // Ignore corrupted individual records.
           continue;
         }
+      }
+
+      // Keep dashboard classification aligned with Observation History.
+      // Only rewrite storage when a legacy/missing reportType was normalized.
+      if (storageChanged) {
+        await prefs.setStringList(
+          _storageKey,
+          normalizedRecords,
+        );
       }
 
       if (!mounted) {
@@ -209,6 +232,55 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         _loadingStats = false;
       });
     }
+  }
+
+  // ==========================================================
+  // CANONICAL REPORT TYPE
+  // ==========================================================
+
+  String _canonicalReportType({
+    required String reportType,
+    required String observationType,
+  }) {
+    final type = reportType.trim().toLowerCase();
+    final legacyType = observationType.trim().toLowerCase();
+
+    if (type.contains('hazard') ||
+        legacyType.contains('hazard')) {
+      return 'Hazard Report';
+    }
+
+    return 'Safety Observation';
+  }
+
+  // ==========================================================
+  // NORMALIZED STATUS
+  // ==========================================================
+
+  String _normalizeStatus(dynamic value) {
+    final status = _stringValue(value).toLowerCase();
+
+    if (status.isEmpty) {
+      return 'open';
+    }
+
+    if (status == 'in progress' ||
+        status == 'in-progress' ||
+        status == 'inprogress') {
+      return 'in progress';
+    }
+
+    return status;
+  }
+
+  // ==========================================================
+  // OPEN STATUS
+  // ==========================================================
+
+  bool _isOpenStatus(String status) {
+    return status == 'open' ||
+        status == 'pending' ||
+        status == 'in progress';
   }
 
   // ==========================================================
@@ -1129,7 +1201,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today • Healthy Tomorrow • Stronger UAE',
+                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
@@ -1162,7 +1234,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: const Row(
         children: [
           Text(
-            '🇦🇪',
+            '馃嚘馃嚜',
             style: TextStyle(
               fontSize: 30,
             ),
@@ -1333,7 +1405,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _simplePageHeader(
             title: 'Learning Center',
-            subtitle: 'Build Knowledge • Build a Safer You',
+            subtitle: 'Build Knowledge 鈥� Build a Safer You',
             icon: Icons.school_rounded,
           ),
           const SizedBox(height: 16),
@@ -1512,7 +1584,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'SafeNexus HSE • UAE',
+                  'SafeNexus HSE 鈥� UAE',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -1547,7 +1619,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
-                'Safe People • Safe Workplaces • Safer UAE',
+                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
               );
             },
           ),
