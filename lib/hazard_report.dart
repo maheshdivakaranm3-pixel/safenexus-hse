@@ -105,7 +105,7 @@ _locationController.dispose();
 super.dispose();
 }
 
-String _generateObservationId() {
+String _generateHazardId() {
 final now = DateTime.now();
 
 final date = '${now.year}'
@@ -116,7 +116,10 @@ final time = '${now.hour.toString().padLeft(2, '0')}'
     '${now.minute.toString().padLeft(2, '0')}'
     '${now.second.toString().padLeft(2, '0')}';
 
-return 'OBS-$date-$time';
+// Use a timestamp with microsecond precision to prevent ID collisions.
+final uniquePart = now.microsecondsSinceEpoch.toString();
+
+return 'HAZ-$date-$time-$uniquePart';
 
 }
 
@@ -501,7 +504,7 @@ setState(() {
 });
 
 try {
-  final id = _generateObservationId();
+  final id = _generateHazardId();
   final submittedAt = DateTime.now();
 
   String? savedPhotoPath;
