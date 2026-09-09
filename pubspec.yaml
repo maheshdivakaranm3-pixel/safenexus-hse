@@ -13,19 +13,10 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
-  # Local data storage
   shared_preferences: ^2.3.2
-
-  # Pick images from device
   image_picker: ^1.1.2
-
-  # Application documents directory
   path_provider: ^2.1.4
-
-  # Share safety reports
   share_plus: ^10.0.2
-
-  # HTTP client for SafeNexus HSE backend
   http: ^1.2.2
 
 dev_dependencies:
@@ -38,5 +29,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/safenexus_hse_banner.png
     - assets/images/safenexus_hse_header_mobile.png
+    - assets/images/safenexus_hse_banner.png
