@@ -1205,7 +1205,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
-                    fontSize: 9.5,
+                    fontSize: 10.5,
                     height: 1.3,
                   ),
                 ),
@@ -1230,16 +1230,23 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         border: Border.all(
           color: const Color(0xFFCDEBDD),
         ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x12000000),
+            blurRadius: 12,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
       child: const Row(
         children: [
           Text(
             '馃嚘馃嚜',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 28,
             ),
           ),
-          SizedBox(width: 11),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
