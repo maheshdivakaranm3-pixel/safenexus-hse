@@ -72,6 +72,8 @@ class _ObservationHistoryPageState
           loadedReports =
           <Map<String, dynamic>>[];
 
+      bool storageChanged = false;
+
       for (final raw in stored) {
         try {
           final decoded =
@@ -95,11 +97,31 @@ class _ObservationHistoryPageState
             continue;
           }
 
+          final before = jsonEncode(report);
+
           _normalizeReport(report);
+
+          final after = jsonEncode(report);
+          if (before != after) {
+            storageChanged = true;
+          }
 
           loadedReports.add(report);
         } catch (_) {
           // Ignore corrupted individual records.
+        }
+      }
+
+      if (storageChanged) {
+        try {
+          await prefs.setStringList(
+            _storageKey,
+            loadedReports
+                .map(jsonEncode)
+                .toList(),
+          );
+        } catch (_) {
+          // Keep the normalized in-memory records even if persistence fails.
         }
       }
 
@@ -161,7 +183,17 @@ class _ObservationHistoryPageState
         report['observationType'],
       );
 
-      if (observationType
+      final legacyType =
+          _stringValue(
+        report['type'],
+      );
+
+      final fallbackType =
+          observationType.isNotEmpty
+              ? observationType
+              : legacyType;
+
+      if (fallbackType
           .toLowerCase()
           .contains('hazard')) {
         report['reportType'] =
