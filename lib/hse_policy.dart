@@ -456,7 +456,7 @@ class _HsePolicyPageState extends State<HsePolicyPage> {
                   width: 52,
                   height: 52,
                   decoration: BoxDecoration(
-                    color: primaryGreen.withOpacity(.10),
+                    color: primaryGreen.withValues(alpha: 0.10),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -508,7 +508,7 @@ class _HsePolicyPageState extends State<HsePolicyPage> {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(.12),
+                    color: statusColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
