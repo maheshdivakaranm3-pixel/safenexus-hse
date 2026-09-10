@@ -1,6 +1,6 @@
 // lib/data/hse_work_categories.dart
 
-import '../models/hse_work_model.dart';
+import '../models/hse_work_categories.dart';
 
 /// ============================================================
 /// SAFE NEXUS HSE
