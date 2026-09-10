@@ -25,8 +25,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   final _hseOfficerController = TextEditingController();
   final _siteManagerController = TextEditingController();
   final _constructionManagerController = TextEditingController();
+  final _hseSupervisorController = TextEditingController();
+  final _hseCoordinatorController = TextEditingController();
   final _emergencyContactNameController = TextEditingController();
   final _emergencyContactPhoneController = TextEditingController();
+  final _ambulanceController = TextEditingController();
+  final _fireRescueController = TextEditingController();
+  final _policeController = TextEditingController();
+  final _nearestHospitalController = TextEditingController();
+  final _assemblyPointController = TextEditingController();
   final _locationController = TextEditingController();
   final _cityController = TextEditingController();
   final _areaController = TextEditingController();
@@ -60,8 +67,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _hseOfficerController.dispose();
     _siteManagerController.dispose();
     _constructionManagerController.dispose();
+    _hseSupervisorController.dispose();
+    _hseCoordinatorController.dispose();
     _emergencyContactNameController.dispose();
     _emergencyContactPhoneController.dispose();
+    _ambulanceController.dispose();
+    _fireRescueController.dispose();
+    _policeController.dispose();
+    _nearestHospitalController.dispose();
+    _assemblyPointController.dispose();
     _locationController.dispose();
     _cityController.dispose();
     _areaController.dispose();
@@ -87,8 +101,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _hseOfficerController.text = prefs.getString('prestart.hseOfficer') ?? '';
       _siteManagerController.text = prefs.getString('prestart.siteManager') ?? '';
       _constructionManagerController.text = prefs.getString('prestart.constructionManager') ?? '';
+      _hseSupervisorController.text = prefs.getString('prestart.hseSupervisor') ?? '';
+      _hseCoordinatorController.text = prefs.getString('prestart.hseCoordinator') ?? '';
       _emergencyContactNameController.text = prefs.getString('prestart.emergencyContactName') ?? '';
       _emergencyContactPhoneController.text = prefs.getString('prestart.emergencyContactPhone') ?? '';
+      _ambulanceController.text = prefs.getString('prestart.ambulance') ?? '';
+      _fireRescueController.text = prefs.getString('prestart.fireRescue') ?? '';
+      _policeController.text = prefs.getString('prestart.police') ?? '';
+      _nearestHospitalController.text = prefs.getString('prestart.nearestHospital') ?? '';
+      _assemblyPointController.text = prefs.getString('prestart.assemblyPoint') ?? '';
       _locationController.text = prefs.getString('prestart.location') ?? '';
       _cityController.text = prefs.getString('prestart.city') ?? '';
       _areaController.text = prefs.getString('prestart.area') ?? '';
@@ -181,8 +202,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     await prefs.setString('prestart.hseOfficer', _hseOfficerController.text.trim());
     await prefs.setString('prestart.siteManager', _siteManagerController.text.trim());
     await prefs.setString('prestart.constructionManager', _constructionManagerController.text.trim());
+    await prefs.setString('prestart.hseSupervisor', _hseSupervisorController.text.trim());
+    await prefs.setString('prestart.hseCoordinator', _hseCoordinatorController.text.trim());
     await prefs.setString('prestart.emergencyContactName', _emergencyContactNameController.text.trim());
     await prefs.setString('prestart.emergencyContactPhone', _emergencyContactPhoneController.text.trim());
+    await prefs.setString('prestart.ambulance', _ambulanceController.text.trim());
+    await prefs.setString('prestart.fireRescue', _fireRescueController.text.trim());
+    await prefs.setString('prestart.police', _policeController.text.trim());
+    await prefs.setString('prestart.nearestHospital', _nearestHospitalController.text.trim());
+    await prefs.setString('prestart.assemblyPoint', _assemblyPointController.text.trim());
     await prefs.setString('prestart.location', _locationController.text.trim());
     await prefs.setString('prestart.city', _cityController.text.trim());
     await prefs.setString('prestart.area', _areaController.text.trim());
@@ -247,8 +275,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'hseOfficer',
       'siteManager',
       'constructionManager',
+      'hseSupervisor',
+      'hseCoordinator',
       'emergencyContactName',
       'emergencyContactPhone',
+      'ambulance',
+      'fireRescue',
+      'police',
+      'nearestHospital',
+      'assemblyPoint',
       'location',
       'city',
       'area',
@@ -276,8 +311,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _hseOfficerController.clear();
       _siteManagerController.clear();
       _constructionManagerController.clear();
+      _hseSupervisorController.clear();
+      _hseCoordinatorController.clear();
       _emergencyContactNameController.clear();
       _emergencyContactPhoneController.clear();
+      _ambulanceController.clear();
+      _fireRescueController.clear();
+      _policeController.clear();
+      _nearestHospitalController.clear();
+      _assemblyPointController.clear();
       _locationController.clear();
       _cityController.clear();
       _areaController.clear();
@@ -312,6 +354,11 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _areaController.text.trim().isNotEmpty,
       _scopeController.text.trim().isNotEmpty,
       _mainActivitiesController.text.trim().isNotEmpty,
+      _hseManagerController.text.trim().isNotEmpty,
+      _hseOfficerController.text.trim().isNotEmpty,
+      _emergencyContactNameController.text.trim().isNotEmpty,
+      _emergencyContactPhoneController.text.trim().isNotEmpty,
+      _assemblyPointController.text.trim().isNotEmpty,
       _plannedStartDate != null,
       _plannedEndDate != null,
     ];
@@ -410,18 +457,6 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   icon: Icons.manage_accounts_outlined,
                 ),
                 _textField(
-                  controller: _hseManagerController,
-                  label: 'HSE Manager',
-                  hint: 'Enter HSE manager name',
-                  icon: Icons.health_and_safety_outlined,
-                ),
-                _textField(
-                  controller: _hseOfficerController,
-                  label: 'HSE Officer',
-                  hint: 'Enter HSE officer name',
-                  icon: Icons.verified_user_outlined,
-                ),
-                _textField(
                   controller: _siteManagerController,
                   label: 'Site Manager',
                   hint: 'Enter site manager name',
@@ -433,18 +468,89 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   hint: 'Enter construction manager name',
                   icon: Icons.construction_outlined,
                 ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            _SectionCard(
+              title: 'HSE Team & Emergency Response',
+              icon: Icons.health_and_safety_outlined,
+              children: [
+                _textField(
+                  controller: _hseManagerController,
+                  label: 'HSE Manager',
+                  hint: 'Enter HSE manager name',
+                  icon: Icons.health_and_safety_outlined,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _hseOfficerController,
+                  label: 'HSE Officer',
+                  hint: 'Enter HSE officer name',
+                  icon: Icons.verified_user_outlined,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _hseSupervisorController,
+                  label: 'HSE Supervisor',
+                  hint: 'Enter HSE supervisor name, if applicable',
+                  icon: Icons.supervisor_account_outlined,
+                ),
+                _textField(
+                  controller: _hseCoordinatorController,
+                  label: 'HSE Coordinator',
+                  hint: 'Enter HSE coordinator name, if applicable',
+                  icon: Icons.badge_outlined,
+                ),
                 _textField(
                   controller: _emergencyContactNameController,
-                  label: 'Emergency Contact Name',
+                  label: 'Primary Emergency Contact',
                   hint: 'Enter primary project emergency contact',
                   icon: Icons.contact_emergency_outlined,
+                  requiredField: true,
                 ),
                 _textField(
                   controller: _emergencyContactPhoneController,
                   label: 'Emergency Contact Phone',
-                  hint: 'Enter emergency contact phone number',
+                  hint: 'Enter project emergency contact phone number',
                   icon: Icons.phone_outlined,
                   keyboardType: TextInputType.phone,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _ambulanceController,
+                  label: 'Ambulance / Medical Emergency',
+                  hint: 'Enter local ambulance / medical emergency contact',
+                  icon: Icons.local_hospital_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
+                _textField(
+                  controller: _fireRescueController,
+                  label: 'Fire & Rescue',
+                  hint: 'Enter fire and rescue emergency contact',
+                  icon: Icons.local_fire_department_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
+                _textField(
+                  controller: _policeController,
+                  label: 'Police',
+                  hint: 'Enter police emergency contact',
+                  icon: Icons.local_police_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
+                _textField(
+                  controller: _nearestHospitalController,
+                  label: 'Nearest Hospital / Clinic',
+                  hint: 'Enter nearest hospital or clinic name and contact',
+                  icon: Icons.local_hospital_outlined,
+                  maxLines: 2,
+                ),
+                _textField(
+                  controller: _assemblyPointController,
+                  label: 'Emergency Assembly Point',
+                  hint: 'Enter muster / assembly point location',
+                  icon: Icons.meeting_room_outlined,
+                  requiredField: true,
+                  maxLines: 2,
                 ),
               ],
             ),
