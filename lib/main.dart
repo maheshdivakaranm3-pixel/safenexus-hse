@@ -14,6 +14,7 @@ import 'data/dubai_guidelines.dart';
 import 'data/hse_safety_reference.dart';
 import 'data/uae_general_guidelines.dart';
 import 'tbt.dart';
+import 'workhub.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -335,6 +336,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _buildDashboard(),
           _buildGuidelinesHome(),
+          const WorkHubPage(),
           _buildReportHome(),
           _buildLearningHome(),
           _buildProfileHome(),
@@ -373,6 +375,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           icon: Icon(Icons.menu_book_outlined),
           selectedIcon: Icon(Icons.menu_book_rounded),
           label: 'Guidelines',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.work_outline_rounded),
+          selectedIcon: Icon(Icons.work_rounded),
+          label: 'WorkHub',
         ),
         NavigationDestination(
           icon: Icon(Icons.warning_amber_outlined),
@@ -658,6 +665,22 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Widget _buildQuickActions() {
     return Column(
       children: [
+        SizedBox(
+          width: double.infinity,
+          child: _quickActionCard(
+            title: 'SafeNexus WorkHub',
+            subtitle: 'Plan & control HSE work',
+            icon: Icons.work_rounded,
+            iconColor: primaryGreen,
+            background: const Color(0xFFEAF8F0),
+            onTap: () {
+              setState(() {
+                _currentIndex = 2;
+              });
+            },
+          ),
+        ),
+        const SizedBox(height: 11),
         Row(
           children: [
             Expanded(
@@ -1211,7 +1234,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
+                  'Safe Today 閳ワ拷 Healthy Tomorrow 閳ワ拷 Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
@@ -1251,7 +1274,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: const Row(
         children: [
           Text(
-            '馃嚘馃嚜',
+            '棣冨殬棣冨殰',
             style: TextStyle(
               fontSize: 28,
             ),
@@ -1611,7 +1634,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'SafeNexus HSE 鈥� UAE',
+                  'SafeNexus HSE 閳ワ拷 UAE',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -1646,7 +1669,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
-                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
+                'Safe People 閳ワ拷 Safe Workplaces 閳ワ拷 Safer UAE',
               );
             },
           ),
