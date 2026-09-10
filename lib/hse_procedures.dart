@@ -165,14 +165,6 @@ class _HseProceduresPageState extends State<HseProceduresPage> {
         (record) => record['status'] == 'Draft',
       ).length;
 
-  int get _supersededCount => _records.where(
-        (record) => record['status'] == 'Superseded',
-      ).length;
-
-  int get _archivedCount => _records.where(
-        (record) => record['status'] == 'Archived',
-      ).length;
-
   Future<void> _openProcedureForm({
     Map<String, dynamic>? record,
   }) async {
@@ -1177,15 +1169,6 @@ class _ProcedureFormSheetState
     };
 
     Navigator.pop(context, record);
-  }
-
-  void _message(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
   }
 
   @override
