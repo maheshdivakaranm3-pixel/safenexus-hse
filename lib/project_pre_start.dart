@@ -75,6 +75,31 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     for (final name in _documentNames) name: null,
   };
 
+  final List<String> _preStartChecklistItems = const [
+    'Project HSE Plan is approved and available at site',
+    'HIRA / Risk Assessments are completed and approved',
+    'JSA / JHA / RAMS are available for planned activities',
+    'Emergency Response Plan and emergency contacts are established',
+    'Required Permit to Work arrangements are identified',
+    'Site welfare facilities are ready and inspected',
+    'First aid facilities and trained first aiders are available',
+    'Fire protection equipment and emergency access are ready',
+    'Workforce induction and required competency checks are completed',
+    'Plant, equipment and lifting certificates are verified',
+    'Site access, barricading and safety signage are established',
+    'Emergency assembly point is identified and communicated',
+    'Environmental and waste controls are established',
+    'Initial HSE inspection / pre-start inspection is completed',
+    'Applicable legal and authority requirements are identified',
+  ];
+
+  late final Map<String, String> _checklistStatus = {
+    for (final item in _preStartChecklistItems) item: 'Not Completed',
+  };
+  late final Map<String, TextEditingController> _checklistRemarksControllers = {
+    for (final item in _preStartChecklistItems) item: TextEditingController(),
+  };
+
   @override
   void initState() {
     super.initState();
@@ -109,6 +134,9 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _scopeController.dispose();
     _mainActivitiesController.dispose();
     for (final controller in _documentReferenceControllers.values) {
+      controller.dispose();
+    }
+    for (final controller in _checklistRemarksControllers.values) {
       controller.dispose();
     }
     super.dispose();
@@ -158,6 +186,13 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
             prefs.getString('prestart.doc.ref.$name') ?? '';
         _documentReviewDates[name] =
             _dateFromString(prefs.getString('prestart.doc.review.$name'));
+      }
+
+      for (final item in _preStartChecklistItems) {
+        _checklistStatus[item] =
+            prefs.getString('prestart.check.status.$item') ?? 'Not Completed';
+        _checklistRemarksControllers[item]!.text =
+            prefs.getString('prestart.check.remarks.$item') ?? '';
       }
       _isLoading = false;
     });
@@ -284,6 +319,17 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       );
     }
 
+    for (final item in _preStartChecklistItems) {
+      await prefs.setString(
+        'prestart.check.status.$item',
+        _checklistStatus[item]!,
+      );
+      await prefs.setString(
+        'prestart.check.remarks.$item',
+        _checklistRemarksControllers[item]!.text.trim(),
+      );
+    }
+
     if (!mounted) return;
     setState(() {
       _isSaving = false;
@@ -355,6 +401,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       await prefs.remove('prestart.doc.ref.$name');
       await prefs.remove('prestart.doc.review.$name');
     }
+    for (final item in _preStartChecklistItems) {
+      await prefs.remove('prestart.check.status.$item');
+      await prefs.remove('prestart.check.remarks.$item');
+    }
 
     if (!mounted) return;
     setState(() {
@@ -393,6 +443,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
         _documentReferenceControllers[name]!.clear();
         _documentReviewDates[name] = null;
       }
+      for (final item in _preStartChecklistItems) {
+        _checklistStatus[item] = 'Not Completed';
+        _checklistRemarksControllers[item]!.clear();
+      }
     });
     _showMessage('Project Profile reset.');
   }
@@ -407,7 +461,7 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   }
 
   int get _completionPercent {
-    final checks = [
+    final profileChecks = [
       _projectNameController.text.trim().isNotEmpty,
       _contractNumberController.text.trim().isNotEmpty,
       _clientController.text.trim().isNotEmpty,
@@ -424,11 +478,27 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _assemblyPointController.text.trim().isNotEmpty,
       _plannedStartDate != null,
       _plannedEndDate != null,
-      ..._documentNames.map((name) => _documentStatus[name] == 'Approved'),
     ];
+    final documentChecks = _documentNames
+        .map((name) => _documentStatus[name] == 'Approved')
+        .toList();
+    final applicableChecklistItems = _preStartChecklistItems
+        .where((item) => _checklistStatus[item] != 'N/A')
+        .toList();
+    final checklistChecks = applicableChecklistItems
+        .map((item) => _checklistStatus[item] == 'Completed')
+        .toList();
+    final checks = [...profileChecks, ...documentChecks, ...checklistChecks];
+    if (checks.isEmpty) return 0;
     final completed = checks.where((value) => value).length;
     return ((completed / checks.length) * 100).round();
   }
+
+  int get _checklistCompletedCount =>
+      _checklistStatus.values.where((value) => value == 'Completed').length;
+
+  int get _checklistApplicableCount =>
+      _checklistStatus.values.where((value) => value != 'N/A').length;
 
   @override
   Widget build(BuildContext context) {
@@ -748,6 +818,49 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                 ..._documentNames.map(_documentRow),
               ],
             ),
+            const SizedBox(height: 14),
+            _SectionCard(
+              title: 'Pre-Start HSE Checklist',
+              icon: Icons.fact_check_outlined,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Complete the project readiness checks before site work starts.',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black54,
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: primaryGreen.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '$_checklistCompletedCount/${_preStartChecklistItems.length}',
+                          style: const TextStyle(
+                            color: darkGreen,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ..._preStartChecklistItems.map(_checklistRow),
+              ],
+            ),
             const SizedBox(height: 16),
             SizedBox(
               height: 52,
@@ -771,6 +884,68 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   ),
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _checklistRow(String item) {
+    final status = _checklistStatus[item] ?? 'Not Completed';
+    final controller = _checklistRemarksControllers[item]!;
+    const statuses = ['Not Completed', 'Completed', 'N/A'];
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9FBFA),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                color: darkGreen,
+                height: 1.35,
+              ),
+            ),
+            const SizedBox(height: 9),
+            DropdownButtonFormField<String>(
+              initialValue: statuses.contains(status) ? status : 'Not Completed',
+              decoration: _inputDecoration(
+                'Checklist Status',
+                Icons.fact_check_outlined,
+              ),
+              items: statuses
+                  .map((value) => DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => _checklistStatus[item] = value);
+                }
+              },
+            ),
+            const SizedBox(height: 9),
+            TextFormField(
+              controller: controller,
+              decoration: _inputDecoration(
+                'Remarks / Evidence',
+                Icons.notes_outlined,
+              ).copyWith(
+                hintText: 'Add responsible person, reference, or observation',
+              ),
+              maxLines: 2,
+              onChanged: (_) => setState(() {}),
             ),
           ],
         ),
