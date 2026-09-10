@@ -168,10 +168,6 @@ class _HseCommunicationPageState
         (record) => record['status'] == 'Completed',
       ).length;
 
-  int get _cancelledCount => _records.where(
-        (record) => record['status'] == 'Cancelled',
-      ).length;
-
   Future<void> _openCommunicationForm({
     Map<String, dynamic>? record,
   }) async {
