@@ -18,6 +18,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   final _contractNumberController = TextEditingController();
   final _clientController = TextEditingController();
   final _contractorController = TextEditingController();
+  final _consultantController = TextEditingController();
+  final _subcontractorController = TextEditingController();
+  final _projectManagerController = TextEditingController();
+  final _hseManagerController = TextEditingController();
+  final _hseOfficerController = TextEditingController();
+  final _siteManagerController = TextEditingController();
+  final _constructionManagerController = TextEditingController();
+  final _emergencyContactNameController = TextEditingController();
+  final _emergencyContactPhoneController = TextEditingController();
   final _locationController = TextEditingController();
   final _scopeController = TextEditingController();
 
@@ -41,6 +50,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _contractNumberController.dispose();
     _clientController.dispose();
     _contractorController.dispose();
+    _consultantController.dispose();
+    _subcontractorController.dispose();
+    _projectManagerController.dispose();
+    _hseManagerController.dispose();
+    _hseOfficerController.dispose();
+    _siteManagerController.dispose();
+    _constructionManagerController.dispose();
+    _emergencyContactNameController.dispose();
+    _emergencyContactPhoneController.dispose();
     _locationController.dispose();
     _scopeController.dispose();
     super.dispose();
@@ -56,6 +74,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
           prefs.getString('prestart.contractNumber') ?? '';
       _clientController.text = prefs.getString('prestart.client') ?? '';
       _contractorController.text = prefs.getString('prestart.contractor') ?? '';
+      _consultantController.text = prefs.getString('prestart.consultant') ?? '';
+      _subcontractorController.text = prefs.getString('prestart.subcontractor') ?? '';
+      _projectManagerController.text = prefs.getString('prestart.projectManager') ?? '';
+      _hseManagerController.text = prefs.getString('prestart.hseManager') ?? '';
+      _hseOfficerController.text = prefs.getString('prestart.hseOfficer') ?? '';
+      _siteManagerController.text = prefs.getString('prestart.siteManager') ?? '';
+      _constructionManagerController.text = prefs.getString('prestart.constructionManager') ?? '';
+      _emergencyContactNameController.text = prefs.getString('prestart.emergencyContactName') ?? '';
+      _emergencyContactPhoneController.text = prefs.getString('prestart.emergencyContactPhone') ?? '';
       _locationController.text = prefs.getString('prestart.location') ?? '';
       _scopeController.text = prefs.getString('prestart.scope') ?? '';
       _emirate = prefs.getString('prestart.emirate') ?? 'Abu Dhabi';
@@ -129,6 +156,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'prestart.contractor',
       _contractorController.text.trim(),
     );
+    await prefs.setString('prestart.consultant', _consultantController.text.trim());
+    await prefs.setString('prestart.subcontractor', _subcontractorController.text.trim());
+    await prefs.setString('prestart.projectManager', _projectManagerController.text.trim());
+    await prefs.setString('prestart.hseManager', _hseManagerController.text.trim());
+    await prefs.setString('prestart.hseOfficer', _hseOfficerController.text.trim());
+    await prefs.setString('prestart.siteManager', _siteManagerController.text.trim());
+    await prefs.setString('prestart.constructionManager', _constructionManagerController.text.trim());
+    await prefs.setString('prestart.emergencyContactName', _emergencyContactNameController.text.trim());
+    await prefs.setString('prestart.emergencyContactPhone', _emergencyContactPhoneController.text.trim());
     await prefs.setString('prestart.location', _locationController.text.trim());
     await prefs.setString('prestart.scope', _scopeController.text.trim());
     await prefs.setString('prestart.emirate', _emirate);
@@ -180,6 +216,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'contractNumber',
       'client',
       'contractor',
+      'consultant',
+      'subcontractor',
+      'projectManager',
+      'hseManager',
+      'hseOfficer',
+      'siteManager',
+      'constructionManager',
+      'emergencyContactName',
+      'emergencyContactPhone',
       'location',
       'scope',
       'emirate',
@@ -197,6 +242,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _contractNumberController.clear();
       _clientController.clear();
       _contractorController.clear();
+      _consultantController.clear();
+      _subcontractorController.clear();
+      _projectManagerController.clear();
+      _hseManagerController.clear();
+      _hseOfficerController.clear();
+      _siteManagerController.clear();
+      _constructionManagerController.clear();
+      _emergencyContactNameController.clear();
+      _emergencyContactPhoneController.clear();
       _locationController.clear();
       _scopeController.clear();
       _emirate = 'Abu Dhabi';
@@ -309,6 +363,68 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
             ),
             const SizedBox(height: 14),
             _SectionCard(
+              title: 'Project Parties & Team',
+              icon: Icons.groups_2_outlined,
+              children: [
+                _textField(
+                  controller: _consultantController,
+                  label: 'Consultant',
+                  hint: 'Enter consultant / supervision consultant',
+                  icon: Icons.account_balance_outlined,
+                ),
+                _textField(
+                  controller: _subcontractorController,
+                  label: 'Subcontractor',
+                  hint: 'Enter principal subcontractor, if applicable',
+                  icon: Icons.handyman_outlined,
+                ),
+                _textField(
+                  controller: _projectManagerController,
+                  label: 'Project Manager',
+                  hint: 'Enter project manager name',
+                  icon: Icons.manage_accounts_outlined,
+                ),
+                _textField(
+                  controller: _hseManagerController,
+                  label: 'HSE Manager',
+                  hint: 'Enter HSE manager name',
+                  icon: Icons.health_and_safety_outlined,
+                ),
+                _textField(
+                  controller: _hseOfficerController,
+                  label: 'HSE Officer',
+                  hint: 'Enter HSE officer name',
+                  icon: Icons.verified_user_outlined,
+                ),
+                _textField(
+                  controller: _siteManagerController,
+                  label: 'Site Manager',
+                  hint: 'Enter site manager name',
+                  icon: Icons.engineering_outlined,
+                ),
+                _textField(
+                  controller: _constructionManagerController,
+                  label: 'Construction Manager',
+                  hint: 'Enter construction manager name',
+                  icon: Icons.construction_outlined,
+                ),
+                _textField(
+                  controller: _emergencyContactNameController,
+                  label: 'Emergency Contact Name',
+                  hint: 'Enter primary project emergency contact',
+                  icon: Icons.contact_emergency_outlined,
+                ),
+                _textField(
+                  controller: _emergencyContactPhoneController,
+                  label: 'Emergency Contact Phone',
+                  hint: 'Enter emergency contact phone number',
+                  icon: Icons.phone_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            _SectionCard(
               title: 'Project Schedule & Scope',
               icon: Icons.event_note_outlined,
               children: [
@@ -409,12 +525,14 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     required IconData icon,
     bool requiredField = false,
     int maxLines = 1,
+    TextInputType? keyboardType,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
         controller: controller,
         maxLines: maxLines,
+        keyboardType: keyboardType,
         textCapitalization: TextCapitalization.sentences,
         decoration: _inputDecoration(label, icon).copyWith(hintText: hint),
         validator: requiredField
