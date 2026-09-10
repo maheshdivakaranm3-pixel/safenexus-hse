@@ -372,7 +372,7 @@ class _HseTrainingCompetencyPageState
                           child: Text(
                             expiryDate == null
                                 ? 'Not specified'
-                                : _formatDate(expiryDate!),
+                                : _formatDate(expiryDate),
                           ),
                         ),
                       ),
