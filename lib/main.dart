@@ -1232,7 +1232,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
+                  'Safe Today - Healthy Tomorrow - Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
@@ -1271,10 +1271,17 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       ),
       child: const Row(
         children: [
-          Text(
-            '馃嚘馃嚜',
-            style: TextStyle(
-              fontSize: 28,
+          Container(
+            width: 54,
+            height: 54,
+            decoration: BoxDecoration(
+              color: Color(0xFFD7F0E3),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(
+              Icons.flag_rounded,
+              color: Color(0xFF159447),
+              size: 30,
             ),
           ),
           SizedBox(width: 12),
