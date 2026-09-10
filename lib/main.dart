@@ -1190,7 +1190,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   Widget _buildSafetyMessage() {
     return Container(
-      padding: const EdgeInsets.all(17),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
@@ -1205,8 +1205,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: Row(
         children: [
           Container(
-            width: 51,
-            height: 51,
+            width: 46,
+            height: 46,
             decoration: BoxDecoration(
               color: Colors.white.withAlpha(20),
               shape: BoxShape.circle,
@@ -1226,18 +1226,18 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   'Small Actions. Big Difference.',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.5,
+                    fontSize: 14,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today 閳ワ拷 Healthy Tomorrow 閳ワ拷 Stronger UAE',
+                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
-                    fontSize: 10.5,
-                    height: 1.3,
+                    fontSize: 10,
+                    height: 1.25,
                   ),
                 ),
               ],
@@ -1272,7 +1272,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: const Row(
         children: [
           Text(
-            '棣冨殬棣冨殰',
+            '馃嚘馃嚜',
             style: TextStyle(
               fontSize: 28,
             ),
@@ -1757,7 +1757,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'SafeNexus HSE 閳ワ拷 UAE',
+                  'SafeNexus HSE 鈥� UAE',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -1792,7 +1792,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
-                'Safe People 閳ワ拷 Safe Workplaces 閳ワ拷 Safer UAE',
+                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
               );
             },
           ),
