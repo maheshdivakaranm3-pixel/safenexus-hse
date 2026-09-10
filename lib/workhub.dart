@@ -221,7 +221,7 @@ class _WorkHubPageState extends State<WorkHubPage> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: primaryGreen.withOpacity(0.10),
+                      color: primaryGreen.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -287,7 +287,7 @@ class _HeroCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
         boxShadow: [
           BoxShadow(
-            color: darkGreen.withOpacity(0.18),
+            color: darkGreen.withValues(alpha: 0.18),
             blurRadius: 16,
             offset: const Offset(0, 7),
           ),
@@ -302,7 +302,7 @@ class _HeroCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.16),
+                  color: Colors.white.withValues(alpha: 0.16),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -405,7 +405,7 @@ class _PhaseCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: primaryGreen.withOpacity(0.09),
+                  color: primaryGreen.withValues(alpha: 0.09),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
@@ -543,7 +543,8 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: _WorkHubPageState.primaryGreen.withOpacity(0.10),
+                      color: _WorkHubPageState.primaryGreen
+                          .withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(13),
                     ),
                     child: const Icon(
@@ -675,7 +676,7 @@ class _ActivityTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
         ),
       ),
       child: InkWell(
@@ -689,7 +690,7 @@ class _ActivityTile extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: primaryGreen.withOpacity(0.10),
+                  color: primaryGreen.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -999,7 +1000,7 @@ class _ChecklistHeader extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 8,
-              backgroundColor: Colors.black.withOpacity(0.07),
+              backgroundColor: Colors.black.withValues(alpha: 0.07),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 primaryGreen,
               ),
@@ -1097,10 +1098,10 @@ class _ChecklistItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         side: BorderSide(
           color: isCompleted
-              ? primaryGreen.withOpacity(0.35)
+              ? primaryGreen.withValues(alpha: 0.35)
               : isExpired
-                  ? Colors.red.withOpacity(0.25)
-                  : Colors.black.withOpacity(0.05),
+                  ? Colors.red.withValues(alpha: 0.25)
+                  : Colors.black.withValues(alpha: 0.05),
         ),
       ),
       child: Padding(
@@ -1244,7 +1245,7 @@ class _ChecklistItem extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryGreen,
                       side: BorderSide(
-                        color: primaryGreen.withOpacity(0.35),
+                        color: primaryGreen.withValues(alpha: 0.35),
                       ),
                       padding:
                           const EdgeInsets.symmetric(vertical: 9),
@@ -1275,7 +1276,7 @@ class _ChecklistItem extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black54,
                       side: BorderSide(
-                        color: Colors.black.withOpacity(0.12),
+                        color: Colors.black.withValues(alpha: 0.12),
                       ),
                       padding:
                           const EdgeInsets.symmetric(vertical: 9),
@@ -1338,8 +1339,8 @@ class _RequirementChip extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: active
-            ? primaryGreen.withOpacity(0.10)
-            : Colors.black.withOpacity(0.045),
+            ? primaryGreen.withValues(alpha: 0.10)
+            : Colors.black.withValues(alpha: 0.045),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
