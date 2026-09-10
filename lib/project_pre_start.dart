@@ -48,6 +48,33 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   bool _isSaving = false;
   bool _hasSavedProject = false;
 
+  final List<String> _documentNames = const [
+    'Project HSE Plan',
+    'HSE Policy',
+    'Risk Assessment / HIRA',
+    'JSA / JHA',
+    'RAMS / Method Statement',
+    'Emergency Response Plan',
+    'Training / Competency Matrix',
+    'HSE Organization Chart',
+    'Inspection & Audit Plan',
+    'Environmental Management Plan',
+    'Traffic Management Plan',
+    'Lifting Plan / Critical Lift Plan',
+  ];
+
+  late final Map<String, String> _documentStatus = {
+    for (final name in _documentNames) name: 'Pending',
+  };
+
+  late final Map<String, TextEditingController> _documentReferenceControllers = {
+    for (final name in _documentNames) name: TextEditingController(),
+  };
+
+  late final Map<String, DateTime?> _documentReviewDates = {
+    for (final name in _documentNames) name: null,
+  };
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +108,9 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _areaController.dispose();
     _scopeController.dispose();
     _mainActivitiesController.dispose();
+    for (final controller in _documentReferenceControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -121,6 +151,14 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _plannedStartDate = _dateFromString(prefs.getString('prestart.startDate'));
       _plannedEndDate = _dateFromString(prefs.getString('prestart.endDate'));
       _hasSavedProject = prefs.getBool('prestart.hasSavedProject') ?? false;
+      for (final name in _documentNames) {
+        _documentStatus[name] =
+            prefs.getString('prestart.doc.status.$name') ?? 'Pending';
+        _documentReferenceControllers[name]!.text =
+            prefs.getString('prestart.doc.ref.$name') ?? '';
+        _documentReviewDates[name] =
+            _dateFromString(prefs.getString('prestart.doc.review.$name'));
+      }
       _isLoading = false;
     });
   }
@@ -231,6 +269,21 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     );
     await prefs.setBool('prestart.hasSavedProject', true);
 
+    for (final name in _documentNames) {
+      await prefs.setString(
+        'prestart.doc.status.$name',
+        _documentStatus[name]!,
+      );
+      await prefs.setString(
+        'prestart.doc.ref.$name',
+        _documentReferenceControllers[name]!.text.trim(),
+      );
+      await prefs.setString(
+        'prestart.doc.review.$name',
+        _documentReviewDates[name]?.toIso8601String() ?? '',
+      );
+    }
+
     if (!mounted) return;
     setState(() {
       _isSaving = false;
@@ -297,6 +350,11 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     ]) {
       await prefs.remove('prestart.$key');
     }
+    for (final name in _documentNames) {
+      await prefs.remove('prestart.doc.status.$name');
+      await prefs.remove('prestart.doc.ref.$name');
+      await prefs.remove('prestart.doc.review.$name');
+    }
 
     if (!mounted) return;
     setState(() {
@@ -330,6 +388,11 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _plannedStartDate = null;
       _plannedEndDate = null;
       _hasSavedProject = false;
+      for (final name in _documentNames) {
+        _documentStatus[name] = 'Pending';
+        _documentReferenceControllers[name]!.clear();
+        _documentReviewDates[name] = null;
+      }
     });
     _showMessage('Project Profile reset.');
   }
@@ -361,6 +424,7 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _assemblyPointController.text.trim().isNotEmpty,
       _plannedStartDate != null,
       _plannedEndDate != null,
+      ..._documentNames.map((name) => _documentStatus[name] == 'Approved'),
     ];
     final completed = checks.where((value) => value).length;
     return ((completed / checks.length) * 100).round();
@@ -669,6 +733,21 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 14),
+            _SectionCard(
+              title: 'Required HSE Documents',
+              icon: Icons.folder_special_outlined,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Track key pre-start HSE documents. Mark each document status and add a reference number or review date when available.',
+                    style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.4),
+                  ),
+                ),
+                ..._documentNames.map(_documentRow),
+              ],
+            ),
             const SizedBox(height: 16),
             SizedBox(
               height: 52,
@@ -689,6 +768,93 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   backgroundColor: primaryGreen,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _documentRow(String name) {
+    final status = _documentStatus[name] ?? 'Pending';
+    final controller = _documentReferenceControllers[name]!;
+    final reviewDate = _documentReviewDates[name];
+    const statuses = ['Pending', 'Available', 'Under Review', 'Approved', 'Not Available'];
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9FBFA),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.description_outlined, color: darkGreen, size: 20),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    name,
+                    style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 9),
+            DropdownButtonFormField<String>(
+              initialValue: statuses.contains(status) ? status : 'Pending',
+              decoration: _inputDecoration('Document Status', Icons.fact_check_outlined),
+              items: statuses
+                  .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) setState(() => _documentStatus[name] = value);
+              },
+            ),
+            const SizedBox(height: 9),
+            TextFormField(
+              controller: controller,
+              decoration: _inputDecoration(
+                'Document Reference / Revision',
+                Icons.tag_outlined,
+              ).copyWith(hintText: 'e.g. HSE-PLAN-001 Rev.02'),
+              textCapitalization: TextCapitalization.characters,
+              onChanged: (_) => setState(() {}),
+            ),
+            const SizedBox(height: 9),
+            InkWell(
+              onTap: () async {
+                final now = DateTime.now();
+                final selected = await showDatePicker(
+                  context: context,
+                  firstDate: DateTime(now.year - 5),
+                  lastDate: DateTime(now.year + 20),
+                  initialDate: reviewDate ?? now,
+                );
+                if (selected != null) {
+                  setState(() => _documentReviewDates[name] = selected);
+                }
+              },
+              borderRadius: BorderRadius.circular(13),
+              child: InputDecorator(
+                decoration: _inputDecoration(
+                  'Review / Approval Date',
+                  Icons.event_available_outlined,
+                ),
+                child: Text(
+                  _dateText(reviewDate),
+                  style: TextStyle(
+                    color: reviewDate == null ? Colors.grey.shade600 : Colors.black87,
+                    fontWeight: reviewDate == null ? FontWeight.w400 : FontWeight.w600,
                   ),
                 ),
               ),
