@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'data/hse_work_categories.dart';
 import 'models/hse_work_categories.dart';
+import 'project_pre_start.dart';
 
 /// SafeNexus WorkHub
 ///
@@ -156,6 +157,15 @@ class _WorkHubPageState extends State<WorkHubPage> {
   }
 
   void _openPhase(_WorkHubPhase phase) {
+    if (phase.number == 1) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => const ProjectPreStartPage(),
+        ),
+      );
+      return;
+    }
+
     if (phase.number == 3 || phase.number == 8) {
       _showActivityPicker();
       return;
