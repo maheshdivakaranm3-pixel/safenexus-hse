@@ -141,7 +141,6 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
 
   int get _measuredCount =>
       _records.where((r) => r['status'] != 'Not Measured').length;
-
   double get _performancePercent {
     if (_records.isEmpty) return 0;
 
