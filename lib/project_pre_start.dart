@@ -493,9 +493,13 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     final completed = checks.where((value) => value).length;
     return ((completed / checks.length) * 100).round();
   }
+ }
 
-  int get _checklistCompletedCount =>
-      _checklistStatus.values.where((value) => value == 'Completed').length;
+int get _checklistCompletedCount =>
+    _checklistStatus.values.where((value) => value == 'Completed').length;
+
+@override
+Widget build(BuildContext context) {
 
   int get _checklistApplicableCount =>
       _checklistStatus.values.where((value) => value != 'N/A').length;
