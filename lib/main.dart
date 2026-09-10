@@ -1269,7 +1269,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
         ],
       ),
-      child: const Row(
+      child: Row(
         children: [
           Container(
             width: 54,
