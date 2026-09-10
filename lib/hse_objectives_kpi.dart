@@ -139,8 +139,8 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
   int get _offTargetCount =>
       _records.where((r) => r['status'] == 'Off Target').length;
 
-  int get _measuredCount =>
-      _records.where((r) => r['status'] != 'Not Measured').length;
+  flutter analyze
+No issues found!
   double get _performancePercent {
     if (_records.isEmpty) return 0;
 
