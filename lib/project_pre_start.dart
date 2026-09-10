@@ -333,7 +333,7 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   requiredField: true,
                 ),
                 DropdownButtonFormField<String>(
-                  value: _status,
+                  initialValue: _status,
                   decoration: _inputDecoration(
                     'Project Status',
                     Icons.flag_outlined,
@@ -444,7 +444,7 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
       child: DropdownButtonFormField<String>(
-        value: _emirate,
+        initialValue: _emirate,
         decoration: _inputDecoration(
           'Emirate / Jurisdiction',
           Icons.map_outlined,
