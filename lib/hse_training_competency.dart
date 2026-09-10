@@ -372,7 +372,7 @@ class _HseTrainingCompetencyPageState
                           child: Text(
                             expiryDate == null
                                 ? 'Not specified'
-                                : _formatDate(expiryDate),
+                                : _formatDate(expiryDate!),
                           ),
                         ),
                       ),
@@ -525,7 +525,7 @@ class _HseTrainingCompetencyPageState
                       final index = _records.indexWhere(
                         (item) =>
                             item['id']?.toString() ==
-                            existingRecord!['id']?.toString(),
+                            existingRecord['id']?.toString(),
                       );
 
                       if (index >= 0) {
