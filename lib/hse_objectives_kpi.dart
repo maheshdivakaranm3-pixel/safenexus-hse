@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// SafeNexus HSE - Step 2C
 /// HSE Objectives & KPI Register
 ///
-/// Self-contained module. Stores KPI records locally using SharedPreferences.
+/// Self-contained module.
+/// Stores KPI records locally using SharedPreferences.
 class HseObjectivesKpiPage extends StatefulWidget {
   const HseObjectivesKpiPage({super.key});
 
@@ -19,9 +20,11 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color pageBackground = Color(0xFFF6F8F7);
 
-  static const String _storageKey = 'safenexus_hse_objectives_kpi_records';
+  static const String _storageKey =
+      'safenexus_hse_objectives_kpi_records';
 
-  final _searchController = TextEditingController();
+  final TextEditingController _searchController =
+      TextEditingController();
 
   List<Map<String, dynamic>> _records = [];
   String _filter = 'All';
@@ -76,6 +79,7 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
     if (raw != null && raw.isNotEmpty) {
       try {
         final decoded = jsonDecode(raw);
+
         if (decoded is List) {
           loaded = decoded
               .whereType<Map>()
@@ -99,11 +103,17 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
 
   Future<void> _saveRecords() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_storageKey, jsonEncode(_records));
+
+    await prefs.setString(
+      _storageKey,
+      jsonEncode(_records),
+    );
   }
 
   void _refresh() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   List<Map<String, dynamic>> get _filteredRecords {
@@ -111,10 +121,17 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
 
     return _records.where((record) {
       final status = (record['status'] ?? '').toString();
-      final matchesFilter = _filter == 'All' || status == _filter;
 
-      if (!matchesFilter) return false;
-      if (query.isEmpty) return true;
+      final matchesFilter =
+          _filter == 'All' || status == _filter;
+
+      if (!matchesFilter) {
+        return false;
+      }
+
+      if (query.isEmpty) {
+        return true;
+      }
 
       final searchable = [
         record['objective'],
@@ -131,33 +148,47 @@ class _HseObjectivesKpiPageState extends State<HseObjectivesKpiPage> {
   }
 
   int get _onTargetCount =>
-      _records.where((r) => r['status'] == 'On Target').length;
+      _records.where(
+        (record) => record['status'] == 'On Target',
+      ).length;
 
   int get _atRiskCount =>
-      _records.where((r) => r['status'] == 'At Risk').length;
+      _records.where(
+        (record) => record['status'] == 'At Risk',
+      ).length;
 
   int get _offTargetCount =>
-      _records.where((r) => r['status'] == 'Off Target').length;
+      _records.where(
+        (record) => record['status'] == 'Off Target',
+      ).length;
 
-  flutter analyze
-No issues found!
   double get _performancePercent {
-    if (_records.isEmpty) return 0;
+    if (_records.isEmpty) {
+      return 0;
+    }
 
-    final measured = _records.where((r) {
-      final status = r['status'];
+    final measured = _records.where((record) {
+      final status = record['status'];
+
       return status == 'On Target' ||
           status == 'At Risk' ||
           status == 'Off Target';
     }).length;
 
-    if (measured == 0) return 0;
+    if (measured == 0) {
+      return 0;
+    }
 
     return (_onTargetCount / measured) * 100;
   }
 
-  Future<void> _openRecordForm({Map<String, dynamic>? record}) async {
-    final result = await showModalBottomSheet<Map<String, dynamic>>(
+  Future<void> _openRecordForm({
+    Map<String, dynamic>? record,
+  }) async {
+    final isEditing = record != null;
+
+    final result =
+        await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -171,7 +202,9 @@ No issues found!
       },
     );
 
-    if (result == null) return;
+    if (result == null) {
+      return;
+    }
 
     final existingId = result['id']?.toString();
 
@@ -189,35 +222,40 @@ No issues found!
 
     await _saveRecords();
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     _showMessage(
-      indexWasUpdated(existingId) ? 'KPI updated successfully.' : 'KPI saved successfully.',
+      isEditing
+          ? 'KPI updated successfully.'
+          : 'KPI saved successfully.',
     );
   }
 
-  bool indexWasUpdated(String? id) {
-    if (id == null || id.isEmpty) return false;
-    return _records.where((item) => item['id']?.toString() == id).length == 1 &&
-        _records.any((item) => item['id']?.toString() == id);
-  }
-
-  Future<void> _deleteRecord(Map<String, dynamic> record) async {
+  Future<void> _deleteRecord(
+    Map<String, dynamic> record,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
           title: const Text('Delete KPI?'),
           content: Text(
-            'Delete "${record['kpiName'] ?? 'this KPI'}" from the register?',
+            'Delete "${record['kpiName'] ?? 'this KPI'}" '
+            'from the register?',
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
+              onPressed: () {
+                Navigator.pop(dialogContext, false);
+              },
               child: const Text('Cancel'),
             ),
             FilledButton(
-              onPressed: () => Navigator.pop(dialogContext, true),
+              onPressed: () {
+                Navigator.pop(dialogContext, true);
+              },
               child: const Text('Delete'),
             ),
           ],
@@ -225,20 +263,31 @@ No issues found!
       },
     );
 
-    if (confirmed != true) return;
+    if (confirmed != true) {
+      return;
+    }
 
     setState(() {
       _records.removeWhere(
-        (item) => item['id']?.toString() == record['id']?.toString(),
+        (item) =>
+            item['id']?.toString() ==
+            record['id']?.toString(),
       );
     });
 
     await _saveRecords();
+
+    if (!mounted) {
+      return;
+    }
+
     _showMessage('KPI deleted.');
   }
 
   void _showMessage(String message) {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -262,11 +311,18 @@ No issues found!
   }
 
   String _formatNumber(dynamic value) {
-    final number = double.tryParse(value?.toString() ?? '');
-    if (number == null) return value?.toString() ?? '-';
+    final number = double.tryParse(
+      value?.toString() ?? '',
+    );
+
+    if (number == null) {
+      return value?.toString() ?? '-';
+    }
+
     if (number == number.roundToDouble()) {
       return number.toInt().toString();
     }
+
     return number.toStringAsFixed(2);
   }
 
@@ -287,7 +343,9 @@ No issues found!
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: primaryGreen.withValues(alpha: 0.10),
+                    color: primaryGreen.withValues(
+                      alpha: 0.10,
+                    ),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -364,10 +422,18 @@ No issues found!
     );
   }
 
-  Widget _metric(String label, String value, IconData icon) {
+  Widget _metric(
+    String label,
+    String value,
+    IconData icon,
+  ) {
     return Column(
       children: [
-        Icon(icon, size: 20, color: primaryGreen),
+        Icon(
+          icon,
+          size: 20,
+          color: primaryGreen,
+        ),
         const SizedBox(height: 4),
         Text(
           value,
@@ -421,18 +487,28 @@ No issues found!
               final selected = _filter == status;
 
               return Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.only(
+                  right: 8,
+                ),
                 child: ChoiceChip(
                   label: Text(status),
                   selected: selected,
                   onSelected: (_) {
-                    setState(() => _filter = status);
+                    setState(() {
+                      _filter = status;
+                    });
                   },
-                  selectedColor: primaryGreen.withValues(alpha: 0.18),
+                  selectedColor:
+                      primaryGreen.withValues(
+                    alpha: 0.18,
+                  ),
                   labelStyle: TextStyle(
-                    color: selected ? darkGreen : Colors.black87,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    color: selected
+                        ? darkGreen
+                        : Colors.black87,
+                    fontWeight: selected
+                        ? FontWeight.w800
+                        : FontWeight.w500,
                   ),
                 ),
               );
@@ -443,8 +519,12 @@ No issues found!
     );
   }
 
-  Widget _recordCard(Map<String, dynamic> record) {
-    final status = (record['status'] ?? 'Not Measured').toString();
+  Widget _recordCard(
+    Map<String, dynamic> record,
+  ) {
+    final status =
+        (record['status'] ?? 'Not Measured').toString();
+
     final statusColor = _statusColor(status);
 
     return Card(
@@ -455,18 +535,24 @@ No issues found!
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () => _openRecordForm(record: record),
+        onTap: () {
+          _openRecordForm(record: record);
+        },
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Text(
-                      (record['kpiName'] ?? 'Untitled KPI').toString(),
+                      (record['kpiName'] ??
+                              'Untitled KPI')
+                          .toString(),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -477,7 +563,9 @@ No issues found!
                   PopupMenuButton<String>(
                     onSelected: (value) {
                       if (value == 'edit') {
-                        _openRecordForm(record: record);
+                        _openRecordForm(
+                          record: record,
+                        );
                       } else if (value == 'delete') {
                         _deleteRecord(record);
                       }
@@ -498,7 +586,9 @@ No issues found!
               const SizedBox(height: 4),
               Text(
                 (record['objective'] ?? '').toString(),
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 10),
               Wrap(
@@ -506,14 +596,19 @@ No issues found!
                 runSpacing: 8,
                 children: [
                   _tag(
-                    (record['category'] ?? 'Other').toString(),
+                    (record['category'] ?? 'Other')
+                        .toString(),
                     Icons.category_outlined,
                   ),
                   _tag(
-                    (record['type'] ?? 'Leading').toString(),
+                    (record['type'] ?? 'Leading')
+                        .toString(),
                     Icons.insights_outlined,
                   ),
-                  _statusTag(status, statusColor),
+                  _statusTag(
+                    status,
+                    statusColor,
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -522,24 +617,31 @@ No issues found!
                   Expanded(
                     child: _valueLine(
                       'Target',
-                      _formatNumber(record['target']),
+                      _formatNumber(
+                        record['target'],
+                      ),
                     ),
                   ),
                   Expanded(
                     child: _valueLine(
                       'Actual',
-                      _formatNumber(record['actual']),
+                      _formatNumber(
+                        record['actual'],
+                      ),
                     ),
                   ),
                   Expanded(
                     child: _valueLine(
                       'Period',
-                      (record['period'] ?? '-').toString(),
+                      (record['period'] ?? '-')
+                          .toString(),
                     ),
                   ),
                 ],
               ),
-              if ((record['owner'] ?? '').toString().isNotEmpty) ...[
+              if ((record['owner'] ?? '')
+                  .toString()
+                  .isNotEmpty) ...[
                 const SizedBox(height: 8),
                 Text(
                   'Owner: ${record['owner']}',
@@ -549,10 +651,13 @@ No issues found!
                   ),
                 ),
               ],
-              if ((record['remarks'] ?? '').toString().isNotEmpty) ...[
+              if ((record['remarks'] ?? '')
+                  .toString()
+                  .isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
-                  (record['remarks'] ?? '').toString(),
+                  (record['remarks'] ?? '')
+                      .toString(),
                   style: TextStyle(
                     color: Colors.grey.shade700,
                     fontSize: 12,
@@ -566,17 +671,28 @@ No issues found!
     );
   }
 
-  Widget _tag(String text, IconData icon) {
+  Widget _tag(
+    String text,
+    IconData icon,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9,
+        vertical: 6,
+      ),
       decoration: BoxDecoration(
-        color: Colors.grey.withValues(alpha: 0.10),
+        color: Colors.grey.withValues(
+          alpha: 0.10,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14),
+          Icon(
+            icon,
+            size: 14,
+          ),
           const SizedBox(width: 4),
           Text(
             text,
@@ -590,11 +706,19 @@ No issues found!
     );
   }
 
-  Widget _statusTag(String status, Color color) {
+  Widget _statusTag(
+    String status,
+    Color color,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9,
+        vertical: 6,
+      ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: color.withValues(
+          alpha: 0.12,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -608,9 +732,13 @@ No issues found!
     );
   }
 
-  Widget _valueLine(String label, String value) {
+  Widget _valueLine(
+    String label,
+    String value,
+  ) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
       children: [
         Text(
           label,
@@ -635,7 +763,9 @@ No issues found!
   Widget build(BuildContext context) {
     if (!_loaded) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
@@ -649,21 +779,33 @@ No issues found!
         elevation: 0,
         title: const Text(
           'HSE Objectives & KPI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _openRecordForm(),
+      floatingActionButton:
+          FloatingActionButton.extended(
+        onPressed: () {
+          _openRecordForm();
+        },
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
         label: const Text(
           'Add KPI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          100,
+        ),
         children: [
           _summaryCard(),
           const SizedBox(height: 16),
@@ -703,12 +845,15 @@ No issues found!
             ),
             const SizedBox(height: 6),
             const Text(
-              'Add your first objective and KPI to start tracking HSE performance.',
+              'Add your first objective and KPI to '
+              'start tracking HSE performance.',
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             FilledButton.icon(
-              onPressed: () => _openRecordForm(),
+              onPressed: () {
+                _openRecordForm();
+              },
               icon: const Icon(Icons.add),
               label: const Text('Add First KPI'),
             ),
@@ -725,11 +870,16 @@ No issues found!
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            const Icon(Icons.search_off, size: 42),
+            const Icon(
+              Icons.search_off,
+              size: 42,
+            ),
             const SizedBox(height: 10),
             const Text(
               'No matching KPI records',
-              style: TextStyle(fontWeight: FontWeight.w800),
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+              ),
             ),
             const SizedBox(height: 6),
             const Text(
@@ -757,19 +907,28 @@ class _KpiFormSheet extends StatefulWidget {
   });
 
   @override
-  State<_KpiFormSheet> createState() => _KpiFormSheetState();
+  State<_KpiFormSheet> createState() =>
+      _KpiFormSheetState();
 }
 
-class _KpiFormSheetState extends State<_KpiFormSheet> {
-  final _formKey = GlobalKey<FormState>();
+class _KpiFormSheetState
+    extends State<_KpiFormSheet> {
+  final GlobalKey<FormState> _formKey =
+      GlobalKey<FormState>();
 
-  late final TextEditingController _objectiveController;
+  late final TextEditingController
+      _objectiveController;
   late final TextEditingController _kpiController;
-  late final TextEditingController _targetController;
-  late final TextEditingController _actualController;
-  late final TextEditingController _periodController;
-  late final TextEditingController _ownerController;
-  late final TextEditingController _remarksController;
+  late final TextEditingController
+      _targetController;
+  late final TextEditingController
+      _actualController;
+  late final TextEditingController
+      _periodController;
+  late final TextEditingController
+      _ownerController;
+  late final TextEditingController
+      _remarksController;
 
   late String _category;
   late String _type;
@@ -781,39 +940,68 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
 
     final record = widget.record;
 
-    _objectiveController = TextEditingController(
-      text: record?['objective']?.toString() ?? '',
-    );
-    _kpiController = TextEditingController(
-      text: record?['kpiName']?.toString() ?? '',
-    );
-    _targetController = TextEditingController(
-      text: record?['target']?.toString() ?? '',
-    );
-    _actualController = TextEditingController(
-      text: record?['actual']?.toString() ?? '',
-    );
-    _periodController = TextEditingController(
-      text: record?['period']?.toString() ?? '',
-    );
-    _ownerController = TextEditingController(
-      text: record?['owner']?.toString() ?? '',
-    );
-    _remarksController = TextEditingController(
-      text: record?['remarks']?.toString() ?? '',
+    _objectiveController =
+        TextEditingController(
+      text:
+          record?['objective']?.toString() ?? '',
     );
 
-    _category = widget.categories.contains(record?['category'])
-        ? record!['category'].toString()
-        : widget.categories.first;
+    _kpiController =
+        TextEditingController(
+      text:
+          record?['kpiName']?.toString() ?? '',
+    );
 
-    _type = widget.types.contains(record?['type'])
-        ? record!['type'].toString()
-        : widget.types.first;
+    _targetController =
+        TextEditingController(
+      text:
+          record?['target']?.toString() ?? '',
+    );
 
-    _status = widget.statuses.contains(record?['status'])
-        ? record!['status'].toString()
-        : widget.statuses.last;
+    _actualController =
+        TextEditingController(
+      text:
+          record?['actual']?.toString() ?? '',
+    );
+
+    _periodController =
+        TextEditingController(
+      text:
+          record?['period']?.toString() ?? '',
+    );
+
+    _ownerController =
+        TextEditingController(
+      text:
+          record?['owner']?.toString() ?? '',
+    );
+
+    _remarksController =
+        TextEditingController(
+      text:
+          record?['remarks']?.toString() ?? '',
+    );
+
+    _category =
+        widget.categories.contains(
+      record?['category'],
+    )
+            ? record!['category'].toString()
+            : widget.categories.first;
+
+    _type =
+        widget.types.contains(
+      record?['type'],
+    )
+            ? record!['type'].toString()
+            : widget.types.first;
+
+    _status =
+        widget.statuses.contains(
+      record?['status'],
+    )
+            ? record!['status'].toString()
+            : widget.statuses.last;
   }
 
   @override
@@ -828,7 +1016,10 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
     super.dispose();
   }
 
-  InputDecoration _decoration(String label, {String? hint}) {
+  InputDecoration _decoration(
+    String label, {
+    String? hint,
+  }) {
     return InputDecoration(
       labelText: label,
       hintText: hint,
@@ -839,7 +1030,9 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: BorderSide(
+          color: Colors.grey.shade300,
+        ),
       ),
     );
   }
@@ -853,17 +1046,24 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
     TextInputType? keyboardType,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(
+        bottom: 12,
+      ),
       child: TextFormField(
         controller: controller,
         maxLines: maxLines,
         keyboardType: keyboardType,
-        decoration: _decoration(label, hint: hint),
+        decoration: _decoration(
+          label,
+          hint: hint,
+        ),
         validator: required
             ? (value) {
-                if (value == null || value.trim().isEmpty) {
+                if (value == null ||
+                    value.trim().isEmpty) {
                   return '$label is required';
                 }
+
                 return null;
               }
             : null,
@@ -878,7 +1078,9 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
     ValueChanged<String?> onChanged,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(
+        bottom: 12,
+      ),
       child: DropdownButtonFormField<String>(
         initialValue: value,
         decoration: _decoration(label),
@@ -896,64 +1098,103 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
   }
 
   void _submit() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-    final target = double.tryParse(_targetController.text.trim());
-    final actual = double.tryParse(_actualController.text.trim());
+    final target = double.tryParse(
+      _targetController.text.trim(),
+    );
+
+    final actualText =
+        _actualController.text.trim();
+
+    final actual = actualText.isEmpty
+        ? null
+        : double.tryParse(actualText);
 
     if (target == null || target < 0) {
-      _message('Enter a valid target value.');
+      _message(
+        'Enter a valid target value.',
+      );
       return;
     }
 
-    if (actual == null || actual < 0) {
-      _message('Enter a valid actual value.');
-      return;
+    if (_status != 'Not Measured') {
+      if (actual == null || actual < 0) {
+        _message(
+          'Enter a valid actual value.',
+        );
+        return;
+      }
     }
 
-    final existingId = widget.record?['id']?.toString();
-    final id = existingId == null || existingId.isEmpty
-        ? DateTime.now().microsecondsSinceEpoch.toString()
+    final existingId =
+        widget.record?['id']?.toString();
+
+    final id = existingId == null ||
+            existingId.isEmpty
+        ? DateTime.now()
+            .microsecondsSinceEpoch
+            .toString()
         : existingId;
 
     final record = <String, dynamic>{
       'id': id,
-      'objective': _objectiveController.text.trim(),
-      'kpiName': _kpiController.text.trim(),
+      'objective':
+          _objectiveController.text.trim(),
+      'kpiName':
+          _kpiController.text.trim(),
       'category': _category,
       'type': _type,
       'target': target,
       'actual': actual,
-      'period': _periodController.text.trim(),
-      'owner': _ownerController.text.trim(),
+      'period':
+          _periodController.text.trim(),
+      'owner':
+          _ownerController.text.trim(),
       'status': _status,
-      'remarks': _remarksController.text.trim(),
-      'updatedAt': DateTime.now().toIso8601String(),
+      'remarks':
+          _remarksController.text.trim(),
+      'updatedAt':
+          DateTime.now().toIso8601String(),
     };
 
     Navigator.pop(context, record);
   }
 
   void _message(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
       SnackBar(
         content: Text(message),
-        behavior: SnackBarBehavior.floating,
+        behavior:
+            SnackBarBehavior.floating,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.viewInsetsOf(context).bottom;
+    final bottom =
+        MediaQuery.viewInsetsOf(context).bottom;
 
     return SafeArea(
       child: Container(
-        height: MediaQuery.sizeOf(context).height * 0.92,
-        padding: EdgeInsets.fromLTRB(16, 10, 16, bottom + 16),
-        decoration: const BoxDecoration(
+        height:
+            MediaQuery.sizeOf(context).height *
+                0.92,
+        padding: EdgeInsets.fromLTRB(
+          16,
+          10,
+          16,
+          bottom + 16,
+        ),
+        decoration:
+            const BoxDecoration(
           color: Color(0xFFF6F8F7),
-          borderRadius: BorderRadius.vertical(
+          borderRadius:
+              BorderRadius.vertical(
             top: Radius.circular(22),
           ),
         ),
@@ -965,18 +1206,25 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
                 child: Container(
                   width: 42,
                   height: 4,
-                  decoration: BoxDecoration(
+                  decoration:
+                      BoxDecoration(
                     color: Colors.grey,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius:
+                        BorderRadius.circular(
+                      10,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 14),
               Text(
-                widget.record == null ? 'Add HSE KPI' : 'Edit HSE KPI',
+                widget.record == null
+                    ? 'Add HSE KPI'
+                    : 'Edit HSE KPI',
                 style: const TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w900,
+                  fontWeight:
+                      FontWeight.w900,
                   color: Color(0xFF0B5D4B),
                 ),
               ),
@@ -986,20 +1234,26 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
                 'HSE Objective',
                 required: true,
                 maxLines: 3,
-                hint: 'Example: Improve site safety performance',
+                hint:
+                    'Example: Improve site safety performance',
               ),
               _field(
                 _kpiController,
                 'KPI Name',
                 required: true,
-                hint: 'Example: Monthly Safety Inspection Completion',
+                hint:
+                    'Example: Monthly Safety Inspection Completion',
               ),
               _dropdown(
                 'KPI Category',
                 _category,
                 widget.categories,
                 (value) {
-                  if (value != null) setState(() => _category = value);
+                  if (value != null) {
+                    setState(() {
+                      _category = value;
+                    });
+                  }
                 },
               ),
               _dropdown(
@@ -1007,14 +1261,20 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
                 _type,
                 widget.types,
                 (value) {
-                  if (value != null) setState(() => _type = value);
+                  if (value != null) {
+                    setState(() {
+                      _type = value;
+                    });
+                  }
                 },
               ),
               _field(
                 _targetController,
                 'Target Value',
                 required: true,
-                keyboardType: const TextInputType.numberWithOptions(
+                keyboardType:
+                    const TextInputType
+                        .numberWithOptions(
                   decimal: true,
                 ),
                 hint: 'Example: 95',
@@ -1022,49 +1282,71 @@ class _KpiFormSheetState extends State<_KpiFormSheet> {
               _field(
                 _actualController,
                 'Actual Value',
-                required: true,
-                keyboardType: const TextInputType.numberWithOptions(
+                required:
+                    false,
+                keyboardType:
+                    const TextInputType
+                        .numberWithOptions(
                   decimal: true,
                 ),
-                hint: 'Example: 92',
-              ),
-              _field(
-                _periodController,
-                'Measurement Period',
-                required: true,
-                hint: 'Example: September 2026',
-              ),
-              _field(
-                _ownerController,
-                'KPI Owner',
-                required: true,
+                hint:
+                    'Example: 92 (leave blank if Not Measured)',
               ),
               _dropdown(
                 'Performance Status',
                 _status,
                 widget.statuses,
                 (value) {
-                  if (value != null) setState(() => _status = value);
+                  if (value != null) {
+                    setState(() {
+                      _status = value;
+                    });
+                  }
                 },
+              ),
+              _field(
+                _periodController,
+                'Measurement Period',
+                required: true,
+                hint:
+                    'Example: September 2026',
+              ),
+              _field(
+                _ownerController,
+                'KPI Owner',
+                required: true,
               ),
               _field(
                 _remarksController,
                 'Remarks / Action',
                 maxLines: 4,
-                hint: 'Record explanation, action or follow-up.',
+                hint:
+                    'Record explanation, action or follow-up.',
               ),
               const SizedBox(height: 8),
               SizedBox(
                 height: 52,
                 child: FilledButton.icon(
                   onPressed: _submit,
-                  icon: const Icon(Icons.save_outlined),
-                  label: Text(
-                    widget.record == null ? 'Save KPI' : 'Update KPI',
-                    style: const TextStyle(fontWeight: FontWeight.w800),
+                  icon: const Icon(
+                    Icons.save_outlined,
                   ),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF159447),
+                  label: Text(
+                    widget.record == null
+                        ? 'Save KPI'
+                        : 'Update KPI',
+                    style:
+                        const TextStyle(
+                      fontWeight:
+                          FontWeight.w800,
+                    ),
+                  ),
+                  style:
+                      FilledButton.styleFrom(
+                    backgroundColor:
+                        const Color(
+                      0xFF159447,
+                    ),
                   ),
                 ),
               ),
