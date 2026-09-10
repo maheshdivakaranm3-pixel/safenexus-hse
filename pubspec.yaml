@@ -24,6 +24,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^3.0.1
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -31,3 +32,11 @@ flutter:
   assets:
     - assets/images/safenexus_hse_header_mobile.png
     - assets/images/safenexus_hse_banner.png
+    - assets/images/safenexus_logo.png
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/safenexus_logo.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/safenexus_logo.png"
