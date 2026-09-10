@@ -52,6 +52,12 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   final _readinessRemarksController = TextEditingController();
   DateTime? _readinessReviewDate;
 
+  // Step 1H - Final Review & Handover
+  String _finalReviewStatus = 'Not Completed';
+  final _finalReviewerController = TextEditingController();
+  final _handoverRemarksController = TextEditingController();
+  DateTime? _finalReviewDate;
+
   final List<String> _documentNames = const [
     'Project HSE Plan',
     'HSE Policy',
@@ -139,6 +145,8 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _mainActivitiesController.dispose();
     _readinessReviewerController.dispose();
     _readinessRemarksController.dispose();
+    _finalReviewerController.dispose();
+    _handoverRemarksController.dispose();
     for (final controller in _documentReferenceControllers.values) {
       controller.dispose();
     }
@@ -189,6 +197,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _readinessReviewerController.text = prefs.getString('prestart.readiness.reviewer') ?? '';
       _readinessRemarksController.text = prefs.getString('prestart.readiness.remarks') ?? '';
       _readinessReviewDate = _dateFromString(prefs.getString('prestart.readiness.reviewDate'));
+      _finalReviewStatus = prefs.getString('prestart.final.status') ?? 'Not Completed';
+      _finalReviewerController.text = prefs.getString('prestart.final.reviewer') ?? '';
+      _handoverRemarksController.text = prefs.getString('prestart.final.remarks') ?? '';
+      _finalReviewDate = _dateFromString(prefs.getString('prestart.final.reviewDate'));
       for (final name in _documentNames) {
         _documentStatus[name] =
             prefs.getString('prestart.doc.status.$name') ?? 'Pending';
@@ -317,6 +329,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     await prefs.setString('prestart.readiness.reviewer', _readinessReviewerController.text.trim());
     await prefs.setString('prestart.readiness.remarks', _readinessRemarksController.text.trim());
     await prefs.setString('prestart.readiness.reviewDate', _readinessReviewDate?.toIso8601String() ?? '');
+    await prefs.setString('prestart.final.status', _finalReviewStatus);
+    await prefs.setString('prestart.final.reviewer', _finalReviewerController.text.trim());
+    await prefs.setString('prestart.final.remarks', _handoverRemarksController.text.trim());
+    await prefs.setString('prestart.final.reviewDate', _finalReviewDate?.toIso8601String() ?? '');
 
     for (final name in _documentNames) {
       await prefs.setString(
@@ -349,7 +365,7 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _isSaving = false;
       _hasSavedProject = true;
     });
-    _showMessage('Project Profile saved successfully.');
+    _showMessage(_finalReviewStatus == 'Completed' ? 'Project Pre-Start saved and handover marked complete.' : 'Project Pre-Start saved successfully.');
   }
 
   Future<void> _resetProject() async {
@@ -411,6 +427,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'readiness.reviewer',
       'readiness.remarks',
       'readiness.reviewDate',
+      'final.status',
+      'final.reviewer',
+      'final.remarks',
+      'final.reviewDate',
     ]) {
       await prefs.remove('prestart.$key');
     }
@@ -455,6 +475,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _readinessReviewerController.clear();
       _readinessRemarksController.clear();
       _readinessReviewDate = null;
+      _finalReviewStatus = 'Not Completed';
+      _finalReviewerController.clear();
+      _handoverRemarksController.clear();
+      _finalReviewDate = null;
       _emirate = 'Abu Dhabi';
       _status = 'Pre-Start';
       _plannedStartDate = null;
@@ -664,6 +688,93 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   hint: 'Record pending actions, conditions, approval notes or evidence',
                   icon: Icons.notes_outlined,
                   maxLines: 3,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _SectionCard(
+              title: 'Final Review & Handover',
+              icon: Icons.assignment_turned_in_outlined,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: (_finalReviewStatus == 'Completed' ? primaryGreen : Colors.orange).withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: (_finalReviewStatus == 'Completed' ? primaryGreen : Colors.orange).withValues(alpha: 0.20),
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        _finalReviewStatus == 'Completed' ? Icons.check_circle_outline : Icons.pending_actions_outlined,
+                        color: _finalReviewStatus == 'Completed' ? primaryGreen : Colors.orange,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          _finalReviewStatus == 'Completed'
+                              ? 'Project Pre-Start review completed. Ready for Phase 2 handover.'
+                              : 'Complete the final review after checking all Step 1 requirements.',
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  initialValue: _finalReviewStatus,
+                  decoration: _inputDecoration('Final Review Status', Icons.fact_check_outlined),
+                  items: const [
+                    DropdownMenuItem(value: 'Not Completed', child: Text('Not Completed')),
+                    DropdownMenuItem(value: 'Reviewed - Actions Pending', child: Text('Reviewed - Actions Pending')),
+                    DropdownMenuItem(value: 'Completed', child: Text('Completed')),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) setState(() => _finalReviewStatus = value);
+                  },
+                ),
+                _textField(
+                  controller: _finalReviewerController,
+                  label: 'Final Reviewer / Handover By',
+                  hint: 'Enter authorized HSE Manager / Project Manager',
+                  icon: Icons.person_pin_outlined,
+                ),
+                _dateField(
+                  label: 'Final Review Date',
+                  date: _finalReviewDate,
+                  onTap: () async {
+                    final now = DateTime.now();
+                    final selected = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime(now.year - 5),
+                      lastDate: DateTime(now.year + 20),
+                      initialDate: _finalReviewDate ?? now,
+                    );
+                    if (selected != null) setState(() => _finalReviewDate = selected);
+                  },
+                ),
+                _textField(
+                  controller: _handoverRemarksController,
+                  label: 'Final Review / Handover Remarks',
+                  hint: 'Record final actions, conditions, handover notes or references',
+                  icon: Icons.notes_outlined,
+                  maxLines: 4,
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.all(11),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    'Handover rule: mark Completed only after the Project Profile, HSE documents, emergency arrangements and pre-start checklist have been reviewed.',
+                    style: TextStyle(fontSize: 11, color: Colors.black54, height: 1.35),
+                  ),
                 ),
               ],
             ),
