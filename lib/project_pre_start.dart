@@ -28,7 +28,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   final _emergencyContactNameController = TextEditingController();
   final _emergencyContactPhoneController = TextEditingController();
   final _locationController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _areaController = TextEditingController();
   final _scopeController = TextEditingController();
+  final _mainActivitiesController = TextEditingController();
 
   String _emirate = 'Abu Dhabi';
   String _status = 'Pre-Start';
@@ -60,7 +63,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _emergencyContactNameController.dispose();
     _emergencyContactPhoneController.dispose();
     _locationController.dispose();
+    _cityController.dispose();
+    _areaController.dispose();
     _scopeController.dispose();
+    _mainActivitiesController.dispose();
     super.dispose();
   }
 
@@ -84,7 +90,11 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _emergencyContactNameController.text = prefs.getString('prestart.emergencyContactName') ?? '';
       _emergencyContactPhoneController.text = prefs.getString('prestart.emergencyContactPhone') ?? '';
       _locationController.text = prefs.getString('prestart.location') ?? '';
+      _cityController.text = prefs.getString('prestart.city') ?? '';
+      _areaController.text = prefs.getString('prestart.area') ?? '';
       _scopeController.text = prefs.getString('prestart.scope') ?? '';
+      _mainActivitiesController.text =
+          prefs.getString('prestart.mainActivities') ?? '';
       _emirate = prefs.getString('prestart.emirate') ?? 'Abu Dhabi';
       _status = prefs.getString('prestart.status') ?? 'Pre-Start';
       _plannedStartDate = _dateFromString(prefs.getString('prestart.startDate'));
@@ -115,7 +125,15 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       initialDate: _plannedStartDate ?? now,
     );
     if (selected != null) {
-      setState(() => _plannedStartDate = selected);
+      if (_plannedEndDate != null && selected.isAfter(_plannedEndDate!)) {
+        setState(() {
+          _plannedStartDate = selected;
+          _plannedEndDate = null;
+        });
+        _showMessage('End date was cleared because it is before the new start date.');
+      } else {
+        setState(() => _plannedStartDate = selected);
+      }
     }
   }
 
@@ -166,7 +184,13 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     await prefs.setString('prestart.emergencyContactName', _emergencyContactNameController.text.trim());
     await prefs.setString('prestart.emergencyContactPhone', _emergencyContactPhoneController.text.trim());
     await prefs.setString('prestart.location', _locationController.text.trim());
+    await prefs.setString('prestart.city', _cityController.text.trim());
+    await prefs.setString('prestart.area', _areaController.text.trim());
     await prefs.setString('prestart.scope', _scopeController.text.trim());
+    await prefs.setString(
+      'prestart.mainActivities',
+      _mainActivitiesController.text.trim(),
+    );
     await prefs.setString('prestart.emirate', _emirate);
     await prefs.setString('prestart.status', _status);
     await prefs.setString(
@@ -226,7 +250,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'emergencyContactName',
       'emergencyContactPhone',
       'location',
+      'city',
+      'area',
       'scope',
+      'mainActivities',
       'emirate',
       'status',
       'startDate',
@@ -252,7 +279,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _emergencyContactNameController.clear();
       _emergencyContactPhoneController.clear();
       _locationController.clear();
+      _cityController.clear();
+      _areaController.clear();
       _scopeController.clear();
+      _mainActivitiesController.clear();
       _emirate = 'Abu Dhabi';
       _status = 'Pre-Start';
       _plannedStartDate = null;
@@ -278,7 +308,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _clientController.text.trim().isNotEmpty,
       _contractorController.text.trim().isNotEmpty,
       _locationController.text.trim().isNotEmpty,
+      _cityController.text.trim().isNotEmpty,
+      _areaController.text.trim().isNotEmpty,
       _scopeController.text.trim().isNotEmpty,
+      _mainActivitiesController.text.trim().isNotEmpty,
       _plannedStartDate != null,
       _plannedEndDate != null,
     ];
@@ -351,14 +384,6 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   icon: Icons.engineering_outlined,
                   requiredField: true,
                 ),
-                _textField(
-                  controller: _locationController,
-                  label: 'Project Location',
-                  hint: 'Enter project/site location',
-                  icon: Icons.location_on_outlined,
-                  requiredField: true,
-                ),
-                _dropdownField(),
               ],
             ),
             const SizedBox(height: 14),
@@ -425,6 +450,36 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
             ),
             const SizedBox(height: 14),
             _SectionCard(
+              title: 'Project Location & Jurisdiction',
+              icon: Icons.location_city_outlined,
+              children: [
+                _textField(
+                  controller: _cityController,
+                  label: 'City',
+                  hint: 'Enter project city',
+                  icon: Icons.location_city_outlined,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _areaController,
+                  label: 'Area / Site Location',
+                  hint: 'Enter area, district or site name',
+                  icon: Icons.place_outlined,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _locationController,
+                  label: 'Full Project Address / Location',
+                  hint: 'Enter detailed project address or site location',
+                  icon: Icons.location_on_outlined,
+                  requiredField: true,
+                  maxLines: 2,
+                ),
+                _dropdownField(),
+              ],
+            ),
+            const SizedBox(height: 14),
+            _SectionCard(
               title: 'Project Schedule & Scope',
               icon: Icons.event_note_outlined,
               children: [
@@ -440,12 +495,53 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
                   onTap: _pickEndDate,
                   requiredField: true,
                 ),
+                if (_plannedStartDate != null && _plannedEndDate != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: primaryGreen.withValues(alpha: 0.07),
+                        borderRadius: BorderRadius.circular(13),
+                        border: Border.all(
+                          color: primaryGreen.withValues(alpha: 0.12),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.timelapse_outlined,
+                            color: darkGreen,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Planned Duration: ${_plannedEndDate!.difference(_plannedStartDate!).inDays + 1} days',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: darkGreen,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 _textField(
                   controller: _scopeController,
                   label: 'Scope of Work',
                   hint: 'Briefly describe the project scope',
                   icon: Icons.description_outlined,
                   maxLines: 5,
+                  requiredField: true,
+                ),
+                _textField(
+                  controller: _mainActivitiesController,
+                  label: 'Main Activities / Work Categories',
+                  hint: 'List major activities, e.g. civil, MEP, lifting, excavation',
+                  icon: Icons.list_alt_outlined,
+                  maxLines: 4,
                   requiredField: true,
                 ),
                 DropdownButtonFormField<String>(
