@@ -23,27 +23,16 @@ void main() {
 // APP
 // ============================================================
 
-class SafeNexusApp extends StatefulWidget {
+class SafeNexusApp extends StatelessWidget {
   const SafeNexusApp({super.key});
 
-  @override
-  State<SafeNexusApp> createState() => _SafeNexusAppState();
-}
-
-class _SafeNexusAppState extends State<SafeNexusApp> {
-  ThemeMode _themeMode = ThemeMode.system;
-
   static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF075B45);
-  static const Color navy = Color(0xFF082653);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SafeNexus HSE',
-      themeMode: _themeMode,
-
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -57,28 +46,7 @@ class _SafeNexusAppState extends State<SafeNexusApp> {
           elevation: 0,
         ),
       ),
-
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryGreen,
-          brightness: Brightness.dark,
-        ),
-        scaffoldBackgroundColor: const Color(0xFF101714),
-        fontFamily: 'Roboto',
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-      ),
-
-      home: SafeNexusHomePage(
-        onThemeChanged: (ThemeMode mode) {
-          setState(() {
-            _themeMode = mode;
-          });
-        },
-      ),
+      home: const SafeNexusHomePage(),
     );
   }
 }
@@ -88,12 +56,7 @@ class _SafeNexusAppState extends State<SafeNexusApp> {
 // ============================================================
 
 class SafeNexusHomePage extends StatefulWidget {
-  final ValueChanged<ThemeMode> onThemeChanged;
-
-  const SafeNexusHomePage({
-    super.key,
-    required this.onThemeChanged,
-  });
+  const SafeNexusHomePage({super.key});
 
   @override
   State<SafeNexusHomePage> createState() =>
@@ -117,6 +80,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   // ==========================================================
   // BOTTOM NAVIGATION
+  // 0 = Home
+  // 1 = Learning
+  // 2 = Notification
+  // 3 = Settings
+  // 4 = Profile
   // ==========================================================
 
   int _currentIndex = 0;
@@ -130,23 +98,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   int _hazards = 0;
   int _openReports = 0;
   bool _loadingStats = true;
-
-  // ==========================================================
-  // APPEARANCE
-  // ==========================================================
-
-  ThemeMode _themeMode = ThemeMode.system;
-
-  String get _appearanceLabel {
-    switch (_themeMode) {
-      case ThemeMode.light:
-        return 'Light';
-      case ThemeMode.dark:
-        return 'Dark';
-      case ThemeMode.system:
-        return 'System Default';
-    }
-  }
 
   // ==========================================================
   // INIT
@@ -205,8 +156,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             continue;
           }
 
-          final report =
-              Map<String, dynamic>.from(decoded);
+          final report = Map<String, dynamic>.from(decoded);
 
           final id = _stringValue(report['id']);
 
@@ -220,16 +170,13 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           final originalObservationType =
               _stringValue(report['observationType']);
 
-          final canonicalType =
-              _canonicalReportType(
+          final canonicalType = _canonicalReportType(
             reportType: originalType,
             observationType: originalObservationType,
           );
 
-          if (originalType != canonicalType) {
-            report['reportType'] = canonicalType;
-            storageChanged = true;
-          } else if (originalType.isEmpty) {
+          if (originalType != canonicalType ||
+              originalType.isEmpty) {
             report['reportType'] = canonicalType;
             storageChanged = true;
           }
@@ -298,9 +245,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     required String reportType,
     required String observationType,
   }) {
-    final type =
-        reportType.trim().toLowerCase();
-
+    final type = reportType.trim().toLowerCase();
     final legacyType =
         observationType.trim().toLowerCase();
 
@@ -538,19 +483,33 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
           children: [
             _buildProfessionalHeader(),
+
             const SizedBox(height: 14),
+
             _buildProfessionalHero(),
+
             const SizedBox(height: 20),
+
             _buildQuickActionsTitle(),
+
             const SizedBox(height: 10),
+
             _buildQuickActions(),
+
             const SizedBox(height: 20),
+
             _buildSafetyOverview(),
+
             const SizedBox(height: 20),
+
             _buildReferencePreview(),
+
             const SizedBox(height: 20),
+
             _buildSafetyMessage(),
+
             const SizedBox(height: 16),
+
             _buildUaeCard(),
           ],
         ),
@@ -1848,9 +1807,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   width: 74,
                   height: 74,
                   decoration:
-                      BoxDecoration(
+                      const BoxDecoration(
                     color:
-                        const Color(0xFFE9F8F1),
+                        Color(0xFFE9F8F1),
                     shape:
                         BoxShape.circle,
                   ),
@@ -2006,12 +1965,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         ),
         children: [
           _settingsHeader(),
-
           const SizedBox(height: 18),
-
-          // ==================================================
-          // LANGUAGE
-          // ==================================================
 
           _settingsActionCard(
             icon:
@@ -2020,15 +1974,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 'Language',
             subtitle:
                 'English',
-            onTap:
-                _showLanguageDialog,
+            onTap: () {
+              _showMessage(
+                'Language',
+                'English is currently available in SafeNexus HSE.',
+              );
+            },
           ),
 
           const SizedBox(height: 10),
-
-          // ==================================================
-          // APPEARANCE
-          // ==================================================
 
           _settingsActionCard(
             icon:
@@ -2036,50 +1990,16 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             title:
                 'Appearance',
             subtitle:
-                _appearanceLabel,
-            onTap:
-                _showAppearanceDialog,
+                'Light theme',
+            onTap: () {
+              _showMessage(
+                'Appearance',
+                'Light theme is currently enabled.',
+              );
+            },
           ),
 
           const SizedBox(height: 10),
-
-          // ==================================================
-          // PRIVACY & SECURITY
-          // ==================================================
-
-          _settingsActionCard(
-            icon:
-                Icons.lock_outline_rounded,
-            title:
-                'Privacy & Security',
-            subtitle:
-                'Privacy information • App permissions',
-            onTap:
-                _showPrivacySecurityDialog,
-          ),
-
-          const SizedBox(height: 10),
-
-          // ==================================================
-          // DATA & STORAGE
-          // ==================================================
-
-          _settingsActionCard(
-            icon:
-                Icons.storage_rounded,
-            title:
-                'Data & Storage',
-            subtitle:
-                'Saved reports / local data • Clear local data',
-            onTap:
-                _showDataStorageDialog,
-          ),
-
-          const SizedBox(height: 10),
-
-          // ==================================================
-          // ABOUT
-          // ==================================================
 
           _settingsActionCard(
             icon:
@@ -2087,26 +2007,30 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             title:
                 'About SafeNexus HSE',
             subtitle:
-                'App information • Version • Description',
-            onTap:
-                _showAboutDialog,
+                'UAE-wide HSE safety app',
+            onTap: () {
+              _showMessage(
+                'SafeNexus HSE',
+                'Safe People - Safe Workplaces - Safer UAE',
+              );
+            },
           ),
 
           const SizedBox(height: 10),
 
-          // ==================================================
-          // LEGAL
-          // ==================================================
-
           _settingsActionCard(
             icon:
-                Icons.gavel_rounded,
+                Icons.verified_outlined,
             title:
-                'Legal',
+                'App Version',
             subtitle:
-                'Privacy Policy • Terms & Conditions • Disclaimer',
-            onTap:
-                _showLegalDialog,
+                'Version 1.0.1',
+            onTap: () {
+              _showMessage(
+                'SafeNexus HSE',
+                'Version 1.0.1',
+              );
+            },
           ),
         ],
       ),
@@ -2241,9 +2165,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                   children: [
                     Text(
                       title,
-                      maxLines: 1,
-                      overflow:
-                          TextOverflow.ellipsis,
                       style:
                           const TextStyle(
                         color: navy,
@@ -2255,21 +2176,16 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      maxLines: 2,
-                      overflow:
-                          TextOverflow.ellipsis,
                       style:
                           const TextStyle(
                         color:
                             Color(0xFF52636A),
                         fontSize: 12.5,
-                        height: 1.25,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
               const Icon(
                 Icons
                     .chevron_right_rounded,
@@ -2281,911 +2197,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           ),
         ),
       ),
-    );
-  }
-
-  // ==========================================================
-  // LANGUAGE DIALOG
-  // ==========================================================
-
-  void _showLanguageDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.language_rounded,
-                color:
-                    primaryGreen,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'Language',
-                style:
-                    TextStyle(
-                  color: navy,
-                  fontWeight:
-                      FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _languageOption(
-                context: dialogContext,
-                title: 'English',
-                selected: true,
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // LANGUAGE OPTION
-  // ==========================================================
-
-  Widget _languageOption({
-    required BuildContext context,
-    required String title,
-    required bool selected,
-  }) {
-    return InkWell(
-      borderRadius:
-          BorderRadius.circular(14),
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        width: double.infinity,
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 14,
-        ),
-        decoration:
-            BoxDecoration(
-          color: selected
-              ? const Color(0xFFE9F8F1)
-              : Colors.transparent,
-          borderRadius:
-              BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: [
-            const Text(
-              '🇬🇧',
-              style:
-                  TextStyle(
-                fontSize: 23,
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Text(
-                'English',
-                style:
-                    TextStyle(
-                  color: navy,
-                  fontSize: 15,
-                  fontWeight:
-                      FontWeight.w700,
-                ),
-              ),
-            ),
-            if (selected)
-              const Icon(
-                Icons.check_circle_rounded,
-                color:
-                    primaryGreen,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // APPEARANCE DIALOG
-  // ==========================================================
-
-  void _showAppearanceDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.palette_outlined,
-                color:
-                    primaryGreen,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'Appearance',
-                style:
-                    TextStyle(
-                  color: navy,
-                  fontWeight:
-                      FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _appearanceOption(
-                dialogContext,
-                'System Default',
-                ThemeMode.system,
-                Icons.phone_android_rounded,
-              ),
-              const SizedBox(height: 6),
-              _appearanceOption(
-                dialogContext,
-                'Light',
-                ThemeMode.light,
-                Icons.light_mode_rounded,
-              ),
-              const SizedBox(height: 6),
-              _appearanceOption(
-                dialogContext,
-                'Dark',
-                ThemeMode.dark,
-                Icons.dark_mode_rounded,
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // APPEARANCE OPTION
-  // ==========================================================
-
-  Widget _appearanceOption(
-    BuildContext dialogContext,
-    String title,
-    ThemeMode mode,
-    IconData icon,
-  ) {
-    final selected = _themeMode == mode;
-
-    return InkWell(
-      borderRadius:
-          BorderRadius.circular(14),
-      onTap: () {
-        setState(() {
-          _themeMode = mode;
-        });
-
-        widget.onThemeChanged(mode);
-
-        Navigator.pop(dialogContext);
-      },
-      child: Container(
-        width: double.infinity,
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 13,
-        ),
-        decoration:
-            BoxDecoration(
-          color: selected
-              ? const Color(0xFFE9F8F1)
-              : Colors.transparent,
-          borderRadius:
-              BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color:
-                  selected
-                      ? primaryGreen
-                      : const Color(0xFF607D8B),
-              size: 24,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                title,
-                style:
-                    const TextStyle(
-                  color: navy,
-                  fontSize: 14.5,
-                  fontWeight:
-                      FontWeight.w700,
-                ),
-              ),
-            ),
-            if (selected)
-              const Icon(
-                Icons.check_circle_rounded,
-                color:
-                    primaryGreen,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // PRIVACY & SECURITY
-  // ==========================================================
-
-  void _showPrivacySecurityDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.lock_outline_rounded,
-                color:
-                    primaryGreen,
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'Privacy & Security',
-                  style:
-                      TextStyle(
-                    color: navy,
-                    fontWeight:
-                        FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _subOptionTile(
-                icon:
-                    Icons.privacy_tip_outlined,
-                title:
-                    'Privacy Information',
-                subtitle:
-                    'Learn how SafeNexus HSE handles local app data.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showPrivacyInformation();
-                },
-              ),
-              const SizedBox(height: 10),
-              _subOptionTile(
-                icon:
-                    Icons.admin_panel_settings_outlined,
-                title:
-                    'App Permissions',
-                subtitle:
-                    'Camera, microphone and device permissions.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showAppPermissions();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // PRIVACY INFORMATION
-  // ==========================================================
-
-  void _showPrivacyInformation() {
-    _showInfoPageDialog(
-      title: 'Privacy Information',
-      icon:
-          Icons.privacy_tip_outlined,
-      content: const [
-        'SafeNexus HSE is designed to support workplace HSE reporting and safety activities.',
-        'Reports created in the app may be stored locally on the device so they can be viewed later.',
-        'The app should only collect or use information required for its intended HSE functions.',
-        'Do not enter unnecessary personal or confidential information into safety reports.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // APP PERMISSIONS
-  // ==========================================================
-
-  void _showAppPermissions() {
-    _showInfoPageDialog(
-      title: 'App Permissions',
-      icon:
-          Icons.admin_panel_settings_outlined,
-      content: const [
-        'Camera: Used when attaching photographs to safety reports, where supported.',
-        'Microphone: Used for voice-based reporting features, where supported.',
-        'Storage / Local data: Used to keep reports and application data on the device.',
-        'Permissions are requested only when a related feature requires them.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // DATA & STORAGE
-  // ==========================================================
-
-  Future<void> _showDataStorageDialog() async {
-    int savedReports = _totalReports;
-
-    try {
-      final prefs =
-          await SharedPreferences.getInstance();
-
-      final records =
-          prefs.getStringList(_storageKey) ??
-              <String>[];
-
-      savedReports = records.length;
-    } catch (_) {}
-
-    if (!mounted) {
-      return;
-    }
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.storage_rounded,
-                color:
-                    primaryGreen,
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'Data & Storage',
-                  style:
-                      TextStyle(
-                    color: navy,
-                    fontWeight:
-                        FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _subOptionTile(
-                icon:
-                    Icons.description_outlined,
-                title:
-                    'Saved Reports / Local Data',
-                subtitle:
-                    '$savedReports report(s) saved on this device.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showSavedReportsInfo(savedReports);
-                },
-              ),
-              const SizedBox(height: 10),
-              _subOptionTile(
-                icon:
-                    Icons.delete_outline_rounded,
-                title:
-                    'Clear Local Data',
-                subtitle:
-                    'Delete locally saved reports from this device.',
-                iconColor:
-                    const Color(0xFFC51E30),
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _confirmClearLocalData();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // SAVED REPORTS INFO
-  // ==========================================================
-
-  void _showSavedReportsInfo(int count) {
-    _showInfoPageDialog(
-      title: 'Saved Reports',
-      icon:
-          Icons.description_outlined,
-      content: [
-        'Reports currently saved on this device: $count.',
-        'These local records are used by the dashboard and Observation History.',
-        'Clearing local data will remove these locally stored records.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // CLEAR LOCAL DATA CONFIRMATION
-  // ==========================================================
-
-  void _confirmClearLocalData() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Text(
-            'Clear Local Data?',
-            style:
-                TextStyle(
-              color: navy,
-              fontWeight:
-                  FontWeight.w800,
-            ),
-          ),
-          content: const Text(
-            'This will permanently remove locally saved reports from this device. This action cannot be undone.',
-            style:
-                TextStyle(
-              color:
-                  Color(0xFF455A64),
-              height: 1.4,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: const Text(
-                'Cancel',
-                style:
-                    TextStyle(
-                  color:
-                      Color(0xFF607D8B),
-                  fontWeight:
-                      FontWeight.w700,
-                ),
-              ),
-            ),
-            FilledButton(
-              style:
-                  FilledButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFFC51E30),
-              ),
-              onPressed: () async {
-                Navigator.pop(dialogContext);
-                await _clearLocalData();
-              },
-              child: const Text(
-                'Clear Data',
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // CLEAR LOCAL DATA
-  // ==========================================================
-
-  Future<void> _clearLocalData() async {
-    try {
-      final prefs =
-          await SharedPreferences.getInstance();
-
-      await prefs.remove(_storageKey);
-
-      await _loadDashboardStats();
-
-      if (!mounted) {
-        return;
-      }
-
-      _showMessage(
-        'Data Cleared',
-        'All locally saved SafeNexus HSE report data has been cleared from this device.',
-      );
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-
-      _showMessage(
-        'Unable to Clear Data',
-        'The local data could not be cleared. Please try again.',
-      );
-    }
-  }
-
-  // ==========================================================
-  // ABOUT
-  // ==========================================================
-
-  void _showAboutDialog() {
-    _showInfoPageDialog(
-      title: 'About SafeNexus HSE',
-      icon:
-          Icons.info_outline_rounded,
-      content: const [
-        'App Information',
-        'SafeNexus HSE',
-        'Version 1.0.1',
-        'UAE-wide HSE Safety App',
-        'Built for HSE professionals and safer workplaces across the United Arab Emirates.',
-        'Safe People • Safe Workplaces • Safer UAE',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // LEGAL
-  // ==========================================================
-
-  void _showLegalDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.gavel_rounded,
-                color:
-                    primaryGreen,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'Legal',
-                style:
-                    TextStyle(
-                  color: navy,
-                  fontWeight:
-                      FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _subOptionTile(
-                icon:
-                    Icons.privacy_tip_outlined,
-                title:
-                    'Privacy Policy',
-                subtitle:
-                    'Information about privacy and data handling.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showPrivacyPolicy();
-                },
-              ),
-              const SizedBox(height: 10),
-              _subOptionTile(
-                icon:
-                    Icons.description_outlined,
-                title:
-                    'Terms & Conditions',
-                subtitle:
-                    'Terms for using SafeNexus HSE.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showTermsConditions();
-                },
-              ),
-              const SizedBox(height: 10),
-              _subOptionTile(
-                icon:
-                    Icons.warning_amber_rounded,
-                title:
-                    'Disclaimer',
-                subtitle:
-                    'Important information about HSE references.',
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  _showDisclaimer();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ==========================================================
-  // PRIVACY POLICY
-  // ==========================================================
-
-  void _showPrivacyPolicy() {
-    _showInfoPageDialog(
-      title: 'Privacy Policy',
-      icon:
-          Icons.privacy_tip_outlined,
-      content: const [
-        'SafeNexus HSE is intended to support workplace health, safety and environment activities.',
-        'Local report data may be stored on the user’s device for app functionality.',
-        'Users should avoid entering unnecessary sensitive or confidential information.',
-        'Any future online services or integrations should provide appropriate privacy information before collecting additional data.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // TERMS & CONDITIONS
-  // ==========================================================
-
-  void _showTermsConditions() {
-    _showInfoPageDialog(
-      title: 'Terms & Conditions',
-      icon:
-          Icons.description_outlined,
-      content: const [
-        'SafeNexus HSE is provided as a safety support and reference application.',
-        'Users are responsible for verifying applicable workplace requirements and following their employer’s HSE procedures.',
-        'The application should not be treated as a replacement for competent professional judgement, site-specific risk assessment or official regulatory requirements.',
-        'Use of the application should comply with applicable laws, workplace rules and organizational procedures.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // DISCLAIMER
-  // ==========================================================
-
-  void _showDisclaimer() {
-    _showInfoPageDialog(
-      title: 'Disclaimer',
-      icon:
-          Icons.warning_amber_rounded,
-      content: const [
-        'SafeNexus HSE provides HSE information and reference material for general safety support.',
-        'Guidance shown in the application should be checked against current official UAE requirements and applicable authority requirements.',
-        'The app does not replace official regulations, approved procedures, competent-person advice, risk assessments or emergency instructions.',
-        'In an emergency, follow the applicable site emergency procedure and contact the appropriate emergency services.',
-      ],
-    );
-  }
-
-  // ==========================================================
-  // SUB OPTION TILE
-  // ==========================================================
-
-  Widget _subOptionTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-    Color iconColor = primaryGreen,
-  }) {
-    return Material(
-      color:
-          const Color(0xFFF7FAF9),
-      borderRadius:
-          BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius:
-            BorderRadius.circular(16),
-        onTap: onTap,
-        child: Padding(
-          padding:
-              const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Container(
-                width: 46,
-                height: 46,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      iconColor.withAlpha(18),
-                  borderRadius:
-                      BorderRadius.circular(13),
-                ),
-                child: Icon(
-                  icon,
-                  color:
-                      iconColor,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 11),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style:
-                          const TextStyle(
-                        color: navy,
-                        fontSize: 13.5,
-                        fontWeight:
-                            FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style:
-                          const TextStyle(
-                        color:
-                            Color(0xFF607D8B),
-                        fontSize: 10.5,
-                        height: 1.25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons
-                    .chevron_right_rounded,
-                color:
-                    iconColor,
-                size: 23,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // INFORMATION DIALOG
-  // ==========================================================
-
-  void _showInfoPageDialog({
-    required String title,
-    required IconData icon,
-    required List<String> content,
-  }) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(22),
-          ),
-          title: Row(
-            children: [
-              Icon(
-                icon,
-                color:
-                    primaryGreen,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  title,
-                  style:
-                      const TextStyle(
-                    color: navy,
-                    fontWeight:
-                        FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          content: ConstrainedBox(
-            constraints:
-                const BoxConstraints(
-              maxHeight: 420,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children:
-                    content.map(
-                  (text) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.only(
-                        bottom: 10,
-                      ),
-                      child: Text(
-                        text,
-                        style:
-                            const TextStyle(
-                          color:
-                              Color(0xFF455A64),
-                          fontSize: 13,
-                          height: 1.4,
-                        ),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child:
-                  const Text(
-                'OK',
-                style:
-                    TextStyle(
-                  color:
-                      primaryGreen,
-                  fontWeight:
-                      FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -3207,7 +2218,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             icon:
                 Icons.person_rounded,
           ),
+
           const SizedBox(height: 16),
+
           Container(
             padding:
                 const EdgeInsets.all(22),
@@ -3261,22 +2274,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ],
             ),
           ),
+
           const SizedBox(height: 14),
-
-          // ==================================================
-          // MY REPORTS
-          // ==================================================
-
-          _profileSectionHeading(
-            icon:
-                Icons.assignment_outlined,
-            title:
-                'My Reports',
-            subtitle:
-                'Your submitted HSE reports and status',
-          ),
-
-          const SizedBox(height: 8),
 
           _profileAction(
             title:
@@ -3294,77 +2293,32 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
           const SizedBox(height: 10),
 
-          // ==================================================
-          // HSE GUIDELINES
-          // ==================================================
-
-          _profileSectionHeading(
-            icon:
-                Icons.menu_book_rounded,
-            title:
-                'HSE Guidelines',
-            subtitle:
-                'UAE HSE reference library',
-          ),
-
-          const SizedBox(height: 8),
-
           _profileAction(
             title:
                 'UAE HSE Guidelines',
             subtitle:
                 'Open safety reference library',
             icon:
-                Icons.library_books_rounded,
+                Icons.menu_book_rounded,
             onTap:
                 _openGuidelines,
           ),
 
-          const SizedBox(height: 14),
-
-          // ==================================================
-          // MY SAFETY ACTIVITY
-          // ==================================================
-
-          _profileSectionHeading(
-            icon:
-                Icons.analytics_outlined,
-            title:
-                'My Safety Activity',
-            subtitle:
-                'Your current HSE reporting activity',
-          ),
-
           const SizedBox(height: 10),
-
-          _buildProfileActivityCard(),
-
-          const SizedBox(height: 14),
-
-          // ==================================================
-          // ABOUT
-          // ==================================================
-
-          _profileSectionHeading(
-            icon:
-                Icons.info_outline_rounded,
-            title:
-                'About SafeNexus HSE',
-            subtitle:
-                'Application information',
-          ),
-
-          const SizedBox(height: 8),
 
           _profileAction(
             title:
-                'App Information',
+                'About SafeNexus HSE',
             subtitle:
-                'Version 1.0.1 • SafeNexus HSE',
+                'UAE-wide HSE safety platform',
             icon:
                 Icons.info_outline_rounded,
-            onTap:
-                _showAboutDialog,
+            onTap: () {
+              _showMessage(
+                'SafeNexus HSE',
+                'Safe People - Safe Workplaces - Safer UAE',
+              );
+            },
           ),
 
           const SizedBox(height: 20),
@@ -3372,212 +2326,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           _buildUaeCard(),
         ],
       ),
-    );
-  }
-
-  // ==========================================================
-  // PROFILE SECTION HEADING
-  // ==========================================================
-
-  Widget _profileSectionHeading({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration:
-              BoxDecoration(
-            color:
-                const Color(0xFFE9F8F1),
-            borderRadius:
-                BorderRadius.circular(15),
-          ),
-          child: Icon(
-            icon,
-            color:
-                primaryGreen,
-            size: 26,
-          ),
-        ),
-        const SizedBox(width: 13),
-        Expanded(
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style:
-                    const TextStyle(
-                  color: navy,
-                  fontSize: 19,
-                  fontWeight:
-                      FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                subtitle,
-                style:
-                    const TextStyle(
-                  color:
-                      Color(0xFF607D8B),
-                  fontSize: 10.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // PROFILE ACTIVITY CARD
-  // ==========================================================
-
-  Widget _buildProfileActivityCard() {
-    return Container(
-      padding:
-          const EdgeInsets.all(15),
-      decoration:
-          BoxDecoration(
-        color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(20),
-        border: Border.all(
-          color:
-              const Color(0xFFE1E8EE),
-        ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _profileMetric(
-              value: _loadingStats
-                  ? '...'
-                  : _totalReports.toString(),
-              label:
-                  'Total Reports',
-              icon:
-                  Icons.assignment_rounded,
-              color:
-                  primaryGreen,
-            ),
-          ),
-          _profileMetricDivider(),
-          Expanded(
-            child: _profileMetric(
-              value: _loadingStats
-                  ? '...'
-                  : _hazards.toString(),
-              label:
-                  'Hazards',
-              icon:
-                  Icons.warning_amber_rounded,
-              color:
-                  const Color(0xFFC51E30),
-            ),
-          ),
-          _profileMetricDivider(),
-          Expanded(
-            child: _profileMetric(
-              value: _loadingStats
-                  ? '...'
-                  : _observations.toString(),
-              label:
-                  'Observations',
-              icon:
-                  Icons.visibility_rounded,
-              color:
-                  const Color(0xFF1475D1),
-            ),
-          ),
-          _profileMetricDivider(),
-          Expanded(
-            child: _profileMetric(
-              value: _loadingStats
-                  ? '...'
-                  : _openReports.toString(),
-              label:
-                  'Open',
-              icon:
-                  Icons.pending_actions_rounded,
-              color:
-                  const Color(0xFFB16A00),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // PROFILE METRIC
-  // ==========================================================
-
-  Widget _profileMetric({
-    required String value,
-    required String label,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color:
-              color,
-          size: 21,
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style:
-              const TextStyle(
-            color: navy,
-            fontSize: 18,
-            fontWeight:
-                FontWeight.w900,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          maxLines: 1,
-          overflow:
-              TextOverflow.ellipsis,
-          textAlign:
-              TextAlign.center,
-          style:
-              const TextStyle(
-            color:
-                Color(0xFF607D8B),
-            fontSize: 8.5,
-            fontWeight:
-                FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // PROFILE METRIC DIVIDER
-  // ==========================================================
-
-  Widget _profileMetricDivider() {
-    return Container(
-      width: 1,
-      height: 58,
-      color:
-          const Color(0xFFE2E9ED),
     );
   }
 
@@ -3782,7 +2530,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   ) {
     showDialog<void>(
       context: context,
-      builder: (dialogContext) {
+      builder: (context) {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(
@@ -3806,14 +2554,13 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 const TextStyle(
               color:
                   Color(0xFF455A64),
-              height: 1.4,
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(
-                  dialogContext,
+                  context,
                 );
               },
               child:
