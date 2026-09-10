@@ -1211,7 +1211,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Safe Today 閳ワ拷 Healthy Tomorrow 閳ワ拷 Stronger UAE',
+                  'Safe Today 鈥� Healthy Tomorrow 鈥� Stronger UAE',
                   maxLines: 2,
                   style: TextStyle(
                     color: Color(0xFFE2FFB1),
@@ -1251,7 +1251,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       child: const Row(
         children: [
           Text(
-            '棣冨殬棣冨殰',
+            '馃嚘馃嚜',
             style: TextStyle(
               fontSize: 28,
             ),
@@ -1611,7 +1611,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'SafeNexus HSE 閳ワ拷 UAE',
+                  'SafeNexus HSE 鈥� UAE',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -1646,7 +1646,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _showMessage(
                 'SafeNexus HSE',
-                'Safe People 閳ワ拷 Safe Workplaces 閳ワ拷 Safer UAE',
+                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
               );
             },
           ),
