@@ -336,9 +336,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         children: [
           _buildDashboard(),
           _buildGuidelinesHome(),
-          const WorkHubPage(),
           _buildReportHome(),
           _buildLearningHome(),
+          _buildSettingsHome(),
           _buildProfileHome(),
         ],
       ),
@@ -374,12 +374,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         NavigationDestination(
           icon: Icon(Icons.menu_book_outlined),
           selectedIcon: Icon(Icons.menu_book_rounded),
-          label: 'Guidelines',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.work_outline_rounded),
-          selectedIcon: Icon(Icons.work_rounded),
-          label: 'WorkHub',
+          label: 'Guideline',
         ),
         NavigationDestination(
           icon: Icon(Icons.warning_amber_outlined),
@@ -390,6 +385,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           icon: Icon(Icons.school_outlined),
           selectedIcon: Icon(Icons.school_rounded),
           label: 'Learning',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.settings_outlined),
+          selectedIcon: Icon(Icons.settings_rounded),
+          label: 'Setting',
         ),
         NavigationDestination(
           icon: Icon(Icons.person_outline_rounded),
@@ -674,9 +674,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             iconColor: primaryGreen,
             background: const Color(0xFFEAF8F0),
             onTap: () {
-              setState(() {
-                _currentIndex = 2;
-              });
+              _openPage(const WorkHubPage());
             },
           ),
         ),
@@ -1578,6 +1576,131 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 Icons.chevron_right_rounded,
                 color: color,
                 size: 26,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ==========================================================
+  // SETTINGS HOME
+  // ==========================================================
+
+  Widget _buildSettingsHome() {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(18),
+        children: [
+          _simplePageHeader(
+            title: 'Settings',
+            subtitle: 'SafeNexus HSE app settings',
+            icon: Icons.settings_rounded,
+          ),
+          const SizedBox(height: 16),
+          _settingsAction(
+            title: 'App Information',
+            subtitle: 'SafeNexus HSE - UAE-wide HSE Safety App',
+            icon: Icons.info_outline_rounded,
+            onTap: () {
+              _showMessage(
+                'SafeNexus HSE',
+                'UAE-wide HSE Safety App for safer workplaces.',
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'HSE Guidelines',
+            subtitle: 'UAE General, Abu Dhabi, Dubai & HSE references',
+            icon: Icons.menu_book_rounded,
+            onTap: _openGuidelines,
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'WorkHub',
+            subtitle: 'HSE work planning and control',
+            icon: Icons.work_outline_rounded,
+            onTap: () {
+              _openPage(const WorkHubPage());
+            },
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'Observation History',
+            subtitle: 'View submitted safety observations and reports',
+            icon: Icons.history_rounded,
+            onTap: () {
+              _openPage(const ObservationHistoryPage());
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ==========================================================
+  // SETTINGS ACTION
+  // ==========================================================
+
+  Widget _settingsAction({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            children: [
+              Container(
+                width: 47,
+                height: 47,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withAlpha(18),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  icon,
+                  color: primaryGreen,
+                  size: 25,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: navy,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
+                        fontSize: 10.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: primaryGreen,
+                size: 25,
               ),
             ],
           ),
