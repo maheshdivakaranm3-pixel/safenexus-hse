@@ -73,35 +73,49 @@ jobs:
         run: flutter pub get
 
       # ==========================================================
-      # 7. Clean project
+      # 7. Generate SafeNexus HSE App Icon
+      # ==========================================================
+
+      - name: Generate App Icons
+        run: dart run flutter_launcher_icons
+
+      # ==========================================================
+      # 8. Clean project
       # ==========================================================
 
       - name: Flutter Clean
         run: flutter clean
 
       # ==========================================================
-      # 8. Get dependencies after clean
+      # 9. Get dependencies after clean
       # ==========================================================
 
       - name: Flutter Pub Get After Clean
         run: flutter pub get
 
       # ==========================================================
-      # 9. Analyze Dart project
+      # 10. Generate App Icons again after clean
+      # ==========================================================
+
+      - name: Generate App Icons After Clean
+        run: dart run flutter_launcher_icons
+
+      # ==========================================================
+      # 11. Analyze Dart project
       # ==========================================================
 
       - name: Flutter Analyze
         run: flutter analyze
 
       # ==========================================================
-      # 10. Build release APK
+      # 12. Build release APK
       # ==========================================================
 
       - name: Build Release APK
         run: flutter build apk --release
 
       # ==========================================================
-      # 11. Verify generated APK
+      # 13. Verify generated APK
       # ==========================================================
 
       - name: Verify APK
@@ -114,7 +128,7 @@ jobs:
           echo "APK successfully generated."
 
       # ==========================================================
-      # 12. Upload APK
+      # 14. Upload APK Artifact
       # ==========================================================
 
       - name: Upload APK Artifact
