@@ -47,6 +47,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   bool _isLoading = true;
   bool _isSaving = false;
   bool _hasSavedProject = false;
+  String _readinessApproval = 'Not Reviewed';
+  final _readinessReviewerController = TextEditingController();
+  final _readinessRemarksController = TextEditingController();
+  DateTime? _readinessReviewDate;
 
   final List<String> _documentNames = const [
     'Project HSE Plan',
@@ -133,6 +137,8 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
     _areaController.dispose();
     _scopeController.dispose();
     _mainActivitiesController.dispose();
+    _readinessReviewerController.dispose();
+    _readinessRemarksController.dispose();
     for (final controller in _documentReferenceControllers.values) {
       controller.dispose();
     }
@@ -179,6 +185,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _plannedStartDate = _dateFromString(prefs.getString('prestart.startDate'));
       _plannedEndDate = _dateFromString(prefs.getString('prestart.endDate'));
       _hasSavedProject = prefs.getBool('prestart.hasSavedProject') ?? false;
+      _readinessApproval = prefs.getString('prestart.readiness.approval') ?? 'Not Reviewed';
+      _readinessReviewerController.text = prefs.getString('prestart.readiness.reviewer') ?? '';
+      _readinessRemarksController.text = prefs.getString('prestart.readiness.remarks') ?? '';
+      _readinessReviewDate = _dateFromString(prefs.getString('prestart.readiness.reviewDate'));
       for (final name in _documentNames) {
         _documentStatus[name] =
             prefs.getString('prestart.doc.status.$name') ?? 'Pending';
@@ -303,6 +313,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _plannedEndDate?.toIso8601String() ?? '',
     );
     await prefs.setBool('prestart.hasSavedProject', true);
+    await prefs.setString('prestart.readiness.approval', _readinessApproval);
+    await prefs.setString('prestart.readiness.reviewer', _readinessReviewerController.text.trim());
+    await prefs.setString('prestart.readiness.remarks', _readinessRemarksController.text.trim());
+    await prefs.setString('prestart.readiness.reviewDate', _readinessReviewDate?.toIso8601String() ?? '');
 
     for (final name in _documentNames) {
       await prefs.setString(
@@ -393,6 +407,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       'startDate',
       'endDate',
       'hasSavedProject',
+      'readiness.approval',
+      'readiness.reviewer',
+      'readiness.remarks',
+      'readiness.reviewDate',
     ]) {
       await prefs.remove('prestart.$key');
     }
@@ -433,6 +451,10 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
       _areaController.clear();
       _scopeController.clear();
       _mainActivitiesController.clear();
+      _readinessApproval = 'Not Reviewed';
+      _readinessReviewerController.clear();
+      _readinessRemarksController.clear();
+      _readinessReviewDate = null;
       _emirate = 'Abu Dhabi';
       _status = 'Pre-Start';
       _plannedStartDate = null;
@@ -497,6 +519,52 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
   int get _checklistCompletedCount =>
       _checklistStatus.values.where((value) => value == 'Completed').length;
 
+  int get _profileCompletedCount => [
+        _projectNameController.text.trim().isNotEmpty,
+        _contractNumberController.text.trim().isNotEmpty,
+        _clientController.text.trim().isNotEmpty,
+        _contractorController.text.trim().isNotEmpty,
+        _locationController.text.trim().isNotEmpty,
+        _cityController.text.trim().isNotEmpty,
+        _areaController.text.trim().isNotEmpty,
+        _scopeController.text.trim().isNotEmpty,
+        _mainActivitiesController.text.trim().isNotEmpty,
+        _hseManagerController.text.trim().isNotEmpty,
+        _hseOfficerController.text.trim().isNotEmpty,
+        _emergencyContactNameController.text.trim().isNotEmpty,
+        _emergencyContactPhoneController.text.trim().isNotEmpty,
+        _assemblyPointController.text.trim().isNotEmpty,
+        _plannedStartDate != null,
+        _plannedEndDate != null,
+      ].where((value) => value).length;
+
+  int get _approvedDocumentCount =>
+      _documentStatus.values.where((value) => value == 'Approved').length;
+
+  int get _applicableChecklistCount =>
+      _preStartChecklistItems.where((item) => _checklistStatus[item] != 'N/A').length;
+
+  int get _completedChecklistCount =>
+      _preStartChecklistItems.where((item) => _checklistStatus[item] == 'Completed').length;
+
+  String get _autoReadinessStatus {
+    final percent = _completionPercent;
+    if (percent == 100) return 'READY FOR MOBILIZATION';
+    if (percent >= 80) return 'CONDITIONALLY READY';
+    return 'NOT READY';
+  }
+
+  Color get _autoReadinessColor {
+    switch (_autoReadinessStatus) {
+      case 'READY FOR MOBILIZATION':
+        return primaryGreen;
+      case 'CONDITIONALLY READY':
+        return Colors.orange.shade800;
+      default:
+        return Colors.red.shade700;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -529,7 +597,76 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
           children: [
-            _ReadinessCard(percent: _completionPercent),
+            _ReadinessCard(
+              percent: _completionPercent,
+              profileCompleted: _profileCompletedCount,
+              profileTotal: 16,
+              documentsApproved: _approvedDocumentCount,
+              documentsTotal: _documentNames.length,
+              checklistCompleted: _completedChecklistCount,
+              checklistTotal: _applicableChecklistCount,
+              autoStatus: _autoReadinessStatus,
+              autoStatusColor: _autoReadinessColor,
+            ),
+            const SizedBox(height: 14),
+            _SectionCard(
+              title: 'Readiness Review & Approval',
+              icon: Icons.verified_user_outlined,
+              children: [
+                _ReadinessReviewBanner(
+                  status: _autoReadinessStatus,
+                  color: _autoReadinessColor,
+                  approval: _readinessApproval,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  initialValue: _readinessApproval,
+                  decoration: _inputDecoration(
+                    'HSE Readiness Approval',
+                    Icons.approval_outlined,
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'Not Reviewed', child: Text('Not Reviewed')),
+                    DropdownMenuItem(value: 'Pending Approval', child: Text('Pending Approval')),
+                    DropdownMenuItem(value: 'Conditionally Approved', child: Text('Conditionally Approved')),
+                    DropdownMenuItem(value: 'Approved for Mobilization', child: Text('Approved for Mobilization')),
+                    DropdownMenuItem(value: 'Rejected / Action Required', child: Text('Rejected / Action Required')),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) setState(() => _readinessApproval = value);
+                  },
+                ),
+                _textField(
+                  controller: _readinessReviewerController,
+                  label: 'Reviewed / Approved By',
+                  hint: 'Enter HSE Manager / authorized reviewer',
+                  icon: Icons.person_outline,
+                ),
+                _dateField(
+                  label: 'Readiness Review Date',
+                  date: _readinessReviewDate,
+                  onTap: () async {
+                    final now = DateTime.now();
+                    final selected = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime(now.year - 5),
+                      lastDate: DateTime(now.year + 20),
+                      initialDate: _readinessReviewDate ?? now,
+                    );
+                    if (selected != null) {
+                      setState(() => _readinessReviewDate = selected);
+                    }
+                  },
+                ),
+                _textField(
+                  controller: _readinessRemarksController,
+                  label: 'Readiness Review Remarks',
+                  hint: 'Record pending actions, conditions, approval notes or evidence',
+                  icon: Icons.notes_outlined,
+                  maxLines: 3,
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             _SectionCard(
               title: 'Project Profile',
@@ -1146,8 +1283,26 @@ class _ProjectPreStartPageState extends State<ProjectPreStartPage> {
 
 class _ReadinessCard extends StatelessWidget {
   final int percent;
+  final int profileCompleted;
+  final int profileTotal;
+  final int documentsApproved;
+  final int documentsTotal;
+  final int checklistCompleted;
+  final int checklistTotal;
+  final String autoStatus;
+  final Color autoStatusColor;
 
-  const _ReadinessCard({required this.percent});
+  const _ReadinessCard({
+    required this.percent,
+    required this.profileCompleted,
+    required this.profileTotal,
+    required this.documentsApproved,
+    required this.documentsTotal,
+    required this.checklistCompleted,
+    required this.checklistTotal,
+    required this.autoStatus,
+    required this.autoStatusColor,
+  });
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
@@ -1225,12 +1380,95 @@ class _ReadinessCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 9),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            decoration: BoxDecoration(
+              color: autoStatusColor.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              autoStatus,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w900,
+                color: autoStatusColor,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: _Metric(label: 'Profile', value: '$profileCompleted/$profileTotal')),
+              Expanded(child: _Metric(label: 'Documents', value: '$documentsApproved/$documentsTotal')),
+              Expanded(child: _Metric(label: 'Checklist', value: '$checklistCompleted/$checklistTotal')),
+            ],
+          ),
+          const SizedBox(height: 9),
           Text(
-            ready ? 'Project Profile complete.' : 'Required information is still pending.',
+            ready ? 'All tracked readiness requirements are complete.' : 'Review the pending items before mobilization.',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w700,
               color: ready ? primaryGreen : Colors.black54,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Metric extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _Metric({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: _ReadinessCard.darkGreen)),
+        const SizedBox(height: 2),
+        Text(label, style: const TextStyle(fontSize: 10, color: Colors.black54)),
+      ],
+    );
+  }
+}
+
+class _ReadinessReviewBanner extends StatelessWidget {
+  final String status;
+  final Color color;
+  final String approval;
+
+  const _ReadinessReviewBanner({
+    required this.status,
+    required this.color,
+    required this.approval,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: color.withValues(alpha: 0.20)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.fact_check_outlined, color: color),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(status, style: TextStyle(fontWeight: FontWeight.w900, color: color)),
+                const SizedBox(height: 3),
+                Text('Approval: $approval', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              ],
             ),
           ),
         ],
