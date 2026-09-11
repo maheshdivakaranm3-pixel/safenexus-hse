@@ -1873,7 +1873,7 @@ class _RiskCommunicationControlFormSheetState
                         ),
                       ),
                       value: _workerAcknowledgement,
-                      activeColor: primaryGreen,
+                      activeThumbColor: primaryGreen,
                       onChanged: (value) {
                         setState(() {
                           _workerAcknowledgement = value;
