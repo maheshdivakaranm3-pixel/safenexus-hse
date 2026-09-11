@@ -45,16 +45,7 @@ class _RiskAcceptanceResidualApprovalPageState
     'Rejected',
     'Under Monitoring',
     'Closed',
-  ];
-
-  static const List<String> riskReferences = [
-    'HIRA',
-    'JSA / JHA',
-    'RAMS',
-    'Risk Control Register',
-    'Risk Register Monitoring',
-    'Other',
-  ];
+  ]
 
   @override
   void initState() {
@@ -211,27 +202,6 @@ class _RiskAcceptanceResidualApprovalPageState
         '${date.year}';
   }
 
-  int _riskScore(dynamic likelihood, dynamic severity) {
-    final l = int.tryParse(likelihood?.toString() ?? '') ?? 0;
-    final s = int.tryParse(severity?.toString() ?? '') ?? 0;
-    return l * s;
-  }
-
-  String _riskLevelFromScore(int score) {
-    if (score <= 0) {
-      return 'Not Assessed';
-    }
-
-    if (score <= 4) {
-      return 'Low';
-    }
-
-    if (score <= 11) {
-      return 'Medium';
-    }
-
-    if (score <= 19) {
-      return 'High';
     }
 
     return 'Critical';
