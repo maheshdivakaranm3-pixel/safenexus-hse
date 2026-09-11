@@ -22,7 +22,8 @@ class _RiskRegisterMonitoringPageState
   static const String storageKey =
       'safenexus_hse_risk_register_monitoring';
 
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController =
+      TextEditingController();
 
   List<Map<String, dynamic>> _records = [];
 
@@ -118,7 +119,11 @@ class _RiskRegisterMonitoringPageState
 
   Future<void> _saveRecords() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(storageKey, jsonEncode(_records));
+
+    await prefs.setString(
+      storageKey,
+      jsonEncode(_records),
+    );
   }
 
   void _refresh() {
@@ -128,17 +133,23 @@ class _RiskRegisterMonitoringPageState
   }
 
   List<Map<String, dynamic>> get _filteredRecords {
-    final query = _searchController.text.trim().toLowerCase();
+    final query =
+        _searchController.text.trim().toLowerCase();
 
     return _records.where((record) {
-      final status = record['status']?.toString() ?? '';
-      final riskLevel = record['residualRiskLevel']?.toString() ?? '';
+      final status =
+          record['status']?.toString() ?? '';
+
+      final riskLevel =
+          record['residualRiskLevel']?.toString() ?? '';
 
       final matchesStatus =
-          _statusFilter == 'All' || status == _statusFilter;
+          _statusFilter == 'All' ||
+          status == _statusFilter;
 
       final matchesRisk =
-          _riskFilter == 'All' || riskLevel == _riskFilter;
+          _riskFilter == 'All' ||
+          riskLevel == _riskFilter;
 
       if (!matchesStatus || !matchesRisk) {
         return false;
@@ -160,9 +171,14 @@ class _RiskRegisterMonitoringPageState
         record['status'],
         record['relatedReference'],
         record['remarks'],
-      ].map((value) => value?.toString().toLowerCase() ?? '');
+      ].map(
+        (value) =>
+            value?.toString().toLowerCase() ?? '',
+      );
 
-      return searchable.any((value) => value.contains(query));
+      return searchable.any(
+        (value) => value.contains(query),
+      );
     }).toList();
   }
 
@@ -172,47 +188,65 @@ class _RiskRegisterMonitoringPageState
         return record['status'] == 'Open';
       }).length;
 
-  int get _monitoringCount => _records.where((record) {
+  int get _monitoringCount =>
+      _records.where((record) {
         return record['status'] == 'Monitoring';
       }).length;
 
-  int get _highCriticalCount => _records.where((record) {
-        final level = record['residualRiskLevel']?.toString();
-        return level == 'High' || level == 'Critical';
+  int get _highCriticalCount =>
+      _records.where((record) {
+        final level =
+            record['residualRiskLevel']?.toString();
+
+        return level == 'High' ||
+            level == 'Critical';
       }).length;
 
-  int get _mediumCount => _records.where((record) {
-        return record['residualRiskLevel'] == 'Medium';
+  int get _mediumCount =>
+      _records.where((record) {
+        return record['residualRiskLevel'] ==
+            'Medium';
       }).length;
 
-  int get _lowCount => _records.where((record) {
-        return record['residualRiskLevel'] == 'Low';
+  int get _lowCount =>
+      _records.where((record) {
+        return record['residualRiskLevel'] ==
+            'Low';
       }).length;
 
-  int get _acceptedCount => _records.where((record) {
+  int get _acceptedCount =>
+      _records.where((record) {
         return record['status'] == 'Accepted';
       }).length;
 
-  int get _closedCount => _records.where((record) {
+  int get _closedCount =>
+      _records.where((record) {
         return record['status'] == 'Closed';
       }).length;
 
-  int get _overdueCount => _records.where(_isOverdue).length;
+  int get _overdueCount =>
+      _records.where(_isOverdue).length;
 
-  bool _isOverdue(Map<String, dynamic> record) {
-    final status = record['status']?.toString() ?? '';
+  bool _isOverdue(
+    Map<String, dynamic> record,
+  ) {
+    final status =
+        record['status']?.toString() ?? '';
 
-    if (status == 'Closed' || status == 'Cancelled') {
+    if (status == 'Closed' ||
+        status == 'Cancelled') {
       return false;
     }
 
-    final targetDateText = record['targetDate']?.toString() ?? '';
+    final targetDateText =
+        record['targetDate']?.toString() ?? '';
 
     if (targetDateText.isEmpty) {
       return false;
     }
 
-    final targetDate = DateTime.tryParse(targetDateText);
+    final targetDate =
+        DateTime.tryParse(targetDateText);
 
     if (targetDate == null) {
       return false;
@@ -233,10 +267,6 @@ class _RiskRegisterMonitoringPageState
     );
 
     return targetOnly.isBefore(todayOnly);
-  }
-
-  int _riskScore(int likelihood, int severity) {
-    return likelihood * severity;
   }
 
   String _riskLevel(int score) {
@@ -266,8 +296,12 @@ class _RiskRegisterMonitoringPageState
       return value;
     }
 
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
+    final day =
+        date.day.toString().padLeft(2, '0');
+
+    final month =
+        date.month.toString().padLeft(2, '0');
+
     final year = date.year.toString();
 
     return '$day/$month/$year';
@@ -295,7 +329,8 @@ class _RiskRegisterMonitoringPageState
     Map<String, dynamic>? existingRecord,
     int? editIndex,
   }) async {
-    final result = await showModalBottomSheet<Map<String, dynamic>>(
+    final result =
+        await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -304,7 +339,6 @@ class _RiskRegisterMonitoringPageState
           existingRecord: existingRecord,
           hazardCategories: _hazardCategories,
           statuses: _statuses,
-          onCalculateRisk: _riskLevel,
         );
       },
     );
@@ -318,17 +352,25 @@ class _RiskRegisterMonitoringPageState
     if (editIndex != null &&
         editIndex >= 0 &&
         editIndex < _records.length) {
-      final updated = Map<String, dynamic>.from(result);
+      final updated =
+          Map<String, dynamic>.from(result);
 
       updated['id'] =
-          _records[editIndex]['id']?.toString() ?? now;
+          _records[editIndex]['id']
+                  ?.toString() ??
+              now;
+
       updated['createdAt'] =
-          _records[editIndex]['createdAt']?.toString() ?? now;
+          _records[editIndex]['createdAt']
+                  ?.toString() ??
+              now;
+
       updated['updatedAt'] = now;
 
       _records[editIndex] = updated;
     } else {
-      final created = Map<String, dynamic>.from(result);
+      final created =
+          Map<String, dynamic>.from(result);
 
       created['id'] = now;
       created['createdAt'] = now;
@@ -347,18 +389,25 @@ class _RiskRegisterMonitoringPageState
   Future<void> _deleteRecord(int index) async {
     final record = _records[index];
 
-    final confirmed = await showDialog<bool>(
+    final confirmed =
+        await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Risk Record'),
+          title: const Text(
+            'Delete Risk Record',
+          ),
           content: Text(
-            'Delete risk register ${record['registerNo'] ?? ''}?',
+            'Delete risk register '
+            '${record['registerNo'] ?? ''}?',
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context, false);
+                Navigator.pop(
+                  context,
+                  false,
+                );
               },
               child: const Text('Cancel'),
             ),
@@ -367,7 +416,10 @@ class _RiskRegisterMonitoringPageState
                 backgroundColor: Colors.red,
               ),
               onPressed: () {
-                Navigator.pop(context, true);
+                Navigator.pop(
+                  context,
+                  true,
+                );
               },
               child: const Text('Delete'),
             ),
@@ -381,6 +433,7 @@ class _RiskRegisterMonitoringPageState
     }
 
     _records.removeAt(index);
+
     await _saveRecords();
 
     if (mounted) {
@@ -388,27 +441,40 @@ class _RiskRegisterMonitoringPageState
     }
   }
 
-  Future<void> _showHistory(Map<String, dynamic> record) async {
+  Future<void> _showHistory(
+    Map<String, dynamic> record,
+  ) async {
     await showDialog<void>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Record History'),
+          title: const Text(
+            'Record History',
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Text(
-                'Register No: ${record['registerNo'] ?? 'Not set'}',
+                'Register No: '
+                '${record['registerNo'] ?? 'Not set'}',
               ),
               const SizedBox(height: 16),
               Text(
-                'Created: ${_formatDateTime(record['createdAt']?.toString())}',
+                'Created: '
+                '${_formatDateTime(
+                  record['createdAt']
+                      ?.toString(),
+                )}',
               ),
               const SizedBox(height: 8),
               Text(
                 'Last Updated: '
-                '${_formatDateTime(record['updatedAt']?.toString())}',
+                '${_formatDateTime(
+                  record['updatedAt']
+                      ?.toString(),
+                )}',
               ),
             ],
           ),
@@ -436,11 +502,19 @@ class _RiskRegisterMonitoringPageState
       return value;
     }
 
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
+    final day =
+        date.day.toString().padLeft(2, '0');
+
+    final month =
+        date.month.toString().padLeft(2, '0');
+
     final year = date.year.toString();
-    final hour = date.hour.toString().padLeft(2, '0');
-    final minute = date.minute.toString().padLeft(2, '0');
+
+    final hour =
+        date.hour.toString().padLeft(2, '0');
+
+    final minute =
+        date.minute.toString().padLeft(2, '0');
 
     return '$day/$month/$year $hour:$minute';
   }
@@ -489,17 +563,24 @@ class _RiskRegisterMonitoringPageState
   ) {
     return Container(
       width: 160,
-      margin: const EdgeInsets.only(right: 10),
+      margin: const EdgeInsets.only(
+        right: 10,
+      ),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius:
+            BorderRadius.circular(16),
         border: Border.all(
-          color: color.withValues(alpha: 0.18),
+          color: color.withValues(
+            alpha: 0.18,
+          ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(
+              alpha: 0.04,
+            ),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -511,8 +592,11 @@ class _RiskRegisterMonitoringPageState
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(12),
+              color: color.withValues(
+                alpha: 0.10,
+              ),
+              borderRadius:
+                  BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
@@ -523,15 +607,18 @@ class _RiskRegisterMonitoringPageState
           const SizedBox(width: 10),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  overflow:
+                      TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                    fontWeight:
+                        FontWeight.w600,
                     color: Colors.black54,
                   ),
                 ),
@@ -540,7 +627,8 @@ class _RiskRegisterMonitoringPageState
                   value.toString(),
                   style: TextStyle(
                     fontSize: 21,
-                    fontWeight: FontWeight.bold,
+                    fontWeight:
+                        FontWeight.bold,
                     color: color,
                   ),
                 ),
@@ -557,9 +645,12 @@ class _RiskRegisterMonitoringPageState
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius:
+            BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.grey.withValues(alpha: 0.15),
+          color: Colors.grey.withValues(
+            alpha: 0.15,
+          ),
         ),
       ),
       child: Column(
@@ -569,19 +660,28 @@ class _RiskRegisterMonitoringPageState
             decoration: InputDecoration(
               hintText:
                   'Search risk no, project, hazard, activity...',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: _searchController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                      },
-                      icon: const Icon(Icons.clear),
-                    )
-                  : null,
+              prefixIcon:
+                  const Icon(Icons.search),
+              suffixIcon:
+                  _searchController.text
+                          .isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _searchController
+                                .clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                          ),
+                        )
+                      : null,
               filled: true,
               fillColor: pageBackground,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius:
+                    BorderRadius.circular(
+                  12,
+                ),
                 borderSide: BorderSide.none,
               ),
             ),
@@ -590,28 +690,41 @@ class _RiskRegisterMonitoringPageState
           Row(
             children: [
               Expanded(
-                child: DropdownButtonFormField<String>(
-                  initialValue: _statusFilter,
-                  decoration: InputDecoration(
+                child:
+                    DropdownButtonFormField<
+                        String>(
+                  initialValue:
+                      _statusFilter,
+                  decoration:
+                      InputDecoration(
                     labelText: 'Status',
                     filled: true,
-                    fillColor: pageBackground,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                    fillColor:
+                        pageBackground,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(12),
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
                   items: [
                     const DropdownMenuItem(
                       value: 'All',
-                      child: Text('All Status'),
+                      child:
+                          Text('All Status'),
                     ),
                     ..._statuses.map(
-                      (status) => DropdownMenuItem(
+                      (status) =>
+                          DropdownMenuItem(
                         value: status,
                         child: Text(
                           status,
-                          overflow: TextOverflow.ellipsis,
+                          overflow:
+                              TextOverflow
+                                  .ellipsis,
                         ),
                       ),
                     ),
@@ -622,31 +735,44 @@ class _RiskRegisterMonitoringPageState
                     }
 
                     setState(() {
-                      _statusFilter = value;
+                      _statusFilter =
+                          value;
                     });
                   },
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: DropdownButtonFormField<String>(
-                  initialValue: _riskFilter,
-                  decoration: InputDecoration(
-                    labelText: 'Risk Level',
+                child:
+                    DropdownButtonFormField<
+                        String>(
+                  initialValue:
+                      _riskFilter,
+                  decoration:
+                      InputDecoration(
+                    labelText:
+                        'Risk Level',
                     filled: true,
-                    fillColor: pageBackground,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                    fillColor:
+                        pageBackground,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(12),
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
                   items: [
                     const DropdownMenuItem(
                       value: 'All',
-                      child: Text('All Risk'),
+                      child:
+                          Text('All Risk'),
                     ),
                     ..._riskLevels.map(
-                      (level) => DropdownMenuItem(
+                      (level) =>
+                          DropdownMenuItem(
                         value: level,
                         child: Text(level),
                       ),
@@ -672,22 +798,28 @@ class _RiskRegisterMonitoringPageState
 
   Widget _riskMatrixReference() {
     return ExpansionTile(
-      tilePadding: const EdgeInsets.symmetric(
+      tilePadding:
+          const EdgeInsets.symmetric(
         horizontal: 14,
       ),
-      childrenPadding: const EdgeInsets.fromLTRB(
+      childrenPadding:
+          const EdgeInsets.fromLTRB(
         14,
         0,
         14,
         14,
       ),
       backgroundColor: Colors.white,
-      collapsedBackgroundColor: Colors.white,
+      collapsedBackgroundColor:
+          Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(14),
       ),
-      collapsedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
+      collapsedShape:
+          RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(14),
       ),
       title: const Text(
         '5 × 5 Risk Matrix Reference',
@@ -707,17 +839,38 @@ class _RiskRegisterMonitoringPageState
           children: const [
             TableRow(
               children: [
-                _MatrixCell('L × S', bold: true),
-                _MatrixCell('1', bold: true),
-                _MatrixCell('2', bold: true),
-                _MatrixCell('3', bold: true),
-                _MatrixCell('4', bold: true),
-                _MatrixCell('5', bold: true),
+                _MatrixCell(
+                  'L × S',
+                  bold: true,
+                ),
+                _MatrixCell(
+                  '1',
+                  bold: true,
+                ),
+                _MatrixCell(
+                  '2',
+                  bold: true,
+                ),
+                _MatrixCell(
+                  '3',
+                  bold: true,
+                ),
+                _MatrixCell(
+                  '4',
+                  bold: true,
+                ),
+                _MatrixCell(
+                  '5',
+                  bold: true,
+                ),
               ],
             ),
             TableRow(
               children: [
-                _MatrixCell('1', bold: true),
+                _MatrixCell(
+                  '1',
+                  bold: true,
+                ),
                 _MatrixCell('1'),
                 _MatrixCell('2'),
                 _MatrixCell('3'),
@@ -727,7 +880,10 @@ class _RiskRegisterMonitoringPageState
             ),
             TableRow(
               children: [
-                _MatrixCell('2', bold: true),
+                _MatrixCell(
+                  '2',
+                  bold: true,
+                ),
                 _MatrixCell('2'),
                 _MatrixCell('4'),
                 _MatrixCell('6'),
@@ -737,7 +893,10 @@ class _RiskRegisterMonitoringPageState
             ),
             TableRow(
               children: [
-                _MatrixCell('3', bold: true),
+                _MatrixCell(
+                  '3',
+                  bold: true,
+                ),
                 _MatrixCell('3'),
                 _MatrixCell('6'),
                 _MatrixCell('9'),
@@ -747,7 +906,10 @@ class _RiskRegisterMonitoringPageState
             ),
             TableRow(
               children: [
-                _MatrixCell('4', bold: true),
+                _MatrixCell(
+                  '4',
+                  bold: true,
+                ),
                 _MatrixCell('4'),
                 _MatrixCell('8'),
                 _MatrixCell('12'),
@@ -757,7 +919,10 @@ class _RiskRegisterMonitoringPageState
             ),
             TableRow(
               children: [
-                _MatrixCell('5', bold: true),
+                _MatrixCell(
+                  '5',
+                  bold: true,
+                ),
                 _MatrixCell('5'),
                 _MatrixCell('10'),
                 _MatrixCell('15'),
@@ -769,7 +934,8 @@ class _RiskRegisterMonitoringPageState
         ),
         const SizedBox(height: 10),
         const Text(
-          '1–4 Low • 5–11 Medium • 12–19 High • 20–25 Critical',
+          '1–4 Low • 5–11 Medium • '
+          '12–19 High • 20–25 Critical',
           style: TextStyle(
             fontSize: 12,
             color: Colors.black54,
@@ -785,49 +951,70 @@ class _RiskRegisterMonitoringPageState
     int index,
   ) {
     final residualLevel =
-        record['residualRiskLevel']?.toString() ?? 'Not Rated';
+        record['residualRiskLevel']
+                ?.toString() ??
+            'Not Rated';
 
     final status =
-        record['status']?.toString() ?? 'Open';
+        record['status']?.toString() ??
+            'Open';
 
-    final overdue = _isOverdue(record);
+    final overdue =
+        _isOverdue(record);
 
-    final riskColor = _riskColor(residualLevel);
-    final statusColor = _statusColor(status);
+    final riskColor =
+        _riskColor(residualLevel);
+
+    final statusColor =
+        _statusColor(status);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius:
+            BorderRadius.circular(16),
         border: Border.all(
           color: overdue
-              ? Colors.red.withValues(alpha: 0.30)
-              : Colors.grey.withValues(alpha: 0.14),
+              ? Colors.red.withValues(
+                  alpha: 0.30,
+                )
+              : Colors.grey.withValues(
+                  alpha: 0.14,
+                ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.035),
+            color: Colors.black.withValues(
+              alpha: 0.035,
+            ),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding:
+            const EdgeInsets.all(14),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
-                    record['registerNo']?.toString() ??
+                    record['registerNo']
+                            ?.toString() ??
                         'Risk Register',
                     style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight:
+                          FontWeight.bold,
                       color: darkGreen,
                     ),
                   ),
@@ -835,39 +1022,56 @@ class _RiskRegisterMonitoringPageState
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     if (value == 'edit') {
-                      _openEditForm(record, index);
-                    } else if (value == 'history') {
+                      _openEditForm(
+                        record,
+                        index,
+                      );
+                    } else if (value ==
+                        'history') {
                       _showHistory(record);
-                    } else if (value == 'delete') {
+                    } else if (value ==
+                        'delete') {
                       _deleteRecord(index);
                     }
                   },
-                  itemBuilder: (context) => const [
+                  itemBuilder:
+                      (context) => const [
                     PopupMenuItem(
                       value: 'edit',
                       child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: Icon(Icons.edit_outlined),
-                        title: Text('Edit'),
+                        contentPadding:
+                            EdgeInsets.zero,
+                        leading: Icon(
+                          Icons.edit_outlined,
+                        ),
+                        title:
+                            Text('Edit'),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'history',
                       child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: Icon(Icons.history),
-                        title: Text('History'),
+                        contentPadding:
+                            EdgeInsets.zero,
+                        leading: Icon(
+                          Icons.history,
+                        ),
+                        title:
+                            Text('History'),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'delete',
                       child: ListTile(
-                        contentPadding: EdgeInsets.zero,
+                        contentPadding:
+                            EdgeInsets.zero,
                         leading: Icon(
-                          Icons.delete_outline,
+                          Icons
+                              .delete_outline,
                           color: Colors.red,
                         ),
-                        title: Text('Delete'),
+                        title:
+                            Text('Delete'),
                       ),
                     ),
                   ],
@@ -898,37 +1102,48 @@ class _RiskRegisterMonitoringPageState
             _infoRow(
               Icons.business_outlined,
               'Project',
-              record['project']?.toString(),
+              record['project']
+                  ?.toString(),
             ),
             _infoRow(
               Icons.location_on_outlined,
               'Location',
-              record['location']?.toString(),
+              record['location']
+                  ?.toString(),
             ),
             _infoRow(
               Icons.work_outline,
               'Activity',
-              record['activity']?.toString(),
+              record['activity']
+                  ?.toString(),
             ),
             _infoRow(
               Icons.warning_amber_rounded,
               'Hazard',
-              record['hazard']?.toString(),
+              record['hazard']
+                  ?.toString(),
             ),
             _infoRow(
               Icons.person_outline,
               'Risk Owner',
-              record['riskOwner']?.toString(),
+              record['riskOwner']
+                  ?.toString(),
             ),
             _infoRow(
               Icons.event_outlined,
               'Target Date',
-              _formatDate(record['targetDate']?.toString()),
+              _formatDate(
+                record['targetDate']
+                    ?.toString(),
+              ),
             ),
             _infoRow(
               Icons.rate_review_outlined,
               'Review Date',
-              _formatDate(record['reviewDate']?.toString()),
+              _formatDate(
+                record['reviewDate']
+                    ?.toString(),
+              ),
             ),
             const Divider(height: 20),
             Row(
@@ -936,16 +1151,20 @@ class _RiskRegisterMonitoringPageState
                 Expanded(
                   child: _scoreBox(
                     'Initial',
-                    record['initialRiskScore'],
-                    record['initialRiskLevel'],
+                    record[
+                        'initialRiskScore'],
+                    record[
+                        'initialRiskLevel'],
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: _scoreBox(
                     'Residual',
-                    record['residualRiskScore'],
-                    record['residualRiskLevel'],
+                    record[
+                        'residualRiskScore'],
+                    record[
+                        'residualRiskLevel'],
                   ),
                 ),
               ],
@@ -961,14 +1180,20 @@ class _RiskRegisterMonitoringPageState
     dynamic score,
     dynamic level,
   ) {
-    final scoreText = score?.toString() ?? '—';
-    final levelText = level?.toString() ?? 'Not Rated';
+    final scoreText =
+        score?.toString() ?? '—';
+
+    final levelText =
+        level?.toString() ??
+            'Not Rated';
 
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding:
+          const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: pageBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius:
+            BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -980,7 +1205,8 @@ class _RiskRegisterMonitoringPageState
           const SizedBox(width: 8),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -992,8 +1218,12 @@ class _RiskRegisterMonitoringPageState
                 Text(
                   '$scoreText • $levelText',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: _riskColor(levelText),
+                    fontWeight:
+                        FontWeight.bold,
+                    color:
+                        _riskColor(
+                      levelText,
+                    ),
                   ),
                 ),
               ],
@@ -1009,14 +1239,19 @@ class _RiskRegisterMonitoringPageState
     String label,
     String? value,
   ) {
-    final text = value == null || value.isEmpty
-        ? 'Not set'
-        : value;
+    final text =
+        value == null || value.isEmpty
+            ? 'Not set'
+            : value;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 7),
+      padding:
+          const EdgeInsets.only(
+        bottom: 7,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Icon(
             icon,
@@ -1031,7 +1266,8 @@ class _RiskRegisterMonitoringPageState
               style: const TextStyle(
                 fontSize: 12,
                 color: Colors.black54,
-                fontWeight: FontWeight.w600,
+                fontWeight:
+                    FontWeight.w600,
               ),
             ),
           ),
@@ -1040,7 +1276,8 @@ class _RiskRegisterMonitoringPageState
               text,
               style: const TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight:
+                    FontWeight.w500,
               ),
             ),
           ),
@@ -1054,20 +1291,25 @@ class _RiskRegisterMonitoringPageState
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding:
+          const EdgeInsets.symmetric(
         horizontal: 9,
         vertical: 5,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.10),
-        borderRadius: BorderRadius.circular(20),
+        color: color.withValues(
+          alpha: 0.10,
+        ),
+        borderRadius:
+            BorderRadius.circular(20),
       ),
       child: Text(
         text,
         style: TextStyle(
           color: color,
           fontSize: 11,
-          fontWeight: FontWeight.bold,
+          fontWeight:
+              FontWeight.bold,
         ),
       ),
     );
@@ -1075,38 +1317,53 @@ class _RiskRegisterMonitoringPageState
 
   @override
   Widget build(BuildContext context) {
-    final filtered = _filteredRecords;
+    final filtered =
+        _filteredRecords;
 
     return Scaffold(
-      backgroundColor: pageBackground,
+      backgroundColor:
+          pageBackground,
       appBar: AppBar(
         backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
+        foregroundColor:
+            Colors.white,
         title: const Text(
           '3F Risk Register & Monitoring',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontWeight:
+                FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
             tooltip: 'Refresh',
             onPressed: _loadRecords,
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(
+              Icons.refresh,
+            ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: primaryGreen,
-        foregroundColor: Colors.white,
-        onPressed: _openAddForm,
-        icon: const Icon(Icons.add),
-        label: const Text('Add Risk'),
+      floatingActionButton:
+          FloatingActionButton.extended(
+        backgroundColor:
+            primaryGreen,
+        foregroundColor:
+            Colors.white,
+        onPressed:
+            _openAddForm,
+        icon: const Icon(
+          Icons.add,
+        ),
+        label: const Text(
+          'Add Risk',
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _loadRecords,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(
+          padding:
+              const EdgeInsets.fromLTRB(
             14,
             14,
             14,
@@ -1114,41 +1371,67 @@ class _RiskRegisterMonitoringPageState
           ),
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+              padding:
+                  const EdgeInsets.all(
+                16,
+              ),
+              decoration:
+                  BoxDecoration(
+                gradient:
+                    LinearGradient(
+                  begin:
+                      Alignment.topLeft,
+                  end:
+                      Alignment.bottomRight,
                   colors: [
                     darkGreen,
                     primaryGreen,
                   ],
                 ),
-                borderRadius: BorderRadius.circular(18),
+                borderRadius:
+                    BorderRadius.circular(
+                  18,
+                ),
               ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child:
+                  const Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
                 children: [
                   Icon(
-                    Icons.monitor_heart_outlined,
-                    color: Colors.white,
+                    Icons
+                        .monitor_heart_outlined,
+                    color:
+                        Colors.white,
                     size: 30,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     'Risk Profile & Monitoring',
-                    style: TextStyle(
-                      color: Colors.white,
+                    style:
+                        TextStyle(
+                      color:
+                          Colors.white,
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight:
+                          FontWeight
+                              .bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text(
-                    'Maintain, monitor and review project risks '
-                    'throughout the work lifecycle.',
-                    style: TextStyle(
-                      color: Colors.white70,
+                    'Maintain, monitor and review '
+                    'project risks throughout '
+                    'the work lifecycle.',
+                    style:
+                        TextStyle(
+                      color:
+                          Colors.white70,
                       fontSize: 13,
                       height: 1.4,
                     ),
@@ -1156,103 +1439,140 @@ class _RiskRegisterMonitoringPageState
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
             SizedBox(
               height: 82,
               child: ListView(
-                scrollDirection: Axis.horizontal,
+                scrollDirection:
+                    Axis.horizontal,
                 children: [
                   _summaryCard(
                     'Total Risks',
                     _totalCount,
-                    Icons.warning_amber_rounded,
+                    Icons
+                        .warning_amber_rounded,
                     darkGreen,
                   ),
                   _summaryCard(
                     'Open',
                     _openCount,
-                    Icons.folder_open_outlined,
+                    Icons
+                        .folder_open_outlined,
                     Colors.blue,
                   ),
                   _summaryCard(
                     'Monitoring',
                     _monitoringCount,
-                    Icons.visibility_outlined,
+                    Icons
+                        .visibility_outlined,
                     Colors.teal,
                   ),
                   _summaryCard(
                     'High / Critical',
                     _highCriticalCount,
-                    Icons.priority_high_rounded,
+                    Icons
+                        .priority_high_rounded,
                     Colors.red,
                   ),
                   _summaryCard(
                     'Medium',
                     _mediumCount,
-                    Icons.warning_outlined,
+                    Icons
+                        .warning_outlined,
                     Colors.orange,
                   ),
                   _summaryCard(
                     'Low',
                     _lowCount,
-                    Icons.check_circle_outline,
+                    Icons
+                        .check_circle_outline,
                     primaryGreen,
                   ),
                   _summaryCard(
                     'Accepted',
                     _acceptedCount,
-                    Icons.verified_outlined,
+                    Icons
+                        .verified_outlined,
                     primaryGreen,
                   ),
                   _summaryCard(
                     'Closed',
                     _closedCount,
                     Icons.task_alt,
-                    Colors.green.shade700,
+                    Colors.green
+                        .shade700,
                   ),
                   _summaryCard(
                     'Overdue',
                     _overdueCount,
-                    Icons.event_busy_outlined,
+                    Icons
+                        .event_busy_outlined,
                     Colors.red,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(
+              height: 14,
+            ),
             _filterSection(),
-            const SizedBox(height: 12),
+            const SizedBox(
+              height: 12,
+            ),
             _riskMatrixReference(),
-            const SizedBox(height: 16),
+            const SizedBox(
+              height: 16,
+            ),
             Row(
               children: [
                 const Expanded(
                   child: Text(
                     'Risk Register',
-                    style: TextStyle(
+                    style:
+                        TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: darkGreen,
+                      fontWeight:
+                          FontWeight
+                              .bold,
+                      color:
+                          darkGreen,
                     ),
                   ),
                 ),
                 Text(
                   '${filtered.length} record(s)',
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
+                  style:
+                      const TextStyle(
+                    color:
+                        Colors.black54,
+                    fontWeight:
+                        FontWeight
+                            .w600,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 10,
+            ),
             if (filtered.isEmpty)
               _emptyState()
             else
-              ...filtered.map((record) {
-                final index = _records.indexOf(record);
-                return _recordCard(record, index);
-              }),
+              ...filtered.map(
+                (record) {
+                  final index =
+                      _records.indexOf(
+                    record,
+                  );
+
+                  return _recordCard(
+                    record,
+                    index,
+                  );
+                },
+              ),
           ],
         ),
       ),
@@ -1261,33 +1581,44 @@ class _RiskRegisterMonitoringPageState
 
   Widget _emptyState() {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding:
+          const EdgeInsets.all(30),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius:
+            BorderRadius.circular(16),
       ),
       child: const Column(
         children: [
           Icon(
-            Icons.fact_check_outlined,
+            Icons
+                .fact_check_outlined,
             size: 52,
             color: Colors.black26,
           ),
-          SizedBox(height: 12),
+          SizedBox(
+            height: 12,
+          ),
           Text(
             'No risk records found',
             style: TextStyle(
               fontSize: 17,
-              fontWeight: FontWeight.bold,
+              fontWeight:
+                  FontWeight.bold,
               color: darkGreen,
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(
+            height: 6,
+          ),
           Text(
-            'Add a risk to start monitoring the project risk profile.',
-            textAlign: TextAlign.center,
+            'Add a risk to start monitoring '
+            'the project risk profile.',
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              color: Colors.black54,
+              color:
+                  Colors.black54,
             ),
           ),
         ],
@@ -1296,7 +1627,8 @@ class _RiskRegisterMonitoringPageState
   }
 }
 
-class _MatrixCell extends StatelessWidget {
+class _MatrixCell
+    extends StatelessWidget {
   final String text;
   final bool bold;
 
@@ -1306,16 +1638,20 @@ class _MatrixCell extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Padding(
-      padding: const EdgeInsets.all(7),
+      padding:
+          const EdgeInsets.all(7),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
             fontSize: 11,
-            fontWeight:
-                bold ? FontWeight.bold : FontWeight.normal,
+            fontWeight: bold
+                ? FontWeight.bold
+                : FontWeight.normal,
           ),
         ),
       ),
@@ -1323,45 +1659,79 @@ class _MatrixCell extends StatelessWidget {
   }
 }
 
-class _RiskRegisterFormSheet extends StatefulWidget {
-  final Map<String, dynamic>? existingRecord;
-  final List<String> hazardCategories;
+class _RiskRegisterFormSheet
+    extends StatefulWidget {
+  final Map<String, dynamic>?
+      existingRecord;
+
+  final List<String>
+      hazardCategories;
+
   final List<String> statuses;
-  final String Function(int score) onCalculateRisk;
 
   const _RiskRegisterFormSheet({
     required this.existingRecord,
     required this.hazardCategories,
     required this.statuses,
-    required this.onCalculateRisk,
   });
 
   @override
-  State<_RiskRegisterFormSheet> createState() =>
-      _RiskRegisterFormSheetState();
+  State<_RiskRegisterFormSheet>
+      createState() =>
+          _RiskRegisterFormSheetState();
 }
 
 class _RiskRegisterFormSheetState
-    extends State<_RiskRegisterFormSheet> {
-  static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
+    extends State<
+        _RiskRegisterFormSheet> {
+  static const Color primaryGreen =
+      Color(0xFF159447);
 
-  final _formKey = GlobalKey<FormState>();
+  static const Color darkGreen =
+      Color(0xFF0B5D4B);
 
-  late final TextEditingController _registerNoController;
-  late final TextEditingController _projectController;
-  late final TextEditingController _locationController;
-  late final TextEditingController _departmentController;
-  late final TextEditingController _activityController;
-  late final TextEditingController _hazardController;
-  late final TextEditingController _consequenceController;
-  late final TextEditingController _existingControlsController;
-  late final TextEditingController _additionalControlsController;
-  late final TextEditingController _riskOwnerController;
-  late final TextEditingController _relatedReferenceController;
-  late final TextEditingController _remarksController;
+  final _formKey =
+      GlobalKey<FormState>();
 
-  String _hazardCategory = 'General';
+  late final TextEditingController
+      _registerNoController;
+
+  late final TextEditingController
+      _projectController;
+
+  late final TextEditingController
+      _locationController;
+
+  late final TextEditingController
+      _departmentController;
+
+  late final TextEditingController
+      _activityController;
+
+  late final TextEditingController
+      _hazardController;
+
+  late final TextEditingController
+      _consequenceController;
+
+  late final TextEditingController
+      _existingControlsController;
+
+  late final TextEditingController
+      _additionalControlsController;
+
+  late final TextEditingController
+      _riskOwnerController;
+
+  late final TextEditingController
+      _relatedReferenceController;
+
+  late final TextEditingController
+      _remarksController;
+
+  String _hazardCategory =
+      'General';
+
   String _status = 'Open';
 
   int _initialLikelihood = 1;
@@ -1377,98 +1747,162 @@ class _RiskRegisterFormSheetState
   void initState() {
     super.initState();
 
-    final record = widget.existingRecord;
+    final record =
+        widget.existingRecord;
 
-    _registerNoController = TextEditingController(
-      text: record?['registerNo']?.toString() ?? '',
+    _registerNoController =
+        TextEditingController(
+      text: record?['registerNo']
+              ?.toString() ??
+          '',
     );
 
-    _projectController = TextEditingController(
-      text: record?['project']?.toString() ?? '',
+    _projectController =
+        TextEditingController(
+      text: record?['project']
+              ?.toString() ??
+          '',
     );
 
-    _locationController = TextEditingController(
-      text: record?['location']?.toString() ?? '',
+    _locationController =
+        TextEditingController(
+      text: record?['location']
+              ?.toString() ??
+          '',
     );
 
-    _departmentController = TextEditingController(
-      text: record?['department']?.toString() ?? '',
+    _departmentController =
+        TextEditingController(
+      text: record?['department']
+              ?.toString() ??
+          '',
     );
 
-    _activityController = TextEditingController(
-      text: record?['activity']?.toString() ?? '',
+    _activityController =
+        TextEditingController(
+      text: record?['activity']
+              ?.toString() ??
+          '',
     );
 
-    _hazardController = TextEditingController(
-      text: record?['hazard']?.toString() ?? '',
+    _hazardController =
+        TextEditingController(
+      text: record?['hazard']
+              ?.toString() ??
+          '',
     );
 
-    _consequenceController = TextEditingController(
-      text: record?['consequence']?.toString() ?? '',
+    _consequenceController =
+        TextEditingController(
+      text: record?['consequence']
+              ?.toString() ??
+          '',
     );
 
-    _existingControlsController = TextEditingController(
-      text: record?['existingControls']?.toString() ?? '',
+    _existingControlsController =
+        TextEditingController(
+      text: record?['existingControls']
+              ?.toString() ??
+          '',
     );
 
-    _additionalControlsController = TextEditingController(
-      text: record?['additionalControls']?.toString() ?? '',
+    _additionalControlsController =
+        TextEditingController(
+      text: record?['additionalControls']
+              ?.toString() ??
+          '',
     );
 
-    _riskOwnerController = TextEditingController(
-      text: record?['riskOwner']?.toString() ?? '',
+    _riskOwnerController =
+        TextEditingController(
+      text: record?['riskOwner']
+              ?.toString() ??
+          '',
     );
 
-    _relatedReferenceController = TextEditingController(
-      text: record?['relatedReference']?.toString() ?? '',
+    _relatedReferenceController =
+        TextEditingController(
+      text: record?['relatedReference']
+              ?.toString() ??
+          '',
     );
 
-    _remarksController = TextEditingController(
-      text: record?['remarks']?.toString() ?? '',
+    _remarksController =
+        TextEditingController(
+      text: record?['remarks']
+              ?.toString() ??
+          '',
     );
 
     final existingCategory =
-        record?['hazardCategory']?.toString();
+        record?['hazardCategory']
+            ?.toString();
 
     if (existingCategory != null &&
-        widget.hazardCategories.contains(existingCategory)) {
-      _hazardCategory = existingCategory;
+        widget.hazardCategories
+            .contains(existingCategory)) {
+      _hazardCategory =
+          existingCategory;
     }
 
-    final existingStatus = record?['status']?.toString();
+    final existingStatus =
+        record?['status']?.toString();
 
     if (existingStatus != null &&
-        widget.statuses.contains(existingStatus)) {
-      _status = existingStatus;
+        widget.statuses
+            .contains(existingStatus)) {
+      _status =
+          existingStatus;
     }
 
     _initialLikelihood =
-        _safeRiskNumber(record?['initialLikelihood']);
+        _safeRiskNumber(
+      record?['initialLikelihood'],
+    );
 
     _initialSeverity =
-        _safeRiskNumber(record?['initialSeverity']);
+        _safeRiskNumber(
+      record?['initialSeverity'],
+    );
 
     _residualLikelihood =
-        _safeRiskNumber(record?['residualLikelihood']);
+        _safeRiskNumber(
+      record?['residualLikelihood'],
+    );
 
     _residualSeverity =
-        _safeRiskNumber(record?['residualSeverity']);
+        _safeRiskNumber(
+      record?['residualSeverity'],
+    );
 
-    final target = record?['targetDate']?.toString();
+    final target =
+        record?['targetDate']
+            ?.toString();
 
-    if (target != null && target.isNotEmpty) {
-      _targetDate = DateTime.tryParse(target);
+    if (target != null &&
+        target.isNotEmpty) {
+      _targetDate =
+          DateTime.tryParse(target);
     }
 
-    final review = record?['reviewDate']?.toString();
+    final review =
+        record?['reviewDate']
+            ?.toString();
 
-    if (review != null && review.isNotEmpty) {
-      _reviewDate = DateTime.tryParse(review);
+    if (review != null &&
+        review.isNotEmpty) {
+      _reviewDate =
+          DateTime.tryParse(review);
     }
   }
 
-  int _safeRiskNumber(dynamic value) {
-    final parsed = int.tryParse(value?.toString() ?? '');
+  int _safeRiskNumber(
+    dynamic value,
+  ) {
+    final parsed =
+        int.tryParse(
+      value?.toString() ?? '',
+    );
 
     if (parsed == null) {
       return 1;
@@ -1494,15 +1928,22 @@ class _RiskRegisterFormSheetState
     _activityController.dispose();
     _hazardController.dispose();
     _consequenceController.dispose();
-    _existingControlsController.dispose();
-    _additionalControlsController.dispose();
+    _existingControlsController
+        .dispose();
+    _additionalControlsController
+        .dispose();
     _riskOwnerController.dispose();
-    _relatedReferenceController.dispose();
+    _relatedReferenceController
+        .dispose();
     _remarksController.dispose();
+
     super.dispose();
   }
 
-  int _score(int likelihood, int severity) {
+  int _score(
+    int likelihood,
+    int severity,
+  ) {
     return likelihood * severity;
   }
 
@@ -1522,7 +1963,9 @@ class _RiskRegisterFormSheetState
     return 'Critical';
   }
 
-  Color _riskColor(String level) {
+  Color _riskColor(
+    String level,
+  ) {
     switch (level) {
       case 'Critical':
         return Colors.red.shade800;
@@ -1540,13 +1983,18 @@ class _RiskRegisterFormSheetState
   Future<void> _selectDate({
     required bool target,
   }) async {
-    final current = target ? _targetDate : _reviewDate;
+    final current =
+        target ? _targetDate : _reviewDate;
 
-    final selected = await showDatePicker(
+    final selected =
+        await showDatePicker(
       context: context,
-      initialDate: current ?? DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
+      initialDate:
+          current ?? DateTime.now(),
+      firstDate:
+          DateTime(2020),
+      lastDate:
+          DateTime(2100),
     );
 
     if (selected == null) {
@@ -1562,14 +2010,27 @@ class _RiskRegisterFormSheetState
     });
   }
 
-  String _dateText(DateTime? date) {
+  String _dateText(
+    DateTime? date,
+  ) {
     if (date == null) {
       return 'Select date';
     }
 
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
-    final year = date.year.toString();
+    final day =
+        date.day.toString().padLeft(
+              2,
+              '0',
+            );
+
+    final month =
+        date.month.toString().padLeft(
+              2,
+              '0',
+            );
+
+    final year =
+        date.year.toString();
 
     return '$day/$month/$year';
   }
@@ -1583,24 +2044,42 @@ class _RiskRegisterFormSheetState
       labelText: label,
       hintText: hint,
       prefixIcon:
-          icon == null ? null : Icon(icon),
+          icon == null
+              ? null
+              : Icon(icon),
       filled: true,
-      fillColor: Colors.grey.shade50,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      fillColor:
+          Colors.grey.shade50,
+      border:
+          OutlineInputBorder(
+        borderRadius:
+            BorderRadius.circular(
+          12,
+        ),
         borderSide: BorderSide(
-          color: Colors.grey.shade300,
+          color:
+              Colors.grey.shade300,
         ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      enabledBorder:
+          OutlineInputBorder(
+        borderRadius:
+            BorderRadius.circular(
+          12,
+        ),
         borderSide: BorderSide(
-          color: Colors.grey.shade300,
+          color:
+              Colors.grey.shade300,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
+      focusedBorder:
+          OutlineInputBorder(
+        borderRadius:
+            BorderRadius.circular(
+          12,
+        ),
+        borderSide:
+            const BorderSide(
           color: primaryGreen,
           width: 1.5,
         ),
@@ -1613,7 +2092,8 @@ class _RiskRegisterFormSheetState
     IconData icon,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(
+      padding:
+          const EdgeInsets.only(
         top: 18,
         bottom: 10,
       ),
@@ -1622,23 +2102,37 @@ class _RiskRegisterFormSheetState
           Container(
             width: 34,
             height: 34,
-            decoration: BoxDecoration(
-              color: primaryGreen.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(10),
+            decoration:
+                BoxDecoration(
+              color:
+                  primaryGreen
+                      .withValues(
+                alpha: 0.10,
+              ),
+              borderRadius:
+                  BorderRadius.circular(
+                10,
+              ),
             ),
             child: Icon(
               icon,
               size: 19,
-              color: primaryGreen,
+              color:
+                  primaryGreen,
             ),
           ),
-          const SizedBox(width: 9),
+          const SizedBox(
+            width: 9,
+          ),
           Text(
             title,
-            style: const TextStyle(
+            style:
+                const TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: darkGreen,
+              fontWeight:
+                  FontWeight.bold,
+              color:
+                  darkGreen,
             ),
           ),
         ],
@@ -1650,105 +2144,164 @@ class _RiskRegisterFormSheetState
     required String title,
     required int likelihood,
     required int severity,
-    required ValueChanged<int> onLikelihoodChanged,
-    required ValueChanged<int> onSeverityChanged,
+    required ValueChanged<int>
+        onLikelihoodChanged,
+    required ValueChanged<int>
+        onSeverityChanged,
   }) {
-    final score = _score(likelihood, severity);
-    final level = _level(score);
-    final color = _riskColor(level);
+    final score =
+        _score(
+      likelihood,
+      severity,
+    );
+
+    final level =
+        _level(score);
+
+    final color =
+        _riskColor(level);
 
     return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
+      padding:
+          const EdgeInsets.all(
+        12,
+      ),
+      decoration:
+          BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(
+          14,
+        ),
         border: Border.all(
-          color: color.withValues(alpha: 0.25),
+          color:
+              color.withValues(
+            alpha: 0.25,
+          ),
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: darkGreen,
+                  style:
+                      const TextStyle(
+                    fontWeight:
+                        FontWeight.bold,
+                    color:
+                        darkGreen,
                   ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding:
+                    const EdgeInsets
+                        .symmetric(
                   horizontal: 10,
                   vertical: 6,
                 ),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(20),
+                decoration:
+                    BoxDecoration(
+                  color:
+                      color.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius:
+                      BorderRadius
+                          .circular(
+                    20,
+                  ),
                 ),
                 child: Text(
                   '$score • $level',
                   style: TextStyle(
                     color: color,
-                    fontWeight: FontWeight.bold,
+                    fontWeight:
+                        FontWeight.bold,
                     fontSize: 12,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          DropdownButtonFormField<int>(
-            initialValue: likelihood,
-            decoration: _decoration(
+          const SizedBox(
+            height: 12,
+          ),
+          DropdownButtonFormField<
+              int>(
+            initialValue:
+                likelihood,
+            decoration:
+                _decoration(
               'Likelihood',
-              icon: Icons.trending_up,
+              icon:
+                  Icons.trending_up,
             ),
-            items: List.generate(
+            items:
+                List.generate(
               5,
               (index) {
-                final value = index + 1;
+                final value =
+                    index + 1;
 
-                return DropdownMenuItem<int>(
+                return DropdownMenuItem<
+                    int>(
                   value: value,
                   child: Text(
-                    '$value - ${_likelihoodLabel(value)}',
+                    '$value - '
+                    '${_likelihoodLabel(value)}',
                   ),
                 );
               },
             ),
             onChanged: (value) {
               if (value != null) {
-                onLikelihoodChanged(value);
+                onLikelihoodChanged(
+                  value,
+                );
               }
             },
           ),
-          const SizedBox(height: 10),
-          DropdownButtonFormField<int>(
-            initialValue: severity,
-            decoration: _decoration(
+          const SizedBox(
+            height: 10,
+          ),
+          DropdownButtonFormField<
+              int>(
+            initialValue:
+                severity,
+            decoration:
+                _decoration(
               'Severity',
-              icon: Icons.priority_high,
+              icon:
+                  Icons.priority_high,
             ),
-            items: List.generate(
+            items:
+                List.generate(
               5,
               (index) {
-                final value = index + 1;
+                final value =
+                    index + 1;
 
-                return DropdownMenuItem<int>(
+                return DropdownMenuItem<
+                    int>(
                   value: value,
                   child: Text(
-                    '$value - ${_severityLabel(value)}',
+                    '$value - '
+                    '${_severityLabel(value)}',
                   ),
                 );
               },
             ),
             onChanged: (value) {
               if (value != null) {
-                onSeverityChanged(value);
+                onSeverityChanged(
+                  value,
+                );
               }
             },
           ),
@@ -1757,7 +2310,9 @@ class _RiskRegisterFormSheetState
     );
   }
 
-  String _likelihoodLabel(int value) {
+  String _likelihoodLabel(
+    int value,
+  ) {
     switch (value) {
       case 1:
         return 'Rare';
@@ -1774,7 +2329,9 @@ class _RiskRegisterFormSheetState
     }
   }
 
-  String _severityLabel(int value) {
+  String _severityLabel(
+    int value,
+  ) {
     switch (value) {
       case 1:
         return 'Insignificant';
@@ -1799,9 +2356,13 @@ class _RiskRegisterFormSheetState
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius:
+          BorderRadius.circular(
+        12,
+      ),
       child: InputDecorator(
-        decoration: _decoration(
+        decoration:
+            _decoration(
           label,
           icon: icon,
         ),
@@ -1821,119 +2382,210 @@ class _RiskRegisterFormSheetState
   }
 
   void _submit() {
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!
+        .validate()) {
       return;
     }
 
     if (_reviewDate != null &&
         _targetDate != null &&
-        _reviewDate!.isBefore(_targetDate!)) {
-      ScaffoldMessenger.of(context).showSnackBar(
+        _reviewDate!
+            .isBefore(
+          _targetDate!,
+        )) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(
         const SnackBar(
           content: Text(
             'Review Date should not be before Target Date.',
           ),
         ),
       );
+
       return;
     }
 
     final initialScore =
-        _score(_initialLikelihood, _initialSeverity);
+        _score(
+      _initialLikelihood,
+      _initialSeverity,
+    );
 
     final residualScore =
-        _score(_residualLikelihood, _residualSeverity);
+        _score(
+      _residualLikelihood,
+      _residualSeverity,
+    );
 
-    final result = <String, dynamic>{
-      'registerNo': _registerNoController.text.trim(),
-      'project': _projectController.text.trim(),
-      'location': _locationController.text.trim(),
-      'department': _departmentController.text.trim(),
-      'activity': _activityController.text.trim(),
-      'hazardCategory': _hazardCategory,
-      'hazard': _hazardController.text.trim(),
-      'consequence': _consequenceController.text.trim(),
+    final result =
+        <String, dynamic>{
+      'registerNo':
+          _registerNoController
+              .text
+              .trim(),
+      'project':
+          _projectController.text
+              .trim(),
+      'location':
+          _locationController.text
+              .trim(),
+      'department':
+          _departmentController.text
+              .trim(),
+      'activity':
+          _activityController.text
+              .trim(),
+      'hazardCategory':
+          _hazardCategory,
+      'hazard':
+          _hazardController.text
+              .trim(),
+      'consequence':
+          _consequenceController
+              .text
+              .trim(),
       'existingControls':
-          _existingControlsController.text.trim(),
-      'initialLikelihood': _initialLikelihood,
-      'initialSeverity': _initialSeverity,
-      'initialRiskScore': initialScore,
-      'initialRiskLevel': _level(initialScore),
+          _existingControlsController
+              .text
+              .trim(),
+      'initialLikelihood':
+          _initialLikelihood,
+      'initialSeverity':
+          _initialSeverity,
+      'initialRiskScore':
+          initialScore,
+      'initialRiskLevel':
+          _level(initialScore),
       'additionalControls':
-          _additionalControlsController.text.trim(),
-      'riskOwner': _riskOwnerController.text.trim(),
-      'targetDate': _targetDate?.toIso8601String(),
-      'residualLikelihood': _residualLikelihood,
-      'residualSeverity': _residualSeverity,
-      'residualRiskScore': residualScore,
-      'residualRiskLevel': _level(residualScore),
-      'reviewDate': _reviewDate?.toIso8601String(),
+          _additionalControlsController
+              .text
+              .trim(),
+      'riskOwner':
+          _riskOwnerController.text
+              .trim(),
+      'targetDate':
+          _targetDate
+              ?.toIso8601String(),
+      'residualLikelihood':
+          _residualLikelihood,
+      'residualSeverity':
+          _residualSeverity,
+      'residualRiskScore':
+          residualScore,
+      'residualRiskLevel':
+          _level(residualScore),
+      'reviewDate':
+          _reviewDate
+              ?.toIso8601String(),
       'relatedReference':
-          _relatedReferenceController.text.trim(),
+          _relatedReferenceController
+              .text
+              .trim(),
       'status': _status,
-      'remarks': _remarksController.text.trim(),
+      'remarks':
+          _remarksController.text
+              .trim(),
     };
 
-    Navigator.pop(context, result);
+    Navigator.pop(
+      context,
+      result,
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final bottomInset =
-        MediaQuery.of(context).viewInsets.bottom;
+        MediaQuery.of(context)
+            .viewInsets
+            .bottom;
 
     final initialScore =
-        _score(_initialLikelihood, _initialSeverity);
+        _score(
+      _initialLikelihood,
+      _initialSeverity,
+    );
 
     final residualScore =
-        _score(_residualLikelihood, _residualSeverity);
+        _score(
+      _residualLikelihood,
+      _residualSeverity,
+    );
 
     return SafeArea(
       top: false,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.94,
-        decoration: const BoxDecoration(
-          color: Color(0xFFF6F8F7),
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
+        height:
+            MediaQuery.of(context)
+                    .size
+                    .height *
+                0.94,
+        decoration:
+            const BoxDecoration(
+          color:
+              Color(0xFFF6F8F7),
+          borderRadius:
+              BorderRadius.vertical(
+            top:
+                Radius.circular(24),
           ),
         ),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(
+              padding:
+                  const EdgeInsets
+                      .fromLTRB(
                 18,
                 12,
                 10,
                 12,
               ),
-              decoration: const BoxDecoration(
-                color: darkGreen,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(24),
+              decoration:
+                  const BoxDecoration(
+                color:
+                    darkGreen,
+                borderRadius:
+                    BorderRadius.vertical(
+                  top:
+                      Radius.circular(
+                    24,
+                  ),
                 ),
               ),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      widget.existingRecord == null
+                      widget.existingRecord ==
+                              null
                           ? 'Add Risk Register'
                           : 'Edit Risk Register',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style:
+                          const TextStyle(
+                        color:
+                            Colors.white,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight:
+                            FontWeight
+                                .bold,
                       ),
                     ),
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(
+                        context,
+                      );
                     },
-                    icon: const Icon(
+                    icon:
+                        const Icon(
                       Icons.close,
-                      color: Colors.white,
+                      color:
+                          Colors.white,
                     ),
                   ),
                 ],
@@ -1943,358 +2595,572 @@ class _RiskRegisterFormSheetState
               child: Form(
                 key: _formKey,
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(
+                  padding:
+                      EdgeInsets.fromLTRB(
                     14,
                     8,
                     14,
-                    24 + bottomInset,
+                    24 +
+                        bottomInset,
                   ),
                   children: [
                     _sectionTitle(
                       'Risk Identification',
-                      Icons.warning_amber_rounded,
+                      Icons
+                          .warning_amber_rounded,
                     ),
                     TextFormField(
-                      controller: _registerNoController,
-                      decoration: _decoration(
+                      controller:
+                          _registerNoController,
+                      decoration:
+                          _decoration(
                         'Risk Register No.',
-                        hint: 'Example: RR-001',
-                        icon: Icons.tag,
+                        hint:
+                            'Example: RR-001',
+                        icon:
+                            Icons.tag,
                       ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      validator:
+                          (value) {
+                        if (value ==
+                                null ||
+                            value
+                                .trim()
+                                .isEmpty) {
                           return 'Risk Register No. is required';
                         }
 
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _projectController,
-                      decoration: _decoration(
+                      controller:
+                          _projectController,
+                      decoration:
+                          _decoration(
                         'Project',
-                        icon: Icons.business_outlined,
+                        icon:
+                            Icons
+                                .business_outlined,
                       ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      validator:
+                          (value) {
+                        if (value ==
+                                null ||
+                            value
+                                .trim()
+                                .isEmpty) {
                           return 'Project is required';
                         }
 
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _locationController,
-                      decoration: _decoration(
+                      controller:
+                          _locationController,
+                      decoration:
+                          _decoration(
                         'Location',
-                        icon: Icons.location_on_outlined,
+                        icon:
+                            Icons
+                                .location_on_outlined,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _departmentController,
-                      decoration: _decoration(
+                      controller:
+                          _departmentController,
+                      decoration:
+                          _decoration(
                         'Department',
-                        icon: Icons.account_tree_outlined,
+                        icon:
+                            Icons
+                                .account_tree_outlined,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _activityController,
-                      decoration: _decoration(
+                      controller:
+                          _activityController,
+                      decoration:
+                          _decoration(
                         'Activity / Work',
-                        icon: Icons.work_outline,
+                        icon:
+                            Icons
+                                .work_outline,
                       ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      validator:
+                          (value) {
+                        if (value ==
+                                null ||
+                            value
+                                .trim()
+                                .isEmpty) {
                           return 'Activity / Work is required';
                         }
 
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
-                    DropdownButtonFormField<String>(
-                      initialValue: _hazardCategory,
-                      decoration: _decoration(
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DropdownButtonFormField<
+                        String>(
+                      initialValue:
+                          _hazardCategory,
+                      decoration:
+                          _decoration(
                         'Hazard Category',
-                        icon: Icons.category_outlined,
+                        icon:
+                            Icons
+                                .category_outlined,
                       ),
-                      items: widget.hazardCategories
+                      items: widget
+                          .hazardCategories
                           .map(
-                            (category) =>
-                                DropdownMenuItem<String>(
-                              value: category,
-                              child: Text(category),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value != null) {
+                        (
+                          category,
+                        ) =>
+                            DropdownMenuItem<
+                                String>(
+                          value:
+                              category,
+                          child:
+                              Text(
+                            category,
+                          ),
+                        ),
+                      ).toList(),
+                      onChanged:
+                          (value) {
+                        if (value !=
+                            null) {
                           setState(() {
-                            _hazardCategory = value;
+                            _hazardCategory =
+                                value;
                           });
                         }
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _hazardController,
+                      controller:
+                          _hazardController,
                       maxLines: 3,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Hazard / Risk',
                         hint:
                             'Describe the hazard or risk',
-                        icon: Icons.report_problem_outlined,
+                        icon: Icons
+                            .report_problem_outlined,
                       ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      validator:
+                          (value) {
+                        if (value ==
+                                null ||
+                            value
+                                .trim()
+                                .isEmpty) {
                           return 'Hazard / Risk is required';
                         }
 
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _consequenceController,
+                      controller:
+                          _consequenceController,
                       maxLines: 3,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Potential Consequence',
-                        icon: Icons.health_and_safety_outlined,
+                        icon:
+                            Icons
+                                .health_and_safety_outlined,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
                       controller:
                           _existingControlsController,
                       maxLines: 4,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Existing Controls',
-                        icon: Icons.security_outlined,
+                        icon:
+                            Icons
+                                .security_outlined,
                       ),
                     ),
                     _sectionTitle(
                       'Initial Risk Assessment',
-                      Icons.assessment_outlined,
+                      Icons
+                          .assessment_outlined,
                     ),
                     _riskSelector(
-                      title: 'Initial Risk',
-                      likelihood: _initialLikelihood,
-                      severity: _initialSeverity,
-                      onLikelihoodChanged: (value) {
+                      title:
+                          'Initial Risk',
+                      likelihood:
+                          _initialLikelihood,
+                      severity:
+                          _initialSeverity,
+                      onLikelihoodChanged:
+                          (value) {
                         setState(() {
-                          _initialLikelihood = value;
+                          _initialLikelihood =
+                              value;
                         });
                       },
-                      onSeverityChanged: (value) {
+                      onSeverityChanged:
+                          (value) {
                         setState(() {
-                          _initialSeverity = value;
+                          _initialSeverity =
+                              value;
                         });
                       },
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     Text(
-                      'Initial Score: $initialScore • '
+                      'Initial Score: '
+                      '$initialScore • '
                       '${_level(initialScore)}',
-                      style: TextStyle(
-                        color: _riskColor(
-                          _level(initialScore),
+                      style:
+                          TextStyle(
+                        color:
+                            _riskColor(
+                          _level(
+                            initialScore,
+                          ),
                         ),
-                        fontWeight: FontWeight.bold,
+                        fontWeight:
+                            FontWeight
+                                .bold,
                       ),
                     ),
                     _sectionTitle(
                       'Risk Controls & Ownership',
-                      Icons.shield_outlined,
+                      Icons
+                          .shield_outlined,
                     ),
                     TextFormField(
                       controller:
                           _additionalControlsController,
                       maxLines: 5,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Additional Controls / Actions',
-                        icon: Icons.rule_outlined,
+                        icon:
+                            Icons
+                                .rule_outlined,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _riskOwnerController,
-                      decoration: _decoration(
+                      controller:
+                          _riskOwnerController,
+                      decoration:
+                          _decoration(
                         'Risk Owner',
-                        icon: Icons.person_outline,
+                        icon:
+                            Icons
+                                .person_outline,
                       ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      validator:
+                          (value) {
+                        if (value ==
+                                null ||
+                            value
+                                .trim()
+                                .isEmpty) {
                           return 'Risk Owner is required';
                         }
 
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     _dateField(
-                      label: 'Target Date',
-                      value: _targetDate,
+                      label:
+                          'Target Date',
+                      value:
+                          _targetDate,
                       onTap: () {
-                        _selectDate(target: true);
+                        _selectDate(
+                          target: true,
+                        );
                       },
-                      icon: Icons.event_outlined,
+                      icon:
+                          Icons
+                              .event_outlined,
                     ),
                     _sectionTitle(
                       'Residual Risk',
-                      Icons.monitor_heart_outlined,
+                      Icons
+                          .monitor_heart_outlined,
                     ),
                     _riskSelector(
-                      title: 'Residual Risk',
-                      likelihood: _residualLikelihood,
-                      severity: _residualSeverity,
-                      onLikelihoodChanged: (value) {
+                      title:
+                          'Residual Risk',
+                      likelihood:
+                          _residualLikelihood,
+                      severity:
+                          _residualSeverity,
+                      onLikelihoodChanged:
+                          (value) {
                         setState(() {
-                          _residualLikelihood = value;
+                          _residualLikelihood =
+                              value;
                         });
                       },
-                      onSeverityChanged: (value) {
+                      onSeverityChanged:
+                          (value) {
                         setState(() {
-                          _residualSeverity = value;
+                          _residualSeverity =
+                              value;
                         });
                       },
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     Text(
-                      'Residual Score: $residualScore • '
+                      'Residual Score: '
+                      '$residualScore • '
                       '${_level(residualScore)}',
-                      style: TextStyle(
-                        color: _riskColor(
-                          _level(residualScore),
+                      style:
+                          TextStyle(
+                        color:
+                            _riskColor(
+                          _level(
+                            residualScore,
+                          ),
                         ),
-                        fontWeight: FontWeight.bold,
+                        fontWeight:
+                            FontWeight
+                                .bold,
                       ),
                     ),
                     _sectionTitle(
                       'Review & Monitoring',
-                      Icons.rate_review_outlined,
+                      Icons
+                          .rate_review_outlined,
                     ),
                     _dateField(
-                      label: 'Review Date',
-                      value: _reviewDate,
+                      label:
+                          'Review Date',
+                      value:
+                          _reviewDate,
                       onTap: () {
-                        _selectDate(target: false);
+                        _selectDate(
+                          target: false,
+                        );
                       },
-                      icon: Icons.calendar_month_outlined,
+                      icon: Icons
+                          .calendar_month_outlined,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
                       controller:
                           _relatedReferenceController,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Related HIRA / JSA / RAMS / Reference',
-                        icon: Icons.link_outlined,
+                        icon:
+                            Icons
+                                .link_outlined,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    DropdownButtonFormField<String>(
-                      initialValue: _status,
-                      decoration: _decoration(
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DropdownButtonFormField<
+                        String>(
+                      initialValue:
+                          _status,
+                      decoration:
+                          _decoration(
                         'Risk Status',
-                        icon: Icons.flag_outlined,
+                        icon:
+                            Icons
+                                .flag_outlined,
                       ),
-                      items: widget.statuses
+                      items: widget
+                          .statuses
                           .map(
-                            (status) =>
-                                DropdownMenuItem<String>(
-                              value: status,
-                              child: Text(status),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value != null) {
+                        (
+                          status,
+                        ) =>
+                            DropdownMenuItem<
+                                String>(
+                          value:
+                              status,
+                          child:
+                              Text(
+                            status,
+                          ),
+                        ),
+                      ).toList(),
+                      onChanged:
+                          (value) {
+                        if (value !=
+                            null) {
                           setState(() {
-                            _status = value;
+                            _status =
+                                value;
                           });
                         }
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextFormField(
-                      controller: _remarksController,
+                      controller:
+                          _remarksController,
                       maxLines: 4,
-                      decoration: _decoration(
+                      decoration:
+                          _decoration(
                         'Remarks / Monitoring Notes',
-                        icon: Icons.notes_outlined,
+                        icon:
+                            Icons
+                                .notes_outlined,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: primaryGreen.withValues(
+                      padding:
+                          const EdgeInsets
+                              .all(12),
+                      decoration:
+                          BoxDecoration(
+                        color:
+                            primaryGreen
+                                .withValues(
                           alpha: 0.07,
                         ),
                         borderRadius:
-                            BorderRadius.circular(12),
-                        border: Border.all(
-                          color: primaryGreen.withValues(
+                            BorderRadius
+                                .circular(
+                          12,
+                        ),
+                        border:
+                            Border.all(
+                          color:
+                              primaryGreen
+                                  .withValues(
                             alpha: 0.18,
                           ),
                         ),
                       ),
-                      child: const Row(
+                      child:
+                          const Row(
                         crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            CrossAxisAlignment
+                                .start,
                         children: [
                           Icon(
-                            Icons.info_outline,
-                            color: darkGreen,
+                            Icons
+                                .info_outline,
+                            color:
+                                darkGreen,
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
-                            child: Text(
+                            child:
+                                Text(
                               'Risk should be reviewed whenever '
                               'there is a significant change in '
                               'activity, equipment, work method, '
                               'incident, legal requirement or '
                               'risk control effectiveness.',
-                              style: TextStyle(
-                                fontSize: 12,
-                                height: 1.4,
-                                color: Colors.black87,
+                              style:
+                                  TextStyle(
+                                fontSize:
+                                    12,
+                                height:
+                                    1.4,
+                                color:
+                                    Colors
+                                        .black87,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(
+                      height: 18,
+                    ),
                     SizedBox(
                       height: 52,
-                      child: FilledButton.icon(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: primaryGreen,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
+                      child:
+                          FilledButton.icon(
+                        style:
+                            FilledButton
+                                .styleFrom(
+                          backgroundColor:
+                              primaryGreen,
+                          foregroundColor:
+                              Colors
+                                  .white,
+                          shape:
+                              RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(14),
+                                BorderRadius
+                                    .circular(
+                              14,
+                            ),
                           ),
                         ),
-                        onPressed: _submit,
-                        icon: const Icon(
-                          Icons.save_outlined,
+                        onPressed:
+                            _submit,
+                        icon:
+                            const Icon(
+                          Icons
+                              .save_outlined,
                         ),
                         label: Text(
-                          widget.existingRecord == null
+                          widget.existingRecord ==
+                                  null
                               ? 'Save Risk Record'
                               : 'Update Risk Record',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                          style:
+                              const TextStyle(
+                            fontWeight:
+                                FontWeight
+                                    .bold,
                           ),
                         ),
                       ),
