@@ -94,14 +94,6 @@ class _JsaJhaPageState extends State<JsaJhaPage> {
     return _parseRating(likelihood) * _parseRating(severity);
   }
 
-  String _level(dynamic likelihood, dynamic severity) {
-    final score = _score(likelihood, severity);
-    if (score <= 4) return 'Low';
-    if (score <= 11) return 'Medium';
-    if (score <= 19) return 'High';
-    return 'Critical';
-  }
-
   String _formatDate(DateTime? date) {
     if (date == null) return '-';
     return '${date.day.toString().padLeft(2, '0')}/'
