@@ -48,22 +48,6 @@ class _RiskClosureLessonsLearnedPageState
     'Cancelled',
   ];
 
-  static const List<String> effectivenessOptions = [
-    'Not Assessed',
-    'Effective',
-    'Partially Effective',
-    'Ineffective',
-  ];
-
-  static const List<String> knowledgeUpdateOptions = [
-    'Not Required',
-    'Training Update Required',
-    'Procedure Update Required',
-    'Risk Assessment Update Required',
-    'TBT / Awareness Update Required',
-    'Multiple Updates Required',
-  ];
-
   @override
   void initState() {
     super.initState();
