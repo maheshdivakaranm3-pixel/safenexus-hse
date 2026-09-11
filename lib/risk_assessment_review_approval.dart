@@ -85,7 +85,9 @@ class _RiskAssessmentReviewApprovalPageState
       }
     }
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _isLoading = false;
@@ -209,11 +211,11 @@ class _RiskAssessmentReviewApprovalPageState
       _value(record, 'actionDueDate'),
     );
 
-    final reviewOverdue = reviewDate != null &&
-        reviewDate.isBefore(todayOnly);
+    final reviewOverdue =
+        reviewDate != null && reviewDate.isBefore(todayOnly);
 
-    final actionOverdue = actionDueDate != null &&
-        actionDueDate.isBefore(todayOnly);
+    final actionOverdue =
+        actionDueDate != null && actionDueDate.isBefore(todayOnly);
 
     return reviewOverdue || actionOverdue;
   }
@@ -304,7 +306,9 @@ class _RiskAssessmentReviewApprovalPageState
 
     await _saveRecords();
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {});
   }
@@ -350,7 +354,9 @@ class _RiskAssessmentReviewApprovalPageState
 
     await _saveRecords();
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {});
   }
@@ -702,7 +708,9 @@ class _RiskAssessmentReviewApprovalPageState
                       ),
                     ],
                     onChanged: (value) {
-                      if (value == null) return;
+                      if (value == null) {
+                        return;
+                      }
 
                       setState(() {
                         _statusFilter = value;
@@ -731,7 +739,9 @@ class _RiskAssessmentReviewApprovalPageState
                       ),
                     ],
                     onChanged: (value) {
-                      if (value == null) return;
+                      if (value == null) {
+                        return;
+                      }
 
                       setState(() {
                         _documentFilter = value;
@@ -938,7 +948,8 @@ class _RiskAssessmentReviewApprovalPageState
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => _showHistory(record),
+                    onPressed: () =>
+                        _showHistory(record),
                     icon: const Icon(
                       Icons.history,
                       size: 18,
@@ -1079,6 +1090,9 @@ class _RiskReviewFormSheet extends StatefulWidget {
 
 class _RiskReviewFormSheetState
     extends State<_RiskReviewFormSheet> {
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+
   final _formKey = GlobalKey<FormState>();
 
   final _reviewNoController =
@@ -1475,15 +1489,15 @@ class _RiskReviewFormSheetState
                       controller:
                           _locationController,
                       label: 'Location',
-                      icon: Icons
-                          .location_on_outlined,
+                      icon:
+                          Icons.location_on_outlined,
                     ),
                     _textField(
                       controller:
                           _departmentController,
                       label: 'Department',
-                      icon: Icons
-                          .account_tree_outlined,
+                      icon:
+                          Icons.account_tree_outlined,
                     ),
                     _textField(
                       controller:
@@ -1497,7 +1511,9 @@ class _RiskReviewFormSheetState
                       value: _documentType,
                       items: widget.documentTypes,
                       onChanged: (value) {
-                        if (value == null) return;
+                        if (value == null) {
+                          return;
+                        }
 
                         setState(() {
                           _documentType = value;
@@ -1529,7 +1545,9 @@ class _RiskReviewFormSheetState
                       value: _reviewTrigger,
                       items: widget.reviewTriggers,
                       onChanged: (value) {
-                        if (value == null) return;
+                        if (value == null) {
+                          return;
+                        }
 
                         setState(() {
                           _reviewTrigger = value;
@@ -1551,8 +1569,8 @@ class _RiskReviewFormSheetState
                       controller:
                           _findingsController,
                       label: 'Review Findings',
-                      icon: Icons
-                          .rate_review_outlined,
+                      icon:
+                          Icons.rate_review_outlined,
                       maxLines: 4,
                     ),
                     _textField(
@@ -1567,8 +1585,8 @@ class _RiskReviewFormSheetState
                       controller:
                           _actionOwnerController,
                       label: 'Action Owner',
-                      icon: Icons
-                          .person_pin_outlined,
+                      icon:
+                          Icons.person_pin_outlined,
                     ),
                     _dateTile(
                       label: 'Action Due Date',
@@ -1589,8 +1607,8 @@ class _RiskReviewFormSheetState
                           _approverController,
                       label:
                           'Approved By / Approver',
-                      icon: Icons
-                          .verified_user_outlined,
+                      icon:
+                          Icons.verified_user_outlined,
                     ),
                     _dateTile(
                       label: 'Approval Date',
@@ -1615,7 +1633,9 @@ class _RiskReviewFormSheetState
                         'Other',
                       ],
                       onChanged: (value) {
-                        if (value == null) return;
+                        if (value == null) {
+                          return;
+                        }
 
                         setState(() {
                           _revisionNo = value;
@@ -1627,7 +1647,9 @@ class _RiskReviewFormSheetState
                       value: _status,
                       items: widget.statuses,
                       onChanged: (value) {
-                        if (value == null) return;
+                        if (value == null) {
+                          return;
+                        }
 
                         setState(() {
                           _status = value;
