@@ -269,22 +269,6 @@ class _RiskRegisterMonitoringPageState
     return targetOnly.isBefore(todayOnly);
   }
 
-  String _riskLevel(int score) {
-    if (score <= 4) {
-      return 'Low';
-    }
-
-    if (score <= 11) {
-      return 'Medium';
-    }
-
-    if (score <= 19) {
-      return 'High';
-    }
-
-    return 'Critical';
-  }
-
   String _formatDate(String? value) {
     if (value == null || value.isEmpty) {
       return 'Not set';
@@ -774,7 +758,8 @@ class _RiskRegisterMonitoringPageState
                       (level) =>
                           DropdownMenuItem(
                         value: level,
-                        child: Text(level),
+                        child:
+                            Text(level),
                       ),
                     ),
                   ],
