@@ -99,14 +99,6 @@ class _HiraRiskAssessmentPageState extends State<HiraRiskAssessmentPage> {
         '${date.minute.toString().padLeft(2, '0')}';
   }
 
-  int _score(int likelihood, int severity) => likelihood * severity;
-
-  String _level(int score) {
-    if (score >= 20) return 'Critical';
-    if (score >= 12) return 'High';
-    if (score >= 5) return 'Medium';
-    return 'Low';
-  }
 
   Color _riskColor(String level) {
     switch (level) {
@@ -576,6 +568,9 @@ class _HiraForm extends StatefulWidget {
 }
 
 class _HiraFormState extends State<_HiraForm> {
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _no;
@@ -609,7 +604,7 @@ class _HiraFormState extends State<_HiraForm> {
   }
 
   String _text(dynamic v) => v?.toString() ?? '';
-  int _rating(dynamic v) {
+  int _parseRating(dynamic v) {
     final int parsed = int.tryParse(_text(v)) ?? 1;
     if (parsed < 1) return 1;
     if (parsed > 5) return 5;
@@ -636,10 +631,10 @@ class _HiraFormState extends State<_HiraForm> {
         ? _text(r['hazardCategory']) : 'General';
     _status = widget.statuses.contains(r['status'])
         ? _text(r['status']) : 'Draft';
-    _initialLikelihood = _rating(r['initialLikelihood']);
-    _initialSeverity = _rating(r['initialSeverity']);
-    _residualLikelihood = _rating(r['residualLikelihood']);
-    _residualSeverity = _rating(r['residualSeverity']);
+    _initialLikelihood = _parseRating(r['initialLikelihood']);
+    _initialSeverity = _parseRating(r['initialSeverity']);
+    _residualLikelihood = _parseRating(r['residualLikelihood']);
+    _residualSeverity = _parseRating(r['residualSeverity']);
     _reviewDate = DateTime.tryParse(_text(r['reviewDate']));
   }
 
