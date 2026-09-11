@@ -209,11 +209,6 @@ class _RiskClosureLessonsLearnedPageState
           status != 'Cancelled';
     }).length;
   }
-
-  int get _reopenedCount {
-    return _countStatus('Reopened');
-  }
-
   DateTime? _parseDate(dynamic value) {
     if (value == null) {
       return null;
@@ -1350,6 +1345,22 @@ class _RiskClosureFormSheetState
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
 
+  static const List<String> effectivenessOptions = [
+    'Not Assessed',
+    'Effective',
+    'Partially Effective',
+    'Ineffective',
+  ];
+
+  static const List<String> knowledgeUpdateOptions = [
+    'Not Required',
+    'Training Update Required',
+    'Procedure Update Required',
+    'Risk Assessment Update Required',
+    'TBT / Awareness Update Required',
+    'Multiple Updates Required',
+  ];
+
   final _formKey = GlobalKey<FormState>();
 
   final _closureNoController = TextEditingController();
@@ -1380,7 +1391,6 @@ class _RiskClosureFormSheetState
   String _riskReference = 'HIRA';
 
   String _initialRiskLevel = 'Low';
-  String _residualRiskLevel = 'Low';
 
   int _residualRiskScore = 1;
 
@@ -1475,10 +1485,6 @@ class _RiskClosureFormSheetState
 
     _initialRiskLevel =
         data['initialRiskLevel']?.toString() ?? 'Low';
-
-    _residualRiskLevel =
-        data['residualRiskLevel']?.toString() ?? 'Low';
-
     _residualRiskScore =
         _safeScore(data['residualRiskScore']);
 
