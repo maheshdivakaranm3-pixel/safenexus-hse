@@ -55,30 +55,11 @@ class _RiskCommunicationControlTrackingPageState
     'Other',
   ];
 
-  static const List<String> communicationMethods = [
-    'Face-to-Face',
-    'Toolbox Talk',
-    'Meeting',
-    'Training Session',
-    'Written Notice',
-    'Digital / Online',
-    'Site Demonstration',
-    'Other',
-  ];
-
   static const List<String> effectivenessValues = [
     'Not Assessed',
     'Effective',
     'Partially Effective',
     'Ineffective',
-  ];
-
-  static const List<String> implementationStatuses = [
-    'Not Started',
-    'In Progress',
-    'Implemented',
-    'Verification Required',
-    'Verified',
   ];
 
   @override
