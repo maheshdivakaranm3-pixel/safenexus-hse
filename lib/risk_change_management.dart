@@ -182,12 +182,6 @@ class _RiskChangeManagementPageState
     ).length;
   }
 
-  int _countByRisk(String level) {
-    return _records.where(
-      (record) => record['residualRiskLevel'] == level,
-    ).length;
-  }
-
   bool _isClosedStatus(String status) {
     return status == 'Closed' ||
         status == 'Cancelled' ||
@@ -1376,13 +1370,6 @@ class _RiskChangeManagementFormSheetState
     'Legal / Requirement Change',
     'Emergency Change',
     'Other',
-  ];
-
-  static const List<String> _riskLevels = [
-    'Low',
-    'Medium',
-    'High',
-    'Critical',
   ];
 
   static const List<String> _statuses = [
