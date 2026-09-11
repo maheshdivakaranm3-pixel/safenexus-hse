@@ -83,13 +83,6 @@ class _JsaJhaPageState extends State<JsaJhaPage> {
 
   String _text(dynamic value) => value?.toString() ?? '';
 
-  int _parseRating(dynamic value) {
-    final parsed = int.tryParse(_text(value)) ?? 1;
-    if (parsed < 1) return 1;
-    if (parsed > 5) return 5;
-    return parsed;
-  }
-
   String _formatDate(DateTime? date) {
     if (date == null) return '-';
     return '${date.day.toString().padLeft(2, '0')}/'
