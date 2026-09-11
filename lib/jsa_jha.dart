@@ -90,10 +90,6 @@ class _JsaJhaPageState extends State<JsaJhaPage> {
     return parsed;
   }
 
-  int _score(dynamic likelihood, dynamic severity) {
-    return _parseRating(likelihood) * _parseRating(severity);
-  }
-
   String _formatDate(DateTime? date) {
     if (date == null) return '-';
     return '${date.day.toString().padLeft(2, '0')}/'
