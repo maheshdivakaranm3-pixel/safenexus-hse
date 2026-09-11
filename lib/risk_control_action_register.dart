@@ -946,8 +946,6 @@ class _RiskControlFormSheetState
 
   String _department = 'HSE';
   String _hazardCategory = 'General';
-  String _initialRiskLevel = 'Medium';
-  String _residualRiskLevel = 'Low';
   String _status = 'Open';
 
   int _initialLikelihood = 3;
@@ -1024,23 +1022,6 @@ class _RiskControlFormSheetState
       record?['residualSeverity'],
       _residualSeverity,
     );
-
-    _initialRiskLevel = _riskLevel(
-      _initialLikelihood * _initialSeverity,
-    );
-    _residualRiskLevel = _riskLevel(
-      _residualLikelihood * _residualSeverity,
-    );
-
-    final savedInitialRisk = _value(record, 'initialRiskLevel');
-    if (widget.riskLevels.contains(savedInitialRisk)) {
-      _initialRiskLevel = savedInitialRisk;
-    }
-
-    final savedResidualRisk = _value(record, 'residualRiskLevel');
-    if (widget.riskLevels.contains(savedResidualRisk)) {
-      _residualRiskLevel = savedResidualRisk;
-    }
 
     _targetDate = _parseDate(record?['targetDate']);
     _reviewDate = _parseDate(record?['reviewDate']);
