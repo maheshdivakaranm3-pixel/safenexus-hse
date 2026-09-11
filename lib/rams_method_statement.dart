@@ -3,16 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RamsMethodStatementPage extends StatefulWidget {
-  const RamsMethodStatementPage({super.key});
+class RiskControlActionRegisterPage extends StatefulWidget {
+  const RiskControlActionRegisterPage({super.key});
 
   @override
-  State<RamsMethodStatementPage> createState() =>
-      _RamsMethodStatementPageState();
+  State<RiskControlActionRegisterPage> createState() =>
+      _RiskControlActionRegisterPageState();
 }
 
-class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
-  static const String _storageKey = 'safenexus_hse_rams_method_statements';
+class _RiskControlActionRegisterPageState
+    extends State<RiskControlActionRegisterPage> {
+  static const String _storageKey =
+      'safenexus_hse_risk_control_action_register';
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
@@ -21,18 +23,25 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
   final TextEditingController _searchController = TextEditingController();
 
   List<Map<String, dynamic>> _records = [];
-  String _statusFilter = 'All';
   bool _loading = true;
+  String _statusFilter = 'All';
+  String _riskFilter = 'All';
 
   static const List<String> _statuses = <String>[
-    'Draft',
+    'Open',
+    'In Progress',
+    'Completed',
     'Under Review',
-    'Approved',
-    'Active',
-    'Revision Required',
-    'Superseded',
+    'Accepted',
     'Closed',
     'Cancelled',
+  ];
+
+  static const List<String> _riskLevels = <String>[
+    'Low',
+    'Medium',
+    'High',
+    'Critical',
   ];
 
   static const List<String> _departments = <String>[
@@ -66,34 +75,11 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     'Other',
   ];
 
-  static const List<String> _permitTypes = <String>[
-    'Not Required',
-    'Permit to Work',
-    'Hot Work Permit',
-    'Cold Work Permit',
-    'Work at Height Permit',
-    'Confined Space Entry Permit',
-    'Excavation Permit',
-    'Lifting Permit',
-    'Electrical Isolation / LOTO',
-    'Road / Traffic Permit',
-    'Other',
-  ];
-
-  static const List<String> _competencyLevels = <String>[
-    'Not Specified',
-    'Induction Required',
-    'Trained',
-    'Competent',
-    'Authorized / Certified',
-    'Competent Person Required',
-  ];
-
   @override
   void initState() {
     super.initState();
-    _loadRecords();
     _searchController.addListener(_refresh);
+    _loadRecords();
   }
 
   @override
@@ -105,41 +91,59 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
   }
 
   void _refresh() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _loadRecords() async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString(_storageKey);
 
+    List<Map<String, dynamic>> loaded = [];
+
     if (raw != null && raw.isNotEmpty) {
       try {
         final decoded = jsonDecode(raw);
         if (decoded is List) {
-          _records = decoded
+          loaded = decoded
               .whereType<Map>()
               .map(
                 (item) => Map<String, dynamic>.from(
-                  item.map((key, value) => MapEntry(key.toString(), value)),
+                  item.map(
+                    (key, value) => MapEntry(key.toString(), value),
+                  ),
                 ),
               )
               .toList();
         }
       } catch (_) {
-        _records = [];
+        loaded = [];
       }
     }
 
-    if (mounted) {
-      setState(() {
-        _loading = false;
-      });
-    }
+    if (!mounted) return;
+
+    setState(() {
+      _records = loaded;
+      _loading = false;
+    });
   }
 
   Future<void> _saveRecords() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_storageKey, jsonEncode(_records));
+  }
+
+  String _text(dynamic value) {
+    return value?.toString().trim() ?? '';
+  }
+
+  DateTime? _parseDate(dynamic value) {
+    if (value == null || value.toString().trim().isEmpty) {
+      return null;
+    }
+    return DateTime.tryParse(value.toString());
   }
 
   String _formatDate(DateTime date) {
@@ -148,57 +152,60 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     return '$day/$month/${date.year}';
   }
 
-  DateTime? _parseDate(dynamic value) {
-    if (value == null || value.toString().trim().isEmpty) return null;
-    return DateTime.tryParse(value.toString());
-  }
-
-  String _text(dynamic value) {
-    final text = value?.toString() ?? '';
-    return text.trim();
-  }
-
   bool _isOverdue(Map<String, dynamic> record) {
-    final reviewDate = _parseDate(record['reviewDate']);
-    if (reviewDate == null) return false;
+    final targetDate = _parseDate(record['targetDate']);
+    if (targetDate == null) return false;
 
     final status = _text(record['status']);
-    if (status == 'Closed' || status == 'Cancelled' || status == 'Superseded') {
+    if (status == 'Completed' ||
+        status == 'Closed' ||
+        status == 'Cancelled') {
       return false;
     }
 
     final today = DateTime.now();
-    final dateOnly = DateTime(
-      reviewDate.year,
-      reviewDate.month,
-      reviewDate.day,
+    final due = DateTime(
+      targetDate.year,
+      targetDate.month,
+      targetDate.day,
     );
     final todayOnly = DateTime(today.year, today.month, today.day);
 
-    return dateOnly.isBefore(todayOnly);
+    return due.isBefore(todayOnly);
   }
 
   List<Map<String, dynamic>> get _filteredRecords {
     final query = _searchController.text.trim().toLowerCase();
 
-    final result = _records.where((record) {
+    final filtered = _records.where((record) {
       final status = _text(record['status']);
+      final initialRisk = _text(record['initialRiskLevel']);
+      final residualRisk = _text(record['residualRiskLevel']);
+
       if (_statusFilter != 'All' && status != _statusFilter) {
+        return false;
+      }
+
+      if (_riskFilter != 'All' &&
+          initialRisk != _riskFilter &&
+          residualRisk != _riskFilter) {
         return false;
       }
 
       if (query.isEmpty) return true;
 
       final searchable = <String>[
-        _text(record['ramsNo']),
+        _text(record['riskNo']),
         _text(record['project']),
         _text(record['location']),
         _text(record['department']),
         _text(record['activity']),
-        _text(record['scope']),
-        _text(record['hazards']),
-        _text(record['controls']),
-        _text(record['responsiblePerson']),
+        _text(record['hazardCategory']),
+        _text(record['hazard']),
+        _text(record['consequence']),
+        _text(record['existingControls']),
+        _text(record['additionalControls']),
+        _text(record['actionOwner']),
         _text(record['status']),
         _text(record['remarks']),
       ].join(' ').toLowerCase();
@@ -206,47 +213,84 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
       return searchable.contains(query);
     }).toList();
 
-    result.sort((a, b) {
+    filtered.sort((a, b) {
       final aUpdated = _text(a['updatedAt']);
       final bUpdated = _text(b['updatedAt']);
       return bUpdated.compareTo(aUpdated);
     });
 
-    return result;
+    return filtered;
   }
 
   int get _totalCount => _records.length;
 
-  int get _draftCount =>
-      _records.where((record) => record['status'] == 'Draft').length;
+  int get _openCount =>
+      _records.where((record) => record['status'] == 'Open').length;
 
-  int get _underReviewCount =>
-      _records.where((record) => record['status'] == 'Under Review').length;
+  int get _inProgressCount =>
+      _records.where((record) => record['status'] == 'In Progress').length;
 
-  int get _approvedCount => _records
-      .where((record) => record['status'] == 'Approved')
-      .length;
+  int get _completedCount =>
+      _records.where((record) => record['status'] == 'Completed').length;
 
-  int get _activeCount =>
-      _records.where((record) => record['status'] == 'Active').length;
-
-  int get _revisionRequiredCount => _records
-      .where((record) => record['status'] == 'Revision Required')
-      .length;
+  int get _highCriticalCount => _records.where((record) {
+        final initial = _text(record['initialRiskLevel']);
+        final residual = _text(record['residualRiskLevel']);
+        return initial == 'High' ||
+            initial == 'Critical' ||
+            residual == 'High' ||
+            residual == 'Critical';
+      }).length;
 
   int get _overdueCount => _records.where(_isOverdue).length;
 
+  Color _riskColor(String level) {
+    switch (level) {
+      case 'Low':
+        return primaryGreen;
+      case 'Medium':
+        return Colors.orange.shade700;
+      case 'High':
+        return Colors.deepOrange;
+      case 'Critical':
+        return Colors.red.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
+  }
+
+  Color _statusColor(String status) {
+    switch (status) {
+      case 'Open':
+        return Colors.orange.shade700;
+      case 'In Progress':
+        return Colors.blue.shade700;
+      case 'Completed':
+        return primaryGreen;
+      case 'Under Review':
+        return Colors.indigo;
+      case 'Accepted':
+        return darkGreen;
+      case 'Closed':
+        return Colors.grey.shade700;
+      case 'Cancelled':
+        return Colors.red.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
+  }
+
   Future<void> _deleteRecord(Map<String, dynamic> record) async {
-    final ramsNo = _text(record['ramsNo']).isEmpty
-        ? 'this RAMS'
-        : _text(record['ramsNo']);
+    final riskNo = _text(record['riskNo']).isEmpty
+        ? 'this risk record'
+        : _text(record['riskNo']);
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Delete RAMS?'),
-          content: Text('Delete $ramsNo permanently?'),
+          title: const Text('Delete Risk Record?'),
+          content: Text('Delete $riskNo permanently?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext, false),
@@ -267,26 +311,29 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     _records.removeWhere((item) => item['id'] == id);
     await _saveRecords();
 
-    if (mounted) {
-      setState(() {});
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('RAMS deleted successfully')),
-      );
-    }
+    if (!mounted) return;
+
+    setState(() {});
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Risk record deleted successfully'),
+      ),
+    );
   }
 
-  Future<void> _openForm({Map<String, dynamic>? existingRecord}) async {
+  Future<void> _openForm({
+    Map<String, dynamic>? existingRecord,
+  }) async {
     final saved = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _RamsFormSheet(
+      builder: (_) => _RiskControlFormSheet(
         existingRecord: existingRecord,
         statuses: _statuses,
         departments: _departments,
         hazardCategories: _hazardCategories,
-        permitTypes: _permitTypes,
-        competencyLevels: _competencyLevels,
+        riskLevels: _riskLevels,
       ),
     );
 
@@ -295,30 +342,11 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     await _loadRecords();
   }
 
-  Color _statusColor(String status) {
-    switch (status) {
-      case 'Active':
-        return primaryGreen;
-      case 'Approved':
-        return darkGreen;
-      case 'Under Review':
-        return Colors.orange.shade700;
-      case 'Revision Required':
-        return Colors.deepOrange;
-      case 'Draft':
-        return Colors.blueGrey;
-      case 'Closed':
-        return Colors.grey.shade700;
-      case 'Superseded':
-        return Colors.indigo;
-      case 'Cancelled':
-        return Colors.red.shade700;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  Widget _summaryCard(String title, int value, IconData icon) {
+  Widget _summaryCard(
+    String title,
+    int value,
+    IconData icon,
+  ) {
     return Card(
       elevation: 0,
       margin: EdgeInsets.zero,
@@ -327,15 +355,19 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
         side: BorderSide(color: Colors.grey.shade200),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(13),
         child: Row(
           children: [
             CircleAvatar(
               radius: 20,
               backgroundColor: primaryGreen.withValues(alpha: 0.10),
-              child: Icon(icon, color: primaryGreen, size: 21),
+              child: Icon(
+                icon,
+                color: primaryGreen,
+                size: 21,
+              ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 9),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +377,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 11.5,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -366,166 +398,47 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     );
   }
 
-  Widget _buildRecordCard(Map<String, dynamic> record) {
-    final status = _text(record['status']).isEmpty
-        ? 'Draft'
-        : _text(record['status']);
-    final overdue = _isOverdue(record);
-    final reviewDate = _parseDate(record['reviewDate']);
+  Widget _riskChip(String label) {
+    final color = _riskColor(label);
 
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: overdue
-              ? Colors.red.shade200
-              : Colors.grey.shade200,
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+        vertical: 5,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    _text(record['ramsNo']).isEmpty
-                        ? 'RAMS'
-                        : _text(record['ramsNo']),
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: darkGreen,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 9,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _statusColor(status).withValues(alpha: 0.10),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    status,
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: _statusColor(status),
-                    ),
-                  ),
-                ),
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'edit') {
-                      _openForm(existingRecord: record);
-                    } else if (value == 'delete') {
-                      _deleteRecord(record);
-                    }
-                  },
-                  itemBuilder: (_) => const [
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: Text('Edit'),
-                    ),
-                    PopupMenuItem(
-                      value: 'delete',
-                      child: Text('Delete'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 7),
-            Text(
-              _text(record['activity']).isEmpty
-                  ? 'Activity / Scope not specified'
-                  : _text(record['activity']),
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            if (_text(record['project']).isNotEmpty)
-              _infoRow(Icons.business, 'Project', _text(record['project'])),
-            if (_text(record['location']).isNotEmpty)
-              _infoRow(Icons.location_on_outlined, 'Location',
-                  _text(record['location'])),
-            if (_text(record['department']).isNotEmpty)
-              _infoRow(Icons.groups_outlined, 'Department',
-                  _text(record['department'])),
-            if (_text(record['responsiblePerson']).isNotEmpty)
-              _infoRow(Icons.person_outline, 'Responsible',
-                  _text(record['responsiblePerson'])),
-            if (_text(record['issueRevision']).isNotEmpty)
-              _infoRow(Icons.history, 'Issue / Revision',
-                  _text(record['issueRevision'])),
-            if (reviewDate != null)
-              _infoRow(
-                overdue ? Icons.warning_amber_rounded : Icons.event_outlined,
-                'Review Date',
-                '${_formatDate(reviewDate)}${overdue ? ' 鈥� OVERDUE' : ''}',
-                valueColor: overdue ? Colors.red.shade700 : null,
-              ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 7,
-              runSpacing: 7,
-              children: [
-                if (_text(record['requiredPermit']).isNotEmpty &&
-                    _text(record['requiredPermit']) != 'Not Required')
-                  _smallTag(
-                    'Permit: ${_text(record['requiredPermit'])}',
-                    Colors.orange,
-                  ),
-                if (_text(record['competencyLevel']).isNotEmpty &&
-                    _text(record['competencyLevel']) != 'Not Specified')
-                  _smallTag(
-                    'Competency: ${_text(record['competencyLevel'])}',
-                    primaryGreen,
-                  ),
-              ],
-            ),
-            if (_text(record['createdAt']).isNotEmpty ||
-                _text(record['updatedAt']).isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Divider(color: Colors.grey.shade200),
-              Text(
-                'Created: ${_displayDateTime(record['createdAt'])}  鈥�  '
-                'Updated: ${_displayDateTime(record['updatedAt'])}',
-                style: TextStyle(
-                  fontSize: 10.5,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
-          ],
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: color,
+          fontSize: 10.5,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
   }
 
-  Widget _smallTag(String text, Color color) {
+  Widget _statusChip(String status) {
+    final color = _statusColor(status);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9,
+        vertical: 5,
+      ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(8),
+        color: color.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        text,
+        status,
         style: TextStyle(
-          fontSize: 10.5,
           color: color,
-          fontWeight: FontWeight.w600,
+          fontSize: 10.5,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -542,7 +455,11 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 17, color: Colors.grey.shade600),
+          Icon(
+            icon,
+            size: 17,
+            color: Colors.grey.shade600,
+          ),
           const SizedBox(width: 7),
           Text(
             '$label: ',
@@ -570,14 +487,173 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
   }
 
   String _displayDateTime(dynamic value) {
-    if (value == null || value.toString().isEmpty) return '-';
-    final parsed = DateTime.tryParse(value.toString());
-    if (parsed == null) return value.toString();
+    final text = _text(value);
+    if (text.isEmpty) return '-';
 
-    final date = _formatDate(parsed);
+    final parsed = DateTime.tryParse(text);
+    if (parsed == null) return text;
+
     final hour = parsed.hour.toString().padLeft(2, '0');
     final minute = parsed.minute.toString().padLeft(2, '0');
-    return '$date $hour:$minute';
+
+    return '${_formatDate(parsed)} $hour:$minute';
+  }
+
+  Widget _buildRecordCard(Map<String, dynamic> record) {
+    final riskNo =
+        _text(record['riskNo']).isEmpty ? 'Risk Record' : _text(record['riskNo']);
+    final activity = _text(record['activity']).isEmpty
+        ? 'Activity / Task not specified'
+        : _text(record['activity']);
+    final status =
+        _text(record['status']).isEmpty ? 'Open' : _text(record['status']);
+    final initialRisk = _text(record['initialRiskLevel']);
+    final residualRisk = _text(record['residualRiskLevel']);
+    final targetDate = _parseDate(record['targetDate']);
+    final overdue = _isOverdue(record);
+
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: overdue
+              ? Colors.red.shade200
+              : Colors.grey.shade200,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    riskNo,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: darkGreen,
+                    ),
+                  ),
+                ),
+                _statusChip(status),
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      _openForm(existingRecord: record);
+                    } else if (value == 'delete') {
+                      _deleteRecord(record);
+                    }
+                  },
+                  itemBuilder: (_) => const [
+                    PopupMenuItem(
+                      value: 'edit',
+                      child: Text('Edit'),
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: Text('Delete'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 7),
+            Text(
+              activity,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 9),
+            if (_text(record['project']).isNotEmpty)
+              _infoRow(
+                Icons.business_outlined,
+                'Project',
+                _text(record['project']),
+              ),
+            if (_text(record['location']).isNotEmpty)
+              _infoRow(
+                Icons.location_on_outlined,
+                'Location',
+                _text(record['location']),
+              ),
+            if (_text(record['department']).isNotEmpty)
+              _infoRow(
+                Icons.groups_outlined,
+                'Department',
+                _text(record['department']),
+              ),
+            if (_text(record['hazardCategory']).isNotEmpty)
+              _infoRow(
+                Icons.category_outlined,
+                'Hazard Category',
+                _text(record['hazardCategory']),
+              ),
+            if (_text(record['actionOwner']).isNotEmpty)
+              _infoRow(
+                Icons.person_outline,
+                'Action Owner',
+                _text(record['actionOwner']),
+              ),
+            if (targetDate != null)
+              _infoRow(
+                overdue
+                    ? Icons.warning_amber_rounded
+                    : Icons.event_outlined,
+                'Target Date',
+                '${_formatDate(targetDate)}${overdue ? ' 鈥� OVERDUE' : ''}',
+                valueColor: overdue ? Colors.red.shade700 : null,
+              ),
+            const SizedBox(height: 9),
+            Wrap(
+              spacing: 7,
+              runSpacing: 7,
+              children: [
+                if (initialRisk.isNotEmpty)
+                  _riskChip('Initial: $initialRisk'),
+                if (residualRisk.isNotEmpty)
+                  _riskChip('Residual: $residualRisk'),
+              ],
+            ),
+            if (_text(record['additionalControls']).isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Text(
+                'Additional Controls',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade700,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                _text(record['additionalControls']),
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12.5),
+              ),
+            ],
+            const SizedBox(height: 10),
+            Divider(color: Colors.grey.shade200),
+            Text(
+              'Created: ${_displayDateTime(record['createdAt'])}  鈥�  '
+              'Updated: ${_displayDateTime(record['updatedAt'])}',
+              style: TextStyle(
+                fontSize: 10.5,
+                color: Colors.grey.shade600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -587,7 +663,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
     return Scaffold(
       backgroundColor: pageBackground,
       appBar: AppBar(
-        title: const Text('RAMS / Method Statement'),
+        title: const Text('Risk Control & Action Register'),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -597,14 +673,19 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
-        label: const Text('Add RAMS'),
+        label: const Text('Add Risk'),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: _loadRecords,
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(14, 14, 14, 100),
+                padding: const EdgeInsets.fromLTRB(
+                  14,
+                  14,
+                  14,
+                  100,
+                ),
                 children: [
                   Card(
                     elevation: 0,
@@ -618,7 +699,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'RAMS Register',
+                            'Risk & Planning Register',
                             style: TextStyle(
                               fontSize: 19,
                               fontWeight: FontWeight.bold,
@@ -627,7 +708,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Risk Assessment & Method Statement control',
+                            'Risk controls, actions, owners and residual risk',
                             style: TextStyle(
                               fontSize: 12.5,
                               color: Colors.grey.shade700,
@@ -638,7 +719,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                             controller: _searchController,
                             decoration: InputDecoration(
                               hintText:
-                                  'Search RAMS, project, activity, location...',
+                                  'Search risk, project, activity, hazard...',
                               prefixIcon: const Icon(Icons.search),
                               suffixIcon: _searchController.text.isEmpty
                                   ? null
@@ -671,12 +752,12 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                               border: OutlineInputBorder(),
                             ),
                             items: [
-                              const DropdownMenuItem(
+                              const DropdownMenuItem<String>(
                                 value: 'All',
                                 child: Text('All'),
                               ),
                               ..._statuses.map(
-                                (status) => DropdownMenuItem(
+                                (status) => DropdownMenuItem<String>(
                                   value: status,
                                   child: Text(status),
                                 ),
@@ -685,6 +766,32 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                             onChanged: (value) {
                               setState(() {
                                 _statusFilter = value ?? 'All';
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            initialValue: _riskFilter,
+                            decoration: const InputDecoration(
+                              labelText: 'Risk Level Filter',
+                              prefixIcon: Icon(Icons.warning_amber_outlined),
+                              border: OutlineInputBorder(),
+                            ),
+                            items: [
+                              const DropdownMenuItem<String>(
+                                value: 'All',
+                                child: Text('All'),
+                              ),
+                              ..._riskLevels.map(
+                                (level) => DropdownMenuItem<String>(
+                                  value: level,
+                                  child: Text(level),
+                                ),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _riskFilter = value ?? 'All';
                               });
                             },
                           ),
@@ -704,37 +811,32 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                       _summaryCard(
                         'Total',
                         _totalCount,
-                        Icons.description_outlined,
+                        Icons.warning_amber_outlined,
                       ),
                       _summaryCard(
-                        'Active',
-                        _activeCount,
-                        Icons.play_circle_outline,
+                        'Open',
+                        _openCount,
+                        Icons.pending_actions_outlined,
                       ),
                       _summaryCard(
-                        'Under Review',
-                        _underReviewCount,
-                        Icons.rate_review_outlined,
+                        'In Progress',
+                        _inProgressCount,
+                        Icons.autorenew,
                       ),
                       _summaryCard(
-                        'Approved',
-                        _approvedCount,
-                        Icons.verified_outlined,
+                        'Completed',
+                        _completedCount,
+                        Icons.task_alt,
                       ),
                       _summaryCard(
-                        'Draft',
-                        _draftCount,
-                        Icons.edit_note_outlined,
-                      ),
-                      _summaryCard(
-                        'Revision Required',
-                        _revisionRequiredCount,
-                        Icons.sync_problem_outlined,
+                        'High / Critical',
+                        _highCriticalCount,
+                        Icons.priority_high,
                       ),
                       _summaryCard(
                         'Overdue',
                         _overdueCount,
-                        Icons.warning_amber_rounded,
+                        Icons.event_busy_outlined,
                       ),
                     ],
                   ),
@@ -743,7 +845,7 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                     children: [
                       const Expanded(
                         child: Text(
-                          'RAMS Records',
+                          'Risk Records',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -769,13 +871,13 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                         child: Column(
                           children: [
                             Icon(
-                              Icons.description_outlined,
+                              Icons.fact_check_outlined,
                               size: 48,
                               color: Colors.grey.shade400,
                             ),
                             const SizedBox(height: 10),
                             const Text(
-                              'No RAMS records found',
+                              'No risk records found',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -783,8 +885,8 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
                             const SizedBox(height: 5),
                             Text(
                               _records.isEmpty
-                                  ? 'Tap Add RAMS to create the first record.'
-                                  : 'Try changing the search or filter.',
+                                  ? 'Tap Add Risk to create the first record.'
+                                  : 'Try changing the search or filters.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
@@ -803,60 +905,57 @@ class _RamsMethodStatementPageState extends State<RamsMethodStatementPage> {
   }
 }
 
-class _RamsFormSheet extends StatefulWidget {
+class _RiskControlFormSheet extends StatefulWidget {
   final Map<String, dynamic>? existingRecord;
   final List<String> statuses;
   final List<String> departments;
   final List<String> hazardCategories;
-  final List<String> permitTypes;
-  final List<String> competencyLevels;
+  final List<String> riskLevels;
 
-  const _RamsFormSheet({
+  const _RiskControlFormSheet({
     required this.existingRecord,
     required this.statuses,
     required this.departments,
     required this.hazardCategories,
-    required this.permitTypes,
-    required this.competencyLevels,
+    required this.riskLevels,
   });
 
   @override
-  State<_RamsFormSheet> createState() => _RamsFormSheetState();
+  State<_RiskControlFormSheet> createState() =>
+      _RiskControlFormSheetState();
 }
 
-class _RamsFormSheetState extends State<_RamsFormSheet> {
+class _RiskControlFormSheetState
+    extends State<_RiskControlFormSheet> {
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
 
   final _formKey = GlobalKey<FormState>();
 
-  late final TextEditingController _ramsNoController;
+  late final TextEditingController _riskNoController;
   late final TextEditingController _projectController;
   late final TextEditingController _locationController;
   late final TextEditingController _activityController;
-  late final TextEditingController _scopeController;
-  late final TextEditingController _methodController;
-  late final TextEditingController _hazardsController;
-  late final TextEditingController _hiraReferenceController;
-  late final TextEditingController _jsaReferenceController;
-  late final TextEditingController _controlsController;
-  late final TextEditingController _ppeController;
-  late final TextEditingController _equipmentController;
-  late final TextEditingController _emergencyController;
-  late final TextEditingController _environmentController;
-  late final TextEditingController _inspectionController;
-  late final TextEditingController _responsibleController;
-  late final TextEditingController _preparedByController;
-  late final TextEditingController _reviewedByController;
-  late final TextEditingController _approvedByController;
-  late final TextEditingController _issueRevisionController;
+  late final TextEditingController _hazardController;
+  late final TextEditingController _consequenceController;
+  late final TextEditingController _existingControlsController;
+  late final TextEditingController _additionalControlsController;
+  late final TextEditingController _actionOwnerController;
+  late final TextEditingController _referenceController;
   late final TextEditingController _remarksController;
 
-  String? _department;
+  String _department = 'HSE';
   String _hazardCategory = 'General';
-  String _competencyLevel = 'Not Specified';
-  String _requiredPermit = 'Not Required';
-  String _status = 'Draft';
+  String _initialRiskLevel = 'Medium';
+  String _residualRiskLevel = 'Low';
+  String _status = 'Open';
+
+  int _initialLikelihood = 3;
+  int _initialSeverity = 3;
+  int _residualLikelihood = 2;
+  int _residualSeverity = 2;
+
+  DateTime? _targetDate;
   DateTime? _reviewDate;
 
   bool _saving = false;
@@ -869,46 +968,28 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
 
     final record = widget.existingRecord;
 
-    _ramsNoController =
-        TextEditingController(text: _value(record, 'ramsNo'));
+    _riskNoController =
+        TextEditingController(text: _value(record, 'riskNo'));
     _projectController =
         TextEditingController(text: _value(record, 'project'));
     _locationController =
         TextEditingController(text: _value(record, 'location'));
     _activityController =
         TextEditingController(text: _value(record, 'activity'));
-    _scopeController =
-        TextEditingController(text: _value(record, 'scope'));
-    _methodController =
-        TextEditingController(text: _value(record, 'method'));
-    _hazardsController =
-        TextEditingController(text: _value(record, 'hazards'));
-    _hiraReferenceController =
-        TextEditingController(text: _value(record, 'hiraReference'));
-    _jsaReferenceController =
-        TextEditingController(text: _value(record, 'jsaReference'));
-    _controlsController =
-        TextEditingController(text: _value(record, 'controls'));
-    _ppeController =
-        TextEditingController(text: _value(record, 'ppe'));
-    _equipmentController =
-        TextEditingController(text: _value(record, 'equipment'));
-    _emergencyController =
-        TextEditingController(text: _value(record, 'emergency'));
-    _environmentController =
-        TextEditingController(text: _value(record, 'environment'));
-    _inspectionController =
-        TextEditingController(text: _value(record, 'inspection'));
-    _responsibleController =
-        TextEditingController(text: _value(record, 'responsiblePerson'));
-    _preparedByController =
-        TextEditingController(text: _value(record, 'preparedBy'));
-    _reviewedByController =
-        TextEditingController(text: _value(record, 'reviewedBy'));
-    _approvedByController =
-        TextEditingController(text: _value(record, 'approvedBy'));
-    _issueRevisionController =
-        TextEditingController(text: _value(record, 'issueRevision'));
+    _hazardController =
+        TextEditingController(text: _value(record, 'hazard'));
+    _consequenceController =
+        TextEditingController(text: _value(record, 'consequence'));
+    _existingControlsController = TextEditingController(
+      text: _value(record, 'existingControls'),
+    );
+    _additionalControlsController = TextEditingController(
+      text: _value(record, 'additionalControls'),
+    );
+    _actionOwnerController =
+        TextEditingController(text: _value(record, 'actionOwner'));
+    _referenceController =
+        TextEditingController(text: _value(record, 'reference'));
     _remarksController =
         TextEditingController(text: _value(record, 'remarks'));
 
@@ -922,21 +1003,29 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
       _hazardCategory = savedCategory;
     }
 
-    final savedCompetency = _value(record, 'competencyLevel');
-    if (widget.competencyLevels.contains(savedCompetency)) {
-      _competencyLevel = savedCompetency;
-    }
-
-    final savedPermit = _value(record, 'requiredPermit');
-    if (widget.permitTypes.contains(savedPermit)) {
-      _requiredPermit = savedPermit;
-    }
-
     final savedStatus = _value(record, 'status');
     if (widget.statuses.contains(savedStatus)) {
       _status = savedStatus;
     }
 
+    _initialLikelihood = _parseRating(
+      record?['initialLikelihood'],
+      _initialLikelihood,
+    );
+    _initialSeverity = _parseRating(
+      record?['initialSeverity'],
+      _initialSeverity,
+    );
+    _residualLikelihood = _parseRating(
+      record?['residualLikelihood'],
+      _residualLikelihood,
+    );
+    _residualSeverity = _parseRating(
+      record?['residualSeverity'],
+      _residualSeverity,
+    );
+
+    _targetDate = _parseDate(record?['targetDate']);
     _reviewDate = _parseDate(record?['reviewDate']);
   }
 
@@ -944,35 +1033,46 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     return record?[key]?.toString() ?? '';
   }
 
-  DateTime? _parseDate(dynamic value) {
-    if (value == null || value.toString().trim().isEmpty) return null;
-    return DateTime.tryParse(value.toString());
+  int _parseRating(dynamic value, int fallback) {
+    final parsed = int.tryParse(value?.toString() ?? '');
+    if (parsed == null || parsed < 1 || parsed > 5) {
+      return fallback;
+    }
+    return parsed;
+  }
+
+  String _riskLevel(int score) {
+    if (score <= 4) return 'Low';
+    if (score <= 11) return 'Medium';
+    if (score <= 19) return 'High';
+    return 'Critical';
+  }
+
+  int _score(int likelihood, int severity) {
+    return likelihood * severity;
   }
 
   @override
   void dispose() {
-    _ramsNoController.dispose();
+    _riskNoController.dispose();
     _projectController.dispose();
     _locationController.dispose();
     _activityController.dispose();
-    _scopeController.dispose();
-    _methodController.dispose();
-    _hazardsController.dispose();
-    _hiraReferenceController.dispose();
-    _jsaReferenceController.dispose();
-    _controlsController.dispose();
-    _ppeController.dispose();
-    _equipmentController.dispose();
-    _emergencyController.dispose();
-    _environmentController.dispose();
-    _inspectionController.dispose();
-    _responsibleController.dispose();
-    _preparedByController.dispose();
-    _reviewedByController.dispose();
-    _approvedByController.dispose();
-    _issueRevisionController.dispose();
+    _hazardController.dispose();
+    _consequenceController.dispose();
+    _existingControlsController.dispose();
+    _additionalControlsController.dispose();
+    _actionOwnerController.dispose();
+    _referenceController.dispose();
     _remarksController.dispose();
     super.dispose();
+  }
+
+  DateTime? _parseDate(dynamic value) {
+    if (value == null || value.toString().trim().isEmpty) {
+      return null;
+    }
+    return DateTime.tryParse(value.toString());
   }
 
   String _formatDate(DateTime date) {
@@ -981,25 +1081,33 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     return '$day/$month/${date.year}';
   }
 
-  Future<void> _pickReviewDate() async {
+  Future<void> _pickDate({
+    required bool target,
+  }) async {
+    final current = target ? _targetDate : _reviewDate;
+
     final selected = await showDatePicker(
       context: context,
-      initialDate: _reviewDate ?? DateTime.now(),
+      initialDate: current ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
-    if (selected != null) {
-      setState(() {
+    if (selected == null) return;
+
+    setState(() {
+      if (target) {
+        _targetDate = selected;
+      } else {
         _reviewDate = selected;
-      });
-    }
+      }
+    });
   }
 
   InputDecoration _decoration(
     String label, {
-    String? hint,
     IconData? icon,
+    String? hint,
   }) {
     return InputDecoration(
       labelText: label,
@@ -1012,19 +1120,29 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     );
   }
 
-  String? _requiredValidator(String? value, String fieldName) {
+  String? _requiredValidator(
+    String? value,
+    String fieldName,
+  ) {
     if (value == null || value.trim().isEmpty) {
       return '$fieldName is required';
     }
     return null;
   }
 
-  Widget _sectionTitle(String title, IconData icon) {
+  Widget _sectionTitle(
+    String title,
+    IconData icon,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(top: 18, bottom: 9),
       child: Row(
         children: [
-          Icon(icon, color: primaryGreen, size: 21),
+          Icon(
+            icon,
+            color: primaryGreen,
+            size: 21,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -1044,10 +1162,9 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
   Widget _field(
     TextEditingController controller,
     String label, {
-    String? hint,
     IconData? icon,
+    String? hint,
     int maxLines = 1,
-    TextInputType? keyboardType,
     bool required = false,
   }) {
     return Padding(
@@ -1055,9 +1172,12 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
       child: TextFormField(
         controller: controller,
         maxLines: maxLines,
-        keyboardType: keyboardType,
         textCapitalization: TextCapitalization.sentences,
-        decoration: _decoration(label, hint: hint, icon: icon),
+        decoration: _decoration(
+          label,
+          icon: icon,
+          hint: hint,
+        ),
         validator: required
             ? (value) => _requiredValidator(value, label)
             : null,
@@ -1076,7 +1196,10 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
       padding: const EdgeInsets.only(bottom: 11),
       child: DropdownButtonFormField<String>(
         initialValue: value,
-        decoration: _decoration(label, icon: icon),
+        decoration: _decoration(
+          label,
+          icon: icon,
+        ),
         items: items
             .map(
               (item) => DropdownMenuItem<String>(
@@ -1093,23 +1216,116 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     );
   }
 
-  Widget _dateField() {
+  Widget _ratingDropdown(
+    String label,
+    int value,
+    ValueChanged<int?> onChanged,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 11),
+      child: DropdownButtonFormField<int>(
+        initialValue: value,
+        decoration: _decoration(
+          label,
+          icon: Icons.speed_outlined,
+        ),
+        items: List.generate(
+          5,
+          (index) {
+            final rating = index + 1;
+            return DropdownMenuItem<int>(
+              value: rating,
+              child: Text('$rating'),
+            );
+          },
+        ),
+        onChanged: onChanged,
+      ),
+    );
+  }
+
+  Widget _riskResult(
+    String title,
+    int likelihood,
+    int severity,
+  ) {
+    final score = _score(likelihood, severity);
+    final level = _riskLevel(score);
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 11),
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: _riskColor(level).withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: _riskColor(level).withValues(alpha: 0.30),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.assessment_outlined,
+            color: _riskColor(level),
+          ),
+          const SizedBox(width: 9),
+          Expanded(
+            child: Text(
+              '$title: Score $score',
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Text(
+            level,
+            style: TextStyle(
+              color: _riskColor(level),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _riskColor(String level) {
+    switch (level) {
+      case 'Low':
+        return primaryGreen;
+      case 'Medium':
+        return Colors.orange.shade700;
+      case 'High':
+        return Colors.deepOrange;
+      case 'Critical':
+        return Colors.red.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
+  }
+
+  Widget _dateField(
+    String label,
+    DateTime? value,
+    VoidCallback onTap,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 11),
       child: InkWell(
-        onTap: _pickReviewDate,
+        onTap: onTap,
         borderRadius: BorderRadius.circular(4),
         child: InputDecorator(
           decoration: _decoration(
-            'Review / Valid Until',
+            label,
             icon: Icons.event_outlined,
           ),
           child: Text(
-            _reviewDate == null
-                ? 'Select review date'
-                : _formatDate(_reviewDate!),
+            value == null
+                ? 'Select date'
+                : _formatDate(value),
             style: TextStyle(
-              color: _reviewDate == null
+              color: value == null
                   ? Colors.grey.shade600
                   : Colors.grey.shade900,
             ),
@@ -1122,13 +1338,19 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
-    if (_status == 'Approved' &&
-        (_reviewedByController.text.trim().isEmpty ||
-            _approvedByController.text.trim().isEmpty)) {
+    final initialScore =
+        _score(_initialLikelihood, _initialSeverity);
+    final residualScore =
+        _score(_residualLikelihood, _residualSeverity);
+
+    final calculatedInitialLevel = _riskLevel(initialScore);
+    final calculatedResidualLevel = _riskLevel(residualScore);
+
+    if (_status == 'Completed' && _targetDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Approved RAMS requires Reviewed By and Approved By.',
+            'Completed action should have a target date.',
           ),
         ),
       );
@@ -1141,10 +1363,11 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
 
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString(
-      'safenexus_hse_rams_method_statements',
+      'safenexus_hse_risk_control_action_register',
     );
 
     List<Map<String, dynamic>> records = [];
+
     if (raw != null && raw.isNotEmpty) {
       try {
         final decoded = jsonDecode(raw);
@@ -1154,7 +1377,10 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
               .map(
                 (item) => Map<String, dynamic>.from(
                   item.map(
-                    (key, value) => MapEntry(key.toString(), value),
+                    (key, value) => MapEntry(
+                      key.toString(),
+                      value,
+                    ),
                   ),
                 ),
               )
@@ -1171,31 +1397,30 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     final record = <String, dynamic>{
       'id': existing?['id'] ??
           '${DateTime.now().microsecondsSinceEpoch}',
-      'ramsNo': _ramsNoController.text.trim(),
+      'riskNo': _riskNoController.text.trim(),
       'project': _projectController.text.trim(),
       'location': _locationController.text.trim(),
-      'department': _department ?? '',
+      'department': _department,
       'activity': _activityController.text.trim(),
-      'scope': _scopeController.text.trim(),
-      'method': _methodController.text.trim(),
       'hazardCategory': _hazardCategory,
-      'hazards': _hazardsController.text.trim(),
-      'hiraReference': _hiraReferenceController.text.trim(),
-      'jsaReference': _jsaReferenceController.text.trim(),
-      'controls': _controlsController.text.trim(),
-      'competencyLevel': _competencyLevel,
-      'ppe': _ppeController.text.trim(),
-      'requiredPermit': _requiredPermit,
-      'equipment': _equipmentController.text.trim(),
-      'emergency': _emergencyController.text.trim(),
-      'environment': _environmentController.text.trim(),
-      'inspection': _inspectionController.text.trim(),
-      'responsiblePerson': _responsibleController.text.trim(),
-      'preparedBy': _preparedByController.text.trim(),
-      'reviewedBy': _reviewedByController.text.trim(),
-      'approvedBy': _approvedByController.text.trim(),
-      'issueRevision': _issueRevisionController.text.trim(),
+      'hazard': _hazardController.text.trim(),
+      'consequence': _consequenceController.text.trim(),
+      'existingControls':
+          _existingControlsController.text.trim(),
+      'initialLikelihood': _initialLikelihood,
+      'initialSeverity': _initialSeverity,
+      'initialScore': initialScore,
+      'initialRiskLevel': calculatedInitialLevel,
+      'additionalControls':
+          _additionalControlsController.text.trim(),
+      'actionOwner': _actionOwnerController.text.trim(),
+      'targetDate': _targetDate?.toIso8601String(),
+      'residualLikelihood': _residualLikelihood,
+      'residualSeverity': _residualSeverity,
+      'residualScore': residualScore,
+      'residualRiskLevel': calculatedResidualLevel,
       'reviewDate': _reviewDate?.toIso8601String(),
+      'reference': _referenceController.text.trim(),
       'status': _status,
       'remarks': _remarksController.text.trim(),
       'createdAt': existing?['createdAt'] ?? now,
@@ -1204,7 +1429,9 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
 
     final existingIndex = existing == null
         ? -1
-        : records.indexWhere((item) => item['id'] == existing['id']);
+        : records.indexWhere(
+            (item) => item['id'] == existing['id'],
+          );
 
     if (existingIndex >= 0) {
       records[existingIndex] = record;
@@ -1213,7 +1440,7 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
     }
 
     await prefs.setString(
-      'safenexus_hse_rams_method_statements',
+      'safenexus_hse_risk_control_action_register',
       jsonEncode(records),
     );
 
@@ -1243,10 +1470,15 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(18, 12, 8, 12),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.fromLTRB(
+                18,
+                12,
+                8,
+                12,
+              ),
+              decoration: const BoxDecoration(
                 color: darkGreen,
-                borderRadius: const BorderRadius.vertical(
+                borderRadius: BorderRadius.vertical(
                   top: Radius.circular(22),
                 ),
               ),
@@ -1254,7 +1486,9 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
                 children: [
                   Expanded(
                     child: Text(
-                      _isEditing ? 'Edit RAMS' : 'Add RAMS',
+                      _isEditing
+                          ? 'Edit Risk Record'
+                          : 'Add Risk Record',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -1284,13 +1518,13 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
                   ),
                   children: [
                     _sectionTitle(
-                      '1. RAMS Identification',
-                      Icons.badge_outlined,
+                      '1. Risk Identification',
+                      Icons.warning_amber_outlined,
                     ),
                     _field(
-                      _ramsNoController,
-                      'RAMS No.',
-                      hint: 'Example: RAMS-001',
+                      _riskNoController,
+                      'Risk Register No.',
+                      hint: 'Example: RISK-001',
                       icon: Icons.numbers,
                       required: true,
                     ),
@@ -1306,191 +1540,170 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
                     ),
                     _dropdown(
                       'Department / Work Group',
-                      _department ?? widget.departments.first,
+                      _department,
                       widget.departments,
-                      (value) => setState(() {
-                        _department = value;
-                      }),
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _department = value;
+                        });
+                      },
                       icon: Icons.groups_outlined,
                     ),
                     _field(
                       _activityController,
-                      'Activity / Work Title',
+                      'Activity / Task',
                       icon: Icons.work_outline,
                       required: true,
-                    ),
-                    _field(
-                      _scopeController,
-                      'Scope of Work',
-                      icon: Icons.subject_outlined,
-                      maxLines: 4,
-                      required: true,
-                    ),
-                    _dropdown(
-                      'Status',
-                      _status,
-                      widget.statuses,
-                      (value) => setState(() {
-                        _status = value ?? 'Draft';
-                      }),
-                      icon: Icons.flag_outlined,
-                    ),
-
-                    _sectionTitle(
-                      '2. Method & Work Sequence',
-                      Icons.format_list_numbered,
-                    ),
-                    _field(
-                      _methodController,
-                      'Method / Work Sequence',
-                      hint: 'Describe the safe step-by-step work method.',
-                      icon: Icons.alt_route,
-                      maxLines: 7,
-                      required: true,
-                    ),
-
-                    _sectionTitle(
-                      '3. Hazards & Risk References',
-                      Icons.warning_amber_rounded,
                     ),
                     _dropdown(
                       'Hazard Category',
                       _hazardCategory,
                       widget.hazardCategories,
-                      (value) => setState(() {
-                        _hazardCategory = value ?? 'General';
-                      }),
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _hazardCategory = value;
+                        });
+                      },
                       icon: Icons.category_outlined,
                     ),
                     _field(
-                      _hazardsController,
-                      'Hazards / Risks',
+                      _hazardController,
+                      'Hazard',
                       icon: Icons.warning_outlined,
-                      maxLines: 5,
+                      maxLines: 4,
                       required: true,
                     ),
                     _field(
-                      _hiraReferenceController,
-                      'HIRA Reference',
-                      hint: 'Example: HIRA-001',
-                      icon: Icons.fact_check_outlined,
+                      _consequenceController,
+                      'Risk / Potential Consequence',
+                      icon: Icons.report_problem_outlined,
+                      maxLines: 4,
+                      required: true,
+                    ),
+
+                    _sectionTitle(
+                      '2. Existing Controls & Initial Risk',
+                      Icons.shield_outlined,
                     ),
                     _field(
-                      _jsaReferenceController,
-                      'JSA / JHA Reference',
-                      hint: 'Example: JSA-001',
-                      icon: Icons.assignment_outlined,
+                      _existingControlsController,
+                      'Existing Control Measures',
+                      icon: Icons.security_outlined,
+                      maxLines: 6,
+                      required: true,
+                    ),
+                    _ratingDropdown(
+                      'Initial Likelihood (1-5)',
+                      _initialLikelihood,
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _initialLikelihood = value;
+                        });
+                      },
+                    ),
+                    _ratingDropdown(
+                      'Initial Severity (1-5)',
+                      _initialSeverity,
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _initialSeverity = value;
+                        });
+                      },
+                    ),
+                    _riskResult(
+                      'Initial Risk',
+                      _initialLikelihood,
+                      _initialSeverity,
+                    ),
+
+                    _sectionTitle(
+                      '3. Additional Controls & Action',
+                      Icons.rule_outlined,
                     ),
                     _field(
-                      _controlsController,
-                      'Control Measures',
-                      icon: Icons.shield_outlined,
+                      _additionalControlsController,
+                      'Additional Control Measures',
+                      icon: Icons.add_task_outlined,
                       maxLines: 7,
                       required: true,
                     ),
-
-                    _sectionTitle(
-                      '4. Competency, PPE & Permit',
-                      Icons.engineering_outlined,
-                    ),
-                    _dropdown(
-                      'Required Competency / Training',
-                      _competencyLevel,
-                      widget.competencyLevels,
-                      (value) => setState(() {
-                        _competencyLevel =
-                            value ?? 'Not Specified';
-                      }),
-                      icon: Icons.school_outlined,
-                    ),
                     _field(
-                      _ppeController,
-                      'Required PPE',
-                      hint: 'Example: Helmet, safety shoes, gloves...',
-                      icon: Icons.health_and_safety_outlined,
-                      maxLines: 3,
-                    ),
-                    _dropdown(
-                      'Required Permit',
-                      _requiredPermit,
-                      widget.permitTypes,
-                      (value) => setState(() {
-                        _requiredPermit =
-                            value ?? 'Not Required';
-                      }),
-                      icon: Icons.approval_outlined,
-                    ),
-                    _field(
-                      _equipmentController,
-                      'Equipment / Tools',
-                      icon: Icons.construction_outlined,
-                      maxLines: 4,
-                    ),
-
-                    _sectionTitle(
-                      '5. Emergency & Environmental Controls',
-                      Icons.emergency_outlined,
-                    ),
-                    _field(
-                      _emergencyController,
-                      'Emergency / Rescue Arrangements',
-                      icon: Icons.emergency_share_outlined,
-                      maxLines: 5,
-                    ),
-                    _field(
-                      _environmentController,
-                      'Environmental Controls',
-                      icon: Icons.eco_outlined,
-                      maxLines: 5,
-                    ),
-                    _field(
-                      _inspectionController,
-                      'Inspection / Hold Points',
-                      icon: Icons.rule_outlined,
-                      maxLines: 5,
-                    ),
-
-                    _sectionTitle(
-                      '6. Responsibility & Approval',
-                      Icons.approval_outlined,
-                    ),
-                    _field(
-                      _responsibleController,
-                      'Responsible Person',
+                      _actionOwnerController,
+                      'Action Owner',
                       icon: Icons.person_outline,
                       required: true,
                     ),
-                    _field(
-                      _preparedByController,
-                      'Prepared By',
-                      icon: Icons.edit_note_outlined,
+                    _dateField(
+                      'Target / Action Due Date',
+                      _targetDate,
+                      () => _pickDate(target: true),
                     ),
-                    _field(
-                      _reviewedByController,
-                      'Reviewed By',
-                      icon: Icons.rate_review_outlined,
-                    ),
-                    _field(
-                      _approvedByController,
-                      'Approved By',
-                      icon: Icons.verified_outlined,
-                    ),
-                    _field(
-                      _issueRevisionController,
-                      'Issue / Revision',
-                      hint: 'Example: Rev. 00',
-                      icon: Icons.history,
-                    ),
-                    _dateField(),
 
                     _sectionTitle(
-                      '7. Remarks & Record History',
-                      Icons.notes_outlined,
+                      '4. Residual Risk',
+                      Icons.assessment_outlined,
+                    ),
+                    _ratingDropdown(
+                      'Residual Likelihood (1-5)',
+                      _residualLikelihood,
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _residualLikelihood = value;
+                        });
+                      },
+                    ),
+                    _ratingDropdown(
+                      'Residual Severity (1-5)',
+                      _residualSeverity,
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _residualSeverity = value;
+                        });
+                      },
+                    ),
+                    _riskResult(
+                      'Residual Risk',
+                      _residualLikelihood,
+                      _residualSeverity,
+                    ),
+
+                    _sectionTitle(
+                      '5. Review & Status',
+                      Icons.fact_check_outlined,
+                    ),
+                    _dateField(
+                      'Review Date',
+                      _reviewDate,
+                      () => _pickDate(target: false),
+                    ),
+                    _field(
+                      _referenceController,
+                      'Reference / Related HIRA / JSA / RAMS',
+                      hint: 'Example: HIRA-001, JSA-001, RAMS-001',
+                      icon: Icons.link_outlined,
+                    ),
+                    _dropdown(
+                      'Status',
+                      _status,
+                      widget.statuses,
+                      (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _status = value;
+                        });
+                      },
+                      icon: Icons.flag_outlined,
                     ),
                     _field(
                       _remarksController,
-                      'Remarks / Additional Requirements',
-                      icon: Icons.notes,
+                      'Remarks / Additional Information',
+                      icon: Icons.notes_outlined,
                       maxLines: 5,
                     ),
 
@@ -1517,8 +1730,8 @@ class _RamsFormSheetState extends State<_RamsFormSheet> {
                           _saving
                               ? 'Saving...'
                               : _isEditing
-                                  ? 'Update RAMS'
-                                  : 'Save RAMS',
+                                  ? 'Update Risk'
+                                  : 'Save Risk',
                         ),
                       ),
                     ),
