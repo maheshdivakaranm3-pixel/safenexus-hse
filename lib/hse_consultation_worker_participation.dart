@@ -137,9 +137,6 @@ class _HseConsultationWorkerParticipationPageState
   int get _completedCount =>
       _records.where((record) => record['status'] == 'Completed').length;
 
-  int get _cancelledCount =>
-      _records.where((record) => record['status'] == 'Cancelled').length;
-
   int get _overdueCount {
     final now = DateTime.now();
 
