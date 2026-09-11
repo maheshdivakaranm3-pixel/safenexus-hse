@@ -154,11 +154,6 @@ class _HseCompetencyMatrixPageState
         (record) => record['status'] == 'Training Required',
       ).length;
 
-  int get _expiredCount =>
-      _records.where(
-        (record) => record['status'] == 'Expired',
-      ).length;
-
   Future<void> _showRecordForm({
     Map<String, dynamic>? existingRecord,
   }) async {
@@ -599,7 +594,7 @@ class _HseCompetencyMatrixPageState
                       final index = _records.indexWhere(
                         (item) =>
                             item['id']?.toString() ==
-                            existingRecord!['id']?.toString(),
+                            existingRecord['id']?.toString(),
                       );
 
                       if (index >= 0) {
