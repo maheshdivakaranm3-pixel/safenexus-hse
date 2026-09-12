@@ -104,9 +104,7 @@ class _WorkforceReadinessDeploymentPageState
       'clearanceReference': getValue(29),
       'deploymentConditions': getValue(30),
       'requiredActions': getValue(31),
-      'status': getValue(32).isEmpty
-          ? 'Draft'
-          : getValue(32),
+      'status': getValue(32).isEmpty ? 'Draft' : getValue(32),
       'remarks': getValue(33),
       'createdAt': getValue(34),
       'updatedAt': getValue(35),
@@ -170,67 +168,21 @@ class _WorkforceReadinessDeploymentPageState
 
     return records.where((record) {
       final searchable = record.values.join(' ').toLowerCase();
-
       final matchesSearch =
           query.isEmpty || searchable.contains(query);
-
       final matchesStatus =
-          statusFilter == 'All' ||
-          record['status'] == statusFilter;
-
+          statusFilter == 'All' || record['status'] == statusFilter;
       final matchesEligibility =
           eligibilityFilter == 'All' ||
           record['eligibility'] == eligibilityFilter;
 
-      return matchesSearch &&
-          matchesStatus &&
-          matchesEligibility;
+      return matchesSearch && matchesStatus && matchesEligibility;
     }).toList();
   }
 
   int _countStatus(String status) =>
       records.where((r) => r['status'] == status).length;
 
-  int _countEligibility(String eligibility) =>
-  Skip to content
-safenexus-hse
-Repository navigation
-Code
-Issues
-Pull requests
-SafeNexus HSE - Android Build
-Add files via upload #793
-Annotations
-1 error and 2 warnings
-Analyze and Build APK
-failed 3 minutes ago in 59s
-1s
-2s
-15s
-18s
-1s
-0s
-2s
-2s
-0s
-1s
-2s
-12s
-Run flutter analyze
-Analyzing safenexus-hse...                                      
-
-warning • The declaration '_countEligibility' isn't referenced. Try removing the declaration of '_countEligibility' • lib/workforce_readiness_deployment.dart:194:7 • unused_element
-
-1 issue found. (ran in 11.5s)
-Error: Process completed with exit code 1.
-0s
-0s
-0s
-0s
-0s
-0s
-0s
- 
   int get _clearedCount =>
       _countStatus('Cleared for Deployment');
 
@@ -273,11 +225,8 @@ Error: Process completed with exit code 1.
     return days >= 0 && days <= 30;
   }
 
-  Future<void> _openForm({
-    Map<String, dynamic>? existing,
-  }) async {
-    final result =
-        await showModalBottomSheet<Map<String, dynamic>>(
+  Future<void> _openForm({Map<String, dynamic>? existing}) async {
+    final result = await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -294,8 +243,7 @@ Error: Process completed with exit code 1.
     final now = DateTime.now().toIso8601String();
 
     if (existing == null) {
-      result['id'] =
-          'CLR-${DateTime.now().millisecondsSinceEpoch}';
+      result['id'] = 'CLR-${DateTime.now().millisecondsSinceEpoch}';
       result['createdAt'] = now;
       result['updatedAt'] = now;
       records.add(result);
@@ -315,9 +263,7 @@ Error: Process completed with exit code 1.
     if (mounted) setState(() {});
   }
 
-  Future<void> _deleteRecord(
-    Map<String, dynamic> record,
-  ) async {
+  Future<void> _deleteRecord(Map<String, dynamic> record) async {
     records.remove(record);
     await _saveRecords();
 
@@ -337,8 +283,7 @@ Error: Process completed with exit code 1.
           width: 540,
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: record.entries
                   .where((entry) =>
                       entry.key != 'id' &&
@@ -346,12 +291,10 @@ Error: Process completed with exit code 1.
                       entry.key != 'updatedAt')
                   .map(
                     (entry) => Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         '${_label(entry.key)}: ${entry.value}',
-                        style:
-                            const TextStyle(fontSize: 13),
+                        style: const TextStyle(fontSize: 13),
                       ),
                     ),
                   )
@@ -384,8 +327,7 @@ Error: Process completed with exit code 1.
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            const Text('Workforce HSE Readiness & Clearance'),
+        title: const Text('Workforce HSE Readiness & Clearance'),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
         actions: [
@@ -400,77 +342,59 @@ Error: Process completed with exit code 1.
         children: [
           _dashboard(),
           Padding(
-            padding:
-                const EdgeInsets.fromLTRB(12, 4, 12, 8),
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
             child: Column(
               children: [
                 TextField(
                   decoration: const InputDecoration(
-                    labelText:
-                        'Search worker, ID, site, job role...',
+                    labelText: 'Search worker, ID, site, job role...',
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(),
                   ),
-                  onChanged: (value) => setState(
-                    () => searchText = value,
-                  ),
+                  onChanged: (value) =>
+                      setState(() => searchText = value),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     Expanded(
-                      child:
-                          DropdownButtonFormField<String>(
+                      child: DropdownButtonFormField<String>(
                         initialValue: statusFilter,
-                        decoration:
-                            const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Status',
                           border: OutlineInputBorder(),
                         ),
-                        items: [
-                          'All',
-                          ...statuses,
-                        ]
+                        items: ['All', ...statuses]
                             .map(
-                              (value) =>
-                                  DropdownMenuItem(
+                              (value) => DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
                               ),
                             )
                             .toList(),
                         onChanged: (value) => setState(
-                          () => statusFilter =
-                              value ?? 'All',
+                          () => statusFilter = value ?? 'All',
                         ),
                       ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child:
-                          DropdownButtonFormField<String>(
-                        initialValue:
-                            eligibilityFilter,
-                        decoration:
-                            const InputDecoration(
+                      child: DropdownButtonFormField<String>(
+                        initialValue: eligibilityFilter,
+                        decoration: const InputDecoration(
                           labelText: 'Eligibility',
                           border: OutlineInputBorder(),
                         ),
-                        items: [
-                          'All',
-                          ...eligibilityOptions,
-                        ]
+                        items: ['All', ...eligibilityOptions]
                             .map(
-                              (value) =>
-                                  DropdownMenuItem(
+                              (value) => DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
                               ),
                             )
                             .toList(),
                         onChanged: (value) => setState(
-                          () => eligibilityFilter =
-                              value ?? 'All',
+                          () => eligibilityFilter = value ?? 'All',
                         ),
                       ),
                     ),
@@ -487,65 +411,43 @@ Error: Process completed with exit code 1.
                     ),
                   )
                 : ListView.builder(
-                    padding:
-                        const EdgeInsets.all(12),
-                    itemCount:
-                        filteredRecords.length,
+                    padding: const EdgeInsets.all(12),
+                    itemCount: filteredRecords.length,
                     itemBuilder: (_, index) {
-                      final record =
-                          filteredRecords[index];
-
-                      final overdue =
-                          _isOverdue(record);
-                      final expiring =
-                          _isExpiringSoon(record);
+                      final record = filteredRecords[index];
+                      final overdue = _isOverdue(record);
+                      final expiring = _isExpiringSoon(record);
 
                       return Card(
-                        margin:
-                            const EdgeInsets.only(
-                          bottom: 10,
-                        ),
+                        margin: const EdgeInsets.only(bottom: 10),
                         child: ListTile(
                           leading: CircleAvatar(
                             backgroundColor:
-                                overdue
-                                    ? Colors.red
-                                    : primaryGreen,
+                                overdue ? Colors.red : primaryGreen,
                             child: const Icon(
                               Icons.verified_user,
                               color: Colors.white,
                             ),
                           ),
                           title: Text(
-                            record['workerName']
-                                    ?.toString() ??
-                                '',
-                            style:
-                                const TextStyle(
-                              fontWeight:
-                                  FontWeight.bold,
+                            record['workerName']?.toString() ?? '',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           subtitle: Text(
-                            '${record['workerId']} • '
-                            '${record['jobRole']}\n'
-                            '${record['eligibility']} • '
-                            '${record['status']}'
+                            '${record['workerId']} • ${record['jobRole']}\n'
+                            '${record['eligibility']} • ${record['status']}'
                             '${overdue ? ' • OVERDUE' : ''}'
                             '${expiring ? ' • EXPIRING ≤30 DAYS' : ''}',
                           ),
                           isThreeLine: true,
-                          onTap: () =>
-                              _showDetails(record),
-                          trailing:
-                              PopupMenuButton<String>(
+                          onTap: () => _showDetails(record),
+                          trailing: PopupMenuButton<String>(
                             onSelected: (value) {
                               if (value == 'edit') {
-                                _openForm(
-                                  existing: record,
-                                );
-                              } else if (value ==
-                                  'delete') {
+                                _openForm(existing: record);
+                              } else if (value == 'delete') {
                                 _deleteRecord(record);
                               }
                             },
@@ -567,8 +469,7 @@ Error: Process completed with exit code 1.
           ),
         ],
       ),
-      floatingActionButton:
-          FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         backgroundColor: primaryGreen,
         foregroundColor: Colors.white,
         onPressed: () => _openForm(),
@@ -584,51 +485,19 @@ Error: Process completed with exit code 1.
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
-          _stat(
-            'TOTAL',
-            records.length,
-            Icons.people,
-          ),
-          _stat(
-            'CLEARED',
-            _clearedCount,
-            Icons.verified,
-          ),
-          _stat(
-            'CONDITIONAL',
-            _conditionalCount,
-            Icons.rule,
-          ),
-          _stat(
-            'ACTION',
-            _actionRequiredCount,
-            Icons.assignment_late,
-          ),
-          _stat(
-            'NOT CLEARED',
-            _notClearedCount,
-            Icons.block,
-          ),
-          _stat(
-            'EXPIRING',
-            _expiringSoonCount,
-            Icons.schedule,
-          ),
-          _stat(
-            'OVERDUE',
-            _overdueCount,
-            Icons.warning,
-          ),
+          _stat('TOTAL', records.length, Icons.people),
+          _stat('CLEARED', _clearedCount, Icons.verified),
+          _stat('CONDITIONAL', _conditionalCount, Icons.rule),
+          _stat('ACTION', _actionRequiredCount, Icons.assignment_late),
+          _stat('NOT CLEARED', _notClearedCount, Icons.block),
+          _stat('EXPIRING', _expiringSoonCount, Icons.schedule),
+          _stat('OVERDUE', _overdueCount, Icons.warning),
         ],
       ),
     );
   }
 
-  Widget _stat(
-    String title,
-    int value,
-    IconData icon,
-  ) {
+  Widget _stat(String title, int value, IconData icon) {
     return SizedBox(
       width: 96,
       child: Card(
@@ -639,11 +508,7 @@ Error: Process completed with exit code 1.
           ),
           child: Column(
             children: [
-              Icon(
-                icon,
-                color: primaryGreen,
-                size: 20,
-              ),
+              Icon(icon, color: primaryGreen, size: 20),
               const SizedBox(height: 3),
               Text(
                 '$value',
@@ -655,8 +520,7 @@ Error: Process completed with exit code 1.
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontSize: 9),
+                style: const TextStyle(fontSize: 9),
               ),
             ],
           ),
@@ -684,16 +548,12 @@ class _ReadinessFormSheet extends StatefulWidget {
       _ReadinessFormSheetState();
 }
 
-class _ReadinessFormSheetState
-    extends State<_ReadinessFormSheet> {
-  static const Color primaryGreen =
-      Color(0xFF159447);
-  static const Color darkGreen =
-      Color(0xFF0B5D4B);
+class _ReadinessFormSheetState extends State<_ReadinessFormSheet> {
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
 
   final _formKey = GlobalKey<FormState>();
-  final Map<String, TextEditingController>
-      controllers = {};
+  final Map<String, TextEditingController> controllers = {};
 
   String inductionVerification = 'Pending';
   String trainingVerification = 'Pending';
@@ -737,58 +597,36 @@ class _ReadinessFormSheetState
     ];
 
     for (final field in fields) {
-      controllers[field] =
-          TextEditingController(
-        text:
-            widget.existing?[field]?.toString() ??
-                '',
+      controllers[field] = TextEditingController(
+        text: widget.existing?[field]?.toString() ?? '',
       );
     }
 
     inductionVerification =
-        _existingVerification(
-      'inductionVerification',
-    );
+        _existingVerification('inductionVerification');
     trainingVerification =
-        _existingVerification(
-      'trainingVerification',
-    );
+        _existingVerification('trainingVerification');
     competencyVerification =
-        _existingVerification(
-      'competencyVerification',
-    );
+        _existingVerification('competencyVerification');
     authorizationVerification =
-        _existingVerification(
-      'authorizationVerification',
-    );
+        _existingVerification('authorizationVerification');
     medicalFitnessVerification =
-        _existingVerification(
-      'medicalFitnessVerification',
-    );
-    ppeVerification =
-        _existingVerification(
-      'ppeVerification',
-    );
+        _existingVerification('medicalFitnessVerification');
+    ppeVerification = _existingVerification('ppeVerification');
     documentVerification =
-        _existingVerification(
-      'documentVerification',
-    );
+        _existingVerification('documentVerification');
     supervisorVerification =
-        _existingVerification(
-      'supervisorVerification',
-    );
+        _existingVerification('supervisorVerification');
 
     final existingEligibility =
         widget.existing?['eligibility']?.toString();
 
     if (existingEligibility != null &&
-        widget.eligibilityOptions
-            .contains(existingEligibility)) {
+        widget.eligibilityOptions.contains(existingEligibility)) {
       eligibility = existingEligibility;
     }
 
-    final existingStatus =
-        widget.existing?['status']?.toString();
+    final existingStatus = widget.existing?['status']?.toString();
 
     if (existingStatus != null &&
         widget.statuses.contains(existingStatus)) {
@@ -797,12 +635,10 @@ class _ReadinessFormSheetState
   }
 
   String _existingVerification(String key) {
-    final value =
-        widget.existing?[key]?.toString();
+    final value = widget.existing?[key]?.toString();
 
     if (value != null &&
-        widget.verificationOptions
-            .contains(value)) {
+        widget.verificationOptions.contains(value)) {
       return value;
     }
 
@@ -817,14 +653,11 @@ class _ReadinessFormSheetState
     super.dispose();
   }
 
-  TextEditingController _controller(
-    String key,
-  ) =>
+  TextEditingController _controller(String key) =>
       controllers[key]!;
 
   String? _required(String? value) {
-    if (value == null ||
-        value.trim().isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return 'Required';
     }
 
@@ -838,16 +671,14 @@ class _ReadinessFormSheetState
     String? Function(String?)? validator,
   }) {
     return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
         controller: _controller(key),
         maxLines: maxLines,
         validator: validator,
         decoration: InputDecoration(
           labelText: label,
-          border:
-              const OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
     );
@@ -855,10 +686,7 @@ class _ReadinessFormSheetState
 
   Widget _section(String title) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 6,
-        bottom: 10,
-      ),
+      padding: const EdgeInsets.only(top: 6, bottom: 10),
       child: Text(
         title,
         style: const TextStyle(
@@ -876,20 +704,16 @@ class _ReadinessFormSheetState
     ValueChanged<String?> onChanged,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 10),
-      child:
-          DropdownButtonFormField<String>(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: DropdownButtonFormField<String>(
         initialValue: value,
         decoration: InputDecoration(
           labelText: label,
-          border:
-              const OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
         items: widget.verificationOptions
             .map(
-              (option) =>
-                  DropdownMenuItem(
+              (option) => DropdownMenuItem(
                 value: option,
                 child: Text(option),
               ),
@@ -904,14 +728,10 @@ class _ReadinessFormSheetState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height:
-            MediaQuery.of(context).size.height *
-                0.95,
-        decoration:
-            const BoxDecoration(
+        height: MediaQuery.of(context).size.height * 0.95,
+        decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(
+          borderRadius: BorderRadius.vertical(
             top: Radius.circular(22),
           ),
         ),
@@ -920,8 +740,7 @@ class _ReadinessFormSheetState
           child: Column(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(14),
                 color: darkGreen,
                 child: const Row(
                   children: [
@@ -936,8 +755,7 @@ class _ReadinessFormSheetState
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
-                          fontWeight:
-                              FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -946,12 +764,9 @@ class _ReadinessFormSheetState
               ),
               Expanded(
                 child: ListView(
-                  padding:
-                      const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   children: [
-                    _section(
-                      'WORKER & DEPLOYMENT',
-                    ),
+                    _section('WORKER & DEPLOYMENT'),
                     _field(
                       'workerId',
                       'Worker / Employee ID',
@@ -967,33 +782,16 @@ class _ReadinessFormSheetState
                       'Company / Contractor',
                       validator: _required,
                     ),
-                    _field(
-                      'project',
-                      'Project',
-                    ),
-                    _field(
-                      'site',
-                      'Site',
-                    ),
-                    _field(
-                      'department',
-                      'Department',
-                    ),
-                    _field(
-                      'jobRole',
-                      'Job Role / Trade',
-                    ),
-                    _field(
-                      'supervisor',
-                      'Supervisor',
-                    ),
+                    _field('project', 'Project'),
+                    _field('site', 'Site'),
+                    _field('department', 'Department'),
+                    _field('jobRole', 'Job Role / Trade'),
+                    _field('supervisor', 'Supervisor'),
                     _field(
                       'deploymentArea',
                       'Deployment Area / Work Front',
                     ),
-                    _section(
-                      'HSE READINESS VERIFICATION',
-                    ),
+                    _section('HSE READINESS VERIFICATION'),
                     _verificationDropdown(
                       'Induction Verification',
                       inductionVerification,
@@ -1050,9 +848,7 @@ class _ReadinessFormSheetState
                             value ?? 'Pending',
                       ),
                     ),
-                    _section(
-                      'ACTIONS & RESTRICTIONS',
-                    ),
+                    _section('ACTIONS & RESTRICTIONS'),
                     _field(
                       'openActions',
                       'Open HSE Actions / Outstanding Items',
@@ -1068,32 +864,24 @@ class _ReadinessFormSheetState
                       'Required Actions Before Deployment',
                       maxLines: 3,
                     ),
-                    _section(
-                      'ELIGIBILITY & VERIFICATION',
-                    ),
+                    _section('ELIGIBILITY & VERIFICATION'),
                     DropdownButtonFormField<String>(
                       initialValue: eligibility,
-                      decoration:
-                          const InputDecoration(
-                        labelText:
-                            'Deployment Eligibility',
-                        border:
-                            OutlineInputBorder(),
+                      decoration: const InputDecoration(
+                        labelText: 'Deployment Eligibility',
+                        border: OutlineInputBorder(),
                       ),
                       items: widget.eligibilityOptions
                           .map(
-                            (value) =>
-                                DropdownMenuItem(
+                            (value) => DropdownMenuItem(
                               value: value,
                               child: Text(value),
                             ),
                           )
                           .toList(),
-                      onChanged: (value) =>
-                          setState(
+                      onChanged: (value) => setState(
                         () => eligibility =
-                            value ??
-                                'Pending Verification',
+                            value ?? 'Pending Verification',
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -1117,13 +905,8 @@ class _ReadinessFormSheetState
                       'supervisorVerificationDate',
                       'Supervisor Verification Date (YYYY-MM-DD)',
                     ),
-                    _section(
-                      'APPROVAL & CLEARANCE',
-                    ),
-                    _field(
-                      'approvedBy',
-                      'Approved By',
-                    ),
+                    _section('APPROVAL & CLEARANCE'),
+                    _field('approvedBy', 'Approved By'),
                     _field(
                       'approvalDate',
                       'Approval Date (YYYY-MM-DD)',
@@ -1149,31 +932,23 @@ class _ReadinessFormSheetState
                       'Deployment Conditions',
                       maxLines: 3,
                     ),
-                    _section(
-                      'STATUS & RECORD',
-                    ),
+                    _section('STATUS & RECORD'),
                     DropdownButtonFormField<String>(
                       initialValue: status,
-                      decoration:
-                          const InputDecoration(
-                        labelText:
-                            'Clearance Status',
-                        border:
-                            OutlineInputBorder(),
+                      decoration: const InputDecoration(
+                        labelText: 'Clearance Status',
+                        border: OutlineInputBorder(),
                       ),
                       items: widget.statuses
                           .map(
-                            (value) =>
-                                DropdownMenuItem(
+                            (value) => DropdownMenuItem(
                               value: value,
                               child: Text(value),
                             ),
                           )
                           .toList(),
-                      onChanged: (value) =>
-                          setState(
-                        () => status =
-                            value ?? 'Draft',
+                      onChanged: (value) => setState(
+                        () => status = value ?? 'Draft',
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -1186,39 +961,25 @@ class _ReadinessFormSheetState
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(14),
                 child: Row(
                   children: [
                     Expanded(
-                      child:
-                          OutlinedButton(
-                        onPressed: () =>
-                            Navigator.pop(
-                          context,
-                        ),
-                        child:
-                            const Text('Cancel'),
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child:
-                          ElevatedButton.icon(
-                        style:
-                            ElevatedButton.styleFrom(
-                          backgroundColor:
-                              primaryGreen,
-                          foregroundColor:
-                              Colors.white,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryGreen,
+                          foregroundColor: Colors.white,
                         ),
                         onPressed: _save,
-                        icon: const Icon(
-                          Icons.save,
-                        ),
-                        label: const Text(
-                          'Save Clearance',
-                        ),
+                        icon: const Icon(Icons.save),
+                        label: const Text('Save Clearance'),
                       ),
                     ),
                   ],
@@ -1232,34 +993,25 @@ class _ReadinessFormSheetState
   }
 
   void _save() {
-    if (!_formKey.currentState!
-        .validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final data =
-        <String, dynamic>{};
+    final data = <String, dynamic>{};
 
-    for (final entry
-        in controllers.entries) {
-      data[entry.key] =
-          entry.value.text.trim();
+    for (final entry in controllers.entries) {
+      data[entry.key] = entry.value.text.trim();
     }
 
-    data['inductionVerification'] =
-        inductionVerification;
-    data['trainingVerification'] =
-        trainingVerification;
-    data['competencyVerification'] =
-        competencyVerification;
+    data['inductionVerification'] = inductionVerification;
+    data['trainingVerification'] = trainingVerification;
+    data['competencyVerification'] = competencyVerification;
     data['authorizationVerification'] =
         authorizationVerification;
     data['medicalFitnessVerification'] =
         medicalFitnessVerification;
-    data['ppeVerification'] =
-        ppeVerification;
-    data['documentVerification'] =
-        documentVerification;
+    data['ppeVerification'] = ppeVerification;
+    data['documentVerification'] = documentVerification;
     data['eligibility'] = eligibility;
     data['supervisorVerification'] =
         supervisorVerification;
