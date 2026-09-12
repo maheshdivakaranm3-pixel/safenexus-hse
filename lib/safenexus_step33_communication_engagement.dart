@@ -90,48 +90,6 @@ class _SafeNexusStep33CommunicationPageState
     '33L Communication Intelligence Dashboard',
   ];
 
-  static const List<String> communicationTypes = [
-    'Safety Meeting',
-    'Toolbox Talk',
-    'Safety Alert',
-    'Safety Bulletin',
-    'Campaign',
-    'Worker Feedback',
-    'Contractor Communication',
-    'Management Communication',
-    'Safety Committee',
-    'Emergency Communication',
-    'Authority Communication',
-    'Training / Awareness',
-    'Other',
-  ];
-
-  static const List<String> audiences = [
-    'Workers',
-    'Supervisors',
-    'HSE Team',
-    'Contractors',
-    'Subcontractors',
-    'Management',
-    'Client',
-    'Safety Committee',
-    'Authority',
-    'All Site Personnel',
-  ];
-
-  static const List<String> referenceTypes = [
-    'Step 9 Daily HSE',
-    'Step 31 Smart Checklist',
-    'Step 32 Field Operations',
-    'Risk / HIRA / JSA / JHA',
-    'RAMS',
-    'PTW',
-    'Workforce / Competency',
-    'Equipment',
-    'Incident',
-    'Action Center',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -946,8 +904,10 @@ class _SafeNexusStep33CommunicationPageState
                     Icons.person_outline,
                     'Owner: ${record['owner']}',
                   ),
-                  _sectionText('Message / Communication',
-                      '${record['message'] ?? ''}'),
+                  _sectionText(
+                    'Message / Communication',
+                    '${record['message'] ?? ''}',
+                  ),
                   if ('${record['feedback'] ?? ''}'.trim().isNotEmpty)
                     _sectionText(
                       'Worker / Audience Feedback',
