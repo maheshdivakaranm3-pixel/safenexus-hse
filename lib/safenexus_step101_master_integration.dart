@@ -70,7 +70,7 @@ class _SafeNexusStep101MasterIntegrationPageState
     'Critical',
   ];
 
-  final List<String> _checks = <Map<String, String>>[
+  final List<Map<String, String>> _checks = <Map<String, String>>[
     {
       'area': 'Architecture',
       'title': '100-step module architecture mapped',
