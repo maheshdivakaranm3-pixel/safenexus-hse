@@ -41,12 +41,6 @@ class _SafeNexusStep50ContractorSupplierPageState
     'Service Provider',
   ];
 
-  final List<String> _priorities = <String>[
-    'Low',
-    'Medium',
-    'High',
-    'Critical',
-  ];
 
   @override
   void initState() {
