@@ -45,13 +45,6 @@ class _SafeNexusStep49TrainingSafetyCulturePageState
     'Safety Culture',
   ];
 
-  final List<String> _priorities = <String>[
-    'Low',
-    'Medium',
-    'High',
-    'Critical',
-  ];
-
   @override
   void initState() {
     super.initState();
