@@ -1,41 +1,39 @@
-# SafeNexus HSE — Step 30
+# SafeNexus HSE — Step 31
 
-## HSE Performance, Compliance & Continuous Improvement Center
+## HSE Digital Forms & Smart Checklist Center
 
 ### Modules
-- 30A HSE Performance Master
-- 30B HSE KPI & Target Monitoring
-- 30C Leading / Lagging Indicators
-- 30D Trend & Performance Analysis
-- 30E Non-Conformance Management
-- 30F CAPA Effectiveness Review
-- 30G Root Cause & Recurrence Tracking
-- 30H Safety Improvement Initiatives
-- 30I Lessons Learned & Best Practices
-- 30J Management Improvement Actions
-- 30K Continuous Improvement Register
-- 30L HSE Performance Intelligence Dashboard
+- 31A HSE Forms Master
+- 31B Daily HSE Checklist
+- 31C Site Safety Inspection Checklist
+- 31D Equipment / Pre-Use Checklist
+- 31E PTW Verification Checklist
+- 31F Risk Control Verification Checklist
+- 31G Emergency Preparedness Checklist
+- 31H Environmental Checklist
+- 31I Worker / PPE Compliance Checklist
+- 31J Audit / Compliance Checklist
+- 31K Checklist Action & Closure
+- 31L Smart Forms & Checklist Intelligence Dashboard
 
-### Core flow
-Measure → Analyze → Identify Gap → Correct → Verify → Improve → Standardize → Review
+### Core workflow
+Select Form → Fill Checklist → Identify Finding → Assign Action → Verify → Close → Performance Analysis
 
 ### Features
-- Unified performance/improvement register
-- KPI and target monitoring fields
-- Leading/lagging indicator classification
-- Performance status and gap tracking
-- Non-conformance / CAPA effectiveness records
-- Root cause and recurrence tracking
-- Improvement actions and owners
-- Effectiveness verification
-- Lessons learned / best-practice capture
-- Standardization tracking
+- Digital HSE form/checklist master
+- Daily, site, equipment, PTW, risk, emergency, environmental, worker/PPE and audit checklist categories
+- Checklist result tracking
+- Pass/fail/observation/N/A/not-checked counts
+- Finding, root cause and corrective action
+- Action owner and due date
+- Verification evidence and verification date
 - Overdue tracking
 - Search and multi-filter dashboard
 - CRUD operations
+- Status and priority workflow
 - Local SharedPreferences persistence
-- Record history / audit trail
-- HSE references to Risk, RAMS, PTW, Incident, Audit, Training, Legal and Communication
+- History / audit trail
+- Integration references for Risk, RAMS, PTW, Equipment, Workforce, Emergency, Environment, Incident, Audit/Legal and Communication
 
 ### Production note
-This module is a local operational register. It does not itself certify compliance, send external reports, or replace an approved HSE management system. Production integrations should use authenticated services and controlled workflows.
+This is a local digital forms/checklist register. It does not itself certify compliance, send external submissions, or replace approved HSE procedures. Production integrations should use authenticated, authorized and auditable services.
