@@ -188,10 +188,6 @@ class _SafeNexusStep46LegalCompliancePageState
     }).toList();
   }
 
-  int _countByStatus(String status) {
-    return _records.where((item) => item['status'] == status).length;
-  }
-
   int _countByCompliance(String status) {
     return _records
         .where((item) => item['complianceStatus'] == status)
