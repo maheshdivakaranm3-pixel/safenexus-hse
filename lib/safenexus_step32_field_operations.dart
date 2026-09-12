@@ -20,13 +20,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// 32K Field Action Closure & Verification
 /// 32L Field HSE Intelligence Dashboard
 ///
-/// Workflow:
-/// Plan -> Visit Site -> Observe -> Record Hazard -> Control Immediately
-/// -> Assign Action -> Verify -> Close -> Analyze
-///
-/// This is a local operational register. It uses SharedPreferences and
-/// integration references so the module can connect to the existing
-/// SafeNexus HSE modules without importing their screens directly.
+/// Clean analyzer version:
+/// • Removed unused referenceTypes declaration.
+/// • Removed unused _referenceId field.
+/// • Reference ID remains fully supported through the controller and saved record.
+/// • All 32A–32L functionality remains available.
+/// • SharedPreferences local storage.
+/// • CRUD, search, filters, workflow, verification, references and history.
 
 class SafeNexusStep32FieldOperationsPage extends StatefulWidget {
   const SafeNexusStep32FieldOperationsPage({
@@ -87,18 +87,6 @@ class _SafeNexusStep32FieldOperationsPageState
     '32J Finding Escalation & Follow-up',
     '32K Field Action Closure & Verification',
     '32L Field HSE Intelligence Dashboard',
-  ];
-
-  static const List<String> referenceTypes = [
-    'Step 9 Daily HSE',
-    'Step 31 Smart Checklist',
-    'Risk / HIRA / JSA / JHA',
-    'RAMS',
-    'PTW',
-    'Workforce / Competency',
-    'Equipment',
-    'Incident',
-    'Action Center',
   ];
 
   @override
@@ -167,19 +155,13 @@ class _SafeNexusStep32FieldOperationsPageState
       final module = '${record['module'] ?? ''}';
       final priority = '${record['priority'] ?? ''}';
 
-      if (_statusFilter != 'All' && status != _statusFilter) {
-        return false;
-      }
-      if (_moduleFilter != 'All' && module != _moduleFilter) {
-        return false;
-      }
+      if (_statusFilter != 'All' && status != _statusFilter) return false;
+      if (_moduleFilter != 'All' && module != _moduleFilter) return false;
       if (_priorityFilter != 'All' && priority != _priorityFilter) {
         return false;
       }
 
-      if (query.isEmpty) {
-        return true;
-      }
+      if (query.isEmpty) return true;
 
       final searchable = [
         record['title'],
@@ -200,9 +182,8 @@ class _SafeNexusStep32FieldOperationsPageState
     }).toList();
   }
 
-  int _countWhere(bool Function(Map<String, dynamic>) test) {
-    return _records.where(test).length;
-  }
+  int _countWhere(bool Function(Map<String, dynamic>) test) =>
+      _records.where(test).length;
 
   int get _openCount => _countWhere((r) {
         final status = '${r['status'] ?? ''}';
@@ -225,9 +206,7 @@ class _SafeNexusStep32FieldOperationsPageState
     final today = DateTime.now();
     return _countWhere((r) {
       final due = DateTime.tryParse('${r['dueDate'] ?? ''}');
-      if (due == null) {
-        return false;
-      }
+      if (due == null) return false;
       final status = '${r['status'] ?? ''}';
       return due.isBefore(DateTime(today.year, today.month, today.day)) &&
           status != 'Closed' &&
@@ -245,44 +224,49 @@ class _SafeNexusStep32FieldOperationsPageState
       ),
     );
 
-    if (result == null) {
-      return;
-    }
+    if (result == null) return;
 
     final record = Map<String, dynamic>.from(result);
     final existingId = existing?['id'];
+    final now = DateTime.now().toIso8601String();
 
     if (existingId != null) {
       final index = _records.indexWhere((r) => r['id'] == existingId);
+
       if (index >= 0) {
         record['id'] = existingId;
-        record['updatedAt'] = DateTime.now().toIso8601String();
+        record['updatedAt'] = now;
+        record['createdAt'] =
+            _records[index]['createdAt'] ?? now;
+
         record['history'] = [
-          ...List<dynamic>.from(_records[index]['history'] ?? const []),
+          ...List<dynamic>.from(
+            _records[index]['history'] ?? const [],
+          ),
           {
             'event': 'Updated',
-            'at': DateTime.now().toIso8601String(),
+            'at': now,
           },
         ];
+
         _records[index] = record;
       }
     } else {
       record['id'] = 'FO-${DateTime.now().millisecondsSinceEpoch}';
-      record['createdAt'] = DateTime.now().toIso8601String();
-      record['updatedAt'] = DateTime.now().toIso8601String();
+      record['createdAt'] = now;
+      record['updatedAt'] = now;
       record['history'] = [
         {
           'event': 'Created',
-          'at': DateTime.now().toIso8601String(),
+          'at': now,
         },
       ];
       _records.insert(0, record);
     }
 
     await _saveRecords();
-    if (mounted) {
-      setState(() {});
-    }
+
+    if (mounted) setState(() {});
   }
 
   Future<void> _deleteRecord(Map<String, dynamic> record) async {
@@ -307,16 +291,12 @@ class _SafeNexusStep32FieldOperationsPageState
       ),
     );
 
-    if (confirmed != true) {
-      return;
-    }
+    if (confirmed != true) return;
 
     _records.removeWhere((r) => r['id'] == record['id']);
     await _saveRecords();
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   Future<void> _clearAll() async {
@@ -340,22 +320,16 @@ class _SafeNexusStep32FieldOperationsPageState
       ),
     );
 
-    if (confirmed != true) {
-      return;
-    }
+    if (confirmed != true) return;
 
     _records.clear();
     await _saveRecords();
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   void _refreshView() {
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   @override
@@ -424,7 +398,11 @@ class _SafeNexusStep32FieldOperationsPageState
           children: [
             Row(
               children: [
-                Icon(Icons.location_searching, color: Colors.white, size: 30),
+                Icon(
+                  Icons.location_searching,
+                  color: Colors.white,
+                  size: 30,
+                ),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -441,14 +419,20 @@ class _SafeNexusStep32FieldOperationsPageState
             SizedBox(height: 8),
             Text(
               'Plan • Observe • Control • Verify • Close',
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
             ),
             SizedBox(height: 12),
             Text(
               'Step 32 integrates field activities with Daily HSE, Smart '
               'Checklists, Risk, PTW, RAMS, Workforce, Equipment, Incident '
               'and the Action Center.',
-              style: TextStyle(color: Colors.white, height: 1.4),
+              style: TextStyle(
+                color: Colors.white,
+                height: 1.4,
+              ),
             ),
           ],
         ),
@@ -478,7 +462,10 @@ class _SafeNexusStep32FieldOperationsPageState
           children: [
             const Text(
               '32 Workflow',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 12),
             Wrap(
@@ -529,6 +516,7 @@ class _SafeNexusStep32FieldOperationsPageState
       ),
       itemBuilder: (context, index) {
         final item = values[index];
+
         return Card(
           elevation: 0,
           child: Padding(
@@ -540,7 +528,8 @@ class _SafeNexusStep32FieldOperationsPageState
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
                     children: [
                       Text(
                         '${item.$2}',
@@ -590,7 +579,10 @@ class _SafeNexusStep32FieldOperationsPageState
                 border: OutlineInputBorder(),
               ),
               items: [
-                const DropdownMenuItem(value: 'All', child: Text('All')),
+                const DropdownMenuItem(
+                  value: 'All',
+                  child: Text('All'),
+                ),
                 ...statuses.map(
                   (value) => DropdownMenuItem(
                     value: value,
@@ -612,7 +604,10 @@ class _SafeNexusStep32FieldOperationsPageState
                 border: OutlineInputBorder(),
               ),
               items: [
-                const DropdownMenuItem(value: 'All', child: Text('All')),
+                const DropdownMenuItem(
+                  value: 'All',
+                  child: Text('All'),
+                ),
                 ...modules.map(
                   (value) => DropdownMenuItem(
                     value: value,
@@ -634,7 +629,10 @@ class _SafeNexusStep32FieldOperationsPageState
                 border: OutlineInputBorder(),
               ),
               items: [
-                const DropdownMenuItem(value: 'All', child: Text('All')),
+                const DropdownMenuItem(
+                  value: 'All',
+                  child: Text('All'),
+                ),
                 ...priorities.map(
                   (value) => DropdownMenuItem(
                     value: value,
@@ -669,7 +667,10 @@ class _SafeNexusStep32FieldOperationsPageState
             const SizedBox(height: 12),
             const Text(
               'No field records found',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 6),
             const Text(
@@ -692,7 +693,9 @@ class _SafeNexusStep32FieldOperationsPageState
   Widget _recordCard(Map<String, dynamic> record) {
     final status = '${record['status'] ?? 'Planned'}';
     final priority = '${record['priority'] ?? 'Medium'}';
-    final dueDate = DateTime.tryParse('${record['dueDate'] ?? ''}');
+    final dueDate =
+        DateTime.tryParse('${record['dueDate'] ?? ''}');
+
     final overdue = dueDate != null &&
         dueDate.isBefore(
           DateTime(
@@ -714,10 +717,12 @@ class _SafeNexusStep32FieldOperationsPageState
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Text(
@@ -760,7 +765,10 @@ class _SafeNexusStep32FieldOperationsPageState
                   Chip(label: Text(priority)),
                   if (overdue)
                     const Chip(
-                      avatar: Icon(Icons.schedule, size: 16),
+                      avatar: Icon(
+                        Icons.schedule,
+                        size: 16,
+                      ),
                       label: Text('OVERDUE'),
                     ),
                 ],
@@ -768,7 +776,8 @@ class _SafeNexusStep32FieldOperationsPageState
               const SizedBox(height: 8),
               _detailLine(
                 Icons.business_outlined,
-                '${record['project'] ?? '-'} • ${record['site'] ?? '-'}',
+                '${record['project'] ?? '-'} • '
+                '${record['site'] ?? '-'}',
               ),
               _detailLine(
                 Icons.place_outlined,
@@ -813,9 +822,14 @@ class _SafeNexusStep32FieldOperationsPageState
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: darkGreen),
+          Icon(
+            icon,
+            size: 18,
+            color: darkGreen,
+          ),
           const SizedBox(width: 7),
           Expanded(child: Text(text)),
         ],
@@ -824,7 +838,8 @@ class _SafeNexusStep32FieldOperationsPageState
   }
 
   Widget _referenceWrap(Map<String, dynamic> record) {
-    final refs = List<dynamic>.from(record['references'] ?? const []);
+    final refs =
+        List<dynamic>.from(record['references'] ?? const []);
 
     if (refs.isEmpty) {
       return const SizedBox.shrink();
@@ -834,24 +849,34 @@ class _SafeNexusStep32FieldOperationsPageState
       spacing: 6,
       runSpacing: 6,
       children: refs.map((item) {
-        final map = item is Map ? Map<String, dynamic>.from(item) : {};
+        final map =
+            item is Map ? Map<String, dynamic>.from(item) : {};
+
         final type = '${map['type'] ?? 'Reference'}';
         final id = '${map['id'] ?? ''}';
 
         return ActionChip(
-          avatar: const Icon(Icons.link, size: 16),
-          label: Text('$type${id.isEmpty ? '' : ': $id'}'),
-          onPressed: id.isEmpty || widget.sourceOpener == null
-              ? null
-              : () => widget.sourceOpener!(type, id),
+          avatar: const Icon(
+            Icons.link,
+            size: 16,
+          ),
+          label: Text(
+            '$type${id.isEmpty ? '' : ': $id'}',
+          ),
+          onPressed:
+              id.isEmpty || widget.sourceOpener == null
+                  ? null
+                  : () => widget.sourceOpener!(type, id),
         );
       }).toList(),
     );
   }
 
   void _showDetails(Map<String, dynamic> record) {
-    final history = List<dynamic>.from(record['history'] ?? const []);
-    final refs = List<dynamic>.from(record['references'] ?? const []);
+    final history =
+        List<dynamic>.from(record['history'] ?? const []);
+    final refs =
+        List<dynamic>.from(record['references'] ?? const []);
 
     showModalBottomSheet<void>(
       context: context,
@@ -867,7 +892,8 @@ class _SafeNexusStep32FieldOperationsPageState
             builder: (context, controller) {
               return ListView(
                 controller: controller,
-                padding: const EdgeInsets.fromLTRB(18, 4, 18, 30),
+                padding:
+                    const EdgeInsets.fromLTRB(18, 4, 18, 30),
                 children: [
                   Text(
                     '${record['title'] ?? 'Field Record'}',
@@ -879,7 +905,10 @@ class _SafeNexusStep32FieldOperationsPageState
                   const SizedBox(height: 8),
                   Text('${record['module'] ?? ''}'),
                   const Divider(height: 28),
-                  _detailLine(Icons.info_outline, 'Status: ${record['status']}'),
+                  _detailLine(
+                    Icons.info_outline,
+                    'Status: ${record['status']}',
+                  ),
                   _detailLine(
                     Icons.flag_outlined,
                     'Priority: ${record['priority']}',
@@ -906,13 +935,23 @@ class _SafeNexusStep32FieldOperationsPageState
                   ),
                   _detailLine(
                     Icons.groups_outlined,
-                    'Worker / Contractor: ${record['worker']} / '
-                    '${record['contractor']}',
+                    'Worker / Contractor: '
+                    '${record['worker']} / ${record['contractor']}',
                   ),
-                  if ('${record['observation'] ?? ''}'.trim().isNotEmpty)
-                    _sectionText('Observation', '${record['observation']}'),
-                  if ('${record['finding'] ?? ''}'.trim().isNotEmpty)
-                    _sectionText('Finding / Hazard', '${record['finding']}'),
+                  if ('${record['observation'] ?? ''}'
+                      .trim()
+                      .isNotEmpty)
+                    _sectionText(
+                      'Observation',
+                      '${record['observation']}',
+                    ),
+                  if ('${record['finding'] ?? ''}'
+                      .trim()
+                      .isNotEmpty)
+                    _sectionText(
+                      'Finding / Hazard',
+                      '${record['finding']}',
+                    ),
                   if ('${record['immediateControl'] ?? ''}'
                       .trim()
                       .isNotEmpty)
@@ -920,8 +959,13 @@ class _SafeNexusStep32FieldOperationsPageState
                       'Immediate Control',
                       '${record['immediateControl']}',
                     ),
-                  if ('${record['action'] ?? ''}'.trim().isNotEmpty)
-                    _sectionText('Action', '${record['action']}'),
+                  if ('${record['action'] ?? ''}'
+                      .trim()
+                      .isNotEmpty)
+                    _sectionText(
+                      'Action',
+                      '${record['action']}',
+                    ),
                   if ('${record['verification'] ?? ''}'
                       .trim()
                       .isNotEmpty)
@@ -929,13 +973,20 @@ class _SafeNexusStep32FieldOperationsPageState
                       'Verification',
                       '${record['verification']}',
                     ),
-                  if ('${record['escalation'] ?? ''}'.trim().isNotEmpty)
+                  if ('${record['escalation'] ?? ''}'
+                      .trim()
+                      .isNotEmpty)
                     _sectionText(
                       'Escalation / Follow-up',
                       '${record['escalation']}',
                     ),
-                  if ('${record['notes'] ?? ''}'.trim().isNotEmpty)
-                    _sectionText('Notes', '${record['notes']}'),
+                  if ('${record['notes'] ?? ''}'
+                      .trim()
+                      .isNotEmpty)
+                    _sectionText(
+                      'Notes',
+                      '${record['notes']}',
+                    ),
                   if (refs.isNotEmpty) ...[
                     const SizedBox(height: 14),
                     const Text(
@@ -961,9 +1012,14 @@ class _SafeNexusStep32FieldOperationsPageState
                     ...history.reversed.map(
                       (event) => ListTile(
                         dense: true,
-                        leading: const Icon(Icons.history),
-                        title: Text('${event['event'] ?? 'Event'}'),
-                        subtitle: Text('${event['at'] ?? ''}'),
+                        leading:
+                            const Icon(Icons.history),
+                        title: Text(
+                          '${event['event'] ?? 'Event'}',
+                        ),
+                        subtitle: Text(
+                          '${event['at'] ?? ''}',
+                        ),
                       ),
                     ),
                   ],
@@ -980,7 +1036,8 @@ class _SafeNexusStep32FieldOperationsPageState
     return Padding(
       padding: const EdgeInsets.only(top: 14),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -1012,10 +1069,12 @@ class _FieldOperationForm extends StatefulWidget {
   final void Function(String referenceType, String referenceId)? sourceOpener;
 
   @override
-  State<_FieldOperationForm> createState() => _FieldOperationFormState();
+  State<_FieldOperationForm> createState() =>
+      _FieldOperationFormState();
 }
 
-class _FieldOperationFormState extends State<_FieldOperationForm> {
+class _FieldOperationFormState
+    extends State<_FieldOperationForm> {
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _titleController;
@@ -1040,7 +1099,6 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
   String _status = 'Planned';
   String _priority = 'Medium';
   String _referenceType = 'Step 9 Daily HSE';
-  String _referenceId = '';
 
   bool _immediateControlApplied = false;
   bool _permitVerified = false;
@@ -1053,46 +1111,59 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
   @override
   void initState() {
     super.initState();
+
     final e = widget.existing ?? {};
 
-    _titleController = TextEditingController(text: '${e['title'] ?? ''}');
-    _projectController = TextEditingController(text: '${e['project'] ?? ''}');
-    _siteController = TextEditingController(text: '${e['site'] ?? ''}');
+    _titleController =
+        TextEditingController(text: '${e['title'] ?? ''}');
+    _projectController =
+        TextEditingController(text: '${e['project'] ?? ''}');
+    _siteController =
+        TextEditingController(text: '${e['site'] ?? ''}');
     _locationController =
         TextEditingController(text: '${e['location'] ?? ''}');
     _activityController =
         TextEditingController(text: '${e['activity'] ?? ''}');
     _observationController =
         TextEditingController(text: '${e['observation'] ?? ''}');
-    _findingController = TextEditingController(text: '${e['finding'] ?? ''}');
+    _findingController =
+        TextEditingController(text: '${e['finding'] ?? ''}');
     _controlController =
         TextEditingController(text: '${e['immediateControl'] ?? ''}');
-    _actionController = TextEditingController(text: '${e['action'] ?? ''}');
+    _actionController =
+        TextEditingController(text: '${e['action'] ?? ''}');
     _verificationController =
         TextEditingController(text: '${e['verification'] ?? ''}');
     _escalationController =
         TextEditingController(text: '${e['escalation'] ?? ''}');
-    _ownerController = TextEditingController(text: '${e['owner'] ?? ''}');
-    _workerController = TextEditingController(text: '${e['worker'] ?? ''}');
+    _ownerController =
+        TextEditingController(text: '${e['owner'] ?? ''}');
+    _workerController =
+        TextEditingController(text: '${e['worker'] ?? ''}');
     _contractorController =
         TextEditingController(text: '${e['contractor'] ?? ''}');
     _referenceIdController =
         TextEditingController(text: '${e['referenceId'] ?? ''}');
-    _notesController = TextEditingController(text: '${e['notes'] ?? ''}');
-    _dueDateController = TextEditingController(text: '${e['dueDate'] ?? ''}');
+    _notesController =
+        TextEditingController(text: '${e['notes'] ?? ''}');
+    _dueDateController =
+        TextEditingController(text: '${e['dueDate'] ?? ''}');
 
     _module = '${e['module'] ?? _module}';
     _status = '${e['status'] ?? _status}';
     _priority = '${e['priority'] ?? _priority}';
-    _referenceType = '${e['referenceType'] ?? _referenceType}';
-    _referenceId = '${e['referenceId'] ?? ''}';
+    _referenceType =
+        '${e['referenceType'] ?? _referenceType}';
 
-    _immediateControlApplied = e['immediateControlApplied'] == true;
+    _immediateControlApplied =
+        e['immediateControlApplied'] == true;
     _permitVerified = e['permitVerified'] == true;
     _riskVerified = e['riskVerified'] == true;
     _ramsVerified = e['ramsVerified'] == true;
-    _competencyVerified = e['competencyVerified'] == true;
-    _equipmentVerified = e['equipmentVerified'] == true;
+    _competencyVerified =
+        e['competencyVerified'] == true;
+    _equipmentVerified =
+        e['equipmentVerified'] == true;
     _ppeVerified = e['ppeVerified'] == true;
   }
 
@@ -1123,7 +1194,9 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
   }
 
   Future<void> _pickDueDate() async {
-    final current = DateTime.tryParse(_dueDateController.text);
+    final current =
+        DateTime.tryParse(_dueDateController.text);
+
     final picked = await showDatePicker(
       context: context,
       firstDate: DateTime(2020),
@@ -1136,54 +1209,68 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
           '${picked.year.toString().padLeft(4, '0')}-'
           '${picked.month.toString().padLeft(2, '0')}-'
           '${picked.day.toString().padLeft(2, '0')}';
+
       setState(() {});
     }
   }
 
   void _submit() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
+
+    final referenceId =
+        _referenceIdController.text.trim();
 
     final references = <Map<String, dynamic>>[];
-    if (_referenceIdController.text.trim().isNotEmpty) {
+
+    if (referenceId.isNotEmpty) {
       references.add({
         'type': _referenceType,
-        'id': _referenceIdController.text.trim(),
+        'id': referenceId,
       });
     }
 
-    Navigator.pop(context, {
-      'title': _titleController.text.trim(),
-      'module': _module,
-      'status': _status,
-      'priority': _priority,
-      'project': _projectController.text.trim(),
-      'site': _siteController.text.trim(),
-      'location': _locationController.text.trim(),
-      'activity': _activityController.text.trim(),
-      'observation': _observationController.text.trim(),
-      'finding': _findingController.text.trim(),
-      'immediateControl': _controlController.text.trim(),
-      'action': _actionController.text.trim(),
-      'verification': _verificationController.text.trim(),
-      'escalation': _escalationController.text.trim(),
-      'owner': _ownerController.text.trim(),
-      'worker': _workerController.text.trim(),
-      'contractor': _contractorController.text.trim(),
-      'referenceType': _referenceType,
-      'referenceId': _referenceIdController.text.trim(),
-      'references': references,
-      'notes': _notesController.text.trim(),
-      'dueDate': _dueDateController.text.trim(),
-      'immediateControlApplied': _immediateControlApplied,
-      'permitVerified': _permitVerified,
-      'riskVerified': _riskVerified,
-      'ramsVerified': _ramsVerified,
-      'competencyVerified': _competencyVerified,
-      'equipmentVerified': _equipmentVerified,
-      'ppeVerified': _ppeVerified,
-    });
+    Navigator.pop(
+      context,
+      {
+        'title': _titleController.text.trim(),
+        'module': _module,
+        'status': _status,
+        'priority': _priority,
+        'project': _projectController.text.trim(),
+        'site': _siteController.text.trim(),
+        'location': _locationController.text.trim(),
+        'activity': _activityController.text.trim(),
+        'observation':
+            _observationController.text.trim(),
+        'finding': _findingController.text.trim(),
+        'immediateControl':
+            _controlController.text.trim(),
+        'action': _actionController.text.trim(),
+        'verification':
+            _verificationController.text.trim(),
+        'escalation':
+            _escalationController.text.trim(),
+        'owner': _ownerController.text.trim(),
+        'worker': _workerController.text.trim(),
+        'contractor':
+            _contractorController.text.trim(),
+        'referenceType': _referenceType,
+        'referenceId': referenceId,
+        'references': references,
+        'notes': _notesController.text.trim(),
+        'dueDate': _dueDateController.text.trim(),
+        'immediateControlApplied':
+            _immediateControlApplied,
+        'permitVerified': _permitVerified,
+        'riskVerified': _riskVerified,
+        'ramsVerified': _ramsVerified,
+        'competencyVerified':
+            _competencyVerified,
+        'equipmentVerified':
+            _equipmentVerified,
+        'ppeVerified': _ppeVerified,
+      },
+    );
   }
 
   @override
@@ -1191,7 +1278,11 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
     final editing = widget.existing != null;
 
     return AlertDialog(
-      title: Text(editing ? 'Edit Field Record' : 'New Field Record'),
+      title: Text(
+        editing
+            ? 'Edit Field Record'
+            : 'New Field Record',
+      ),
       content: SizedBox(
         width: 620,
         child: Form(
@@ -1207,46 +1298,34 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                 _dropdown(
                   'Step 32 module',
                   _module,
-                  [
-                    '32A Field Work Master',
-                    '32B Daily HSE Field Plan',
-                    '32C Site Walk / Field Observation',
-                    '32D Hazard & Unsafe Condition Capture',
-                    '32E Immediate Corrective Action',
-                    '32F Worker / Contractor Engagement',
-                    '32G Toolbox Talk Field Record',
-                    '32H Permit / Risk / RAMS Field Verification',
-                    '32I Equipment & PPE Field Verification',
-                    '32J Finding Escalation & Follow-up',
-                    '32K Field Action Closure & Verification',
-                    '32L Field HSE Intelligence Dashboard',
-                  ],
-                  (value) => setState(() => _module = value),
+                  _modules,
+                  (value) =>
+                      setState(() => _module = value),
                 ),
                 _dropdown(
                   'Status',
                   _status,
-                  [
-                    'Planned',
-                    'In Progress',
-                    'Action Required',
-                    'Verification Required',
-                    'Completed',
-                    'Closed',
-                    'Cancelled',
-                  ],
-                  (value) => setState(() => _status = value),
+                  _statuses,
+                  (value) =>
+                      setState(() => _status = value),
                 ),
                 _dropdown(
                   'Priority',
                   _priority,
-                  ['Low', 'Medium', 'High', 'Critical'],
-                  (value) => setState(() => _priority = value),
+                  _priorities,
+                  (value) =>
+                      setState(() => _priority = value),
                 ),
                 _textField(_projectController, 'Project'),
                 _textField(_siteController, 'Site'),
-                _textField(_locationController, 'Location / Area'),
-                _textField(_activityController, 'Work activity'),
+                _textField(
+                  _locationController,
+                  'Location / Area',
+                ),
+                _textField(
+                  _activityController,
+                  'Work activity',
+                ),
                 _textField(
                   _observationController,
                   'Field observation',
@@ -1264,10 +1343,14 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Immediate control applied'),
+                  title: const Text(
+                    'Immediate control applied',
+                  ),
                   value: _immediateControlApplied,
-                  onChanged: (value) =>
-                      setState(() => _immediateControlApplied = value),
+                  onChanged: (value) => setState(
+                    () => _immediateControlApplied =
+                        value,
+                  ),
                 ),
                 _textField(
                   _actionController,
@@ -1288,7 +1371,9 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Action due date'),
+                  title: const Text(
+                    'Action due date',
+                  ),
                   subtitle: Text(
                     _dueDateController.text.isEmpty
                         ? 'Not set'
@@ -1296,7 +1381,9 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                   ),
                   trailing: IconButton(
                     onPressed: _pickDueDate,
-                    icon: const Icon(Icons.calendar_month_outlined),
+                    icon: const Icon(
+                      Icons.calendar_month_outlined,
+                    ),
                   ),
                 ),
                 const Divider(height: 20),
@@ -1314,43 +1401,59 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                   contentPadding: EdgeInsets.zero,
                   title: const Text('PTW verified'),
                   value: _permitVerified,
-                  onChanged: (value) =>
-                      setState(() => _permitVerified = value),
+                  onChanged: (value) => setState(
+                    () => _permitVerified = value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Risk / HIRA / JSA / JHA verified'),
+                  title: const Text(
+                    'Risk / HIRA / JSA / JHA verified',
+                  ),
                   value: _riskVerified,
-                  onChanged: (value) =>
-                      setState(() => _riskVerified = value),
+                  onChanged: (value) => setState(
+                    () => _riskVerified = value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('RAMS / Method Statement verified'),
+                  title: const Text(
+                    'RAMS / Method Statement verified',
+                  ),
                   value: _ramsVerified,
-                  onChanged: (value) =>
-                      setState(() => _ramsVerified = value),
+                  onChanged: (value) => setState(
+                    () => _ramsVerified = value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Workforce / competency verified'),
+                  title: const Text(
+                    'Workforce / competency verified',
+                  ),
                   value: _competencyVerified,
-                  onChanged: (value) =>
-                      setState(() => _competencyVerified = value),
+                  onChanged: (value) => setState(
+                    () => _competencyVerified =
+                        value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Equipment verified'),
+                  title: const Text(
+                    'Equipment verified',
+                  ),
                   value: _equipmentVerified,
-                  onChanged: (value) =>
-                      setState(() => _equipmentVerified = value),
+                  onChanged: (value) => setState(
+                    () => _equipmentVerified =
+                        value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('PPE verified'),
                   value: _ppeVerified,
-                  onChanged: (value) =>
-                      setState(() => _ppeVerified = value),
+                  onChanged: (value) => setState(
+                    () => _ppeVerified = value,
+                  ),
                 ),
                 const Divider(height: 20),
                 const Align(
@@ -1366,18 +1469,10 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
                 _dropdown(
                   'Reference source',
                   _referenceType,
-                  [
-                    'Step 9 Daily HSE',
-                    'Step 31 Smart Checklist',
-                    'Risk / HIRA / JSA / JHA',
-                    'RAMS',
-                    'PTW',
-                    'Workforce / Competency',
-                    'Equipment',
-                    'Incident',
-                    'Action Center',
-                  ],
-                  (value) => setState(() => _referenceType = value),
+                  _referenceTypes,
+                  (value) => setState(
+                    () => _referenceType = value,
+                  ),
                 ),
                 _textField(
                   _referenceIdController,
@@ -1411,11 +1506,57 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
         FilledButton.icon(
           onPressed: _submit,
           icon: const Icon(Icons.save_outlined),
-          label: Text(editing ? 'Update' : 'Save'),
+          label: Text(
+            editing ? 'Update' : 'Save',
+          ),
         ),
       ],
     );
   }
+
+  static const List<String> _statuses = [
+    'Planned',
+    'In Progress',
+    'Action Required',
+    'Verification Required',
+    'Completed',
+    'Closed',
+    'Cancelled',
+  ];
+
+  static const List<String> _priorities = [
+    'Low',
+    'Medium',
+    'High',
+    'Critical',
+  ];
+
+  static const List<String> _modules = [
+    '32A Field Work Master',
+    '32B Daily HSE Field Plan',
+    '32C Site Walk / Field Observation',
+    '32D Hazard & Unsafe Condition Capture',
+    '32E Immediate Corrective Action',
+    '32F Worker / Contractor Engagement',
+    '32G Toolbox Talk Field Record',
+    '32H Permit / Risk / RAMS Field Verification',
+    '32I Equipment & PPE Field Verification',
+    '32J Finding Escalation & Follow-up',
+    '32K Field Action Closure & Verification',
+    '32L Field HSE Intelligence Dashboard',
+  ];
+
+  static const List<String> _referenceTypes = [
+    'Step 9 Daily HSE',
+    'Step 31 Smart Checklist',
+    'Risk / HIRA / JSA / JHA',
+    'RAMS',
+    'PTW',
+    'Workforce / Competency',
+    'Equipment',
+    'Incident',
+    'Action Center',
+  ];
 
   Widget _textField(
     TextEditingController controller,
@@ -1434,7 +1575,8 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
         ),
         validator: required
             ? (value) {
-                if (value == null || value.trim().isEmpty) {
+                if (value == null ||
+                    value.trim().isEmpty) {
                   return 'Required';
                 }
                 return null;
@@ -1450,7 +1592,8 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
     List<String> values,
     ValueChanged<String> onChanged,
   ) {
-    final safeValue = values.contains(value) ? value : values.first;
+    final safeValue =
+        values.contains(value) ? value : values.first;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -1462,16 +1605,14 @@ class _FieldOperationFormState extends State<_FieldOperationForm> {
         ),
         items: values
             .map(
-              (item) => DropdownMenuItem(
+              (item) => DropdownMenuItem<String>(
                 value: item,
                 child: Text(item),
               ),
             )
             .toList(),
         onChanged: (selected) {
-          if (selected != null) {
-            onChanged(selected);
-          }
+          if (selected != null) onChanged(selected);
         },
       ),
     );
