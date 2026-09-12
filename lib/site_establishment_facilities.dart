@@ -360,10 +360,6 @@ class _SiteEstablishmentFacilitiesPageState
     return filtered;
   }
 
-  int _countStatus(String status) {
-    return _records.where((item) => item.status == status).length;
-  }
-
   int get _readyCount => _records.where((item) {
         return item.status == 'Ready' ||
             item.status == 'Approved' ||
