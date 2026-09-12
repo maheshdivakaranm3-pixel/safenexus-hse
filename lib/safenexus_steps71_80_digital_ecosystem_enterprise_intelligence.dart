@@ -486,12 +486,6 @@ class _SafeNexusSteps71To80DigitalEcosystemPageState
         .length;
   }
 
-  int _countByStep(String step) {
-    return _records
-        .where((Map<String, dynamic> item) => item['step'] == step)
-        .length;
-  }
-
   int _countByDomain(String domain) {
     return _records
         .where((Map<String, dynamic> item) => item['domain'] == domain)
