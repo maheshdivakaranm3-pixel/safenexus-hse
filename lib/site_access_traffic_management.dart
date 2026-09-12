@@ -39,6 +39,7 @@ class SiteAccessTrafficRecord {
   final String fireAccess;
   final String disabledAccess;
   final String vehicleInspection;
+  final String inspectionFrequency;
   final String trafficPlanReference;
   final String riskAssessmentReference;
   final String methodStatementReference;
@@ -98,6 +99,7 @@ class SiteAccessTrafficRecord {
     required this.fireAccess,
     required this.disabledAccess,
     required this.vehicleInspection,
+    required this.inspectionFrequency,
     required this.trafficPlanReference,
     required this.riskAssessmentReference,
     required this.methodStatementReference,
@@ -158,6 +160,7 @@ class SiteAccessTrafficRecord {
         'fireAccess': fireAccess,
         'disabledAccess': disabledAccess,
         'vehicleInspection': vehicleInspection,
+        'inspectionFrequency': inspectionFrequency,
         'trafficPlanReference': trafficPlanReference,
         'riskAssessmentReference': riskAssessmentReference,
         'methodStatementReference': methodStatementReference,
@@ -229,6 +232,8 @@ class SiteAccessTrafficRecord {
           json['disabledAccess'] as String? ?? 'Not Applicable',
       vehicleInspection:
           json['vehicleInspection'] as String? ?? 'Not Applicable',
+      inspectionFrequency:
+          json['inspectionFrequency'] as String? ?? 'Daily',
       trafficPlanReference:
           json['trafficPlanReference'] as String? ?? '',
       riskAssessmentReference:
@@ -438,9 +443,6 @@ class _SiteAccessTrafficPageState extends State<SiteAccessTrafficPage> {
             record.status == 'Approved' ||
             record.status == 'Operational';
       }).length;
-
-  int get _actionCount =>
-      _records.where((record) => record.status == 'Action Required').length;
 
   int get _inspectionCount => _records.where((record) {
         return record.status == 'Inspection Required' ||
@@ -1422,6 +1424,8 @@ class _AccessTrafficFormSheetState
       disabledAccess: _disabledAccess,
       vehicleInspection:
           _vehicleInspection,
+      inspectionFrequency:
+          _inspectionFrequency,
       trafficPlanReference:
           _text('trafficPlanReference'),
       riskAssessmentReference:
