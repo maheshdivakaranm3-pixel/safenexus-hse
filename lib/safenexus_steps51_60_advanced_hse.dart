@@ -204,6 +204,25 @@ class _SafeNexusSteps51To60AdvancedHSEPageState
     }
   }
 
+  Widget _metricRow(String label, int value) {
+    return ListTile(
+      dense: true,
+      title: Text(label),
+      trailing: CircleAvatar(
+        radius: 16,
+        backgroundColor: primaryGreen,
+        child: Text(
+          '$value',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showDashboard() {
     showDialog<void>(
       context: context,
