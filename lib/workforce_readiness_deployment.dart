@@ -192,8 +192,45 @@ class _WorkforceReadinessDeploymentPageState
       records.where((r) => r['status'] == status).length;
 
   int _countEligibility(String eligibility) =>
-      records.where((r) => r['eligibility'] == eligibility).length;
+  Skip to content
+safenexus-hse
+Repository navigation
+Code
+Issues
+Pull requests
+SafeNexus HSE - Android Build
+Add files via upload #793
+Annotations
+1 error and 2 warnings
+Analyze and Build APK
+failed 3 minutes ago in 59s
+1s
+2s
+15s
+18s
+1s
+0s
+2s
+2s
+0s
+1s
+2s
+12s
+Run flutter analyze
+Analyzing safenexus-hse...                                      
 
+warning • The declaration '_countEligibility' isn't referenced. Try removing the declaration of '_countEligibility' • lib/workforce_readiness_deployment.dart:194:7 • unused_element
+
+1 issue found. (ran in 11.5s)
+Error: Process completed with exit code 1.
+0s
+0s
+0s
+0s
+0s
+0s
+0s
+ 
   int get _clearedCount =>
       _countStatus('Cleared for Deployment');
 
