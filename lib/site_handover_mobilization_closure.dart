@@ -852,6 +852,8 @@ class _SiteHandoverFormSheet extends StatefulWidget {
 }
 
 class _SiteHandoverFormSheetState extends State<_SiteHandoverFormSheet> {
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController recordNo;
@@ -1039,8 +1041,8 @@ class _SiteHandoverFormSheetState extends State<_SiteHandoverFormSheet> {
 
     if (status == 'Closed' &&
         (closureDate == null ||
-            hseAcceptance.trim().isEmpty ||
-            managementApproval.trim().isEmpty)) {
+            hseAcceptance.text.trim().isEmpty ||
+            managementApproval.text.trim().isEmpty)) {
       _showError(
         'Closed status requires closure date, HSE acceptance and management approval.',
       );
@@ -1048,8 +1050,8 @@ class _SiteHandoverFormSheetState extends State<_SiteHandoverFormSheet> {
     }
 
     if (actionDueDate != null &&
-        correctiveActions.trim().isNotEmpty &&
-        actionOwner.trim().isEmpty) {
+        correctiveActions.text.trim().isNotEmpty &&
+        actionOwner.text.trim().isEmpty) {
       _showError('Action owner is required when a corrective action has a due date.');
       return;
     }
