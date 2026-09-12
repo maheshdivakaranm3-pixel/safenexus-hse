@@ -1154,7 +1154,7 @@ class _SafeNexusStep41InspectionCertificationPageState
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: primaryGreen.withOpacity(0.10),
+              backgroundColor: primaryGreen.withValues(alpha: 0.10),
               child: Icon(icon, color: darkGreen),
             ),
             const SizedBox(width: 12),
