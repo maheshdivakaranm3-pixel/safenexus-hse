@@ -1158,6 +1158,102 @@ class _SafeNexusStep29State extends State<SafeNexusStep29> {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final records = _filteredRecords;
+
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: const Text('Step 29 • HSE Communication'),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            tooltip: 'Reset filters',
+            onPressed: () {
+              _searchController.clear();
+              setState(() {
+                _typeFilter = 'All';
+                _statusFilter = 'All';
+                _priorityFilter = 'All';
+                _ackFilter = 'All';
+                _showOverdueOnly = false;
+              });
+            },
+            icon: const Icon(Icons.filter_alt_off),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _openForm(),
+        backgroundColor: primaryGreen,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.add),
+        label: const Text('New Communication'),
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: _loadRecords,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 90),
+                children: [
+                  _header(),
+                  const SizedBox(height: 10),
+                  _summary(),
+                  const SizedBox(height: 10),
+                  _intelligence(),
+                  const SizedBox(height: 10),
+                  _filters(),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Communication Records (${records.length})',
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (records.isEmpty)
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(28),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.campaign_outlined,
+                              size: 52,
+                              color: Colors.blueGrey,
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'No matching communication records',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              _records.isEmpty
+                                  ? 'Create the first HSE communication record.'
+                                  : 'Change the filters or search text.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else
+                    ...records.map(_recordCard),
+                ],
+              ),
+            ),
+    );
+  }
+
 }
 
 class _Step29FormSheet extends StatefulWidget {
