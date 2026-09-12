@@ -1,35 +1,35 @@
-# SafeNexus HSE - Step 32
-## HSE Field Operations & Mobile Work Center
+# SafeNexus HSE — Step 33
+## HSE Site Communication & Workforce Engagement Center
 
-Single-file implementation:
-`lib/safenexus_step32_field_operations.dart`
+Single Dart file:
+`lib/safenexus_step33_communication_engagement.dart`
 
 Modules:
-32A Field Work Master
-32B Daily HSE Field Plan
-32C Site Walk / Field Observation
-32D Hazard & Unsafe Condition Capture
-32E Immediate Corrective Action
-32F Worker / Contractor Engagement
-32G Toolbox Talk Field Record
-32H Permit / Risk / RAMS Field Verification
-32I Equipment & PPE Field Verification
-32J Finding Escalation & Follow-up
-32K Field Action Closure & Verification
-32L Field HSE Intelligence Dashboard
+33A Communication Master
+33B Worker Safety Communication
+33C Contractor Communication
+33D Safety Meeting & Consultation
+33E Safety Campaign & Awareness
+33F Safety Alert / Bulletin
+33G Worker Feedback & Suggestion
+33H Safety Committee / Representative
+33I Communication Acknowledgement
+33J Escalation & Follow-up
+33K Communication Closure & Effectiveness
+33L Communication Intelligence Dashboard
 
 Workflow:
-Plan -> Visit Site -> Observe -> Record Hazard -> Control Immediately
--> Assign Action -> Verify -> Close -> Analyze
+Plan -> Communicate -> Engage -> Acknowledge -> Feedback
+-> Action -> Verify -> Close -> Analyze
 
 Integration references:
-Step 9 Daily HSE, Step 31 Smart Checklists, Risk, PTW, RAMS,
-Workforce, Equipment, Incident, Action Center.
+Step 9 Daily HSE, Step 31 Smart Checklists, Step 32 Field Operations,
+Risk, RAMS, PTW, Workforce, Equipment, Incident, Action Center.
 
 Storage:
-SharedPreferences key:
-`safenexus_hse_step32_field_operations`
+`safenexus_hse_step33_communication_engagement`
 
 Note:
-This module is a local operational register. Actual cross-screen navigation
-can be wired through the optional `sourceOpener` callback.
+Local operational register using SharedPreferences. The optional
+`sourceOpener` callback can be used by the production app shell to open
+actual source modules.
