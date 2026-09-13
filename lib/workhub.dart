@@ -20,6 +20,7 @@ import 'models/hse_work_categories.dart';
 import 'project_pre_start.dart';
 import 'workhub_company_daylog.dart';
 import 'safenexus_step112_record_linkage.dart';
+import 'safenexus_step113_evidence_hub.dart';
 
 /// SafeNexus WorkHub
 ///
@@ -233,6 +234,14 @@ class WorkHubPage extends StatelessWidget {
     );
   }
 
+  void _openEvidenceHub(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const SafeNexusEvidenceHubPage(),
+      ),
+    );
+  }
+
   void _openRecordLinkage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -286,6 +295,18 @@ class WorkHubPage extends StatelessWidget {
                 subtitle:
                     'Link existing PTW, RAMS, Risk, Workforce & Equipment records by ID',
                 onTap: () => _openRecordLinkage(context),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.photo_library_outlined,
+                title: 'Daily Work Evidence Hub',
+                subtitle:
+                    'Attach site photos and HSE evidence notes to each Daily Work Record',
+                onTap: () => _openEvidenceHub(context),
               ),
             ),
           ),
