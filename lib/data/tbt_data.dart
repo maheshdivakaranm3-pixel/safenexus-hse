@@ -195,7 +195,7 @@ String _meetingFocusFor(int id, String title) {
     98: 'Give new workers clear induction, task hazards, emergency information and supervision.',
     99: 'Build teamwork through open reporting, mutual support and shared safety ownership.',
     100: 'Reinforce the commitment that production never overrides critical safety controls.',
-  }
+  };
   return focus[id] ?? 'Discuss the specific hazards, controls and safe work expectations for $title at today’s work location.';
 }
 
@@ -214,7 +214,7 @@ List<String> _discussionQuestionsFor(int id, String title) {
     67: ['What is Stop Work Authority?', 'Can every worker use it?', 'Who must be notified after stopping work?'],
     71: ['What marine interface hazards exist today?', 'What exclusion zones are required?', 'What is the emergency response route?'],
     90: ['How often must the lone worker check in?', 'What communication device is required?', 'What happens if contact is lost?'],
-  }
+  };
   return questions[id] ??
       ['What are the main hazards for $title today?', 'Which controls must be verified before starting?', 'What should you do if conditions become unsafe?'];
 }
