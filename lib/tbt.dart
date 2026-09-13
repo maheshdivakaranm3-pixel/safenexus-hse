@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'data/tbt_data.dart';
 
@@ -605,16 +604,11 @@ class TbtDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  '1. Introduce today’s work scope and topic.
-'
-                  '2. Explain the key hazards and controls.
-'
-                  '3. Confirm PPE and emergency arrangements.
-'
-                  '4. Ask the workers the discussion questions.
-'
-                  '5. Record attendance, concerns and actions.
-'
+                  '1. Introduce today’s work scope and topic.\\n'
+                  '2. Explain the key hazards and controls.\\n'
+                  '3. Confirm PPE and emergency arrangements.\\n'
+                  '4. Ask the workers the discussion questions.\\n'
+                  '5. Record attendance, concerns and actions.\\n'
                   '6. Confirm everyone understands before work starts.',
                   style: TextStyle(height: 1.45, color: Color(0xFF455A64)),
                 ),
