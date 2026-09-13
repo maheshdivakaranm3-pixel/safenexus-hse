@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:docx_dart/docx_dart.dart' as docx;
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -595,7 +595,7 @@ HSE Officer: ${log.hseOfficer}
             style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
           ),
           pw.SizedBox(height: 10),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: const <String>['Field', 'Details'],
             data: rows,
             cellStyle: const pw.TextStyle(fontSize: 8),
@@ -1546,7 +1546,6 @@ class _WorkHubDailyLogEditorPageState extends State<WorkHubDailyLogEditorPage> {
 
 class _ExportImagePreview extends StatefulWidget {
   const _ExportImagePreview({
-    super.key,
     required this.company,
     required this.log,
     required this.outputPath,
