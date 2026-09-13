@@ -148,8 +148,6 @@ class DubaiHseDetailPage extends StatelessWidget {
               _applicabilitySection(),
               const SizedBox(height: 16),
               _referenceSection(),
-              const SizedBox(height: 16),
-              _notice(),
             ],
           ),
         ),
@@ -539,26 +537,6 @@ class DubaiHseDetailPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _notice() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
-      child: const Text(
-        'SafeNexus HSE is a practical reference and does not replace the current official Dubai Municipality publication, legislation, project requirements or approved company procedures. Always verify the latest applicable requirement before work.',
-        style: const TextStyle(
-          fontSize: 12.5,
-          height: 1.5,
-          color: textSecondary,
-        ),
       ),
     );
   }
