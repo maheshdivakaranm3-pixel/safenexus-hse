@@ -347,6 +347,27 @@ class DubaiHseSectionDetailPage extends StatelessWidget {
   }
 }
 
+
+class _TopicDetail {
+  final String purpose;
+  final List<String> hazards;
+  final List<String> requirements;
+  final List<String> controls;
+  final List<String> verification;
+  final List<String> records;
+  final String stopWork;
+
+  const _TopicDetail({
+    required this.purpose,
+    this.hazards = const <String>[],
+    this.requirements = const <String>[],
+    this.controls = const <String>[],
+    this.verification = const <String>[],
+    this.records = const <String>[],
+    this.stopWork = '',
+  });
+}
+
 class _DubaiSection {
   final String title;
   final String summary;
@@ -3197,3 +3218,12 @@ const Map<String, _TopicDetail> _details = {
   ),
 
 };
+/// Routes every Dubai HSE topic through the topic-specific data-driven page.
+/// The same page class is reused safely, but the content, section titles and
+/// detailed guidance are selected from the tapped topic id.
+class DubaiHseTopicRouter {
+  static Widget pageFor(ReferenceTopic topic) {
+    return DubaiHseDetailPage(topic: topic);
+  }
+}
+
