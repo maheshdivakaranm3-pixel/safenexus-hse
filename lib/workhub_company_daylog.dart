@@ -256,6 +256,7 @@ class WorkHubCompanyDayLogPage extends StatefulWidget {
 }
 
 class _WorkHubCompanyDayLogPageState extends State<WorkHubCompanyDayLogPage> {
+  static const String _evidenceKey = 'workhub_daily_evidence_v1';
   static const String _companiesKey = 'workhub_companies_v1';
   static const String _logsKey = 'workhub_daily_logs_v1';
   static const Color primaryGreen = Color(0xFF159447);
@@ -527,14 +528,72 @@ HSE Officer: ${log.hseOfficer}
 ''';
   }
 
+  Future<List<Map<String, String>>> _evidenceForLog(
+    String logId,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_evidenceKey);
+    if (raw == null || raw.trim().isEmpty) {
+      return <Map<String, String>>[];
+    }
+
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! List) {
+        return <Map<String, String>>[];
+      }
+
+      final result = <Map<String, String>>[];
+      for (final item in decoded) {
+        if (item is! Map) continue;
+        final map = Map<String, dynamic>.from(item);
+        if ((map['logId'] ?? '').toString() != logId) continue;
+
+        result.add(
+          <String, String>{
+            'type': (map['type'] ?? 'note').toString(),
+            'title': (map['title'] ?? 'HSE Evidence').toString(),
+            'content': (map['content'] ?? '').toString(),
+            'createdAt': (map['createdAt'] ?? '').toString(),
+          },
+        );
+      }
+      return result;
+    } catch (_) {
+      return <Map<String, String>>[];
+    }
+  }
+
+  String _evidenceText(List<Map<String, String>> evidence) {
+    if (evidence.isEmpty) return 'No evidence attached.';
+
+    final buffer = StringBuffer();
+    for (var i = 0; i < evidence.length; i++) {
+      final item = evidence[i];
+      final type = item['type'] ?? 'note';
+      final title = item['title'] ?? 'HSE Evidence';
+      final content = item['content'] ?? '';
+
+      buffer
+        ..writeln('${i + 1}. $title')
+        ..writeln('Type: $type')
+        ..writeln(
+          type == 'photo' ? 'Photo: $content' : 'Details: $content',
+        )
+        ..writeln();
+    }
+    return buffer.toString().trim();
+  }
+
   Future<void> _export(WorkHubDailyLog log, _ExportFormat format) async {
     final company = _companyFor(log);
     try {
+      final evidence = await _evidenceForLog(log.id);
       final path = switch (format) {
-        _ExportFormat.pdf => await _exportPdf(company, log),
-        _ExportFormat.word => await _exportWord(company, log),
-        _ExportFormat.excel => await _exportExcel(company, log),
-        _ExportFormat.image => await _exportImage(company, log),
+        _ExportFormat.pdf => await _exportPdf(company, log, evidence),
+        _ExportFormat.word => await _exportWord(company, log, evidence),
+        _ExportFormat.excel => await _exportExcel(company, log, evidence),
+        _ExportFormat.image => await _exportImage(company, log, evidence),
       };
       if (!mounted) return;
       await Share.shareXFiles(
@@ -552,6 +611,7 @@ HSE Officer: ${log.hseOfficer}
   Future<String> _exportPdf(
     WorkHubCompany company,
     WorkHubDailyLog log,
+    List<Map<String, String>> evidence,
   ) async {
     final document = pw.Document();
     pw.MemoryImage? logo;
@@ -580,6 +640,10 @@ HSE Officer: ${log.hseOfficer}
       <String>['Supervisor', log.supervisor],
       <String>['HSE Officer', log.hseOfficer],
     ];
+    if (evidence.isNotEmpty) {
+      rows.add(<String>['Evidence Summary', _evidenceText(evidence)]);
+    }
+
     document.addPage(
       pw.MultiPage(
         build: (context) => <pw.Widget>[
@@ -617,6 +681,7 @@ HSE Officer: ${log.hseOfficer}
   Future<String> _exportWord(
     WorkHubCompany company,
     WorkHubDailyLog log,
+    List<Map<String, String>> evidence,
   ) async {
     final document = docx.loadDocxDocument();
     document.addHeading(text: 'SafeNexus HSE — Daily Work Log', level: 1);
@@ -648,6 +713,8 @@ HSE Officer: ${log.hseOfficer}
       table.cell(i, 0).text = rows[i][0];
       table.cell(i, 1).text = rows[i][1];
     }
+    document.addHeading(text: 'Evidence Summary', level: 2);
+    document.addParagraph(text: _evidenceText(evidence));
     final directory = await getApplicationDocumentsDirectory();
     final filePath = '${directory.path}/SafeNexus_${_safeName(log.id)}.docx';
     document.save(filePath);
@@ -657,6 +724,7 @@ HSE Officer: ${log.hseOfficer}
   Future<String> _exportExcel(
     WorkHubCompany company,
     WorkHubDailyLog log,
+    List<Map<String, String>> evidence,
   ) async {
     final excel = Excel.createExcel();
     final sheet = excel['Daily Work Log'];
@@ -689,6 +757,21 @@ HSE Officer: ${log.hseOfficer}
       <String>['Supervisor', log.supervisor],
       <String>['HSE Officer', log.hseOfficer],
     ];
+    if (evidence.isNotEmpty) {
+      rows.add(<String>[
+        'Evidence Summary',
+        'Attached evidence: ${evidence.length}',
+      ]);
+      for (final item in evidence) {
+        rows.add(<String>[
+          'Evidence: ${item['title'] ?? 'HSE Evidence'}',
+          item['type'] == 'photo'
+              ? 'Photo: ${item['content'] ?? ''}'
+              : (item['content'] ?? ''),
+        ]);
+      }
+    }
+
     for (var row = 0; row < rows.length; row++) {
       sheet.updateCell(
         CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: row),
@@ -710,6 +793,7 @@ HSE Officer: ${log.hseOfficer}
   Future<String> _exportImage(
     WorkHubCompany company,
     WorkHubDailyLog log,
+    List<Map<String, String>> evidence,
   ) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = '${directory.path}/SafeNexus_${_safeName(log.id)}.png';
@@ -719,6 +803,7 @@ HSE Officer: ${log.hseOfficer}
         pageBuilder: (_, __, ___) => _ExportImagePreview(
           company: company,
           log: log,
+          evidence: evidence,
           outputPath: path,
         ),
         transitionDuration: Duration.zero,
@@ -1548,11 +1633,13 @@ class _ExportImagePreview extends StatefulWidget {
   const _ExportImagePreview({
     required this.company,
     required this.log,
+    required this.evidence,
     required this.outputPath,
   });
 
   final WorkHubCompany company;
   final WorkHubDailyLog log;
+  final List<Map<String, String>> evidence;
   final String outputPath;
 
   @override
@@ -1664,6 +1751,39 @@ class _ExportImagePreviewState extends State<_ExportImagePreview> {
                       _row('Incident / Near Miss', widget.log.incidentNearMiss),
                       _row('Supervisor', widget.log.supervisor),
                       _row('HSE Officer', widget.log.hseOfficer),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Evidence Summary',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      if (widget.evidence.isEmpty)
+                        const Text('No evidence attached.')
+                      else
+                        ...widget.evidence.map(
+                          (item) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Icon(
+                                  Icons.verified_outlined,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    '${item['title'] ?? 'HSE Evidence'} • ${item['type'] ?? 'note'}\n'
+                                    '${item['type'] == 'photo' ? 'Photo evidence attached' : (item['content'] ?? '')}',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
