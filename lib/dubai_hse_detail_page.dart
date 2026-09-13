@@ -141,46 +141,6 @@ class DubaiHseDetailPage extends StatelessWidget {
     'dubai_cop_lighting_weather': 'Suspend work where visibility or weather makes the task unsafe, secure plant/materials and restart only when adequate controls and conditions are restored.',
   };
 
-  static const Map<String, String> _reference = {
-    'dubai_construction_safety': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works in the Emirate of Dubai; Decree No. 19 of 2025, where applicable.',
-    'dubai_hse_management': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable occupational safety requirements.',
-    'dubai_risk_assessment': 'Dubai Municipality Technical Guidelines No. 137 — Health and Safety Risk Assessment (DM-HSD-GU137-RA2); Code of Construction Safety Practice.',
-    'dubai_hse_plan': 'Dubai Municipality — Safety Guide for Construction Works in the Emirate of Dubai; Code of Construction Safety Practice.',
-    'dubai_work_at_height': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable work-at-height guidance.',
-    'dubai_scaffolding': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable scaffold requirements.',
-    'dubai_lifting': 'Dubai Municipality Technical Guidelines No. 48 — Examination and Certification of Cranes, Hoists, Lifts and other Lifting Appliances; Code of Construction Safety Practice.',
-    'dubai_excavation': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable utility and excavation requirements.',
-    'dubai_confined_space': 'Dubai Municipality Technical Guidelines No. 39 — Confined Spaces Entry; Code of Construction Safety Practice.',
-    'dubai_electrical': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable electrical safety requirements.',
-    'dubai_hot_work': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable fire and permit-to-work requirements.',
-    'dubai_traffic': 'Dubai Municipality Technical Guidelines No. 93 — Precautionary Measures for Labour Accommodations, Transportations and Working at Construction Sites; Code of Construction Safety Practice.',
-    'dubai_demolition': 'Dubai Municipality — Safety Guide for Construction Works; Code of Construction Safety Practice; applicable demolition requirements.',
-    'dubai_temporary_works': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable temporary-works requirements.',
-    'dubai_heat_stress': 'Dubai Municipality Technical Guidelines No. 38 — Management of Heat Stress at Work (DM-HSD-GU38-MHSW2); applicable UAE summer work regulations.',
-    'dubai_occupational_health': 'Dubai Municipality — Health & Safety Technical Guidelines; Code of Construction Safety Practice; applicable occupational-health requirements.',
-    'dubai_ppe': 'Dubai Municipality Technical Guidelines No. 59, 60, 61, 65, 97 and 98 for relevant PPE categories; Code of Construction Safety Practice.',
-    'dubai_emergency': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable emergency and fire requirements.',
-    'dubai_incident': 'Dubai Municipality — Code of Construction Safety Practice; applicable Dubai occupational safety and incident-reporting requirements.',
-    'dubai_contractor': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; Decree No. 19 of 2025 where applicable.',
-    'dubai_environment': 'Dubai Municipality — applicable environmental and waste requirements; Code of Construction Safety Practice; Local Order No. 61 of 1991 where applicable.',
-    'dubai_inspection': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable H&S inspection requirements.',
-    'dubai_performance': 'Dubai Municipality — Code of Construction Safety Practice; applicable H&S management and monitoring requirements.',
-    'dubai_building_code': 'Dubai Municipality — Dubai Building Code; Code of Construction Safety Practice where construction safety interfaces apply.',
-    'dubai_permit_to_work': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; project-specific permit-to-work requirements.',
-    'dubai_cop_site_establishment': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works in the Emirate of Dubai.',
-    'dubai_cop_public_protection': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable public-protection requirements.',
-    'dubai_cop_access_housekeeping': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable access and housekeeping requirements.',
-    'dubai_cop_welfare_facilities': 'Dubai Municipality Technical Guidelines No. 93 where applicable; Code of Construction Safety Practice; applicable welfare requirements.',
-    'dubai_cop_material_storage': 'Dubai Municipality Technical Guidelines No. 148 — Safe Storage; Code of Construction Safety Practice.',
-    'dubai_cop_formwork_falsework': 'Dubai Municipality — Safety Guide for Construction Works; Code of Construction Safety Practice; applicable temporary-works requirements.',
-    'dubai_cop_rebar_concrete': 'Dubai Municipality — Safety Guide for Construction Works; Code of Construction Safety Practice; applicable concrete/reinforcement controls.',
-    'dubai_cop_machinery_guarding': 'Dubai Municipality Technical Guidelines No. 41 — Guarding of Dangerous Machinery; Code of Construction Safety Practice.',
-    'dubai_cop_ladders_mobile_towers': 'Dubai Municipality Technical Guidelines No. 73 — Safe Use of Ladders and No. 74 — Mobile Access Towers; Code of Construction Safety Practice.',
-    'dubai_cop_fire_emergency': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable fire-safety requirements.',
-    'dubai_cop_signs_barricading': 'Dubai Municipality Technical Guidelines No. 99 — Safety Signs at Work; Code of Construction Safety Practice.',
-    'dubai_cop_lighting_weather': 'Dubai Municipality — Code of Construction Safety Practice; Safety Guide for Construction Works; applicable lighting and weather controls.',
-  };
-
   String get _dcpNumber => _dcp[topic.id] ?? 'DCP';
   String get _topicFocus => _focus[topic.id] ?? topic.description;
   String get _emergencyText => _emergency[topic.id] ?? 'Stop unsafe work, protect people and follow the approved emergency arrangements.';
@@ -380,8 +340,6 @@ class DubaiHseDetailPage extends StatelessWidget {
         return 'For ${topic.title}, “$item” identifies a responsibility that must be clear at the work front. The responsible person should have the competence and authority to act, and evidence of implementation should be available through the project HSE records or field verification.';
       case 'field':
         return 'For ${topic.title}, this field check confirms whether “$item” is actually in place and effective. Verify the physical condition, compare it with the approved risk assessment or method statement, speak with the relevant worker where useful and record any corrective action.';
-      case 'references':
-        return 'This reference supports the ${topic.title} topic. Use the official source to confirm the current requirement, scope and revision before treating any guidance as a legal or contractual obligation. SafeNexus DCP numbering is only an internal navigation identifier.';
       default:
         return 'This item is specific to ${topic.title} and should be assessed against the approved work controls and current Dubai requirements.';
     }
@@ -397,8 +355,6 @@ class DubaiHseDetailPage extends StatelessWidget {
         return 'Confirm the named role is present, competent and able to stop or correct unsafe work.';
       case 'field':
         return 'Record the observation, assign an owner and close the action before the risk is accepted.';
-      case 'references':
-        return 'Use the current official Dubai Municipality publication or applicable legislation as the authoritative source.';
       default:
         return 'Apply the approved project controls and escalate uncertainty to the competent HSE/design authority.';
     }
