@@ -188,7 +188,7 @@ class _SafeNexusStep148PageState extends State<SafeNexusStep148Page> {
                     ),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<String>(
-                      value: priority,
+                      initialValue: priority,
                       decoration: const InputDecoration(
                         labelText: 'Priority',
                         border: OutlineInputBorder(),
