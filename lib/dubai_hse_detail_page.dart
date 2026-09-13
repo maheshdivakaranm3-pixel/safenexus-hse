@@ -124,24 +124,27 @@ class DubaiHseDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _listSection(
+                context,
                 'Key Requirements',
                 Icons.checklist_outlined,
                 topic.keyRequirements,
               ),
               const SizedBox(height: 16),
               _listSection(
+                context,
                 'Safety Controls',
                 Icons.health_and_safety_outlined,
                 topic.safetyControls,
               ),
               const SizedBox(height: 16),
               _listSection(
+                context,
                 'Responsibilities',
                 Icons.groups_outlined,
                 topic.responsibilities,
               ),
               const SizedBox(height: 16),
-              _fieldChecklist(),
+              _fieldChecklist(context),
               const SizedBox(height: 16),
               _emergencySection(),
               const SizedBox(height: 16),
@@ -374,39 +377,64 @@ class DubaiHseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _listSection(String title, IconData icon, List<String> items) {
+  Widget _listSection(
+    BuildContext context,
+    String title,
+    IconData icon,
+    List<String> items,
+  ) {
     return _section(
       title,
       icon,
       Column(
         children: List.generate(items.length, (index) {
+          final item = items[index];
           return Padding(
             padding: EdgeInsets.only(
               bottom: index == items.length - 1 ? 0 : 10,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 3),
-                  child: Icon(
-                    Icons.check_circle,
-                    size: 17,
-                    color: primaryGreen,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () => _showItemDetails(context, title, item),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 2,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 3),
+                        child: Icon(
+                          Icons.check_circle,
+                          size: 17,
+                          color: primaryGreen,
+                        ),
+                      ),
+                      const SizedBox(width: 9),
+                      Expanded(
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14.5,
+                            height: 1.5,
+                            color: textSecondary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      const Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: primaryGreen,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 9),
-                Expanded(
-                  child: Text(
-                    items[index],
-                    style: const TextStyle(
-                      fontSize: 14.5,
-                      height: 1.5,
-                      color: textSecondary,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           );
         }),
@@ -414,7 +442,228 @@ class DubaiHseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _fieldChecklist() {
+  void _showItemDetails(
+    BuildContext context,
+    String section,
+    String item,
+  ) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => _itemDetailsSheet(
+        sheetContext,
+        section,
+        item,
+      ),
+    );
+  }
+
+  Widget _itemDetailsSheet(
+    BuildContext context,
+    String section,
+    String item,
+  ) {
+    final detail = _buildItemDetail(section, item);
+    return SafeArea(
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 620),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 42,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.health_and_safety_outlined,
+                    color: primaryGreen,
+                    size: 28,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: darkGreen,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                section,
+                style: const TextStyle(
+                  color: primaryGreen,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 18),
+              _detailBlock('What it means', detail.meaning),
+              _detailBlock('Field checks', detail.fieldChecks),
+              _detailBlock('Why it matters', detail.whyItMatters),
+              _detailBlock('Reference', detail.reference),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.check),
+                  label: const Text('Close'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _detailBlock(String title, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: pageBackground,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: darkGreen,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              text,
+              style: const TextStyle(
+                height: 1.5,
+                color: textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _ItemDetail _buildItemDetail(String section, String item) {
+    final text = item.toLowerCase();
+    String meaning;
+    String fieldChecks;
+    String whyItMatters;
+
+    if (text.contains('guardrail')) {
+      meaning = 'A guardrail is a collective fall-prevention barrier that protects people from an open edge or drop. It should be suitable for the work, securely installed and maintained.';
+      fieldChecks = 'Check top and intermediate rails, toe boards where required, secure fixing, continuity, edge protection and openings. Do not remove or bypass protection without an approved control.';
+      whyItMatters = 'It prevents people, tools and materials from reaching an unprotected edge and reduces reliance on personal fall protection.';
+    } else if (text.contains('scaffold')) {
+      meaning = 'Scaffolding provides a temporary working platform and access system. It must be properly designed, erected, inspected and used for its intended loading and configuration.';
+      fieldChecks = 'Verify competent erection, stable foundations, access, platforms, guardrails, toe boards, ties/bracing, inspection status and safe loading.';
+      whyItMatters = 'Poorly erected or altered scaffolds can cause falls, collapse and falling-object incidents.';
+    } else if (text.contains('mobile access tower') || text.contains('access tower')) {
+      meaning = 'A mobile access tower is a prefabricated temporary tower used for elevated work. It must be erected and used according to its approved configuration and manufacturer requirements.';
+      fieldChecks = 'Check level base, wheels/castors, locking devices, stabilisers, platform, guardrails, access ladder and inspection status. Do not move the tower while people are on it unless the approved system specifically permits it.';
+      whyItMatters = 'Incorrect assembly, movement or use can lead to overturning or falls from height.';
+    } else if (text.contains('mewp')) {
+      meaning = 'A MEWP is mobile elevating work equipment used to position people at height. Operators and equipment must be competent and authorised for the specific machine.';
+      fieldChecks = 'Verify pre-use inspection, ground conditions, guarding, emergency lowering, safe operating zone, overhead hazards, load limits and operator competency.';
+      whyItMatters = 'MEWP incidents can involve overturning, falls, crushing, entrapment and contact with overhead hazards.';
+    } else if (text.contains('fall restraint')) {
+      meaning = 'Fall restraint is a system designed to prevent a person from reaching a fall hazard in the first place.';
+      fieldChecks = 'Confirm the system limits travel so the worker cannot reach the exposed edge, and verify suitable anchorage, equipment compatibility and correct adjustment.';
+      whyItMatters = 'Preventing access to the fall edge is generally preferable to stopping a fall after it begins.';
+    } else if (text.contains('fall arrest')) {
+      meaning = 'Fall arrest is a personal protective system intended to safely stop a fall after it occurs.';
+      fieldChecks = 'Check full-body harness, compatible connectors, suitable anchor point, clearance, inspection status and a practical rescue plan.';
+      whyItMatters = 'A fall-arrest system only works when the complete system is compatible and there is sufficient clearance and rescue capability.';
+    } else if (text.contains('lifeline')) {
+      meaning = 'A lifeline provides a connection path for an approved fall-protection system. It must be suitable for the system and installed or certified as required.';
+      fieldChecks = 'Verify anchorage, line condition, compatibility, installation arrangement, inspection/certification and user connection before work.';
+      whyItMatters = 'An unsuitable or damaged lifeline can fail during a fall and expose the worker to severe injury.';
+    } else if (text.contains('exclusion zone')) {
+      meaning = 'An exclusion zone is a controlled area where people are prevented from entering because of a hazardous operation or falling-object exposure.';
+      fieldChecks = 'Check boundaries, barriers, signs, access control, spotters where required and that the zone remains effective as the work progresses.';
+      whyItMatters = 'It separates people from the line of fire and reduces exposure to moving plant, lifting, falling objects and other hazards.';
+    } else if (text.contains('rescue plan')) {
+      meaning = 'A rescue plan defines how an affected worker will be recovered quickly and safely after an emergency, including a fall or equipment failure.';
+      fieldChecks = 'Confirm rescue method, competent rescuers, equipment, communication, access route, emergency contacts and a practical response time.';
+      whyItMatters = 'A delayed rescue can turn a survivable incident into a fatality, particularly after a fall-arrest event.';
+    } else if (text.contains('permit')) {
+      meaning = 'A permit is a formal authorisation used to control specified high-risk work and confirm that required precautions are in place before work starts.';
+      fieldChecks = 'Verify correct permit, scope, location, validity, isolations, atmospheric testing where applicable, controls, signatures and close-out.';
+      whyItMatters = 'Permit controls help prevent uncontrolled high-risk work and ensure critical precautions are verified.';
+    } else if (text.contains('risk assessment') || text.contains('jsa')) {
+      meaning = 'A risk assessment or JSA identifies hazards, evaluates risk and defines controls before and during the task.';
+      fieldChecks = 'Confirm the assessment matches the actual task, people, equipment, environment and current conditions, and that workers understand the controls.';
+      whyItMatters = 'Controls are only effective when they address the hazards actually present at the work location.';
+    } else if (text.contains('ppe')) {
+      meaning = 'PPE is the last line of defence used to reduce exposure when hazards cannot be adequately controlled by higher-level measures.';
+      fieldChecks = 'Check correct type, fit, condition, compatibility, approval/certification where required, user training and replacement arrangements.';
+      whyItMatters = 'Incorrect, damaged or incompatible PPE can provide little protection when an incident occurs.';
+    } else if (text.contains('housekeeping')) {
+      meaning = 'Housekeeping means keeping work areas, routes and platforms orderly, clean and free from avoidable hazards.';
+      fieldChecks = 'Remove waste, control trailing materials and cables, maintain clear access, stack materials safely and clean spills promptly.';
+      whyItMatters = 'Good housekeeping reduces slips, trips, blocked access, fire loading and falling-material hazards.';
+    } else if (text.contains('supervisor')) {
+      meaning = 'The supervisor is responsible for ensuring planned controls are implemented at the work front and that unsafe conditions are corrected.';
+      fieldChecks = 'Confirm briefing, competency, permits, equipment, work-area controls, inspections and ongoing monitoring.';
+      whyItMatters = 'Effective supervision turns written procedures into actual field controls.';
+    } else if (text.contains('worker')) {
+      meaning = 'Workers are expected to follow approved safe systems of work, use controls correctly and report hazards or changes in conditions.';
+      fieldChecks = 'Confirm workers understand the task, use required PPE, follow the method statement and stop/report when conditions become unsafe.';
+      whyItMatters = 'Worker participation is essential for detecting changing hazards and maintaining controls at the work front.';
+    } else if (text.contains('equipment') || text.contains('machinery')) {
+      meaning = 'Plant and equipment must be suitable for the task, maintained, inspected and operated by competent authorised persons.';
+      fieldChecks = 'Check pre-use inspection, guarding, emergency stops, defects, maintenance status, operator authorisation and safe operating limits.';
+      whyItMatters = 'Defective or improperly operated equipment can cause struck-by, caught-in, crushing and mechanical incidents.';
+    } else if (text.contains('weather') || text.contains('visibility') || text.contains('lighting')) {
+      meaning = 'Work conditions must remain suitable for safe visibility, access and operation. Changing weather or inadequate lighting can invalidate existing controls.';
+      fieldChecks = 'Check lighting, visibility, wind, heat, rain, dust and other environmental conditions; stop or modify work when safe limits are exceeded.';
+      whyItMatters = 'Poor visibility and adverse weather can increase slips, falls, lifting incidents, vehicle interactions and loss of control.';
+    } else {
+      meaning = 'This control is a practical requirement within the selected Dubai HSE topic. It should be applied according to the approved method, risk assessment, project requirements and applicable Dubai Municipality requirements.';
+      fieldChecks = 'Verify the control is present, suitable for the actual work, understood by the workforce, inspected where necessary and maintained throughout the activity.';
+      whyItMatters = 'The control reduces exposure to the hazards identified for this activity and helps maintain safe conditions at the work front.';
+    }
+
+    final reference = '${_referenceNumber} — $_title; $_basis';
+    return _ItemDetail(
+      meaning: meaning,
+      fieldChecks: fieldChecks,
+      whyItMatters: whyItMatters,
+      reference: reference,
+    );
+  }
+
+  Widget _fieldChecklist(BuildContext context) {
     const items = [
       'Review the risk assessment / JSA before starting work.',
       'Verify the approved method statement / safe work procedure is available.',
@@ -434,25 +683,48 @@ class DubaiHseDetailPage extends StatelessWidget {
             .map(
               (item) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.square_outlined,
-                      size: 20,
-                      color: primaryGreen,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () => _showItemDetails(
+                      context,
+                      'Field Verification Checklist',
+                      item,
                     ),
-                    const SizedBox(width: 9),
-                    Expanded(
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          height: 1.45,
-                          color: textSecondary,
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                        horizontal: 2,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.square_outlined,
+                            size: 20,
+                            color: primaryGreen,
+                          ),
+                          const SizedBox(width: 9),
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                height: 1.45,
+                                color: textSecondary,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.chevron_right,
+                            size: 20,
+                            color: primaryGreen,
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             )
@@ -491,24 +763,32 @@ class DubaiHseDetailPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _referenceBullet(
+            context,
             'SafeNexus Reference: $_referenceNumber',
           ),
-          _referenceBullet(_basis),
-          ...topic.references.map(_referenceBullet),
+          _referenceBullet(context, _basis),
+          ...topic.references.map(
+            (reference) => _referenceBullet(context, reference),
+          ),
           const Divider(height: 24),
           _referenceBullet(
+            context,
             'Dubai Municipality — Code of Construction Safety Practice',
           ),
           _referenceBullet(
+            context,
             'Dubai Municipality — Safety Guide for Construction Works in the Emirate of Dubai',
           ),
           _referenceBullet(
+            context,
             'Dubai Municipality — Laws and Legislations',
           ),
           _referenceBullet(
+            context,
             'Dubai Municipality — Health & Safety Technical Guidelines',
           ),
           _referenceBullet(
+            context,
             'Dubai Municipality — Dubai Building Code, where applicable',
           ),
         ],
@@ -516,28 +796,135 @@ class DubaiHseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _referenceBullet(String text) {
+  Widget _referenceBullet(BuildContext context, String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 9),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: Icon(Icons.circle, size: 7, color: primaryGreen),
-          ),
-          const SizedBox(width: 9),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                height: 1.45,
-                color: textSecondary,
-              ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () => _showReferenceDetails(context, text),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 3),
+                  child: Icon(Icons.circle, size: 7, color: primaryGreen),
+                ),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                      height: 1.45,
+                      color: textSecondary,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 19,
+                  color: primaryGreen,
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
+
+  void _showReferenceDetails(BuildContext context, String reference) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => SafeArea(
+        child: Container(
+          constraints: const BoxConstraints(maxHeight: 560),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 42,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                const Row(
+                  children: [
+                    Icon(
+                      Icons.menu_book_outlined,
+                      color: primaryGreen,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Reference Details',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: darkGreen,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                _detailBlock(
+                  'Reference',
+                  reference,
+                ),
+                _detailBlock(
+                  'How to use it',
+                  'Use this reference to identify the applicable Dubai HSE requirement for the selected topic. Verify the current official publication, revision, project requirements and any authority-specific conditions before relying on it for site compliance.',
+                ),
+                _detailBlock(
+                  'Topic link',
+                  'SafeNexus topic: $_title ($_referenceNumber).',
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () => Navigator.of(sheetContext).pop(),
+                    icon: const Icon(Icons.check),
+                    label: const Text('Close'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ItemDetail {
+  final String meaning;
+  final String fieldChecks;
+  final String whyItMatters;
+  final String reference;
+
+  const _ItemDetail({
+    required this.meaning,
+    required this.fieldChecks,
+    required this.whyItMatters,
+    required this.reference,
+  });
 }
