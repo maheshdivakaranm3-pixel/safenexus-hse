@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as services;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
@@ -634,7 +635,7 @@ class TbtDetailPage extends StatelessWidget {
   }
 
   Future<void> _copyTopic(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: _topicText()));
+    await services.Clipboard.setData(services.ClipboardData(text: _topicText()));
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('TBT topic copied successfully.')),
@@ -908,99 +909,6 @@ class TbtDetailPage extends StatelessWidget {
     );
   }
 
-  void _showMeetingBrief(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => SafeArea(
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.groups_rounded, color: primaryGreen),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Toolbox Meeting • TBT ${topic.id}',
-                        style: const TextStyle(
-                          color: navy,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  topic.title,
-                  style: const TextStyle(
-                    color: darkGreen,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  'Meeting flow',
-                  style: TextStyle(fontWeight: FontWeight.w800, color: navy),
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  '1. Introduce today’s work scope and topic.\n'
-                  '2. Explain the key hazards and controls.\n'
-                  '3. Confirm PPE and emergency arrangements.\n'
-                  '4. Ask the workers the discussion questions.\n'
-                  '5. Record attendance, concerns and actions.\n'
-                  '6. Confirm everyone understands before work starts.',
-                  style: TextStyle(height: 1.45, color: Color(0xFF455A64)),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEAF8F0),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Text(
-                    'Meeting focus: ${topic.meetingFocus}',
-                    style: const TextStyle(
-                      color: darkGreen,
-                      fontWeight: FontWeight.w700,
-                      height: 1.4,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryGreen,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Close'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   // ============================================================
   // TITLE CARD
