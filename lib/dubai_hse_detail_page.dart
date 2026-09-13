@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/reference_topic.dart';
+import 'data/dubai_guidelines.dart';
 
 /// SafeNexus HSE - Dubai HSE detailed field reference.
 ///
@@ -141,6 +142,8 @@ class DubaiHseDetailPage extends StatelessWidget {
     'dubai_cop_lighting_weather': 'Suspend work where visibility or weather makes the task unsafe, secure plant/materials and restart only when adequate controls and conditions are restored.',
   };
 
+
+
   String get _dcpNumber => _dcp[topic.id] ?? 'DCP';
   String get _topicFocus => _focus[topic.id] ?? topic.description;
   String get _emergencyText => _emergency[topic.id] ?? 'Stop unsafe work, protect people and follow the approved emergency arrangements.';
@@ -153,7 +156,7 @@ class DubaiHseDetailPage extends StatelessWidget {
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
         centerTitle: true,
-        title: const Text('Dubai HSE'),
+        title: Text(topic.shortTitle.isNotEmpty ? topic.shortTitle : topic.title),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -600,4 +603,392 @@ class _DubaiHseItemDetailPage extends StatelessWidget {
       child: child,
     );
   }
+}
+
+/// Routes each Dubai HSE topic to its own dedicated page class.
+/// The pages use the existing topic-specific data from dubai_guidelines.dart.
+class DubaiHseTopicRouter {
+  static Widget pageFor(ReferenceTopic topic) {
+    switch (topic.id) {
+      case 'dubai_construction_safety': return DubaiConstructionSafetyDetailPage();
+      case 'dubai_hse_management': return DubaiHseManagementDetailPage();
+      case 'dubai_risk_assessment': return DubaiRiskAssessmentDetailPage();
+      case 'dubai_hse_plan': return DubaiHsePlanDetailPage();
+      case 'dubai_work_at_height': return DubaiWorkAtHeightDetailPage();
+      case 'dubai_scaffolding': return DubaiScaffoldingDetailPage();
+      case 'dubai_lifting': return DubaiLiftingDetailPage();
+      case 'dubai_excavation': return DubaiExcavationDetailPage();
+      case 'dubai_confined_space': return DubaiConfinedSpaceDetailPage();
+      case 'dubai_electrical': return DubaiElectricalDetailPage();
+      case 'dubai_hot_work': return DubaiHotWorkDetailPage();
+      case 'dubai_traffic': return DubaiTrafficDetailPage();
+      case 'dubai_demolition': return DubaiDemolitionDetailPage();
+      case 'dubai_temporary_works': return DubaiTemporaryWorksDetailPage();
+      case 'dubai_heat_stress': return DubaiHeatStressDetailPage();
+      case 'dubai_occupational_health': return DubaiOccupationalHealthDetailPage();
+      case 'dubai_ppe': return DubaiPpeDetailPage();
+      case 'dubai_emergency': return DubaiEmergencyDetailPage();
+      case 'dubai_incident': return DubaiIncidentDetailPage();
+      case 'dubai_contractor': return DubaiContractorDetailPage();
+      case 'dubai_environment': return DubaiEnvironmentDetailPage();
+      case 'dubai_inspection': return DubaiInspectionDetailPage();
+      case 'dubai_performance': return DubaiPerformanceDetailPage();
+      case 'dubai_building_code': return DubaiBuildingCodeDetailPage();
+      case 'dubai_permit_to_work': return DubaiPermitToWorkDetailPage();
+      case 'dubai_cop_site_establishment': return DubaiCopSiteEstablishmentDetailPage();
+      case 'dubai_cop_public_protection': return DubaiCopPublicProtectionDetailPage();
+      case 'dubai_cop_access_housekeeping': return DubaiCopAccessHousekeepingDetailPage();
+      case 'dubai_cop_welfare_facilities': return DubaiCopWelfareFacilitiesDetailPage();
+      case 'dubai_cop_material_storage': return DubaiCopMaterialStorageDetailPage();
+      case 'dubai_cop_formwork_falsework': return DubaiCopFormworkFalseworkDetailPage();
+      case 'dubai_cop_rebar_concrete': return DubaiCopRebarConcreteDetailPage();
+      case 'dubai_cop_machinery_guarding': return DubaiCopMachineryGuardingDetailPage();
+      case 'dubai_cop_ladders_mobile_towers': return DubaiCopLaddersMobileTowersDetailPage();
+      case 'dubai_cop_fire_emergency': return DubaiCopFireEmergencyDetailPage();
+      case 'dubai_cop_signs_barricading': return DubaiCopSignsBarricadingDetailPage();
+      case 'dubai_cop_lighting_weather': return DubaiCopLightingWeatherDetailPage();
+      default:
+        return DubaiHseDetailPage(topic: topic);
+    }
+  }
+}
+
+class DubaiConstructionSafetyDetailPage extends StatelessWidget {
+  const DubaiConstructionSafetyDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_construction_safety'));
+  }
+}
+
+class DubaiHseManagementDetailPage extends StatelessWidget {
+  const DubaiHseManagementDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_hse_management'));
+  }
+}
+
+class DubaiRiskAssessmentDetailPage extends StatelessWidget {
+  const DubaiRiskAssessmentDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_risk_assessment'));
+  }
+}
+
+class DubaiHsePlanDetailPage extends StatelessWidget {
+  const DubaiHsePlanDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_hse_plan'));
+  }
+}
+
+class DubaiWorkAtHeightDetailPage extends StatelessWidget {
+  const DubaiWorkAtHeightDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_work_at_height'));
+  }
+}
+
+class DubaiScaffoldingDetailPage extends StatelessWidget {
+  const DubaiScaffoldingDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_scaffolding'));
+  }
+}
+
+class DubaiLiftingDetailPage extends StatelessWidget {
+  const DubaiLiftingDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_lifting'));
+  }
+}
+
+class DubaiExcavationDetailPage extends StatelessWidget {
+  const DubaiExcavationDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_excavation'));
+  }
+}
+
+class DubaiConfinedSpaceDetailPage extends StatelessWidget {
+  const DubaiConfinedSpaceDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_confined_space'));
+  }
+}
+
+class DubaiElectricalDetailPage extends StatelessWidget {
+  const DubaiElectricalDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_electrical'));
+  }
+}
+
+class DubaiHotWorkDetailPage extends StatelessWidget {
+  const DubaiHotWorkDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_hot_work'));
+  }
+}
+
+class DubaiTrafficDetailPage extends StatelessWidget {
+  const DubaiTrafficDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_traffic'));
+  }
+}
+
+class DubaiDemolitionDetailPage extends StatelessWidget {
+  const DubaiDemolitionDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_demolition'));
+  }
+}
+
+class DubaiTemporaryWorksDetailPage extends StatelessWidget {
+  const DubaiTemporaryWorksDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_temporary_works'));
+  }
+}
+
+class DubaiHeatStressDetailPage extends StatelessWidget {
+  const DubaiHeatStressDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_heat_stress'));
+  }
+}
+
+class DubaiOccupationalHealthDetailPage extends StatelessWidget {
+  const DubaiOccupationalHealthDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_occupational_health'));
+  }
+}
+
+class DubaiPpeDetailPage extends StatelessWidget {
+  const DubaiPpeDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_ppe'));
+  }
+}
+
+class DubaiEmergencyDetailPage extends StatelessWidget {
+  const DubaiEmergencyDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_emergency'));
+  }
+}
+
+class DubaiIncidentDetailPage extends StatelessWidget {
+  const DubaiIncidentDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_incident'));
+  }
+}
+
+class DubaiContractorDetailPage extends StatelessWidget {
+  const DubaiContractorDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_contractor'));
+  }
+}
+
+class DubaiEnvironmentDetailPage extends StatelessWidget {
+  const DubaiEnvironmentDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_environment'));
+  }
+}
+
+class DubaiInspectionDetailPage extends StatelessWidget {
+  const DubaiInspectionDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_inspection'));
+  }
+}
+
+class DubaiPerformanceDetailPage extends StatelessWidget {
+  const DubaiPerformanceDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_performance'));
+  }
+}
+
+class DubaiBuildingCodeDetailPage extends StatelessWidget {
+  const DubaiBuildingCodeDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_building_code'));
+  }
+}
+
+class DubaiPermitToWorkDetailPage extends StatelessWidget {
+  const DubaiPermitToWorkDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_permit_to_work'));
+  }
+}
+
+class DubaiCopSiteEstablishmentDetailPage extends StatelessWidget {
+  const DubaiCopSiteEstablishmentDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_site_establishment'));
+  }
+}
+
+class DubaiCopPublicProtectionDetailPage extends StatelessWidget {
+  const DubaiCopPublicProtectionDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_public_protection'));
+  }
+}
+
+class DubaiCopAccessHousekeepingDetailPage extends StatelessWidget {
+  const DubaiCopAccessHousekeepingDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_access_housekeeping'));
+  }
+}
+
+class DubaiCopWelfareFacilitiesDetailPage extends StatelessWidget {
+  const DubaiCopWelfareFacilitiesDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_welfare_facilities'));
+  }
+}
+
+class DubaiCopMaterialStorageDetailPage extends StatelessWidget {
+  const DubaiCopMaterialStorageDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_material_storage'));
+  }
+}
+
+class DubaiCopFormworkFalseworkDetailPage extends StatelessWidget {
+  const DubaiCopFormworkFalseworkDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_formwork_falsework'));
+  }
+}
+
+class DubaiCopRebarConcreteDetailPage extends StatelessWidget {
+  const DubaiCopRebarConcreteDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_rebar_concrete'));
+  }
+}
+
+class DubaiCopMachineryGuardingDetailPage extends StatelessWidget {
+  const DubaiCopMachineryGuardingDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_machinery_guarding'));
+  }
+}
+
+class DubaiCopLaddersMobileTowersDetailPage extends StatelessWidget {
+  const DubaiCopLaddersMobileTowersDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_ladders_mobile_towers'));
+  }
+}
+
+class DubaiCopFireEmergencyDetailPage extends StatelessWidget {
+  const DubaiCopFireEmergencyDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_fire_emergency'));
+  }
+}
+
+class DubaiCopSignsBarricadingDetailPage extends StatelessWidget {
+  const DubaiCopSignsBarricadingDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_signs_barricading'));
+  }
+}
+
+class DubaiCopLightingWeatherDetailPage extends StatelessWidget {
+  const DubaiCopLightingWeatherDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DubaiHseDetailPage(topic: _dubaiTopic('dubai_cop_lighting_weather'));
+  }
+}
+
+ReferenceTopic _dubaiTopic(String id) {
+  for (final topic in dubaiGuidelines) {
+    if (topic.id == id) return topic;
+  }
+  throw StateError('Dubai HSE topic not found: $id');
 }

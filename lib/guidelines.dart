@@ -206,8 +206,8 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   ) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => topic.guidelineCategory == GuidelineCategory.dubai
-            ? DubaiHseDetailPage(topic: topic)
+        builder: (_) => topic.guidelineCategory == GuidelineCategory.dubai
+            ? DubaiHseTopicRouter.pageFor(topic)
             : GuidelineDetailPage(topic: topic),
       ),
     );
