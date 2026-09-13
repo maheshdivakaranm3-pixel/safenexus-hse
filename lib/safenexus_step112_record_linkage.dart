@@ -560,36 +560,6 @@ class _WorkHubRecordLinkagePageState extends State<WorkHubRecordLinkagePage> {
     );
   }
 
-  void _openModule(BuildContext context, String module) {
-    final Widget page;
-
-    switch (module) {
-      case 'PTW':
-        page = const PtwMasterRegisterPage();
-        break;
-      case 'RAMS':
-        page = const RamsMethodStatementPage();
-        break;
-      case 'Risk':
-        page = const HiraRiskAssessmentPage();
-        break;
-      case 'Workforce':
-        page = const WorkforceMasterRegisterPage();
-        break;
-      case 'Equipment':
-        page = const EquipmentMachineryPage();
-        break;
-      default:
-        return;
-    }
-
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => page,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_loading) {
