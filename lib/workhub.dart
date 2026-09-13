@@ -19,13 +19,15 @@ import 'data/hse_work_categories.dart';
 import 'models/hse_work_categories.dart';
 import 'project_pre_start.dart';
 import 'workhub_company_daylog.dart';
+import 'safenexus_step112_record_linkage.dart';
 
 /// SafeNexus WorkHub
 ///
-/// Final integration fix:
-/// Every WorkHub lifecycle phase now opens its real dedicated module.
-/// Existing module pages remain the system of record; WorkHub only provides
-/// navigation and workflow entry points.
+/// Step 112 integration:
+/// - Existing WorkHub lifecycle navigation remains unchanged.
+/// - Company & Daily Work Log remains unchanged.
+/// - New Daily Work Record Linkage opens the Step 112 linkage layer.
+/// - Source modules remain the system of record.
 class WorkHubPage extends StatelessWidget {
   const WorkHubPage({super.key});
 
@@ -34,38 +36,102 @@ class WorkHubPage extends StatelessWidget {
   static const Color pageBackground = Color(0xFFF6F8F7);
 
   static const List<_WorkHubPhase> _phases = <_WorkHubPhase>[
-    _WorkHubPhase(1, Icons.folder_copy_outlined, 'Project Pre-Start',
-        'Project information & setup'),
-    _WorkHubPhase(2, Icons.assignment_outlined, 'HSE Management System',
-        'Policy, plan, KPI & procedures'),
-    _WorkHubPhase(3, Icons.warning_amber_outlined, 'Risk & Planning',
-        'HIRA, JSA, JHA, RAMS & risks'),
-    _WorkHubPhase(4, Icons.fact_check_outlined, 'Permit to Work',
-        'PTW & work permits'),
-    _WorkHubPhase(5, Icons.home_work_outlined, 'Site Mobilization',
-        'Site setup, welfare & access'),
-    _WorkHubPhase(6, Icons.groups_outlined, 'Workforce & Competency',
-        'Induction, training & competency'),
-    _WorkHubPhase(7, Icons.construction_outlined, 'Equipment & Machinery',
-        'Equipment, certificates & inspections'),
-    _WorkHubPhase(8, Icons.local_fire_department_outlined,
-        'High-Risk Activities', 'Critical work activity controls'),
-    _WorkHubPhase(9, Icons.record_voice_over_outlined, 'Daily HSE Work',
-        'TBT, inspections & observations'),
-    _WorkHubPhase(10, Icons.emergency_outlined, 'Emergency',
-        'ERP, drills, rescue & evacuation'),
-    _WorkHubPhase(11, Icons.health_and_safety_outlined, 'Occupational Health',
-        'Medical, heat stress & welfare'),
-    _WorkHubPhase(12, Icons.science_outlined, 'Chemical & Environment',
-        'Chemical, waste & environmental records'),
-    _WorkHubPhase(13, Icons.search_outlined, 'Inspection & Audit',
-        'Inspections, audits & actions'),
-    _WorkHubPhase(14, Icons.car_crash_outlined, 'Incident Management',
-        'Incident, investigation & lessons learned'),
-    _WorkHubPhase(15, Icons.bar_chart_outlined, 'HSE Reporting',
-        'Daily, weekly, monthly & KPI'),
-    _WorkHubPhase(16, Icons.account_balance_outlined, 'Legal / Authority',
-        'UAE & jurisdiction-specific requirements'),
+    _WorkHubPhase(
+      1,
+      Icons.folder_copy_outlined,
+      'Project Pre-Start',
+      'Project information & setup',
+    ),
+    _WorkHubPhase(
+      2,
+      Icons.assignment_outlined,
+      'HSE Management System',
+      'Policy, plan, KPI & procedures',
+    ),
+    _WorkHubPhase(
+      3,
+      Icons.warning_amber_outlined,
+      'Risk & Planning',
+      'HIRA, JSA, JHA, RAMS & risks',
+    ),
+    _WorkHubPhase(
+      4,
+      Icons.fact_check_outlined,
+      'Permit to Work',
+      'PTW & work permits',
+    ),
+    _WorkHubPhase(
+      5,
+      Icons.home_work_outlined,
+      'Site Mobilization',
+      'Site setup, welfare & access',
+    ),
+    _WorkHubPhase(
+      6,
+      Icons.groups_outlined,
+      'Workforce & Competency',
+      'Induction, training & competency',
+    ),
+    _WorkHubPhase(
+      7,
+      Icons.construction_outlined,
+      'Equipment & Machinery',
+      'Equipment, certificates & inspections',
+    ),
+    _WorkHubPhase(
+      8,
+      Icons.local_fire_department_outlined,
+      'High-Risk Activities',
+      'Critical work activity controls',
+    ),
+    _WorkHubPhase(
+      9,
+      Icons.record_voice_over_outlined,
+      'Daily HSE Work',
+      'TBT, inspections & observations',
+    ),
+    _WorkHubPhase(
+      10,
+      Icons.emergency_outlined,
+      'Emergency',
+      'ERP, drills, rescue & evacuation',
+    ),
+    _WorkHubPhase(
+      11,
+      Icons.health_and_safety_outlined,
+      'Occupational Health',
+      'Medical, heat stress & welfare',
+    ),
+    _WorkHubPhase(
+      12,
+      Icons.science_outlined,
+      'Chemical & Environment',
+      'Chemical, waste & environmental records',
+    ),
+    _WorkHubPhase(
+      13,
+      Icons.search_outlined,
+      'Inspection & Audit',
+      'Inspections, audits & actions',
+    ),
+    _WorkHubPhase(
+      14,
+      Icons.car_crash_outlined,
+      'Incident Management',
+      'Incident, investigation & lessons learned',
+    ),
+    _WorkHubPhase(
+      15,
+      Icons.bar_chart_outlined,
+      'HSE Reporting',
+      'Daily, weekly, monthly & KPI',
+    ),
+    _WorkHubPhase(
+      16,
+      Icons.account_balance_outlined,
+      'Legal / Authority',
+      'UAE & jurisdiction-specific requirements',
+    ),
   ];
 
   void _openPhase(BuildContext context, _WorkHubPhase phase) {
@@ -125,7 +191,9 @@ class WorkHubPage extends StatelessWidget {
     }
 
     Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
+      MaterialPageRoute<void>(
+        builder: (_) => page,
+      ),
     );
   }
 
@@ -146,10 +214,29 @@ class WorkHubPage extends StatelessWidget {
     );
   }
 
-  void _openActivity(BuildContext context, HseWorkActivity activity) {
+  void _openActivity(
+    BuildContext context,
+    HseWorkActivity activity,
+  ) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => _ActivityDetailsPage(activity: activity),
+      ),
+    );
+  }
+
+  void _openCompanyDayLog(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const WorkHubCompanyDayLogPage(),
+      ),
+    );
+  }
+
+  void _openRecordLinkage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const WorkHubRecordLinkagePage(),
       ),
     );
   }
@@ -181,62 +268,24 @@ class WorkHubPage extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(18),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const WorkHubCompanyDayLogPage(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 52,
-                          height: 52,
-                          decoration: BoxDecoration(
-                            color: primaryGreen.withValues(alpha: 0.10),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: const Icon(
-                            Icons.business_center_outlined,
-                            color: primaryGreen,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Company & Daily Work Log',
-                                style: TextStyle(
-                                  color: darkGreen,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Company logo, daily records, copy & PDF / Word / Excel / Image export',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Icon(Icons.arrow_forward_ios, size: 16),
-                      ],
-                    ),
-                  ),
-                ),
+              child: _FeatureCard(
+                icon: Icons.business_center_outlined,
+                title: 'Company & Daily Work Log',
+                subtitle:
+                    'Company logo, daily records, copy & PDF / Word / Excel / Image export',
+                onTap: () => _openCompanyDayLog(context),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.link_outlined,
+                title: 'Daily Work Record Linkage',
+                subtitle:
+                    'Link existing PTW, RAMS, Risk, Workforce & Equipment records by ID',
+                onTap: () => _openRecordLinkage(context),
               ),
             ),
           ),
@@ -283,6 +332,7 @@ class WorkHubPage extends StatelessWidget {
               itemCount: _phases.length,
               itemBuilder: (BuildContext context, int index) {
                 final phase = _phases[index];
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: _PhaseCard(
@@ -313,10 +363,87 @@ class _WorkHubPhase {
   );
 }
 
+class _FeatureCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _FeatureCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  icon,
+                  color: primaryGreen,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: darkGreen,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _HeroCard extends StatelessWidget {
   final VoidCallback onStartNewWork;
 
-  const _HeroCard({required this.onStartNewWork});
+  const _HeroCard({
+    required this.onStartNewWork,
+  });
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
@@ -330,7 +457,10 @@ class _HeroCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[darkGreen, primaryGreen],
+          colors: <Color>[
+            darkGreen,
+            primaryGreen,
+          ],
         ),
         borderRadius: BorderRadius.circular(22),
         boxShadow: <BoxShadow>[
@@ -346,7 +476,11 @@ class _HeroCard extends StatelessWidget {
         children: <Widget>[
           const Row(
             children: <Widget>[
-              Icon(Icons.shield_outlined, color: Colors.white, size: 30),
+              Icon(
+                Icons.shield_outlined,
+                color: Colors.white,
+                size: 30,
+              ),
               SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -400,7 +534,10 @@ class _PhaseCard extends StatelessWidget {
   final _WorkHubPhase phase;
   final VoidCallback onTap;
 
-  const _PhaseCard({required this.phase, required this.onTap});
+  const _PhaseCard({
+    required this.phase,
+    required this.onTap,
+  });
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
@@ -424,7 +561,11 @@ class _PhaseCard extends StatelessWidget {
                   color: primaryGreen.withValues(alpha: 0.09),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(phase.icon, color: darkGreen, size: 25),
+                child: Icon(
+                  phase.icon,
+                  color: darkGreen,
+                  size: 25,
+                ),
               ),
               const SizedBox(width: 13),
               Container(
@@ -490,11 +631,13 @@ class _ActivityPickerSheet extends StatefulWidget {
   });
 
   @override
-  State<_ActivityPickerSheet> createState() => _ActivityPickerSheetState();
+  State<_ActivityPickerSheet> createState() =>
+      _ActivityPickerSheetState();
 }
 
 class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -504,6 +647,7 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
 
   List<HseWorkActivity> get _filtered {
     final query = _searchController.text.trim().toLowerCase();
+
     if (query.isEmpty) return widget.activities;
 
     return widget.activities.where((activity) {
@@ -513,6 +657,7 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
         activity.category,
         activity.description,
       ].join(' ').toLowerCase();
+
       return haystack.contains(query);
     }).toList();
   }
@@ -526,7 +671,9 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
         height: MediaQuery.of(context).size.height * 0.86,
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
         ),
         child: Column(
           children: <Widget>[
@@ -567,12 +714,20 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
             ),
             Expanded(
               child: activities.isEmpty
-                  ? const Center(child: Text('No matching activities.'))
+                  ? const Center(
+                      child: Text('No matching activities.'),
+                    )
                   : ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      padding: const EdgeInsets.fromLTRB(
+                        20,
+                        0,
+                        20,
+                        20,
+                      ),
                       itemCount: activities.length,
                       itemBuilder: (_, index) {
                         final activity = activities[index];
+
                         return Card(
                           elevation: 0,
                           margin: const EdgeInsets.only(bottom: 8),
@@ -591,12 +746,15 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
                               ),
                             ),
                             subtitle: Text(
-                              '${activity.category}\n${activity.description}',
+                              '${activity.category}\n'
+                              '${activity.description}',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             isThreeLine: true,
-                            trailing: const Icon(Icons.chevron_right),
+                            trailing: const Icon(
+                              Icons.chevron_right,
+                            ),
                             onTap: () => widget.onSelected(activity),
                           ),
                         );
@@ -613,7 +771,9 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
 class _ActivityDetailsPage extends StatelessWidget {
   final HseWorkActivity activity;
 
-  const _ActivityDetailsPage({required this.activity});
+  const _ActivityDetailsPage({
+    required this.activity,
+  });
 
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color primaryGreen = Color(0xFF159447);
@@ -648,7 +808,10 @@ class _ActivityDetailsPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   Chip(
                     label: Text(activity.category),
-                    avatar: const Icon(Icons.category_outlined, size: 18),
+                    avatar: const Icon(
+                      Icons.category_outlined,
+                      size: 18,
+                    ),
                     backgroundColor:
                         primaryGreen.withValues(alpha: 0.10),
                   ),
