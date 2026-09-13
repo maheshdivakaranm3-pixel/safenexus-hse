@@ -8,17 +8,11 @@ class SafeNexusStep155Page extends StatefulWidget {
   const SafeNexusStep155Page({super.key});
 
   @override
-  State<SafeNexusStep155Page> createState() => _SafeNexusStep155PageState();
+  State<SafeNexusStep155Page> createState() => _SafeNexusStep155ageState();
 }
 
-class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
+class _SafeNexusStep155ageState extends State<SafeNexusStep155Page> {
   static const String _storageKey = 'workhub_hse_actions_v1';
-  static const List<String> _statuses = <String>[
-    'Open',
-    'In Progress',
-    'Pending Verification',
-    'Closed',
-  ];
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -26,21 +20,28 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
   String _statusFilter = 'All';
   bool _loading = true;
 
+  final List<String> _statuses = const <String>[
+    'Open',
+    'In Progress',
+    'Pending Verification',
+    'Closed',
+  ];
+
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_refresh);
+    _searchController.addListener(_onSearchChanged);
     _loadRecords();
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_refresh);
+    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
   }
 
-  void _refresh() {
+  void _onSearchChanged() {
     if (mounted) {
       setState(() {});
     }
@@ -58,9 +59,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
         if (decoded is List) {
           loaded = decoded
               .whereType<Map>()
-              .map(
-                (Map item) => Map<String, dynamic>.from(item),
-              )
+              .map((Map item) => Map<String, dynamic>.from(item))
               .toList();
         }
       } catch (_) {
@@ -68,9 +67,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
       }
     }
 
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     setState(() {
       _records = loaded;
@@ -94,37 +91,33 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
         record['description'],
         record['assignedTo'],
         record['priority'],
-        record['source'],
         record['module'],
-      ].map((dynamic value) => value.toString().toLowerCase()).join(' ');
+        record['source'],
+      ].map((dynamic item) => item.toString().toLowerCase()).join(' ');
 
-      final bool matchesQuery =
+      final bool searchMatch =
           query.isEmpty || searchable.contains(query);
-      final bool matchesStatus =
+      final bool statusMatch =
           _statusFilter == 'All' || status == _statusFilter;
 
-      return matchesQuery && matchesStatus;
+      return searchMatch && statusMatch;
     }).toList();
   }
 
   int _countStatus(String status) {
-    return _records
-        .where(
-          (Map<String, dynamic> record) =>
-              (record['status'] ?? 'Open').toString() == status,
-        )
-        .length;
+    return _records.where(
+      (Map<String, dynamic> record) =>
+          (record['status'] ?? 'Open').toString() == status,
+    ).length;
   }
 
   bool _isOverdue(Map<String, dynamic> record) {
-    final String value = (record['dueDate'] ?? '').toString();
-    final DateTime? dueDate = DateTime.tryParse(value);
+    final DateTime? due =
+        DateTime.tryParse((record['dueDate'] ?? '').toString());
 
-    if (dueDate == null) {
-      return false;
-    }
+    if (due == null) return false;
 
-    return dueDate.isBefore(DateTime.now()) &&
+    return due.isBefore(DateTime.now()) &&
         (record['status'] ?? 'Open').toString() != 'Closed';
   }
 
@@ -140,7 +133,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
 
     String priority = 'Medium';
 
-    final bool? saved = await showDialog<bool>(
+    final bool? result = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) {
         return StatefulBuilder(
@@ -149,7 +142,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
             void Function(void Function()) setDialogState,
           ) {
             return AlertDialog(
-              title: const Text('Add HSE Follow-up'),
+              title: const Text('Add HSE Record'),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -166,7 +159,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
                       controller: descriptionController,
                       maxLines: 3,
                       decoration: const InputDecoration(
-                        labelText: 'Details / Requirement',
+                        labelText: 'Details',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -205,11 +198,10 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
                         );
                       }).toList(),
                       onChanged: (String? value) {
-                        if (value != null) {
-                          setDialogState(() {
-                            priority = value;
-                          });
-                        }
+                        if (value == null) return;
+                        setDialogState(() {
+                          priority = value;
+                        });
                       },
                     ),
                   ],
@@ -217,16 +209,13 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
               ),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
+                  onPressed: () =>
+                      Navigator.of(dialogContext).pop(false),
                   child: const Text('Cancel'),
                 ),
                 FilledButton(
                   onPressed: () {
-                    if (titleController.text.trim().isEmpty) {
-                      return;
-                    }
+                    if (titleController.text.trim().isEmpty) return;
                     Navigator.of(dialogContext).pop(true);
                   },
                   child: const Text('Save'),
@@ -238,7 +227,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
       },
     );
 
-    if (saved != true || titleController.text.trim().isEmpty) {
+    if (result != true || titleController.text.trim().isEmpty) {
       titleController.dispose();
       descriptionController.dispose();
       assignedController.dispose();
@@ -249,7 +238,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
     final String now = DateTime.now().toIso8601String();
 
     _records.insert(0, <String, dynamic>{
-      'id': 'SN-155',
+      'id': 'SN-155-${DateTime.now().millisecondsSinceEpoch}',
       'title': titleController.text.trim(),
       'description': descriptionController.text.trim(),
       'assignedTo': assignedController.text.trim().isEmpty
@@ -272,9 +261,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
     assignedController.dispose();
     dueDateController.dispose();
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   Future<void> _changeStatus(Map<String, dynamic> record) async {
@@ -285,9 +272,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
           title: const Text('Change Status'),
           children: _statuses.map((String status) {
             return SimpleDialogOption(
-              onPressed: () {
-                Navigator.of(context).pop(status);
-              },
+              onPressed: () => Navigator.of(context).pop(status),
               child: Text(status),
             );
           }).toList(),
@@ -295,35 +280,30 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
       },
     );
 
-    if (selected == null) {
-      return;
-    }
+    if (selected == null) return;
+
+    final String now = DateTime.now().toIso8601String();
 
     record['status'] = selected;
-    record['updatedAt'] = DateTime.now().toIso8601String();
+    record['updatedAt'] = now;
 
     if (selected == 'Closed') {
-      record['verifiedAt'] = DateTime.now().toIso8601String();
+      record['verifiedAt'] = now;
       record['closureNote'] = 'Closed through SafeNexus HSE';
     }
 
     await _saveRecords();
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   Future<void> _copyRecord(Map<String, dynamic> record) async {
-    await Clipboard.setData(
-      ClipboardData(
-        text: const JsonEncoder.withIndent('  ').convert(record),
-      ),
-    );
+    final String text =
+        const JsonEncoder.withIndent('  ').convert(record);
 
-    if (!mounted) {
-      return;
-    }
+    await Clipboard.setData(ClipboardData(text: text));
+
+    if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Record copied')),
@@ -351,16 +331,12 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
       },
     );
 
-    if (confirmed != true) {
-      return;
-    }
+    if (confirmed != true) return;
 
     _records.remove(record);
     await _saveRecords();
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   Color _priorityColor(String priority) {
@@ -376,7 +352,11 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
     }
   }
 
-  Widget _metric(String label, int value, IconData icon) {
+  Widget _metric(
+    String label,
+    int value,
+    IconData icon,
+  ) {
     return SizedBox(
       width: 105,
       child: Card(
@@ -406,8 +386,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
   }
 
   Widget _buildSummary() {
-    final int overdue =
-        _records.where(_isOverdue).length;
+    final int overdue = _records.where(_isOverdue).length;
 
     return Wrap(
       spacing: 8,
@@ -489,9 +468,7 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
                 ),
               ],
             ),
-            if ((record['description'] ?? '')
-                .toString()
-                .isNotEmpty)
+            if ((record['description'] ?? '').toString().isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(
@@ -521,10 +498,13 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
             ),
             const Divider(),
             Text(
-              'Responsible: ${(record['assignedTo'] ?? 'Unassigned').toString()}',
+              'Responsible: '
+              '${(record['assignedTo'] ?? 'Unassigned').toString()}',
             ),
             if ((record['dueDate'] ?? '').toString().isNotEmpty)
-              Text('Due: ${(record['dueDate'] ?? '').toString()}'),
+              Text(
+                'Due: ${(record['dueDate'] ?? '').toString()}',
+              ),
             Text(
               'Module: ${(record['module'] ?? '').toString()}',
             ),
@@ -571,10 +551,10 @@ class _SafeNexusStep155PageState extends State<SafeNexusStep155Page> {
                 padding: const EdgeInsets.all(16),
                 children: <Widget>[
                   Text(
-                    'Central management view for HSE follow-up and control.',
+                    'HSE Management Control',
                     style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 10),
