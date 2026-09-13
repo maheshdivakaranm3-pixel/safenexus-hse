@@ -1,5 +1,11 @@
-# SafeNexus HSE – Dubai HSE Topic Navigation
+SafeNexus HSE - Dubai HSE Topic Options v6 FIXED
 
-Each Dubai topic opens its own topic screen with tappable detailed sections. Each section opens a separate detail page. No generic References card or generic disclaimer is shown.
+Fixes the v6 analyze errors:
+- Adds the missing const _TopicDetail model.
+- Adds DubaiHseTopicRouter.pageFor used by guidelines.dart.
+- Keeps 37 topic-specific section lists and clickable detail pages.
 
-Replace only `lib/dubai_hse_detail_page.dart`. `guidelines.dart` is included as the known-good routing copy.
+Replace only:
+lib/dubai_hse_detail_page.dart
+
+No change is required to dubai_guidelines.dart. If your current guidelines.dart already uses DubaiHseTopicRouter.pageFor(topic), it will now resolve correctly.
