@@ -184,7 +184,6 @@ class DubaiHseDetailPage extends StatelessWidget {
   String get _dcpNumber => _dcp[topic.id] ?? 'DCP';
   String get _topicFocus => _focus[topic.id] ?? topic.description;
   String get _emergencyText => _emergency[topic.id] ?? 'Stop unsafe work, protect people and follow the approved emergency arrangements.';
-  String get _referenceText => _reference[topic.id] ?? 'Dubai Municipality — Code of Construction Safety Practice and applicable official guidance.';
 
   @override
   Widget build(BuildContext context) {
@@ -217,8 +216,6 @@ class DubaiHseDetailPage extends StatelessWidget {
               _fieldVerification(context),
               const SizedBox(height: 14),
               _emergencyCard(),
-              const SizedBox(height: 14),
-              _referencesCard(context),
             ],
           ),
         ),
@@ -332,91 +329,43 @@ class DubaiHseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _referencesCard(BuildContext context) {
-    final refs = <String>[_referenceText, ...topic.references];
-    final unique = <String>[];
-    for (final ref in refs) {
-      if (!unique.contains(ref)) unique.add(ref);
-    }
-    return _section(
-      'References & Official Sources',
-      Icons.menu_book_outlined,
-      Column(
-        children: [
-          for (int i = 0; i < unique.length; i++) ...[
-            _tapItem(context, 'Reference', unique[i], 'references', i),
-            if (i != unique.length - 1) const Divider(height: 1),
-          ],
-        ],
-      ),
-    );
-  }
-
   Widget _tapItem(BuildContext context, String sectionTitle, String item, String section, int index) {
     return InkWell(
-      onTap: () => _showItemDetails(context, sectionTitle, item, section, index),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => _DubaiHseItemDetailPage(
+              topicTitle: topic.title,
+              sectionTitle: sectionTitle,
+              item: item,
+              explanation: _itemExplanation(section, index, item),
+              topicFocus: _topicFocus,
+              fieldAction: _fieldAction(section),
+            ),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 2),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(padding: EdgeInsets.only(top: 4), child: Icon(Icons.check_circle_outline, size: 20, color: primaryGreen)),
+            const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: Icon(Icons.check_circle_outline, size: 20, color: primaryGreen),
+            ),
             const SizedBox(width: 11),
-            Expanded(child: Text(item, style: const TextStyle(fontSize: 14.5, height: 1.45, color: textSecondary))),
+            Expanded(
+              child: Text(
+                item,
+                style: const TextStyle(fontSize: 14.5, height: 1.45, color: textSecondary),
+              ),
+            ),
             const SizedBox(width: 8),
             const Icon(Icons.chevron_right, color: Colors.grey),
           ],
         ),
       ),
-    );
-  }
-
-  void _showItemDetails(BuildContext context, String sectionTitle, String item, String section, int index) {
-    final explanation = _itemExplanation(section, index, item);
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) {
-        return DraggableScrollableSheet(
-          initialChildSize: .58,
-          minChildSize: .38,
-          maxChildSize: .92,
-          expand: false,
-          builder: (_, controller) {
-            return Container(
-              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-              child: ListView(
-                controller: controller,
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
-                children: [
-                  Center(child: Container(width: 42, height: 4, decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(4)))),
-                  const SizedBox(height: 18),
-                  Text(sectionTitle, style: const TextStyle(color: primaryGreen, fontWeight: FontWeight.bold, fontSize: 13)),
-                  const SizedBox(height: 7),
-                  Text(item, style: const TextStyle(color: darkGreen, fontWeight: FontWeight.bold, fontSize: 20, height: 1.25)),
-                  const SizedBox(height: 16),
-                  const Text('Explanation', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 8),
-                  Text(explanation, style: const TextStyle(fontSize: 15, height: 1.55, color: textSecondary)),
-                  const SizedBox(height: 18),
-                  const Text('Topic Focus', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 7),
-                  Text(_topicFocus, style: const TextStyle(fontSize: 14.5, height: 1.5, color: textSecondary)),
-                  const SizedBox(height: 18),
-                  const Text('Field Action', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 7),
-                  Text(_fieldAction(section), style: const TextStyle(fontSize: 14.5, height: 1.5, color: textSecondary)),
-                  const SizedBox(height: 18),
-                  const Text('Reference', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 7),
-                  Text(_referenceText, style: const TextStyle(fontSize: 13.5, height: 1.5, color: textSecondary)),
-                ],
-              ),
-            );
-          },
-        );
-      },
     );
   }
 
@@ -519,6 +468,179 @@ class DubaiHseDetailPage extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: const [BoxShadow(color: Color(0x0D000000), blurRadius: 10, offset: Offset(0, 3))]),
+      child: child,
+    );
+  }
+}
+
+/// Full-screen detail page opened when a Dubai HSE list item is tapped.
+/// This intentionally contains no References section and no generic disclaimer.
+class _DubaiHseItemDetailPage extends StatelessWidget {
+  final String topicTitle;
+  final String sectionTitle;
+  final String item;
+  final String explanation;
+  final String topicFocus;
+  final String fieldAction;
+
+  const _DubaiHseItemDetailPage({
+    required this.topicTitle,
+    required this.sectionTitle,
+    required this.item,
+    required this.explanation,
+    required this.topicFocus,
+    required this.fieldAction,
+  });
+
+  static const Color darkGreen = Color(0xFF0B5D3B);
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color pageBackground = Color(0xFFF5F7FA);
+  static const Color textSecondary = Color(0xFF374151);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        title: const Text('Dubai HSE'),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _card(
+                context,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      topicTitle,
+                      style: const TextStyle(
+                        color: darkGreen,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        height: 1.25,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      sectionTitle,
+                      style: const TextStyle(
+                        color: primaryGreen,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      item,
+                      style: const TextStyle(
+                        color: textSecondary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              _infoCard(
+                title: 'Explanation',
+                icon: Icons.info_outline,
+                text: explanation,
+              ),
+              const SizedBox(height: 14),
+              _infoCard(
+                title: 'Topic Focus',
+                icon: Icons.track_changes_outlined,
+                text: topicFocus,
+              ),
+              const SizedBox(height: 14),
+              _infoCard(
+                title: 'Field Action',
+                icon: Icons.engineering_outlined,
+                text: fieldAction,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _infoCard({
+    required String title,
+    required IconData icon,
+    required String text,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0D000000),
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: primaryGreen, size: 22),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: darkGreen,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            text,
+            style: const TextStyle(
+              color: textSecondary,
+              fontSize: 15,
+              height: 1.55,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _card(BuildContext context, {required Widget child}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0D000000),
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: child,
     );
   }
