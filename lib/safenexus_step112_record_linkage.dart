@@ -3,11 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'equipment_machinery.dart';
-import 'hira_risk_assessment.dart';
-import 'ptw_master_register.dart';
-import 'rams_method_statement.dart';
-import 'workforce_master_register.dart';
 
 /// SafeNexus HSE — Step 112
 /// Full Record Linkage for Company & Daily Work Log.
