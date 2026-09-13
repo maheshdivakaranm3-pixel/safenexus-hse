@@ -1,17 +1,17 @@
-# SafeNexus HSE — Dubai HSE 37 Topic Update
+# SafeNexus HSE – Dubai HSE 37 Topics v4
 
-Files in this package:
-- lib/dubai_hse_detail_page.dart
-- lib/guidelines.dart
-- lib/data/dubai_guidelines.dart
+## Purpose
+Each Dubai HSE topic now routes to its own dedicated Flutter page class.
 
-The DCP-01..DCP-37 labels are SafeNexus internal topic identifiers, not official Dubai Municipality clause numbers.
+Examples:
+- Excavation & Trenching → `DubaiExcavationDetailPage`
+- Scaffolding Safety → `DubaiScaffoldingDetailPage`
+- Lifting Operations → `DubaiLiftingDetailPage`
+- Work at Height → `DubaiWorkAtHeightDetailPage`
+- Confined Space Entry → `DubaiConfinedSpaceDetailPage`
 
-Primary reference hierarchy:
-1. Dubai Municipality Code of Construction Safety Practice
-2. Dubai Municipality Safety Guide for Construction Works in the Emirate of Dubai
-3. Applicable Dubai Municipality Health & Safety Technical Guidelines
-4. Applicable Dubai legislation / resolutions
-5. Dubai Building Code only where relevant
+The pages use the existing topic-specific records in `lib/data/dubai_guidelines.dart`, so each topic retains its own description, key requirements, safety controls, responsibilities and field verification checks.
 
-This package does not reproduce government documents verbatim.
+The Dubai detail page contains no References section and no generic disclaimer box.
+
+`DCP-01` to `DCP-37` remain internal SafeNexus navigation identifiers only.
