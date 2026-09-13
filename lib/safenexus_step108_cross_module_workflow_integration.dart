@@ -282,12 +282,6 @@ class _SafeNexusStep108CrossModuleWorkflowPageState
         .length;
   }
 
-  int _countByType(String type) {
-    return _workflows
-        .where((Map<String, String> item) => item['type'] == type)
-        .length;
-  }
-
   int _countByPriority(String priority) {
     return _workflows
         .where((Map<String, String> item) => item['priority'] == priority)
