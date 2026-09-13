@@ -394,8 +394,6 @@ _TopicDetail _fallback(ReferenceTopic topic) => _TopicDetail(
   stopWork: 'Stop the affected activity when a critical control is missing or conditions become unsafe. Protect people, isolate the hazard and obtain competent assessment before restart.',
 );
 
-_TopicDetail _topicData(String id, ReferenceTopic topic) => _details[id] ?? _fallback(topic);
-
 List<_DubaiSection> _sectionsFor(ReferenceTopic topic, _TopicDetail d) {
   final titles = _sectionTitles[topic.id] ?? const [
     'Purpose & Scope', 'Main Hazards', 'Detailed Requirements', 'Safety Controls',
@@ -412,7 +410,7 @@ List<_DubaiSection> _sectionsFor(ReferenceTopic topic, _TopicDetail d) {
     _DubaiSection(title: titles[4], summary: 'Checks to complete before the work or shift begins.', detail: 'Before starting, the supervisor should confirm that the planned controls are available, understood and suitable for the current work front. Any material change should trigger reassessment.', bullets: [...d.verification.take(3), ...d.requirements.take(2)]),
     _DubaiSection(title: titles[5], summary: 'How to maintain control while the activity is being performed.', detail: 'During execution, supervision should verify that the approved sequence is followed, interfaces remain controlled and workers do not bypass critical protections. Stop and reassess when conditions differ from the planned method.', bullets: d.controls),
     _DubaiSection(title: titles[6], summary: 'Field checks, inspection evidence and verification of controls.', detail: 'Verification must be based on the physical work area, not paperwork alone. Findings should be recorded clearly, assigned to responsible persons and physically verified when closed.', bullets: d.verification, stopWork: d.stopWork),
-    _DubaiSection(title: titles[7], summary: 'What competent supervision must actively manage.', detail: 'The supervisor is responsible for maintaining the planned controls at the work front, communicating changes, checking worker understanding and stopping the activity when a critical control is not effective.', bullets: d.requirements.take(4)),
+    _DubaiSection(title: titles[7], summary: 'What competent supervision must actively manage.', detail: 'The supervisor is responsible for maintaining the planned controls at the work front, communicating changes, checking worker understanding and stopping the activity when a critical control is not effective.', bullets: d.requirements.take(4).toList()),
     _DubaiSection(title: titles[8], summary: 'What workers need to understand and do before and during the task.', detail: 'Workers should understand the hazards, required controls, limits of the equipment or method and the conditions that require them to stop and inform supervision.', bullets: [...d.hazards.take(3), ...d.controls.take(3)]),
     _DubaiSection(title: titles[9], summary: 'Evidence that demonstrates the activity was planned, controlled and checked.', detail: 'Maintain the records required by the project HSE management system and applicable authority requirements. Records should be current, traceable and available to the responsible team.', bullets: d.records),
     _DubaiSection(title: titles[10], summary: 'Conditions in which the activity must not continue.', detail: d.stopWork, bullets: ['Uncontrolled critical hazard', 'Required protection missing or defective', 'Actual conditions materially different from the approved method', 'Unsafe interference by another activity or person'], stopWork: d.stopWork),
