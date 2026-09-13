@@ -1,4 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:excel/excel.dart' as xls;
 
 import 'data/tbt_data.dart';
 
@@ -534,23 +540,370 @@ class TbtDetailPage extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () => _showMeetingBrief(context),
-              icon: const Icon(Icons.groups_rounded),
-              label: const Text('Start Toolbox Meeting'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryGreen,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () => _showMeetingForm(context),
+                  icon: const Icon(Icons.groups_rounded),
+                  label: const Text('Start Meeting'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryGreen,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                 ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _showExportMenu(context),
+                  icon: const Icon(Icons.ios_share_rounded),
+                  label: const Text('Export'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: primaryGreen,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    side: const BorderSide(color: primaryGreen),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  String _safeFileName(String value) {
+    final cleaned = value
+        .replaceAll(RegExp(r'[^A-Za-z0-9]+'), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .replaceAll(RegExp(r'^_|_$'), '');
+    return cleaned.isEmpty ? 'TBT_${topic.id}' : cleaned;
+  }
+
+  String _topicText() {
+    final b = StringBuffer();
+    b.writeln('SafeNexus HSE - Toolbox Talk');
+    b.writeln('TBT ${topic.id}: ${topic.title}');
+    b.writeln('Category: ${topic.category}');
+    b.writeln();
+    b.writeln('OBJECTIVE');
+    b.writeln(topic.objective);
+    b.writeln();
+    b.writeln('TOOLBOX MEETING FOCUS');
+    b.writeln(topic.meetingFocus);
+    b.writeln();
+    b.writeln('KEY HAZARDS');
+    for (final item in topic.keyHazards) b.writeln('• $item');
+    b.writeln();
+    b.writeln('REQUIRED CONTROLS');
+    for (final item in topic.requiredControls) b.writeln('• $item');
+    b.writeln();
+    b.writeln('PPE');
+    for (final item in topic.ppe) b.writeln('• $item');
+    b.writeln();
+    b.writeln('BEFORE STARTING WORK');
+    for (final item in topic.beforeStarting) b.writeln('• $item');
+    b.writeln();
+    b.writeln('SAFE WORK PRACTICES');
+    for (final item in topic.safeWorkPractices) b.writeln('• $item');
+    b.writeln();
+    b.writeln('EMERGENCY RESPONSE');
+    for (final item in topic.emergencyResponse) b.writeln('• $item');
+    b.writeln();
+    b.writeln('SUPERVISOR DISCUSSION POINTS');
+    for (final item in topic.supervisorPoints) b.writeln('• $item');
+    b.writeln();
+    b.writeln('WORKER DISCUSSION QUESTIONS');
+    for (final item in topic.discussionQuestions) b.writeln('• $item');
+    b.writeln();
+    b.writeln('CODE / REFERENCE');
+    for (final item in topic.codeOfPractice) b.writeln('• $item');
+    b.writeln();
+    b.writeln('WORKER CONFIRMATION');
+    b.writeln(topic.workerConfirmation);
+    return b.toString();
+  }
+
+  Future<void> _copyTopic(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: _topicText()));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('TBT topic copied successfully.')),
+    );
+  }
+
+  Future<void> _exportPdf() async {
+    final doc = pw.Document();
+    pw.Widget title(String text) => pw.Padding(
+          padding: const pw.EdgeInsets.only(top: 10, bottom: 5),
+          child: pw.Text(text,
+              style: pw.TextStyle(
+                  fontSize: 12, fontWeight: pw.FontWeight.bold)),
+        );
+    pw.Widget bullets(List<String> items) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: items.map((item) => pw.Padding(
+            padding: const pw.EdgeInsets.only(bottom: 3),
+            child: pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [pw.Text('• '), pw.Expanded(child: pw.Text(item))],
+            ),
+          )).toList(),
+        );
+    doc.addPage(pw.MultiPage(build: (_) => [
+      pw.Text('SafeNexus HSE - Toolbox Talk',
+          style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+      pw.SizedBox(height: 5),
+      pw.Text('TBT ${topic.id}: ${topic.title}'),
+      pw.Text('Category: ${topic.category}'),
+      title('OBJECTIVE'), pw.Text(topic.objective),
+      title('TOOLBOX MEETING FOCUS'), pw.Text(topic.meetingFocus),
+      title('KEY HAZARDS'), bullets(topic.keyHazards),
+      title('REQUIRED CONTROLS'), bullets(topic.requiredControls),
+      title('PPE'), bullets(topic.ppe),
+      title('BEFORE STARTING WORK'), bullets(topic.beforeStarting),
+      title('SAFE WORK PRACTICES'), bullets(topic.safeWorkPractices),
+      title('EMERGENCY RESPONSE'), bullets(topic.emergencyResponse),
+      title('SUPERVISOR DISCUSSION POINTS'), bullets(topic.supervisorPoints),
+      title('WORKER DISCUSSION QUESTIONS'), bullets(topic.discussionQuestions),
+      title('CODE / REFERENCE'), bullets(topic.codeOfPractice),
+      title('WORKER CONFIRMATION'), pw.Text(topic.workerConfirmation),
+    ]));
+    await Printing.sharePdf(
+      bytes: await doc.save(),
+      filename: 'TBT_${topic.id}_${_safeFileName(topic.title)}.pdf',
+    );
+  }
+
+  Future<void> _exportWord() async {
+    final html = '''<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>TBT ${topic.id} - ${topic.title}</title></head>
+<body>
+<h1>SafeNexus HSE - Toolbox Talk</h1>
+<h2>TBT ${topic.id}: ${topic.title}</h2>
+<pre style="font-family:Arial;white-space:pre-wrap;">${_escapeHtml(_topicText())}</pre>
+</body></html>''';
+    final directory = await getTemporaryDirectory();
+    final file = File(
+      '${directory.path}/TBT_${topic.id}_${_safeFileName(topic.title)}.doc',
+    );
+    await file.writeAsString(html, flush: true);
+    await Share.shareXFiles(
+      [XFile(file.path, mimeType: 'application/msword')],
+      subject: 'TBT ${topic.id} - ${topic.title}',
+    );
+  }
+
+  String _escapeHtml(String value) => value
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
+
+  Future<void> _exportExcel() async {
+    final workbook = xls.Excel.createExcel();
+    final sheet = workbook['TBT'];
+    final rows = <List<String>>[
+      ['Field', 'Content'],
+      ['TBT Number', '${topic.id}'],
+      ['Topic', topic.title],
+      ['Category', topic.category],
+      ['Objective', topic.objective],
+      ['Toolbox Meeting Focus', topic.meetingFocus],
+      ['Key Hazards', topic.keyHazards.join('\n')],
+      ['Required Controls', topic.requiredControls.join('\n')],
+      ['PPE', topic.ppe.join('\n')],
+      ['Before Starting Work', topic.beforeStarting.join('\n')],
+      ['Safe Work Practices', topic.safeWorkPractices.join('\n')],
+      ['Emergency Response', topic.emergencyResponse.join('\n')],
+      ['Supervisor Discussion Points', topic.supervisorPoints.join('\n')],
+      ['Worker Discussion Questions', topic.discussionQuestions.join('\n')],
+      ['Code / Reference', topic.codeOfPractice.join('\n')],
+      ['Worker Confirmation', topic.workerConfirmation],
+    ];
+    for (final row in rows) {
+      sheet.appendRow(row.map((v) => xls.TextCellValue(v)).toList());
+    }
+    final bytes = workbook.encode();
+    if (bytes == null) return;
+    final directory = await getTemporaryDirectory();
+    final file = File(
+      '${directory.path}/TBT_${topic.id}_${_safeFileName(topic.title)}.xlsx',
+    );
+    await file.writeAsBytes(bytes, flush: true);
+    await Share.shareXFiles(
+      [XFile(file.path,
+          mimeType:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')],
+      subject: 'TBT ${topic.id} - ${topic.title}',
+    );
+  }
+
+  void _showExportMenu(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 18, 20, 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Export / Share TBT',
+                    style: TextStyle(
+                        color: navy, fontSize: 18, fontWeight: FontWeight.w900)),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.copy_rounded, color: primaryGreen),
+              title: const Text('Copy Topic'),
+              onTap: () { Navigator.pop(sheetContext); _copyTopic(context); },
+            ),
+            ListTile(
+              leading: const Icon(Icons.picture_as_pdf_rounded, color: primaryGreen),
+              title: const Text('PDF'),
+              subtitle: const Text('Generate and share PDF'),
+              onTap: () { Navigator.pop(sheetContext); _exportPdf(); },
+            ),
+            ListTile(
+              leading: const Icon(Icons.description_rounded, color: primaryGreen),
+              title: const Text('Word'),
+              subtitle: const Text('Microsoft Word compatible .doc'),
+              onTap: () { Navigator.pop(sheetContext); _exportWord(); },
+            ),
+            ListTile(
+              leading: const Icon(Icons.table_chart_rounded, color: primaryGreen),
+              title: const Text('Excel'),
+              subtitle: const Text('Generate and share .xlsx'),
+              onTap: () { Navigator.pop(sheetContext); _exportExcel(); },
+            ),
+            ListTile(
+              leading: const Icon(Icons.share_rounded, color: primaryGreen),
+              title: const Text('Share Topic Text'),
+              onTap: () {
+                Navigator.pop(sheetContext);
+                Share.share(_topicText(),
+                    subject: 'TBT ${topic.id} - ${topic.title}');
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showMeetingForm(BuildContext context) {
+    final supervisor = TextEditingController();
+    final location = TextEditingController();
+    final attendees = TextEditingController();
+    final concerns = TextEditingController();
+    final actions = TextEditingController();
+    bool acknowledged = false;
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setState) => SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              18, 18, 18, MediaQuery.of(context).viewInsets.bottom + 18),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Toolbox Meeting • TBT ${topic.id}',
+                      style: const TextStyle(
+                          color: navy, fontSize: 19, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 4),
+                  Text(topic.title,
+                      style: const TextStyle(
+                          color: darkGreen, fontSize: 15, fontWeight: FontWeight.w800)),
+                  const SizedBox(height: 14),
+                  TextField(controller: supervisor,
+                      decoration: const InputDecoration(
+                          labelText: 'Supervisor / Presenter',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 10),
+                  TextField(controller: location,
+                      decoration: const InputDecoration(
+                          labelText: 'Work Location',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 10),
+                  TextField(controller: attendees, maxLines: 3,
+                      decoration: const InputDecoration(
+                          labelText: 'Workers / Attendees',
+                          hintText: 'Enter names or team details',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 10),
+                  TextField(controller: concerns, maxLines: 3,
+                      decoration: const InputDecoration(
+                          labelText: 'Questions / Concerns',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 10),
+                  TextField(controller: actions, maxLines: 3,
+                      decoration: const InputDecoration(
+                          labelText: 'Corrective Actions / Follow-up',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 8),
+                  CheckboxListTile(
+                    value: acknowledged,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: primaryGreen,
+                    title: const Text('Workers understand the topic and controls.'),
+                    onChanged: (value) => setState(() {
+                      acknowledged = value ?? false;
+                    }),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: acknowledged
+                          ? () {
+                              Navigator.pop(sheetContext);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Toolbox Meeting record completed successfully.',
+                                  ),
+                                ),
+                              );
+                            }
+                          : null,
+                      icon: const Icon(Icons.check_circle_rounded),
+                      label: const Text('Complete Meeting'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryGreen,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -604,11 +957,11 @@ class TbtDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  '1. Introduce today’s work scope and topic.\\n'
-                  '2. Explain the key hazards and controls.\\n'
-                  '3. Confirm PPE and emergency arrangements.\\n'
-                  '4. Ask the workers the discussion questions.\\n'
-                  '5. Record attendance, concerns and actions.\\n'
+                  '1. Introduce today’s work scope and topic.\n'
+                  '2. Explain the key hazards and controls.\n'
+                  '3. Confirm PPE and emergency arrangements.\n'
+                  '4. Ask the workers the discussion questions.\n'
+                  '5. Record attendance, concerns and actions.\n'
                   '6. Confirm everyone understands before work starts.',
                   style: TextStyle(height: 1.45, color: Color(0xFF455A64)),
                 ),
