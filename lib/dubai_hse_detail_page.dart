@@ -4,11 +4,11 @@ import 'models/reference_topic.dart';
 
 /// SafeNexus HSE - Dubai HSE Detail
 ///
-/// Dubai-only detail experience. Existing ReferenceTopic data remains the
-/// source for the topic requirements; this page adds a field-oriented view,
-/// English/Malayalam labels, a practical verification checklist and current
-/// official Dubai Municipality reference links.
-class DubaiHseDetailPage extends StatefulWidget {
+/// Dubai-only detail experience. This page uses the existing ReferenceTopic
+/// data as the source of technical content and presents it in a field-use
+/// format. The DCP reference shown here is a SafeNexus internal mapping code;
+/// it is NOT an official Dubai Municipality clause/section number.
+class DubaiHseDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
 
   const DubaiHseDetailPage({
@@ -16,53 +16,74 @@ class DubaiHseDetailPage extends StatefulWidget {
     required this.topic,
   });
 
-  @override
-  State<DubaiHseDetailPage> createState() => _DubaiHseDetailPageState();
-}
-
-class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
-  bool _malayalam = false;
-
-  ReferenceTopic get topic => widget.topic;
-
   static const Color darkGreen = Color(0xFF0B5D3B);
   static const Color primaryGreen = Color(0xFF159447);
   static const Color pageBackground = Color(0xFFF5F7FA);
   static const Color textSecondary = Color(0xFF374151);
 
-  String get _malayalamTitle {
-    const titles = <String, String>{
-      'dubai_construction_safety': 'ദുബായ് നിർമ്മാണ സുരക്ഷാ ചട്ടക്കൂട്',
-      'dubai_hse_management': 'HSE മാനേജ്മെന്റ് സംവിധാനം',
-      'dubai_risk_assessment': 'ആരോഗ്യ-സുരക്ഷാ റിസ്ക് അസസ്മെന്റ്',
-      'dubai_hse_plan': 'നിർമ്മാണ HSE പ്ലാൻ',
-      'dubai_work_at_height': 'ഉയരത്തിൽ ജോലി',
-      'dubai_scaffolding': 'സ്കാഫോൾഡിംഗ് സുരക്ഷ',
-      'dubai_lifting': 'ലിഫ്റ്റിംഗ് & ക്രെയിൻ സുരക്ഷ',
-      'dubai_excavation': 'എക്സ്കവേഷൻ / ട്രെഞ്ചിംഗ് സുരക്ഷ',
-      'dubai_confined_space': 'കൺഫൈൻഡ് സ്പേസ് സുരക്ഷ',
-      'dubai_electrical': 'ഇലക്ട്രിക്കൽ സുരക്ഷ',
-      'dubai_hot_work': 'ഹോട്ട് വർക്ക് സുരക്ഷ',
-      'dubai_traffic': 'സൈറ്റ് ട്രാഫിക് മാനേജ്മെന്റ്',
-      'dubai_demolition': 'ഡിമോളിഷൻ സുരക്ഷ',
-      'dubai_temporary_works': 'ടെംപററി വർക്സ് സുരക്ഷ',
-      'dubai_heat_stress': 'ഹീറ്റ് സ്ട്രെസ് മാനേജ്മെന്റ്',
-      'dubai_occupational_health': 'തൊഴിൽ ആരോഗ്യ സുരക്ഷ',
-      'dubai_ppe': 'വ്യക്തിഗത സംരക്ഷണ ഉപകരണങ്ങൾ',
-      'dubai_emergency': 'എമർജൻസി തയ്യാറെടുപ്പ്',
-      'dubai_incident': 'ഇൻസിഡന്റ് റിപ്പോർട്ടിംഗ് & ഇൻവെസ്റ്റിഗേഷൻ',
-      'dubai_contractor': 'കോൺട്രാക്ടർ HSE മാനേജ്മെന്റ്',
-      'dubai_environment': 'നിർമ്മാണ പരിസ്ഥിതി നിയന്ത്രണം',
-      'dubai_inspection': 'ഇൻസ്പെക്ഷൻ & മോണിറ്ററിംഗ്',
-      'dubai_performance': 'HSE പെർഫോമൻസ് & തുടർച്ചയായ മെച്ചപ്പെടുത്തൽ',
-      'dubai_building_code': 'ദുബായ് ബിൽഡിംഗ് കോഡ് — HSE',
-      'dubai_permit_to_work': 'പെർമിറ്റ് ടു വർക്ക് സംവിധാനം',
-    };
-    return titles[topic.id] ?? topic.title;
-  }
+  
 
-  String _t(String english, String malayalam) =>
-      _malayalam ? malayalam : english;
+  // SafeNexus internal reference numbers for the current Dubai topic library.
+  // These numbers must not be presented as official Dubai Municipality clause
+  // numbers unless the official source itself confirms the clause number.
+  static const Map<String, String> _referenceNumbers = {
+    'dubai_construction_safety': 'DCP-01',
+    'dubai_hse_management': 'DCP-02',
+    'dubai_risk_assessment': 'DCP-03',
+    'dubai_hse_plan': 'DCP-04',
+    'dubai_work_at_height': 'DCP-05',
+    'dubai_scaffolding': 'DCP-06',
+    'dubai_lifting': 'DCP-07',
+    'dubai_excavation': 'DCP-08',
+    'dubai_confined_space': 'DCP-09',
+    'dubai_electrical': 'DCP-10',
+    'dubai_hot_work': 'DCP-11',
+    'dubai_traffic': 'DCP-12',
+    'dubai_demolition': 'DCP-13',
+    'dubai_temporary_works': 'DCP-14',
+    'dubai_heat_stress': 'DCP-15',
+    'dubai_occupational_health': 'DCP-16',
+    'dubai_ppe': 'DCP-17',
+    'dubai_emergency': 'DCP-18',
+    'dubai_incident': 'DCP-19',
+    'dubai_contractor': 'DCP-20',
+    'dubai_environment': 'DCP-21',
+    'dubai_inspection': 'DCP-22',
+    'dubai_performance': 'DCP-23',
+    'dubai_building_code': 'DCP-24',
+    'dubai_permit_to_work': 'DCP-25',
+    'dubai_cop_site_establishment': 'DCP-26',
+    'dubai_cop_public_protection': 'DCP-27',
+    'dubai_cop_access_housekeeping': 'DCP-28',
+    'dubai_cop_welfare_facilities': 'DCP-29',
+    'dubai_cop_material_storage': 'DCP-30',
+    'dubai_cop_formwork_falsework': 'DCP-31',
+    'dubai_cop_rebar_concrete': 'DCP-32',
+    'dubai_cop_machinery_guarding': 'DCP-33',
+    'dubai_cop_ladders_mobile_towers': 'DCP-34',
+    'dubai_cop_fire_emergency': 'DCP-35',
+    'dubai_cop_signs_barricading': 'DCP-36',
+    'dubai_cop_lighting_weather': 'DCP-37',
+  };
+
+
+  String get _referenceNumber =>
+      _referenceNumbers[topic.id] ?? 'DCP-${topic.id}';
+
+  String get _title => topic.title;
+
+  String get _basis {
+    if (topic.id == 'dubai_building_code') {
+      return 'Dubai Building Code and applicable Dubai Municipality building requirements';
+    }
+    if (topic.id == 'dubai_permit_to_work') {
+      return 'Project / employer permit-to-work requirements and applicable Dubai safety requirements';
+    }
+    if (topic.id.startsWith('dubai_cop_')) {
+      return 'Dubai Municipality Code of Construction Safety Practice / Safety Guide for Construction Works';
+    }
+    return 'Dubai Municipality Code of Construction Safety Practice / Safety Guide for Construction Works and applicable H&S Technical Guidelines';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,37 +94,24 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          _t('Dubai HSE', 'ദുബായ് HSE'),
+          'Dubai HSE',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: TextButton(
-              onPressed: () => setState(() => _malayalam = !_malayalam),
-              child: Text(
-                _malayalam ? 'EN' : 'മലയാളം',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _header(),
               const SizedBox(height: 16),
+              _referenceIdentityCard(),
+              const SizedBox(height: 16),
               _infoCard(),
               const SizedBox(height: 16),
               _section(
-                _t('Overview', 'അവലോകനം'),
+                'Overview',
                 Icons.info_outline,
                 Text(
                   topic.description,
@@ -116,19 +124,19 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
               ),
               const SizedBox(height: 16),
               _listSection(
-                _t('Key Requirements', 'പ്രധാന ആവശ്യകതകൾ'),
+                'Key Requirements',
                 Icons.checklist_outlined,
                 topic.keyRequirements,
               ),
               const SizedBox(height: 16),
               _listSection(
-                _t('Safety Controls', 'സുരക്ഷാ നിയന്ത്രണങ്ങൾ'),
+                'Safety Controls',
                 Icons.health_and_safety_outlined,
                 topic.safetyControls,
               ),
               const SizedBox(height: 16),
               _listSection(
-                _t('Responsibilities', 'ചുമതലകൾ'),
+                'Responsibilities',
                 Icons.groups_outlined,
                 topic.responsibilities,
               ),
@@ -136,6 +144,8 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
               _fieldChecklist(),
               const SizedBox(height: 16),
               _emergencySection(),
+              const SizedBox(height: 16),
+              _applicabilitySection(),
               const SizedBox(height: 16),
               _referenceSection(),
               const SizedBox(height: 16),
@@ -179,7 +189,7 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
           ),
           const SizedBox(height: 12),
           Text(
-            _malayalam ? _malayalamTitle : topic.title,
+            _title,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 22,
@@ -189,10 +199,7 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            _t(
-              'Complete practical guidance for Dubai HSE field use',
-              'ദുബായ് HSE ഫീൽഡ് ഉപയോഗത്തിനുള്ള സമഗ്ര പ്രായോഗിക മാർഗ്ഗനിർദ്ദേശം',
-            ),
+            'Detailed practical guidance for Dubai HSE field use',
             style: TextStyle(
               color: Colors.white.withValues(alpha: .9),
               height: 1.4,
@@ -203,15 +210,102 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
     );
   }
 
+  Widget _referenceIdentityCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: primaryGreen.withValues(alpha: .35)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: .04),
+            blurRadius: 9,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.verified_outlined, color: primaryGreen),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  'Code of Practice Reference',
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _referenceLine(
+            'SafeNexus Ref.',
+            _referenceNumber,
+          ),
+          const SizedBox(height: 9),
+          _referenceLine(
+            'Official basis',
+            _basis,
+          ),
+          const SizedBox(height: 11),
+          Text(
+            'The DCP number is an internal SafeNexus topic mapping. It is not an official Dubai Municipality clause or section number.',
+            style: const TextStyle(
+              fontSize: 12,
+              height: 1.45,
+              color: textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _referenceLine(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 105,
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              color: textSecondary,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: textSecondary,
+              height: 1.4,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _infoCard() {
     return _section(
-      _t('Authority & Jurisdiction', 'അധികാരിയും പരിധിയും'),
+      'Authority & Jurisdiction',
       Icons.account_balance_outlined,
       Column(
         children: [
-          _row(_t('Authority', 'അധികാരി'), topic.authority),
+          _row('Authority', topic.authority),
           const SizedBox(height: 10),
-          _row(_t('Jurisdiction', 'പരിധി'), topic.jurisdiction),
+          _row('Jurisdiction', topic.jurisdiction),
         ],
       ),
     );
@@ -289,13 +383,19 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
       Column(
         children: List.generate(items.length, (index) {
           return Padding(
-            padding: EdgeInsets.only(bottom: index == items.length - 1 ? 0 : 10),
+            padding: EdgeInsets.only(
+              bottom: index == items.length - 1 ? 0 : 10,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
                   padding: EdgeInsets.only(top: 3),
-                  child: Icon(Icons.check_circle, size: 17, color: primaryGreen),
+                  child: Icon(
+                    Icons.check_circle,
+                    size: 17,
+                    color: primaryGreen,
+                  ),
                 ),
                 const SizedBox(width: 9),
                 Expanded(
@@ -317,30 +417,19 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
   }
 
   Widget _fieldChecklist() {
-    final items = _malayalam
-        ? const [
-            'ജോലി തുടങ്ങുന്നതിന് മുമ്പ് risk assessment / JSA പരിശോധിക്കുക.',
-            'അംഗീകൃത method statement / safe work procedure ലഭ്യമാണെന്ന് ഉറപ്പാക്കുക.',
-            'അവശ്യമായ permit, isolation, inspection, competency എന്നിവ verify ചെയ്യുക.',
-            'പ്രദേശത്ത് barricade, signage, access/egress, housekeeping എന്നിവ പരിശോധിക്കുക.',
-            'ഉപകരണങ്ങളും PPE-യും ഉപയോഗത്തിന് മുമ്പ് പരിശോധിക്കുക.',
-            'അപകടാവസ്ഥ, മാറ്റം, weather condition എന്നിവ വന്നാൽ ജോലി നിർത്തി controls വീണ്ടും പരിശോധിക്കുക.',
-            'Supervisor pre-start briefing രേഖപ്പെടുത്തുക.',
-            'ജോലി പൂർത്തിയായ ശേഷം area safe ആക്കി permit/inspection records close ചെയ്യുക.',
-          ]
-        : const [
-            'Review the risk assessment / JSA before starting work.',
-            'Verify the approved method statement / safe work procedure is available.',
-            'Verify required permits, isolations, inspections and competency.',
-            'Check barricading, signage, access/egress and housekeeping.',
-            'Inspect equipment and PPE before use.',
-            'Stop and reassess if conditions, hazards or weather change.',
-            'Record the supervisor pre-start briefing.',
-            'Make the area safe and close required permits/inspection records after work.',
-          ];
+    const items = [
+      'Review the risk assessment / JSA before starting work.',
+      'Verify the approved method statement / safe work procedure is available.',
+      'Verify required permits, isolations, inspections and competency.',
+      'Check barricading, signage, access/egress and housekeeping.',
+      'Inspect equipment and PPE before use.',
+      'Stop and reassess if hazards, work conditions or weather change.',
+      'Record the supervisor pre-start briefing.',
+      'Make the area safe and close required permits / inspection records after work.',
+    ];
 
     return _section(
-      _t('Field Verification Checklist', 'ഫീൽഡ് വെരിഫിക്കേഷൻ ചെക്ക്ലിസ്റ്റ്'),
+      'Field Verification Checklist',
       Icons.fact_check_outlined,
       Column(
         children: items
@@ -350,10 +439,20 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.square_outlined, size: 20, color: primaryGreen),
+                    const Icon(
+                      Icons.square_outlined,
+                      size: 20,
+                      color: primaryGreen,
+                    ),
                     const SizedBox(width: 9),
                     Expanded(
-                      child: Text(item, style: const TextStyle(height: 1.45, color: textSecondary)),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          height: 1.45,
+                          color: textSecondary,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -366,49 +465,77 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
 
   Widget _emergencySection() {
     return _section(
-      _t('Emergency & Stop-Work', 'എമർജൻസി & സ്റ്റോപ്പ്-വർക്ക്'),
+      'Emergency & Stop-Work',
       Icons.emergency_outlined,
-      Text(
-        _malayalam
-            ? 'ഗുരുതരമായ അപകടം, unsafe condition, loss of control, fire, collapse, exposure അല്ലെങ്കിൽ emergency ഉണ്ടായാൽ ജോലി നിർത്തുക, ആളുകളെ സുരക്ഷിത സ്ഥലത്തേക്ക് മാറ്റുക, site emergency procedure അനുസരിക്കുക, ആവശ്യമായ emergency services / responsible management-നെ അറിയിക്കുക. സ്ഥിതി നിയന്ത്രിക്കപ്പെടുന്നതുവരെ ജോലി പുനരാരംഭിക്കരുത്.'
-            : 'For a serious incident, unsafe condition, loss of control, fire, collapse, hazardous exposure or other emergency: stop the work, protect people from further exposure, follow the site emergency procedure, notify responsible management and emergency services as applicable, and do not restart until the area is assessed and controls are restored.',
-        style: const TextStyle(height: 1.55, color: textSecondary),
+      const Text(
+        'For a serious incident, unsafe condition, loss of control, fire, collapse, hazardous exposure or other emergency: stop the work, protect people from further exposure, follow the site emergency procedure, notify responsible management and emergency services as applicable, and do not restart until the area is assessed and controls are restored.',
+        style: TextStyle(height: 1.55, color: textSecondary),
+      ),
+    );
+  }
+
+  Widget _applicabilitySection() {
+    return _section(
+      'Applicability & Verification',
+      Icons.rule_folder_outlined,
+      const Text(
+        'This topic is a SafeNexus field reference summary. Final site requirements must be verified against the work scope, project requirements, approved method statement, risk assessment, permits, current Dubai Municipality publications and applicable legislation.',
+        style: TextStyle(height: 1.55, color: textSecondary),
       ),
     );
   }
 
   Widget _referenceSection() {
-    final official = _malayalam
-        ? const [
-            'Dubai Municipality — Health & Safety Technical Guidelines List',
-            'Dubai Municipality — Building Publications / Construction Work Safety Guide',
-            'Dubai Municipality — Laws and Legislations',
-            'Dubai Municipality — Dubai Building Code',
-          ]
-        : const [
-            'Dubai Municipality — Health & Safety Technical Guidelines List',
-            'Dubai Municipality — Building Publications / Construction Work Safety Guide',
-            'Dubai Municipality — Laws and Legislations',
-            'Dubai Municipality — Dubai Building Code',
-          ];
-
     return _section(
-      _t('Official Dubai References', 'ഔദ്യോഗിക ദുബായ് റഫറൻസുകൾ'),
+      'References & Official Sources',
       Icons.menu_book_outlined,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...topic.references.map(
-            (ref) => Padding(
-              padding: const EdgeInsets.only(bottom: 9),
-              child: Text('• $ref', style: const TextStyle(height: 1.45, color: textSecondary)),
-            ),
+          _referenceBullet(
+            'SafeNexus Reference: $_referenceNumber',
           ),
-          const Divider(height: 22),
-          ...official.map(
-            (ref) => Padding(
-              padding: const EdgeInsets.only(bottom: 9),
-              child: Text('• $ref', style: const TextStyle(height: 1.45, color: textSecondary)),
+          _referenceBullet(_basis),
+          ...topic.references.map(_referenceBullet),
+          const Divider(height: 24),
+          _referenceBullet(
+            'Dubai Municipality — Code of Construction Safety Practice',
+          ),
+          _referenceBullet(
+            'Dubai Municipality — Safety Guide for Construction Works in the Emirate of Dubai',
+          ),
+          _referenceBullet(
+            'Dubai Municipality — Laws and Legislations',
+          ),
+          _referenceBullet(
+            'Dubai Municipality — Health & Safety Technical Guidelines',
+          ),
+          _referenceBullet(
+            'Dubai Municipality — Dubai Building Code, where applicable',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _referenceBullet(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 9),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 3),
+            child: Icon(Icons.circle, size: 7, color: primaryGreen),
+          ),
+          const SizedBox(width: 9),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(
+                height: 1.45,
+                color: textSecondary,
+              ),
             ),
           ),
         ],
@@ -425,12 +552,13 @@ class _DubaiHseDetailPageState extends State<DubaiHseDetailPage> {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
-      child: Text(
-        _t(
-          'SafeNexus HSE summarizes requirements for practical field use. Always verify the latest official Dubai Municipality publication, legislation, project requirements and approved company procedures before relying on a requirement.',
-          'SafeNexus HSE പ്രായോഗിക ഫീൽഡ് ഉപയോഗത്തിനായി ആവശ്യകതകൾ സംഗ്രഹിക്കുന്നു. ഒരു requirement പ്രയോഗിക്കുന്നതിന് മുമ്പ് ഏറ്റവും പുതിയ Dubai Municipality publication, legislation, project requirements, approved company procedures എന്നിവ പരിശോധിക്കുക.',
+      child: const Text(
+        'SafeNexus HSE is a practical reference and does not replace the current official Dubai Municipality publication, legislation, project requirements or approved company procedures. Always verify the latest applicable requirement before work.',
+        style: const TextStyle(
+          fontSize: 12.5,
+          height: 1.5,
+          color: textSecondary,
         ),
-        style: const TextStyle(fontSize: 12.5, height: 1.5, color: textSecondary),
       ),
     );
   }
