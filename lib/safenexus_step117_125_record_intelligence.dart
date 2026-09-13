@@ -463,11 +463,16 @@ class _SafeNexusSteps117125PageState
         return SimpleDialog(
           title: const Text('Record Status Workflow'),
           children: options.map((status) {
-            return RadioListTile<String>(
-              value: status,
-              groupValue: current,
+            final isCurrent = status == current;
+            return ListTile(
+              leading: Icon(
+                isCurrent
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                color: isCurrent ? primaryGreen : Colors.grey,
+              ),
               title: Text(status),
-              onChanged: (value) => Navigator.pop(context, value),
+              onTap: () => Navigator.pop(context, status),
             );
           }).toList(),
         );
@@ -697,10 +702,6 @@ class _SafeNexusSteps117125PageState
       },
     );
   }
-
-  // Kept as a simple non-empty marker so Step 125 can verify the existing keys.
-  String get _linkKey => 'workhub_daily_log_record_links_v1';
-  String get _evidenceKey => 'workhub_daily_evidence_v1';
 
   void _message(String message) {
     if (!mounted) return;
