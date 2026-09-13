@@ -1,11 +1,5 @@
-import 'dart:io';
-
-import 'package:docx_dart/docx_dart.dart' as docx;
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
 
 import 'data/tbt_data.dart';
 
@@ -67,13 +61,6 @@ class _TbtHomePageState extends State<TbtHomePage> {
         backgroundColor: Colors.white,
         foregroundColor: navy,
         elevation: 0,
-        actions: [
-          IconButton(
-            tooltip: 'Copy / Export TBT',
-            icon: const Icon(Icons.ios_share_rounded),
-            onPressed: () => _showExportMenu(context),
-          ),
-        ],
       ),
 
       body: Column(
@@ -424,7 +411,7 @@ class _TbtHomePageState extends State<TbtHomePage> {
 // TBT DETAIL PAGE
 // ================================================================
 
-class TbtDetailPage extends StatefulWidget {
+class TbtDetailPage extends StatelessWidget {
   final TbtTopic topic;
 
   const TbtDetailPage({
@@ -1100,169 +1087,4 @@ class TbtDetailPage extends StatefulWidget {
       ),
     );
   }
-  String _safeFileName(String value) {
-    final cleaned = value.replaceAll(RegExp(r'[^A-Za-z0-9]+'), '_');
-    return cleaned.replaceAll(RegExp(r'_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
-  }
-
-  String _plainText() {
-    final b = StringBuffer();
-    b.writeln('SafeNexus HSE - Toolbox Talk');
-    b.writeln('TBT ${topic.id}: ${topic.title}');
-    b.writeln('Category: ${topic.category}');
-    b.writeln();
-    b.writeln('OBJECTIVE');
-    b.writeln(topic.objective);
-    b.writeln();
-    b.writeln('TOOLBOX MEETING FOCUS');
-    b.writeln(topic.meetingFocus);
-    b.writeln();
-    _writeList(b, 'KEY HAZARDS', topic.keyHazards);
-    _writeList(b, 'REQUIRED CONTROLS', topic.requiredControls);
-    _writeList(b, 'PPE', topic.ppe);
-    _writeList(b, 'BEFORE STARTING', topic.beforeStarting);
-    _writeList(b, 'SAFE WORK PRACTICES', topic.safeWorkPractices);
-    _writeList(b, 'EMERGENCY RESPONSE', topic.emergencyResponse);
-    _writeList(b, 'SUPERVISOR DISCUSSION POINTS', topic.supervisorPoints);
-    _writeList(b, 'WORKER DISCUSSION QUESTIONS', topic.discussionQuestions);
-    _writeList(b, 'CODE / REFERENCE', topic.codeOfPractice);
-    b.writeln('WORKER CONFIRMATION');
-    b.writeln(topic.workerConfirmation);
-    return b.toString();
-  }
-
-  void _writeList(StringBuffer b, String title, List<String> items) {
-    b.writeln(title);
-    for (final item in items) b.writeln('• $item');
-    b.writeln();
-  }
-
-  Future<Directory> _exportDirectory() async => getTemporaryDirectory();
-
-  Future<void> _copyTopic() async {
-    // Share sheet gives Android the standard Copy/Share actions for the full topic.
-    await Share.share(_plainText(), subject: 'TBT ${topic.id} - ${topic.title}');
-  }
-
-  Future<void> _exportPdf() async {
-    final document = pw.Document();
-    document.addPage(
-      pw.MultiPage(
-        build: (_) => [
-          pw.Text('SafeNexus HSE - Toolbox Talk', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 8),
-          pw.Text('TBT ${topic.id}: ${topic.title}', style: pw.TextStyle(fontSize: 15, fontWeight: pw.FontWeight.bold)),
-          pw.Text('Category: ${topic.category}'),
-          pw.SizedBox(height: 12),
-          _pdfSection('Objective', [topic.objective]),
-          _pdfSection('Toolbox Meeting Focus', [topic.meetingFocus]),
-          _pdfSection('Key Hazards', topic.keyHazards),
-          _pdfSection('Required Controls', topic.requiredControls),
-          _pdfSection('PPE', topic.ppe),
-          _pdfSection('Before Starting', topic.beforeStarting),
-          _pdfSection('Safe Work Practices', topic.safeWorkPractices),
-          _pdfSection('Emergency Response', topic.emergencyResponse),
-          _pdfSection('Supervisor Discussion Points', topic.supervisorPoints),
-          _pdfSection('Worker Discussion Questions', topic.discussionQuestions),
-          _pdfSection('Code / Reference', topic.codeOfPractice),
-          _pdfSection('Worker Confirmation', [topic.workerConfirmation]),
-        ],
-      ),
-    );
-    final dir = await _exportDirectory();
-    final file = File('${dir.path}/TBT_${topic.id}_${_safeFileName(topic.title)}.pdf');
-    await file.writeAsBytes(await document.save(), flush: true);
-    await Share.shareXFiles([XFile(file.path)], subject: 'TBT ${topic.id} - PDF');
-  }
-
-  pw.Widget _pdfSection(String title, List<String> items) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.only(bottom: 10),
-      child: pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: [
-          pw.Text(title, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 11)),
-          pw.SizedBox(height: 3),
-          ...items.map((x) => pw.Padding(padding: const pw.EdgeInsets.only(bottom: 2), child: pw.Text('• $x', style: const pw.TextStyle(fontSize: 9.5)))),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _exportExcel() async {
-    final excel = Excel.createExcel();
-    final sheet = excel['TBT'];
-    final rows = <List<String>>[
-      ['Field', 'Content'],
-      ['TBT Number', '${topic.id}'],
-      ['Topic', topic.title],
-      ['Category', topic.category],
-      ['Objective', topic.objective],
-      ['Toolbox Meeting Focus', topic.meetingFocus],
-      ['Key Hazards', topic.keyHazards.join('\n')],
-      ['Required Controls', topic.requiredControls.join('\n')],
-      ['PPE', topic.ppe.join('\n')],
-      ['Before Starting', topic.beforeStarting.join('\n')],
-      ['Safe Work Practices', topic.safeWorkPractices.join('\n')],
-      ['Emergency Response', topic.emergencyResponse.join('\n')],
-      ['Supervisor Discussion Points', topic.supervisorPoints.join('\n')],
-      ['Worker Discussion Questions', topic.discussionQuestions.join('\n')],
-      ['Code / Reference', topic.codeOfPractice.join('\n')],
-      ['Worker Confirmation', topic.workerConfirmation],
-    ];
-    for (final row in rows) {
-      sheet.appendRow(row.map((v) => TextCellValue(v)).toList());
-    }
-    final bytes = excel.encode();
-    if (bytes == null) return;
-    final dir = await _exportDirectory();
-    final file = File('${dir.path}/TBT_${topic.id}_${_safeFileName(topic.title)}.xlsx');
-    await file.writeAsBytes(bytes, flush: true);
-    await Share.shareXFiles([XFile(file.path)], subject: 'TBT ${topic.id} - Excel');
-  }
-
-  Future<void> _exportWord() async {
-    final document = docx.loadDocxDocument();
-    document.addHeading(text: 'SafeNexus HSE - Toolbox Talk', level: 1);
-    document.addParagraph(text: 'TBT ${topic.id}: ${topic.title}');
-    document.addParagraph(text: 'Category: ${topic.category}');
-    _wordSection(document, 'Objective', [topic.objective]);
-    _wordSection(document, 'Toolbox Meeting Focus', [topic.meetingFocus]);
-    _wordSection(document, 'Key Hazards', topic.keyHazards);
-    _wordSection(document, 'Required Controls', topic.requiredControls);
-    _wordSection(document, 'PPE', topic.ppe);
-    _wordSection(document, 'Before Starting', topic.beforeStarting);
-    _wordSection(document, 'Safe Work Practices', topic.safeWorkPractices);
-    _wordSection(document, 'Emergency Response', topic.emergencyResponse);
-    _wordSection(document, 'Supervisor Discussion Points', topic.supervisorPoints);
-    _wordSection(document, 'Worker Discussion Questions', topic.discussionQuestions);
-    _wordSection(document, 'Code / Reference', topic.codeOfPractice);
-    _wordSection(document, 'Worker Confirmation', [topic.workerConfirmation]);
-    final dir = await _exportDirectory();
-    final path = '${dir.path}/TBT_${topic.id}_${_safeFileName(topic.title)}.docx';
-    document.save(path);
-    await Share.shareXFiles([XFile(path)], subject: 'TBT ${topic.id} - Word');
-  }
-
-  void _wordSection(dynamic document, String title, List<String> items) {
-    document.addHeading(text: title, level: 2);
-    for (final item in items) document.addParagraph(text: item);
-  }
-
-  void _showExportMenu(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(leading: const Icon(Icons.copy_rounded), title: const Text('Copy / Share Topic'), onTap: () { Navigator.pop(context); _copyTopic(); }),
-            ListTile(leading: const Icon(Icons.picture_as_pdf_rounded), title: const Text('Save / Share as PDF'), onTap: () { Navigator.pop(context); _exportPdf(); }),
-            ListTile(leading: const Icon(Icons.description_rounded), title: const Text('Save / Share as Word (.docx)'), onTap: () { Navigator.pop(context); _exportWord(); }),
-            ListTile(leading: const Icon(Icons.table_chart_rounded), title: const Text('Save / Share as Excel (.xlsx)'), onTap: () { Navigator.pop(context); _exportExcel(); }),
-          ],
-        ),
-      ),
-    );
-  }
-
 }
