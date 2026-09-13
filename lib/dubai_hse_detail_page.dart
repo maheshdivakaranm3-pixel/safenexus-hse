@@ -150,7 +150,7 @@ class DubaiHseDetailPage extends StatelessWidget {
               const SizedBox(height: 16),
               _applicabilitySection(),
               const SizedBox(height: 16),
-              _referenceSection(),
+              _referenceSection(context),
             ],
           ),
         ),
@@ -755,7 +755,7 @@ class DubaiHseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _referenceSection() {
+  Widget _referenceSection(BuildContext context) {
     return _section(
       'References & Official Sources',
       Icons.menu_book_outlined,
