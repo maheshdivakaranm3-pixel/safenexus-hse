@@ -630,7 +630,12 @@ class _Part1TopicShell extends StatelessWidget {
         children: [
           _HeaderCard(topic: topic),
           const SizedBox(height: 14),
-          ...topic.sections.map((section) => _SectionCard(section: section)),
+          ...topic.sections.map(
+            (section) => _SectionCard(
+              section: section,
+              topicTitle: topic.title,
+            ),
+          ),
         ],
       ),
     );
@@ -707,8 +712,12 @@ class _HeaderCard extends StatelessWidget {
 
 class _SectionCard extends StatelessWidget {
   final DubaiPart1Section section;
+  final String topicTitle;
 
-  const _SectionCard({required this.section});
+  const _SectionCard({
+    required this.section,
+    required this.topicTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
