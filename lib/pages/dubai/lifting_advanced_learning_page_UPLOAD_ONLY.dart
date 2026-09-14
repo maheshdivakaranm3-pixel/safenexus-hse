@@ -10,18 +10,18 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
     required this.summary,
   });
 
-  static const Map<String, List<String>> _specificLearning = {
+  static const Map<String, List<String>> _learning = {
     'Rigger': [
       'Before the lift, study the approved lifting plan and understand the load, lifting points and rigging method.',
-      'Select accessories suitable for the load, connection arrangement and intended lifting configuration.',
+      'Select lifting accessories suitable for the load, connection arrangement and planned configuration.',
       'Check identification, rated capacity, condition and applicable inspection or certification status.',
-      'Inspect slings and hardware for damage, wear, deformation, cuts, broken wires, heat or chemical damage as applicable.',
-      'Use suitable edge protection where slings can contact sharp or abrasive edges.',
+      'Inspect slings and hardware for cuts, abrasion, broken wires, kinks, crushing, deformation, heat or chemical damage as applicable.',
+      'Use suitable edge protection where slings may contact sharp or abrasive edges.',
       'Confirm the centre of gravity and expected load behaviour before the main lift.',
-      'During lifting, remain in a safe position and keep clear of pinch points, suspended loads and snap-back zones.',
-      'Monitor for slipping, shifting, tilting, rotation, snagging or unexpected movement.',
+      'During lifting, remain in a safe position and keep clear of suspended loads, pinch points and snap-back zones.',
+      'Monitor the rigging continuously for slipping, shifting, tilting, rotation, snagging or unexpected movement.',
       'Immediately communicate an unsafe condition and stop the operation when the approved method is no longer valid.',
-      'After landing, confirm the load is stable and secure before removing accessories.',
+      'After landing, confirm that the load is stable and secure before disconnecting accessories.',
       'Report damaged equipment, defects, near misses and deviations and prevent defective accessories from further use.',
     ],
     'Rigger — Role and Responsibilities': [
@@ -41,7 +41,7 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
       'Stop and reassess if the ground, configuration, load or operating conditions change.',
     ],
     'Tower Crane': [
-      'Confirm approved crane configuration, capacity information and operating limits.',
+      'Confirm the approved crane configuration, capacity information and operating limits.',
       'Plan the load path to avoid structures, scaffolds, power lines, other cranes and unauthorized personnel.',
       'Maintain clear communication between the operator and authorized signalman/banksman.',
       'Control environmental conditions in accordance with applicable limits and the approved lifting procedure.',
@@ -82,15 +82,15 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
     ],
   };
 
-  List<String> _learningFor(String key) {
-    final specific = _specificLearning[key];
+  List<String> _pointsFor() {
+    final specific = _learning[title];
     if (specific != null) return specific;
 
-    if (key == 'Wire Rope Sling' ||
-        key == 'Web / Round Sling' ||
-        key == 'Shackle' ||
-        key == 'Hook & Safety Latch' ||
-        key == 'Spreader / Lifting Beam') {
+    if (title == 'Wire Rope Sling' ||
+        title == 'Web / Round Sling' ||
+        title == 'Shackle' ||
+        title == 'Hook & Safety Latch' ||
+        title == 'Spreader / Lifting Beam') {
       return [
         'Confirm the accessory is suitable for the load and intended connection.',
         'Check identification, rated capacity, condition and applicable inspection status.',
@@ -111,7 +111,7 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final points = _learningFor(title);
+    final points = _pointsFor();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8F7),
@@ -138,7 +138,10 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFE8F6F0), Color(0xFFF8FBFA)],
+                  colors: [
+                    Color(0xFFE8F6F0),
+                    Color(0xFFF8FBFA),
+                  ],
                 ),
               ),
               child: Column(
@@ -235,7 +238,9 @@ class LiftingAdvancedLearningPage extends StatelessWidget {
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
-              side: const BorderSide(color: Color(0xFFE9D9A7)),
+              side: const BorderSide(
+                color: Color(0xFFE9D9A7),
+              ),
             ),
             child: const Padding(
               padding: EdgeInsets.all(18),
