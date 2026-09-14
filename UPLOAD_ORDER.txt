@@ -1,0 +1,5 @@
+1) Replace lib/pages/dubai/dubai_hse_part2_page.dart
+2) Replace lib/pages/dubai/dubai_hse_part2_advanced_learning_page.dart
+3) Replace lib/dubai_hse_topic_router.dart
+4) DELETE any root-level duplicates: dubai_hse_part2_page.dart, dubai_hse_part2_advanced_learning_page.dart, dubai_hse_topic_router.dart
+Do NOT upload these files to repository root.
