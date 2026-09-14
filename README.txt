@@ -1,10 +1,16 @@
-SafeNexus HSE — Dubai HSE 37 Topics Router Final Clean
+SafeNexus HSE — Dubai HSE 37 Topics ACTUAL-ID FIXED
 
-IMPORTANT:
-Replace the ENTIRE existing file:
+ROOT CAUSE FIX:
+The previous detail file used different topic IDs from the existing
+lib/data/dubai_guidelines.dart. DubaiHseDetailPage therefore fell back to
+the short ReferenceTopic description, so the detailed sections were not shown.
+
+This version aligns all 37 _TopicData keys with the existing Dubai guideline IDs.
+
+REPLACE ONLY:
 lib/dubai_hse_detail_page.dart
 
-Do not append this code to the existing file.
-Do not modify or append dubai_guidelines.dart.
+DO NOT replace, append to, or modify:
+lib/data/dubai_guidelines.dart
 
-This file contains exactly ONE DubaiHseTopicRouter declaration and 37 _TopicData entries.
+The detailed topic sections, tappable types/items, and single router are retained.
