@@ -1,317 +1,114 @@
 import 'package:flutter/material.dart';
-
 import 'models/reference_topic.dart';
 
+/// SafeNexus HSE — Professional Dubai HSE learning and field-reference module.
+/// Replace ONLY this file. Keep data/dubai_guidelines.dart separate.
 class DubaiHseDetailPage extends StatelessWidget {
   final ReferenceTopic topic;
 
-  const DubaiHseDetailPage({
-    super.key,
-    required this.topic,
-  });
+  const DubaiHseDetailPage({super.key, required this.topic});
 
   static const Color primary = Color(0xFF0B6B4F);
   static const Color background = Color(0xFFF5F8F7);
 
   @override
   Widget build(BuildContext context) {
-    final detail = _detailsWithFallback[topic.id] ?? _fallback(topic);
-    final sections = _sectionsFor(topic.id, detail);
+    final data = _topicData[topic.id];
+    if (data == null) return _fallback(context);
 
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
-        title: Text(
-          topic.title,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(data.title, maxLines: 2, overflow: TextOverflow.ellipsis),
         backgroundColor: primary,
         foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _header(detail),
-          const SizedBox(height: 14),
-          ...sections.map(
-            (section) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _sectionCard(context, topic, section),
-            ),
-          ),
+          _intro(data),
+          _section(context, '🧰 Types / Applications', data.types, Icons.category_outlined),
+          _section(context, '🔧 Components / Items', data.items, Icons.build_outlined),
+          for (final entry in data.sections.entries)
+            _section(context, entry.key, entry.value, Icons.menu_book_outlined),
         ],
       ),
     );
   }
 
-  Widget _header(_TopicDetail detail) {
+  Widget _intro(_TopicData data) {
     return Card(
-      elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Icon(Icons.shield_outlined, color: primary, size: 28),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    topic.title,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            const Text('📖 Introduction', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Text(
-              topic.description.isNotEmpty
-                  ? topic.description
-                  : detail.scope,
-              style: const TextStyle(fontSize: 14, height: 1.45),
-            ),
+            Text(data.intro, style: const TextStyle(fontSize: 15, height: 1.55)),
           ],
         ),
       ),
     );
   }
 
-  Widget _sectionCard(
-    BuildContext context,
-    ReferenceTopic topic,
-    _DubaiSection section,
-  ) {
+  Widget _section(BuildContext context, String title, List<_DetailItem> values, IconData icon) {
     return Card(
-      elevation: 1,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => DubaiHseSectionDetailPage(
-                topic: topic,
-                section: section,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ExpansionTile(
+        leading: Icon(icon, color: primary),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
+        children: [
+          for (int i = 0; i < values.length; i++)
+            ListTile(
+              leading: CircleAvatar(
+                radius: 15,
+                backgroundColor: primary,
+                child: Text('${i + 1}', style: const TextStyle(color: Colors.white, fontSize: 12)),
               ),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: primary.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.menu_book_outlined,
-                  color: primary,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  section.title,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
+              title: Text(values[i].title, style: const TextStyle(fontWeight: FontWeight.w600)),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => DubaiHseItemDetailPage(
+                      sectionTitle: title,
+                      item: values[i].title,
+                      detail: values[i].detail,
+                    ),
                   ),
-                ),
-              ),
-              const Icon(Icons.chevron_right, color: Colors.grey),
-            ],
-          ),
-        ),
+                );
+              },
+            ),
+        ],
       ),
     );
   }
 
-  List<_DubaiSection> _sectionsFor(
-    String topicId,
-    _TopicDetail detail,
-  ) {
-    final titles = _sectionTitles[topicId] ??
-        const <String>[
-          'Scope & Purpose',
-          'Main Hazards',
-          'Planning Requirements',
-          'Key Safety Controls',
-          'Pre-Start Verification',
-          'Safe Work Requirements',
-          'Inspection Requirements',
-          'Competent Person Responsibilities',
-          'Worker Responsibilities',
-          'Records & Documentation',
-          'Stop-Work Conditions',
-          'Emergency Response',
-        ];
-
-    final result = <_DubaiSection>[];
-
-    for (var i = 0; i < titles.length; i++) {
-      final title = titles[i];
-
-      if (i == 0) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: detail.scope,
-            bullets: detail.requirements.take(5).toList(),
-          ),
-        );
-      } else if (i == 1) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Identify the credible hazards before work starts.',
-            bullets: detail.hazards.take(6).toList(),
-          ),
-        );
-      } else if (i == 2) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Plan the work so risks are controlled before execution.',
-            bullets: detail.requirements.take(6).toList(),
-          ),
-        );
-      } else if (i == 3) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Apply the required controls and verify they remain effective.',
-            bullets: detail.controls.take(6).toList(),
-          ),
-        );
-      } else if (i == 4) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Complete pre-start checks before authorising the activity.',
-            bullets: detail.verification.take(6).toList(),
-          ),
-        );
-      } else if (i == 5) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Maintain safe conditions throughout the activity.',
-            bullets: detail.controls.take(6).toList(),
-          ),
-        );
-      } else if (i == 6) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Inspect, monitor and document the condition of the work area.',
-            bullets: detail.verification.take(6).toList(),
-          ),
-        );
-      } else if (i == 7) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Use competent supervision and clearly assigned responsibilities.',
-            bullets: detail.responsibilities.take(6).toList(),
-          ),
-        );
-      } else if (i == 8) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Workers must follow the approved controls and report unsafe conditions.',
-            bullets: detail.responsibilities.take(6).toList(),
-          ),
-        );
-      } else if (i == 9) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Keep evidence that required checks and controls were completed.',
-            bullets: detail.records.take(6).toList(),
-          ),
-        );
-      } else if (i == 10) {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Stop the activity when specified unsafe conditions exist.',
-            bullets: detail.stopWork.take(6).toList(),
-          ),
-        );
-      } else {
-        result.add(
-          _DubaiSection(
-            title: title,
-            summary: 'Respond quickly, protect people and escalate the emergency.',
-            bullets: [
-              'Stop the affected activity when safe to do so.',
-              'Raise the alarm and inform the responsible supervisor.',
-              'Keep unauthorised persons outside the affected area.',
-              'Provide first response only within trained competence.',
-              'Follow the site emergency plan and muster arrangements.',
-            ],
-          ),
-        );
-      }
-    }
-
-    return result;
-  }
-
-  _TopicDetail _fallback(ReferenceTopic topic) {
-    return _TopicDetail(
-      scope: topic.description,
-      hazards: topic.keyRequirements.isNotEmpty
-          ? topic.keyRequirements
-          : const ['Identify activity-specific hazards before work starts.'],
-      requirements: topic.keyRequirements.isNotEmpty
-          ? topic.keyRequirements
-          : const ['Use an approved risk assessment and method statement.'],
-      controls: topic.safetyControls.isNotEmpty
-          ? topic.safetyControls
-          : const ['Apply the hierarchy of controls and maintain supervision.'],
-      verification: const [
-        'Verify the work area before starting.',
-        'Confirm required permits, equipment and competency.',
-        'Record inspections and corrective actions.',
-      ],
-      responsibilities: topic.responsibilities.isNotEmpty
-          ? topic.responsibilities
-          : const [
-              'Supervisor: verify controls before work.',
-              'Worker: follow approved controls and report hazards.',
-            ],
-      records: const [
-        'Risk assessment / method statement',
-        'Inspection and verification records',
-        'Training or competency evidence',
-      ],
-      stopWork: const [
-        'Stop when an uncontrolled serious risk is identified.',
-        'Stop when required protective controls are missing.',
-        'Restart only after the condition is corrected and verified.',
-      ],
+  Widget _fallback(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(topic.title), backgroundColor: primary, foregroundColor: Colors.white),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          topic.description.isNotEmpty ? topic.description : 'Dubai HSE learning reference.',
+          style: const TextStyle(fontSize: 16, height: 1.5),
+        ),
+      ),
     );
   }
 }
 
-class DubaiHseSectionDetailPage extends StatelessWidget {
-  final ReferenceTopic topic;
-  final _DubaiSection section;
+class DubaiHseItemDetailPage extends StatelessWidget {
+  final String sectionTitle;
+  final String item;
+  final String detail;
 
-  const DubaiHseSectionDetailPage({
+  const DubaiHseItemDetailPage({
     super.key,
-    required this.topic,
-    required this.section,
+    required this.sectionTitle,
+    required this.item,
+    required this.detail,
   });
 
   static const Color primary = Color(0xFF0B6B4F);
@@ -320,802 +117,496 @@ class DubaiHseSectionDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          section.title,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(item, maxLines: 2, overflow: TextOverflow.ellipsis),
         backgroundColor: primary,
         foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(
-            topic.title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: primary,
-            ),
-          ),
+          Text(sectionTitle, style: const TextStyle(color: primary, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text(
-            section.title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+          Text(item, style: const TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 16),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(detail, style: const TextStyle(fontSize: 15, height: 1.6)),
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            section.summary,
-            style: const TextStyle(fontSize: 15, height: 1.5),
-          ),
-          const SizedBox(height: 18),
-          ...section.bullets.asMap().entries.map(
-                (entry) => Card(
-                  elevation: 0,
-                  margin: const EdgeInsets.only(bottom: 9),
-                  child: Padding(
-                    padding: const EdgeInsets.all(13),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.check_circle_outline,
-                          color: primary,
-                          size: 21,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            entry.value,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              height: 1.45,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('HSE Check', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Confirm suitability, condition, required controls and competent authorisation before use or execution of this item.',
+                    style: TextStyle(height: 1.5),
                   ),
-                ),
+                ],
               ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class DubaiHseTopicRouter {
-  const DubaiHseTopicRouter._();
-
-  static Widget pageFor(ReferenceTopic topic) {
-    return DubaiHseDetailPage(topic: topic);
-  }
-}
-
-class _DubaiSection {
+class _DetailItem {
   final String title;
-  final String summary;
-  final List<String> bullets;
+  final String detail;
+  const _DetailItem({required this.title, required this.detail});
+}
 
-  const _DubaiSection({
+class _TopicData {
+  final String title;
+  final String intro;
+  final List<_DetailItem> types;
+  final List<_DetailItem> items;
+  final Map<String, List<_DetailItem>> sections;
+
+  const _TopicData({
     required this.title,
-    required this.summary,
-    required this.bullets,
+    required this.intro,
+    required this.types,
+    required this.items,
+    required this.sections,
   });
 }
 
-class _TopicDetail {
-  final String scope;
-  final List<String> hazards;
-  final List<String> requirements;
-  final List<String> controls;
-  final List<String> verification;
-  final List<String> responsibilities;
-  final List<String> records;
-  final List<String> stopWork;
+const Map<String, _TopicData> _topicData = {
 
-  const _TopicDetail({
-    required this.scope,
-    required this.hazards,
-    required this.requirements,
-    required this.controls,
-    required this.verification,
-    required this.responsibilities,
-    required this.records,
-    required this.stopWork,
-  });
+  'dubai_construction_safety_framework': _TopicData(title: 'Dubai Construction Safety Framework', intro: 'A project-wide HSE framework for construction work in Dubai. It connects planning, risk control, supervision, worker competence, emergency arrangements, inspection and continual improvement so that hazards are controlled before and during work rather than after an incident.', types: [_DetailItem(title: 'Main Contractor HSE System', detail: 'Main Contractor HSE System is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Project HSE Plan', detail: 'Project HSE Plan is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'High-Risk Activity Control', detail: 'High-Risk Activity Control is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Interface / Simultaneous Operations', detail: 'Interface / Simultaneous Operations is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], items: [_DetailItem(title: 'HSE Plan', detail: 'HSE Plan is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Risk Assessment', detail: 'Risk Assessment is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Method Statement', detail: 'Method Statement is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Permit', detail: 'Permit is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Competent Person', detail: 'Competent Person is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Record', detail: 'Inspection Record is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], sections: {
+    'Purpose & Scope': [_DetailItem(title: 'Purpose', detail: 'Define the HSE arrangements that govern the project, work packages, interfaces and changing site conditions.'),_DetailItem(title: 'Scope', detail: 'Apply controls from mobilisation through construction, testing, handover and demobilisation.')],
+    'Planning & Risk Control': [_DetailItem(title: 'Risk Assessment', detail: 'Identify hazards, people exposed, existing controls, additional controls and residual risk before work.'),_DetailItem(title: 'Method Statement', detail: 'Describe the safe sequence, resources, hold points, supervision and emergency arrangements for the activity.')],
+    'Competence & Supervision': [_DetailItem(title: 'Competent Personnel', detail: 'Use people with the training, experience and authority appropriate to the work.'),_DetailItem(title: 'Field Supervision', detail: 'Supervisors verify that the approved method is actually being followed and intervene when conditions change.')],
+    'Worksite Controls': [_DetailItem(title: 'Access & Egress', detail: 'Maintain safe routes, segregation, lighting and housekeeping.'),_DetailItem(title: 'Plant & Equipment', detail: 'Use suitable, inspected equipment operated by authorised personnel.')],
+    'Inspection & Assurance': [_DetailItem(title: 'Inspections', detail: 'Use planned HSE inspections and targeted checks for critical controls.'),_DetailItem(title: 'Actions', detail: 'Record findings, assign owners and verify closure rather than merely recording observations.')],
+    'Change Management': [_DetailItem(title: 'Change', detail: 'Reassess hazards when design, sequence, plant, workforce or environmental conditions change.'),_DetailItem(title: 'Interface', detail: 'Coordinate simultaneous activities so one crew does not create an uncontrolled hazard for another.')],
+    'Emergency Response': [_DetailItem(title: 'Alarm & Muster', detail: 'Use the project emergency plan, alarm arrangements and designated assembly points.'),_DetailItem(title: 'Rescue', detail: 'Provide task-specific rescue arrangements where ordinary emergency access is insufficient.')],
+    'Stop-Work Conditions': [_DetailItem(title: 'Critical Control Failure', detail: 'Stop when a critical control is absent, ineffective or damaged.'),_DetailItem(title: 'Uncontrolled Change', detail: 'Stop when the actual condition differs materially from the approved safe system of work.')],
+    'Practical Site Example': [_DetailItem(title: 'Concrete Pour', detail: 'Before a large pour, the team reviews the pour sequence, pump location, exclusion zone, access, temporary works, communication and emergency response; the supervisor verifies controls at the workface.')],
+    'Key Learning Points': [_DetailItem(title: 'Plan Before Work', detail: 'Good construction safety is built into planning, sequencing and supervision.'),_DetailItem(title: 'Verify in the Field', detail: 'A signed document does not replace physical verification at the work location.')],
+  }),
+  'hse_management_system': _TopicData(title: 'HSE Management System', intro: 'An organised management system that defines how HSE policy, responsibilities, risk controls, training, consultation, inspection, incidents, corrective actions and performance are managed across a project.', types: [_DetailItem(title: 'Project HSE System', detail: 'Project HSE System is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Contractor HSE System', detail: 'Contractor HSE System is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Activity-Level Control', detail: 'Activity-Level Control is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Continuous Improvement', detail: 'Continuous Improvement is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], items: [_DetailItem(title: 'HSE Policy', detail: 'HSE Policy is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Organisation Chart', detail: 'Organisation Chart is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Training Matrix', detail: 'Training Matrix is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Audit Plan', detail: 'Audit Plan is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Register', detail: 'Inspection Register is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Corrective Action Register', detail: 'Corrective Action Register is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], sections: {
+    'Policy & Leadership': [_DetailItem(title: 'Leadership', detail: 'Management demonstrates commitment through resources, visible field engagement and timely decisions on HSE issues.'),_DetailItem(title: 'Objectives', detail: 'Set measurable objectives appropriate to project risk and stage.')],
+    'Roles & Responsibilities': [_DetailItem(title: 'Accountability', detail: 'Define who plans, approves, supervises, inspects and closes actions.'),_DetailItem(title: 'Worker Consultation', detail: 'Provide practical channels for workers to raise hazards and improvement ideas.')],
+    'Risk Management': [_DetailItem(title: 'Hazard Identification', detail: 'Use task, workplace and change-based assessments.'),_DetailItem(title: 'Control Verification', detail: 'Check critical controls at the workface.')],
+    'Competence & Training': [_DetailItem(title: 'Training Matrix', detail: 'Track mandatory and task-specific competence.'),_DetailItem(title: 'Induction', detail: 'Ensure personnel understand site hazards, emergency arrangements and rules before starting work.')],
+    'Inspection & Audit': [_DetailItem(title: 'Inspection', detail: 'Use routine and targeted inspections based on risk.'),_DetailItem(title: 'Audit', detail: 'Audit system implementation, not only document availability.')],
+    'Incident & Action Management': [_DetailItem(title: 'Incident Learning', detail: 'Investigate events and near misses to identify underlying causes.'),_DetailItem(title: 'Action Closure', detail: 'Assign accountable owners and verify effectiveness after closure.')],
+    'Performance Review': [_DetailItem(title: 'Leading Indicators', detail: 'Track inspections, training, observations and action closure.'),_DetailItem(title: 'Management Review', detail: 'Use trends to prioritise resources and improve controls.')],
+    'Stop-Work Conditions': [_DetailItem(title: 'System Breakdown', detail: 'Stop affected work where required controls cannot be reliably implemented.'),_DetailItem(title: 'Repeated Critical Failure', detail: 'Escalate and suspend the activity when critical controls repeatedly fail.')],
+    'Practical Site Example': [_DetailItem(title: 'Weekly Review', detail: 'The project HSE team trends recurring work-at-height observations, identifies a common access problem and changes the site control standard rather than closing each observation separately.')],
+    'Key Learning Points': [_DetailItem(title: 'System Thinking', detail: 'Effective HSE is a managed system, not a collection of isolated inspections.'),_DetailItem(title: 'Close the Loop', detail: 'Actions are complete only when effectiveness is verified.')],
+  }),
+  'health_safety_risk_assessment': _TopicData(title: 'Health & Safety Risk Assessment', intro: 'A structured process for identifying hazards, evaluating risk, selecting controls and reviewing residual risk for construction and operational activities.', types: [_DetailItem(title: 'Task Risk Assessment', detail: 'Task Risk Assessment is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Activity Risk Assessment', detail: 'Activity Risk Assessment is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Dynamic Risk Assessment', detail: 'Dynamic Risk Assessment is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Change / Interface Assessment', detail: 'Change / Interface Assessment is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], items: [_DetailItem(title: 'Hazard Register', detail: 'Hazard Register is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Risk Matrix', detail: 'Risk Matrix is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Control Measure', detail: 'Control Measure is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Residual Risk', detail: 'Residual Risk is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Action Owner', detail: 'Action Owner is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Review Trigger', detail: 'Review Trigger is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], sections: {
+    'Purpose & Scope': [_DetailItem(title: 'Purpose', detail: 'Prevent harm by identifying hazards before exposure occurs.'),_DetailItem(title: 'Scope', detail: 'Cover routine, non-routine, emergency, maintenance and changing activities.')],
+    'Hazard Identification': [_DetailItem(title: 'People', detail: 'Consider workers, supervisors, visitors, contractors and members of the public.'),_DetailItem(title: 'Energy & Environment', detail: 'Consider mechanical, electrical, stored, thermal, chemical, biological, gravity and environmental hazards.')],
+    'Risk Evaluation': [_DetailItem(title: 'Likelihood', detail: 'Consider credible frequency and exposure.'),_DetailItem(title: 'Consequence', detail: 'Consider the realistic worst credible outcome, not only minor injury.')],
+    'Hierarchy of Controls': [_DetailItem(title: 'Elimination', detail: 'Remove the hazard where reasonably practicable.'),_DetailItem(title: 'Engineering', detail: 'Prefer physical controls such as guarding, segregation, edge protection and mechanical handling.'),_DetailItem(title: 'Administrative / PPE', detail: 'Use procedures, supervision and PPE as supporting layers, not the sole control for major hazards.')],
+    'Competence & Consultation': [_DetailItem(title: 'Worker Input', detail: 'Use the knowledge of people who perform the task.'),_DetailItem(title: 'Competent Review', detail: 'Ensure specialist risks are reviewed by suitably competent personnel.')],
+    'Implementation': [_DetailItem(title: 'Action Plan', detail: 'Give controls owners and completion requirements.'),_DetailItem(title: 'Pre-Start Briefing', detail: 'Communicate the controls to the people doing the work.')],
+    'Review & Change': [_DetailItem(title: 'Review Triggers', detail: 'Reassess after incidents, significant change, new equipment, new information or deteriorating conditions.'),_DetailItem(title: 'Field Validation', detail: 'Confirm the assessment matches the real workface.')],
+    'Stop-Work Conditions': [_DetailItem(title: 'Unassessed Hazard', detail: 'Stop when a significant new hazard is identified and controls are not established.'),_DetailItem(title: 'Control Failure', detail: 'Stop where a critical risk control is ineffective.')],
+    'Practical Site Example': [_DetailItem(title: 'Excavation', detail: 'A risk assessment identifies collapse, buried services, plant interface, falling materials, water ingress and access hazards; controls are assigned before excavation starts.')],
+    'Key Learning Points': [_DetailItem(title: 'Control the Hazard', detail: 'The strongest control is normally the one that removes or isolates the hazard.'),_DetailItem(title: 'Dynamic Thinking', detail: 'Risk assessment must change when the work changes.')],
+  }),
+  'construction_hse_plan': _TopicData(title: 'Construction HSE Plan', intro: 'the project HSE plan', types: [_DetailItem(title: 'Pre-Construction HSE Plan', detail: 'Pre-Construction HSE Plan is a distinct application of construction hse plan. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Execution HSE Plan', detail: 'Execution HSE Plan is a distinct application of construction hse plan. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Work-Package Plan', detail: 'Work-Package Plan is a distinct application of construction hse plan. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Emergency Plan', detail: 'Emergency Plan is a distinct application of construction hse plan. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'HSE Plan', detail: 'HSE Plan is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Organisation Chart', detail: 'Organisation Chart is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Risk Register', detail: 'Risk Register is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Training Matrix', detail: 'Training Matrix is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Plan', detail: 'Emergency Plan is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Schedule', detail: 'Inspection Schedule is a key element used in construction hse plan. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Mobilisation & Site Setup': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Risk and Method Planning': [_DetailItem(title: 'Work Sequence', detail: 'Define the safe sequence, resources, interfaces, hold points and emergency arrangements before work begins.'),_DetailItem(title: 'Risk Controls', detail: 'Ensure the risk assessment and method statement reflect the actual workface.')],
+    'Workforce & Competence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Site Controls': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Emergency Arrangements': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Inspection & Reporting': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Change Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction hse plan and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction hse plan where the risk or system requires specialist judgement.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting construction hse plan, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'work_at_height': _TopicData(title: 'Work at Height', intro: 'work where a person could fall from one level to another', types: [_DetailItem(title: 'Fixed Access Work', detail: 'Fixed Access Work is a distinct application of work at height. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Roof Work', detail: 'Roof Work is a distinct application of work at height. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'MEWP Work', detail: 'MEWP Work is a distinct application of work at height. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Ladder Work', detail: 'Ladder Work is a distinct application of work at height. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Working Platform', detail: 'Working Platform is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Guardrail', detail: 'Guardrail is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Toe Board', detail: 'Toe Board is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ladder', detail: 'Ladder is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'MEWP', detail: 'MEWP is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Harness', detail: 'Harness is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lifeline', detail: 'Lifeline is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Anchor Point', detail: 'Anchor Point is a key element used in work at height. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Hierarchy of Fall Prevention': [_DetailItem(title: 'Avoid the Fall', detail: 'Prefer work from ground level or a properly protected platform.'),_DetailItem(title: 'Protect the Edge', detail: 'Use collective protection before relying on personal fall protection.')],
+    'Access & Platform Selection': [_DetailItem(title: 'Suitable Access', detail: 'Select access equipment based on task duration, height, reach, load and frequency of movement.'),_DetailItem(title: 'Safe Entry', detail: 'Keep access routes stable, clear and protected from adjacent hazards.')],
+    'Edge Protection': [_DetailItem(title: 'Collective Protection', detail: 'Provide suitable guardrails, intermediate protection and toe boards where required by the system/design.'),_DetailItem(title: 'Openings', detail: 'Protect floor, roof and shaft openings against falls and falling objects.')],
+    'Personal Fall Protection': [_DetailItem(title: 'Harness System', detail: 'Use compatible harness, lanyard/lifeline and suitable anchor arrangements where personal fall protection is required.'),_DetailItem(title: 'Rescue', detail: 'Plan rescue before work; do not rely on an emergency service that cannot reach the location promptly.')],
+    'Dropped Object Control': [_DetailItem(title: 'Exclusion', detail: 'Keep people out of drop zones and secure tools/materials at height.'),_DetailItem(title: 'Tool Control', detail: 'Use suitable tool retention and material containment systems where needed.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant work at height controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Weather & Rescue': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to work at height and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise work at height where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting work at height, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'lifting_operations': _TopicData(title: 'Lifting Operations', intro: 'planned lifting of loads using cranes, hoists or other lifting appliances', types: [_DetailItem(title: 'Mobile Crane Lift', detail: 'Mobile Crane Lift is a distinct application of lifting operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Tower Crane Lift', detail: 'Tower Crane Lift is a distinct application of lifting operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Hoist Lift', detail: 'Hoist Lift is a distinct application of lifting operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Special / Critical Lift', detail: 'Special / Critical Lift is a distinct application of lifting operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Crane', detail: 'Crane is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lifting Accessory', detail: 'Lifting Accessory is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Sling', detail: 'Sling is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Shackle', detail: 'Shackle is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Spreader Beam', detail: 'Spreader Beam is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hook', detail: 'Hook is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Outrigger', detail: 'Outrigger is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Exclusion Zone', detail: 'Exclusion Zone is a key element used in lifting operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Lift Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Crane Setup': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Load & Accessory Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Personnel & Communication': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Exclusion Zones': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Inspection & Certification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Weather & Ground Conditions': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to lifting operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise lifting operations where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting lifting operations, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'excavation_trenching': _TopicData(title: 'Excavation & Trenching', intro: 'ground disturbance that can create collapse, service-strike, access, plant and atmosphere hazards', types: [_DetailItem(title: 'Open Excavation', detail: 'Open Excavation is a distinct application of excavation & trenching. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Trench', detail: 'Trench is a distinct application of excavation & trenching. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Deep Excavation', detail: 'Deep Excavation is a distinct application of excavation & trenching. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Shored Excavation', detail: 'Shored Excavation is a distinct application of excavation & trenching. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Excavator', detail: 'Excavator is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Shoring', detail: 'Shoring is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Trench Box', detail: 'Trench Box is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ladder', detail: 'Ladder is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Edge Protection', detail: 'Edge Protection is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Spoil Heap', detail: 'Spoil Heap is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Service Detector', detail: 'Service Detector is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Ramp', detail: 'Access Ramp is a key element used in excavation & trenching. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Permit & Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Underground Services': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Ground Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Access & Egress': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Plant Interface': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Water & Atmosphere': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to excavation & trenching and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise excavation & trenching where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant excavation & trenching controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting excavation & trenching, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'confined_space_entry': _TopicData(title: 'Confined Space Entry', intro: 'entry into a space with restricted access and potentially hazardous atmosphere or other serious hazards', types: [_DetailItem(title: 'Routine Entry', detail: 'Routine Entry is a distinct application of confined space entry. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Permit-Controlled Entry', detail: 'Permit-Controlled Entry is a distinct application of confined space entry. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Rescue Entry', detail: 'Rescue Entry is a distinct application of confined space entry. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Non-Entry Work', detail: 'Non-Entry Work is a distinct application of confined space entry. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Entry Permit', detail: 'Entry Permit is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gas Detector', detail: 'Gas Detector is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ventilation', detail: 'Ventilation is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Harness', detail: 'Harness is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lifeline', detail: 'Lifeline is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Standby Person', detail: 'Standby Person is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Isolation', detail: 'Isolation is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Rescue Equipment', detail: 'Rescue Equipment is a key element used in confined space entry. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Entry Assessment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Isolation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Atmospheric Testing': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Ventilation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Entry Team': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Continuous Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Rescue': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to confined space entry and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise confined space entry where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting confined space entry, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'electrical_safety': _TopicData(title: 'Electrical Safety', intro: 'safe control of electrical energy during construction, installation, testing and maintenance', types: [_DetailItem(title: 'Temporary Power', detail: 'Temporary Power is a distinct application of electrical safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Permanent Installation', detail: 'Permanent Installation is a distinct application of electrical safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Testing & Commissioning', detail: 'Testing & Commissioning is a distinct application of electrical safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Maintenance / Isolation', detail: 'Maintenance / Isolation is a distinct application of electrical safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Distribution Board', detail: 'Distribution Board is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'RCD / Protection', detail: 'RCD / Protection is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Cable', detail: 'Cable is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Plug & Socket', detail: 'Plug & Socket is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Isolation Point', detail: 'Isolation Point is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Earthing', detail: 'Earthing is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lockout Device', detail: 'Lockout Device is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Electrical Test Equipment', detail: 'Electrical Test Equipment is a key element used in electrical safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Design & Isolation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Temporary Electrical Systems': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Protection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Cable Management': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Competent Persons': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Inspection & Testing': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Wet / Outdoor Conditions': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to electrical safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise electrical safety where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting electrical safety, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'hot_work_safety': _TopicData(title: 'Hot Work Safety', intro: 'activities that create flame, heat, sparks or molten metal and can ignite combustible materials', types: [_DetailItem(title: 'Welding', detail: 'Welding is a distinct application of hot work safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Gas Cutting', detail: 'Gas Cutting is a distinct application of hot work safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Grinding', detail: 'Grinding is a distinct application of hot work safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Brazing / Heating', detail: 'Brazing / Heating is a distinct application of hot work safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Welding Set', detail: 'Welding Set is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gas Cylinder', detail: 'Gas Cylinder is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Regulator', detail: 'Regulator is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Flashback Arrestor', detail: 'Flashback Arrestor is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hose', detail: 'Hose is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Fire Extinguisher', detail: 'Fire Extinguisher is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Spark Screen', detail: 'Spark Screen is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hot Work Permit', detail: 'Hot Work Permit is a key element used in hot work safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Permit & Area Check': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Combustible Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Gas Cylinder Safety': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Fire Watch': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Equipment Condition': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Ventilation & Fumes': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Post-Work Fire Check': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hot work safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hot work safety where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting hot work safety, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'construction_traffic_management': _TopicData(title: 'Construction Traffic Management', intro: 'control of vehicles, mobile plant, pedestrians and deliveries within or around construction sites', types: [_DetailItem(title: 'Site Haul Roads', detail: 'Site Haul Roads is a distinct application of construction traffic management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Delivery Operations', detail: 'Delivery Operations is a distinct application of construction traffic management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Plant-Pedestrian Interface', detail: 'Plant-Pedestrian Interface is a distinct application of construction traffic management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Public Interface', detail: 'Public Interface is a distinct application of construction traffic management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Vehicle', detail: 'Vehicle is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Banksman', detail: 'Banksman is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Pedestrian Barrier', detail: 'Pedestrian Barrier is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Wheel Stop', detail: 'Wheel Stop is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Reversing Alarm', detail: 'Reversing Alarm is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lighting', detail: 'Lighting is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Traffic Sign', detail: 'Traffic Sign is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Exclusion Zone', detail: 'Exclusion Zone is a key element used in construction traffic management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Traffic Plan': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Segregation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Reversing Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Speed & Visibility': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Delivery Management': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Plant Condition': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Public Protection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to construction traffic management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise construction traffic management where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting construction traffic management, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'demolition_safety': _TopicData(title: 'Demolition Safety', intro: 'planned dismantling or removal of structures while controlling collapse, services, dust and falling objects', types: [_DetailItem(title: 'Manual Demolition', detail: 'Manual Demolition is a distinct application of demolition safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Mechanical Demolition', detail: 'Mechanical Demolition is a distinct application of demolition safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Partial Demolition', detail: 'Partial Demolition is a distinct application of demolition safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Deconstruction / Strip-Out', detail: 'Deconstruction / Strip-Out is a distinct application of demolition safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Demolition Plan', detail: 'Demolition Plan is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Exclusion Zone', detail: 'Exclusion Zone is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Excavator Attachment', detail: 'Excavator Attachment is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Temporary Support', detail: 'Temporary Support is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Dust Suppression', detail: 'Dust Suppression is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Service Isolation', detail: 'Service Isolation is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Debris Chute', detail: 'Debris Chute is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Monitoring Point', detail: 'Monitoring Point is a key element used in demolition safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Survey & Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Structural Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Isolation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Exclusion Zones': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Plant & Attachments': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Dust / Noise': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Monitoring': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to demolition safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise demolition safety where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting demolition safety, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'temporary_works_safety': _TopicData(title: 'Temporary Works Safety', intro: 'temporary structures or supports that carry loads or maintain stability during construction', types: [_DetailItem(title: 'Falsework', detail: 'Falsework is a distinct application of temporary works safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Formwork', detail: 'Formwork is a distinct application of temporary works safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Temporary Support', detail: 'Temporary Support is a distinct application of temporary works safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Temporary Access / Protection', detail: 'Temporary Access / Protection is a distinct application of temporary works safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Temporary Works Design', detail: 'Temporary Works Design is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Props', detail: 'Props is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Falsework Frame', detail: 'Falsework Frame is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Formwork Panel', detail: 'Formwork Panel is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Sole Plate', detail: 'Sole Plate is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Tie', detail: 'Tie is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Brace', detail: 'Brace is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Hold Point', detail: 'Inspection Hold Point is a key element used in temporary works safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Design & Approval': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Foundation & Bearing': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Load Path': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Erection Sequence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Inspection & Handover': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Alteration Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Weather / Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to temporary works safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise temporary works safety where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting temporary works safety, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'heat_stress_management': _TopicData(title: 'Heat Stress Management', intro: 'management of heat exposure affecting workers during hot weather and physically demanding work', types: [_DetailItem(title: 'Outdoor Summer Work', detail: 'Outdoor Summer Work is a distinct application of heat stress management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Heavy Physical Work', detail: 'Heavy Physical Work is a distinct application of heat stress management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Heat-Affected Indoor Work', detail: 'Heat-Affected Indoor Work is a distinct application of heat stress management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Acclimatisation Programme', detail: 'Acclimatisation Programme is a distinct application of heat stress management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Drinking Water', detail: 'Drinking Water is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Shade', detail: 'Shade is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Rest Area', detail: 'Rest Area is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ventilation', detail: 'Ventilation is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Heat Monitoring', detail: 'Heat Monitoring is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'PPE Selection', detail: 'PPE Selection is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Buddy System', detail: 'Buddy System is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'First Aid', detail: 'First Aid is a key element used in heat stress management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Heat Risk Assessment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Work / Rest Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Hydration': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Shade & Cooling': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Acclimatisation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Worker Monitoring': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Emergency Response': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to heat stress management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise heat stress management where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting heat stress management, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'occupational_health': _TopicData(title: 'Occupational Health', intro: 'prevention and management of work-related health risks including noise, dust, vibration, chemicals and ergonomic exposure', types: [_DetailItem(title: 'Exposure Assessment', detail: 'Exposure Assessment is a distinct application of occupational health. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Health Surveillance', detail: 'Health Surveillance is a distinct application of occupational health. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Occupational Hygiene', detail: 'Occupational Hygiene is a distinct application of occupational health. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Ergonomic Control', detail: 'Ergonomic Control is a distinct application of occupational health. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Exposure Monitor', detail: 'Exposure Monitor is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hearing Protection', detail: 'Hearing Protection is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Respirator', detail: 'Respirator is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Local Exhaust', detail: 'Local Exhaust is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ergonomic Aid', detail: 'Ergonomic Aid is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Health Surveillance Record', detail: 'Health Surveillance Record is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Chemical SDS', detail: 'Chemical SDS is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Welfare Facility', detail: 'Welfare Facility is a key element used in occupational health. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Health Risk Identification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Exposure Assessment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Engineering Controls': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'PPE & RPE': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Health Surveillance': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Welfare & Hygiene': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Records': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to occupational health and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise occupational health where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting occupational health, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'personal_protective_equipment': _TopicData(title: 'Personal Protective Equipment', intro: 'selection, use, inspection and maintenance of PPE as the final layer of protection', types: [_DetailItem(title: 'Head Protection', detail: 'Head Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Eye / Face Protection', detail: 'Eye / Face Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Hand Protection', detail: 'Hand Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Foot Protection', detail: 'Foot Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Hearing Protection', detail: 'Hearing Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Fall Protection', detail: 'Fall Protection is a distinct application of personal protective equipment. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Helmet', detail: 'Helmet is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Safety Glasses', detail: 'Safety Glasses is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Face Shield', detail: 'Face Shield is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gloves', detail: 'Gloves is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Safety Footwear', detail: 'Safety Footwear is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hearing Protection', detail: 'Hearing Protection is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Harness', detail: 'Harness is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'High-Visibility Clothing', detail: 'High-Visibility Clothing is a key element used in personal protective equipment. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'PPE Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Compatibility': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant personal protective equipment controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Correct Use': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Storage & Maintenance': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Training': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Replacement': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to personal protective equipment and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise personal protective equipment where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting personal protective equipment, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'emergency_preparedness_response': _TopicData(title: 'Emergency Preparedness & Response', intro: 'preparedness for fire, medical events, rescue, spill, collapse and other site emergencies', types: [_DetailItem(title: 'Fire Emergency', detail: 'Fire Emergency is a distinct application of emergency preparedness & response. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Medical Emergency', detail: 'Medical Emergency is a distinct application of emergency preparedness & response. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Rescue Emergency', detail: 'Rescue Emergency is a distinct application of emergency preparedness & response. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Environmental Emergency', detail: 'Environmental Emergency is a distinct application of emergency preparedness & response. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Alarm', detail: 'Alarm is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Muster Point', detail: 'Muster Point is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Contact', detail: 'Emergency Contact is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'First Aid Kit', detail: 'First Aid Kit is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Fire Extinguisher', detail: 'Fire Extinguisher is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Rescue Kit', detail: 'Rescue Kit is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Vehicle', detail: 'Emergency Vehicle is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Incident Command', detail: 'Incident Command is a key element used in emergency preparedness & response. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Emergency Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Alarm & Communication': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Muster & Accountability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'First Aid': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Rescue Arrangements': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Drills': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Recovery': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to emergency preparedness & response and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise emergency preparedness & response where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting emergency preparedness & response, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'incident_reporting_investigation': _TopicData(title: 'Incident Reporting & Investigation', intro: 'structured reporting and investigation of incidents, near misses and dangerous occurrences to prevent recurrence', types: [_DetailItem(title: 'Incident Reporting', detail: 'Incident Reporting is a distinct application of incident reporting & investigation. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Near-Miss Reporting', detail: 'Near-Miss Reporting is a distinct application of incident reporting & investigation. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Root-Cause Investigation', detail: 'Root-Cause Investigation is a distinct application of incident reporting & investigation. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Corrective Action', detail: 'Corrective Action is a distinct application of incident reporting & investigation. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Incident Report', detail: 'Incident Report is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Witness Statement', detail: 'Witness Statement is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Photograph / Evidence', detail: 'Photograph / Evidence is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Timeline', detail: 'Timeline is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Root Cause', detail: 'Root Cause is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Action Register', detail: 'Action Register is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Trend Analysis', detail: 'Trend Analysis is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Close-Out', detail: 'Close-Out is a key element used in incident reporting & investigation. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Immediate Response': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Notification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Evidence Preservation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Investigation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Root Cause': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Corrective Actions': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Learning & Communication': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to incident reporting & investigation and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise incident reporting & investigation where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting incident reporting & investigation, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'contractor_subcontractor_hse_management': _TopicData(title: 'Contractor & Subcontractor HSE Management', intro: 'control of HSE performance across contractor and subcontractor interfaces', types: [_DetailItem(title: 'Prequalification', detail: 'Prequalification is a distinct application of contractor & subcontractor hse management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Mobilisation', detail: 'Mobilisation is a distinct application of contractor & subcontractor hse management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Work Package Control', detail: 'Work Package Control is a distinct application of contractor & subcontractor hse management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Performance Review', detail: 'Performance Review is a distinct application of contractor & subcontractor hse management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Prequalification Record', detail: 'Prequalification Record is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'HSE Plan', detail: 'HSE Plan is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Induction', detail: 'Induction is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Competency Record', detail: 'Competency Record is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Method Statement', detail: 'Method Statement is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Permit', detail: 'Permit is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection', detail: 'Inspection is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Action Register', detail: 'Action Register is a key element used in contractor & subcontractor hse management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Prequalification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Onboarding': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Interface Management': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Competence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Field Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Performance Monitoring': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Corrective Action': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to contractor & subcontractor hse management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise contractor & subcontractor hse management where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting contractor & subcontractor hse management, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'environmental_waste_management': _TopicData(title: 'Environmental & Waste Management', intro: 'control of construction impacts including waste, spills, dust, noise, water and material storage', types: [_DetailItem(title: 'General Waste', detail: 'General Waste is a distinct application of environmental & waste management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Hazardous Waste', detail: 'Hazardous Waste is a distinct application of environmental & waste management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Spill Control', detail: 'Spill Control is a distinct application of environmental & waste management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Resource Management', detail: 'Resource Management is a distinct application of environmental & waste management. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Waste Container', detail: 'Waste Container is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Segregation Area', detail: 'Segregation Area is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Spill Kit', detail: 'Spill Kit is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Bund', detail: 'Bund is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Chemical Store', detail: 'Chemical Store is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Dust Control', detail: 'Dust Control is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Drain Protection', detail: 'Drain Protection is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Waste Record', detail: 'Waste Record is a key element used in environmental & waste management. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Waste Segregation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Hazardous Materials': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Spill Prevention': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Dust & Air': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Noise': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Water Protection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Housekeeping': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to environmental & waste management and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise environmental & waste management where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting environmental & waste management, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'hse_inspection_audit': _TopicData(title: 'HSE Inspection & Audit', intro: 'systematic verification that site conditions and management arrangements meet required controls', types: [_DetailItem(title: 'Routine Inspection', detail: 'Routine Inspection is a distinct application of hse inspection & audit. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Thematic Inspection', detail: 'Thematic Inspection is a distinct application of hse inspection & audit. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Joint Inspection', detail: 'Joint Inspection is a distinct application of hse inspection & audit. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'System Audit', detail: 'System Audit is a distinct application of hse inspection & audit. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Inspection Checklist', detail: 'Inspection Checklist is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Audit Plan', detail: 'Audit Plan is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Photographic Evidence', detail: 'Photographic Evidence is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Action Register', detail: 'Action Register is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Close-Out Verification', detail: 'Close-Out Verification is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Trend Report', detail: 'Trend Report is a key element used in hse inspection & audit. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Inspection Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Field Verification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Critical Controls': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Finding Classification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Action Management': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Audit Evidence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Verification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse inspection & audit and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse inspection & audit where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting hse inspection & audit, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'hse_performance_monitoring': _TopicData(title: 'HSE Performance Monitoring', intro: 'measurement of leading and lagging indicators to understand HSE performance and prioritise improvement', types: [_DetailItem(title: 'Leading Indicators', detail: 'Leading Indicators is a distinct application of hse performance monitoring. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Lagging Indicators', detail: 'Lagging Indicators is a distinct application of hse performance monitoring. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Trend Analysis', detail: 'Trend Analysis is a distinct application of hse performance monitoring. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Management Review', detail: 'Management Review is a distinct application of hse performance monitoring. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'KPI Dashboard', detail: 'KPI Dashboard is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Data', detail: 'Inspection Data is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Training Data', detail: 'Training Data is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Incident Data', detail: 'Incident Data is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Action Closure Data', detail: 'Action Closure Data is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Observation Data', detail: 'Observation Data is a key element used in hse performance monitoring. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Indicator Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Data Quality': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Leading Indicators': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Lagging Indicators': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Trend Analysis': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Management Review': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Improvement Actions': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to hse performance monitoring and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise hse performance monitoring where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting hse performance monitoring, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'dubai_building_code_safety': _TopicData(title: 'Dubai Building Code & Safety', intro: 'integration of building-code safety principles with construction HSE planning and execution', types: [_DetailItem(title: 'Design Safety', detail: 'Design Safety is a distinct application of dubai building code & safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Construction Safety', detail: 'Construction Safety is a distinct application of dubai building code & safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Occupancy / Completion', detail: 'Occupancy / Completion is a distinct application of dubai building code & safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Interface Control', detail: 'Interface Control is a distinct application of dubai building code & safety. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Approved Design', detail: 'Approved Design is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Safety Detail', detail: 'Safety Detail is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Arrangement', detail: 'Access Arrangement is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Fire / Life Safety Feature', detail: 'Fire / Life Safety Feature is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Barrier', detail: 'Barrier is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Guardrail', detail: 'Guardrail is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Service Shaft Protection', detail: 'Service Shaft Protection is a key element used in dubai building code & safety. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Design Coordination': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Life Safety': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Access & Egress': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Fire Safety': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Construction Interfaces': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Verification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Change Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to dubai building code & safety and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise dubai building code & safety where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting dubai building code & safety, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'permit_to_work_system': _TopicData(title: 'Permit to Work System', intro: 'formal control of defined high-risk work by confirming hazards, isolations, precautions, authorisation and close-out', types: [_DetailItem(title: 'Hot Work Permit', detail: 'Hot Work Permit is a distinct application of permit to work system. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Confined Space Permit', detail: 'Confined Space Permit is a distinct application of permit to work system. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Electrical Isolation', detail: 'Electrical Isolation is a distinct application of permit to work system. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Excavation Permit', detail: 'Excavation Permit is a distinct application of permit to work system. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Other High-Risk Permit', detail: 'Other High-Risk Permit is a distinct application of permit to work system. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Permit Form', detail: 'Permit Form is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Isolation Point', detail: 'Isolation Point is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lock / Tag', detail: 'Lock / Tag is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gas Test Record', detail: 'Gas Test Record is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Authorisation', detail: 'Authorisation is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Permit Board', detail: 'Permit Board is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Close-Out Record', detail: 'Close-Out Record is a key element used in permit to work system. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Permit Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Hazard Review': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Isolation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Authorisation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Field Verification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Permit Suspension': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Close-Out': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to permit to work system and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise permit to work system where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting permit to work system, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'site_establishment_general_arrangements': _TopicData(title: 'Code of Practice: Site Establishment & General Arrangements', intro: 'safe organisation of the construction site, welfare, access, storage, services, lighting and work zones from mobilisation onward', types: [_DetailItem(title: 'Site Mobilisation', detail: 'Site Mobilisation is a distinct application of code of practice: site establishment & general arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Work Zone Arrangement', detail: 'Work Zone Arrangement is a distinct application of code of practice: site establishment & general arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Welfare Setup', detail: 'Welfare Setup is a distinct application of code of practice: site establishment & general arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Temporary Services', detail: 'Temporary Services is a distinct application of code of practice: site establishment & general arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Site Hoarding', detail: 'Site Hoarding is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gate', detail: 'Gate is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Welfare Unit', detail: 'Welfare Unit is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Road', detail: 'Access Road is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Laydown Area', detail: 'Laydown Area is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Temporary Service', detail: 'Temporary Service is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lighting', detail: 'Lighting is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Route', detail: 'Emergency Route is a key element used in code of practice: site establishment & general arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Site Layout': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Access & Egress': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Welfare': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Storage': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Temporary Services': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Housekeeping': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Public Interface': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site establishment & general arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site establishment & general arrangements where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: site establishment & general arrangements, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'site_security_public_protection': _TopicData(title: 'Code of Practice: Site Security & Public Protection', intro: 'protection of workers, visitors and the public from construction hazards and unauthorised access', types: [_DetailItem(title: 'Perimeter Security', detail: 'Perimeter Security is a distinct application of code of practice: site security & public protection. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Public Interface', detail: 'Public Interface is a distinct application of code of practice: site security & public protection. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Visitor Control', detail: 'Visitor Control is a distinct application of code of practice: site security & public protection. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Out-of-Hours Security', detail: 'Out-of-Hours Security is a distinct application of code of practice: site security & public protection. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Hoarding', detail: 'Hoarding is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gate', detail: 'Gate is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lock', detail: 'Lock is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Warning Sign', detail: 'Warning Sign is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Pedestrian Barrier', detail: 'Pedestrian Barrier is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Security Lighting', detail: 'Security Lighting is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Visitor Register', detail: 'Visitor Register is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Covered Walkway', detail: 'Covered Walkway is a key element used in code of practice: site security & public protection. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Perimeter Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Public Segregation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Access Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Falling Object Protection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Traffic Interface': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Lighting': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Monitoring': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: site security & public protection and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: site security & public protection where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: site security & public protection, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'access_egress_housekeeping': _TopicData(title: 'Code of Practice: Access, Egress & Housekeeping', intro: 'maintenance of clear, safe routes and orderly work areas to prevent slips, trips, struck-by events and blocked escape', types: [_DetailItem(title: 'Worker Access', detail: 'Worker Access is a distinct application of code of practice: access, egress & housekeeping. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Emergency Egress', detail: 'Emergency Egress is a distinct application of code of practice: access, egress & housekeeping. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Material Routes', detail: 'Material Routes is a distinct application of code of practice: access, egress & housekeeping. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Housekeeping Zones', detail: 'Housekeeping Zones is a distinct application of code of practice: access, egress & housekeeping. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Walkway', detail: 'Walkway is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Stair', detail: 'Stair is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ladder', detail: 'Ladder is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Ramp', detail: 'Ramp is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Handrail', detail: 'Handrail is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Waste Bin', detail: 'Waste Bin is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Cable Ramp', detail: 'Cable Ramp is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Exit', detail: 'Emergency Exit is a key element used in code of practice: access, egress & housekeeping. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Route Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Clearance': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Stairs & Handrails': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Housekeeping': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Cable / Hose Management': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Emergency Egress': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: access, egress & housekeeping and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: access, egress & housekeeping where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: access, egress & housekeeping controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: access, egress & housekeeping, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'worker_welfare_site_facilities': _TopicData(title: 'Code of Practice: Worker Welfare & Site Facilities', intro: 'provision and management of suitable welfare, hygiene, rest, drinking water and worker support facilities', types: [_DetailItem(title: 'Welfare Facilities', detail: 'Welfare Facilities is a distinct application of code of practice: worker welfare & site facilities. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Rest Areas', detail: 'Rest Areas is a distinct application of code of practice: worker welfare & site facilities. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Sanitation', detail: 'Sanitation is a distinct application of code of practice: worker welfare & site facilities. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Drinking Water', detail: 'Drinking Water is a distinct application of code of practice: worker welfare & site facilities. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Toilet', detail: 'Toilet is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Wash Station', detail: 'Wash Station is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Drinking Water Point', detail: 'Drinking Water Point is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Rest Shelter', detail: 'Rest Shelter is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Changing Area', detail: 'Changing Area is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'First Aid Facility', detail: 'First Aid Facility is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Waste Bin', detail: 'Waste Bin is a key element used in code of practice: worker welfare & site facilities. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Facility Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Sanitation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Water': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Rest & Shade': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Hygiene': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Cleaning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Heat Protection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: worker welfare & site facilities and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: worker welfare & site facilities where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: worker welfare & site facilities, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'material_storage_handling': _TopicData(title: 'Code of Practice: Material Storage & Handling', intro: 'safe receiving, stacking, storing, moving and using construction materials while controlling collapse, falling objects and manual-handling risks', types: [_DetailItem(title: 'General Storage', detail: 'General Storage is a distinct application of code of practice: material storage & handling. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Chemical Storage', detail: 'Chemical Storage is a distinct application of code of practice: material storage & handling. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Pipe / Long Material Storage', detail: 'Pipe / Long Material Storage is a distinct application of code of practice: material storage & handling. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Manual Handling', detail: 'Manual Handling is a distinct application of code of practice: material storage & handling. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Storage Rack', detail: 'Storage Rack is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Pallet', detail: 'Pallet is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Chock', detail: 'Chock is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Bund', detail: 'Bund is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Trolley', detail: 'Trolley is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Forklift', detail: 'Forklift is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lifting Accessory', detail: 'Lifting Accessory is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Stacking Area', detail: 'Stacking Area is a key element used in code of practice: material storage & handling. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Storage Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Segregation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Mechanical Handling': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Manual Handling': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Access': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: material storage & handling and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: material storage & handling where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: material storage & handling controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: material storage & handling, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'formwork_falsework_temporary_support': _TopicData(title: 'Code of Practice: Formwork, Falsework & Temporary Support', intro: 'safe design, erection, inspection, loading, alteration and dismantling of temporary concrete support systems', types: [_DetailItem(title: 'Wall Formwork', detail: 'Wall Formwork is a distinct application of code of practice: formwork, falsework & temporary support. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Slab Formwork', detail: 'Slab Formwork is a distinct application of code of practice: formwork, falsework & temporary support. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Falsework', detail: 'Falsework is a distinct application of code of practice: formwork, falsework & temporary support. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Temporary Propping', detail: 'Temporary Propping is a distinct application of code of practice: formwork, falsework & temporary support. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Formwork Panel', detail: 'Formwork Panel is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Prop', detail: 'Prop is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Falsework Frame', detail: 'Falsework Frame is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Sole Plate', detail: 'Sole Plate is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Brace', detail: 'Brace is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Tie', detail: 'Tie is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Working Platform', detail: 'Working Platform is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Release System', detail: 'Release System is a key element used in code of practice: formwork, falsework & temporary support. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Design & Load Path': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Foundation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Erection Sequence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Inspection & Handover': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Pour Controls': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Striking / Dismantling': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: formwork, falsework & temporary support and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: formwork, falsework & temporary support where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: formwork, falsework & temporary support, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'reinforcement_concrete_construction': _TopicData(title: 'Code of Practice: Reinforcement, Concrete & Construction Operations', intro: 'controls for reinforcement fixing, concrete placement, vibration, pumps and associated construction activities', types: [_DetailItem(title: 'Rebar Fixing', detail: 'Rebar Fixing is a distinct application of code of practice: reinforcement, concrete & construction operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Concrete Pour', detail: 'Concrete Pour is a distinct application of code of practice: reinforcement, concrete & construction operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Concrete Pumping', detail: 'Concrete Pumping is a distinct application of code of practice: reinforcement, concrete & construction operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Finishing Operations', detail: 'Finishing Operations is a distinct application of code of practice: reinforcement, concrete & construction operations. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Rebar', detail: 'Rebar is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Coupler', detail: 'Coupler is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Rebar Cap', detail: 'Rebar Cap is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Concrete Pump', detail: 'Concrete Pump is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Delivery Hose', detail: 'Delivery Hose is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Vibrator', detail: 'Vibrator is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Pour Platform', detail: 'Pour Platform is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Route', detail: 'Access Route is a key element used in code of practice: reinforcement, concrete & construction operations. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Rebar Protrusion Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Formwork Verification': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Concrete Pump Safety': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Communication': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Manual Handling': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Housekeeping': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: reinforcement, concrete & construction operations and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: reinforcement, concrete & construction operations where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: reinforcement, concrete & construction operations, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'plant_machinery_guarding': _TopicData(title: 'Code of Practice: Plant, Machinery & Guarding', intro: 'safe selection, operation, guarding, inspection and maintenance of construction plant and machinery', types: [_DetailItem(title: 'Fixed Machinery', detail: 'Fixed Machinery is a distinct application of code of practice: plant, machinery & guarding. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Mobile Plant', detail: 'Mobile Plant is a distinct application of code of practice: plant, machinery & guarding. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Powered Tools', detail: 'Powered Tools is a distinct application of code of practice: plant, machinery & guarding. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Maintenance / Cleaning', detail: 'Maintenance / Cleaning is a distinct application of code of practice: plant, machinery & guarding. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Machine Guard', detail: 'Machine Guard is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Stop', detail: 'Emergency Stop is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Interlock', detail: 'Interlock is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Operator Station', detail: 'Operator Station is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Plant Key', detail: 'Plant Key is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Isolation Device', detail: 'Isolation Device is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Attachment', detail: 'Attachment is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Record', detail: 'Inspection Record is a key element used in code of practice: plant, machinery & guarding. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Selection & Risk Assessment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Guarding': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Operator Competence': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Isolation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Maintenance': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Mobile Plant Interface': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: plant, machinery & guarding and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: plant, machinery & guarding where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: plant, machinery & guarding controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: plant, machinery & guarding, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'ladders_mobile_access_towers': _TopicData(title: 'Code of Practice: Ladders & Mobile Access Towers', intro: 'safe selection, setup, inspection and use of ladders and mobile access towers', types: [_DetailItem(title: 'Lean-to Ladder', detail: 'Lean-to Ladder is a distinct application of code of practice: ladders & mobile access towers. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Step Ladder', detail: 'Step Ladder is a distinct application of code of practice: ladders & mobile access towers. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Mobile Access Tower', detail: 'Mobile Access Tower is a distinct application of code of practice: ladders & mobile access towers. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Special Access', detail: 'Special Access is a distinct application of code of practice: ladders & mobile access towers. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Ladder', detail: 'Ladder is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Feet', detail: 'Feet is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Platform', detail: 'Platform is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Guardrail', detail: 'Guardrail is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Castor', detail: 'Castor is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Outrigger', detail: 'Outrigger is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Brace', detail: 'Brace is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Inspection Tag', detail: 'Inspection Tag is a key element used in code of practice: ladders & mobile access towers. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Ground & Setup': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Climbing': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Tower Stability': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Movement Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: ladders & mobile access towers controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Weather': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: ladders & mobile access towers and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: ladders & mobile access towers where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: ladders & mobile access towers, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'fire_prevention_emergency_arrangements': _TopicData(title: 'Code of Practice: Fire Prevention & Emergency Arrangements', intro: 'prevention of construction-site fires and effective alarm, evacuation, firefighting and emergency coordination', types: [_DetailItem(title: 'Fire Prevention', detail: 'Fire Prevention is a distinct application of code of practice: fire prevention & emergency arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Hot Work Control', detail: 'Hot Work Control is a distinct application of code of practice: fire prevention & emergency arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Temporary Accommodation Fire Safety', detail: 'Temporary Accommodation Fire Safety is a distinct application of code of practice: fire prevention & emergency arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Emergency Evacuation', detail: 'Emergency Evacuation is a distinct application of code of practice: fire prevention & emergency arrangements. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Fire Extinguisher', detail: 'Fire Extinguisher is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Fire Point', detail: 'Fire Point is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Alarm', detail: 'Alarm is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Exit', detail: 'Emergency Exit is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Fire Door', detail: 'Fire Door is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Hot Work Screen', detail: 'Hot Work Screen is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gas Cylinder Store', detail: 'Gas Cylinder Store is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Muster Point', detail: 'Muster Point is a key element used in code of practice: fire prevention & emergency arrangements. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Fire Risk Assessment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Combustible Control': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Ignition Sources': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Fire Equipment': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Alarm & Evacuation': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Hot Work': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: fire prevention & emergency arrangements and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: fire prevention & emergency arrangements where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: fire prevention & emergency arrangements controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: fire prevention & emergency arrangements, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'safety_signs_barricading_exclusion': _TopicData(title: 'Code of Practice: Safety Signs, Barricading & Exclusion Zones', intro: 'use of signs, barriers and controlled zones to communicate hazards and keep people outside danger areas', types: [_DetailItem(title: 'Warning Signs', detail: 'Warning Signs is a distinct application of code of practice: safety signs, barricading & exclusion zones. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Mandatory Signs', detail: 'Mandatory Signs is a distinct application of code of practice: safety signs, barricading & exclusion zones. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Barricading', detail: 'Barricading is a distinct application of code of practice: safety signs, barricading & exclusion zones. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Exclusion Zones', detail: 'Exclusion Zones is a distinct application of code of practice: safety signs, barricading & exclusion zones. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Safety Sign', detail: 'Safety Sign is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Barrier', detail: 'Barrier is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Bollard', detail: 'Bollard is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Warning Tape', detail: 'Warning Tape is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Gate', detail: 'Gate is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Control', detail: 'Access Control is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Sign Stand', detail: 'Sign Stand is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lighting Beacon', detail: 'Lighting Beacon is a key element used in code of practice: safety signs, barricading & exclusion zones. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Sign Selection': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Placement': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Barricading': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Exclusion Zones': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Public Interface': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: safety signs, barricading & exclusion zones controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Removal / Change': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: safety signs, barricading & exclusion zones and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: safety signs, barricading & exclusion zones where the risk or system requires specialist judgement.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: safety signs, barricading & exclusion zones, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'construction_lighting_weather_visibility': _TopicData(title: 'Code of Practice: Construction Lighting, Weather & Visibility', intro: 'control of reduced visibility, weather and lighting conditions that can affect construction safety', types: [_DetailItem(title: 'Day Work', detail: 'Day Work is a distinct application of code of practice: construction lighting, weather & visibility. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Night Work', detail: 'Night Work is a distinct application of code of practice: construction lighting, weather & visibility. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Low Visibility', detail: 'Low Visibility is a distinct application of code of practice: construction lighting, weather & visibility. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.'),_DetailItem(title: 'Adverse Weather', detail: 'Adverse Weather is a distinct application of code of practice: construction lighting, weather & visibility. Select it only after considering the task, environment, load or exposure, access requirements and competent-person requirements.')], items: [_DetailItem(title: 'Task Lighting', detail: 'Task Lighting is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Emergency Lighting', detail: 'Emergency Lighting is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Reflective Sign', detail: 'Reflective Sign is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Weather Monitor', detail: 'Weather Monitor is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Wind Indicator', detail: 'Wind Indicator is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Drainage', detail: 'Drainage is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Lighting Cable', detail: 'Lighting Cable is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.'),_DetailItem(title: 'Visibility Barrier', detail: 'Visibility Barrier is a key element used in code of practice: construction lighting, weather & visibility. Its suitability, condition, installation, inspection and correct use must match the approved system, manufacturer instructions and site controls.')], sections: {
+    'Lighting Planning': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Night Work': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Weather Monitoring': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Wind': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Rain / Water': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Visibility': [_DetailItem(title: 'Control Objective', detail: 'Apply controls appropriate to code of practice: construction lighting, weather & visibility and verify them at the work location.'),_DetailItem(title: 'Competent Verification', detail: 'Use competent personnel to plan, inspect, supervise or authorise code of practice: construction lighting, weather & visibility where the risk or system requires specialist judgement.')],
+    'Inspection': [_DetailItem(title: 'Pre-Use / Pre-Start Check', detail: 'Inspect the relevant code of practice: construction lighting, weather & visibility controls before use or commencement and after significant change.'),_DetailItem(title: 'Defect Control', detail: 'Tag, isolate or otherwise control defective equipment or unsafe conditions until competent correction and verification are completed.')],
+    'Stop-Work': [_DetailItem(title: 'Critical Control Missing', detail: 'Stop the affected task when a critical control required for the activity is absent, ineffective or damaged.'),_DetailItem(title: 'Condition Changed', detail: 'Stop and reassess when weather, plant, sequence, access, personnel or surrounding activities create a materially different risk.')],
+    'Practical Site Example': [_DetailItem(title: 'Field Example', detail: 'Before starting code of practice: construction lighting, weather & visibility, the supervisor briefs the crew, verifies the planned controls at the workface, confirms competent personnel and checks that site conditions match the approved method. Any significant change is reassessed before work continues.')],
+  }),
+  'scaffolding_safety': _TopicData(title: 'Scaffolding Safety — Dubai HSE', intro: 'Scaffolding is a temporary access and working platform system used to provide safe working positions, controlled access and protection during construction, maintenance and related activities. A scaffold must be suitable for its intended use, properly founded, stable, correctly erected, inspected and maintained by competent personnel. The scaffold system, design and manufacturer requirements determine the exact configuration and dimensional details.', types: [_DetailItem(title: 'Fixed / Static Scaffold', detail: 'Fixed / Static Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Independent Scaffold', detail: 'Independent Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Tied Scaffold', detail: 'Tied Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Mobile / Moving Scaffold', detail: 'Mobile / Moving Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Tower Scaffold', detail: 'Tower Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Scaffold', detail: 'Access Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Birdcage Scaffold', detail: 'Birdcage Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Suspended Scaffold', detail: 'Suspended Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Cantilever Scaffold', detail: 'Cantilever Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'System Scaffold', detail: 'System Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Tube & Fitting Scaffold', detail: 'Tube & Fitting Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Special-Purpose Scaffold', detail: 'Special-Purpose Scaffold is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], items: [_DetailItem(title: 'Standards', detail: 'Standards is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Ledgers', detail: 'Ledgers is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Transoms', detail: 'Transoms is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Base Plates', detail: 'Base Plates is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Sole Boards', detail: 'Sole Boards is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Bracing', detail: 'Bracing is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Ties', detail: 'Ties is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Couplers / Clamps', detail: 'Couplers / Clamps is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Working Platforms', detail: 'Working Platforms is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Guardrails / Handrails', detail: 'Guardrails / Handrails is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Intermediate Rails', detail: 'Intermediate Rails is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Toe Boards', detail: 'Toe Boards is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Access Ladders', detail: 'Access Ladders is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Scaffold Stairways', detail: 'Scaffold Stairways is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Castors / Wheels', detail: 'Castors / Wheels is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Adjustable Base Jacks', detail: 'Adjustable Base Jacks is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.'),_DetailItem(title: 'Scaffold Tags', detail: 'Scaffold Tags is a key element of the topic. Use it only in accordance with the approved system, competent-person requirements, manufacturer instructions and site controls.')], sections: {
+    'Introduction — What is Scaffolding?': [_DetailItem(title: 'Scaffolding', detail: 'A temporary structure or system of components assembled to provide safe access, working platforms and, where designed, protection for construction or maintenance activities.'),_DetailItem(title: 'Technical Principle', detail: 'The scaffold transfers imposed loads through platforms, transoms, ledgers, standards, base arrangements and foundations while ties and bracing maintain stability.')],
+    'Purpose & Scope': [_DetailItem(title: 'Purpose', detail: 'Provide safe temporary access and working platforms while controlling falls, falling objects, instability, overloading and unsafe modification.'),_DetailItem(title: 'Scope', detail: 'Applies to scaffold planning, design where required, selection, erection, use, inspection, modification and dismantling.')],
+    'Scaffold Types & Applications': [_DetailItem(title: 'Fixed / Static', detail: 'Used where a stable, stationary access or working platform is required.'),_DetailItem(title: 'Mobile / Moving Scaffold', detail: 'A tower or platform mounted on castors/wheels; movement is controlled and people must not remain on the scaffold during movement unless the specific system and procedure explicitly permit it.'),_DetailItem(title: 'Suspended Scaffold', detail: 'A platform suspended from an overhead support system; requires engineered support, suitable suspension equipment and dedicated controls.'),_DetailItem(title: 'Cantilever Scaffold', detail: 'A scaffold projecting from a structure where conventional support from the ground is not possible; requires suitable design and structural verification.')],
+    'Scaffold Components & Technical Information': [_DetailItem(title: 'Standards, Ledgers & Transoms', detail: 'Standards carry vertical loads; ledgers provide longitudinal framing; transoms support platforms and connect the scaffold across its width.'),_DetailItem(title: 'Base Plates, Sole Boards & Jacks', detail: 'Base arrangements distribute loads to suitable ground or supporting structure. Adjustable jacks must be used within the system limits.'),_DetailItem(title: 'Guardrails, Intermediate Rails & Toe Boards', detail: 'Edge protection prevents falls and controls falling materials. Exact heights, gaps and arrangements must follow the applicable scaffold system/design and project requirements.'),_DetailItem(title: 'Platforms', detail: 'Platforms must be fully suitable for the intended duty, securely supported, appropriately boarded/decked and protected against displacement or unsafe gaps.'),_DetailItem(title: 'Bracing & Ties', detail: 'Bracing resists movement; ties connect the scaffold to the supporting structure where required for stability.'),_DetailItem(title: 'Couplers / Clamps', detail: 'Use compatible couplers of the correct type and condition and install them as specified for the system.'),_DetailItem(title: 'Castors / Wheels', detail: 'Mobile scaffold wheels must be suitable for the tower, lockable during use and controlled during movement.'),_DetailItem(title: 'Tags & Identification', detail: 'Use the site scaffold status/tagging system so users can identify whether the scaffold is available for use and any restrictions.')],
+    'Main Hazards': [_DetailItem(title: 'Falls from Height', detail: 'Unprotected edges, incomplete platforms, unsafe access or incorrect alteration can cause falls.'),_DetailItem(title: 'Collapse / Instability', detail: 'Poor foundations, missing ties/bracing, overloading or unauthorised modification can compromise stability.'),_DetailItem(title: 'Falling Objects', detail: 'Tools, materials and scaffold components can fall onto people below.'),_DetailItem(title: 'Vehicle / Plant Interface', detail: 'Scaffolds near moving plant can be struck unless adequately segregated and protected.')],
+    'Foundation & Base': [_DetailItem(title: 'Ground Condition', detail: 'Check bearing capacity, level, drainage and settlement risk before erection.'),_DetailItem(title: 'Base Arrangement', detail: 'Use suitable sole boards, base plates and/or jacks as required by the scaffold system and design.'),_DetailItem(title: 'Water & Excavations', detail: 'Do not place scaffold on unstable edges, uncompacted fill or areas affected by erosion or excavation without competent assessment.')],
+    'Erection & Dismantling': [_DetailItem(title: 'Sequence', detail: 'Erect and dismantle in the planned sequence using competent personnel and temporary stability controls.'),_DetailItem(title: 'Exclusion Zone', detail: 'Prevent unauthorised access below and around the work area.'),_DetailItem(title: 'Incomplete Scaffold', detail: 'Clearly control partially erected or dismantled sections so they cannot be mistaken for a complete scaffold.')],
+    'Guardrails & Toe Boards': [_DetailItem(title: 'Edge Protection', detail: 'Provide top/handrail and intermediate protection as required by the system and applicable requirements.'),_DetailItem(title: 'Toe Boards', detail: 'Use toe boards where needed to prevent tools and materials from falling from platform edges.'),_DetailItem(title: 'Openings', detail: 'Protect access openings and other discontinuities against falls.')],
+    'Safe Access': [_DetailItem(title: 'Ladders', detail: 'Secure suitable scaffold access ladders and keep climbing routes clear.'),_DetailItem(title: 'Stairways', detail: 'Use scaffold stairways where the system and task require frequent or easier movement.'),_DetailItem(title: 'Access Discipline', detail: 'Do not climb external bracing or use scaffold components as unauthorised access routes.')],
+    'Bracing, Ties & Stability': [_DetailItem(title: 'Bracing', detail: 'Install required longitudinal/transverse bracing and maintain it during use.'),_DetailItem(title: 'Ties', detail: 'Provide ties to the supporting structure where required by design/system.'),_DetailItem(title: 'Alteration', detail: 'Never remove a brace or tie without competent assessment and an approved alternative stability arrangement.')],
+    'Platforms & Loading': [_DetailItem(title: 'Load Class', detail: 'Use the platform only for the intended duty/load classification.'),_DetailItem(title: 'Material Storage', detail: 'Keep materials distributed and do not create concentrated loads beyond the designed capacity.'),_DetailItem(title: 'Housekeeping', detail: 'Remove waste and loose materials that could cause trips or falling-object hazards.')],
+    'Inspection & Tagging': [_DetailItem(title: 'Initial Inspection', detail: 'Inspect before first use after erection or major alteration.'),_DetailItem(title: 'Periodic / Event Inspection', detail: 'Inspect at the intervals required by the applicable system/site requirements and after events that may affect integrity, such as impact or severe weather.'),_DetailItem(title: 'Tag Status', detail: 'Only use the scaffold when its status is positively confirmed by the site tagging system.')],
+    'Modification & Weather Control': [_DetailItem(title: 'Modification', detail: 'Only competent authorised personnel may alter the scaffold.'),_DetailItem(title: 'Weather', detail: 'Reassess after strong winds, heavy rain, impact or other conditions that could affect stability.'),_DetailItem(title: 'Protection', detail: 'Control sheeting, debris netting or other attachments because they can change wind loading.')],
+    'Stop-Work Conditions': [_DetailItem(title: 'Incomplete / Damaged', detail: 'Stop use if the scaffold is incomplete, damaged, displaced or missing critical components.'),_DetailItem(title: 'Missing Stability Components', detail: 'Stop if required ties, braces, base arrangements or edge protection are absent.'),_DetailItem(title: 'Overload', detail: 'Stop if platform loading exceeds the intended capacity or the actual load is uncertain.')],
+    'Competent Person Responsibilities': [_DetailItem(title: 'Planning / Erection', detail: 'Ensure erection, alteration and dismantling are planned and carried out by suitably competent personnel.'),_DetailItem(title: 'Inspection', detail: 'Verify scaffold condition, stability, access, platforms and protective measures before release for use.'),_DetailItem(title: 'Control of Changes', detail: 'Prevent unauthorised modification and reassess changes or damage.')],
+    'Worker Responsibilities': [_DetailItem(title: 'Use Correctly', detail: 'Use only the intended access and working areas and respect load and access restrictions.'),_DetailItem(title: 'Report Defects', detail: 'Immediately report damaged components, missing edge protection, unusual movement or unsafe conditions.'),_DetailItem(title: 'No Unauthorised Alteration', detail: 'Do not remove boards, ties, braces, guardrails or other components.')],
+    'Emergency Response': [_DetailItem(title: 'Fall / Rescue', detail: 'Raise the alarm, prevent further exposure and activate the planned rescue arrangement.'),_DetailItem(title: 'Collapse / Instability', detail: 'Keep people outside the danger zone and prevent re-entry until the scaffold is assessed.'),_DetailItem(title: 'Falling Object Incident', detail: 'Stop the activity, isolate the area and provide first aid within trained competence.')],
+    'Practical Site Example': [_DetailItem(title: 'Tower for Façade Work', detail: 'A mobile tower is assembled on a firm level surface with suitable base/castor arrangements, full required edge protection and safe internal access. Before use, the competent person checks stability, platform condition and tagging. During relocation, the area is cleared, the tower is moved only under the approved procedure and then the wheels are secured and the scaffold rechecked before use.')],
+    'Key Learning Points': [_DetailItem(title: 'Stability First', detail: 'A scaffold is safe only when its foundation, framing, bracing, ties and load path remain effective.'),_DetailItem(title: 'Protection & Access', detail: 'Safe platforms, edge protection and proper access work together.'),_DetailItem(title: 'Inspection Matters', detail: 'Never assume a scaffold remains safe after alteration, impact or severe weather.'),_DetailItem(title: 'No Unauthorised Changes', detail: 'Removing one tie, brace or guardrail can change the stability or fall-protection system.')],
+  }),
+};
+
+class DubaiHseTopicRouter {
+  static Widget pageFor(ReferenceTopic topic) => DubaiHseDetailPage(topic: topic);
 }
 
-const Map<String, List<String>> _sectionTitles = {
-  'dubai_construction_safety_framework': [
-    'Framework Purpose & Scope',
-    'Construction Safety Hazards',
-    'Planning & HSE Requirements',
-    'Core Safety Controls',
-    'Pre-Start Verification',
-    'Safe Construction Operations',
-    'Inspection & Monitoring',
-    'HSE Management Responsibilities',
-    'Worker Responsibilities',
-    'Safety Records',
-    'Stop-Work Conditions',
-    'Emergency Response',
-  ],
-  'dubai_hse_management_system': [
-    'HSE System Purpose & Scope',
-    'Management System Hazards',
-    'HSE Planning Requirements',
-    'Leadership & Control Measures',
-    'Pre-Start HSE Verification',
-    'Operational HSE Controls',
-    'Inspection & Audit',
-    'Management Responsibilities',
-    'Worker Responsibilities',
-    'HSE Documentation',
-    'Stop-Work Conditions',
-    'Emergency Response',
-  ],
-  'dubai_risk_assessment': [
-    'Risk Assessment Purpose & Scope',
-    'Hazard Identification',
-    'Risk Evaluation',
-    'Risk Control Measures',
-    'Pre-Start Risk Verification',
-    'Safe Work Requirements',
-    'Review & Monitoring',
-    'Assessor & Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Risk Assessment Records',
-    'Stop-Work Conditions',
-    'Emergency Response',
-  ],
-  'dubai_construction_hse_plan': [
-    'HSE Plan Purpose & Scope',
-    'Construction Hazards',
-    'HSE Planning Requirements',
-    'HSE Control Measures',
-    'Pre-Start Plan Verification',
-    'Site Implementation',
-    'Inspection & Monitoring',
-    'HSE Plan Responsibilities',
-    'Worker Responsibilities',
-    'HSE Plan Records',
-    'Stop-Work Conditions',
-    'Emergency Response',
-  ],
-  'dubai_work_at_height': [
-    'Work at Height Scope',
-    'Fall & Dropped-Object Hazards',
-    'Work at Height Planning Requirements',
-    'Edge Protection & Fall Controls',
-    'Pre-Start Height Checks',
-    'Safe Work at Height',
-    'Inspection & Access Verification',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Height Work Records',
-    'Fall-Related Stop Work',
-    'Fall Rescue & Emergency Response',
-  ],
-  'dubai_scaffolding': [
-    'Scaffold Purpose & Scope',
-    'Scaffold Types & Applications',
-    'Scaffold Hazards',
-    'Foundation / Base Requirements',
-    'Erection & Dismantling',
-    'Guardrails & Toe Boards',
-    'Safe Access',
-    'Bracing, Ties & Stability',
-    'Platforms & Loading',
-    'Inspection & Tagging',
-    'Modification & Weather Control',
-    'Scaffold Emergency / Stop Work',
-  ],
-  'dubai_lifting_operations': [
-    'Lifting Purpose & Scope',
-    'Lifting Equipment & Operations',
-    'Lifting Hazards',
-    'Ground & Set-Up Requirements',
-    'Lift Planning',
-    'Rigging & Accessories',
-    'Exclusion Zones & Signalling',
-    'Crane / Hoist Stability',
-    'Load Control & Capacity',
-    'Inspection & Certification',
-    'Competent Persons & Responsibilities',
-    'Lifting Emergency / Stop Work',
-  ],
-  'dubai_excavation_trenching': [
-    'Excavation Purpose & Scope',
-    'Excavation Types & Hazards',
-    'Ground Condition Assessment',
-    'Underground Services',
-    'Excavation Planning',
-    'Shoring / Benching / Sloping',
-    'Access & Egress',
-    'Plant, Traffic & Edge Protection',
-    'Water, Atmosphere & Environmental Conditions',
-    'Daily Inspection',
-    'Collapse / Unsafe Excavation Stop Work',
-    'Excavation Emergency Response',
-  ],
-  'dubai_confined_space': [
-    'Confined Space Purpose & Scope',
-    'Confined Space Hazards',
-    'Entry Risk Assessment',
-    'Permit & Isolation Controls',
-    'Pre-Entry Verification',
-    'Safe Entry & Work',
-    'Atmospheric Monitoring',
-    'Standby & Competent Person Duties',
-    'Worker Responsibilities',
-    'Entry Records',
-    'Confined Space Stop Work',
-    'Rescue & Emergency Response',
-  ],
-  'dubai_electrical_safety': [
-    'Electrical Safety Scope',
-    'Electrical Hazards',
-    'Electrical Risk Assessment',
-    'Isolation & Lockout Controls',
-    'Pre-Start Electrical Checks',
-    'Safe Electrical Work',
-    'Inspection & Testing',
-    'Competent Person Responsibilities',
-    'Worker Responsibilities',
-    'Electrical Records',
-    'Electrical Stop Work',
-    'Electrical Emergency Response',
-  ],
-  'dubai_hot_work': [
-    'Hot Work Purpose & Scope',
-    'Fire & Hot Work Hazards',
-    'Hot Work Planning',
-    'Permit & Fire Controls',
-    'Pre-Start Hot Work Checks',
-    'Safe Hot Work',
-    'Fire Watch & Monitoring',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Hot Work Records',
-    'Hot Work Stop Work',
-    'Fire Emergency Response',
-  ],
-  'dubai_construction_traffic': [
-    'Traffic Management Scope',
-    'Vehicle & Pedestrian Hazards',
-    'Traffic Planning',
-    'Segregation & Control Measures',
-    'Pre-Start Traffic Checks',
-    'Safe Vehicle Operations',
-    'Inspection & Monitoring',
-    'Traffic Marshal Responsibilities',
-    'Driver & Worker Responsibilities',
-    'Traffic Records',
-    'Traffic Stop Work',
-    'Vehicle Emergency Response',
-  ],
-  'dubai_demolition_safety': [
-    'Demolition Purpose & Scope',
-    'Demolition Hazards',
-    'Structural Assessment',
-    'Demolition Planning',
-    'Pre-Start Verification',
-    'Safe Demolition Operations',
-    'Inspection & Monitoring',
-    'Competent Person Responsibilities',
-    'Worker Responsibilities',
-    'Demolition Records',
-    'Demolition Stop Work',
-    'Demolition Emergency Response',
-  ],
-  'dubai_temporary_works': [
-    'Temporary Works Scope',
-    'Temporary Works Hazards',
-    'Design & Risk Assessment',
-    'Temporary Works Controls',
-    'Pre-Start Verification',
-    'Safe Installation & Use',
-    'Inspection & Monitoring',
-    'Temporary Works Coordinator Duties',
-    'Worker Responsibilities',
-    'Temporary Works Records',
-    'Temporary Works Stop Work',
-    'Failure / Emergency Response',
-  ],
-  'dubai_heat_stress': [
-    'Heat Stress Scope',
-    'Heat Stress Hazards',
-    'Heat Risk Assessment',
-    'Heat Stress Controls',
-    'Pre-Start Heat Checks',
-    'Safe Work in Heat',
-    'Monitoring & Inspection',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Heat Stress Records',
-    'Heat-Related Stop Work',
-    'Heat Illness Emergency Response',
-  ],
-  'dubai_occupational_health': [
-    'Occupational Health Scope',
-    'Health Hazards',
-    'Health Risk Assessment',
-    'Health Protection Controls',
-    'Pre-Start Health Verification',
-    'Safe Work Practices',
-    'Health Monitoring',
-    'Occupational Health Responsibilities',
-    'Worker Responsibilities',
-    'Health Records',
-    'Health-Related Stop Work',
-    'Medical Emergency Response',
-  ],
-  'dubai_ppe': [
-    'PPE Purpose & Scope',
-    'PPE Hazards',
-    'PPE Selection Requirements',
-    'PPE Control Measures',
-    'Pre-Use PPE Checks',
-    'Correct PPE Use',
-    'PPE Inspection & Replacement',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'PPE Records',
-    'PPE Stop-Work Conditions',
-    'PPE Emergency Response',
-  ],
-  'dubai_emergency_preparedness': [
-    'Emergency Planning Scope',
-    'Emergency Hazards',
-    'Emergency Risk Assessment',
-    'Emergency Controls',
-    'Pre-Start Emergency Verification',
-    'Emergency Preparedness',
-    'Drills & Inspection',
-    'Emergency Team Responsibilities',
-    'Worker Responsibilities',
-    'Emergency Records',
-    'Emergency Stop-Work Conditions',
-    'Emergency Response',
-  ],
-  'dubai_incident_reporting': [
-    'Incident Reporting Scope',
-    'Incident Hazards & Events',
-    'Initial Risk Assessment',
-    'Immediate Controls',
-    'Initial Incident Verification',
-    'Incident Response',
-    'Investigation & Monitoring',
-    'Investigator Responsibilities',
-    'Worker Responsibilities',
-    'Incident Records',
-    'Stop-Work After Serious Incident',
-    'Incident Emergency Response',
-  ],
-  'dubai_contractor_management': [
-    'Contractor HSE Scope',
-    'Contractor Hazards',
-    'Prequalification & Risk Assessment',
-    'Contractor Control Measures',
-    'Pre-Start Verification',
-    'Safe Contractor Operations',
-    'Inspection & Performance Monitoring',
-    'Principal Contractor Responsibilities',
-    'Contractor Worker Responsibilities',
-    'Contractor HSE Records',
-    'Contractor Stop Work',
-    'Contractor Emergency Response',
-  ],
-  'dubai_environmental_waste': [
-    'Environmental Scope',
-    'Environmental Hazards',
-    'Environmental Risk Assessment',
-    'Waste & Pollution Controls',
-    'Pre-Start Environmental Checks',
-    'Safe Waste Handling',
-    'Inspection & Monitoring',
-    'Environmental Responsibilities',
-    'Worker Responsibilities',
-    'Environmental Records',
-    'Environmental Stop Work',
-    'Environmental Emergency Response',
-  ],
-  'dubai_hse_inspection_audit': [
-    'Inspection & Audit Scope',
-    'Inspection Hazards',
-    'Inspection Planning',
-    'Corrective Control Measures',
-    'Pre-Inspection Verification',
-    'Inspection Execution',
-    'Follow-Up & Verification',
-    'Inspector Responsibilities',
-    'Worker Responsibilities',
-    'Inspection Records',
-    'Serious Deficiency Stop Work',
-    'Emergency Escalation',
-  ],
-  'dubai_hse_performance': [
-    'Performance Monitoring Scope',
-    'Performance Risk Indicators',
-    'Monitoring Planning',
-    'Performance Controls',
-    'Pre-Start Data Verification',
-    'Performance Monitoring',
-    'Trend Review & Follow-Up',
-    'Management Responsibilities',
-    'Worker Responsibilities',
-    'Performance Records',
-    'Critical Performance Stop Work',
-    'Emergency Escalation',
-  ],
-  'dubai_building_code': [
-    'Building Code Scope',
-    'Building Safety Hazards',
-    'Code Compliance Assessment',
-    'Safety Control Requirements',
-    'Pre-Start Compliance Checks',
-    'Safe Construction Requirements',
-    'Inspection & Verification',
-    'Designer / Consultant Responsibilities',
-    'Worker Responsibilities',
-    'Compliance Records',
-    'Non-Compliance Stop Work',
-    'Building Safety Emergency Response',
-  ],
-  'dubai_permit_to_work': [
-    'PTW Purpose & Scope',
-    'Permit-Related Hazards',
-    'Permit Risk Assessment',
-    'Permit Control Measures',
-    'Pre-Start Permit Verification',
-    'Permit Execution',
-    'Permit Monitoring & Closure',
-    'Authorised Person Responsibilities',
-    'Worker Responsibilities',
-    'PTW Records',
-    'Permit Stop Work',
-    'PTW Emergency Response',
-  ],
-  'dubai_site_establishment': [
-    'Site Establishment Scope',
-    'Site Set-Up Hazards',
-    'Site Planning',
-    'Site Control Measures',
-    'Pre-Start Site Verification',
-    'Safe Site Operations',
-    'Inspection & Monitoring',
-    'Site Management Responsibilities',
-    'Worker Responsibilities',
-    'Site Records',
-    'Unsafe Site Stop Work',
-    'Site Emergency Response',
-  ],
-  'dubai_site_security_public': [
-    'Site Security Scope',
-    'Public Protection Hazards',
-    'Security Planning',
-    'Barricading & Protection Controls',
-    'Pre-Start Security Checks',
-    'Safe Public Interface',
-    'Inspection & Monitoring',
-    'Security Responsibilities',
-    'Worker Responsibilities',
-    'Security Records',
-    'Public Risk Stop Work',
-    'Security Emergency Response',
-  ],
-  'dubai_access_egress_housekeeping': [
-    'Access & Housekeeping Scope',
-    'Access Hazards',
-    'Access Planning',
-    'Housekeeping Controls',
-    'Pre-Start Access Checks',
-    'Safe Access & Egress',
-    'Inspection & Monitoring',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Housekeeping Records',
-    'Blocked Access Stop Work',
-    'Access Emergency Response',
-  ],
-  'dubai_worker_welfare': [
-    'Worker Welfare Scope',
-    'Welfare Hazards',
-    'Welfare Planning',
-    'Welfare Control Measures',
-    'Pre-Start Welfare Verification',
-    'Safe Welfare Facilities',
-    'Inspection & Monitoring',
-    'Site Management Responsibilities',
-    'Worker Responsibilities',
-    'Welfare Records',
-    'Unsafe Welfare Stop Work',
-    'Welfare Emergency Response',
-  ],
-  'dubai_material_storage': [
-    'Material Storage Scope',
-    'Storage & Handling Hazards',
-    'Storage Risk Assessment',
-    'Storage Control Measures',
-    'Pre-Start Storage Checks',
-    'Safe Material Handling',
-    'Inspection & Monitoring',
-    'Storekeeper / Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Storage Records',
-    'Unsafe Storage Stop Work',
-    'Storage Emergency Response',
-  ],
-  'dubai_formwork_falsework': [
-    'Formwork & Falsework Scope',
-    'Temporary Support Hazards',
-    'Design & Stability Assessment',
-    'Formwork Control Measures',
-    'Pre-Start Verification',
-    'Safe Installation & Use',
-    'Inspection & Monitoring',
-    'Competent Person Responsibilities',
-    'Worker Responsibilities',
-    'Formwork Records',
-    'Unstable Support Stop Work',
-    'Collapse Emergency Response',
-  ],
-  'dubai_reinforcement_concrete': [
-    'Concrete Operations Scope',
-    'Reinforcement & Concrete Hazards',
-    'Concrete Work Planning',
-    'Operational Control Measures',
-    'Pre-Start Checks',
-    'Safe Reinforcement & Concrete Work',
-    'Inspection & Monitoring',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Concrete Work Records',
-    'Unsafe Operation Stop Work',
-    'Concrete Emergency Response',
-  ],
-  'dubai_plant_machinery_guarding': [
-    'Plant & Machinery Scope',
-    'Machinery Hazards',
-    'Plant Risk Assessment',
-    'Guarding & Control Measures',
-    'Pre-Start Machinery Checks',
-    'Safe Machinery Operation',
-    'Inspection & Maintenance',
-    'Competent Operator Responsibilities',
-    'Worker Responsibilities',
-    'Plant Records',
-    'Unsafe Machinery Stop Work',
-    'Machinery Emergency Response',
-  ],
-  'dubai_ladders_mobile_towers': [
-    'Ladders & Towers Scope',
-    'Ladder & Tower Hazards',
-    'Equipment Selection',
-    'Stability & Fall Controls',
-    'Pre-Use Checks',
-    'Safe Use',
-    'Inspection & Tagging',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Access Equipment Records',
-    'Unsafe Access Stop Work',
-    'Fall Emergency Response',
-  ],
-  'dubai_fire_prevention': [
-    'Fire Prevention Scope',
-    'Fire Hazards',
-    'Fire Risk Assessment',
-    'Fire Prevention Controls',
-    'Pre-Start Fire Checks',
-    'Safe Fire Prevention Practices',
-    'Inspection & Fire Drills',
-    'Fire Warden Responsibilities',
-    'Worker Responsibilities',
-    'Fire Records',
-    'Fire-Risk Stop Work',
-    'Fire Emergency Response',
-  ],
-  'dubai_safety_signs_barricading': [
-    'Signs & Barricading Scope',
-    'Signage & Barricading Hazards',
-    'Area Risk Assessment',
-    'Exclusion Zone Controls',
-    'Pre-Start Checks',
-    'Safe Signage & Barricading',
-    'Inspection & Maintenance',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Signage Records',
-    'Inadequate Barrier Stop Work',
-    'Public / Worker Emergency Response',
-  ],
-  'dubai_lighting_weather_visibility': [
-    'Lighting & Visibility Scope',
-    'Weather & Visibility Hazards',
-    'Environmental Risk Assessment',
-    'Lighting & Weather Controls',
-    'Pre-Start Conditions Check',
-    'Safe Work in Poor Visibility',
-    'Inspection & Monitoring',
-    'Supervisor Responsibilities',
-    'Worker Responsibilities',
-    'Weather Records',
-    'Unsafe Visibility Stop Work',
-    'Weather Emergency Response',
-  ],
-};
-
-const Map<String, _TopicDetail> _details = {
-  'dubai_construction_safety_framework': _TopicDetail(
-    scope: 'Construction safety requirements for managing people, plant, temporary works and site activities.',
-    hazards: ['Falls', 'Struck-by incidents', 'Plant movement', 'Collapse', 'Fire'],
-    requirements: [
-      'Use documented risk assessments and safe work methods.',
-      'Provide competent supervision for construction activities.',
-      'Maintain safe access, egress and housekeeping.',
-      'Control interfaces between workers, plant and the public.',
-      'Inspect critical work areas and equipment.',
-    ],
-    controls: ['Hierarchy of controls', 'Physical segregation', 'Permit controls', 'Inspection', 'Competent supervision'],
-    verification: ['Approved risk assessment', 'Work area inspection', 'Equipment suitability', 'Worker competency'],
-    responsibilities: ['Management provides resources.', 'Supervisors implement controls.', 'Workers follow approved procedures.'],
-    records: ['Risk assessments', 'Inspection records', 'Training records', 'Corrective actions'],
-    stopWork: ['Uncontrolled fall risk', 'Unstable structure or temporary works', 'Unsafe plant movement', 'Missing critical controls'],
-  ),
-  'dubai_hse_management_system': _TopicDetail(
-    scope: 'A structured HSE management approach for planning, implementing, checking and improving site safety.',
-    hazards: ['Poor planning', 'Uncontrolled changes', 'Weak supervision', 'Unclosed corrective actions'],
-    requirements: ['Define HSE responsibilities.', 'Set project controls.', 'Review risk assessments.', 'Track corrective actions.', 'Measure performance.'],
-    controls: ['Leadership', 'Risk management', 'Inspection', 'Audit', 'Corrective action'],
-    verification: ['HSE plan', 'Assigned responsibilities', 'Open-action review', 'Inspection programme'],
-    responsibilities: ['Management leads the system.', 'HSE personnel verify controls.', 'Supervisors manage field implementation.'],
-    records: ['HSE plans', 'Audits', 'Inspections', 'Action trackers'],
-    stopWork: ['Critical control failure', 'Repeated serious non-compliance', 'Immediate uncontrolled risk'],
-  ),
-  'dubai_risk_assessment': _TopicDetail(
-    scope: 'Systematic identification, evaluation and control of hazards associated with work activities.',
-    hazards: ['Unidentified hazards', 'Incorrect risk rating', 'Inadequate controls', 'Change in conditions'],
-    requirements: ['Identify hazards.', 'Assess likelihood and consequence.', 'Apply the hierarchy of controls.', 'Communicate controls.', 'Review when conditions change.'],
-    controls: ['Elimination', 'Substitution', 'Engineering controls', 'Administrative controls', 'PPE'],
-    verification: ['Current assessment', 'Field conditions match assessment', 'Controls installed', 'Workers briefed'],
-    responsibilities: ['Competent assessor prepares the assessment.', 'Supervisor verifies field controls.', 'Workers follow controls and report changes.'],
-    records: ['Risk assessments', 'Toolbox talks', 'Review records', 'Action closure'],
-    stopWork: ['Risk is not controlled', 'Conditions materially change', 'Critical control is absent'],
-  ),
-  'dubai_scaffolding': _TopicDetail(
-    scope: 'Safe planning, erection, use, inspection and modification of scaffolds used for construction work.',
-    hazards: ['Falls from height', 'Collapse', 'Falling objects', 'Overloading', 'Unsafe access', 'Weather effects'],
-    requirements: ['Use a suitable scaffold system.', 'Provide sound foundations.', 'Erect under competent supervision.', 'Provide guardrails and toe boards.', 'Control loading and access.', 'Inspect before use and after significant changes.'],
-    controls: ['Stable base', 'Bracing and ties', 'Guardrails', 'Toe boards', 'Safe access', 'Load control'],
-    verification: ['Foundation checked', 'Scaffold complete', 'Guardrails fitted', 'Access provided', 'Inspection/tagging completed'],
-    responsibilities: ['Competent person controls erection and inspection.', 'Supervisor prevents unauthorised modification.', 'Workers use the scaffold as intended.'],
-    records: ['Inspection records', 'Scaffold tag/status', 'Modification records', 'Competency records'],
-    stopWork: ['Missing guardrails', 'Unstable or damaged scaffold', 'Overloading', 'Unauthorised modification', 'Unsafe access'],
-  ),
-  'dubai_excavation_trenching': _TopicDetail(
-    scope: 'Safe planning and execution of excavation and trenching work, including ground stability and underground services.',
-    hazards: ['Collapse', 'Underground services', 'Falls into excavation', 'Plant interaction', 'Water ingress', 'Atmospheric hazards'],
-    requirements: ['Assess ground conditions.', 'Locate services before digging.', 'Provide suitable shoring, benching or sloping.', 'Control edges and access.', 'Inspect excavations regularly.'],
-    controls: ['Shoring', 'Benching/sloping', 'Edge protection', 'Service detection', 'Safe access'],
-    verification: ['Ground assessment', 'Services identified', 'Protection installed', 'Access provided', 'Daily inspection'],
-    responsibilities: ['Competent person inspects excavation.', 'Supervisor controls plant and access.', 'Workers stay within protected areas.'],
-    records: ['Excavation inspections', 'Service drawings/checks', 'Risk assessment', 'Permit records'],
-    stopWork: ['Cracking or movement', 'Unsupported excavation', 'Unknown service', 'Water undermining', 'Unsafe access'],
-  ),
-  'dubai_lifting_operations': _TopicDetail(
-    scope: 'Safe planning and execution of lifting operations using cranes, hoists and lifting accessories.',
-    hazards: ['Dropped loads', 'Overturning', 'Rigging failure', 'Crush zones', 'Power-line contact'],
-    requirements: ['Prepare a lift plan.', 'Use suitable certified equipment.', 'Verify ground and set-up.', 'Control exclusion zones.', 'Use competent lifting personnel.'],
-    controls: ['Lift plan', 'Certified accessories', 'Outriggers/stability', 'Exclusion zone', 'Signalling'],
-    verification: ['Equipment certification', 'Accessory inspection', 'Ground condition', 'Load weight/capacity', 'Competent team'],
-    responsibilities: ['Lifting supervisor controls the lift.', 'Operator follows the plan.', 'Riggers/signallers work within competency.'],
-    records: ['Lift plans', 'Inspection/certification', 'Pre-use checks', 'Competency records'],
-    stopWork: ['Overcapacity', 'Damaged accessory', 'Unstable set-up', 'Loss of communication', 'Unauthorised persons in exclusion zone'],
-  ),
-  'dubai_work_at_height': _TopicDetail(
-    scope: 'Controls for work where a person could fall from a height or where falling objects could injure people below.',
-    hazards: ['Falls', 'Dropped objects', 'Fragile surfaces', 'Unprotected edges'],
-    requirements: ['Plan work at height.', 'Prefer collective protection.', 'Provide safe access.', 'Inspect fall protection equipment.', 'Plan rescue.'],
-    controls: ['Guardrails', 'Safe platforms', 'Fall restraint', 'Fall arrest', 'Dropped-object controls'],
-    verification: ['Edge protection', 'Access', 'Harness/equipment', 'Anchor suitability', 'Rescue plan'],
-    responsibilities: ['Supervisor verifies controls.', 'Workers use access and fall protection correctly.', 'Only competent persons perform specialised work.'],
-    records: ['Height-work assessment', 'Equipment inspection', 'Training', 'Rescue arrangements'],
-    stopWork: ['Unprotected edge', 'Unsafe access', 'Unsuitable anchor', 'Damaged fall protection'],
-  ),
-  'dubai_confined_space': _TopicDetail(
-    scope: 'Controlled entry and work in spaces with restricted access and potential atmospheric or other serious hazards.',
-    hazards: ['Toxic atmosphere', 'Oxygen deficiency', 'Engulfment', 'Fire', 'Difficult rescue'],
-    requirements: ['Identify the space.', 'Assess hazards.', 'Use permit controls where required.', 'Isolate energy/material sources.', 'Provide standby and rescue arrangements.'],
-    controls: ['Isolation', 'Atmospheric testing', 'Ventilation', 'Standby person', 'Rescue plan'],
-    verification: ['Permit', 'Gas test', 'Isolation', 'Ventilation', 'Rescue equipment'],
-    responsibilities: ['Authorised person controls entry.', 'Standby person maintains communication.', 'Entrants follow permit conditions.'],
-    records: ['Entry permits', 'Gas tests', 'Isolation records', 'Training'],
-    stopWork: ['Unsafe atmosphere', 'Loss of ventilation', 'Failed communication', 'Changed conditions'],
-  ),
-  'dubai_electrical_safety': _TopicDetail(
-    scope: 'Controls for electrical installation, maintenance, temporary supplies and electrical equipment.',
-    hazards: ['Electric shock', 'Arc flash', 'Fire', 'Damaged cables', 'Unauthorised energisation'],
-    requirements: ['Use competent electrical personnel.', 'Isolate where practicable.', 'Protect temporary supplies.', 'Inspect equipment and cables.', 'Control energisation.'],
-    controls: ['Isolation/LOTO', 'RCD/GFCI protection', 'Grounding', 'Cable protection', 'Electrical inspection'],
-    verification: ['Isolation confirmed', 'Equipment inspected', 'Protection tested', 'Competency verified'],
-    responsibilities: ['Authorised electrical person controls work.', 'Workers do not interfere with electrical systems.', 'Supervisors enforce controls.'],
-    records: ['Testing records', 'Inspection records', 'Isolation records', 'Competency'],
-    stopWork: ['Exposed live parts', 'Damaged cable', 'Failed protection', 'Uncontrolled energisation'],
-  ),
-  'dubai_hot_work': _TopicDetail(
-    scope: 'Control of welding, cutting, grinding and other activities capable of producing heat, sparks or flame.',
-    hazards: ['Fire', 'Explosion', 'Fumes', 'Burns', 'Ignition of hidden combustibles'],
-    requirements: ['Use a hot-work permit where required.', 'Remove or protect combustibles.', 'Provide suitable extinguishers.', 'Control cylinders and hoses.', 'Maintain fire watch as required.'],
-    controls: ['Permit', 'Fire watch', 'Spark containment', 'Gas-cylinder controls', 'Ventilation'],
-    verification: ['Area checked', 'Combustibles controlled', 'Extinguisher available', 'Equipment inspected'],
-    responsibilities: ['Supervisor authorises controls.', 'Fire watch monitors the area.', 'Workers follow permit conditions.'],
-    records: ['Hot-work permits', 'Equipment checks', 'Fire-watch records'],
-    stopWork: ['Combustibles uncontrolled', 'No required permit', 'Gas leak', 'Fire protection unavailable'],
-  ),
-};
-
-_TopicDetail _genericDetail(String title) {
-  return _TopicDetail(
-    scope: '$title: activity-specific HSE requirements for safe planning, execution and monitoring.',
-    hazards: [
-      'People may be exposed to activity-specific physical hazards.',
-      'Poor planning can create uncontrolled interfaces.',
-      'Equipment or environmental conditions may change during work.',
-      'Inadequate supervision can allow unsafe practices.',
-    ],
-    requirements: [
-      'Complete an activity-specific risk assessment.',
-      'Use an approved safe work method and competent personnel.',
-      'Verify required equipment, access and protective controls.',
-      'Brief workers before starting and when conditions change.',
-      'Maintain inspection and corrective-action processes.',
-    ],
-    controls: [
-      'Eliminate or reduce hazards where practicable.',
-      'Use suitable engineering controls.',
-      'Segregate people from hazardous operations.',
-      'Provide supervision and clear communication.',
-      'Use PPE as the final layer of protection.',
-    ],
-    verification: [
-      'Confirm the work area is suitable.',
-      'Confirm equipment and controls are fit for use.',
-      'Confirm required competency and authorisation.',
-      'Record required inspections and corrective actions.',
-    ],
-    responsibilities: [
-      'Management provides resources and arrangements.',
-      'Supervisors verify field controls.',
-      'Workers follow approved procedures and report unsafe conditions.',
-    ],
-    records: [
-      'Risk assessment / method statement',
-      'Inspection records',
-      'Training or competency evidence',
-      'Corrective-action records',
-    ],
-    stopWork: [
-      'Stop for an uncontrolled serious risk.',
-      'Stop when a critical protective control is missing.',
-      'Stop when conditions change and the assessment is no longer valid.',
-      'Restart only after controls are restored and verified.',
-    ],
-  );
+class DubaiHseTopicRouter {
+  static Widget pageFor(ReferenceTopic topic) => DubaiHseDetailPage(topic: topic);
 }
-
-final Map<String, _TopicDetail> _allGenericDetails = {
-  for (final entry in _sectionTitles.entries)
-    entry.key: _genericDetail(entry.value.first),
-};
-
-// Merge detailed profiles with topic-specific fallback profiles.
-final Map<String, _TopicDetail> _detailsWithFallback = {
-  ..._allGenericDetails,
-  ..._details,
-};
