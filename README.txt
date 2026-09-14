@@ -1,16 +1,9 @@
-SafeNexus HSE — Dubai HSE 37 Topics ACTUAL-ID FIXED
+SafeNexus HSE — Dubai HSE 37 Topics PROFESSIONAL TOPIC-BY-TOPIC FINAL
 
-ROOT CAUSE FIX:
-The previous detail file used different topic IDs from the existing
-lib/data/dubai_guidelines.dart. DubaiHseDetailPage therefore fell back to
-the short ReferenceTopic description, so the detailed sections were not shown.
+Every Dubai topic is structured in the same professional learning pattern, with content specific to that topic:
+Introduction → Types/Systems → Components/Key Items → Technical Requirements → Main Hazards → Safety Controls → Inspection & Verification → Stop-Work Conditions → Responsibilities → Worker Responsibilities → Emergency Response → Practical Site Example → Key Learning Points.
 
-This version aligns all 37 _TopicData keys with the existing Dubai guideline IDs.
+Types and key items are tappable and open their own detail page.
 
-REPLACE ONLY:
-lib/dubai_hse_detail_page.dart
-
-DO NOT replace, append to, or modify:
-lib/data/dubai_guidelines.dart
-
-The detailed topic sections, tappable types/items, and single router are retained.
+IMPORTANT: Replace ONLY lib/dubai_hse_detail_page.dart.
+Do NOT replace or append lib/data/dubai_guidelines.dart.
