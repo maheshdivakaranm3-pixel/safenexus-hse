@@ -451,7 +451,78 @@ class LiftingOperationsPage extends StatelessWidget {
     ),
     DubaiDetailSection(
       '📋 How to Prepare a Lifting Plan — Step by Step',
-      '1) Define the task and destination. 2) Identify the load, dimensions, weight and centre of gravity. 3) Select a suitable crane/lifting appliance. 4) Determine the operating radius and configuration. 5) Verify capacity using the applicable load chart/manufacturer information. 6) Assess ground bearing, excavation, underground services and positioning. 7) Select and inspect lifting accessories. 8) Define lifting points and rigging method. 9) Map the load path and landing area. 10) Establish an exclusion zone and control access. 11) Assign competent roles: planner/appointed person as applicable, lift supervisor, operator, rigger and signalman. 12) Establish communication and emergency signals. 13) Consider weather, wind, visibility and nearby structures/services. 14) Brief the team through a toolbox talk. 15) Confirm pre-lift checks and authorization. 16) Conduct the lift in a controlled sequence and stop if conditions change. The exact plan format should follow the applicable Dubai requirements, project procedures, manufacturer instructions and the complexity of the lift.',
+      '1. Define the Lifting Task\n'
+          '• What is being lifted?\n'
+          '• Pick-up location and final destination\n'
+          '• Purpose and planned sequence of the lift\n\n'
+          '2. Identify the Load\n'
+          '• Load description, weight and dimensions\n'
+          '• Centre of gravity\n'
+          '• Approved lifting points\n'
+          '• Loose, detachable or unstable parts\n\n'
+          '3. Select the Crane / Lifting Equipment\n'
+          '• Suitable crane or lifting appliance\n'
+          '• Rated capacity and configuration\n'
+          '• Manufacturer requirements and limitations\n\n'
+          '4. Determine the Operating Radius\n'
+          '• Crane position\n'
+          '• Pick-up and landing radius\n'
+          '• Boom/configuration requirements\n\n'
+          '5. Verify Lifting Capacity\n'
+          '• Check the applicable load chart\n'
+          '• Confirm the planned configuration\n'
+          '• Include relevant lifting accessories in the lift assessment\n\n'
+          '6. Assess Ground & Site Conditions\n'
+          '• Ground stability and bearing capacity\n'
+          '• Excavations, slopes and underground services\n'
+          '• Outrigger position and crane mats where required\n\n'
+          '7. Select & Inspect Lifting Accessories\n'
+          '• Slings, shackles, hooks and lifting beams\n'
+          '• Identification, WLL/SWL and inspection status\n'
+          '• Check for wear, damage and deformation\n\n'
+          '8. Define Lifting Points & Rigging Method\n'
+          '• Approved lifting points\n'
+          '• Centre of gravity and load balance\n'
+          '• Sling arrangement, angles and edge protection\n\n'
+          '9. Plan the Load Path\n'
+          '• Pick-up point to landing point\n'
+          '• Structures, obstacles, people and other plant\n'
+          '• Final landing and stabilization area\n\n'
+          '10. Establish the Exclusion Zone\n'
+          '• Barricade and control access\n'
+          '• Keep people away from suspended loads\n'
+          '• Prevent unauthorized entry\n\n'
+          '11. Assign the Lifting Team\n'
+          '• Appointed Person / Lift Planner, as applicable\n'
+          '• Lift Supervisor\n'
+          '• Crane Operator\n'
+          '• Rigger\n'
+          '• Banksman / Signalman\n\n'
+          '12. Establish Communication\n'
+          '• Radio or agreed communication method\n'
+          '• Standard hand signals\n'
+          '• Dedicated signalman and emergency stop signal\n'
+          '• Stop the lift if communication is lost\n\n'
+          '13. Assess Weather & Surroundings\n'
+          '• Wind, visibility, rain and dust\n'
+          '• Nearby structures and power lines\n'
+          '• Other cranes, plant, traffic or public interface\n\n'
+          '14. Conduct the Toolbox Talk\n'
+          '• Explain the lifting sequence\n'
+          '• Review hazards and controls\n'
+          '• Confirm roles, communication and emergency arrangements\n\n'
+          '15. Complete Pre-Lift Verification\n'
+          '• Crane and accessories ready\n'
+          '• Ground and work area acceptable\n'
+          '• Load secured and team competent\n'
+          '• Required authorization/permit completed where applicable\n\n'
+          '16. Execute the Lift\n'
+          '• Follow the approved lifting plan\n'
+          '• Conduct the lift in a controlled sequence\n'
+          '• Monitor the load continuously\n'
+          '• Stop immediately if conditions change\n'
+          '• Land and secure the load safely\n\n'
+          'The exact lifting-plan format should follow applicable Dubai requirements, project procedures, manufacturer instructions and the complexity of the lift.',
     ),
     DubaiDetailSection(
       '🧮 Load Assessment & Rigging Calculations',
@@ -494,7 +565,80 @@ class LiftingOperationsPage extends StatelessWidget {
       'Stop the lift for unknown load weight, damaged or unidentified accessories, overload, unstable ground, unexpected crane movement, excessive or uncontrolled load swing, loss of communication, poor visibility, unsafe weather/wind, people entering the exclusion zone, contact/near-contact with services or structures, equipment alarms/defects, change in the approved lifting arrangement, or any condition that makes the lift different from the assessed safe plan.',
     ),
     DubaiDetailSection(
-      '🚨 Emergency Response',
+      '🚨 HSE ROLES DURING LIFTING OPERATIONS
+
+HSE Officer
+Before Lift:
+1. Verify the approved lifting plan, method statement and risk assessment are available.
+
+2. Check inspection/certification status and competency records.
+
+3. Verify exclusion-zone arrangements and site controls.
+During Lift:
+4. Monitor HSE compliance and unsafe conditions.
+
+5. Intervene when people enter controlled areas or controls are bypassed.
+
+6. Initiate/escalate stop-work when an immediate serious risk is identified.
+After Lift:
+7. Record observations, incidents/near misses and corrective actions.
+
+Senior HSE
+Before Lift:
+1. Review high-risk or critical lifting arrangements.
+
+2. Verify major risk controls, competency arrangements and contractor interfaces.
+During Lift:
+3. Provide senior HSE oversight and support intervention on major deviations.
+
+4. Escalate significant non-compliance and ensure corrective actions are followed.
+After Lift:
+5. Review lessons learned and recurring lifting risks.
+
+HSE Coordinator
+Before Lift:
+1. Coordinate HSE documentation, contractor submissions and records.
+
+2. Track toolbox talks, inspections, permits and competency documentation.
+During Lift:
+3. Coordinate communication between project, contractor and HSE teams.
+
+4. Record significant changes or documentation gaps.
+After Lift:
+5. Close records and track outstanding HSE actions.
+
+HSE Engineer
+Before Lift:
+1. Review lifting risk assessment and engineering-related HSE interfaces.
+
+2. Assess concerns involving ground conditions, excavations, structures, temporary works and nearby services.
+
+3. Coordinate technical concerns with the responsible engineering/lifting personnel.
+During Lift:
+4. Monitor whether technical controls remain consistent with site conditions.
+
+5. Escalate instability, unexpected movement or changed conditions immediately.
+After Lift:
+6. Document technical observations and recommend corrective actions.
+
+HSE Manager
+Before Lift:
+1. Establish/review project HSE requirements for lifting operations.
+
+2. Verify suitable competent-person arrangements and contractor controls.
+
+3. Review escalated high-risk or critical lifting activities as required by the project.
+During Lift:
+4. Provide management-level HSE oversight for significant lifting activities.
+
+5. Support suspension/escalation where serious non-compliance exists.
+After Lift:
+6. Review major incidents, trends and corrective actions.
+
+Important:
+HSE titles do not automatically replace the operational lifting roles. The lifting plan and execution should clearly identify the competent/authorized Lift Planner or Appointed Person (as applicable), Lift Supervisor, Crane Operator, Rigger and Banksman/Signalman.
+
+Emergency Response',
       'For a dropped load, crane instability, equipment failure, injury or electrical contact: STOP the operation, keep people away, isolate the area, raise the alarm, call the site emergency response, provide first aid only within competence, do not approach a potentially energised area, secure equipment when safe, preserve the scene as required and report/investigate the incident according to the project emergency and incident-management system.',
     ),
     DubaiDetailSection(
