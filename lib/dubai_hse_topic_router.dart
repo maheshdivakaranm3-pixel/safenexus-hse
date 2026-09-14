@@ -7,11 +7,11 @@ import 'pages/dubai/lifting_operations_page.dart';
 class DubaiDedicatedPageRouter {
   static Widget? pageFor(String id) {
     switch (id) {
-      case 'dubai_scaffolding_safety':
+      case 'dubai_scaffolding':
         return const ScaffoldingSafetyPage();
-      case 'dubai_excavation_trenching':
+      case 'dubai_excavation':
         return const ExcavationTrenchingPage();
-      case 'dubai_lifting_operations':
+      case 'dubai_lifting':
         return const LiftingOperationsPage();
       default:
         return null;
