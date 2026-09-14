@@ -1,9 +1,9 @@
-SafeNexus HSE — Dubai HSE 37 Topics PROFESSIONAL TOPIC-BY-TOPIC FINAL
+SafeNexus HSE - Dubai HSE detail page duplicate-key fix
 
-Every Dubai topic is structured in the same professional learning pattern, with content specific to that topic:
-Introduction → Types/Systems → Components/Key Items → Technical Requirements → Main Hazards → Safety Controls → Inspection & Verification → Stop-Work Conditions → Responsibilities → Worker Responsibilities → Emergency Response → Practical Site Example → Key Learning Points.
+Replace ONLY:
+lib/dubai_hse_detail_page.dart
 
-Types and key items are tappable and open their own detail page.
+Do NOT replace or append:
+lib/data/dubai_guidelines.dart
 
-IMPORTANT: Replace ONLY lib/dubai_hse_detail_page.dart.
-Do NOT replace or append lib/data/dubai_guidelines.dart.
+This fix removes duplicate constant-map section keys that caused equal_keys_in_const_map errors.
