@@ -603,6 +603,9 @@ const Map<String, _TopicData> _topicData = {
   }),
 };
 
+/// Single routing entry used by lib/guidelines.dart for Dubai HSE topics.
 class DubaiHseTopicRouter {
-  static Widget pageFor(ReferenceTopic topic) => DubaiHseDetailPage(topic: topic);
+  static Widget pageFor(ReferenceTopic topic) {
+    return DubaiHseDetailPage(topic: topic);
+  }
 }
