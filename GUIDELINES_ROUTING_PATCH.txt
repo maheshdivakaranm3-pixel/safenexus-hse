@@ -1,20 +1,40 @@
-GUIDELINES ROUTING — REQUIRED CHANGE
+GUIDELINES ROUTING — REQUIRED CONNECTION
+
+The reason the new Part 1 pages had no visible effect was routing.
+
+The Dubai topic list must open the new Part 1 router.
 
 In lib/guidelines.dart:
 
-1. Remove:
-   import 'dubai_hse_detail_page.dart';
-
-2. Add:
+1. Add:
    import 'dubai_hse_topic_router.dart';
 
-3. Replace the existing _openTopic builder with:
+2. Find the existing Dubai topic builder.
 
-   builder: (_) => DubaiHsePartRouter.pageFor(topic),
+3. Replace the Dubai branch with:
 
-This is the important connection that makes Topics 1–10 actually open the new
-Lifting-pattern pages. Without this routing change, the new files can exist in
-the project but the app will continue opening the old Dubai detail engine.
+   builder: (_) => topic.guidelineCategory == GuidelineCategory.dubai
+       ? DubaiHsePartRouter.pageFor(topic)
+       : GuidelineDetailPage(topic: topic),
 
-Do not change lib/data/dubai_guidelines.dart.
-Do not create duplicate *_FINAL, *_V2 or *_UPLOAD_ONLY Dart files.
+4. Do NOT call:
+   DubaiHseTopicRouter.pageFor(topic)
+
+5. Do NOT remove:
+   dubai_hse_detail_page.dart
+   because Topics 11–37 still use it as the fallback.
+
+6. Do NOT create duplicate Dart filenames such as:
+   *_FINAL.dart
+   *_V2.dart
+   *_UPLOAD_ONLY.dart
+
+Part 1 routing:
+1–5  -> DubaiHsePart1TopicPage
+6–8  -> existing dedicated Scaffolding / Excavation / Lifting pages
+9–10 -> DubaiHsePart1TopicPage
+11–37 -> existing DubaiHseDetailPage
+
+The Lifting, Scaffolding and Excavation pages already use the required:
+Main Topic -> Expandable Section -> small > chevron -> Advanced Learning
+pattern.
