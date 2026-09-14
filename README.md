@@ -1,27 +1,11 @@
-# SafeNexus HSE — Dubai HSE Part 1 (Topics 1–10)
+SafeNexus HSE — Dubai HSE Part 1 Advanced Learning FINAL
 
-Single-file module:
-lib/pages/dubai/dubai_hse_part1_page.dart
+Single dedicated Dart file for Topics 1–10.
+Each topic has different topic-specific:
+Introduction, systems/types, components where applicable,
+technical requirements, planning, hazards, safety controls,
+inspection, stop-work conditions, HSE/operational responsibilities,
+practical example and quick learning formula.
 
-Topics:
-1. Dubai Construction Safety Framework
-2. HSE Management System
-3. Health & Safety Risk Assessment
-4. Construction HSE Plan
-5. Work at Height
-6. Scaffolding Safety
-7. Lifting Operations
-8. Excavation & Trenching
-9. Confined Space Entry
-10. Electrical Safety
-
-Pattern:
-Introduction → Topic cards → Advanced Learning → Field Verification.
-
-UI rule:
-Only a small right chevron is used. No large round green arrow.
-
-HSE roles are grouped once at the end of Part 1:
-HSE Officer, HSE Supervisor, Senior HSE, HSE Coordinator, HSE Engineer, HSE Manager.
-
-No separate advanced-learning Dart file is required.
+File:
+lib/pages/dubai/dubai_hse_part1_advanced_learning_page.dart
