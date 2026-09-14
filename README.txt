@@ -1,15 +1,14 @@
-SafeNexus HSE — Dubai Dedicated Pages v1
+SafeNexus HSE — Dubai Dedicated Pages V2
 
-This package introduces dedicated interactive pages for:
-1. Scaffolding Safety
-2. Excavation & Trenching
-3. Lifting Operations
+Files:
+lib/dubai_hse_topic_router.dart
+lib/pages/dubai/scaffolding_safety_page.dart
+lib/pages/dubai/excavation_trenching_page.dart
+lib/pages/dubai/lifting_operations_page.dart
 
-Each page has topic-specific sections and tappable types/components that open
-their own detail screen.
+The three pages are dedicated topic pages with tappable topic types/components
+and individual detail screens.
 
-Integration:
-- Copy the files under lib/ into the matching project paths.
-- Add the router call in the existing Dubai topic navigation before the old
-  generic Dubai detail page.
-- Existing locked modules are not included or changed.
+IMPORTANT:
+Connect Dubai topic navigation to DubaiDedicatedPageRouter.pageFor(topic.id)
+before the old generic Dubai detail route. Do not delete existing modules.
