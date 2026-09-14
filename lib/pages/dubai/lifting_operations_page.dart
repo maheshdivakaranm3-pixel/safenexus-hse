@@ -38,17 +38,13 @@ class DubaiTopicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: Text(title), elevation: 0),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(14, 14, 14, 28),
         children: [
           _heroCard(),
           const SizedBox(height: 12),
           _sectionCard(
-            context,
             '1. Introduction — What is Lifting?',
             introduction,
             Icons.info_outline,
@@ -60,14 +56,14 @@ class DubaiTopicPage extends StatelessWidget {
                   child: _expandable(entry.value, entry.key + 2),
                 ),
               ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           const Text(
             'Tap to Explain',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 4),
           const Text(
-            'Select any equipment, role or lifting method for a focused explanation.',
+            'Tap any equipment, lifting role, method or technical topic for a focused explanation.',
             style: TextStyle(fontSize: 14.5, height: 1.4),
           ),
           const SizedBox(height: 8),
@@ -116,21 +112,21 @@ class DubaiTopicPage extends StatelessWidget {
             colors: [Color(0xFFE8F5F1), Color(0xFFF7FAF9)],
           ),
         ),
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '🏗️ Lifting Operations',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              '$emoji Lifting Operations — Dubai HSE',
+              style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w800),
             ),
-            SizedBox(height: 6),
-            Text(
+            const SizedBox(height: 6),
+            const Text(
               'PLAN SAFE • LIFT SAFE • CONTROL EVERY MOVEMENT',
               style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
             ),
-            SizedBox(height: 10),
-            Text(
-              'A practical Dubai HSE learning module covering lifting planning, cranes, rigging, competent persons, hazards, controls, inspections and emergency response.',
+            const SizedBox(height: 10),
+            const Text(
+              'A practical professional reference covering lifting planning, equipment, rigging, competent roles, hazards, controls, inspection, execution and emergency response.',
               style: TextStyle(fontSize: 15, height: 1.45),
             ),
           ],
@@ -139,12 +135,7 @@ class DubaiTopicPage extends StatelessWidget {
     );
   }
 
-  Widget _sectionCard(
-    BuildContext context,
-    String title,
-    String body,
-    IconData icon,
-  ) {
+  Widget _sectionCard(String title, String body, IconData icon) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(17),
@@ -165,7 +156,10 @@ class DubaiTopicPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 9),
-                  Text(body, style: const TextStyle(fontSize: 15, height: 1.5)),
+                  Text(
+                    body,
+                    style: const TextStyle(fontSize: 15, height: 1.5),
+                  ),
                 ],
               ),
             ),
@@ -267,372 +261,274 @@ class DubaiItemPage extends StatelessWidget {
 class LiftingOperationsPage extends StatelessWidget {
   const LiftingOperationsPage({super.key});
 
-  static const items = <DubaiDetailItem>[
+  static const sections = <DubaiDetailSection>[
+    DubaiDetailSection(
+      '2. Types of Lifting Operations',
+      'Common operations include mobile crane, tower crane, crawler crane, truck-mounted crane, hoist, material hoist, heavy lift, critical lift, tandem lift and approved personnel lifting arrangements. The selected method must match the load, site and equipment limitations.',
+    ),
+    DubaiDetailSection(
+      '3. Lifting Equipment & Accessories',
+      'The lifting system may include crane or hoist, hook and latch, wire-rope sling, web sling, round sling, chain sling, shackles, lifting beam, spreader beam, lifting frame, tag line, load-indicating devices and stabilisation equipment. Each component must be suitable, identifiable and inspected before use.',
+    ),
+    DubaiDetailSection(
+      '4. Lifting Plan — How to Prepare It',
+      'A lifting plan should describe the actual task and define the load, equipment, configuration, capacity, radius, ground conditions, lifting accessories, rigging arrangement, load path, exclusion zone, competent team, communication, weather controls, toolbox talk, emergency arrangements and pre-lift verification. Review the plan whenever the load, equipment, location or conditions change.',
+    ),
+    DubaiDetailSection(
+      '5. Lifting Plan — Step-by-Step',
+      '1. Define the lifting task.\\n2. Identify the load and confirm reliable weight information.\\n3. Identify centre of gravity and lifting points.\\n4. Select suitable crane or lifting appliance.\\n5. Determine operating radius and configuration.\\n6. Verify applicable capacity using the manufacturer/load chart.\\n7. Assess ground, excavation and underground-service risks.\\n8. Select and inspect lifting accessories.\\n9. Define the rigging method and protect sharp edges.\\n10. Map the load path and landing area.\\n11. Establish the exclusion zone.\\n12. Assign competent/authorized roles.\\n13. Establish communication and emergency signals.\\n14. Check weather and surrounding hazards.\\n15. Conduct toolbox talk and pre-lift verification.\\n16. Execute, monitor, land and close out the lift.',
+    ),
+    DubaiDetailSection(
+      '6. Main Lifting Hazards',
+      'Dropped loads, crane overturning, sling or shackle failure, overloading, unstable ground, load swing, crushing and pinch points, falling objects, poor communication, blind lifts, overhead services, collision, high wind, poor visibility and unauthorised access are key hazards requiring task-specific controls.',
+    ),
+    DubaiDetailSection(
+      '7. Rigging & Load Control',
+      'The rigger should confirm the load information, centre of gravity, lifting points, accessory suitability, WLL/SWL, sling configuration, connection security and edge protection. The load should be stable before the main lift. A controlled trial lift may be used where required by the lift plan to verify balance and rigging.',
+    ),
+    DubaiDetailSection(
+      '8. Pre-Lift Inspection & Verification',
+      'Verify crane condition and configuration, applicable certification/inspection status, load chart, hook and latch, ropes/chains, slings, shackles and beams, ground condition, outriggers/stabilisation, weather, load path, exclusion zone, communication, competent personnel and required authorization or permit arrangements.',
+    ),
+    DubaiDetailSection(
+      '9. Stop-Work Conditions',
+      'Stop the lift when load weight or configuration is uncertain, lifting accessories are defective, ground stability is doubtful, the load becomes uncontrolled, communication is lost, the exclusion zone is breached, weather exceeds safe limits, an overhead-service risk develops, or the actual conditions differ materially from the approved lifting arrangement.',
+    ),
+    DubaiDetailSection(
+      '10. Lifting Near Excavation, Scaffolding & Temporary Works',
+      'Near excavations, assess ground bearing, edge stability, crane positioning and underground services. Near scaffolding, prevent impact, overloading and unauthorised use of the scaffold as a lifting support. For temporary works and structural elements, confirm stability during lifting, transfer and landing. These interfaces should be identified in the risk assessment and lifting plan.',
+    ),
+    DubaiDetailSection(
+      '11. HSE Roles During Lifting',
+      'HSE Officer: site monitoring, verification of controls, intervention and stop-work escalation.\\nSenior HSE: senior oversight of high-risk lifts, major deviations and corrective actions.\\nHSE Coordinator: HSE documentation, contractor coordination, records and action tracking.\\nHSE Engineer: technical HSE interfaces involving ground, excavation, structure, temporary works and services.\\nHSE Manager: project-level HSE governance, escalation and management oversight.\\nThese HSE roles do not automatically replace the operational lifting roles.',
+    ),
+    DubaiDetailSection(
+      '12. Operational Lifting Roles',
+      'Lift Planner/Appointed Person (as applicable): develops the lifting arrangement and risk controls. Lift Supervisor: controls execution at the worksite. Crane Operator: operates the crane within the approved configuration and manufacturer limits. Rigger: prepares and connects the load using suitable accessories. Banksman/Signalman: controls movement through the agreed communication system.',
+    ),
+    DubaiDetailSection(
+      '13. Communication & Exclusion Zone',
+      'Use an agreed signalling and communication method. Maintain a controlled exclusion zone around the lifting operation and load path. People must not stand under suspended loads or enter the line of fire. If the operator cannot safely understand the signal or communication is lost, stop the lift until control is restored.',
+    ),
+    DubaiDetailSection(
+      '14. Emergency Response',
+      'For a dropped load, crane instability, equipment failure, injury or electrical contact: stop the operation, raise the alarm, isolate and control the area, contact the designated emergency response team, keep personnel away from suspended or potentially energised equipment, provide first aid only within competence, and preserve the scene when safe for subsequent reporting and investigation.',
+    ),
+    DubaiDetailSection(
+      '15. Practical Site Example — HVAC Lift',
+      'Confirm the HVAC unit identity, actual weight and dimensions → verify centre of gravity and lifting points → select crane/configuration → confirm radius and applicable capacity → assess ground and stabilisation → select and inspect slings/shackles → protect sharp edges → define load path and landing area → establish exclusion zone → brief the lifting team → conduct controlled trial lift where required → confirm balance → lift slowly with continuous communication → land on prepared supports → secure the unit → remove rigging safely → complete close-out inspection.',
+    ),
+    DubaiDetailSection(
+      '16. Quick Learning Formula',
+      'PLAN → ASSESS → SELECT → INSPECT → RIG → EXCLUDE → COMMUNICATE → TEST → LIFT → CONTROL → LAND → CLOSE OUT.',
+    ),
+  ];
+
+  static const tappableItems = <DubaiDetailItem>[
+    DubaiDetailItem(
+      title: 'Rigger',
+      subtitle: 'Load preparation, rigging and safe connection',
+      details: [
+        'Identify the load and confirm reliable weight information before rigging.',
+        'Understand the centre of gravity and identify approved lifting points.',
+        'Select suitable slings, shackles, hooks and beams for the planned configuration.',
+        'Check identification, WLL/SWL, inspection status and physical condition.',
+        'Protect slings from sharp edges and ensure connections are correctly seated.',
+        'Maintain a safe position and never stand under a suspended load.',
+        'Stop the lift if the rigging is defective, the load is unstable, communication is lost or conditions change.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Banksman / Signalman',
+      subtitle: 'Controls crane movement through agreed signals',
+      details: [
+        'Use the agreed hand signals or reliable communication method.',
+        'Maintain clear communication with the crane operator.',
+        'Control access to the lifting area and help maintain the exclusion zone.',
+        'Never give conflicting instructions to the operator.',
+        'Give or support an emergency stop instruction whenever an immediate danger is identified.',
+        'Stop the operation if visibility or communication is lost.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Lift Supervisor',
+      subtitle: 'Controls safe execution at the worksite',
+      details: [
+        'Confirm the lifting team understands the approved plan, sequence and controls.',
+        'Verify the work area, exclusion zone and communication arrangements before starting.',
+        'Monitor the operation and actual site conditions continuously.',
+        'Stop the lift when the operation becomes unsafe or differs materially from the approved arrangement.',
+        'Coordinate safe landing and close-out of the lifting activity.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Appointed Person / Lift Planner',
+      subtitle: 'Plans the lifting arrangement and risk controls',
+      details: [
+        'Define the task, load, equipment, configuration and lifting sequence.',
+        'Assess load path, ground conditions, surrounding hazards and interfaces.',
+        'Specify suitable lifting accessories and rigging arrangements.',
+        'Define competent roles, communication, exclusion zones and emergency arrangements.',
+        'Ensure the plan is reviewed when conditions or the lifting arrangement changes.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'HSE Officer',
+      subtitle: 'Site-level HSE monitoring and intervention',
+      details: [
+        'Verify that the lifting plan, risk assessment and required controls are available.',
+        'Check inspection/certification and competency arrangements relevant to the activity.',
+        'Monitor exclusion zones, line-of-fire controls and site conditions.',
+        'Intervene when unsafe conditions or control failures are observed.',
+        'Escalate or initiate stop-work for an immediate serious risk.',
+        'Record observations, incidents, near misses and corrective actions.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Senior HSE',
+      subtitle: 'Senior safety oversight for significant lifting activities',
+      details: [
+        'Review high-risk or critical lifting arrangements as required by the project.',
+        'Verify major risk controls and contractor interfaces.',
+        'Provide senior HSE oversight and support intervention on major deviations.',
+        'Escalate significant non-compliance and follow corrective actions.',
+        'Review lessons learned and recurring lifting risks.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'HSE Coordinator',
+      subtitle: 'Coordinates HSE records, contractors and actions',
+      details: [
+        'Coordinate lifting-related HSE documents and contractor submissions.',
+        'Track toolbox talks, inspections, permits and competency records.',
+        'Coordinate communication between project, contractor and HSE teams.',
+        'Record documentation gaps and significant changes.',
+        'Track closure of HSE actions.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'HSE Engineer',
+      subtitle: 'Technical HSE interface and engineering risk support',
+      details: [
+        'Review lifting risk assessments and engineering HSE interfaces.',
+        'Assess ground, excavation, structural, temporary-works and service interfaces.',
+        'Coordinate technical concerns with responsible lifting or engineering personnel.',
+        'Monitor whether technical controls remain suitable as conditions change.',
+        'Escalate instability or unexpected movement immediately.',
+        'Document observations and recommend corrective actions.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'HSE Manager',
+      subtitle: 'Project-level HSE governance and escalation',
+      details: [
+        'Establish or review project HSE requirements for lifting operations.',
+        'Verify suitable competent-person arrangements and contractor controls.',
+        'Review escalated high-risk or critical lifting activities as required.',
+        'Provide management-level HSE oversight and escalation.',
+        'Support suspension where serious non-compliance exists.',
+        'Review major incidents, trends and corrective actions.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Centre of Gravity',
+      subtitle: 'Key factor in load balance and stability',
+      details: [
+        'Determine or obtain reliable information about the load centre of gravity.',
+        'Position lifting points and accessories so the load remains stable.',
+        'An incorrect arrangement can cause tilt, rotation, sliding or uncontrolled swing.',
+        'If the centre of gravity is uncertain, obtain reliable information or competent engineering input before lifting.',
+      ],
+    ),
+    DubaiDetailItem(
+      title: 'Sling Angle',
+      subtitle: 'Affects forces in multi-leg sling arrangements',
+      details: [
+        'Changes in sling angle can significantly change the forces carried by sling legs.',
+        'Do not assume total sling capacity equals the load weight.',
+        'Confirm the approved configuration, manufacturer guidance and applicable rigging calculation.',
+        'Use an engineered arrangement when the load distribution or configuration is complex or uncertain.',
+      ],
+    ),
     DubaiDetailItem(
       title: 'Mobile Crane',
-      subtitle: 'Mobile crane used for planned construction lifts',
+      subtitle: 'Mobile crane for planned construction lifting',
       details: [
-        'Purpose: Used to lift and position materials, plant and structural components where the crane can be safely positioned and configured.',
-        'Pre-lift focus: Confirm load weight, radius, crane configuration, applicable load chart, ground condition, outrigger arrangement, lifting accessories, exclusion zone and communication.',
-        'Key control: The operator must work within the approved configuration and applicable manufacturer/load-chart limits. Never estimate capacity from appearance.',
+        'Confirm load, radius, configuration and applicable load-chart limits.',
+        'Assess ground bearing, outriggers, stabilisation and nearby excavations.',
+        'Verify lifting accessories, exclusion zone, communication and weather controls.',
+        'Operate only within the approved arrangement and manufacturer requirements.',
       ],
     ),
     DubaiDetailItem(
       title: 'Tower Crane',
-      subtitle: 'Fixed crane commonly used for high-rise construction',
+      subtitle: 'Fixed crane for high-rise and general construction lifts',
       details: [
-        'Typical work: Moving reinforcement, formwork, concrete-related materials, MEP equipment and other construction loads within the approved operating area.',
-        'Checks: Load/radius limits, hook and rope condition, limit/safety devices, wind conditions, communication, exclusion zones and approved operating arrangements.',
-        'Control: Do not lift beyond the permitted configuration or continue when visibility, communication or site conditions become unsafe.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Crawler Crane',
-      subtitle: 'Crawler-mounted crane for heavy or specialised lifting',
-      details: [
-        'Main considerations: Ground bearing, crane configuration, counterweight, boom arrangement, radius, load chart and travel/positioning plan.',
-        'Control: The lift plan must account for the crane configuration and the actual site conditions. Ground suitability must be assessed before loading the crane.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Truck-Mounted Crane',
-      subtitle: 'Vehicle-mounted lifting appliance',
-      details: [
-        'Before lifting: Park on a suitable surface, apply the required vehicle controls, deploy stabilisation/outriggers as designed and verify the lifting area.',
-        'Never assume the vehicle alone provides sufficient stability. Follow the crane manufacturer instructions and approved lifting arrangement.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Hoist / Material Hoist',
-      subtitle: 'Mechanical equipment for controlled vertical lifting',
-      details: [
-        'Check rated capacity, support/anchorage, rope or chain, hook, controls, brakes, limit devices and inspection status before use.',
-        'The supporting structure and anchorage must be suitable for the intended load and arrangement. Keep people away from hazardous suspended-load areas.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Web Sling',
-      subtitle: 'Flexible textile lifting accessory',
-      details: [
-        'Inspect identification/WLL, cuts, tears, abrasion, damaged stitching, heat or chemical damage, contamination and deformation.',
-        'Use only in an approved configuration and protect against sharp edges. Do not use a sling that is damaged, unidentified or unsuitable for the load.',
+        'Check applicable load/radius limits and operating configuration.',
+        'Verify hook, rope, safety devices, communication and wind conditions.',
+        'Control the load path and keep personnel outside the exclusion zone.',
+        'Stop when visibility, communication or operating conditions become unsafe.',
       ],
     ),
     DubaiDetailItem(
       title: 'Wire Rope Sling',
       subtitle: 'Steel wire-rope lifting accessory',
       details: [
-        'Inspect rope condition, broken wires, kinking, crushing, birdcaging, corrosion, end fittings and identification.',
-        'Do not use a rope sling with defects that make it unsafe or outside the manufacturer/inspection criteria. Keep connections correctly seated.',
+        'Inspect for broken wires, kinks, crushing, birdcaging, corrosion and damaged end fittings.',
+        'Confirm identification and applicable WLL/SWL.',
+        'Use only in a suitable approved configuration.',
+        'Remove from service when inspection criteria or manufacturer requirements indicate it is unsafe.',
       ],
     ),
     DubaiDetailItem(
-      title: 'Chain Sling',
-      subtitle: 'Chain-based lifting accessory for suitable loads',
+      title: 'Web / Round Sling',
+      subtitle: 'Flexible textile lifting accessory',
       details: [
-        'Check chain links, hooks, shortening devices, identification and WLL. Look for elongation, deformation, cracks, gouges and excessive wear.',
-        'Use only compatible components and configurations. Never improvise with damaged links, pins or fittings.',
+        'Check identification, WLL, cuts, tears, abrasion, damaged stitching, heat and chemical damage.',
+        'Protect the sling from sharp edges and unsuitable contact surfaces.',
+        'Do not use damaged, unidentified or unsuitable textile slings.',
+        'Follow manufacturer and inspection requirements for the selected configuration.',
       ],
     ),
     DubaiDetailItem(
       title: 'Shackle',
-      subtitle: 'Connector used between lifting components',
+      subtitle: 'Connector between compatible lifting components',
       details: [
-        'Check type, identification/WLL, body, bow, pin, threads and signs of deformation, cracking or excessive wear.',
-        'Load the shackle in the intended direction and configuration. Do not substitute an unidentified or unsuitable connector.',
+        'Check type, identification/WLL, body, bow, pin, threads and condition.',
+        'Look for cracks, deformation, excessive wear or damaged threads.',
+        'Use the shackle in the intended direction and configuration.',
+        'Never improvise with an unidentified or unsuitable connector.',
       ],
     ),
     DubaiDetailItem(
       title: 'Hook & Safety Latch',
       subtitle: 'Primary crane connection point',
       details: [
-        'Check hook condition, deformation, throat opening, latch function, identification and connection to the lifting appliance.',
-        'The load connection must be properly seated in the hook. Do not side-load or use a damaged hook/latch.',
+        'Check hook condition, deformation, throat opening and safety latch function.',
+        'Confirm identification and connection to the lifting appliance.',
+        'Seat the load connection correctly in the hook.',
+        'Do not side-load or use a damaged hook or latch.',
       ],
     ),
     DubaiDetailItem(
-      title: 'Spreader Beam / Lifting Beam',
-      subtitle: 'Beam used to distribute or control lifting forces',
+      title: 'Spreader / Lifting Beam',
+      subtitle: 'Controls load distribution and lifting geometry',
       details: [
-        'Confirm approved design/rating, identification, lifting points, end connections and inspection status.',
-        'Use only with the intended configuration and load arrangement. Ensure the load distribution matches the approved design.',
+        'Confirm approved design/rating, identification and inspection status.',
+        'Check lifting points, end connections and intended configuration.',
+        'Ensure load distribution matches the approved arrangement.',
+        'Use only within the design and manufacturer limitations.',
       ],
     ),
     DubaiDetailItem(
       title: 'Tag Line',
-      subtitle: 'Line used to help control load rotation or positioning',
+      subtitle: 'Helps control rotation and positioning',
       details: [
-        'Use from a safe position when needed to control rotation or guide the load without placing workers in the line of fire.',
-        'Never wrap a tag line around a hand, body or fixed object in a way that could trap a person if the load moves unexpectedly.',
+        'Use from a safe position when needed to control load rotation.',
+        'Keep hands and body clear of pinch points and the line of fire.',
+        'Do not wrap the line around a person or create a trapping hazard.',
+        'Stop and reassess if the load becomes uncontrolled.',
       ],
-    ),
-    DubaiDetailItem(
-      title: 'Rigger',
-      subtitle: 'Competent person responsible for safe load preparation and rigging',
-      details: [
-        'Role: Identify the load, confirm available load information, understand the centre of gravity, select suitable lifting accessories and prepare the load for lifting.',
-        'Rigging: Select suitable sling type/configuration, verify identification and WLL, inspect accessories, protect sharp edges, secure connections and check that the load is stable.',
-        'Before the lift: Confirm the lifting points, load path, landing area, exclusion zone and communication arrangement. Participate in a controlled trial lift where required by the lift plan.',
-        'During the lift: Monitor the load, maintain a safe position, avoid suspended-load exposure and communicate immediately if the load behaves unexpectedly.',
-        'Stop-work: Stop the operation when the load weight is uncertain, accessories are defective, the rigging arrangement is unsafe, communication is lost, people enter the exclusion zone or conditions differ from the approved plan.',
-        'Professional rule: IDENTIFY → SELECT → INSPECT → RIG → CHECK → COMMUNICATE → TRIAL LIFT → CONTROL → LAND.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Banksman / Signalman',
-      subtitle: 'Controls movement through agreed signals and communication',
-      details: [
-        'Use agreed hand signals or reliable communication and maintain a clear line of communication with the operator.',
-        'Control access to the lifting area and give clear instructions. Only the designated signal arrangement should direct the operator unless an emergency stop is required.',
-        'If communication or visibility is lost, the lift should be stopped until safe communication is restored.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Lift Supervisor',
-      subtitle: 'Supervises execution of the approved lifting arrangement',
-      details: [
-        'Confirm the team understands the lift plan, roles, hazards, controls, exclusion zone and communication method.',
-        'Monitor site conditions and stop the lift if the operation becomes unsafe or differs materially from the approved arrangement.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Appointed Person / Lift Planner',
-      subtitle: 'Plans and coordinates complex lifting arrangements',
-      details: [
-        'The planning function should assess the load, equipment, lifting accessories, ground/site constraints, load path, hazards, controls, personnel and emergency arrangements.',
-        'The lift plan should be suitable for the actual site and equipment configuration and should be reviewed when conditions or the lifting arrangement changes.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Centre of Gravity',
-      subtitle: 'The balance point that affects load stability',
-      details: [
-        'The centre of gravity must be understood before selecting lifting points and sling arrangement.',
-        'An incorrect rigging arrangement can cause the load to tilt, rotate, slide or swing during initial lifting.',
-        'Where the centre of gravity is uncertain, obtain reliable load information or engineering input before lifting.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Sling Angle & Load Distribution',
-      subtitle: 'Critical factor in multi-leg rigging',
-      details: [
-        'As the angle and configuration of sling legs change, the forces in the sling system can change significantly.',
-        'Do not assume that the total sling WLL equals the load weight. Confirm the approved configuration, manufacturer guidance and applicable rigging calculation.',
-        'Where a lift is complex or the load distribution is uncertain, use an engineered lifting arrangement.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Lifting Near Excavation',
-      subtitle: 'Additional control required when cranes or loads interact with excavations',
-      details: [
-        'Assess ground stability, excavation geometry, edge loading, underground services and the crane/outrigger position before lifting.',
-        'Keep crane loading and outriggers within the assessed safe arrangement. Do not rely on visual distance alone where ground stability is critical.',
-        'Coordinate the lifting plan with the excavation control plan and competent persons.',
-      ],
-    ),
-    DubaiDetailItem(
-      title: 'Lifting Near Scaffolding',
-      subtitle: 'Prevent impact, overloading and falling-object risks',
-      details: [
-        'Do not allow suspended loads to strike or overload scaffolding. Confirm the scaffold is suitable for any intended material loading arrangement.',
-        'Maintain exclusion zones below and around the lift. Any planned loading onto scaffold must follow the approved design/arrangement.',
-      ],
-    ),
-  ];
-
-  static const sections = <DubaiDetailSection>[
-    DubaiDetailSection(
-      '🏗️ Lifting Operations — Scope',
-      'Lifting operations include the planned raising, lowering, positioning or movement of loads using cranes, hoists or other lifting appliances. Safe lifting is a coordinated activity involving load information, equipment selection, rigging, ground/site conditions, competent people, communication, exclusion zones and emergency controls. The operation must match the actual site and equipment configuration.',
-    ),
-    DubaiDetailSection(
-      '🧩 Types & Classification of Lifts',
-      'Common categories include routine lifts, heavy lifts, critical/complex lifts, tandem or multiple-crane lifts and personnel lifting. The level of planning and engineering control should increase with the complexity and consequence of the lift. Personnel lifting requires specific approved equipment, procedures and controls and should never be treated as an ordinary material lift.',
-    ),
-    DubaiDetailSection(
-      '📋 How to Prepare a Lifting Plan — Step by Step',
-      '1. Define the Lifting Task\n'
-          '• What is being lifted?\n'
-          '• Pick-up location and final destination\n'
-          '• Purpose and planned sequence of the lift\n\n'
-          '2. Identify the Load\n'
-          '• Load description, weight and dimensions\n'
-          '• Centre of gravity\n'
-          '• Approved lifting points\n'
-          '• Loose, detachable or unstable parts\n\n'
-          '3. Select the Crane / Lifting Equipment\n'
-          '• Suitable crane or lifting appliance\n'
-          '• Rated capacity and configuration\n'
-          '• Manufacturer requirements and limitations\n\n'
-          '4. Determine the Operating Radius\n'
-          '• Crane position\n'
-          '• Pick-up and landing radius\n'
-          '• Boom/configuration requirements\n\n'
-          '5. Verify Lifting Capacity\n'
-          '• Check the applicable load chart\n'
-          '• Confirm the planned configuration\n'
-          '• Include relevant lifting accessories in the lift assessment\n\n'
-          '6. Assess Ground & Site Conditions\n'
-          '• Ground stability and bearing capacity\n'
-          '• Excavations, slopes and underground services\n'
-          '• Outrigger position and crane mats where required\n\n'
-          '7. Select & Inspect Lifting Accessories\n'
-          '• Slings, shackles, hooks and lifting beams\n'
-          '• Identification, WLL/SWL and inspection status\n'
-          '• Check for wear, damage and deformation\n\n'
-          '8. Define Lifting Points & Rigging Method\n'
-          '• Approved lifting points\n'
-          '• Centre of gravity and load balance\n'
-          '• Sling arrangement, angles and edge protection\n\n'
-          '9. Plan the Load Path\n'
-          '• Pick-up point to landing point\n'
-          '• Structures, obstacles, people and other plant\n'
-          '• Final landing and stabilization area\n\n'
-          '10. Establish the Exclusion Zone\n'
-          '• Barricade and control access\n'
-          '• Keep people away from suspended loads\n'
-          '• Prevent unauthorized entry\n\n'
-          '11. Assign the Lifting Team\n'
-          '• Appointed Person / Lift Planner, as applicable\n'
-          '• Lift Supervisor\n'
-          '• Crane Operator\n'
-          '• Rigger\n'
-          '• Banksman / Signalman\n\n'
-          '12. Establish Communication\n'
-          '• Radio or agreed communication method\n'
-          '• Standard hand signals\n'
-          '• Dedicated signalman and emergency stop signal\n'
-          '• Stop the lift if communication is lost\n\n'
-          '13. Assess Weather & Surroundings\n'
-          '• Wind, visibility, rain and dust\n'
-          '• Nearby structures and power lines\n'
-          '• Other cranes, plant, traffic or public interface\n\n'
-          '14. Conduct the Toolbox Talk\n'
-          '• Explain the lifting sequence\n'
-          '• Review hazards and controls\n'
-          '• Confirm roles, communication and emergency arrangements\n\n'
-          '15. Complete Pre-Lift Verification\n'
-          '• Crane and accessories ready\n'
-          '• Ground and work area acceptable\n'
-          '• Load secured and team competent\n'
-          '• Required authorization/permit completed where applicable\n\n'
-          '16. Execute the Lift\n'
-          '• Follow the approved lifting plan\n'
-          '• Conduct the lift in a controlled sequence\n'
-          '• Monitor the load continuously\n'
-          '• Stop immediately if conditions change\n'
-          '• Land and secure the load safely\n\n'
-          'The exact lifting-plan format should follow applicable Dubai requirements, project procedures, manufacturer instructions and the complexity of the lift.',
-    ),
-    DubaiDetailSection(
-      '🧮 Load Assessment & Rigging Calculations',
-      'The planning team should verify the actual load weight rather than relying on estimates. Consider the load centre of gravity, lifting points, accessory weights, sling configuration, angles, radius and crane configuration. For complex or non-standard lifts, use an appropriate engineering calculation or approved lifting design. Any uncertainty should be resolved before the lift starts.',
-    ),
-    DubaiDetailSection(
-      '📏 Technical Requirements',
-      'Use suitable and inspected lifting appliances and accessories. Verify identification, rated capacity/WLL and inspection status. Confirm the crane configuration, load chart, radius, ground condition, stabilisation/outriggers and safe operating area. Provide competent personnel, effective communication, a controlled exclusion zone and a suitable landing area. Exact capacity, dimensions and operational limits must come from the applicable equipment documentation, manufacturer instructions, approved design and current Dubai/project requirements rather than a generic fixed number.',
-    ),
-    DubaiDetailSection(
-      '⚠️ Main Lifting Hazards',
-      'Dropped loads; crane overturning; sling, shackle or hook failure; overload; unstable ground; load swing; uncontrolled rotation; crushing and pinch points; struck-by incidents; collision with structures or plant; contact with overhead services; poor visibility; high wind; communication failure; unauthorised persons entering the lifting zone; and unsafe interaction with excavations, scaffolds or temporary works.',
-    ),
-    DubaiDetailSection(
-      '🛡️ Hierarchy of Safety Controls',
-      'Start with safe planning and engineering controls. Select the right lifting equipment, reduce unnecessary suspended-load exposure, design the load path, isolate people from the line of fire, use competent personnel, inspect equipment and accessories, control access, maintain communication and provide suitable PPE. Administrative controls and PPE should support, not replace, sound planning and engineering controls.',
-    ),
-    DubaiDetailSection(
-      '🔍 Pre-Lift Inspection & Readiness Check',
-      'Confirm: load identity and weight; lifting points; crane/appliance condition; load chart/configuration; hook and latch; rope/chain; slings; shackles; beams/frames; stabilisers/outriggers; ground and crane position; excavation/edge conditions; overhead hazards; weather/wind; load path; landing area; exclusion zone; communication; competent team; required permits/authorisations; and emergency arrangements. If any critical item is not satisfactory, do not start the lift.',
-    ),
-    DubaiDetailSection(
-      '🪝 Lifting Accessories — Selection & Inspection',
-      'Accessories must be suitable for the load and configuration. Check identification and rated capacity/WLL, physical condition and compatibility. Inspect web slings for cuts/tears and damaged stitching; wire rope for broken wires, crushing, kinks and corrosion; chains for deformation/wear; shackles for damage and pin condition; hooks for deformation and latch condition; and beams/frames for identification, damage and approved configuration. Remove defective or unidentified equipment from service according to site procedure.',
-    ),
-    DubaiDetailSection(
-      '🚧 Exclusion Zone & Load Path',
-      'The lifting zone must be controlled so that workers and other persons are not exposed to suspended loads or moving equipment. The load path should be planned before the lift and should consider structures, scaffolding, excavations, temporary works, vehicles, electrical services, public areas and other simultaneous activities. The load should never travel over people where this can be avoided.',
-    ),
-    DubaiDetailSection(
-      '👷 Lifting Team Responsibilities',
-      'The planning function establishes the safe lifting arrangement; the lift supervisor controls execution; the crane operator operates the appliance within approved limits; the rigger selects, inspects and connects lifting accessories and monitors the load; and the banksman/signalman controls movement through agreed communication. HSE personnel support monitoring and intervention according to the project system. Everyone has a duty to stop an unsafe operation.',
-    ),
-    DubaiDetailSection(
-      '🔄 Safe Lift Sequence',
-      'BRIEF → INSPECT → POSITION → RIG → CLEAR AREA → TEST/SLIGHTLY LIFT → CHECK BALANCE → LIFT UNDER CONTROL → MONITOR LOAD PATH → POSITION → LOWER → STABILISE → RELEASE RIGGING SAFELY → CLOSE OUT. The actual sequence must follow the approved lift plan and equipment requirements.',
-    ),
-    DubaiDetailSection(
-      '🛑 Stop-Work Conditions',
-      'Stop the lift for unknown load weight, damaged or unidentified accessories, overload, unstable ground, unexpected crane movement, excessive or uncontrolled load swing, loss of communication, poor visibility, unsafe weather/wind, people entering the exclusion zone, contact/near-contact with services or structures, equipment alarms/defects, change in the approved lifting arrangement, or any condition that makes the lift different from the assessed safe plan.',
-    ),
-    DubaiDetailSection(
-'HSE ROLES DURING LIFTING OPERATIONS\n' +
-'\n' +
-'HSE Officer\n' +
-'Before Lift:\n' +
-'1. Verify the approved lifting plan, method statement and risk assessment.\n' +
-'2. Check equipment inspection/certification status and competency records.\n' +
-'3. Verify exclusion-zone and site HSE controls.\n' +
-'During Lift:\n' +
-'4. Monitor HSE compliance and unsafe conditions.\n' +
-'5. Intervene when controls are bypassed or people enter controlled areas.\n' +
-'6. Escalate or initiate stop-work for immediate serious risk.\n' +
-'After Lift:\n' +
-'7. Record observations, incidents/near misses and corrective actions.\n' +
-'\n' +
-'Senior HSE\n' +
-'1. Review high-risk or critical lifting arrangements.\n' +
-'2. Verify major risk controls and contractor interfaces.\n' +
-'3. Provide senior HSE oversight during significant lifts.\n' +
-'4. Escalate serious deviations and follow corrective actions.\n' +
-'5. Review lessons learned and recurring lifting risks.\n' +
-'\n' +
-'HSE Coordinator\n' +
-'1. Coordinate lifting-related HSE documents and contractor submissions.\n' +
-'2. Track toolbox talks, inspections, permits and competency records.\n' +
-'3. Coordinate communication between project, contractor and HSE teams.\n' +
-'4. Record documentation gaps and significant changes.\n' +
-'5. Track closure of HSE actions.\n' +
-'\n' +
-'HSE Engineer\n' +
-'1. Review lifting risk assessments and engineering HSE interfaces.\n' +
-'2. Assess ground, excavation, structural, temporary-works and service interfaces.\n' +
-'3. Coordinate technical concerns with responsible lifting/engineering personnel.\n' +
-'4. Monitor whether technical controls remain suitable as conditions change.\n' +
-'5. Escalate instability or unexpected movement immediately.\n' +
-'6. Document technical observations and recommend corrective actions.\n' +
-'\n' +
-'HSE Manager\n' +
-'1. Establish and review project HSE requirements for lifting.\n' +
-'2. Verify suitable competent-person arrangements and contractor controls.\n' +
-'3. Review escalated high-risk or critical lifting activities as required.\n' +
-'4. Provide management-level HSE oversight.\n' +
-'5. Support suspension/escalation for serious non-compliance.\n' +
-'6. Review major incidents, trends and corrective actions.\n' +
-'\n' +
-'Important:\n' +
-'HSE titles do not automatically replace the operational lifting roles. The lifting plan should clearly identify the competent/authorized Lift Planner or Appointed Person (as applicable), Lift Supervisor, Crane Operator, Rigger and Banksman/Signalman.\n' +
-'\n' +
-'Emergency Response\n' +
-'1. Stop the lift and make the area safe.\n' +
-'2. Raise the alarm and maintain the exclusion zone.\n' +
-'3. Contact the designated emergency response team.\n' +
-'4. Do not approach a suspended or unstable load unless safe to do so.\n' +
-'5. Preserve the scene after the immediate emergency is controlled.'
-
-Emergency Response',
-      'For a dropped load, crane instability, equipment failure, injury or electrical contact: STOP the operation, keep people away, isolate the area, raise the alarm, call the site emergency response, provide first aid only within competence, do not approach a potentially energised area, secure equipment when safe, preserve the scene as required and report/investigate the incident according to the project emergency and incident-management system.',
-    ),
-    DubaiDetailSection(
-      '🏗️ Interaction with Excavation, Scaffolding & Temporary Works',
-      'Lifting must be coordinated with other high-risk activities. Near excavations, assess ground and edge stability and crane positioning. Near scaffolding, prevent impact and unauthorised loading. For temporary works and structural components, confirm stability during lifting and landing. The lifting plan should identify these interfaces and assign controls before work begins.',
-    ),
-    DubaiDetailSection(
-      '📍 Practical Site Example — HVAC Equipment Lift',
-      'Task: lift an HVAC unit to a prepared landing area. Sequence: confirm unit identity and actual weight → identify centre of gravity and approved lifting points → select crane and configuration → confirm radius/capacity → assess ground and stabilisation → select/inspect slings and shackles → protect sharp edges → establish load path and exclusion zone → brief operator, rigger, signalman and supervisor → conduct controlled trial lift → verify balance and connections → lift slowly under continuous communication → position over the landing area → lower onto stable supports → secure the unit → remove rigging only when safe → complete close-out inspection.',
-    ),
-    DubaiDetailSection(
-      '🧠 Quick Learning Formula',
-      'PLAN → ASSESS → SELECT → INSPECT → RIG → EXCLUDE → COMMUNICATE → TEST → LIFT → CONTROL → LAND → CLOSE OUT. A safe lift is not just a crane movement; it is a planned system of people, equipment, load, environment and controls.',
     ),
   ];
 
@@ -642,9 +538,9 @@ Emergency Response',
       title: 'Lifting Operations — Dubai HSE',
       emoji: '🏗️',
       introduction:
-          'A lifting operation is a planned activity in which a load is raised, lowered, moved or positioned using a crane, hoist or other lifting appliance. The safe outcome depends on understanding the load, selecting suitable equipment and accessories, assessing the site, assigning competent people, controlling the load path and preventing people from entering the line of fire. This module is designed to help an HSE professional understand the complete lifting process—from identifying the lift and preparing the lifting plan to rigging, execution, landing and emergency response.',
+          'A lifting operation is a planned activity in which a load is raised, lowered, moved or positioned using a crane, hoist or other lifting appliance. Safe lifting depends on understanding the load, selecting suitable equipment and accessories, assessing the site, assigning competent people, controlling the load path and preventing exposure to suspended loads. This module covers the complete process from lifting-plan preparation and rigging to controlled execution, landing and emergency response.',
       sections: sections,
-      tappableItems: items,
+      tappableItems: tappableItems,
     );
   }
 }
