@@ -1,14 +1,29 @@
-SafeNexus HSE — Dubai Dedicated Pages V2
-
-Files:
-lib/dubai_hse_topic_router.dart
-lib/pages/dubai/scaffolding_safety_page.dart
+SafeNexus HSE — Excavation & Trenching
+Single file:
 lib/pages/dubai/excavation_trenching_page.dart
-lib/pages/dubai/lifting_operations_page.dart
 
-The three pages are dedicated topic pages with tappable topic types/components
-and individual detail screens.
+Replace the existing excavation_trenching_page.dart with this file.
+No separate advanced-learning Dart file is required.
 
-IMPORTANT:
-Connect Dubai topic navigation to DubaiDedicatedPageRouter.pageFor(topic.id)
-before the old generic Dubai detail route. Do not delete existing modules.
+Includes:
+- Introduction
+- Excavation types
+- Protection systems
+- Technical requirements
+- Risk assessment & planning
+- Hazards
+- Shoring / trench box / benching / sloping
+- Access & egress
+- Underground services
+- Water & dewatering
+- Plant / vehicles / spoil
+- Inspection
+- Stop-work
+- Competent person
+- Worker responsibilities
+- Emergency response
+- Practical site example
+- Quick learning formula
+- Rigger / plant interface
+- HSE role detail page in same file
+- Small right chevron navigation
