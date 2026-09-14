@@ -42,7 +42,7 @@ class DubaiHseItemDetailPage extends StatelessWidget {
 class _DetailItem { final String title; final String detail; const _DetailItem({required this.title, required this.detail}); }
 class _TopicData { final String title; final String intro; final List<_DetailItem> types; final List<_DetailItem> items; final Map<String,List<_DetailItem>> sections; const _TopicData({required this.title,required this.intro,required this.types,required this.items,required this.sections}); }
 
-const Map<String, _TopicData> _topicData = {
+final Map<String, _TopicData> _topicData = {
   'dubai_construction_safety': _TopicData(
     title: 'Dubai Construction Safety Framework',
     intro: 'A Dubai construction HSE framework for planning, organising, supervising and controlling construction activities so that workers, the public, property and the environment are protected throughout the project lifecycle.',
