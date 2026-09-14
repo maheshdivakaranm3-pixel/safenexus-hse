@@ -1,623 +1,562 @@
 import 'package:flutter/material.dart';
+import 'dubai_hse_part1_advanced_learning_page.dart';
 
-/// SafeNexus HSE — Dubai HSE Part 1
-/// Topics 1–10
-///
-/// Professional, English-only Dubai HSE learning module.
-/// Important technical/legal limits should always follow the applicable
-/// current Dubai requirement, approved design, competent-person assessment,
-/// and manufacturer instructions.
+// SAFE NEXUS HSE — Dubai HSE Part 1 / Topics 1–10
+// Same structure and interaction pattern as Lifting Operations.
+// Main topic → section → small > → Advanced Learning.
 
 class DubaiPart1Item {
-  final String title;
-  final String subtitle;
-  final List<String> details;
-
-  const DubaiPart1Item({
-    required this.title,
-    required this.subtitle,
-    required this.details,
-  });
+  final String title; final String detail;
+  const DubaiPart1Item({required this.title, required this.detail});
 }
 
 class DubaiPart1Section {
-  final String title;
-  final String body;
-  final List<DubaiPart1Item> items;
-  final bool initiallyExpanded;
-
-  const DubaiPart1Section({
-    required this.title,
-    required this.body,
-    this.items = const [],
-    this.initiallyExpanded = false,
-  });
+  final String title; final String content; final List<DubaiPart1Item> items; final bool initiallyExpanded;
+  const DubaiPart1Section({required this.title, required this.content, this.items = const [], this.initiallyExpanded = false});
 }
 
-class DubaiHsePart1Page extends StatelessWidget {
-  const DubaiHsePart1Page({super.key});
-
-  static const List<String> topicTitles = [
-    '1. Dubai Construction Safety Framework',
-    '2. HSE Management System',
-    '3. Health & Safety Risk Assessment',
-    '4. Construction HSE Plan',
-    '5. Work at Height',
-    '6. Scaffolding Safety',
-    '7. Lifting Operations',
-    '8. Excavation & Trenching',
-    '9. Confined Space Entry',
-    '10. Electrical Safety',
-  ];
-
-  static const List<String> topicDescriptions = [
-    'Understand the Dubai construction safety framework, governance, site controls, supervision and compliance structure.',
-    'Build a practical HSE management system covering leadership, planning, implementation, monitoring, corrective action and continual improvement.',
-    'Identify hazards, evaluate risk, select controls and verify that controls remain effective before and during work.',
-    'Understand how a project HSE plan converts legal, client and project requirements into site-level controls and responsibilities.',
-    'Control falls, falling objects, fragile surfaces, access systems and rescue arrangements whenever work is performed at height.',
-    'Control scaffold selection, erection, alteration, inspection, tagging, access, loading and dismantling.',
-    'Plan and control lifting operations, lifting accessories, crane setup, rigging, communication, exclusion zones and emergency response.',
-    'Control excavation collapse, underground services, access, water, plant interaction, spoil and protective systems.',
-    'Control atmospheric, engulfment, access, isolation, rescue and supervision risks in confined spaces.',
-    'Control electrical energy, temporary installations, isolation, inspection, competent persons, protection and emergency response.',
-  ];
-
-  static const List<String> topicEmojis = [
-    '🏗️',
-    '🦺',
-    '⚠️',
-    '📋',
-    '🪜',
-    '🏗️',
-    '🏗️',
-    '🕳️',
-    '🫁',
-    '⚡',
-  ];
-
-  static const List<String> topicIds = [
-    'dubai_construction_safety_framework',
-    'dubai_hse_management_system',
-    'dubai_health_safety_risk_assessment',
-    'dubai_construction_hse_plan',
-    'dubai_work_at_height',
-    'dubai_scaffolding_safety',
-    'dubai_lifting_operations',
-    'dubai_excavation_trenching',
-    'dubai_confined_space_entry',
-    'dubai_electrical_safety',
-  ];
-
-  static final List<DubaiPart1Section> _sections = [
-    DubaiPart1Section(
-      title: 'Part 1 — Topics 1–10',
-      body:
-          'Ten core Dubai construction HSE subjects covering management, risk, planning and major high-risk construction activities.',
-      initiallyExpanded: true,
-      items: [
-        for (int i = 0; i < 10; i++)
-          DubaiPart1Item(
-            title: topicTitles[i],
-            subtitle: topicDescriptions[i],
-            details: _topicDetails[i],
-          ),
-      ],
-    ),
-  ];
-
-  static final List<List<String>> _topicDetails = [
-    [
-      'Purpose: establish the project safety framework before construction activities begin.',
-      'Governance: define client, principal contractor, consultant, subcontractor and workforce HSE responsibilities.',
-      'Planning: identify applicable Dubai requirements, project specifications, risk controls, permits and emergency arrangements.',
-      'Site implementation: translate requirements into inductions, toolbox talks, inspections, permits, supervision and records.',
-      'Leadership: provide visible management commitment, adequate resources and authority to stop unsafe work.',
-      'Assurance: monitor compliance through inspections, audits, observations, incident learning and corrective actions.',
-      'Field check: verify that the written system is actually implemented at the workface.',
-    ],
-    [
-      'Leadership and commitment: management sets measurable HSE expectations and provides resources.',
-      'Policy and objectives: define clear project HSE objectives, responsibilities and performance indicators.',
-      'Planning: identify hazards, legal requirements, significant risks, controls and emergency needs.',
-      'Implementation: establish competence, communication, permits, procedures, supervision and document control.',
-      'Monitoring: use inspections, audits, observations, incident data and leading indicators.',
-      'Corrective action: assign owners, deadlines and verification for findings.',
-      'Continual improvement: use lessons learned and trend analysis to improve the system.',
-    ],
-    [
-      'Scope the activity: define task, location, workforce, equipment, interfaces and sequence.',
-      'Hazard identification: identify hazards from normal, abnormal, maintenance and emergency conditions.',
-      'Risk evaluation: assess likelihood and consequence using the approved project risk matrix.',
-      'Hierarchy of controls: prioritize elimination, substitution, engineering controls, administrative controls and PPE.',
-      'Residual risk: confirm remaining risk is acceptable and communicate critical controls.',
-      'Dynamic review: update the assessment when conditions, design, method, equipment or workforce changes.',
-      'Field verification: supervisor and HSE personnel confirm controls are present before work starts.',
-    ],
-    [
-      'Project profile: define scope, work phases, interfaces, workforce and high-risk activities.',
-      'HSE organization: identify HSE leadership, competent persons, supervisors and operational responsibilities.',
-      'Risk management: link risk assessments, method statements, RAMS and permit controls to actual work.',
-      'Training and competence: establish induction, task-specific training, authorization and refresher needs.',
-      'Emergency preparedness: define scenarios, alarms, communication, first aid, rescue and external response.',
-      'Inspection and monitoring: set inspection schedules, audits, observations and performance indicators.',
-      'Incident management: establish reporting, investigation, corrective action and lessons-learned processes.',
-    ],
-    [
-      'Planning: identify all work-at-height tasks, access methods, fall hazards and rescue requirements.',
-      'Access systems: select suitable scaffold, tower, MEWP, ladder or other approved access equipment.',
-      'Fall prevention: prioritize collective protection such as guardrails, edge protection and safe platforms.',
-      'Fall arrest: where required, use compatible systems with suitable anchorage and a practical rescue plan.',
-      'Falling objects: control tools and materials with toe boards, exclusion zones, securing systems and housekeeping.',
-      'Fragile surfaces: identify skylights, weak roofs, openings and other fragile areas before access.',
-      'Inspection: verify equipment, access routes, edge protection and weather conditions before and during work.',
-    ],
-    [
-      'Selection: choose a scaffold system suitable for height, configuration, loading, environment and intended use.',
-      'Foundation: provide stable support using suitable base arrangements and prevent settlement or movement.',
-      'Structure: ensure standards, ledgers, transoms, braces, ties, platforms and access are correctly installed.',
-      'Edge protection: provide suitable guardrails, intermediate protection and toe boards where required.',
-      'Access: maintain safe ladder, stair or other approved access without unsafe climbing on scaffold components.',
-      'Inspection and tagging: inspect after erection, after relevant changes/events and at required intervals; maintain status identification.',
-      'Modification: only authorized competent persons should alter scaffold; unauthorized removal of ties or components is prohibited.',
-      'Loading: keep materials within the approved design load and prevent unsafe stacking or overloading.',
-      'Dismantling: follow a controlled sequence with exclusion zones, supervision and prevention of falling components.',
-    ],
-    [
-      'Lift planning: define load, weight, centre of gravity, lifting points, route, landing area and equipment selection.',
-      'Crane setup: verify ground condition, outrigger support, clearance, configuration and manufacturer limitations.',
-      'Lifting accessories: inspect and select slings, shackles, hooks, spreaders and other accessories suitable for the load.',
-      'Rigging: ensure correct sling configuration, protection from sharp edges and secure connections.',
-      'Communication: establish one recognized signaler/banksman system and reliable communication.',
-      'Exclusion zone: prevent people from entering the suspended-load and line-of-fire area.',
-      'Weather and environment: stop or modify the lift when wind, visibility, lightning or other conditions exceed safe limits.',
-      'Pre-lift verification: confirm crane, accessories, permits, competence, plan and site conditions before lifting.',
-      'Emergency: establish a clear response for dropped load, crane instability, contact, injury or equipment failure.',
-    ],
-    [
-      'Planning: identify excavation depth, soil conditions, nearby structures, services, water and plant interfaces.',
-      'Protective system: select an engineered shoring, trench box, benching or sloping arrangement appropriate to the conditions.',
-      'Edge protection: prevent people, vehicles and materials from entering the excavation unintentionally.',
-      'Access: provide safe ladder, stair or other approved means of entry and exit.',
-      'Services: identify, verify and control underground utilities before excavation.',
-      'Water control: assess groundwater, rainwater, leakage and dewatering effects on stability.',
-      'Spoil control: keep excavated material and plant away from unstable edges in accordance with the approved design.',
-      'Inspection: competent-person inspections are required before entry and whenever conditions could affect stability.',
-      'Emergency: establish rescue arrangements for collapse, flooding, service strike, fall or atmospheric hazard.',
-    ],
-    [
-      'Definition: identify spaces not designed for continuous occupancy that can create serious safety or health hazards.',
-      'Entry authorization: use the project confined-space entry and permit process where applicable.',
-      'Isolation: isolate and verify energy, process lines, gases, mechanical equipment and other hazards.',
-      'Atmospheric testing: test oxygen, flammable gases/vapours and relevant toxic contaminants before entry and as required during work.',
-      'Ventilation: provide suitable ventilation and prevent hazardous atmosphere accumulation.',
-      'Personnel: ensure entrants, attendants and supervisors are trained and competent for their roles.',
-      'Communication: maintain reliable communication between entrants and the attendant.',
-      'Rescue: provide a site-specific rescue plan, equipment and trained responders; do not rely on improvised rescue.',
-      'Stop work: immediately withdraw personnel when atmospheric or other conditions become unsafe.',
-    ],
-    [
-      'Electrical planning: identify sources, circuits, temporary supplies, equipment and interfaces.',
-      'Isolation: use an approved isolation and lockout/tagout process before work on hazardous energy.',
-      'Competence: electrical work must be performed by appropriately competent and authorized personnel.',
-      'Temporary installations: protect cables, distribution boards, sockets and connections from damage, water and unauthorized access.',
-      'Protection: use suitable protective devices, earthing/bonding and residual-current protection as required by the installation.',
-      'Inspection: inspect electrical equipment, leads, tools, panels and temporary systems at defined intervals.',
-      'Environment: consider wet areas, conductive locations, heat, dust, mechanical damage and simultaneous operations.',
-      'Emergency: establish response for electric shock, arc event, fire and damaged electrical infrastructure.',
-      'Stop work: isolate the area when exposed live parts, damaged equipment or unsafe temporary arrangements are identified.',
-    ],
-  ];
-
-  static const List<DubaiPart1Section> _roleSections = [
-    DubaiPart1Section(
-      title: '🦺 HSE Roles — Part 1 Topic Responsibilities',
-      body:
-          'The six HSE roles below are kept together at the end of Part 1. Tap a role to see topic-specific responsibilities.',
-      items: [
-        DubaiPart1Item(
-          title: 'HSE Officer',
-          subtitle: 'Field-level monitoring and verification across Topics 1–10.',
-          details: [
-            'Topic 1 — Framework: verify site implementation, inductions, inspections and critical controls.',
-            'Topic 2 — HSE Management System: maintain field monitoring, records and corrective-action follow-up.',
-            'Topic 3 — Risk Assessment: participate in hazard identification and verify critical controls at the workface.',
-            'Topic 4 — HSE Plan: monitor implementation of project HSE procedures and report gaps.',
-            'Topic 5 — Work at Height: inspect access, edge protection, fall protection and housekeeping.',
-            'Topic 6 — Scaffolding: verify tagging, access, condition, loading and unauthorized modification controls.',
-            'Topic 7 — Lifting: verify exclusion zones, rigging controls, permits, signaling and pre-lift requirements.',
-            'Topic 8 — Excavation: verify protection systems, access, edge controls, services and inspection status.',
-            'Topic 9 — Confined Space: verify permit, isolation, testing, attendant and rescue arrangements.',
-            'Topic 10 — Electrical: verify temporary systems, protection, isolation controls and safe equipment condition.',
-          ],
-        ),
-        DubaiPart1Item(
-          title: 'HSE Supervisor',
-          subtitle: 'Supervisory control, workforce compliance and immediate intervention.',
-          details: [
-            'Topic 1 — Framework: enforce site HSE requirements and intervene when controls fail.',
-            'Topic 2 — HSE Management System: coordinate daily implementation and close field findings.',
-            'Topic 3 — Risk Assessment: confirm crews understand task risks and critical controls.',
-            'Topic 4 — HSE Plan: translate project requirements into daily site supervision.',
-            'Topic 5 — Work at Height: verify safe access, fall prevention and rescue readiness.',
-            'Topic 6 — Scaffolding: prevent unauthorized use or modification and verify safe status.',
-            'Topic 7 — Lifting: control workface interfaces, banksman/signaler arrangements and exclusion zones.',
-            'Topic 8 — Excavation: maintain protective systems, access, edge controls and safe plant separation.',
-            'Topic 9 — Confined Space: confirm entry controls, communication and continuous supervision.',
-            'Topic 10 — Electrical: stop unsafe temporary electrical work and coordinate isolation requirements.',
-          ],
-        ),
-        DubaiPart1Item(
-          title: 'Senior HSE',
-          subtitle: 'Senior assurance, trend analysis and escalation of significant risk.',
-          details: [
-            'Topic 1 — Framework: assure project-wide compliance and escalate systemic gaps.',
-            'Topic 2 — HSE Management System: review performance trends and management actions.',
-            'Topic 3 — Risk Assessment: challenge high-risk assessments and verify control effectiveness.',
-            'Topic 4 — HSE Plan: assure alignment between project execution and HSE strategy.',
-            'Topic 5 — Work at Height: review high-risk work-at-height arrangements and rescue capability.',
-            'Topic 6 — Scaffolding: assure competent erection, inspection, tagging and modification controls.',
-            'Topic 7 — Lifting: review critical lifts, interfaces, planning and operational assurance.',
-            'Topic 8 — Excavation: assure engineered protection and controls around critical excavations.',
-            'Topic 9 — Confined Space: assure permit, isolation, atmospheric and rescue systems.',
-            'Topic 10 — Electrical: assure energy isolation, temporary power and electrical safety governance.',
-          ],
-        ),
-        DubaiPart1Item(
-          title: 'HSE Coordinator',
-          subtitle: 'Cross-discipline coordination, documentation and interface management.',
-          details: [
-            'Topic 1 — Framework: coordinate client, consultant, contractor and subcontractor HSE interfaces.',
-            'Topic 2 — HSE Management System: coordinate reporting, action tracking and document control.',
-            'Topic 3 — Risk Assessment: coordinate review of interface risks and control ownership.',
-            'Topic 4 — HSE Plan: maintain alignment between project phases, contractors and HSE deliverables.',
-            'Topic 5 — Work at Height: coordinate simultaneous operations and access-system interfaces.',
-            'Topic 6 — Scaffolding: coordinate scaffold handover, tagging and interface controls.',
-            'Topic 7 — Lifting: coordinate lifting plans, work permits, traffic and exclusion-zone interfaces.',
-            'Topic 8 — Excavation: coordinate service information, plant, access and adjacent-work interfaces.',
-            'Topic 9 — Confined Space: coordinate permits, isolation owners, rescue and emergency interfaces.',
-            'Topic 10 — Electrical: coordinate isolation, temporary power interfaces and competent-person involvement.',
-          ],
-        ),
-        DubaiPart1Item(
-          title: 'HSE Engineer',
-          subtitle: 'Technical HSE assurance, risk controls and engineering interfaces.',
-          details: [
-            'Topic 1 — Framework: provide technical interpretation and assurance of project HSE controls.',
-            'Topic 2 — HSE Management System: support technical procedures, indicators and improvement actions.',
-            'Topic 3 — Risk Assessment: review high-risk technical hazards and adequacy of control measures.',
-            'Topic 4 — HSE Plan: support technical HSE planning and integration with construction methodology.',
-            'Topic 5 — Work at Height: review engineered access, fall-protection and rescue arrangements.',
-            'Topic 6 — Scaffolding: verify design/interface requirements, loading, stability and modification controls.',
-            'Topic 7 — Lifting: review lifting equipment selection, ground/interface conditions and critical lift controls.',
-            'Topic 8 — Excavation: review protective systems, adjacent structures, services and ground stability controls.',
-            'Topic 9 — Confined Space: review isolation, atmospheric hazards, ventilation and rescue engineering.',
-            'Topic 10 — Electrical: review isolation, protection, temporary distribution and electrical risk controls.',
-          ],
-        ),
-        DubaiPart1Item(
-          title: 'HSE Manager',
-          subtitle: 'Project leadership, governance, resources and final HSE assurance.',
-          details: [
-            'Topic 1 — Framework: lead governance, compliance strategy, resources and management accountability.',
-            'Topic 2 — HSE Management System: own system effectiveness, performance review and continual improvement.',
-            'Topic 3 — Risk Assessment: ensure significant risks have competent review and adequate resources.',
-            'Topic 4 — HSE Plan: approve and drive project HSE strategy and implementation.',
-            'Topic 5 — Work at Height: assure high-risk work-at-height governance and emergency capability.',
-            'Topic 6 — Scaffolding: assure competent-person arrangements, inspection governance and critical findings.',
-            'Topic 7 — Lifting: assure critical-lift governance, competent teams and stop-work authority.',
-            'Topic 8 — Excavation: assure engineered protection, competent inspection and emergency preparedness.',
-            'Topic 9 — Confined Space: assure permit, isolation, testing, rescue and competence systems.',
-            'Topic 10 — Electrical: assure electrical safety governance, isolation standards and emergency arrangements.',
-          ],
-        ),
-      ],
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      appBar: AppBar(
-        title: const Text(
-          'Dubai HSE — Part 1',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-        children: [
-          _introCard(),
-          const SizedBox(height: 14),
-          ..._buildTopicCards(context),
-          const SizedBox(height: 10),
-          ..._roleSections.map(
-            (section) => _sectionCard(context, section),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _introCard() {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Dubai HSE Topics 1–10',
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Core construction HSE management and high-risk activity controls.',
-              style: TextStyle(fontSize: 14, height: 1.45),
-            ),
-            SizedBox(height: 12),
-            Text(
-              'Tap any topic to open Advanced Learning.',
-              style: TextStyle(fontWeight: FontWeight.w700),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildTopicCards(BuildContext context) {
-    return List<Widget>.generate(10, (index) {
-      final item = _sections.first.items[index];
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: _tappableCard(
-          context,
-          item,
-          emoji: topicEmojis[index],
-        ),
-      );
-    });
-  }
-
-  Widget _sectionCard(
-    BuildContext context,
-    DubaiPart1Section section,
-  ) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ExpansionTile(
-        initiallyExpanded: section.initiallyExpanded,
-        title: Text(
-          section.title,
-          style: const TextStyle(fontWeight: FontWeight.w800),
-        ),
-        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              section.body,
-              style: const TextStyle(height: 1.45),
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...section.items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: _tappableCard(context, item),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _tappableCard(
-    BuildContext context,
-    DubaiPart1Item item, {
-    String? emoji,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(15),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(15),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => DubaiPart1AdvancedLearningPage(item: item),
-            ),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: const Color(0xFFE2E8E5)),
-          ),
-          child: Row(
-            children: [
-              if (emoji != null) ...[
-                Text(emoji, style: const TextStyle(fontSize: 23)),
-                const SizedBox(width: 11),
-              ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      item.subtitle,
-                      style: const TextStyle(
-                        fontSize: 12.5,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.chevron_right,
-                size: 21,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+class DubaiHsePart1TopicPage extends StatelessWidget {
+  final String topicId;
+  const DubaiHsePart1TopicPage({super.key, required this.topicId});
+  DubaiPart1Topic get topic => DubaiPart1Data.topic(topicId);
+  @override Widget build(BuildContext context) => Scaffold(
+    backgroundColor: const Color(0xFFF5F8F7),
+    appBar: AppBar(backgroundColor: const Color(0xFFEAF4F0), foregroundColor: const Color(0xFF17231F), elevation: 0, title: Text(topic.title, maxLines: 1, overflow: TextOverflow.ellipsis)),
+    body: ListView(padding: const EdgeInsets.fromLTRB(16,16,16,32), children:[_HeaderCard(title:topic.title,subtitle:topic.subtitle,description:topic.description,icon:topic.icon),const SizedBox(height:14),...topic.sections.map((s)=>_SectionCard(section:s,topicId:topic.id,topicTitle:topic.title))]),
+  );
 }
 
-class DubaiPart1AdvancedLearningPage extends StatelessWidget {
-  final DubaiPart1Item item;
+class _HeaderCard extends StatelessWidget {
+  final String title, subtitle, description; final IconData icon;
+  const _HeaderCard({required this.title,required this.subtitle,required this.description,required this.icon});
+  @override Widget build(BuildContext context)=>Card(elevation:2,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(22)),child:Container(padding:const EdgeInsets.all(20),decoration:BoxDecoration(borderRadius:BorderRadius.circular(22),gradient:const LinearGradient(colors:[Color(0xFFE8F6F0),Color(0xFFF8FBFA)])),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+    Row(children:[Container(width:58,height:58,decoration:BoxDecoration(color:const Color(0xFF0B7653),borderRadius:BorderRadius.circular(17)),child:Icon(icon,color:Colors.white,size:31)),const SizedBox(width:14),Expanded(child:Text(title,style:const TextStyle(fontSize:27,height:1.12,fontWeight:FontWeight.w800,color:Color(0xFF10231D))))]),
+    const SizedBox(height:14),Text(subtitle.toUpperCase(),style:const TextStyle(fontSize:13,fontWeight:FontWeight.w800,letterSpacing:.5,color:Color(0xFF075C45))),const SizedBox(height:10),Text(description,style:const TextStyle(fontSize:16,height:1.5)),
+  ])));
+}
 
-  const DubaiPart1AdvancedLearningPage({
-    super.key,
-    required this.item,
-  });
+class _SectionCard extends StatelessWidget {
+  final DubaiPart1Section section; final String topicId, topicTitle;
+  const _SectionCard({required this.section,required this.topicId,required this.topicTitle});
+  @override Widget build(BuildContext context)=>Card(margin:const EdgeInsets.only(bottom:12),elevation:1.5,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(19)),clipBehavior:Clip.antiAlias,child:ExpansionTile(initiallyExpanded:section.initiallyExpanded,tilePadding:const EdgeInsets.symmetric(horizontal:18,vertical:5),childrenPadding:const EdgeInsets.fromLTRB(16,0,16,17),iconColor:const Color(0xFF237A5C),title:Text(section.title,style:const TextStyle(fontSize:19,fontWeight:FontWeight.w800)),children:[
+    if(section.content.trim().isNotEmpty) Padding(padding:const EdgeInsets.fromLTRB(4,0,4,12),child:Text(section.content,style:const TextStyle(fontSize:15.5,height:1.5))),
+    ...section.items.map((item)=>_ItemTile(topicId:topicId,topicTitle:topicTitle,item:item)),
+  ]));
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F8F7),
-      appBar: AppBar(
-        title: const Text(
-          'Advanced Learning',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-        children: [
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title,
-                    style: const TextStyle(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item.subtitle,
-                    style: const TextStyle(height: 1.45),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 14),
-          ...List<Widget>.generate(item.details.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 9),
-              child: _numberedDetail(
-                number: index + 1,
-                text: item.details[index],
-              ),
-            );
-          }),
-          const SizedBox(height: 6),
-          _fieldVerificationCard(),
-        ],
-      ),
-    );
-  }
+class _ItemTile extends StatelessWidget {
+  final String topicId, topicTitle; final DubaiPart1Item item;
+  const _ItemTile({required this.topicId,required this.topicTitle,required this.item});
+  @override Widget build(BuildContext context)=>Card(margin:const EdgeInsets.only(bottom:8),elevation:0,color:const Color(0xFFF4F8F6),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14),side:const BorderSide(color:Color(0xFFD7E7E0))),child:InkWell(borderRadius:BorderRadius.circular(14),onTap:()=>Navigator.of(context).push(MaterialPageRoute(builder:(_)=>DubaiHsePart1AdvancedLearningPage(topicId:topicId,title:item.title,summary:item.detail,topicTitle:topicTitle))),child:Padding(padding:const EdgeInsets.fromLTRB(18,15,12,15),child:Row(children:[Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(item.title,style:const TextStyle(fontSize:16.5,fontWeight:FontWeight.w800,color:Color(0xFF17332A))),const SizedBox(height:6),Text(item.detail,style:const TextStyle(fontSize:14.5,height:1.45,color:Color(0xFF465650)))])),const SizedBox(width:8),const Icon(Icons.chevron_right_rounded,size:25,color:Color(0xFF4D5A55))]))));
+}
 
-  Widget _numberedDetail({
-    required int number,
-    required String text,
-  }) {
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 28,
-              child: Text(
-                '$number',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 14,
-                  height: 1.45,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+class DubaiPart1Topic {
+  final String id,title,subtitle,description,introTitle,introText; final IconData icon; final List<DubaiPart1Section> sections;
+  const DubaiPart1Topic({required this.id,required this.title,required this.subtitle,required this.description,required this.introTitle,required this.introText,required this.icon,required this.sections});
+}
 
-  Widget _fieldVerificationCard() {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Field Verification',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Before work starts, verify the approved method, risk assessment, competent-person arrangements, required permits, equipment condition, site interfaces, emergency arrangements and actual work conditions.',
-              style: TextStyle(height: 1.45),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Stop and escalate when a critical control is missing, ineffective or materially different from the approved method.',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                height: 1.45,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+class DubaiPart1Data {
+  static DubaiPart1Topic topic(String id)=>_topics[id]??_topics.values.first;
+  static final Map<String,DubaiPart1Topic> _topics={
+    "dubai_construction_safety_framework": DubaiPart1Topic(id:"dubai_construction_safety_framework",title:"Dubai Construction Safety Framework",subtitle:"BUILD SAFE \u2022 CONTROL RISK \u2022 VERIFY EVERY WORKFACE",description:"A practical framework for controlling construction HSE through clear responsibilities, planning, risk controls, field verification, contractor coordination and corrective action.",introTitle:"What the framework is",introText:"The construction safety framework establishes how project leadership, consultants, contractors, supervisors and workers coordinate to prevent harm and control high-risk construction activities.",icon:Icons.account_balance_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What the framework is",content:"The construction safety framework establishes how project leadership, consultants, contractors, supervisors and workers coordinate to prevent harm and control high-risk construction activities.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Project HSE governance",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Roles and accountability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Work planning and RAMS",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Work planning and RAMS",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Contractor interface control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Field verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Field verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Corrective action",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Project HSE governance",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Project HSE governance",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Roles and accountability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Work planning and RAMS",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Work planning and RAMS",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Contractor interface control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Field verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Field verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Corrective action",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Project HSE governance",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_hse_management_system": DubaiPart1Topic(id:"dubai_hse_management_system",title:"HSE Management System",subtitle:"PLAN \u2022 IMPLEMENT \u2022 ASSURE \u2022 IMPROVE",description:"A practical management-system reference covering HSE leadership, planning, implementation, monitoring, audit, reporting and continual improvement.",introTitle:"What an HSE Management System is",introText:"An HSE management system connects leadership commitments with risk-based planning, competent people, controlled documents, field implementation, assurance and improvement.",icon:Icons.manage_accounts_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What an HSE Management System is",content:"An HSE management system connects leadership commitments with risk-based planning, competent people, controlled documents, field implementation, assurance and improvement.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Leadership & commitment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"HSE planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Competence & communication",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Competence & communication",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Operational control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Monitoring & audit",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Monitoring & audit",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Continual improvement",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Leadership & commitment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Leadership & commitment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"HSE planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Competence & communication",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Competence & communication",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Operational control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Monitoring & audit",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Monitoring & audit",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Continual improvement",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Leadership & commitment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_health_safety_risk_assessment": DubaiPart1Topic(id:"dubai_health_safety_risk_assessment",title:"Health & Safety Risk Assessment",subtitle:"IDENTIFY \u2022 ASSESS \u2022 CONTROL \u2022 VERIFY",description:"A practical risk-assessment reference covering hazard identification, risk evaluation, hierarchy of controls, dynamic assessment and critical-control verification.",introTitle:"What Risk Assessment is",introText:"Risk assessment is a structured process used to identify hazards, evaluate risk, select effective controls and verify that those controls remain suitable as work conditions change.",icon:Icons.assessment_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Risk Assessment is",content:"Risk assessment is a structured process used to identify hazards, evaluate risk, select effective controls and verify that those controls remain suitable as work conditions change.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Hazard identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Risk evaluation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Hierarchy of controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Hierarchy of controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Dynamic assessment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Critical controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Critical controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Change management",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Hazard identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Hazard identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Risk evaluation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Hierarchy of controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Hierarchy of controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Dynamic assessment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Critical controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Critical controls",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Change management",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Hazard identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_construction_hse_plan": DubaiPart1Topic(id:"dubai_construction_hse_plan",title:"Construction HSE Plan",subtitle:"PLAN THE PROJECT \u2022 CONTROL THE WORK \u2022 ASSURE DELIVERY",description:"A project-level HSE planning reference covering organization, RAMS, permits, competence, emergency preparedness, welfare, contractor control and performance monitoring.",introTitle:"What a Construction HSE Plan is",introText:"A construction HSE plan defines how HSE will be organized and implemented throughout the project and how task-level controls connect to the project management system.",icon:Icons.description_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What a Construction HSE Plan is",content:"A construction HSE plan defines how HSE will be organized and implemented throughout the project and how task-level controls connect to the project management system.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Project scope & organization",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"RAMS & permit integration",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Competence & training",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Competence & training",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Emergency preparedness",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Welfare arrangements",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Welfare arrangements",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Performance monitoring",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Project scope & organization",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Project scope & organization",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"RAMS & permit integration",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Competence & training",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Competence & training",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Emergency preparedness",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Welfare arrangements",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Welfare arrangements",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Performance monitoring",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Project scope & organization",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_work_at_height": DubaiPart1Topic(id:"dubai_work_at_height",title:"Work at Height",subtitle:"PREVENT THE FALL \u2022 PROTECT PEOPLE \u2022 CONTROL OBJECTS",description:"A professional work-at-height reference covering access selection, fall prevention, fall protection, falling-object control, rescue planning and inspection.",introTitle:"What Work at Height is",introText:"Work at height is any work where a person could fall a distance liable to cause injury. The preferred approach is to prevent falls using suitable access and collective protection.",icon:Icons.height_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Work at Height is",content:"Work at height is any work where a person could fall a distance liable to cause injury. The preferred approach is to prevent falls using suitable access and collective protection.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Access system selection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Fall prevention",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Fall protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Fall protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Falling-object control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Inspection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Inspection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rescue planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Access system selection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Access system selection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Fall prevention",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Fall protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Fall protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Falling-object control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Inspection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Inspection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rescue planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Access system selection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_scaffolding_safety": DubaiPart1Topic(id:"dubai_scaffolding_safety",title:"Scaffolding Safety",subtitle:"BUILD STABLE \u2022 ACCESS SAFE \u2022 INSPECT BEFORE USE",description:"A practical scaffolding reference covering scaffold types, components, stability, access, inspection, tagging, modification and dismantling controls.",introTitle:"What Scaffolding Safety is",introText:"Scaffolding provides temporary access and working platforms. Safe use depends on suitable design or configuration, stable support, competent erection, inspection and controlled modification.",icon:Icons.construction_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Scaffolding Safety is",content:"Scaffolding provides temporary access and working platforms. Safe use depends on suitable design or configuration, stable support, competent erection, inspection and controlled modification.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Scaffold types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Scaffold components",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Foundation & stability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Foundation & stability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Platforms & edge protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Inspection & tagging",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Inspection & tagging",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Modification & dismantling",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Scaffold types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Scaffold types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Scaffold components",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Foundation & stability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Foundation & stability",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Platforms & edge protection",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Inspection & tagging",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Inspection & tagging",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Modification & dismantling",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Scaffold types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_lifting_operations": DubaiPart1Topic(id:"dubai_lifting_operations",title:"Lifting Operations",subtitle:"PLAN SAFE \u2022 LIFT SAFE \u2022 CONTROL EVERY MOVEMENT",description:"A professional practical reference covering lifting planning, equipment, rigging, competent roles, hazards, controls, inspection, execution, emergency response and HSE responsibilities.",introTitle:"What Lifting Operations are",introText:"A lifting operation raises, lowers, moves or positions a load using a crane, hoist or other lifting appliance. Safe lifting depends on planning, suitable equipment, competent personnel and load-path control.",icon:Icons.engineering_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Lifting Operations are",content:"A lifting operation raises, lowers, moves or positions a load using a crane, hoist or other lifting appliance. Safe lifting depends on planning, suitable equipment, competent personnel and load-path control.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Lift planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Lifting equipment & accessories",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rigging & load control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Rigging & load control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Crane setup",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Communication & exclusion",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Communication & exclusion",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Pre-lift verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Lift planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Lift planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Lifting equipment & accessories",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rigging & load control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Rigging & load control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Crane setup",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Communication & exclusion",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Communication & exclusion",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Pre-lift verification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Lift planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_excavation_trenching": DubaiPart1Topic(id:"dubai_excavation_trenching",title:"Excavation & Trenching",subtitle:"PROTECT THE EXCAVATION \u2022 CONTROL THE EDGE \u2022 VERIFY BEFORE ENTRY",description:"A practical excavation reference covering excavation types, protective systems, underground services, access, water, spoil, plant interaction, inspection and emergency response.",introTitle:"What Excavation & Trenching is",introText:"Excavation work creates ground openings and temporary changes in ground stability. Safe work requires suitable planning, protection, access, service identification and competent inspection.",icon:Icons.terrain_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Excavation & Trenching is",content:"Excavation work creates ground openings and temporary changes in ground stability. Safe work requires suitable planning, protection, access, service identification and competent inspection.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Excavation types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Shoring / trench box",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Benching / sloping",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Benching / sloping",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Underground services",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Water & dewatering",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Water & dewatering",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Plant and spoil control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Excavation types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Excavation types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Shoring / trench box",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Benching / sloping",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Benching / sloping",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Underground services",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Water & dewatering",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Water & dewatering",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Plant and spoil control",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Excavation types",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_confined_space_entry": DubaiPart1Topic(id:"dubai_confined_space_entry",title:"Confined Space Entry",subtitle:"ASSESS \u2022 ISOLATE \u2022 TEST \u2022 CONTROL \u2022 RESCUE",description:"A practical confined-space reference covering entry decisions, permits, isolation, atmospheric testing, ventilation, communication, attendants and rescue.",introTitle:"What Confined Space Entry is",introText:"Confined-space entry involves entering an enclosed or partially enclosed space where serious hazards may arise from atmosphere, engulfment, energy, access or other conditions.",icon:Icons.airline_seat_flat_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Confined Space Entry is",content:"Confined-space entry involves entering an enclosed or partially enclosed space where serious hazards may arise from atmosphere, engulfment, energy, access or other conditions.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Entry decision",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Permit & isolation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Atmospheric testing",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Atmospheric testing",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Ventilation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Communication & attendant",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Communication & attendant",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rescue planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Entry decision",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Entry decision",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Permit & isolation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Atmospheric testing",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Atmospheric testing",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Ventilation",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Communication & attendant",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Communication & attendant",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Rescue planning",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Entry decision",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+    "dubai_electrical_safety": DubaiPart1Topic(id:"dubai_electrical_safety",title:"Electrical Safety",subtitle:"ISOLATE \u2022 VERIFY \u2022 PROTECT \u2022 CONTROL",description:"A practical electrical-safety reference covering energy identification, isolation and LOTO, temporary power, equipment inspection, work controls and emergency response.",introTitle:"What Electrical Safety is",introText:"Electrical safety controls exposure to electrical energy through identification, isolation, verification, suitable equipment, controlled access and competent work practices.",icon:Icons.electrical_services_rounded,sections:[
+      DubaiPart1Section(title:"1. Introduction \u2014 What Electrical Safety is",content:"Electrical safety controls exposure to electrical energy through identification, isolation, verification, suitable equipment, controlled access and competent work practices.",items:[
+        DubaiPart1Item(title:'Purpose & Scope',detail:'Understand the purpose, scope and practical application of this HSE topic before work begins.'),
+        DubaiPart1Item(title:'Safe Work Principle',detail:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT.'),
+      ],initiallyExpanded:true),
+      DubaiPart1Section(title:"2. Types / Systems",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Energy identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Isolation & LOTO",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Temporary power",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"3. Components / Key Elements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Temporary power",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Electrical equipment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Work near electrical systems",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"4. Technical Requirements",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Work near electrical systems",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Emergency response",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Energy identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"5. Planning & Risk Control",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Energy identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Isolation & LOTO",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Temporary power",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"6. Main Hazards",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Temporary power",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Electrical equipment",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Work near electrical systems",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"7. Safety Controls",content:'Select the appropriate arrangement and verify that it matches the task, site conditions, approved controls and competent-person requirements.',items:[
+        DubaiPart1Item(title:"Work near electrical systems",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Emergency response",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+        DubaiPart1Item(title:"Energy identification",detail:'Tap for advanced learning: application, hazards, controls, field verification and professional HSE guidance.'),
+      ]),
+      DubaiPart1Section(title:"8. Inspection & Verification",content:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity.",items:[DubaiPart1Item(title:"Inspection & Verification",detail:"Verify the condition, status, implementation and effectiveness of critical controls before and during the activity. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"9. Stop-Work Conditions",content:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method.",items:[DubaiPart1Item(title:"Stop-Work Conditions",detail:"Stop when a critical control is missing, ineffective, misunderstood or materially different from the approved method. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"10. Competent Person / Operational Responsibilities",content:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities.",items:[DubaiPart1Item(title:"Competent Person / Operational Responsibilities",detail:"Confirm the correct competent and authorized personnel are assigned and understand their responsibilities. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"11. Emergency Response",content:"Emergency arrangements must be practical, communicated and available before the activity starts.",items:[DubaiPart1Item(title:"Emergency Response",detail:"Emergency arrangements must be practical, communicated and available before the activity starts. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:"12. Practical Site Example",content:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions.",items:[DubaiPart1Item(title:"Practical Site Example",detail:"Use the topic controls on a realistic workface scenario and compare the planned method with actual site conditions. Tap for advanced topic-specific guidance.")]),
+      DubaiPart1Section(title:'13. Quick Learning Formula',content:'PLAN → ASSESS → CONTROL → BRIEF → VERIFY → EXECUTE → MONITOR → CLOSE OUT',items:[DubaiPart1Item(title:'Field Learning Formula',detail:'Use the sequence to test whether the work is genuinely controlled, not merely documented.')]),
+      DubaiPart1Section(title:'🦺 HSE Roles — Topic-wise Responsibilities',content:'Responsibilities are consolidated at the end, following the Lifting Operations pattern.',items:[
+        DubaiPart1Item(title:"HSE Officer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Supervisor",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"Senior HSE",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Coordinator",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Engineer",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+        DubaiPart1Item(title:"HSE Manager",detail:'Topic-specific responsibility for this HSE subject. Tap for advanced role guidance.'),
+      ]),
+    ]),
+  };
 }
