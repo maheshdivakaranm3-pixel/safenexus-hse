@@ -401,7 +401,7 @@ class DubaiHsePart2TopicPage extends StatelessWidget {
   static List<DubaiPart2Section> _genericTopic(String topic, String formula, List<List<Object>> data) {
     return data.map((row) {
       final title = row[0] as String;
-      final content = row[1] as String + (title.startsWith('1.') ? '\n\nLearning Formula: ' + formula : '');
+      final content = (row[1] as String) + (title.startsWith('1.') ? '\n\nLearning Formula: ' + formula : '');
       final names = row[2] as List<String>;
       return DubaiPart2Section(
         title: title,
