@@ -339,25 +339,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'HSE team', detail: 'Coordinate implementation and monitoring.'),
         _DetailItem(title: 'Supervisors', detail: 'Apply the plan at workface level.'),
       ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Plan review', detail: 'Check that the plan reflects current work scope and risks.'),
-        _DetailItem(title: 'Field verification', detail: 'Confirm controls described in the plan are present.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Briefing', detail: 'Understand relevant project and task requirements.'),
-        _DetailItem(title: 'Reporting', detail: 'Raise deviations and changing conditions.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Readiness', detail: 'Maintain current emergency contacts, routes and arrangements.'),
-        _DetailItem(title: 'Response', detail: 'Follow the project emergency plan and trained response structure.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Mobilisation', detail: 'Before a new work package starts, the team reviews the HSE plan, risk register, permits, emergency routes and competency requirements.'),
-        _DetailItem(title: 'Change', detail: 'A new work sequence is introduced; the plan and associated risk controls are updated before execution.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'Plan → Brief → Verify → Improve', detail: 'A useful HSE plan is actively implemented, not stored as paperwork.'),
-      ],
     },
   ),
   'dubai_work_at_height': _TopicData(
@@ -691,28 +672,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Trench Box', detail: 'Protective system designed to protect people within a trench.'),
         _DetailItem(title: 'Access', detail: 'Safe ladder, stair or other approved access arrangement.'),
       ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Daily / condition checks', detail: 'Inspect before work and after events or changes that could affect stability.'),
-        _DetailItem(title: 'Services', detail: 'Verify underground service controls before progressing excavation.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Competent person', detail: 'Assess excavation conditions and required protective measures.'),
-        _DetailItem(title: 'Supervisor', detail: 'Control access, plant interface and daily work conditions.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Stay within protection', detail: 'Do not enter unsupported or unauthorised areas.'),
-        _DetailItem(title: 'Report movement', detail: 'Immediately report cracking, water, ground movement or service discovery.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Collapse', detail: 'Raise alarm, isolate plant and do not enter an unstable excavation for rescue.'),
-        _DetailItem(title: 'Service strike', detail: 'Stop work, isolate area and follow the relevant utility emergency procedure.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Service discovery', detail: 'An excavation exposes an unexpected utility. Work stops, the area is isolated, the service owner is contacted and the excavation method is reassessed before continuing.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'SURVEY → PROTECT → ACCESS → INSPECT', detail: 'Ground conditions can change; excavation control must remain active.'),
-      ],
     },
   ),
   'dubai_confined_space': _TopicData(
@@ -874,28 +833,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Earthing', detail: 'Provides a controlled fault path as required by the electrical system.'),
         _DetailItem(title: 'Isolation Point', detail: 'Allows equipment or circuits to be made safe before work.'),
       ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Pre-use', detail: 'Check cables, plugs, sockets, enclosures, protection and physical condition.'),
-        _DetailItem(title: 'Isolation verification', detail: 'Verify the correct circuit is isolated before work starts.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Competent electrical person', detail: 'Carry out electrical work within competence and authorisation.'),
-        _DetailItem(title: 'Supervisor', detail: 'Prevent unauthorised electrical work and verify controls.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'No live work unless authorised', detail: 'Do not undertake live electrical work outside the approved controlled process.'),
-        _DetailItem(title: 'Report defects', detail: 'Remove damaged portable equipment from service and report it.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Electrical contact', detail: 'Do not touch the casualty until the energy source is safely isolated.'),
-        _DetailItem(title: 'Fire', detail: 'Raise alarm, isolate if safe and use appropriate fire response arrangements.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Damaged cable', detail: 'A portable tool cable is found with exposed conductors. The tool is isolated and removed from service rather than repaired informally on the workface.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'ISOLATE → VERIFY → WORK', detail: 'Electrical safety depends on controlling energy before exposure.'),
-      ],
     },
   ),
   'dubai_hot_work': _TopicData(
@@ -981,28 +918,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Permit', detail: 'Formal control for hot work where required.'),
         _DetailItem(title: 'Fire Watch', detail: 'Dedicated person monitoring for ignition during and after work as required.'),
         _DetailItem(title: 'Flashback Arrestor', detail: 'Protective device used in suitable gas systems to help prevent flame propagation.'),
-      ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Area check', detail: 'Inspect the work area, adjacent spaces and combustible materials.'),
-        _DetailItem(title: 'Equipment check', detail: 'Check hoses, regulators, cylinders, leads and guards.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Supervisor', detail: 'Verify controls and permit conditions.'),
-        _DetailItem(title: 'Fire watch', detail: 'Maintain continuous monitoring as required.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Control sparks', detail: 'Use screens, blankets and barriers as appropriate.'),
-        _DetailItem(title: 'Cylinder safety', detail: 'Keep cylinders secure and away from heat and damage.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Fire', detail: 'Stop work, raise alarm and use suitable extinguisher only if trained and safe.'),
-        _DetailItem(title: 'Gas leak', detail: 'Stop ignition sources, isolate supply if safe and evacuate as required.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Grinding near insulation', detail: 'Grinding is stopped until combustible insulation is protected/removed, sparks are contained and fire-watch controls are established.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'PERMIT → PREPARE → PROTECT → WATCH', detail: 'Hot work needs ignition control before sparks are created.'),
       ],
     },
   ),
@@ -1320,28 +1235,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Water', detail: 'Provide cool drinking water and encourage regular hydration.'),
         _DetailItem(title: 'Shade / Rest', detail: 'Provide suitable shaded or cooled recovery areas.'),
       ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Conditions', detail: 'Monitor heat and environmental conditions appropriate to the task.'),
-        _DetailItem(title: 'People', detail: 'Supervisors watch for symptoms and ensure acclimatisation and recovery controls.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Management', detail: 'Provide resources, work-rest arrangements and suitable facilities.'),
-        _DetailItem(title: 'Supervisor', detail: 'Adjust work and monitor workers according to conditions and project procedure.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Hydrate', detail: 'Drink water regularly and use rest/shade arrangements.'),
-        _DetailItem(title: 'Report symptoms', detail: 'Report dizziness, confusion, cramps, weakness or other heat-illness symptoms immediately.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Heat illness', detail: 'Stop exposure, move the person to a cool area and activate medical response.'),
-        _DetailItem(title: 'Severe symptoms', detail: 'Treat suspected heat stroke as a medical emergency and seek urgent assistance.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Hot afternoon', detail: 'Heavy outdoor work is rescheduled or modified, shaded recovery is provided and workers are monitored according to the heat-management procedure.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'WATER → SHADE → REST → MONITOR', detail: 'Heat control combines environment, workload and worker condition.'),
-      ],
     },
   ),
   'dubai_occupational_health': _TopicData(
@@ -1505,28 +1398,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Helmet', detail: 'Select compatible head protection for the hazard and work environment.'),
         _DetailItem(title: 'Eye Protection', detail: 'Choose lens and design suitable for the exposure.'),
         _DetailItem(title: 'Harness', detail: 'Use only where a suitable fall-protection system requires it and with compatible equipment.'),
-      ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Pre-use', detail: 'Inspect for damage, contamination, expiry or loss of protective function.'),
-        _DetailItem(title: 'Compatibility', detail: 'Verify PPE can be worn together without reducing protection.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Employer', detail: 'Provide suitable PPE, information, training and maintenance.'),
-        _DetailItem(title: 'Worker', detail: 'Use, care for and report defects in PPE.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Correct use', detail: 'Wear PPE as instructed and do not modify it.'),
-        _DetailItem(title: 'Care', detail: 'Store and maintain PPE to preserve its protective function.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'PPE failure', detail: 'Stop exposure, provide appropriate first aid and report the event.'),
-        _DetailItem(title: 'Contamination', detail: 'Follow decontamination and medical arrangements for the substance involved.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Grinding', detail: 'A worker is assigned eye/face protection, hearing protection and suitable gloves after engineering controls and guarding are confirmed.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'ASSESS → SELECT → FIT → USE → INSPECT → REPLACE', detail: 'PPE is effective only when correctly selected and maintained.'),
       ],
     },
   ),
@@ -2147,29 +2018,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Isolation', detail: 'Confirms hazardous energy or flow has been controlled.'),
         _DetailItem(title: 'Gas Test', detail: 'Provides atmospheric information where relevant.'),
         _DetailItem(title: 'Close-Out', detail: 'Confirms work is complete, area is safe and permit is formally closed.'),
-      ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Site condition', detail: 'Verify actual conditions match the permit before work starts.'),
-        _DetailItem(title: 'Handover', detail: 'Control shift changes and permit suspension/revalidation.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Issuing authority', detail: 'Confirms conditions and authorises work within the permit system.'),
-        _DetailItem(title: 'Permit receiver', detail: 'Understands and implements controls at the workface.'),
-        _DetailItem(title: 'Supervisor', detail: 'Maintains compliance with permit conditions.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Follow permit', detail: 'Do not perform work outside the authorised scope.'),
-        _DetailItem(title: 'Stop on change', detail: 'Notify supervision when conditions change.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Permit emergency', detail: 'Stop work, raise alarm and follow the site emergency plan.'),
-        _DetailItem(title: 'Permit suspension', detail: 'Suspend the permit where conditions become unsafe.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Hot work', detail: 'A welding permit is issued only after combustible materials are controlled, gas cylinders are secured, fire protection is ready and the fire-watch arrangement is confirmed.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'IDENTIFY → ISOLATE → TEST → AUTHORISE → WORK → CLOSE', detail: 'A permit controls conditions; it does not replace risk assessment.'),
       ],
     },
   ),
@@ -2868,28 +2716,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Castor', detail: 'Allows tower movement only when designed and controlled for it.'),
         _DetailItem(title: 'Platform / Guardrail', detail: 'Provides protected working position on a tower.'),
       ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Pre-use', detail: 'Inspect ladder/tower structure, feet, rungs, locks, platform, guardrails and wheels.'),
-        _DetailItem(title: 'Setup', detail: 'Verify stable level surface, correct configuration and required stabilisation.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Competent person', detail: 'Control specialist tower erection or inspection where required.'),
-        _DetailItem(title: 'Supervisor', detail: 'Ensure correct selection and safe use.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'No overreach', detail: 'Reposition equipment rather than leaning outside safe limits.'),
-        _DetailItem(title: 'No movement with people aboard', detail: 'Never move a mobile tower with workers on it.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Fall', detail: 'Raise alarm and provide first aid within competence.'),
-        _DetailItem(title: 'Tower instability', detail: 'Clear the area and do not attempt to stabilise an unsafe tower by improvised means.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Tower relocation', detail: 'Workers descend, loose materials are removed, castors are unlocked only for controlled movement, the tower is moved on a suitable surface, then castors are locked and stability/access are checked before use.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'SELECT → SET → SECURE → USE → INSPECT', detail: 'Correct setup is as important as the equipment itself.'),
-      ],
     },
   ),
   'dubai_cop_fire_emergency': _TopicData(
@@ -3127,28 +2953,6 @@ const Map<String, _TopicData> _topicData = {
         _DetailItem(title: 'Lighting Tower', detail: 'Provides area illumination where fixed lighting is insufficient.'),
         _DetailItem(title: 'Wind Monitoring', detail: 'Used to assess conditions for weather-sensitive activities.'),
         _DetailItem(title: 'Reflective Marking', detail: 'Improves visibility of people, plant and barriers.'),
-      ],
-      'Inspection & Verification': [
-        _DetailItem(title: 'Lighting', detail: 'Check illumination and emergency lighting at relevant areas.'),
-        _DetailItem(title: 'Weather-sensitive equipment', detail: 'Verify operating limits and secure loose materials.'),
-      ],
-      'Responsibilities': [
-        _DetailItem(title: 'Supervisor', detail: 'Assess conditions and modify work as required.'),
-        _DetailItem(title: 'Equipment operator', detail: 'Follow manufacturer and project environmental operating limits.'),
-      ],
-      'Worker Responsibilities': [
-        _DetailItem(title: 'Stay alert', detail: 'Report poor visibility, high wind, dust or slippery conditions.'),
-        _DetailItem(title: 'Secure materials', detail: 'Prevent loose objects becoming hazards in wind.'),
-      ],
-      'Emergency Response': [
-        _DetailItem(title: 'Severe weather', detail: 'Suspend affected work, secure the area and follow site weather arrangements.'),
-        _DetailItem(title: 'Visibility loss', detail: 'Stop vehicle or lifting operations when safe control cannot be maintained.'),
-      ],
-      'Practical Site Example': [
-        _DetailItem(title: 'Night concrete pour', detail: 'The team verifies lighting, access, communication, emergency routes and visibility before starting; work is paused if lighting fails.'),
-      ],
-      'Key Learning Points': [
-        _DetailItem(title: 'CHECK → SECURE → ADJUST → STOP', detail: 'Environmental conditions can change faster than the work plan.'),
       ],
     },
   ),
