@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'lifting_advanced_learning_page.dart';
 
 class DubaiDetailItem {
   final String title;
@@ -161,6 +162,7 @@ class _SectionCard extends StatelessWidget {
 
 class _DetailItemTile extends StatelessWidget {
   final DubaiDetailItem item;
+
   const _DetailItemTile({required this.item});
 
   @override
@@ -173,43 +175,56 @@ class _DetailItemTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         side: const BorderSide(color: Color(0xFFD7E7E0)),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 5,
-        ),
-        leading: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            color: Color(0xFF0B7653),
-            shape: BoxShape.circle,
-          ),
-          child: Text(
-            item.title.length <= 2 ? item.title : '→',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => LiftingAdvancedLearningPage(
+                title: item.title,
+                summary: item.detail,
+              ),
             ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(18, 15, 12, 15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      style: const TextStyle(
+                        fontSize: 16.5,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF17332A),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      item.detail,
+                      style: const TextStyle(
+                        fontSize: 14.5,
+                        height: 1.45,
+                        color: Color(0xFF465650),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 28,
+                color: Color(0xFF4D5A55),
+              ),
+            ],
           ),
         ),
-        title: Text(
-          item.title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFF17332A),
-          ),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
-            item.detail,
-            style: const TextStyle(fontSize: 14.5, height: 1.45),
-          ),
-        ),
-        trailing: const Icon(Icons.chevron_right_rounded),
       ),
     );
   }
@@ -624,6 +639,11 @@ class LiftingOperationsPage extends StatelessWidget {
               'Monitor implementation of the lifting plan and risk assessment; verify exclusion zones, PPE, access, competency and equipment documentation; observe the operation; intervene for unsafe conditions; and record observations and actions.',
         ),
         DubaiDetailItem(
+          title: 'HSE Supervisor',
+          detail:
+              'Supervise day-to-day HSE implementation during lifting activities. Verify that the approved lifting plan, risk assessment, toolbox briefing, exclusion zone, access arrangements, PPE, communication system and inspection controls are implemented in the field. Coordinate with the Lift Supervisor and lifting team, monitor changing site conditions, follow up immediate corrective actions, escalate repeated or serious deviations and support stop-work decisions when critical controls are not maintained.',
+        ),
+        DubaiDetailItem(
           title: 'Senior HSE',
           detail:
               'Provide higher-level oversight for high-risk or critical lifts, review major interfaces, challenge deviations, support escalation and communicate lessons learned.',
@@ -737,7 +757,49 @@ class LiftingOperationsPage extends StatelessWidget {
       ],
     ),
     DubaiDetailSection(
-      title: '15. Practical Site Example — HVAC Lift',
+      title: '15. Routine & Recurrent Lifting Duties',
+      content:
+          'Routine or recurrent lifting must not be treated as automatically risk-free. The task should remain controlled through planned checks, competent supervision, equipment inspection and review of conditions each time the activity is performed.',
+      items: [
+        DubaiDetailItem(
+          title: 'Daily Pre-Use Checks',
+          detail:
+              'Confirm the lifting appliance and accessories are in suitable condition before use. Check for visible damage, abnormal wear, missing identification, defective safety devices or other conditions requiring removal from service.',
+        ),
+        DubaiDetailItem(
+          title: 'Daily Lift Readiness',
+          detail:
+              'Confirm the planned load, lifting method, access, load path, exclusion zone, communication arrangement and assigned competent personnel remain suitable for the current task.',
+        ),
+        DubaiDetailItem(
+          title: 'Recurring Toolbox Briefing',
+          detail:
+              'Brief the lifting team on the task, hazards, controls, roles, signals, exclusion zone, emergency arrangements and any lessons from previous lifts. Repeat or refresh the briefing when the task or conditions change.',
+        ),
+        DubaiDetailItem(
+          title: 'Periodic Equipment Inspection',
+          detail:
+              'Maintain the inspection, examination and certification arrangements required by the applicable equipment, manufacturer, project and regulatory requirements. Defective equipment must be controlled and not returned to service until properly addressed.',
+        ),
+        DubaiDetailItem(
+          title: 'Repeated Lift Review',
+          detail:
+              'For repeated lifts, confirm that the original assumptions remain valid. Reassess when the load, crane position, radius, ground, access, weather, nearby work, rigging arrangement or personnel changes.',
+        ),
+        DubaiDetailItem(
+          title: 'After-Lift Closeout',
+          detail:
+              'Confirm the load is safely landed and secured, remove rigging safely, control damaged accessories, record significant observations and communicate lessons learned for future lifts.',
+        ),
+        DubaiDetailItem(
+          title: 'Change Management',
+          detail:
+              'A recurrent lift should be stopped and reviewed when site conditions or the lifting method materially change. Previous successful performance does not make a changed lift automatically safe.',
+        ),
+      ],
+    ),
+    DubaiDetailSection(
+      title: '16. Practical Site Example — HVAC Lift',
       content:
           'Example: a packaged HVAC unit is lifted from a delivery vehicle to a prepared roof-level installation area.',
       items: [
@@ -774,7 +836,7 @@ class LiftingOperationsPage extends StatelessWidget {
       ],
     ),
     DubaiDetailSection(
-      title: '16. Quick Learning Formula',
+      title: '17. Quick Learning Formula',
       content:
           'PLAN → CHECK → RIG → EXCLUDE → COMMUNICATE → LIFT → MONITOR → LAND → SECURE → CLOSE OUT',
       items: [
@@ -817,7 +879,7 @@ class LiftingOperationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DubaiTopicPage(
-      title: 'Lifting Operations — Dubai HSE',
+      title: 'Lifting Operations',
       subtitle: 'Plan Safe • Lift Safe • Control Every Movement',
       description:
           'A practical professional reference covering lifting planning, equipment, rigging, competent roles, hazards, controls, inspection, execution and emergency response.',
