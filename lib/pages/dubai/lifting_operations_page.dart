@@ -565,78 +565,64 @@ class LiftingOperationsPage extends StatelessWidget {
       'Stop the lift for unknown load weight, damaged or unidentified accessories, overload, unstable ground, unexpected crane movement, excessive or uncontrolled load swing, loss of communication, poor visibility, unsafe weather/wind, people entering the exclusion zone, contact/near-contact with services or structures, equipment alarms/defects, change in the approved lifting arrangement, or any condition that makes the lift different from the assessed safe plan.',
     ),
     DubaiDetailSection(
-      '🚨 HSE ROLES DURING LIFTING OPERATIONS
-
-HSE Officer
-Before Lift:
-1. Verify the approved lifting plan, method statement and risk assessment are available.
-
-2. Check inspection/certification status and competency records.
-
-3. Verify exclusion-zone arrangements and site controls.
-During Lift:
-4. Monitor HSE compliance and unsafe conditions.
-
-5. Intervene when people enter controlled areas or controls are bypassed.
-
-6. Initiate/escalate stop-work when an immediate serious risk is identified.
-After Lift:
-7. Record observations, incidents/near misses and corrective actions.
-
-Senior HSE
-Before Lift:
-1. Review high-risk or critical lifting arrangements.
-
-2. Verify major risk controls, competency arrangements and contractor interfaces.
-During Lift:
-3. Provide senior HSE oversight and support intervention on major deviations.
-
-4. Escalate significant non-compliance and ensure corrective actions are followed.
-After Lift:
-5. Review lessons learned and recurring lifting risks.
-
-HSE Coordinator
-Before Lift:
-1. Coordinate HSE documentation, contractor submissions and records.
-
-2. Track toolbox talks, inspections, permits and competency documentation.
-During Lift:
-3. Coordinate communication between project, contractor and HSE teams.
-
-4. Record significant changes or documentation gaps.
-After Lift:
-5. Close records and track outstanding HSE actions.
-
-HSE Engineer
-Before Lift:
-1. Review lifting risk assessment and engineering-related HSE interfaces.
-
-2. Assess concerns involving ground conditions, excavations, structures, temporary works and nearby services.
-
-3. Coordinate technical concerns with the responsible engineering/lifting personnel.
-During Lift:
-4. Monitor whether technical controls remain consistent with site conditions.
-
-5. Escalate instability, unexpected movement or changed conditions immediately.
-After Lift:
-6. Document technical observations and recommend corrective actions.
-
-HSE Manager
-Before Lift:
-1. Establish/review project HSE requirements for lifting operations.
-
-2. Verify suitable competent-person arrangements and contractor controls.
-
-3. Review escalated high-risk or critical lifting activities as required by the project.
-During Lift:
-4. Provide management-level HSE oversight for significant lifting activities.
-
-5. Support suspension/escalation where serious non-compliance exists.
-After Lift:
-6. Review major incidents, trends and corrective actions.
-
-Important:
-HSE titles do not automatically replace the operational lifting roles. The lifting plan and execution should clearly identify the competent/authorized Lift Planner or Appointed Person (as applicable), Lift Supervisor, Crane Operator, Rigger and Banksman/Signalman.
+'HSE ROLES DURING LIFTING OPERATIONS\n'
+''
+'HSE Officer\n'
+'Before Lift:\n'
+'1. Verify the approved lifting plan, method statement and risk assessment are available.\n'
+'2. Check inspection/certification status and competency records.\n'
+'3. Verify exclusion-zone arrangements and site controls.\n'
+'During Lift:\n'
+'4. Monitor HSE compliance and unsafe conditions.\n'
+'5. Intervene when people enter controlled areas or controls are bypassed.\n'
+'6. Initiate or escalate stop-work when an immediate serious risk is identified.\n'
+'After Lift:\n'
+'7. Record observations, incidents/near misses and corrective actions.\n'
+''
+'Senior HSE\n'
+'Before Lift:\n'
+'1. Review high-risk or critical lifting arrangements.\n'
+'2. Verify major risk controls, competency arrangements and contractor interfaces.\n'
+'During Lift:\n'
+'3. Provide senior HSE oversight and support intervention on major deviations.\n'
+'4. Escalate significant non-compliance and ensure corrective actions are followed.\n'
+'After Lift:\n'
+'5. Review lessons learned and recurring lifting risks.\n'
+''
+'HSE Coordinator\n'
+'Before Lift:\n'
+'1. Coordinate HSE documentation, contractor submissions and records.\n'
+'2. Track toolbox talks, inspections, permits and competency documentation.\n'
+'During Lift:\n'
+'3. Coordinate communication between project, contractor and HSE teams.\n'
+'4. Record significant changes or documentation gaps.\n'
+'After Lift:\n'
+'5. Close records and track outstanding HSE actions.\n'
+''
+'HSE Engineer\n'
+'Before Lift:\n'
+'1. Review lifting risk assessment and engineering-related HSE interfaces.\n'
+'2. Assess concerns involving ground conditions, excavations, structures, temporary works and nearby services.\n'
+'3. Coordinate technical concerns with the responsible engineering/lifting personnel.\n'
+'During Lift:\n'
+'4. Monitor whether technical controls remain consistent with site conditions.\n'
+'5. Escalate instability, unexpected movement or changed conditions immediately.\n'
+'After Lift:\n'
+'6. Document technical observations and recommend corrective actions.\n'
+''
+'HSE Manager\n'
+'Before Lift:\n'
+'1. Establish or review project HSE requirements for lifting operations.\n'
+'2. Verify suitable competent-person arrangements and contractor controls.\n'
+'3. Review escalated high-risk or critical lifting activities as required by the project.\n'
+'During Lift:\n'
+'4. Provide management-level HSE oversight for significant lifting activities.\n'
+'5. Support suspension/escalation where serious non-compliance exists.\n'
+'After Lift:\n'
+'6. Review major incidents, trends and corrective actions.\n'
+''
+'Important:\n'
+'HSE titles do not automatically replace the operational lifting roles. The lifting plan and execution should clearly identify the competent/authorized Lift Planner or Appointed Person (as applicable), Lift Supervisor, Crane Operator, Rigger and Banksman/Signalman.\n'
 
 Emergency Response',
       'For a dropped load, crane instability, equipment failure, injury or electrical contact: STOP the operation, keep people away, isolate the area, raise the alarm, call the site emergency response, provide first aid only within competence, do not approach a potentially energised area, secure equipment when safe, preserve the scene as required and report/investigate the incident according to the project emergency and incident-management system.',
