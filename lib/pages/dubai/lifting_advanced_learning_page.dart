@@ -1,5 +1,3 @@
-// lib/pages/dubai/lifting_advanced_learning_page.dart
-
 import 'package:flutter/material.dart';
 
 class LiftingAdvancedLearningPage extends StatelessWidget {
