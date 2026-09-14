@@ -1,11 +1,13 @@
-SafeNexus HSE — Dubai HSE Part 1 Advanced Learning FINAL
+SafeNexus HSE — Dubai HSE Part 1 Advanced Learning FULL
 
-Single dedicated Dart file for Topics 1–10.
-Each topic has different topic-specific:
-Introduction, systems/types, components where applicable,
-technical requirements, planning, hazards, safety controls,
-inspection, stop-work conditions, HSE/operational responsibilities,
-practical example and quick learning formula.
+Topics 1–10.
+Architecture:
+Main Topic → Advanced Learning → Tappable Sub-topic → Advanced Detail.
 
-File:
+Each topic has different safety content and a separate HSE Roles page.
+HSE Officer, HSE Supervisor, Senior HSE, HSE Coordinator, HSE Engineer and HSE Manager responsibilities are topic-oriented.
+
+Main file:
 lib/pages/dubai/dubai_hse_part1_advanced_learning_page.dart
+
+No separate advanced sub-topic Dart file is required.
