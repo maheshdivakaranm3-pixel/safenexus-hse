@@ -1,0 +1,3 @@
+UPLOAD EXACTLY UNDER lib/ PATHS.
+DELETE WRONG ROOT DUPLICATES: dubai_hse_part2_page.dart, dubai_hse_part2_advanced_learning_page.dart, dubai_hse_topic_router.dart
+DO NOT DELETE lib/ COPIES.
