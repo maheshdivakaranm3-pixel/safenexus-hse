@@ -606,7 +606,3 @@ const Map<String, _TopicData> _topicData = {
 class DubaiHseTopicRouter {
   static Widget pageFor(ReferenceTopic topic) => DubaiHseDetailPage(topic: topic);
 }
-
-class DubaiHseTopicRouter {
-  static Widget pageFor(ReferenceTopic topic) => DubaiHseDetailPage(topic: topic);
-}
