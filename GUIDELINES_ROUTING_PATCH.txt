@@ -1,0 +1,20 @@
+GUIDELINES ROUTING — REQUIRED CHANGE
+
+In lib/guidelines.dart:
+
+1. Remove:
+   import 'dubai_hse_detail_page.dart';
+
+2. Add:
+   import 'dubai_hse_topic_router.dart';
+
+3. Replace the existing _openTopic builder with:
+
+   builder: (_) => DubaiHsePartRouter.pageFor(topic),
+
+This is the important connection that makes Topics 1–10 actually open the new
+Lifting-pattern pages. Without this routing change, the new files can exist in
+the project but the app will continue opening the old Dubai detail engine.
+
+Do not change lib/data/dubai_guidelines.dart.
+Do not create duplicate *_FINAL, *_V2 or *_UPLOAD_ONLY Dart files.
