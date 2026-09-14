@@ -740,7 +740,7 @@ _TopicData _makeTopic({required String title, required String intro, required St
       _DetailItem(title: 'Golden rule', detail: 'No exposure before critical controls are ready and verified.'),
     ],
   };
-  return _TopicData(title: title, intro: intro, types: [for (final x in t) _DetailItem(title: x, detail: _typeDetail(title, x)], items: [for (final x in c) _DetailItem(title: x, detail: _componentDetail(title, x)], sections: sections);
+  return _TopicData(title: title, intro: intro, types: [for (final x in t) _DetailItem(title: x, detail: _typeDetail(title, x))], items: [for (final x in c) _DetailItem(title: x, detail: _componentDetail(title, x))], sections: sections);
 }
 
 String _typeDetail(String topic, String item) => '$item is a $topic work system or application. Select and use it only when it matches the task, risk assessment, approved method and applicable system/manufacturer requirements.');
