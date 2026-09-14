@@ -1,0 +1,21 @@
+Part 2 — Dubai HSE Topics 11–20
+
+Replace/add these files using their original repository paths:
+lib/pages/dubai/dubai_hse_part2_page.dart
+lib/pages/dubai/dubai_hse_part2_advanced_learning_page.dart
+lib/dubai_hse_topic_router.dart
+
+The router preserves Part 1, Scaffolding, Excavation and Lifting routes and adds Topics 11–20.
+Existing guidelines.dart already calls DubaiHseTopicRouter.pageFor(topic) in the current project.
+
+Topic IDs routed in this part:
+11 dubai_hot_work
+12 dubai_traffic
+13 dubai_demolition
+14 dubai_temporary_works
+15 dubai_heat_stress
+16 dubai_occupational_health
+17 dubai_ppe
+18 dubai_emergency
+19 dubai_incident
+20 dubai_contractor
