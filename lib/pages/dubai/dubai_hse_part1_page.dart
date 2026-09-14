@@ -746,7 +746,7 @@ class _SectionCard extends StatelessWidget {
             ),
           ...section.items.map((item) => _DetailItemTile(
                 item: item,
-                topicTitle: topic.title,
+                topicTitle: topicTitle,
                 sectionTitle: section.title,
               )),
         ],
