@@ -1,35 +1,27 @@
-# SafeNexus HSE — Step 33
-## HSE Site Communication & Workforce Engagement Center
+# SafeNexus HSE — Dubai HSE Part 1 (Topics 1–10)
 
-Single Dart file:
-`lib/safenexus_step33_communication_engagement.dart`
+Single-file module:
+lib/pages/dubai/dubai_hse_part1_page.dart
 
-Modules:
-33A Communication Master
-33B Worker Safety Communication
-33C Contractor Communication
-33D Safety Meeting & Consultation
-33E Safety Campaign & Awareness
-33F Safety Alert / Bulletin
-33G Worker Feedback & Suggestion
-33H Safety Committee / Representative
-33I Communication Acknowledgement
-33J Escalation & Follow-up
-33K Communication Closure & Effectiveness
-33L Communication Intelligence Dashboard
+Topics:
+1. Dubai Construction Safety Framework
+2. HSE Management System
+3. Health & Safety Risk Assessment
+4. Construction HSE Plan
+5. Work at Height
+6. Scaffolding Safety
+7. Lifting Operations
+8. Excavation & Trenching
+9. Confined Space Entry
+10. Electrical Safety
 
-Workflow:
-Plan -> Communicate -> Engage -> Acknowledge -> Feedback
--> Action -> Verify -> Close -> Analyze
+Pattern:
+Introduction → Topic cards → Advanced Learning → Field Verification.
 
-Integration references:
-Step 9 Daily HSE, Step 31 Smart Checklists, Step 32 Field Operations,
-Risk, RAMS, PTW, Workforce, Equipment, Incident, Action Center.
+UI rule:
+Only a small right chevron is used. No large round green arrow.
 
-Storage:
-`safenexus_hse_step33_communication_engagement`
+HSE roles are grouped once at the end of Part 1:
+HSE Officer, HSE Supervisor, Senior HSE, HSE Coordinator, HSE Engineer, HSE Manager.
 
-Note:
-Local operational register using SharedPreferences. The optional
-`sourceOpener` callback can be used by the production app shell to open
-actual source modules.
+No separate advanced-learning Dart file is required.
