@@ -1,1 +1,1 @@
-Replace these two files under lib/pages/dubai/. The main file explicitly imports the advanced-learning file. The shared ConstructionSafetyItem model is defined only in the main file and imported by the advanced file. Do not create root-level duplicate Dart files.
+CODE ONLY: Replace lib/pages/dubai/dubai_construction_safety_framework_page.dart. This single file contains the complete Construction Safety Framework main page, topic-specific Advanced Learning, and Deeper Learning navigation. No second Dart file is required.
