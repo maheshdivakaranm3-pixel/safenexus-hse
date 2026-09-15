@@ -1,3 +1,1 @@
-Replace/add the two files under lib/pages/dubai/.
-No root-level duplicate Dart files.
-Main page includes tappable items with small chevrons, Advanced Learning, Deeper Learning and topic-wise HSE role details.
+Replace these two files under lib/pages/dubai/. The main file explicitly imports the advanced-learning file. The shared ConstructionSafetyItem model is defined only in the main file and imported by the advanced file. Do not create root-level duplicate Dart files.
