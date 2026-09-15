@@ -11,9 +11,16 @@ export default {
     // ============================================================
 
     if (request.method === "OPTIONS") {
+      const origin = request.headers.get("Origin");
+      const allowedOrigin = getAllowedOrigin(env);
+
+      if (origin && allowedOrigin && origin !== allowedOrigin) {
+        return new Response(null, { status: 403 });
+      }
+
       return new Response(null, {
         status: 204,
-        headers: corsHeaders(),
+        headers: corsHeaders(request, env),
       });
     }
 
@@ -30,7 +37,11 @@ export default {
         success: true,
         message: "SafeNexus HSE Worker is running",
         status: "online",
-      });
+      },
+        200,
+        request,
+        env
+      );
     }
 
     // ============================================================
@@ -49,7 +60,28 @@ export default {
           success: false,
           error: "Only POST requests are allowed for /analyze-hse.",
         },
-        405
+        405,
+        request,
+        env
+      );
+    }
+
+    // ============================================================
+    // BROWSER ORIGIN GUARD
+    // ============================================================
+
+    const origin = request.headers.get("Origin");
+    const allowedOrigin = getAllowedOrigin(env);
+
+    if (origin && allowedOrigin && origin !== allowedOrigin) {
+      return jsonResponse(
+        {
+          success: false,
+          error: "Origin is not allowed.",
+        },
+        403,
+        request,
+        env
       );
     }
 
@@ -63,7 +95,9 @@ export default {
           success: false,
           error: "Endpoint not found.",
         },
-        404
+        404,
+        request,
+        env
       );
     }
 
@@ -77,7 +111,9 @@ export default {
           success: false,
           error: "OPENAI_API_KEY is not configured.",
         },
-        500
+        500,
+        request,
+        env
       );
     }
 
@@ -96,7 +132,9 @@ export default {
             success: false,
             error: "Invalid JSON request body.",
           },
-          400
+          400,
+          request,
+          env
         );
       }
 
@@ -139,7 +177,9 @@ export default {
             success: false,
             error: "image_base64 is required.",
           },
-          400
+          400,
+          request,
+          env
         );
       }
 
@@ -158,7 +198,9 @@ export default {
             success: false,
             error: "Image data is empty.",
           },
-          400
+          400,
+          request,
+          env
         );
       }
 
@@ -179,7 +221,9 @@ export default {
             error:
               "Unsupported image type. Use JPEG, PNG or WebP.",
           },
-          400
+          400,
+          request,
+          env
         );
       }
 
@@ -196,7 +240,9 @@ export default {
             success: false,
             error: "Invalid base64 image data.",
           },
-          400
+          400,
+          request,
+          env
         );
       }
 
@@ -219,7 +265,9 @@ export default {
             error:
               "Image is too large. Maximum allowed size is 10 MB.",
           },
-          413
+          413,
+          request,
+          env
         );
       }
 
@@ -480,7 +528,9 @@ Return one structured HSE observation based only on visible evidence.
               data?.error?.message ||
               "OpenAI request failed.",
           },
-          openAIResponse.status
+          openAIResponse.status,
+          request,
+          env
         );
       }
 
@@ -503,7 +553,9 @@ Return one structured HSE observation based only on visible evidence.
             error:
               "No AI output was returned.",
           },
-          502
+          502,
+          request,
+          env
         );
       }
 
@@ -528,7 +580,9 @@ Return one structured HSE observation based only on visible evidence.
             error:
               "AI returned invalid JSON.",
           },
-          502
+          502,
+          request,
+          env
         );
       }
 
@@ -551,7 +605,9 @@ Return one structured HSE observation based only on visible evidence.
             error:
               `Invalid AI result: ${validationError}`,
           },
-          502
+          502,
+          request,
+          env
         );
       }
 
@@ -562,7 +618,11 @@ Return one structured HSE observation based only on visible evidence.
       return jsonResponse({
         success: true,
         result,
-      });
+      },
+        200,
+        request,
+        env
+      );
 
     } catch (error) {
       // ==========================================================
@@ -581,7 +641,9 @@ Return one structured HSE observation based only on visible evidence.
             error?.message ||
             "Unexpected server error.",
         },
-        500
+        500,
+        request,
+        env
       );
     }
   },
@@ -740,10 +802,17 @@ function validateHSEResult(result) {
 // CORS HEADERS
 // ================================================================
 
-function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": "*",
+function getAllowedOrigin(env) {
+  const value =
+    typeof env?.ALLOWED_ORIGIN === "string"
+      ? env.ALLOWED_ORIGIN.trim()
+      : "";
 
+  return value || null;
+}
+
+function corsHeaders(request, env) {
+  const headers = {
     "Access-Control-Allow-Methods":
       "POST, OPTIONS, GET",
 
@@ -753,6 +822,19 @@ function corsHeaders() {
     "Access-Control-Max-Age":
       "86400",
   };
+
+  const origin = request?.headers?.get("Origin");
+  const allowedOrigin = getAllowedOrigin(env);
+
+  // Native Flutter clients normally send no Origin header and do not
+  // require CORS. Browser clients receive CORS only when their origin
+  // is explicitly allowed through ALLOWED_ORIGIN.
+  if (origin && allowedOrigin && origin === allowedOrigin) {
+    headers["Access-Control-Allow-Origin"] = origin;
+    headers["Vary"] = "Origin";
+  }
+
+  return headers;
 }
 
 // ================================================================
@@ -761,7 +843,9 @@ function corsHeaders() {
 
 function jsonResponse(
   data,
-  status = 200
+  status = 200,
+  request,
+  env
 ) {
   return new Response(
     JSON.stringify(data),
@@ -772,7 +856,7 @@ function jsonResponse(
         "Content-Type":
           "application/json; charset=utf-8",
 
-        ...corsHeaders(),
+        ...corsHeaders(request, env),
       },
     }
   );
