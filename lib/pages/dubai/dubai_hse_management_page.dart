@@ -37,8 +37,6 @@ class DubaiHseManagementPage extends StatelessWidget {
         children: [
           const _HeroCard(),
           const SizedBox(height: 14),
-          const _LearningNotice(),
-          const SizedBox(height: 12),
           _AdvancedButton(
             onTap: () {
               Navigator.of(context).push(
@@ -49,172 +47,9 @@ class DubaiHseManagementPage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 14),
-          const _MainSection(
-            icon: Icons.menu_book_outlined,
-            title: 'HSE Management System — Complete Topic',
-            sections: [
-              _MainSubSection(
-                'HSE Management System – Introduction',
-                'An HSE Management System is the organised framework used to plan, control, monitor and continually improve health, safety and environmental performance. In a construction project it connects management commitment with practical workface controls through policy, responsibilities, risk assessment, RAMS, permits, competence, communication, inspection, audit, incident learning and corrective action. The purpose is not simply to create documents; the system must influence how work is planned, authorised, performed, checked and improved. A strong system should be visible in daily site decisions, supervision, worker involvement and evidence of control.',
-              ),
-              _MainSubSection(
-                'Definition & Concept',
-                'The concept is based on a controlled and repeatable process for managing HSE risks. It identifies what the organisation must achieve, assigns responsibilities, establishes processes and controls, provides resources, checks performance and uses lessons to improve. The system should be integrated with project planning and operations rather than operated as a separate HSE paperwork exercise. A useful way to understand the system is Plan–Do–Check–Act: plan the work and controls, implement them, verify whether they are effective, and act on findings to improve the next cycle.',
-              ),
-              _MainSubSection(
-                'Purpose & Objectives',
-                'The objectives are to prevent injury and ill health, protect workers and others affected by the project, prevent uncontrolled environmental impacts, meet applicable requirements and provide a structured method for managing risk. The system should help the project identify significant hazards before exposure occurs, establish effective controls, verify critical controls in the field, respond to incidents and emergencies, learn from performance data and continually improve. Objectives should be translated into practical responsibilities, measurable actions and evidence rather than remaining as general statements.',
-              ),
-              _MainSubSection(
-                'Scope of the HSE Management System',
-                'The scope should cover the people, activities, locations, equipment, contractors, subcontractors, interfaces and environmental aspects that can affect HSE performance. It normally extends from mobilisation and planning through execution, testing, handover and demobilisation as applicable. The scope should also consider temporary works, logistics, welfare, public interfaces, neighbouring activities and changes in project conditions. Clearly defining scope prevents important activities from being treated as outside the HSE system simply because they are performed by another team or contractor.',
-              ),
-              _MainSubSection(
-                'HSE Policy',
-                'The HSE Policy provides the organisation’s high-level commitment to protecting people, preventing harm, meeting applicable requirements and improving performance. It should be appropriate to the organisation and project context, communicated to relevant personnel and supported by management actions and resources. A policy becomes meaningful when its commitments are reflected in decisions such as providing competent supervision, allowing adequate time for safe planning, correcting unsafe conditions and stopping work when critical controls are absent. Workers should understand the practical meaning of the policy in their daily tasks.',
-              ),
-              _MainSubSection(
-                'Leadership & Management Commitment',
-                'Leadership means more than signing the policy. Management commitment is demonstrated through visible site involvement, resource allocation, competent staffing, review of significant risks, attention to recurring findings, participation in HSE meetings and timely decisions on corrective actions. Leaders should reinforce that production targets do not justify bypassing critical controls. Effective leadership also means listening to workers, asking how controls are working in practice and ensuring that significant concerns are escalated without retaliation. The quality of leadership is reflected in what the organisation consistently accepts, corrects and prioritises.',
-              ),
-              _MainSubSection(
-                'HSE Organisation & Responsibilities',
-                'The organisation should define accountability and authority from project leadership through HSE management, engineers, officers, supervisors, foremen, contractors and individual workers. Responsibilities should be clear enough that people know who plans, approves, supervises, verifies, reports and closes actions. HSE personnel advise, monitor and verify, but line management and supervisors remain responsible for controlling the work within their authority. Interfaces between departments and contractors should also be defined so that risks are not lost between organisational boundaries.',
-              ),
-              _MainSubSection(
-                'Legal & Regulatory Compliance',
-                'The project should identify and control the legal, authority, client and project requirements that apply to its activities. A controlled compliance register can identify the requirement, responsible owner, implementation method, verification method and status. Requirements should be checked against current authoritative sources because applicability can depend on the activity, location and project conditions. Compliance should be demonstrated through evidence such as approved procedures, inspections, training, permits, certificates, records and audit results. Where a specific legal conclusion is uncertain, it should be verified through the appropriate current authority or competent professional source.',
-              ),
-              _MainSubSection(
-                'Hazard Identification',
-                'Hazard identification is the systematic process of recognising sources or situations that could cause injury, ill health, environmental harm or other loss. It should consider routine and non-routine work, normal and abnormal conditions, changes, interfaces, simultaneous activities, equipment, materials, people and the surrounding environment. Workers and supervisors can provide valuable task-level information because they understand actual work conditions. Identified hazards should be linked to meaningful controls so that the assessment leads to action rather than becoming a list that is never used at the workface.',
-              ),
-              _MainSubSection(
-                'Risk Assessment',
-                'Risk assessment evaluates the potential consequences and likelihood associated with identified hazards and helps determine the level of control required. A practical process defines the activity, identifies hazards and persons at risk, evaluates existing controls, determines the initial risk, selects additional controls, assigns responsibility, communicates the method and verifies the residual risk after controls are applied. The assessment must represent the actual work. If access, equipment, sequence, weather, ground conditions, personnel or interfaces change materially, the risk should be reviewed before continuing.',
-              ),
-              _MainSubSection(
-                'Hierarchy of Controls',
-                'The hierarchy of controls provides a structured method for selecting risk controls. The preferred order is generally elimination, substitution, engineering controls, administrative controls and PPE, with the exact application depending on the hazard and project requirements. The principle is important because controls that physically remove or isolate exposure are usually less dependent on individual behaviour than instructions or PPE alone. The HSE team should challenge whether stronger controls are reasonably practicable, verify that critical controls exist at the workface and avoid treating PPE as the only solution for significant hazards.',
-              ),
-              _MainSubSection(
-                'HSE Plan',
-                'The project HSE Plan translates organisational and project requirements into a practical management arrangement. It can define objectives, organisation, responsibilities, risk management, RAMS, permit systems, training, communication, inspections, audits, incident reporting, emergency response, contractor management, environmental controls, occupational health, welfare, records and performance monitoring. The plan should be aligned with the actual scope and risk profile of the project and reviewed when major changes occur. Its effectiveness should be judged by whether it drives consistent field controls, not simply by whether the document exists.',
-              ),
-              _MainSubSection(
-                'RAMS',
-                'Risk Assessments and Method Statements explain how significant work will be carried out safely and in a controlled sequence. The risk assessment identifies hazards and controls, while the method statement describes the planned method, resources, sequence, responsibilities, equipment, interfaces and precautions. RAMS should be prepared by competent personnel, reviewed and approved through the project process, communicated to the people doing the work and verified at the workface. If the actual task differs materially from the approved method, the work should be paused and the RAMS or controls reviewed before proceeding.',
-              ),
-              _MainSubSection(
-                'Permit to Work',
-                'A Permit to Work is a formal control process used for defined higher-risk activities where specific authorisation, precautions or isolation must be confirmed before work starts. Depending on the project, permits may apply to hot work, confined space, electrical work, excavation, lifting or other specified activities. A permit should identify the task, location, hazards, required precautions, responsible persons, validity and any isolation or handover requirements. The permit does not make an unsafe task safe by itself; the physical controls must be established and verified, and the permit must be suspended or revalidated when conditions change as required by the procedure.',
-              ),
-              _MainSubSection(
-                'Training & Competency',
-                'Training and competency arrangements should ensure people have the knowledge, skills, experience and authorisation appropriate to their roles and tasks. The project should identify mandatory induction, task-specific training, licences or certifications where applicable, supervisor competency and refresher needs. Attendance alone does not prove competence. Supervisors and HSE personnel should observe whether workers can correctly apply the required method and controls. Language, literacy, unfamiliarity, fatigue and changes in equipment or work method should also be considered when determining whether additional briefing or supervision is necessary.',
-              ),
-              _MainSubSection(
-                'Communication & Toolbox Talks',
-                'Communication converts HSE requirements into information workers can understand and use before and during work. Toolbox talks should be relevant to the task, current hazards, control measures, changes and lessons learned rather than being repetitive attendance exercises. Workers should have an opportunity to ask questions and raise concerns. Supervisors should confirm that critical information has reached all affected people, including subcontractors and shift workers. Records should demonstrate participation where required, but the real measure is whether the briefing changes understanding and behaviour at the workface.',
-              ),
-              _MainSubSection(
-                'Worker Consultation & Engagement',
-                'Worker engagement creates a practical feedback loop between the management system and actual working conditions. Workers should be encouraged to report hazards, near misses, defects and improvement ideas and should be involved where their experience can improve risk controls. Consultation can occur through toolbox talks, safety meetings, inspections, worker representatives, observation programmes and direct conversations. A strong system provides feedback after concerns are raised so workers can see that reporting leads to action. Engagement should support learning and improvement rather than blame.',
-              ),
-              _MainSubSection(
-                'Operational Control',
-                'Operational control means translating the approved HSE arrangements into consistent workface practices. Controls can include access management, segregation, guarding, barriers, safe sequencing, equipment requirements, supervision, housekeeping, permits, lifting arrangements, temporary works, emergency access and environmental precautions. Supervisors should check that the actual workplace matches the planned method and that interfaces with other activities are controlled. When conditions change, the operational control arrangement should be reviewed rather than allowing workers to improvise around a failed or unsuitable control.',
-              ),
-              _MainSubSection(
-                'Inspection & Monitoring',
-                'Inspection and monitoring verify whether planned controls are present, suitable and effective. Daily field inspections can focus on the conditions that matter for current activities, while planned inspections can address equipment, temporary works, emergency systems, welfare and other safety-critical arrangements. Findings should be recorded with clear ownership and due dates, immediate controls should be applied where necessary and closure should be verified. Repeated findings should be analysed for trends because recurring observations may indicate a weakness in planning, supervision, training, design or management rather than isolated worker behaviour.',
-              ),
-              _MainSubSection(
-                'HSE Audit',
-                'An HSE audit is a structured and systematic assessment of whether the management system or selected processes conform to defined requirements and are operating effectively. Audits should use objective evidence such as records, interviews, observations and document review. Findings should distinguish significant system weaknesses from minor issues and should identify appropriate corrective action. Good auditing asks why a weakness was possible, not only who made the mistake. Audit results should be communicated to responsible management and used to strengthen the system.',
-              ),
-              _MainSubSection(
-                'Incident / Near-Miss Management',
-                'Incident and near-miss management should focus first on immediate response and protection of people, followed by reporting, evidence preservation, investigation, corrective action and learning. Near misses are valuable because they can reveal control weaknesses before serious harm occurs. Investigation should examine immediate, underlying and organisational factors rather than stopping at worker error. Actions should address the causes that allowed the event to occur, and the organisation should verify that corrective measures are implemented and effective before considering the issue closed.',
-              ),
-              _MainSubSection(
-                'Emergency Preparedness & Response',
-                'Emergency preparedness should be based on credible scenarios for the actual project, such as fire, medical emergency, fall from height, collapse, electrical incident, spill, confined-space emergency or other relevant events. The plan should define alarm and communication methods, emergency contacts, access and evacuation arrangements, assembly areas, first aid, rescue resources and responsibilities as applicable. People should know what to do before an emergency occurs. Drills, exercises and post-drill reviews can identify weaknesses in response time, communication, equipment, access and coordination.',
-              ),
-              _MainSubSection(
-                'Contractor & Subcontractor Management',
-                'Contractor management ensures external organisations understand and meet the project HSE requirements before and during their work. Selection and mobilisation should consider competence, resources, experience and relevant HSE arrangements. Contractors should provide required RAMS, training evidence, equipment records and other documentation, while site management should verify implementation rather than relying only on paperwork. Interfaces between principal contractor and subcontractor responsibilities must be clear, and significant findings should be tracked to effective closure. Contractor performance should be included in inspections, meetings, audits and KPI reviews.',
-              ),
-              _MainSubSection(
-                'Occupational Health & Welfare',
-                'Occupational health controls address health risks arising from work conditions and exposures, while welfare arrangements support basic worker wellbeing. Depending on the project, this can include heat exposure, dust, noise, vibration, chemicals, manual handling, ergonomics, fatigue, sanitation, drinking water, rest facilities and other occupational risks. Controls should prioritise exposure reduction and suitable work arrangements, supported by health surveillance or professional advice where required. Welfare facilities should be maintained, accessible and appropriate to the workforce and project conditions.',
-              ),
-              _MainSubSection(
-                'Environmental Management',
-                'Environmental management identifies activities and materials that can cause pollution, waste, nuisance or resource impacts and establishes controls to prevent or reduce them. Construction controls can include waste segregation, dust suppression, noise management, spill prevention, chemical and fuel storage, wastewater control and protection of drains or sensitive areas as applicable. Environmental requirements should be integrated into planning, RAMS, inspections and contractor management. Incidents such as spills or uncontrolled discharges should be reported, contained and investigated according to the applicable procedure.',
-              ),
-              _MainSubSection(
-                'HSE KPI & Performance Monitoring',
-                'HSE KPIs help management understand whether the system is performing and where attention is needed. Indicators can include leading measures such as inspections completed, critical-control verifications, training completion, corrective-action closure and worker engagement, together with lagging measures such as incidents and lost-time events where applicable. KPIs should be interpreted carefully because a high number of reports can indicate a strong reporting culture rather than poor safety. Trends, quality of actions and significant events should be considered alongside simple numerical totals.',
-              ),
-              _MainSubSection(
-                'Corrective & Preventive Action',
-                'Corrective action addresses an identified nonconformity, unsafe condition or undesirable event, while preventive improvement seeks to reduce the chance of recurrence or address a potential weakness before an event occurs. A useful action process identifies the issue, applies immediate containment where necessary, determines what needs to change, assigns an owner and due date, tracks progress and verifies effectiveness. Closure should not mean merely uploading a photograph; the team should confirm that the underlying condition or process weakness has actually been addressed.',
-              ),
-              _MainSubSection(
-                'Root Cause Analysis',
-                'Root cause analysis looks beyond the immediate event or unsafe act to understand why the controls were ineffective or absent. Methods can include structured questioning, causal analysis, barrier analysis or other suitable techniques. Factors may include planning, design, supervision, competence, communication, workload, equipment, procedures, organisational decisions and management assurance. The objective is to identify causes that can be changed. Actions should therefore strengthen the system or barriers rather than simply instructing an individual to be more careful.',
-              ),
-              _MainSubSection(
-                'Document & Record Control',
-                'Document and record control ensures that people use the correct approved information and that evidence of HSE activities can be retrieved and trusted. Controlled documents can include policies, plans, procedures, RAMS, forms and registers, while records can include inspections, training, permits, audits, incidents and corrective actions. Important controls include approval, revision status, distribution, access, retention and removal of obsolete versions. Workers should not unknowingly rely on outdated instructions, and records should be protected from unauthorised alteration while remaining available to those who need them.',
-              ),
-              _MainSubSection(
-                'Management Review',
-                'Management review evaluates whether the HSE management system remains suitable, effective and aligned with project needs. Inputs can include objectives, KPI trends, audit results, significant incidents, recurring findings, legal or project changes, worker feedback, contractor performance and resource needs. Management should make decisions on priorities, resources, risk controls and improvement actions based on evidence. Review should result in clear decisions and responsibilities rather than being treated as a meeting that only receives a report.',
-              ),
-              _MainSubSection(
-                'Continual Improvement / PDCA',
-                'Continual improvement means using evidence and learning to make the HSE system stronger over time. Plan–Do–Check–Act provides a practical model: plan objectives and controls, implement them, check performance and effectiveness, then act to correct weaknesses and improve the next cycle. Improvement can come from audits, inspections, incidents, near misses, worker suggestions, KPI trends, lessons learned and changes in technology or work methods. The goal is not endless paperwork; it is measurable improvement in risk control and operational reliability.',
-              ),
-              _MainSubSection(
-                'Daily HSE Officer Application',
-                'An HSE Officer can apply the management system daily by reviewing planned activities, identifying high-risk work, checking RAMS and permits where required, conducting field inspections, verifying critical controls, engaging with supervisors and workers, recording observations, following corrective actions and escalating serious risks. The officer should compare documents with actual conditions and challenge gaps respectfully but firmly. A strong daily routine also includes reviewing changes, checking previous outstanding actions and capturing lessons that should influence future planning.',
-              ),
-              _MainSubSection(
-                'Supervisor Application',
-                'Supervisors translate the HSE system into direct control of the workface. Before starting, they should confirm competent personnel, suitable equipment, required permits, approved methods, task briefing, access, housekeeping and critical controls. During the work they should monitor changing conditions, prevent unsafe shortcuts, coordinate interfaces and stop or escalate work when controls fail. Supervisors are also a key communication link: they should listen to workers, respond to concerns and ensure that changes in method or conditions are communicated before the work continues.',
-              ),
-              _MainSubSection(
-                'Worker Responsibilities',
-                'Workers are responsible for following applicable site rules, approved methods, permits and instructions; using safety equipment correctly; attending required briefings; reporting hazards, defects, incidents and near misses; and raising concerns when conditions are unsafe or different from the agreed method. Workers should not bypass guards, barriers or other controls to save time. They should stop and seek assistance when they do not understand the task or cannot perform it safely. Worker participation is an essential part of a functioning management system.',
-              ),
-              _MainSubSection(
-                'Practical Construction-Site Example',
-                'Consider a planned lifting activity on a busy construction site. The management system connects the lifting plan and risk assessment with competent personnel, suitable lifting equipment and accessories, inspection status, exclusion-zone arrangements, communication, traffic segregation, toolbox briefing, weather review and supervision. Before the lift, the supervisor and HSE team verify the critical controls. During the lift, changing conditions and people entering the area are controlled. If a critical control fails, the lift is stopped, the exposure is removed, the plan is reviewed and the activity resumes only after the required controls are restored and authorised.',
-              ),
-              _MainSubSection(
-                'Common HSE Management Failures',
-                'Common failures include treating HSE as paperwork, copying generic risk assessments without checking actual conditions, unclear responsibilities, weak supervision, ineffective toolbox talks, outdated documents, poor contractor control, closing actions without verifying effectiveness, ignoring repeated findings and allowing production pressure to override critical controls. Another failure is focusing only on individual behaviour when organisational or planning weaknesses contributed to the problem. A mature system looks for patterns and strengthens the barriers that prevent serious events.',
-              ),
-              _MainSubSection(
-                'Stop-Work Conditions',
-                'Work should be stopped or prevented when there is an uncontrolled condition presenting serious and immediate danger, a required critical control is absent or ineffective, required isolation or permit arrangements are not established, unsafe equipment is being used, competent or authorised personnel are unavailable, or conditions have changed enough to invalidate the planned controls. Examples can include unsafe excavation conditions, uncontrolled suspended loads, serious electrical exposure or missing fall protection. After stopping, the area should be made safe, the reason communicated, controls corrected and the work resumed only through the applicable authorisation process.',
-              ),
-              _MainSubSection(
-                'HSE Verification Checklist',
-                'A practical verification checklist should ask whether the correct people are competent and authorised; the current RAMS and permits are available where required; critical controls are physically present; equipment and temporary works are suitable and inspected; access and segregation are effective; housekeeping and welfare are adequate; emergency arrangements remain available; workers understand the task; changes have been assessed; and previous actions are genuinely closed. Verification should be evidence-based and focused on preventing exposure rather than simply completing a form.',
-              ),
-              _MainSubSection(
-                'Quick Reference',
-                'Use the management-system sequence as a quick field reminder: Plan the work; identify hazards; assess risk; select strong controls; approve the method and permits where required; ensure competence; brief the workforce; verify critical controls; monitor the work; stop when controls fail or conditions change; report and investigate events; close actions effectively; review performance; and improve the system. This sequence helps connect management arrangements with the actual workface and keeps HSE focused on prevention.',
-              ),
-              _MainSubSection(
-                'Interview / Professional Questions',
-                'Professionals should be able to explain what an HSE Management System is, how it connects policy and leadership to field controls, the difference between a hazard and risk, how RAMS and PTW support operational control, how competency is verified, how inspections differ from audits, how incidents and near misses are investigated, how corrective actions are closed, how contractor performance is controlled and how PDCA supports continual improvement. Interview answers should include practical examples and demonstrate that the candidate understands both the documented system and how it is implemented at the workface.',
-              ),
-            ],
-          ),
+          const _LearningNotice(),
+          const SizedBox(height: 14),
+          const _CompleteHseTopicHeader(),
           const SizedBox(height: 12),
           const _MainSection(
             icon: Icons.category_outlined,
@@ -549,6 +384,9 @@ class DubaiHseManagementPage extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 14),
+          const _CompleteHseTopicCard(),
+          const SizedBox(height: 14),
           const _QuickMapCard(),
         ],
       ),
@@ -2005,6 +1843,178 @@ class _AdvancedButton extends StatelessWidget {
     );
   }
 }
+
+const List<_CompleteHseTopic> _completeHseTopics = [
+  _CompleteHseTopic(number: '01', title: 'HSE Management System – Introduction', body: 'An HSE Management System is the organised framework used to plan, implement, control, monitor and improve health, safety and environmental performance. In construction it connects management decisions with workface controls through policy, responsibilities, risk assessment, RAMS, permits, training, inspections, audits, incident learning and corrective action. The system is effective only when requirements are understood, implemented and verified in the field.'),
+  _CompleteHseTopic(number: '02', title: 'Definition & Concept', body: 'The concept is broader than a collection of documents. It is a management cycle in which hazards are identified, risks are evaluated, controls are selected, work is authorised, people are made competent, performance is checked and lessons are converted into improvement. Every level of the project should know what is required, who is accountable, what evidence is expected and what action is taken when controls fail.'),
+  _CompleteHseTopic(number: '03', title: 'Purpose & Objectives', body: 'The purpose is to prevent injury and ill health, protect workers and other affected persons, reduce property and environmental damage, satisfy applicable requirements and create consistent safe-work arrangements. Objectives should be practical and measurable, such as improving critical-control verification, closing corrective actions on time, increasing quality of inspections and reducing repeated unsafe conditions.'),
+  _CompleteHseTopic(number: '04', title: 'Scope of the HSE Management System', body: 'The scope should cover mobilisation, planning, design interfaces where relevant, procurement, construction, commissioning activities where applicable, subcontractors, plant and equipment, temporary works, welfare, environmental controls, emergency response and project close-out. It should also consider interfaces with neighbouring activities, public areas, utilities, traffic and simultaneous operations.'),
+  _CompleteHseTopic(number: '05', title: 'HSE Policy', body: 'The HSE policy states the organisation\'s commitment to protecting people, complying with applicable requirements, providing resources, consulting workers and continually improving performance. A useful policy is supported by clear objectives and responsibilities and is communicated to employees, contractors and other relevant parties. The policy must be translated into project controls rather than remaining a signed statement.'),
+  _CompleteHseTopic(number: '06', title: 'Leadership & Management Commitment', body: 'Leadership is demonstrated through decisions and behaviour: providing competent resources, allowing adequate time for planning, supporting competent supervision, reviewing significant risks, visiting the workface, listening to workers and acting on serious findings. Managers should never create production pressure that encourages bypassing controls. Where a critical control is unavailable, leadership should support stopping or changing the work.'),
+  _CompleteHseTopic(number: '07', title: 'HSE Organisation & Responsibilities', body: 'The organisation should define authority, accountability, consultation and verification from project management through HSE management, officers, supervisors, engineers, foremen, workers and contractors. Responsibilities should identify who plans the work, who performs it, who controls it, who verifies critical controls and who has authority to stop unsafe work.'),
+  _CompleteHseTopic(number: '08', title: 'Legal & Regulatory Compliance', body: 'The project should identify applicable laws, regulations, authority requirements, client requirements and internal standards relevant to its activities. A legal or compliance register can be used to track requirements, responsible persons, evidence and review status. Compliance should be verified through document review and field checks, and changes in requirements should be assessed before affected procedures are revised.'),
+  _CompleteHseTopic(number: '09', title: 'Hazard Identification', body: 'Hazard identification is the systematic recognition of sources of harm before and during work. It should consider routine and non-routine tasks, people, equipment, materials, energy sources, environmental conditions, interfaces and foreseeable changes. Effective identification combines planning reviews, site inspections, worker consultation, task observations, incident learning and review of previous experience.'),
+  _CompleteHseTopic(number: '10', title: 'Risk Assessment', body: 'Risk assessment evaluates the potential for harm and supports selection of controls. A task assessment should identify the hazard, exposed persons, existing controls, likelihood and consequence using the project\'s approved method, then determine additional controls and residual risk. The assessment must match actual site conditions and be reviewed when there is a change in method, sequence, equipment, workforce, weather or surrounding interface.'),
+  _CompleteHseTopic(number: '11', title: 'Hierarchy of Controls', body: 'The hierarchy guides selection of controls from stronger measures to weaker reliance on individual behaviour: eliminate the hazard where reasonably practicable, substitute, use engineering controls, apply administrative controls and use PPE as the final layer. A good assessment explains why the selected controls are appropriate and verifies that higher-level controls are actually installed and maintained.'),
+  _CompleteHseTopic(number: '12', title: 'HSE Plan', body: 'The project HSE Plan describes how HSE requirements will be managed and monitored. It normally establishes objectives, organisation, responsibilities, risk management, training, inspections, audits, emergency arrangements, incident reporting, environmental controls, contractor management and communication. It should be practical, controlled and aligned with the actual project scope and risk profile.'),
+  _CompleteHseTopic(number: '13', title: 'RAMS', body: 'Risk Assessment and Method Statement should explain what work will be done, the sequence of activities, hazards, controls, resources, competency requirements, interfaces, emergency arrangements and verification points. RAMS should be approved through the project\'s process, briefed to the workforce and checked at the workface. If conditions change materially, the work should be reassessed and the method updated before continuing.'),
+  _CompleteHseTopic(number: '14', title: 'Permit to Work', body: 'A PTW system is used where formal authorisation and control are required for specified hazardous work. Depending on the project, permits may address hot work, confined space, excavation, electrical isolation, line breaking or other controlled activities. A permit should identify the exact job and location, precautions, isolations, responsible persons, validity and close-out requirements. A permit does not replace the risk assessment or supervision.'),
+  _CompleteHseTopic(number: '15', title: 'Training & Competency', body: 'Training ensures people understand hazards, controls and their responsibilities; competency means they can apply the required knowledge and skills safely in the assigned task. The project should identify induction, task-specific training, operator authorisation, emergency training, toolbox talks and refresher needs. Competence should be verified against the role and evidence retained according to project requirements.'),
+  _CompleteHseTopic(number: '16', title: 'Communication & Toolbox Talks', body: 'Communication should deliver information at the right time and in a form workers can understand. Toolbox talks should focus on the actual task, current hazards, critical controls, changes, lessons learned and questions from the workforce. Supervisors should avoid reading generic text without checking understanding. Attendance, subject, date, presenter and relevant evidence should be recorded.'),
+  _CompleteHseTopic(number: '17', title: 'Worker Consultation & Engagement', body: 'Workers are a key source of practical risk information because they experience the task directly. Consultation can occur through toolbox talks, safety meetings, observation programmes, suggestion channels, hazard reporting and direct supervisor discussions. Effective engagement includes listening, acting on credible concerns and giving feedback so workers can see that reporting leads to improvement rather than blame.'),
+  _CompleteHseTopic(number: '18', title: 'Operational Control', body: 'Operational control means translating planned requirements into physical controls at the workface. This includes access arrangements, exclusion zones, guarding, isolation, lifting controls, work-at-height protection, excavation protection, housekeeping, traffic segregation, chemical controls and equipment checks as applicable. Supervisors should confirm that controls remain effective throughout the activity, not only at the start.'),
+  _CompleteHseTopic(number: '19', title: 'Inspection & Monitoring', body: 'Inspection and monitoring provide evidence that controls are present, suitable and maintained. Activities can include daily site inspections, pre-use checks, planned inspections, safety observations, environmental inspections, equipment checks and critical-control verification. Findings should be prioritised, assigned to responsible persons, tracked to closure and reviewed for recurring trends.'),
+  _CompleteHseTopic(number: '20', title: 'HSE Audit', body: 'An audit is a structured and evidence-based evaluation of whether the management system and selected requirements are implemented and effective. It can examine documents, interviews, records and field conditions. Findings should distinguish isolated issues from system weaknesses, identify responsible owners and require corrective action. Follow-up should verify that actions addressed the underlying issue rather than only closing the paperwork.'),
+  _CompleteHseTopic(number: '21', title: 'Incident / Near-Miss Management', body: 'Incidents and near misses should be reported promptly, the immediate situation made safe and evidence preserved as appropriate. Investigation should establish what happened, identify immediate and underlying causes and examine whether controls failed or were absent. Corrective actions should be specific, assigned and tracked, and lessons should be communicated to affected teams so the same mechanism of failure is not repeated.'),
+  _CompleteHseTopic(number: '22', title: 'Emergency Preparedness & Response', body: 'Emergency preparedness identifies credible scenarios and establishes alarms, communication, access, evacuation, assembly, first aid, firefighting, rescue, isolation and coordination arrangements appropriate to the project. Plans should be understood by relevant personnel and tested through drills or exercises where required. Lessons from exercises and actual emergencies should be recorded and used to improve the response arrangements.'),
+  _CompleteHseTopic(number: '23', title: 'Contractor & Subcontractor Management', body: 'Contractor management should begin before mobilisation and continue through execution and close-out. The process should assess competence, resources, HSE arrangements, risk assessments, RAMS, training, supervision and performance. Contractors should be integrated into site rules and emergency arrangements, and their critical controls should be monitored. Poor performance should trigger corrective action, escalation or work restrictions according to the project process.'),
+  _CompleteHseTopic(number: '24', title: 'Occupational Health & Welfare', body: 'Occupational health management addresses exposures that may cause harm over time, including heat, dust, noise, vibration, hazardous substances, manual handling, fatigue and ergonomic strain where relevant. Welfare arrangements should support basic worker needs such as suitable rest, hydration, sanitation and welfare facilities according to applicable requirements. Controls should be monitored and adjusted when exposure conditions change.'),
+  _CompleteHseTopic(number: '25', title: 'Environmental Management', body: 'Environmental management identifies significant aspects and controls impacts such as waste, dust, noise, spills, chemicals, wastewater, emissions and resource use where relevant. Site controls can include suitable storage, secondary containment, waste segregation, spill-response arrangements, housekeeping and monitoring. Environmental incidents and repeated nonconformities should be recorded, investigated and corrected.'),
+  _CompleteHseTopic(number: '26', title: 'HSE KPI & Performance Monitoring', body: 'HSE performance should be measured using a balanced set of leading and lagging indicators. Leading measures may include inspections, critical-control verification, training completion, safety observations and action closure; lagging measures may include incidents and lost-time outcomes where applicable. KPIs should be analysed for trends and quality, because a high number of inspections is not useful if findings are superficial or repeatedly unresolved.'),
+  _CompleteHseTopic(number: '27', title: 'Corrective & Preventive Action', body: 'Corrective action removes or controls the cause of an identified nonconformity or unsafe condition; preventive action addresses potential problems before they occur. Actions should describe the problem, required control, owner, due date and verification method. Priority should reflect risk. Closure should be based on objective evidence that the control was implemented and is effective, not simply that a task was marked complete.'),
+  _CompleteHseTopic(number: '28', title: 'Root Cause Analysis', body: 'Root cause analysis looks beyond the immediate unsafe act or condition to understand why the control failed. Depending on the event, analysis may consider planning, supervision, competence, equipment, communication, design, contractor management, workload and organisational decisions. The goal is to identify system improvements that reduce recurrence rather than assigning blame to the last person involved.'),
+  _CompleteHseTopic(number: '29', title: 'Document & Record Control', body: 'Controlled documents should have clear titles, revision status, approval, distribution and accessibility so workers use the current requirement. Records such as training, inspections, permits, audits, incidents and corrective actions should be legible, traceable and retained according to project requirements. Obsolete documents should be prevented from unintended use while required records remain retrievable.'),
+  _CompleteHseTopic(number: '30', title: 'Management Review', body: 'Management review evaluates whether the HSE system remains suitable, adequate and effective. Inputs can include objectives, KPI trends, significant risks, audit findings, incidents, worker feedback, legal changes, contractor performance and outstanding actions. Outputs should include decisions, resource needs, priorities and improvement actions. Review should result in visible changes where the evidence shows the system is not achieving its objectives.'),
+  _CompleteHseTopic(number: '31', title: 'Continual Improvement / PDCA', body: 'Continual improvement uses the Plan-Do-Check-Act cycle. Plan the objectives, risks and controls; Do the work using the approved arrangements; Check performance through inspections, audits, observations and feedback; Act by correcting weaknesses and updating the system. Improvement should be evidence-driven and should strengthen controls, competence, supervision and planning over time.'),
+  _CompleteHseTopic(number: '32', title: 'Daily HSE Officer Application', body: 'A daily HSE Officer routine can include reviewing planned work, checking high-risk activities, verifying permits and RAMS, conducting field inspections, engaging workers, recording observations, escalating serious risks, tracking actions and reporting significant issues. The officer should prioritise critical controls and changing conditions rather than focusing only on paperwork or the number of observations completed.'),
+  _CompleteHseTopic(number: '33', title: 'Supervisor Application', body: 'The supervisor converts the safe-work plan into controlled execution. Before work, the supervisor confirms competent personnel, equipment condition, RAMS briefing, permits and site controls. During work, the supervisor monitors changing conditions, maintains exclusion zones and intervenes when people or equipment deviate from the agreed method. After work, the supervisor reports issues, closes the area safely and communicates lessons or outstanding actions.'),
+  _CompleteHseTopic(number: '34', title: 'Worker Responsibilities', body: 'Workers should follow approved instructions, use required controls and PPE, inspect equipment as required, attend briefings, report hazards and near misses, protect barriers and guards and stop when they believe conditions are unsafe or materially different from the agreed method. Workers should not bypass a safety control to save time and should seek clarification when they do not understand the task or its hazards.'),
+  _CompleteHseTopic(number: '35', title: 'Practical Construction-Site Example', body: 'Consider a planned lifting operation. The team identifies lifting hazards, assesses the risk, prepares the method and lift plan as required, verifies competent personnel and suitable equipment, checks ground and access conditions, establishes an exclusion zone, briefs the crew and confirms required authorisation or permits. During the lift the supervisor monitors conditions and communication. If wind, ground stability, load condition or another critical factor changes, the lift is stopped and reassessed before restarting.'),
+  _CompleteHseTopic(number: '36', title: 'Common HSE Management Failures', body: 'Common failures include outdated RAMS, generic risk assessments, weak supervision, poor contractor integration, incomplete training records, repeated open actions, ineffective toolbox talks, missing critical controls, poor incident learning and management focus on paperwork rather than field conditions. A recurring failure should be treated as a system signal and investigated for underlying causes instead of repeatedly correcting the same symptom.'),
+  _CompleteHseTopic(number: '37', title: 'Stop-Work Conditions', body: 'Work should be stopped or restricted when there is an immediate serious danger, a critical control is absent or failed, required authorisation is missing, equipment is unsafe, personnel are not competent or authorised for the task, site conditions have materially changed, emergency arrangements are unavailable or the approved method cannot be followed safely. Restart should occur only after the risk is reassessed and the required controls are restored.'),
+  _CompleteHseTopic(number: '38', title: 'HSE Verification Checklist', body: 'A practical verification should ask: Is the current RAMS available and understood? Are required permits valid? Are competent people assigned? Are critical controls physically present? Is equipment inspected and suitable? Are exclusion zones and access controls effective? Are emergency arrangements available? Are workers engaged? Are findings recorded and assigned? Has previous corrective action been verified? The checklist should be adapted to the project\'s actual risks.'),
+  _CompleteHseTopic(number: '39', title: 'Quick Reference', body: 'The HSE management cycle can be remembered as: Understand requirements → Plan the work → Identify hazards → Assess risk → Select controls → Authorise and brief → Execute under supervision → Inspect and verify → Report and investigate → Correct and learn → Review and improve. The sequence is useful as a field reminder, but project procedures and applicable requirements always govern actual work.'),
+  _CompleteHseTopic(number: '40', title: 'Interview / Professional Questions', body: 'Typical professional questions include: What are the elements of an HSE management system? How do you ensure a RAMS is implemented? How do you verify critical controls? What is the difference between hazard and risk? When would you stop work? How do you investigate a near miss? How do you manage contractors? How do you measure HSE performance? How do you verify corrective-action effectiveness? Strong answers should combine principle, field example, evidence and escalation.'),
+];
+
+class _CompleteHseTopicHeader extends StatelessWidget {
+  const _CompleteHseTopicHeader();
+  @override
+  Widget build(BuildContext context) => const Padding(
+    padding: EdgeInsets.only(bottom: 10),
+    child: Row(children: [
+      Icon(Icons.menu_book_rounded, color: Color(0xFF0B6B4F), size: 26),
+      SizedBox(width: 9),
+      Expanded(child: Text('HSE Management System — Complete Topic',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900))),
+    ]),
+  );
+}
+
+class _CompleteHseTopicCard extends StatelessWidget {
+  const _CompleteHseTopicCard();
+  @override
+  Widget build(BuildContext context) => Card(
+    margin: EdgeInsets.zero,
+    elevation: 1.5,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      child: Column(children: [
+        for (final topic in _completeHseTopics)
+          Card(
+            margin: const EdgeInsets.only(top: 7),
+            elevation: 0,
+            color: const Color(0xFFF8FBF9),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: const BorderSide(color: Color(0xFFDCE9E1)),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
+              leading: CircleAvatar(
+                radius: 21,
+                backgroundColor: const Color(0xFFE2F2EA),
+                child: Text(topic.number,
+                  style: const TextStyle(color: Color(0xFF0B6B4F),
+                    fontSize: 12, fontWeight: FontWeight.w900)),
+              ),
+              title: Text(topic.title,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+              subtitle: const Padding(
+                padding: EdgeInsets.only(top: 4),
+                child: Text('Tap to open full detailed learning content',
+                  style: TextStyle(fontSize: 12.5)),
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 17),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => DubaiHseManagementTopicDetailPage(topic: topic),
+                ),
+              ),
+            ),
+          ),
+      ]),
+    ),
+  );
+}
+
+class DubaiHseManagementTopicDetailPage extends StatelessWidget {
+  final _CompleteHseTopic topic;
+  const DubaiHseManagementTopicDetailPage({super.key, required this.topic});
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: const Color(0xFFF5F8F6),
+    appBar: AppBar(
+      title: Text('${topic.number}. ${topic.title}',
+        maxLines: 1, overflow: TextOverflow.ellipsis),
+      backgroundColor: const Color(0xFF0B6B4F),
+      foregroundColor: Colors.white,
+    ),
+    body: ListView(
+      padding: const EdgeInsets.fromLTRB(15, 16, 15, 30),
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF0B6B4F), Color(0xFF159447)],
+            ),
+            borderRadius: BorderRadius.circular(22),
+          ),
+          child: Text(topic.title,
+            style: const TextStyle(color: Colors.white, fontSize: 23,
+              height: 1.3, fontWeight: FontWeight.w900)),
+        ),
+        const SizedBox(height: 14),
+        Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+            side: const BorderSide(color: Color(0xFFD7E6DE)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(17),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Detailed Explanation',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                const SizedBox(height: 12),
+                Text(topic.body,
+                  style: const TextStyle(fontSize: 15, height: 1.75,
+                    color: Color(0xFF26342E))),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        const _LearningNotice(),
+      ],
+    ),
+  );
+}
+
+class _CompleteHseTopic {
+  final String number;
+  final String title;
+  final String body;
+  const _CompleteHseTopic({
+    required this.number, required this.title, required this.body,
+  });
+}
+
 
 class _QuickMapCard extends StatelessWidget {
   const _QuickMapCard();
