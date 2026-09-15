@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SafeNexusStep153Page extends StatefulWidget {{
-  const SafeNexusStep153Page({{super.key}});
+class SafeNexusStep153Page extends StatefulWidget {
+  const SafeNexusStep153Page({super.key});
 
   @override
   State<SafeNexusStep153Page> createState() => _SafeNexusStep153PageState();
-}}
+}
 
-class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
+class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {
   static const String _storageKey = 'workhub_hse_actions_v1';
   static const String _stepPurpose = 'Track risk-related actions and verification.';
 
@@ -30,52 +30,52 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
   ];
 
   @override
-  void initState() {{
+  void initState() {
     super.initState();
     _loadRecords();
-    _searchController.addListener(() {{
-      if (mounted) setState(() {{}});
-    }});
-  }}
+    _searchController.addListener(() {
+      if (mounted) setState(() {});
+    });
+  }
 
   @override
-  void dispose() {{
+  void dispose() {
     _searchController.dispose();
     super.dispose();
-  }}
+  }
 
-  Future<void> _loadRecords() async {{
+  Future<void> _loadRecords() async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString(_storageKey);
 
-    if (raw != null && raw.isNotEmpty) {{
-      try {{
+    if (raw != null && raw.isNotEmpty) {
+      try {
         final decoded = jsonDecode(raw);
-        if (decoded is List) {{
+        if (decoded is List) {
           _records = decoded
               .whereType<Map>()
               .map((e) => Map<String, dynamic>.from(e))
               .toList();
-        }}
-      }} catch (_) {{
+        }
+      } catch (_) {
         _records = [];
-      }}
-    }}
+      }
+    }
 
-    if (mounted) {{
+    if (mounted) {
       setState(() => _loading = false);
-    }}
-  }}
+    }
+  }
 
-  Future<void> _saveRecords() async {{
+  Future<void> _saveRecords() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_storageKey, jsonEncode(_records));
-  }}
+  }
 
-  List<Map<String, dynamic>> get _visibleRecords {{
+  List<Map<String, dynamic>> get _visibleRecords {
     final q = _searchController.text.trim().toLowerCase();
 
-    return _records.where((record) {{
+    return _records.where((record) {
       final status = (record['status'] ?? 'Open').toString();
       final haystack = [
         record['title'],
@@ -91,23 +91,23 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
           _statusFilter == 'All' || status == _statusFilter;
 
       return matchesSearch && matchesStatus;
-    }}).toList();
-  }}
+    }).toList();
+  }
 
-  int _count(String status) {{
+  int _count(String status) {
     return _records
         .where((r) => (r['status'] ?? 'Open').toString() == status)
         .length;
-  }}
+  }
 
-  bool _isOverdue(Map<String, dynamic> record) {{
+  bool _isOverdue(Map<String, dynamic> record) {
     final due = DateTime.tryParse((record['dueDate'] ?? '').toString());
     if (due == null) return false;
     return due.isBefore(DateTime.now()) &&
         (record['status'] ?? 'Open') != 'Closed';
-  }}
+  }
 
-  Future<void> _addRecord() async {{
+  Future<void> _addRecord() async {
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
     final assignedController = TextEditingController();
@@ -117,9 +117,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
 
     final created = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) {{
+      builder: (dialogContext) {
         return StatefulBuilder(
-          builder: (context, setDialogState) {{
+          builder: (context, setDialogState) {
             return AlertDialog(
               title: const Text('Add HSE Follow-up'),
               content: SingleChildScrollView(
@@ -160,7 +160,7 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
                     ),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<String>(
-                      initialValue: priority,
+                      value: priority,
                       decoration: const InputDecoration(
                         labelText: 'Priority',
                         border: OutlineInputBorder(),
@@ -171,11 +171,11 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
                                 child: Text(value),
                               ))
                           .toList(),
-                      onChanged: (value) {{
-                        if (value != null) {{
+                      onChanged: (value) {
+                        if (value != null) {
                           setDialogState(() => priority = value);
-                        }}
-                      }},
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -191,23 +191,23 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
                 ),
               ],
             );
-          }},
+          },
         );
-      }},
+      },
     );
 
-    if (created != true || titleController.text.trim().isEmpty) {{
+    if (created != true || titleController.text.trim().isEmpty) {
       titleController.dispose();
       descriptionController.dispose();
       assignedController.dispose();
       dueController.dispose();
       return;
-    }}
+    }
 
     final now = DateTime.now().toIso8601String();
 
-    _records.insert(0, {{
-      'id': 'SN-153-${{DateTime.now().millisecondsSinceEpoch}}',
+    _records.insert(0, {
+      'id': 'SN-153-${DateTime.now().millisecondsSinceEpoch}',
       'title': titleController.text.trim(),
       'description': descriptionController.text.trim(),
       'assignedTo': assignedController.text.trim().isEmpty
@@ -221,7 +221,7 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
       'step': 153,
       'module': 'HSE Risk Follow-up',
       'source': 'SafeNexus HSE',
-    }});
+    });
 
     await _saveRecords();
 
@@ -230,10 +230,10 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
     assignedController.dispose();
     dueController.dispose();
 
-    if (mounted) setState(() {{}});
-  }}
+    if (mounted) setState(() {});
+  }
 
-  Future<void> _changeStatus(Map<String, dynamic> record) async {{
+  Future<void> _changeStatus(Map<String, dynamic> record) async {
     final current = (record['status'] ?? 'Open').toString();
 
     final selected = await showDialog<String>(
@@ -263,16 +263,16 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
     record['status'] = selected;
     record['updatedAt'] = DateTime.now().toIso8601String();
 
-    if (selected == 'Closed') {{
+    if (selected == 'Closed') {
       record['verifiedAt'] = DateTime.now().toIso8601String();
       record['closureNote'] = 'Closed through SafeNexus HSE';
-    }}
+    }
 
     await _saveRecords();
-    if (mounted) setState(() {{}});
-  }}
+    if (mounted) setState(() {});
+  }
 
-  Future<void> _copyRecord(Map<String, dynamic> record) async {{
+  Future<void> _copyRecord(Map<String, dynamic> record) async {
     await Clipboard.setData(
       ClipboardData(text: const JsonEncoder.withIndent('  ').convert(record)),
     );
@@ -281,9 +281,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Record copied')),
     );
-  }}
+  }
 
-  Future<void> _deleteRecord(Map<String, dynamic> record) async {{
+  Future<void> _deleteRecord(Map<String, dynamic> record) async {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -306,11 +306,11 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
 
     _records.remove(record);
     await _saveRecords();
-    if (mounted) setState(() {{}});
-  }}
+    if (mounted) setState(() {});
+  }
 
-  Color _priorityColor(String priority) {{
-    switch (priority) {{
+  Color _priorityColor(String priority) {
+    switch (priority) {
       case 'Critical':
         return Colors.red;
       case 'High':
@@ -319,11 +319,11 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
         return Colors.green;
       default:
         return Colors.orange;
-    }}
-  }}
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {{
+  Widget build(BuildContext context) {
     final visible = _visibleRecords;
 
     return Scaffold(
@@ -397,9 +397,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
               ),
             ),
     );
-  }}
+  }
 
-  Widget _buildSummary() {{
+  Widget _buildSummary() {
     final overdue = _records.where(_isOverdue).length;
 
     return Card(
@@ -427,9 +427,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
         ),
       ),
     );
-  }}
+  }
 
-  Widget _metric(String label, int value, IconData icon) {{
+  Widget _metric(String label, int value, IconData icon) {
     return Container(
       width: 105,
       padding: const EdgeInsets.all(10),
@@ -456,9 +456,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
         ],
       ),
     );
-  }}
+  }
 
-  Widget _buildEmpty() {{
+  Widget _buildEmpty() {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(28),
@@ -479,9 +479,9 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
         ),
       ),
     );
-  }}
+  }
 
-  Widget _buildRecordCard(Map<String, dynamic> record) {{
+  Widget _buildRecordCard(Map<String, dynamic> record) {
     final status = (record['status'] ?? 'Open').toString();
     final priority = (record['priority'] ?? 'Medium').toString();
     final overdue = _isOverdue(record);
@@ -506,11 +506,11 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
                   ),
                 ),
                 PopupMenuButton<String>(
-                  onSelected: (value) {{
+                  onSelected: (value) {
                     if (value == 'status') _changeStatus(record);
                     if (value == 'copy') _copyRecord(record);
                     if (value == 'delete') _deleteRecord(record);
-                  }},
+                  },
                   itemBuilder: (context) => const [
                     PopupMenuItem(
                       value: 'status',
@@ -573,5 +573,5 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {{
         ),
       ),
     );
-  }}
-}}
+  }
+}
