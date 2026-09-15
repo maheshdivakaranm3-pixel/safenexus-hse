@@ -2,12 +2,10 @@
 import 'package:flutter/material.dart';
 
 /// SafeNexus HSE
-/// Dubai Construction Safety Framework — Advanced Learning
+/// Dubai Construction Safety Framework — Professional Advanced Learning
 ///
-/// Standalone advanced-learning page.
-/// Uses dynamic item input so it remains compatible with the existing
-/// Dubai Construction Safety Framework main page without depending on
-/// a specific model class.
+/// Standalone file. It deliberately accepts dynamic `item` so it can be
+/// connected to the existing framework page without requiring a model import.
 
 class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
   final dynamic item;
@@ -17,85 +15,48 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
     required this.item,
   });
 
-  String get _title {
+  String get title {
     try {
-      final value = item.title;
-      if (value is String && value.trim().isNotEmpty) return value;
-    } catch (_) {}
-    try {
-      final value = item.name;
-      if (value is String && value.trim().isNotEmpty) return value;
+      final v = item.title;
+      if (v is String && v.trim().isNotEmpty) return v;
     } catch (_) {}
     return 'Construction Safety Framework';
   }
 
   @override
   Widget build(BuildContext context) {
-    final content = _contentFor(_title);
+    final data = _data(title);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F8F6),
+      backgroundColor: const Color(0xFFF4F7F5),
       appBar: AppBar(
-        title: Text(
-          _title,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
         backgroundColor: const Color(0xFF0B6B4F),
         foregroundColor: Colors.white,
-        elevation: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 30),
         children: [
-          _hero(context, _title),
-          const SizedBox(height: 14),
-          _section(
-            '1. Core Explanation',
-            content.core,
-            Icons.school_outlined,
-          ),
-          _section(
-            '2. Detailed Learning',
-            content.learning,
-            Icons.menu_book_outlined,
-          ),
-          _section(
-            '3. Field Verification',
-            content.fieldVerification,
-            Icons.fact_check_outlined,
-          ),
-          _section(
-            '4. Critical Control Points',
-            content.criticalControls,
-            Icons.verified_user_outlined,
-          ),
-          _section(
-            '5. Hazards & Possible Consequences',
-            content.hazards,
-            Icons.warning_amber_rounded,
-          ),
-          _section(
-            '6. Stop-Work Triggers',
-            content.stopWork,
-            Icons.pan_tool_alt_outlined,
-          ),
-          _section(
-            '7. Practical Site Scenario',
-            content.scenario,
-            Icons.engineering_outlined,
-          ),
-          _section(
-            '8. Deeper Learning',
-            content.deeper,
-            Icons.lightbulb_outline,
-          ),
+          _hero(),
+          const SizedBox(height: 12),
+          _block('1. Introduction — What is it?', data.introduction, Icons.menu_book_outlined),
+          _block('2. Types / Systems / Key Elements', data.types, Icons.account_tree_outlined),
+          _block('3. Components & Requirements', data.components, Icons.construction_outlined),
+          _block('4. Technical & Planning Requirements', data.technical, Icons.engineering_outlined),
+          _block('5. Main Hazards', data.hazards, Icons.warning_amber_rounded),
+          _block('6. Safety Controls', data.controls, Icons.shield_outlined),
+          _block('7. Field Verification — What to Check', data.field, Icons.fact_check_outlined),
+          _block('8. Inspection & Monitoring', data.inspection, Icons.search_outlined),
+          _block('9. Stop-Work Conditions', data.stopWork, Icons.pan_tool_alt_outlined),
+          _block('10. Practical Site Example', data.example, Icons.location_on_outlined),
+          _block('11. Quick Learning Formula', data.formula, Icons.bolt_outlined),
+          _block('12. Deeper Learning', data.deeper, Icons.lightbulb_outline),
         ],
       ),
     );
   }
 
-  Widget _hero(BuildContext context, String title) {
+  Widget _hero() {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -103,78 +64,54 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
           colors: [Color(0xFF0B6B4F), Color(0xFF159447)],
         ),
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: .08),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
       ),
-      child: Row(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.health_and_safety_outlined,
-            color: Colors.white,
-            size: 38,
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'ADVANCED LEARNING',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.1,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 7),
-                const Text(
-                  'Professional field-learning module for construction HSE practice, supervision and decision-making.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    height: 1.4,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
+          Icon(Icons.health_and_safety_outlined, color: Colors.white, size: 38),
+          SizedBox(height: 8),
+          Text(
+            'ADVANCED LEARNING • FIELD REFERENCE',
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 11,
+              fontWeight: FontWeight.w800,
+              letterSpacing: .8,
             ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            'Professional Construction Safety Framework',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          SizedBox(height: 7),
+          Text(
+            'Structured for HSE Officers, Engineers, Supervisors, Consultants and workers.',
+            style: TextStyle(color: Colors.white, height: 1.4, fontSize: 13),
           ),
         ],
       ),
     );
   }
 
-  Widget _section(String heading, List<String> points, IconData icon) {
+  Widget _block(String heading, List<String> points, IconData icon) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 1.2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      margin: const EdgeInsets.only(bottom: 11),
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 15, 16, 14),
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 13),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(icon, color: const Color(0xFF0B6B4F), size: 22),
+                Icon(icon, size: 22, color: const Color(0xFF0B6B4F)),
                 const SizedBox(width: 9),
                 Expanded(
                   child: Text(
@@ -188,25 +125,25 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            ...points.map(
-              (point) => Padding(
+            const SizedBox(height: 11),
+            ...points.asMap().entries.map(
+              (e) => Padding(
                 padding: const EdgeInsets.only(bottom: 9),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: Icon(
-                        Icons.circle,
-                        size: 5,
+                    Text(
+                      '${e.key + 1}.',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
                         color: Color(0xFF159447),
+                        fontSize: 13,
                       ),
                     ),
-                    const SizedBox(width: 9),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        point,
+                        e.value,
                         style: const TextStyle(
                           fontSize: 13.5,
                           height: 1.48,
@@ -224,925 +161,1273 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
     );
   }
 
-  _LearningContent _contentFor(String title) {
-    final key = title.toLowerCase();
+  _FrameworkData _data(String raw) {
+    final k = raw.toLowerCase();
 
-    if (key.contains('management system')) {
-      return _LearningContent(
-        core: [
-          'A construction HSE management system is the organised framework used to plan, implement, monitor and improve health and safety throughout the project lifecycle.',
-          'It connects leadership, HSE planning, risk assessment, RAMS, competence, supervision, inspection, incident management, emergency response and corrective action.',
-          'The objective is not simply to produce documents. The objective is to ensure that the controls described in the management system are actually implemented and verified in the field.',
+    if (k.contains('risk assessment')) {
+      return const _FrameworkData(
+        introduction: [
+          'Risk assessment is the structured process of identifying hazards, evaluating the risk created by an activity and selecting controls before people are exposed.',
+          'A construction risk assessment must reflect the real workface, sequence, people, plant, environment, interfaces and reasonably foreseeable changes.',
         ],
-        learning: [
-          'Establish clear HSE responsibilities from project management through supervisors and workers.',
-          'Set project HSE objectives and measurable performance indicators appropriate to the work scope and risk profile.',
-          'Integrate HSE requirements into mobilisation, procurement, subcontractor selection, work planning and daily supervision.',
-          'Use a document-control process so that teams work to the current approved plans, RAMS, permits and drawings.',
-          'Create a feedback loop: inspection finding → action → responsible person → target date → verification → closure.',
-          'Review the system when scope, sequence, design, equipment, workforce or site conditions change.',
+        types: [
+          'Project / activity risk assessment — establishes the risk profile for planned work.',
+          'Task risk assessment — focuses on a defined task and its steps.',
+          'Dynamic review — reassesses conditions when the workface changes.',
+          'Interface assessment — addresses risks created by simultaneous operations or neighbouring activities.',
         ],
-        fieldVerification: [
-          'Confirm the project HSE organisation chart and responsibilities are understood by supervisors.',
-          'Check that current HSE plans, RAMS, permits and inspection forms are available at the point of work.',
-          'Interview workers to verify that the documented controls are understood.',
-          'Compare planned controls with actual site conditions and work methods.',
-          'Check whether previous inspection and incident actions are genuinely closed rather than only marked closed.',
+        components: [
+          'Work scope and boundaries.',
+          'Hazard identification and exposed persons.',
+          'Initial risk evaluation.',
+          'Control measures using the hierarchy of controls.',
+          'Residual risk and approval arrangements.',
+          'Responsible persons, verification points and review triggers.',
         ],
-        criticalControls: [
-          'Visible management leadership and adequate HSE resources.',
-          'Clear ownership of every significant risk and corrective action.',
-          'Effective communication between contractor, subcontractor, supervisor and workforce.',
-          'Management of change whenever the original risk assumptions no longer apply.',
-          'Routine verification of critical controls instead of relying only on paperwork.',
+        technical: [
+          'Break the activity into logical steps before assessing hazards.',
+          'Consider normal, abnormal and emergency conditions.',
+          'Give priority to elimination and engineering controls before administrative controls and PPE.',
+          'Define critical controls that must be physically verified.',
+          'Review the assessment after significant change, incident, near miss or discovery of a new hazard.',
         ],
         hazards: [
-          'A paper-based system with weak field implementation can leave high-risk activities uncontrolled.',
-          'Unclear responsibilities can cause gaps between contractor, subcontractor and supervisor.',
-          'Outdated RAMS or drawings can lead workers to follow an unsafe method.',
-          'Repeated open actions can allow known hazards to remain in the workplace.',
+          'Generic assessments may miss site-specific hazards.',
+          'Controls may exist on paper but fail at the workface.',
+          'Changing sequences can introduce new interfaces.',
+          'Workers may continue using an assessment that no longer matches the actual job.',
+        ],
+        controls: [
+          'Use task-specific hazard identification.',
+          'Involve people who understand the actual work.',
+          'Assign clear ownership for significant controls.',
+          'Brief workers before exposure.',
+          'Verify critical controls during the work, not only before it.',
+          'Stop and reassess when conditions change.',
+        ],
+        field: [
+          'Does the assessment describe the actual work location and sequence?',
+          'Can the supervisor identify the highest-risk steps?',
+          'Can workers explain the critical controls?',
+          'Are engineering and physical controls actually installed?',
+          'Are interfaces with lifting, excavation, traffic, temporary works or other contractors controlled?',
+        ],
+        inspection: [
+          'Observe the work while it is happening.',
+          'Check critical controls against the assessment.',
+          'Record deviations and assign corrective actions.',
+          'Verify closure physically.',
+          'Trend repeated findings and revise the control system when necessary.',
         ],
         stopWork: [
-          'Critical controls required for the task are absent or have failed.',
-          'The actual work method materially differs from the approved safe system without reassessment.',
-          'Competent supervision is unavailable for a high-risk activity.',
-          'Workers cannot explain the critical hazards or required controls for the task.',
+          'A significant hazard is not assessed or controlled.',
+          'The workface has changed materially from the assessment.',
+          'A critical control has failed.',
+          'Required supervision or competence is unavailable.',
+          'A new interface creates an unacceptable exposure.',
         ],
-        scenario: [
-          'A subcontractor starts a high-risk activity using a RAMS document that does not reflect a recent change in site layout. The HSE professional stops the activity, confirms the changed conditions, requires the work method and risk assessment to be reviewed, communicates the revised controls and verifies implementation before restart.',
+        example: [
+          'A lifting activity is planned beside an excavation. During preparation, the load path is found to pass through the excavation access area. The team pauses, reassesses the interface, separates the routes, verifies the exclusion zone and re-briefs the crew before restarting.',
+        ],
+        formula: [
+          'DEFINE THE TASK → IDENTIFY HAZARDS → CONTROL THE RISK → VERIFY THE CONTROLS → REVIEW THE CHANGE.',
         ],
         deeper: [
-          'A mature HSE management system is a control cycle rather than a folder of documents: Plan → Assess → Control → Implement → Verify → Learn → Improve.',
-          'The strongest systems make safety decisions at the planning stage, where hazards can often be eliminated or reduced before workers are exposed.',
+          'A risk assessment is not successful because the risk score looks low. It is successful when the critical controls are suitable, implemented and effective at the workface.',
+          'The strongest assessments influence design, sequencing, equipment selection, access, temporary works and emergency arrangements before exposure occurs.',
         ],
       );
     }
 
-    if (key.contains('risk assessment')) {
-      return _LearningContent(
-        core: [
-          'Risk assessment identifies hazards, evaluates the risk created by the work and determines controls before and during execution.',
-          'On a construction project, risk assessment must reflect the actual task, location, people, plant, environment, interfaces and changing site conditions.',
+    if (k.contains('hse plan')) {
+      return const _FrameworkData(
+        introduction: [
+          'The Project HSE Plan is the project-level framework describing how health, safety and environmental risks will be managed throughout construction.',
+          'It should connect management arrangements with practical site systems such as RAMS, permits, inspections, emergency response, training and contractor control.',
         ],
-        learning: [
-          'Define the activity and work boundaries clearly before identifying hazards.',
-          'Identify routine, non-routine and reasonably foreseeable abnormal conditions.',
-          'Consider people who may be affected, including workers, visitors, other contractors and the public.',
-          'Apply the hierarchy of controls: eliminate, substitute, engineering controls, administrative controls and PPE.',
-          'Assign control ownership and establish how critical controls will be verified.',
-          'Review the assessment when there is a change in method, sequence, design, equipment, personnel or environmental condition.',
+        types: [
+          'Project HSE management arrangements.',
+          'Construction-phase HSE controls.',
+          'Emergency and response arrangements.',
+          'Worker welfare and occupational-health arrangements.',
+          'Environmental and waste-management arrangements.',
+          'Monitoring, audit, reporting and improvement arrangements.',
         ],
-        fieldVerification: [
-          'Check the risk assessment against the actual workface rather than only reviewing the document.',
-          'Ask the supervisor to identify the highest-risk steps and their critical controls.',
-          'Verify that workers received task-specific briefing and can explain the key controls.',
-          'Check that residual risks are acceptable under the project approval process.',
+        components: [
+          'HSE organisation and responsibilities.',
+          'Risk-management process.',
+          'RAMS and permit systems.',
+          'Competence, training and consultation.',
+          'Inspection and audit programme.',
+          'Incident and corrective-action process.',
+          'Emergency preparedness.',
+          'Contractor and subcontractor management.',
         ],
-        criticalControls: [
-          'Task-specific hazard identification.',
-          'Controls that address the hazard at source wherever reasonably practicable.',
-          'Clear ownership for critical controls.',
-          'Effective communication and worker involvement.',
-          'Dynamic reassessment when conditions change.',
+        technical: [
+          'Make the plan project-specific rather than generic.',
+          'Define who owns each HSE process and how performance will be measured.',
+          'Maintain document control and current revisions.',
+          'Integrate changes in project scope and construction sequence.',
+          'Ensure resources and competent personnel are available to implement the plan.',
         ],
         hazards: [
-          'Generic risk assessments may miss site-specific hazards.',
-          'Risk ratings can create false confidence if controls are not verified.',
-          'Changes in work sequence can introduce new interfaces and simultaneous-operation risks.',
+          'A generic plan may fail to address project-specific risks.',
+          'Conflicting contractor procedures may create interface gaps.',
+          'An outdated plan can leave the project working to obsolete assumptions.',
+        ],
+        controls: [
+          'Clear management accountability.',
+          'Adequate HSE resources.',
+          'Current approved documentation.',
+          'Strong contractor coordination.',
+          'Field verification and performance review.',
+        ],
+        field: [
+          'Check that site procedures actually implement the HSE Plan.',
+          'Interview supervisors and workers.',
+          'Verify current emergency, inspection and reporting arrangements.',
+          'Check that high-risk activities are covered by suitable task controls.',
+        ],
+        inspection: [
+          'Review implementation during site inspections.',
+          'Audit selected HSE processes.',
+          'Trend findings, incidents and corrective actions.',
+          'Review the plan when the project enters a materially different phase.',
         ],
         stopWork: [
-          'A critical hazard has not been assessed or controlled.',
-          'The risk assessment no longer matches the work being performed.',
-          'Workers are exposed to a changed condition for which no control has been established.',
+          'Critical project controls are not established.',
+          'Site conditions fall outside the assumptions of the current plan.',
+          'Required HSE resources or competence are unavailable.',
         ],
-        scenario: [
-          'Excavation work is planned beside an active lifting route. During the shift, the lifting exclusion zone overlaps the excavation access route. The work is paused, the interface is reassessed, routes and exclusion zones are revised, and the revised controls are briefed before work resumes.',
+        example: [
+          'A project moves from structural works into façade, lifting and fit-out activities. The project team reviews the HSE arrangements, identifies new interfaces and updates planning, supervision, emergency and monitoring requirements before the new phase starts.',
+        ],
+        formula: [
+          'PLAN → ORGANISE → CONTROL → IMPLEMENT → VERIFY → LEARN → IMPROVE.',
         ],
         deeper: [
-          'Risk assessment is most effective when it drives the work method. A strong assessment therefore influences design, sequencing, temporary works, access, plant selection and emergency arrangements—not just the final risk score.',
+          'The HSE Plan should function as the project control architecture. Individual RAMS, permits and inspections should fit into that architecture rather than operate as disconnected paperwork.',
         ],
       );
     }
 
-    if (key.contains('ram') || key.contains('method statement')) {
-      return _LearningContent(
-        core: [
-          'RAMS means the documented combination of risk assessment and method statement used to explain how work will be carried out safely and under controlled conditions.',
-          'The method statement should translate identified hazards into a practical sequence of work, responsibilities, controls, resources and verification points.',
+    if (k.contains('ram') || k.contains('method statement')) {
+      return const _FrameworkData(
+        introduction: [
+          'RAMS combines risk assessment with a method statement so the workforce understands both the hazards and the controlled sequence of work.',
+          'A good method statement turns risk controls into practical actions, responsibilities, prerequisites and hold points.',
         ],
-        learning: [
-          'Describe the exact work scope, location, interfaces and sequence.',
-          'Identify prerequisites such as permits, drawings, inspections, competence and equipment readiness.',
-          'Explain the safe sequence from preparation through completion and handover.',
-          'Identify hold points and critical control checks before the next stage starts.',
-          'Define emergency arrangements relevant to the task.',
-          'Brief the RAMS to the workforce and confirm understanding.',
+        types: [
+          'Routine task RAMS.',
+          'High-risk activity RAMS.',
+          'Interface / simultaneous-operation RAMS.',
+          'Revised RAMS following a significant change.',
         ],
-        fieldVerification: [
-          'Verify the approved revision is available at the workface.',
-          'Check that the method described matches the actual equipment and sequence.',
-          'Interview the supervisor and workers about the critical steps.',
-          'Confirm required permits and inspections are completed before work starts.',
+        components: [
+          'Scope and location.',
+          'Sequence of operations.',
+          'Plant, tools and materials.',
+          'Competence and supervision.',
+          'Hazards and critical controls.',
+          'Permits and prerequisites.',
+          'Inspection / hold points.',
+          'Emergency arrangements.',
         ],
-        criticalControls: [
-          'Correct scope and current revision.',
-          'Task-specific controls and sequence.',
-          'Defined responsibilities and competent supervision.',
-          'Pre-start checks and hold points.',
-          'Change control and re-briefing.',
+        technical: [
+          'Use the correct approved revision.',
+          'Make the sequence realistic and consistent with drawings and site conditions.',
+          'Define hold points before safety-critical stages.',
+          'Control deviations through the project change process.',
+          'Brief affected workers and verify understanding.',
         ],
         hazards: [
-          'Using an obsolete revision can invalidate important controls.',
-          'A vague method statement may leave critical decisions to workers without adequate guidance.',
-          'Uncontrolled changes can bypass the original risk assessment.',
+          'Obsolete documents.',
+          'Generic wording.',
+          'Uncontrolled deviations.',
+          'Missing prerequisites or hold points.',
+        ],
+        controls: [
+          'Current approved revision.',
+          'Task-specific sequence.',
+          'Competent supervision.',
+          'Worker briefing.',
+          'Pre-start and hold-point verification.',
+          'Change management.',
+        ],
+        field: [
+          'Compare the RAMS with the actual workface.',
+          'Ask workers to explain the critical steps.',
+          'Verify permits, inspections and equipment readiness.',
+          'Check that the supervisor is controlling deviations.',
+        ],
+        inspection: [
+          'Observe execution against the approved sequence.',
+          'Record deviations.',
+          'Escalate significant deviations.',
+          'Reassess and re-brief after approved changes.',
         ],
         stopWork: [
-          'Work starts without an approved applicable RAMS where required.',
-          'The actual method differs significantly from the approved sequence.',
-          'A critical prerequisite or hold point has not been satisfied.',
+          'No applicable approved RAMS where required.',
+          'Actual work materially differs from the approved method.',
+          'Critical prerequisite or hold point is not satisfied.',
         ],
-        scenario: [
-          'A concrete operation changes from the planned pump arrangement to a different setup. The supervisor pauses the activity, reviews the changed equipment and interfaces, updates the safe method and risk controls through the project change process, then re-briefs the crew.',
+        example: [
+          'A planned concrete operation changes equipment arrangement. The supervisor pauses the activity, reassesses the changed interface and updates the safe method through the project change process before restarting.',
+        ],
+        formula: [
+          'SCOPE → SEQUENCE → HAZARDS → CONTROLS → RESPONSIBILITIES → VERIFY → EXECUTE.',
         ],
         deeper: [
-          'RAMS should be treated as a live operational control. Its quality is demonstrated by how well it guides decisions at the workface, not by document length.',
+          'RAMS quality is demonstrated at the workface. A long document is not automatically a good safe system; the worker must be able to understand and apply the critical controls.',
         ],
       );
     }
 
-    if (key.contains('work at height')) {
-      return _LearningContent(
-        core: [
-          'Work at height includes work where a person could fall from one level to another and suffer injury. Construction controls should prioritise prevention of falls and protection from falling objects.',
-          'The safest approach is to eliminate work at height where reasonably practicable, then use collective protection before relying on individual systems.',
+    if (k.contains('competent') || k.contains('supervision')) {
+      return const _FrameworkData(
+        introduction: [
+          'Competence means having the knowledge, skills, experience and authority appropriate to the work. Supervision ensures the safe system is implemented in the field.',
         ],
-        learning: [
-          'Plan access, work position, material handling and rescue before the task starts.',
-          'Select suitable platforms, guardrails, access systems and fall-protection arrangements for the work.',
-          'Control openings, edges, fragile surfaces and changes in level.',
-          'Prevent tools and materials from falling onto people below.',
-          'Ensure equipment is inspected and users are competent.',
-          'Coordinate work above and below to avoid conflicting activities.',
+        types: [
+          'Task competence.',
+          'Equipment / plant competence.',
+          'Technical or inspection competence.',
+          'Supervisory competence.',
+          'Safety-critical specialist competence.',
         ],
-        fieldVerification: [
-          'Inspect access and working platforms before use.',
-          'Check edge protection and openings.',
-          'Verify that fall-protection equipment is suitable, inspected and correctly used where required.',
-          'Confirm dropped-object controls and exclusion zones.',
+        components: [
+          'Defined competence criteria.',
+          'Qualification or training evidence where applicable.',
+          'Relevant experience.',
+          'Task-specific understanding.',
+          'Authority and responsibility.',
+          'Adequate supervision.',
         ],
-        criticalControls: [
-          'Suitable collective fall prevention.',
-          'Safe access and egress.',
-          'Secure working platforms and edge protection.',
-          'Dropped-object prevention.',
-          'Rescue arrangements appropriate to the fall-protection system.',
+        technical: [
+          'Identify competence requirements before mobilisation.',
+          'Verify competence rather than assuming it.',
+          'Match supervision intensity to risk and workforce experience.',
+          'Provide effective shift handover and continuity of responsibility.',
         ],
         hazards: [
-          'Falls from unprotected edges, openings or incomplete platforms.',
-          'Falling tools and materials.',
-          'Unsafe access or overreaching.',
-          'Improvised platforms and unauthorised modifications.',
+          'Unverified competence.',
+          'Inadequate supervision.',
+          'Unclear responsibility.',
+          'Loss of competent oversight during shift changes.',
+        ],
+        controls: [
+          'Competence verification.',
+          'Clear appointment and responsibility.',
+          'Adequate supervision.',
+          'Worker briefing and communication.',
+          'Stop-work authority.',
+        ],
+        field: [
+          'Ask who is responsible for the task.',
+          'Verify required competence evidence.',
+          'Observe supervisory presence and behaviour.',
+          'Check that workers know escalation routes.',
+        ],
+        inspection: [
+          'Review competence records as applicable.',
+          'Observe actual performance.',
+          'Identify repeated errors or weak supervision.',
+          'Review competence after significant method or equipment changes.',
         ],
         stopWork: [
-          'Missing or defective edge protection.',
-          'Unsafe access or an incomplete working platform.',
-          'Fall-protection system cannot be safely used or rescued.',
-          'Dropped-object controls are not established where people may be exposed.',
+          'Required competent person is absent.',
+          'Competence cannot be established for a safety-critical task.',
+          'Supervision is inadequate for the risk.',
         ],
-        scenario: [
-          'A worker is asked to install services beside an open floor edge. The planned work position has inadequate collective protection. The supervisor stops the task, establishes a suitable protected work platform and access arrangement, confirms the controls and then permits the work to continue.',
+        example: [
+          'A safety-critical temporary-works activity is scheduled on a shift where the required competent supervision is unavailable. The work is postponed until the correct competence and authority are available.',
+        ],
+        formula: [
+          'RIGHT PERSON → RIGHT COMPETENCE → RIGHT AUTHORITY → RIGHT SUPERVISION.',
         ],
         deeper: [
-          'Height safety is strongest when the workface is designed so the worker does not need to depend on personal fall arrest. Temporary works, sequencing and prefabrication can often reduce exposure significantly.',
+          'Competence is contextual. General construction experience does not automatically make a person competent to make every specialist or safety-critical decision.',
         ],
       );
     }
 
-    if (key.contains('lifting')) {
-      return _LearningContent(
-        core: [
-          'Lifting operations involve planned movement of a load using lifting equipment and accessories. Construction lifting must be controlled through suitable planning, competent personnel, inspected equipment and a managed exclusion zone.',
-          'The lifting plan should match the actual crane, load, radius, ground conditions, route, interfaces and environmental conditions.',
+    if (k.contains('temporary works')) {
+      return const _FrameworkData(
+        introduction: [
+          'Temporary works are temporary structures or systems used to support construction, provide stability, enable access or protect people and property during the construction process.',
         ],
-        learning: [
-          'Confirm the load characteristics, centre of gravity and lifting points.',
-          'Select suitable lifting equipment and accessories for the planned operation.',
-          'Verify ground conditions, access, setup area and proximity hazards.',
-          'Establish communication arrangements, roles and exclusion zones.',
-          'Control suspended-load movement and prevent people from entering the danger area.',
-          'Use pre-lift checks and stop the operation when conditions become unsafe.',
+        types: [
+          'Formwork and falsework.',
+          'Temporary propping and shoring.',
+          'Excavation support.',
+          'Temporary access and platforms.',
+          'Temporary bridges or working arrangements.',
+          'Temporary stability systems.',
         ],
-        fieldVerification: [
-          'Verify equipment identification, inspection status and suitability.',
-          'Check lifting accessories before use.',
-          'Confirm setup, ground condition and exclusion zone.',
-          'Verify that the lifting team understands signals and roles.',
-          'Confirm weather and site conditions remain suitable.',
+        components: [
+          'Design basis and load assumptions.',
+          'Drawings and installation sequence.',
+          'Supports, connections and bracing.',
+          'Foundations or bearing arrangements.',
+          'Inspection and handover status.',
+          'Modification and removal controls.',
         ],
-        criticalControls: [
-          'Competent lifting team.',
-          'Suitable and inspected equipment/accessories.',
-          'Approved task-specific lifting plan where required.',
-          'Stable setup and controlled load path.',
-          'Effective communication and exclusion zone.',
-        ],
-        hazards: [
-          'Dropped loads, equipment instability, struck-by incidents and uncontrolled load swing.',
-          'Interface with scaffolding, excavation, temporary works, buildings, services and traffic.',
-        ],
-        stopWork: [
-          'Ground condition or equipment setup becomes unsafe.',
-          'Load weight, lifting points or equipment suitability cannot be confirmed.',
-          'People enter the exclusion zone or communication is lost.',
-          'Wind or other environmental conditions exceed the safe operating limits established for the equipment and operation.',
-        ],
-        scenario: [
-          'A heavy HVAC unit is ready for lifting but the planned load path crosses an active access route. The lifting team stops the operation, isolates the route, establishes a controlled exclusion zone, verifies the lift plan and communication system, and only then proceeds.',
-        ],
-        deeper: [
-          'A lifting operation is an engineered and managed system. The crane itself is only one element; ground condition, rigging, load path, communication, exclusion, competence and interfaces determine overall risk.',
-        ],
-      );
-    }
-
-    if (key.contains('excavation')) {
-      return _LearningContent(
-        core: [
-          'Excavation safety controls collapse, falls, falling materials, underground-service strikes, plant interaction, water ingress and hazardous atmospheres.',
-          'The protection system must be appropriate to the ground conditions, excavation geometry, depth, adjacent structures and planned work activities.',
-        ],
-        learning: [
-          'Confirm underground services and site constraints before excavation.',
-          'Select a suitable protection method such as engineered shoring, shielding, benching or sloping as applicable.',
-          'Control access, egress, plant movement and edge loading.',
-          'Keep spoil, materials and equipment controlled so they do not create additional loading or falling-object hazards.',
-          'Provide inspection and reassessment after relevant changes or events.',
-        ],
-        fieldVerification: [
-          'Inspect the excavation, protective system, access and edge conditions.',
-          'Check water ingress, cracks, ground movement and nearby loads.',
-          'Verify service identification and controls.',
-          'Check plant exclusion and traffic arrangements.',
-        ],
-        criticalControls: [
-          'Suitable protective system and competent oversight.',
-          'Safe access and egress.',
-          'Edge and falling-object control.',
-          'Underground-service protection.',
-          'Inspection and dynamic reassessment.',
+        technical: [
+          'Establish design responsibility and review requirements.',
+          'Control erection and dismantling sequence.',
+          'Maintain stability at each construction stage.',
+          'Prevent unauthorised modification.',
+          'Reinspect after relevant events or changes.',
         ],
         hazards: [
-          'Ground collapse, engulfment, falls, falling spoil, service strike, flooding and plant interaction.',
+          'Collapse.',
+          'Instability.',
+          'Overloading.',
+          'Incorrect installation.',
+          'Premature removal.',
+          'Unauthorised modification.',
         ],
-        stopWork: [
-          'Signs of instability, collapse or unexpected ground movement.',
-          'Protective system is damaged, incomplete or unsuitable.',
-          'Unknown or uncontrolled underground services are encountered.',
-          'Water ingress or environmental conditions compromise stability.',
-        ],
-        scenario: [
-          'Unexpected water and ground movement appear in an excavation after nearby work. The competent person stops entry, isolates the area, reassesses the conditions and protection system, and only allows re-entry after safe conditions and controls are re-established.',
-        ],
-        deeper: [
-          'Excavation safety depends on interaction between soil, water, geometry, adjacent loads, protection systems and human behaviour. Treat changes in any of these factors as potential changes to the risk profile.',
-        ],
-      );
-    }
-
-    if (key.contains('temporary works')) {
-      return _LearningContent(
-        core: [
-          'Temporary works are structures or systems required to enable construction, support existing structures or provide temporary stability. Failure can have severe consequences because loads and conditions may change during construction.',
-          'Temporary works require controlled design, review, installation, inspection, modification and removal.',
-        ],
-        learning: [
-          'Define the temporary works scope, design basis and load assumptions.',
-          'Establish responsibilities for design, review, approval, erection and inspection.',
-          'Control sequencing and temporary stability during each construction stage.',
-          'Prevent unauthorised alteration or removal of supports.',
-          'Inspect after installation and after events that could affect stability.',
-        ],
-        fieldVerification: [
-          'Confirm the installed arrangement matches the approved design and drawings.',
-          'Check supports, connections, bracing and foundations.',
-          'Verify inspection status and restrictions on modification.',
-          'Confirm load paths are clear and no unplanned loads are imposed.',
-        ],
-        criticalControls: [
+        controls: [
           'Competent design and review.',
-          'Controlled erection sequence.',
-          'Temporary stability at every stage.',
-          'Inspection and change control.',
-          'Protection against unauthorised modification.',
+          'Approved installation sequence.',
+          'Competent erection and inspection.',
+          'Controlled loading.',
+          'Change control.',
+          'Protected temporary stability.',
         ],
-        hazards: [
-          'Progressive collapse, instability, overload, incorrect installation and premature removal.',
+        field: [
+          'Compare installed arrangement with approved information.',
+          'Check supports, bracing and connections.',
+          'Look for movement, damage or distress.',
+          'Verify inspection / handover status.',
+          'Confirm no unauthorised alterations have occurred.',
+        ],
+        inspection: [
+          'Inspect after installation.',
+          'Inspect at defined stages and after relevant events.',
+          'Record defects and restrict use where necessary.',
+          'Verify corrective actions before release.',
         ],
         stopWork: [
-          'Installed temporary works differ from the approved design.',
-          'Damage, movement or instability is observed.',
-          'Required design information or inspection status is unavailable.',
+          'Movement, damage or instability is observed.',
+          'Installed works differ materially from approved design.',
+          'Inspection status is unavailable where required.',
           'Unauthorised modification has occurred.',
         ],
-        scenario: [
-          'A contractor proposes removing a temporary support to improve access. The request is stopped because the support forms part of the temporary load path. The temporary works responsible person reviews the proposal and provides an approved sequence before any change is made.',
+        example: [
+          'A temporary support is proposed for removal to improve access. The work is stopped because the support may form part of the temporary load path. The temporary-works responsible person reviews the change and provides an approved sequence before removal.',
+        ],
+        formula: [
+          'DESIGN → REVIEW → INSTALL → INSPECT → CONTROL LOADS → MODIFY ONLY WITH APPROVAL → REMOVE SAFELY.',
         ],
         deeper: [
-          'Temporary works are often safety-critical because construction creates changing load paths. The correct question is not only “Is the structure designed?” but also “Is the structure stable in this exact construction stage?”',
+          'Temporary works can be most vulnerable during construction transitions because loads and support conditions change. Stability must therefore be considered for every construction stage, not only the final arrangement.',
         ],
       );
     }
 
-    if (key.contains('plant') || key.contains('machinery')) {
-      return _LearningContent(
-        core: [
-          'Construction plant and machinery can create crushing, struck-by, entanglement, overturning, electrical, mechanical and traffic risks. Safe use depends on equipment suitability, guarding, competence, inspection and controlled interaction with people.',
+    if (k.contains('plant') || k.contains('machinery')) {
+      return const _FrameworkData(
+        introduction: [
+          'Plant and machinery safety controls moving equipment, mechanical hazards, energy sources and interaction between operators, pedestrians and other work activities.',
         ],
-        learning: [
-          'Select plant suitable for the task, environment and load.',
-          'Ensure operators are competent and authorised for the equipment.',
-          'Maintain effective guarding and safety devices.',
-          'Establish pedestrian and vehicle segregation where practicable.',
+        types: [
+          'Mobile plant.',
+          'Lifting and material-handling equipment.',
+          'Powered hand tools.',
+          'Fixed machinery.',
+          'Earthmoving equipment.',
+          'Specialist construction equipment.',
+        ],
+        components: [
+          'Suitable equipment selection.',
+          'Guarding and safety devices.',
+          'Operator controls.',
+          'Inspection and maintenance.',
+          'Isolation and stored-energy controls.',
+          'Traffic / pedestrian segregation.',
+        ],
+        technical: [
+          'Select equipment suitable for the task and environment.',
+          'Verify operator competence and authorisation.',
+          'Maintain guarding and safety devices.',
+          'Control maintenance and isolation.',
           'Use pre-use inspections and defect reporting.',
-          'Control maintenance, isolation and stored energy.',
-        ],
-        fieldVerification: [
-          'Check equipment condition and inspection status.',
-          'Verify guards, emergency stops, alarms and other safety devices.',
-          'Confirm operator competence and task authorisation.',
-          'Check work area, visibility, traffic interface and exclusion arrangements.',
-        ],
-        criticalControls: [
-          'Correct plant selection.',
-          'Competent operator.',
-          'Effective guarding and safety devices.',
-          'Pre-use inspection.',
-          'Pedestrian segregation and traffic control.',
         ],
         hazards: [
-          'Moving parts, reversing vehicles, blind spots, dropped attachments, unexpected movement and maintenance energy.',
+          'Crushing.',
+          'Struck-by incidents.',
+          'Entanglement.',
+          'Unexpected movement.',
+          'Overturning.',
+          'Stored energy.',
+        ],
+        controls: [
+          'Physical guarding.',
+          'Segregation.',
+          'Competent operation.',
+          'Pre-use checks.',
+          'Isolation.',
+          'Maintenance control.',
+        ],
+        field: [
+          'Inspect plant condition.',
+          'Check safety devices and guards.',
+          'Verify operator competence.',
+          'Observe pedestrian interaction.',
+          'Check work area and visibility.',
+        ],
+        inspection: [
+          'Pre-use inspection.',
+          'Planned inspection and maintenance.',
+          'Defect reporting.',
+          'Verification before return to service.',
         ],
         stopWork: [
           'Safety-critical guard or device is defective.',
-          'Equipment has an uncontrolled defect.',
-          'Operator is not competent or authorised.',
-          'People are exposed to uncontrolled plant movement.',
+          'Plant has an uncontrolled defect.',
+          'Operator competence is not established.',
+          'People are exposed to uncontrolled movement.',
         ],
-        scenario: [
-          'A mobile plant operator reports a defective reversing alarm. The machine is removed from service for assessment rather than allowing the operator to compensate by relying on spotters alone.',
+        example: [
+          'A mobile plant machine develops a safety-critical defect. The operator reports it and the equipment is removed from service until assessed and released through the site process.',
+        ],
+        formula: [
+          'SELECT → COMPETENT OPERATOR → INSPECT → CONTROL MOVEMENT → ISOLATE FOR MAINTENANCE → VERIFY.',
         ],
         deeper: [
-          'Engineering controls are generally more reliable than behavioural instructions alone. Guarding, segregation, interlocks and physical separation should therefore be considered before relying on warnings or PPE.',
+          'Engineering controls such as guarding and segregation are generally more reliable than relying only on warnings or worker behaviour.',
         ],
       );
     }
 
-    if (key.contains('traffic') || key.contains('public protection')) {
-      return _LearningContent(
-        core: [
-          'Construction traffic management controls interaction between vehicles, mobile plant, workers, visitors and the public. The system should define routes, segregation, access points, speed control, reversing arrangements and public protection.',
+    if (k.contains('work at height')) {
+      return const _FrameworkData(
+        introduction: [
+          'Work at height is work where a person could fall from one level to another and suffer injury. Construction planning should prioritise preventing falls and falling objects.',
         ],
-        learning: [
-          'Plan vehicle and pedestrian routes before work begins.',
-          'Separate people and vehicles using physical controls where reasonably practicable.',
-          'Control gates, deliveries, reversing and temporary route changes.',
-          'Maintain visibility, lighting, signs and housekeeping.',
-          'Coordinate traffic management with lifting, excavation and emergency access.',
+        types: [
+          'Work from protected platforms.',
+          'Work using temporary access systems.',
+          'Work near open edges or openings.',
+          'Work using personal fall-protection systems where appropriate.',
         ],
-        fieldVerification: [
-          'Walk the route and identify blind spots and conflict points.',
-          'Check barriers, signs, access control and pedestrian routes.',
-          'Observe delivery and reversing practices.',
-          'Confirm emergency routes remain available.',
+        components: [
+          'Safe access and egress.',
+          'Working platform.',
+          'Guardrails and edge protection.',
+          'Protection of openings.',
+          'Falling-object controls.',
+          'Suitable fall-protection and rescue arrangements where required.',
         ],
-        criticalControls: [
-          'Physical segregation.',
-          'Controlled vehicle routes and access.',
-          'Reversing controls.',
-          'Competent banksman/traffic control where required by the site system.',
-          'Public protection at site boundaries and interfaces.',
+        technical: [
+          'Eliminate work at height where reasonably practicable.',
+          'Use collective fall prevention before personal protection where suitable.',
+          'Plan rescue before using systems that depend on fall arrest.',
+          'Control fragile surfaces, openings and material handling.',
         ],
         hazards: [
-          'Vehicle-pedestrian collision, reversing incidents, struck-by events and public intrusion.',
+          'Falls from edges.',
+          'Falls through openings.',
+          'Falling tools and materials.',
+          'Unsafe access.',
+          'Improvised platforms.',
+        ],
+        controls: [
+          'Protected platforms.',
+          'Edge protection.',
+          'Safe access.',
+          'Dropped-object prevention.',
+          'Inspection.',
+          'Competence and supervision.',
+        ],
+        field: [
+          'Inspect platform and access.',
+          'Check edges and openings.',
+          'Verify fall-protection equipment where applicable.',
+          'Check exclusion below overhead work.',
+        ],
+        inspection: [
+          'Pre-use inspection.',
+          'Routine checks.',
+          'Post-change / post-event checks.',
+          'Immediate correction of critical defects.',
         ],
         stopWork: [
-          'Pedestrian route is unexpectedly exposed to moving vehicles.',
-          'Traffic control measures are displaced or ineffective.',
+          'Missing or defective edge protection.',
+          'Unsafe access.',
+          'Incomplete platform.',
+          'Uncontrolled falling-object exposure.',
+          'No viable rescue arrangement for the selected fall-protection system.',
+        ],
+        example: [
+          'A worker is asked to install services beside an open edge with inadequate protection. The task is stopped, a suitable protected work position is established and controls are verified before work resumes.',
+        ],
+        formula: [
+          'AVOID HEIGHT → PREVENT FALL → PROTECT PEOPLE BELOW → RESCUE IF REQUIRED → VERIFY.',
+        ],
+        deeper: [
+          'Good height safety is often achieved during planning and temporary-works design, reducing the need for workers to depend on personal fall arrest.',
+        ],
+      );
+    }
+
+    if (k.contains('lifting')) {
+      return const _FrameworkData(
+        introduction: [
+          'Lifting operations involve planned movement of loads using lifting equipment and accessories. Safe lifting depends on engineering, competent personnel, equipment condition and controlled load movement.',
+        ],
+        types: [
+          'Mobile crane operations.',
+          'Tower crane operations.',
+          'Crawler crane operations.',
+          'Hoists and material lifting.',
+          'Personnel lifting where specifically designed and controlled.',
+          'Critical or complex lifting operations.',
+        ],
+        components: [
+          'Lifting equipment.',
+          'Hook and safety latch.',
+          'Wire rope, chain or web sling.',
+          'Shackles and connectors.',
+          'Spreader / lifting beam where required.',
+          'Tag line where appropriate.',
+          'Load indicator / monitoring systems as applicable.',
+          'Exclusion zone and communication system.',
+        ],
+        technical: [
+          'Confirm load characteristics and lifting points.',
+          'Select suitable equipment and accessories.',
+          'Verify setup area and ground conditions.',
+          'Establish load path and exclusion zone.',
+          'Define communication and responsibilities.',
+          'Control weather and environmental limitations.',
+        ],
+        hazards: [
+          'Dropped load.',
+          'Uncontrolled swing.',
+          'Equipment instability.',
+          'Rigging failure.',
+          'People entering the load path.',
+          'Interface with excavation, scaffolding, temporary works or traffic.',
+        ],
+        controls: [
+          'Task-specific lifting plan where required.',
+          'Competent lifting team.',
+          'Suitable and inspected equipment.',
+          'Correct rigging.',
+          'Controlled load path.',
+          'Exclusion zone.',
+          'Clear communication.',
+        ],
+        field: [
+          'Check equipment and accessory identification / inspection status.',
+          'Verify setup and ground condition.',
+          'Check rigging and lifting points.',
+          'Confirm exclusion zone.',
+          'Confirm team communication.',
+        ],
+        inspection: [
+          'Pre-lift inspection.',
+          'Accessory checks.',
+          'Setup verification.',
+          'Continuous observation of changing conditions.',
+        ],
+        stopWork: [
+          'Load, equipment or lifting points cannot be confirmed.',
+          'Setup becomes unsafe.',
+          'Exclusion zone is breached.',
+          'Communication is lost.',
+          'Environmental conditions become unsuitable.',
+        ],
+        example: [
+          'A heavy HVAC unit is prepared for lifting, but its planned load path crosses an active access route. The lift is paused, the route is isolated, the exclusion zone is established and the lifting team verifies the plan before proceeding.',
+        ],
+        formula: [
+          'PLAN → EQUIPMENT → RIGGING → SETUP → EXCLUSION → COMMUNICATE → LIFT → CONTROL → LAND.',
+        ],
+        deeper: [
+          'A crane is only one part of a lifting system. Ground condition, rigging, load path, communication, exclusion and interfaces collectively determine lifting risk.',
+        ],
+      );
+    }
+
+    if (k.contains('excavation')) {
+      return const _FrameworkData(
+        introduction: [
+          'Excavation safety controls collapse, falls, falling materials, underground-service strikes, plant interaction, water ingress and other hazards created by ground disturbance.',
+        ],
+        types: [
+          'Open excavation.',
+          'Trench excavation.',
+          'Foundation excavation.',
+          'Deep excavation.',
+          'Utility excavation.',
+          'Manhole / chamber excavation.',
+        ],
+        components: [
+          'Shoring or other suitable protection.',
+          'Trench box / shielding where applicable.',
+          'Benching or sloping where appropriate.',
+          'Edge protection and barricading.',
+          'Safe ladder / stair access.',
+          'Controlled spoil placement.',
+          'Dewatering arrangements.',
+          'Underground-service controls.',
+        ],
+        technical: [
+          'Assess soil and ground conditions.',
+          'Consider excavation geometry and adjacent structures.',
+          'Select a suitable protective system.',
+          'Control edge loads, plant and spoil.',
+          'Provide safe access and egress.',
+          'Inspect and reassess after relevant changes or events.',
+        ],
+        hazards: [
+          'Collapse / engulfment.',
+          'Falls into excavation.',
+          'Falling materials.',
+          'Underground service strike.',
+          'Flooding.',
+          'Plant interaction.',
+        ],
+        controls: [
+          'Suitable protective system.',
+          'Competent oversight.',
+          'Safe access.',
+          'Edge protection.',
+          'Service identification.',
+          'Water control.',
+          'Plant segregation.',
+        ],
+        field: [
+          'Check ground condition and protective system.',
+          'Look for cracks, movement or water ingress.',
+          'Verify access and egress.',
+          'Check spoil and plant control.',
+          'Verify service controls.',
+        ],
+        inspection: [
+          'Inspect before entry.',
+          'Reinspect after relevant changes, weather or events.',
+          'Record defects and restrict entry when necessary.',
+          'Verify corrective action before re-entry.',
+        ],
+        stopWork: [
+          'Ground instability or unexpected movement.',
+          'Protection system is damaged or unsuitable.',
+          'Unknown underground service is encountered.',
+          'Water ingress compromises stability.',
+          'Safe access is unavailable.',
+        ],
+        example: [
+          'Unexpected water and ground movement appear in an excavation. Entry is stopped, the area is isolated, conditions are reassessed and the protection/dewatering arrangements are corrected before re-entry.',
+        ],
+        formula: [
+          'IDENTIFY SERVICES → ASSESS GROUND → PROTECT → ACCESS → CONTROL EDGES/LOADS → INSPECT → ENTER.',
+        ],
+        deeper: [
+          'Excavation risk changes with soil, water, geometry, adjacent loads and construction activity. Any meaningful change can alter the stability assessment.',
+        ],
+      );
+    }
+
+    if (k.contains('traffic') || k.contains('public')) {
+      return const _FrameworkData(
+        introduction: [
+          'Construction traffic management controls interaction between vehicles, mobile plant, workers, visitors and the public.',
+        ],
+        types: [
+          'Site vehicle routes.',
+          'Pedestrian routes.',
+          'Delivery and unloading zones.',
+          'Reversing arrangements.',
+          'Public-interface protection.',
+          'Temporary route changes.',
+        ],
+        components: [
+          'Physical segregation.',
+          'Controlled gates and access points.',
+          'Traffic routes.',
+          'Pedestrian walkways.',
+          'Signs and barriers.',
+          'Lighting and visibility.',
+          'Reversing controls.',
+        ],
+        technical: [
+          'Plan routes before work starts.',
+          'Separate people and vehicles where reasonably practicable.',
+          'Control deliveries and reversing.',
+          'Maintain emergency access.',
+          'Review traffic arrangements when site layout changes.',
+        ],
+        hazards: [
+          'Vehicle-pedestrian collision.',
+          'Reversing incidents.',
+          'Blind spots.',
+          'Public intrusion.',
+          'Blocked emergency routes.',
+        ],
+        controls: [
+          'Physical segregation.',
+          'Controlled access.',
+          'Competent traffic control.',
+          'Clear signs and barriers.',
+          'Good visibility.',
+        ],
+        field: [
+          'Walk the actual route.',
+          'Check conflict points and blind spots.',
+          'Observe deliveries and reversing.',
+          'Check pedestrian protection and emergency access.',
+        ],
+        inspection: [
+          'Daily/periodic route checks as established by the project.',
+          'Inspect barriers, signs and route condition.',
+          'Review after layout or traffic-flow changes.',
+        ],
+        stopWork: [
+          'People are exposed to uncontrolled vehicle movement.',
+          'Segregation is ineffective.',
           'Emergency access is blocked.',
           'Public protection is compromised.',
         ],
-        scenario: [
-          'A delivery vehicle blocks the designated pedestrian route. The delivery is paused, the vehicle is moved to the approved unloading area and the pedestrian route is restored before normal site movement resumes.',
+        example: [
+          'A delivery vehicle blocks the designated pedestrian route. Delivery is paused, the vehicle is moved to the approved area and the safe pedestrian route is restored.',
+        ],
+        formula: [
+          'PLAN ROUTES → SEPARATE → CONTROL ACCESS → MANAGE REVERSING → PROTECT PUBLIC → VERIFY.',
         ],
         deeper: [
-          'Traffic management is an interface-control problem. Its effectiveness depends on how well it coordinates deliveries, plant, lifting operations, excavation, emergency response and public access rather than treating traffic as a separate activity.',
+          'Traffic management is an interface system. It must coordinate lifting, excavation, deliveries, emergency response and public protection rather than operate as an isolated traffic plan.',
         ],
       );
     }
 
-    if (key.contains('emergency')) {
-      return _LearningContent(
-        core: [
-          'Emergency preparedness ensures the project can respond rapidly and effectively to foreseeable emergencies such as fire, collapse, serious injury, hazardous release, rescue from height or confined space and major environmental events.',
+    if (k.contains('emergency')) {
+      return const _FrameworkData(
+        introduction: [
+          'Emergency preparedness provides an organised response to foreseeable events such as fire, collapse, serious injury, hazardous release and task-specific rescue situations.',
         ],
-        learning: [
-          'Identify credible emergency scenarios from the project risk profile.',
-          'Define alarm, communication, evacuation, assembly and accountability arrangements.',
-          'Provide suitable rescue equipment and trained personnel for task-specific risks.',
-          'Coordinate emergency arrangements with contractors, visitors and external responders.',
-          'Exercise and review the plan so weaknesses are identified before a real emergency.',
+        types: [
+          'Fire and evacuation.',
+          'Medical emergency.',
+          'Structural / temporary-works failure.',
+          'Confined-space rescue.',
+          'Work-at-height rescue.',
+          'Hazardous release.',
+          'Major environmental event.',
         ],
-        fieldVerification: [
-          'Check emergency routes and access.',
-          'Verify assembly arrangements and communication systems.',
-          'Confirm task-specific rescue equipment and competence.',
-          'Check emergency contact information and site access arrangements.',
+        components: [
+          'Alarm and communication.',
+          'Evacuation routes.',
+          'Assembly and accountability.',
+          'Emergency access.',
+          'First-aid and medical response.',
+          'Task-specific rescue equipment.',
+          'Trained responders.',
         ],
-        criticalControls: [
-          'Credible scenario planning.',
-          'Clear alarm and communication.',
-          'Reliable evacuation and accountability.',
-          'Task-specific rescue capability.',
-          'Regular testing and learning from drills/incidents.',
+        technical: [
+          'Base scenarios on the project risk profile.',
+          'Define responsibilities and communication.',
+          'Provide suitable rescue arrangements for high-risk tasks.',
+          'Coordinate contractor and visitor arrangements.',
+          'Test the arrangements and learn from exercises.',
         ],
         hazards: [
-          'Delayed response, blocked access, poor communication, inadequate rescue capability and incomplete accountability.',
+          'Delayed response.',
+          'Blocked routes.',
+          'Poor communication.',
+          'Inadequate rescue capability.',
+          'Incomplete accountability.',
+        ],
+        controls: [
+          'Scenario-based planning.',
+          'Reliable communication.',
+          'Clear evacuation.',
+          'Task-specific rescue.',
+          'Regular testing and review.',
+        ],
+        field: [
+          'Check routes and access.',
+          'Verify communication systems.',
+          'Check assembly arrangements.',
+          'Verify rescue capability for current high-risk work.',
+        ],
+        inspection: [
+          'Routine emergency-equipment checks.',
+          'Review after drills and incidents.',
+          'Verify corrective actions from exercises.',
         ],
         stopWork: [
-          'Emergency access or evacuation route is blocked.',
-          'Required rescue capability is unavailable for a high-risk task.',
-          'Alarm or communication system cannot reliably function.',
+          'Emergency access is blocked.',
+          'Required rescue capability is unavailable.',
+          'Alarm/communication cannot reliably function.',
         ],
-        scenario: [
-          'A work-at-height activity is planned in an isolated area, but the agreed rescue equipment is unavailable. The task is not started until an appropriate rescue arrangement and competent response capability are established.',
+        example: [
+          'A high-level work activity is planned but the agreed rescue equipment is unavailable. The work does not start until an appropriate rescue arrangement and competent response capability are established.',
+        ],
+        formula: [
+          'WHAT CAN HAPPEN? → HOW DO WE ALERT? → HOW DO WE EVACUATE/RESCUE? → WHO RESPONDS? → HOW DO WE VERIFY?',
         ],
         deeper: [
-          'Emergency planning should begin with the question: “What can realistically go wrong here, and how will we recover people quickly?” A generic emergency plan may not address task-specific rescue needs.',
+          'Emergency planning should be task-specific. A generic site emergency plan may not provide the equipment, access or trained response needed for a specialist rescue.',
         ],
       );
     }
 
-    if (key.contains('incident') || key.contains('near-miss')) {
-      return _LearningContent(
-        core: [
-          'Incident and near-miss management is a learning and corrective-action process. The objective is to understand what happened, why controls failed or were bypassed, and how recurrence will be prevented.',
+    if (k.contains('incident') || k.contains('near-miss')) {
+      return const _FrameworkData(
+        introduction: [
+          'Incident and near-miss management is a learning process used to understand what happened, why controls failed and how recurrence will be prevented.',
         ],
-        learning: [
-          'Make the area safe and protect people first.',
-          'Preserve relevant evidence and establish the sequence of events.',
-          'Collect information from people, equipment, documents and site conditions.',
-          'Look beyond immediate unsafe acts to underlying system and management factors.',
-          'Assign corrective actions that address causes and verify effectiveness.',
+        types: [
+          'Injury incident.',
+          'Property / equipment damage.',
+          'Environmental event.',
+          'Near miss.',
+          'Unsafe-condition report.',
+          'High-potential event.',
         ],
-        fieldVerification: [
-          'Check whether immediate controls were restored.',
-          'Verify corrective actions at the physical workface.',
-          'Review whether similar exposures exist elsewhere on the project.',
-          'Confirm lessons learned were communicated to affected teams.',
-        ],
-        criticalControls: [
+        components: [
           'Immediate scene control.',
-          'Accurate evidence gathering.',
-          'Cause-focused investigation.',
-          'Effective corrective actions.',
-          'Verification of close-out and learning.',
+          'Notification and escalation.',
+          'Evidence preservation.',
+          'Interviews and information gathering.',
+          'Cause analysis.',
+          'Corrective and preventive actions.',
+          'Verification and learning.',
+        ],
+        technical: [
+          'Protect people first.',
+          'Preserve relevant evidence.',
+          'Build the event sequence from multiple sources.',
+          'Look beyond the immediate unsafe act.',
+          'Verify actions at the workface.',
         ],
         hazards: [
-          'Repeating an incident because the investigation only identifies the worker action and not the failed controls.',
+          'Repeated events because only worker behaviour is addressed.',
+          'Corrective actions that do not address failed controls.',
+          'Closing actions without checking effectiveness.',
+        ],
+        controls: [
+          'Immediate risk control.',
+          'Evidence-based investigation.',
+          'Cause-focused analysis.',
+          'Effective corrective action.',
+          'Lessons learned.',
+        ],
+        field: [
+          'Check immediate hazards are controlled.',
+          'Inspect the affected work area.',
+          'Look for similar exposures elsewhere.',
+          'Verify corrective actions physically.',
+        ],
+        inspection: [
+          'Review action closure.',
+          'Trend incidents and near misses.',
+          'Identify recurring control failures.',
         ],
         stopWork: [
-          'A serious uncontrolled exposure remains after an incident.',
-          'The same critical control has failed repeatedly.',
+          'A serious uncontrolled exposure remains.',
+          'A critical control has repeatedly failed.',
           'Corrective action is not implemented and people remain exposed.',
         ],
-        scenario: [
-          'A worker nearly falls because temporary edge protection was removed during material movement. The investigation identifies not only the removal but also weak change control and supervision. Controls are redesigned and verified before similar work resumes.',
+        example: [
+          'A worker nearly falls after temporary edge protection is removed during material movement. Investigation identifies both the removal and weak change control. The control process is redesigned before similar work resumes.',
+        ],
+        formula: [
+          'MAKE SAFE → REPORT → PRESERVE → INVESTIGATE → CORRECT → VERIFY → LEARN.',
         ],
         deeper: [
-          'A near miss is valuable because it reveals a control weakness without necessarily producing injury. Strong HSE systems use near misses as early-warning indicators.',
+          'Near misses are early-warning signals. A strong system uses them to identify control weaknesses before an injury or major event occurs.',
         ],
       );
     }
 
-    if (key.contains('contractor') || key.contains('subcontractor')) {
-      return _LearningContent(
-        core: [
-          'Contractor and subcontractor HSE management ensures every organisation working on the project meets the project safety requirements and that interfaces between companies are controlled.',
+    if (k.contains('contractor') || k.contains('subcontractor')) {
+      return const _FrameworkData(
+        introduction: [
+          'Contractor and subcontractor HSE management ensures every organisation working on the project understands and implements the project safety requirements.',
         ],
-        learning: [
-          'Prequalify contractors against relevant competence, resources and HSE capability.',
-          'Communicate project rules, hazards, emergency arrangements and interfaces before mobilisation.',
-          'Review contractor RAMS and competence for the actual scope.',
-          'Monitor performance through inspections, observations, audits and meetings.',
-          'Control changes in subcontractor scope and workforce.',
-        ],
-        fieldVerification: [
-          'Check that subcontractor workers understand project controls.',
-          'Verify current competency and authorisation requirements.',
-          'Compare subcontractor methods with approved project arrangements.',
-          'Check corrective-action performance and repeat findings.',
-        ],
-        criticalControls: [
-          'Clear contractual HSE expectations.',
-          'Competence verification.',
+        types: [
+          'Prequalification.',
+          'Mobilisation.',
+          'RAMS and competence review.',
           'Interface management.',
-          'Consistent site rules.',
-          'Performance monitoring and corrective action.',
+          'Performance monitoring.',
+          'Corrective-action management.',
+        ],
+        components: [
+          'HSE requirements.',
+          'Competence verification.',
+          'Scope and responsibility.',
+          'Communication and induction.',
+          'Inspection and audit.',
+          'Action management.',
+        ],
+        technical: [
+          'Define HSE expectations before mobilisation.',
+          'Review the actual scope and hazards.',
+          'Control changes in subcontractor methods and workforce.',
+          'Monitor performance and recurring findings.',
         ],
         hazards: [
-          'Different contractors may apply conflicting methods, creating interface risks.',
-          'Weak subcontractor control can allow unsafe practices to become normalised.',
+          'Conflicting methods.',
+          'Unclear responsibility.',
+          'Weak subcontractor supervision.',
+          'Uncontrolled scope changes.',
+        ],
+        controls: [
+          'Prequalification.',
+          'Competence verification.',
+          'Consistent site rules.',
+          'Interface control.',
+          'Performance monitoring.',
+        ],
+        field: [
+          'Interview subcontractor workers.',
+          'Verify competence and current RAMS.',
+          'Compare actual work with approved methods.',
+          'Check action performance.',
+        ],
+        inspection: [
+          'Routine field inspections.',
+          'Targeted audits.',
+          'Performance trend review.',
+          'Escalation of repeat failures.',
         ],
         stopWork: [
-          'A contractor starts work outside the approved scope or method.',
+          'Work starts outside approved scope/method.',
           'Required competence or supervision is absent.',
           'Critical project controls are ignored.',
         ],
-        scenario: [
-          'A subcontractor introduces new plant and a different work sequence without informing the main contractor. The activity is paused until the change is assessed, interfaces are reviewed and the workforce is briefed.',
+        example: [
+          'A subcontractor introduces new plant and a different sequence without review. Work is paused until the change is assessed and affected interfaces are controlled.',
+        ],
+        formula: [
+          'SELECT → INDUCT → VERIFY → SUPERVISE → MONITOR → CORRECT → IMPROVE.',
         ],
         deeper: [
-          'Contractor management is strongest when it is integrated into project planning and supervision. Safety cannot be outsourced simply because the work is subcontracted.',
+          'Safety responsibility remains with the project management system even when work is subcontracted. Contractor control is therefore an interface-management function, not only a procurement activity.',
         ],
       );
     }
 
-    if (key.contains('inspection') || key.contains('audit') || key.contains('monitoring')) {
-      return _LearningContent(
-        core: [
-          'Inspection, audit and performance monitoring provide assurance that the HSE management system and field controls are functioning.',
-          'Inspection is generally focused on physical and operational conditions; audits examine system effectiveness; monitoring uses trends and indicators to identify improvement needs.',
+    if (k.contains('inspection') || k.contains('audit') || k.contains('monitoring')) {
+      return const _FrameworkData(
+        introduction: [
+          'Inspection, audit and performance monitoring provide assurance that HSE controls are implemented and that the management system is working effectively.',
         ],
-        learning: [
-          'Use risk-based inspection frequencies and focus on critical controls.',
-          'Record clear findings with location, responsible person and target date.',
-          'Escalate serious findings immediately.',
-          'Verify corrective actions physically before closure.',
-          'Use trend analysis to identify recurring problems and systemic weaknesses.',
+        types: [
+          'Workface inspection.',
+          'Focused critical-control verification.',
+          'Formal HSE audit.',
+          'Thematic inspection.',
+          'Performance trend monitoring.',
         ],
-        fieldVerification: [
-          'Inspect high-risk workfaces during actual operations.',
-          'Check whether previously closed findings remain controlled.',
-          'Verify that action owners understand the required corrective measure.',
-          'Review recurring findings for root causes.',
+        components: [
+          'Inspection criteria.',
+          'Competent inspector/auditor.',
+          'Finding classification.',
+          'Action ownership.',
+          'Target date.',
+          'Verification of closure.',
+          'Trend analysis.',
         ],
-        criticalControls: [
-          'Risk-based focus.',
-          'Competent inspectors/auditors.',
-          'Clear findings and ownership.',
-          'Timely corrective action.',
-          'Independent verification of closure.',
+        technical: [
+          'Use a risk-based inspection programme.',
+          'Focus on critical controls rather than only housekeeping.',
+          'Escalate serious findings promptly.',
+          'Verify corrective actions physically.',
+          'Use trends to identify systemic problems.',
         ],
         hazards: [
           'Checklist-only inspections can miss changing conditions.',
-          'Closing actions without physical verification can leave hazards uncontrolled.',
+          'Paper closure can leave the actual hazard uncontrolled.',
+          'Repeated findings may indicate a management-system weakness.',
+        ],
+        controls: [
+          'Risk-based inspections.',
+          'Competent auditors.',
+          'Clear findings.',
+          'Accountability.',
+          'Verified close-out.',
+          'Trend-based improvement.',
+        ],
+        field: [
+          'Inspect active high-risk work.',
+          'Check previous findings.',
+          'Speak with workers and supervisors.',
+          'Verify critical controls physically.',
+        ],
+        inspection: [
+          'Observe the work.',
+          'Record clear findings.',
+          'Assign actions.',
+          'Verify closure.',
+          'Escalate repeated or critical failures.',
         ],
         stopWork: [
-          'A critical control is absent or failed.',
-          'A serious finding is ignored or repeatedly not corrected.',
-          'Unsafe work continues despite previous escalation.',
+          'Critical control is absent or failed.',
+          'Serious finding is ignored.',
+          'Unsafe work continues after escalation.',
         ],
-        scenario: [
-          'Repeated housekeeping findings are closed every week but return in the same work zone. The HSE team escalates from repeated observations to a systemic review of material flow, waste collection, supervision and contractor responsibility.',
+        example: [
+          'Repeated housekeeping findings occur in the same zone. The HSE team moves beyond repeated observations and investigates material flow, waste collection, supervision and contractor responsibility.',
+        ],
+        formula: [
+          'OBSERVE → VERIFY → RECORD → ASSIGN → CORRECT → VERIFY CLOSURE → TREND.',
         ],
         deeper: [
-          'Good HSE performance is not the absence of recorded findings. It is evidence that critical risks are controlled consistently and that the system learns from recurring weaknesses.',
+          'Good HSE performance is not simply a low number of findings. It is consistent control of significant risks and evidence that the organisation learns from repeated weaknesses.',
         ],
       );
     }
 
-    if (key.contains('competent') || key.contains('supervision')) {
-      return _LearningContent(
-        core: [
-          'Competence means having the knowledge, skills, experience and authority appropriate to the task. Supervision ensures the planned controls are translated into safe execution.',
+    if (k.contains('stop-work')) {
+      return const _FrameworkData(
+        introduction: [
+          'Stop-work authority is a preventive control that allows an activity to be paused when critical safety conditions are not satisfied.',
         ],
-        learning: [
-          'Define competence requirements for safety-critical tasks before mobilisation.',
-          'Verify qualifications, experience, task-specific training and practical capability as applicable.',
-          'Match supervision intensity to risk and worker experience.',
-          'Ensure supervisors understand when to stop work and escalate.',
-          'Maintain clear responsibility during shifts, handovers and simultaneous operations.',
+        types: [
+          'Immediate danger.',
+          'Critical-control failure.',
+          'Unexpected site condition.',
+          'Unsafe deviation from RAMS.',
+          'Loss of competence or supervision.',
+          'Loss of emergency capability.',
         ],
-        fieldVerification: [
-          'Ask who is responsible for the task and who can stop it.',
-          'Check that competent persons are actually present when required.',
-          'Observe whether supervisors monitor critical controls.',
-          'Confirm shift handover communicates changes and outstanding hazards.',
+        components: [
+          'Clear trigger.',
+          'Immediate intervention.',
+          'Area made safe.',
+          'Cause identified.',
+          'Corrective action.',
+          'Verification.',
+          'Controlled restart.',
         ],
-        criticalControls: [
-          'Defined competence criteria.',
-          'Verification rather than assumption.',
-          'Adequate supervision.',
-          'Clear authority to stop unsafe work.',
-          'Effective handover.',
+        technical: [
+          'Define stop-work triggers before work begins.',
+          'Make authority clear to workers and supervisors.',
+          'Never restart only because production pressure exists.',
+          'Reassess and re-brief when the safe method changes.',
         ],
         hazards: [
-          'Unverified competence can lead to incorrect equipment use, poor judgement and uncontrolled deviations.',
-          'Weak supervision can allow small deviations to become serious exposures.',
+          'Production pressure.',
+          'Delayed escalation.',
+          'Unclear authority.',
+          'Normalisation of unsafe conditions.',
         ],
-        stopWork: [
-          'Required competent person is unavailable.',
-          'Worker competence cannot be established for a safety-critical task.',
-          'Supervision is inadequate for the risk level.',
-        ],
-        scenario: [
-          'A specialist temporary-works activity is scheduled during a night shift, but the required competent supervision is unavailable. The activity is postponed rather than proceeding with an informal substitute.',
-        ],
-        deeper: [
-          'Competence is task- and context-specific. A person may be experienced generally but not competent to make a particular safety-critical decision without the required technical knowledge or authority.',
-        ],
-      );
-    }
-
-    if (key.contains('high-risk')) {
-      return _LearningContent(
-        core: [
-          'High-risk activities are tasks where the potential for serious injury, fatality, major property damage or significant environmental impact is elevated. These activities require stronger planning, supervision and verification.',
-        ],
-        learning: [
-          'Identify high-risk activities during project planning and update the list as scope changes.',
-          'Use task-specific RAMS, permits and competent supervision where required.',
-          'Define critical controls and verify them before exposure occurs.',
-          'Coordinate simultaneous operations and interfaces.',
-          'Establish clear stop-work criteria.',
-        ],
-        fieldVerification: [
-          'Identify the current high-risk activities on site.',
-          'Check that controls are active at the workface.',
-          'Confirm supervision and competent personnel.',
-          'Review simultaneous-operation interfaces.',
-        ],
-        criticalControls: [
-          'Task-specific planning.',
-          'Critical-control verification.',
-          'Competent supervision.',
-          'Permit/interface control where applicable.',
-          'Effective exclusion and emergency arrangements.',
-        ],
-        hazards: [
-          'Failure of a single critical control can lead rapidly to a major event.',
-          'Multiple activities may create combined risks not visible within individual RAMS.',
-        ],
-        stopWork: [
-          'A critical control is missing or ineffective.',
-          'The work changes without reassessment.',
-          'Required permit, competent supervision or exclusion control is absent.',
-        ],
-        scenario: [
-          'Lifting is planned while façade work continues below. The combined exposure creates a dropped-object and suspended-load interface. Work is paused until the activities are sequenced or physically separated.',
-        ],
-        deeper: [
-          'High-risk work should be managed through critical controls rather than long lists of generic precautions. Identify the few controls that must never fail and verify them deliberately.',
-        ],
-      );
-    }
-
-    if (key.contains('project hse plan') || key.contains('hse plan')) {
-      return _LearningContent(
-        core: [
-          'The Project HSE Plan explains how the project will manage health, safety and environmental risks throughout construction. It should be tailored to the project scope, location, organisation, hazards and interfaces.',
-        ],
-        learning: [
-          'Define project HSE objectives, organisation and responsibilities.',
-          'Describe risk-management, RAMS, permit, inspection, audit and incident processes.',
-          'Address emergency response, worker welfare, environmental controls and contractor management.',
-          'Define communication, training, consultation and reporting arrangements.',
-          'Keep the plan under document control and update it when project conditions change.',
-        ],
-        fieldVerification: [
-          'Confirm the plan reflects current project scope and organisation.',
-          'Check that site procedures implement the commitments in the plan.',
-          'Interview supervisors and workers to test awareness.',
-          'Review whether performance data and corrective actions feed back into the plan.',
-        ],
-        criticalControls: [
-          'Project-specific content.',
-          'Clear responsibilities.',
-          'Integration with RAMS and operational controls.',
-          'Management of change.',
-          'Performance review and continuous improvement.',
-        ],
-        hazards: [
-          'A generic plan may overlook project-specific interfaces and high-risk activities.',
-          'A plan that is not implemented becomes a compliance document rather than a safety-control system.',
-        ],
-        stopWork: [
-          'Critical project controls are not defined or implemented.',
-          'Current site conditions are outside the assumptions of the HSE plan and no change review has occurred.',
-        ],
-        scenario: [
-          'A project enters a phase with major excavation, lifting and public-interface activities. The HSE plan is reviewed to ensure the organisation, resources, emergency arrangements and monitoring arrangements remain suitable for the new risk profile.',
-        ],
-        deeper: [
-          'The HSE plan should act as the project-level control architecture. Task RAMS, permits, inspections and emergency plans should connect back to this framework rather than operating as isolated documents.',
-        ],
-      );
-    }
-
-    if (key.contains('public') || key.contains('site security')) {
-      return _LearningContent(
-        core: [
-          'Public protection and site security prevent unauthorised access and protect people outside the construction operation from project hazards.',
-        ],
-        learning: [
-          'Maintain secure boundaries, controlled access and suitable warning information.',
-          'Identify interfaces with roads, pedestrians, neighbouring properties and occupied buildings.',
-          'Control openings, deliveries, temporary diversions and public-facing work.',
-          'Coordinate security with emergency access so controls do not obstruct rescue or firefighting.',
-        ],
-        fieldVerification: [
-          'Walk the perimeter and public interface.',
-          'Check barriers, gates, signage and access points.',
-          'Look for gaps created by temporary works, deliveries or route changes.',
-          'Verify public protection remains effective during changing work phases.',
-        ],
-        criticalControls: [
-          'Effective site boundary.',
-          'Controlled access.',
-          'Physical protection at public interfaces.',
-          'Clear communication and warning arrangements.',
-          'Continuous monitoring during temporary changes.',
-        ],
-        hazards: [
-          'Public entering the work area, falling objects, vehicle interaction and unsafe temporary diversions.',
-        ],
-        stopWork: [
-          'Public can enter an uncontrolled hazardous area.',
-          'Site boundary or protection is compromised.',
-          'Construction activity creates an uncontrolled risk to adjacent public areas.',
-        ],
-        scenario: [
-          'A temporary pedestrian diversion is moved during a delivery and leaves pedestrians close to moving plant. The delivery is stopped, the route is reinstated and the traffic-control arrangement is reviewed.',
-        ],
-        deeper: [
-          'Public protection requires thinking beyond the project fence. People outside the project may not understand construction hazards, so controls should not depend on their behaviour.',
-        ],
-      );
-    }
-
-    if (key.contains('stop-work')) {
-      return _LearningContent(
-        core: [
-          'Stop-work authority is the controlled decision to pause an activity when critical safety conditions are not satisfied. It is a preventive control, not a failure of production.',
-        ],
-        learning: [
-          'Define clear triggers before work starts.',
-          'Ensure workers and supervisors understand that unsafe work can be stopped without waiting for an incident.',
-          'Make the work area safe before investigation or correction.',
-          'Identify the failed control, correct it and verify the correction.',
-          'Re-brief affected personnel before restart when the method or controls change.',
-        ],
-        fieldVerification: [
-          'Ask workers who has authority to stop work.',
-          'Check that previous stop-work events resulted in effective corrective action.',
-          'Observe whether supervisors act when critical controls fail.',
-        ],
-        criticalControls: [
-          'Clear stop-work criteria.',
+        controls: [
           'Visible management support.',
+          'Worker stop-work authority.',
           'Immediate hazard isolation.',
           'Competent reassessment.',
           'Verified restart.',
         ],
-        hazards: [
-          'Production pressure can cause workers to continue despite failed controls.',
-          'Unclear authority can delay intervention during rapidly developing hazards.',
+        field: [
+          'Ask workers who can stop the job.',
+          'Check whether stop-work events are investigated.',
+          'Verify restart controls.',
+        ],
+        inspection: [
+          'Review previous stop-work events.',
+          'Check recurring triggers.',
+          'Use lessons learned to strengthen planning.',
         ],
         stopWork: [
-          'Any uncontrolled immediate danger to people.',
-          'Failure of a safety-critical control.',
+          'Any immediate uncontrolled danger.',
+          'Critical control failure.',
           'Unexpected condition that invalidates the safe method.',
-          'Loss of required competence, supervision, communication or emergency capability.',
+          'Required competence, supervision, communication or emergency capability unavailable.',
         ],
-        scenario: [
-          'During a lift, the exclusion zone is breached. The banksman stops the operation, the load is brought to a safe condition, the area is re-established and the team confirms the control before continuing.',
+        example: [
+          'During a lift, the exclusion zone is breached. The lifting team stops the operation, establishes a safe condition, restores the exclusion zone and verifies the control before continuing.',
+        ],
+        formula: [
+          'STOP → MAKE SAFE → ASSESS → CORRECT → VERIFY → RE-BRIEF → RESTART.',
         ],
         deeper: [
-          'A strong stop-work culture is an early-warning system. It allows the organisation to correct control failures before they become incidents.',
+          'A strong stop-work culture is an early-warning system. It prevents control failures from becoming incidents and demonstrates that safety-critical decisions are stronger than production pressure.',
         ],
       );
     }
 
-    if (key.contains('construction safety framework') || key.contains('introduction')) {
-      return _LearningContent(
-        core: [
-          'The Dubai Construction Safety Framework is best understood as an integrated approach to managing construction health and safety through planning, risk control, competent people, safe systems of work, supervision, inspection, emergency preparedness and continuous improvement.',
-          'For practical site use, the framework connects project-level management requirements with task-level controls such as RAMS, permits, inspections, exclusion zones, temporary works and emergency arrangements.',
+    if (k.contains('high-risk')) {
+      return const _FrameworkData(
+        introduction: [
+          'High-risk construction activities require enhanced planning, competent personnel, supervision and verification because failure of a critical control can lead rapidly to serious harm.',
         ],
-        learning: [
-          'Start with project scope, construction sequence and interfaces. Identify where people, plant, structures, temporary works and public areas interact.',
-          'Establish the project HSE management arrangements and assign clear responsibilities.',
-          'Identify hazards and assess risk before work starts, then reassess when conditions change.',
-          'Translate risk controls into practical RAMS, permits and workface instructions.',
-          'Provide competent people, suitable equipment, adequate supervision and resources.',
-          'Verify critical controls through inspections, observations, audits and direct field engagement.',
-          'Use incident and near-miss learning to strengthen controls and prevent recurrence.',
-          'Maintain emergency preparedness for the credible worst-case scenarios associated with the project.',
+        types: [
+          'Lifting operations.',
+          'Excavation and ground works.',
+          'Work at height.',
+          'Confined-space work.',
+          'Temporary works.',
+          'High-energy / electrical work.',
+          'Demolition and other project-specific high-risk activities.',
         ],
-        fieldVerification: [
-          'Can the supervisor explain the current high-risk activities and their critical controls?',
-          'Are current RAMS, permits, drawings and inspection records available where the work is happening?',
-          'Do workers understand the hazards and know when to stop?',
-          'Are temporary works, plant, access, traffic and exclusion arrangements physically suitable?',
-          'Are previous findings and incidents producing visible improvements?',
+        components: [
+          'Task-specific risk assessment.',
+          'RAMS.',
+          'Permit systems where required.',
+          'Competent persons.',
+          'Critical controls.',
+          'Exclusion and emergency arrangements.',
         ],
-        criticalControls: [
-          'Leadership and accountability.',
-          'Project-specific HSE planning.',
-          'Task-specific risk assessment and RAMS.',
-          'Competent persons and effective supervision.',
-          'Critical-control verification for high-risk activities.',
-          'Management of change and simultaneous operations.',
-          'Emergency preparedness and response.',
-          'Inspection, audit, learning and continual improvement.',
+        technical: [
+          'Identify high-risk activities during planning.',
+          'Define the controls that must not fail.',
+          'Verify controls before exposure.',
+          'Coordinate simultaneous operations.',
+          'Establish stop-work criteria.',
         ],
         hazards: [
-          'Weak planning can allow hazards to reach the workface before controls are established.',
-          'Poor interfaces between contractors can create risks that are not owned by any one party.',
-          'Changing construction conditions can invalidate earlier assumptions.',
-          'Production pressure can encourage deviation from the safe system of work.',
+          'Major injury or fatality.',
+          'Collapse.',
+          'Dropped loads.',
+          'Electrical energy.',
+          'Engulfment.',
+          'Fire or uncontrolled release.',
+        ],
+        controls: [
+          'Elimination where practicable.',
+          'Engineering controls.',
+          'Competent supervision.',
+          'Permit and interface control where required.',
+          'Critical-control verification.',
+        ],
+        field: [
+          'Identify current high-risk activities.',
+          'Check critical controls at the workface.',
+          'Verify competence and supervision.',
+          'Check interfaces with other activities.',
+        ],
+        inspection: [
+          'Target high-risk work during active operations.',
+          'Review critical-control status.',
+          'Escalate failures immediately.',
         ],
         stopWork: [
-          'Immediate uncontrolled danger exists.',
-          'A critical control required by the safe system has failed.',
-          'The actual conditions no longer match the approved plan or RAMS.',
-          'Required competent supervision, equipment, permit or emergency capability is unavailable.',
-          'An unexpected condition creates a new significant risk that has not been assessed.',
+          'Critical control absent or ineffective.',
+          'Work changes without reassessment.',
+          'Required permit, competence or exclusion control absent.',
         ],
-        scenario: [
-          'A multi-storey construction project enters a phase where lifting, façade work, temporary works and traffic movement occur simultaneously. The HSE team identifies the interfaces, reviews the work sequence and RAMS, separates incompatible activities, verifies exclusion zones and temporary stability, briefs the workforce and monitors the critical controls during execution.',
+        example: [
+          'Lifting and façade works are planned in overlapping areas. The combined exposure is reviewed, activities are sequenced or separated and the controls are verified before simultaneous work is allowed.',
+        ],
+        formula: [
+          'IDENTIFY HIGH RISK → DEFINE CRITICAL CONTROLS → VERIFY → SUPERVISE → STOP IF CONTROL FAILS.',
         ],
         deeper: [
-          'The most useful way to apply the framework is to think in layers: project governance → risk assessment → safe system of work → competent execution → field verification → learning and improvement.',
-          'If one layer is weak, the next layer must not simply compensate indefinitely. Management should fix the system weakness rather than relying on workers to manage excessive risk through personal caution.',
-          'A professional HSE practitioner should continuously ask three questions: What can go wrong? What critical control prevents it? How do I know that control is working right now?',
+          'High-risk work is best controlled by identifying the few critical controls that must never fail and deliberately verifying them during execution.',
         ],
       );
     }
 
-    return _LearningContent(
-      core: [
-        'This advanced module explains the selected construction-safety topic as an operational control rather than a document-only requirement.',
-        'The purpose is to help HSE professionals, engineers, supervisors and workers understand the hazard, required controls and field-verification approach.',
+    // Strong default: still structured and useful for every other framework item.
+    return const _FrameworkData(
+      introduction: [
+        'This topic forms part of the SafeNexus HSE Dubai Construction Safety Framework and should be managed as an operational safety control, not only as documentation.',
+        'The objective is to prevent harm by identifying the work, understanding the hazards, applying suitable controls and verifying those controls in the field.',
       ],
-      learning: [
-        'Define the work scope and interfaces.',
-        'Identify hazards and assess the risk before exposure.',
-        'Select practical controls using the hierarchy of controls.',
-        'Assign responsibilities and verify competence.',
-        'Brief the workforce and supervise the work.',
-        'Inspect and reassess when conditions change.',
+      types: [
+        'Planning and management controls.',
+        'Engineering / physical controls.',
+        'Administrative and procedural controls.',
+        'Competence and supervision controls.',
+        'Inspection, monitoring and improvement controls.',
       ],
-      fieldVerification: [
-        'Check the actual workface against the approved safe system.',
-        'Verify critical controls physically.',
-        'Speak with the supervisor and workers.',
-        'Record and close findings through the project action process.',
+      components: [
+        'Defined scope and responsibilities.',
+        'Hazard identification and risk assessment.',
+        'Safe system of work / RAMS where applicable.',
+        'Competent personnel and suitable equipment.',
+        'Inspection and verification.',
+        'Emergency arrangements.',
       ],
-      criticalControls: [
-        'Suitable planning.',
-        'Task-specific risk control.',
-        'Competent people.',
-        'Effective supervision.',
-        'Inspection and change management.',
+      technical: [
+        'Make controls specific to the actual activity and location.',
+        'Use the hierarchy of controls.',
+        'Define critical controls and how they will be verified.',
+        'Review the system whenever conditions or scope change.',
+        'Maintain effective communication with the workforce and interfacing contractors.',
       ],
       hazards: [
-        'Generic controls may not address the actual site conditions.',
+        'Generic controls may not address actual site conditions.',
         'Uncontrolled changes can introduce new hazards.',
+        'Weak supervision can allow deviations to become normal practice.',
+        'Poor interfaces can create hazards not owned by a single work team.',
+      ],
+      controls: [
+        'Plan before exposure.',
+        'Use suitable engineering and physical controls.',
+        'Assign competent people.',
+        'Brief and supervise the workforce.',
+        'Inspect and verify.',
+        'Stop and reassess when conditions change.',
+      ],
+      field: [
+        'Check the actual workface against the approved safe system.',
+        'Ask workers to explain the main hazards and controls.',
+        'Verify critical controls physically.',
+        'Check interfaces with neighbouring activities.',
+        'Confirm corrective actions are genuinely closed.',
+      ],
+      inspection: [
+        'Observe active work.',
+        'Record clear findings.',
+        'Assign ownership and target dates.',
+        'Verify closure.',
+        'Use recurring findings to improve the system.',
       ],
       stopWork: [
-        'Critical controls are missing or ineffective.',
-        'The work method is no longer suitable for current conditions.',
+        'Immediate uncontrolled danger.',
+        'Critical control failure.',
+        'Actual work differs materially from the safe method.',
         'Required competence, supervision or emergency capability is unavailable.',
+        'Unexpected conditions create significant unassessed risk.',
       ],
-      scenario: [
-        'A planned activity changes because site conditions are different from the original plan. The supervisor pauses the work, reassesses the risk, updates the controls through the project process and briefs the workforce before restart.',
+      example: [
+        'A planned activity encounters a site condition that was not present during planning. The supervisor pauses the work, reassesses the risk, establishes suitable controls, briefs the affected workforce and verifies the workface before restart.',
+      ],
+      formula: [
+        'PLAN → ASSESS → CONTROL → BRIEF → EXECUTE → VERIFY → IMPROVE.',
       ],
       deeper: [
-        'Professional HSE practice is based on continual verification: planned controls must be visible, understood, implemented and effective at the workface.',
+        'Professional HSE practice is continuous verification. A control is valuable only when it is suitable, implemented, understood and effective at the point of exposure.',
       ],
     );
   }
 }
 
-class _LearningContent {
-  final List<String> core;
-  final List<String> learning;
-  final List<String> fieldVerification;
-  final List<String> criticalControls;
+class _FrameworkData {
+  final List<String> introduction;
+  final List<String> types;
+  final List<String> components;
+  final List<String> technical;
   final List<String> hazards;
+  final List<String> controls;
+  final List<String> field;
+  final List<String> inspection;
   final List<String> stopWork;
-  final List<String> scenario;
+  final List<String> example;
+  final List<String> formula;
   final List<String> deeper;
 
-  const _LearningContent({
-    required this.core,
-    required this.learning,
-    required this.fieldVerification,
-    required this.criticalControls,
+  const _FrameworkData({
+    required this.introduction,
+    required this.types,
+    required this.components,
+    required this.technical,
     required this.hazards,
+    required this.controls,
+    required this.field,
+    required this.inspection,
     required this.stopWork,
-    required this.scenario,
+    required this.example,
+    required this.formula,
     required this.deeper,
   });
 }
