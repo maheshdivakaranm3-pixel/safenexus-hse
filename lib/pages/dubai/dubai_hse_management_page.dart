@@ -1560,6 +1560,118 @@ class _HeroCard extends StatelessWidget {
   }
 }
 
+class _ModuleCard extends StatelessWidget {
+  final _HseModule module;
+
+  const _ModuleCard({required this.module});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 1.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
+        leading: CircleAvatar(
+          radius: 22,
+          backgroundColor: const Color(0xFFE4F3EC),
+          child: Icon(
+            module.icon,
+            color: const Color(0xFF0B6B4F),
+            size: 25,
+          ),
+        ),
+        title: Text(
+          '${module.number}. ${module.title}',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text(
+            module.summary,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 12.8,
+              height: 1.4,
+              color: Color(0xFF53615B),
+            ),
+          ),
+        ),
+        iconColor: const Color(0xFF45554D),
+        collapsedIconColor: const Color(0xFF45554D),
+        children: [
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF4F8F5),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Text(
+              module.summary,
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.6,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          for (final section in module.sections)
+            Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              elevation: 0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+                side: const BorderSide(color: Color(0xFFDDE9E2)),
+              ),
+              child: ExpansionTile(
+                tilePadding: const EdgeInsets.symmetric(
+                  horizontal: 13,
+                  vertical: 2,
+                ),
+                childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+                leading: const Icon(
+                  Icons.menu_book_outlined,
+                  color: Color(0xFF0B6B4F),
+                  size: 24,
+                ),
+                title: Text(
+                  section.title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                iconColor: const Color(0xFF45554D),
+                collapsedIconColor: const Color(0xFF45554D),
+                children: [
+                  Text(
+                    section.body,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      height: 1.65,
+                      color: Color(0xFF26342E),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class _AdvancedHero extends StatelessWidget {
   const _AdvancedHero();
 
