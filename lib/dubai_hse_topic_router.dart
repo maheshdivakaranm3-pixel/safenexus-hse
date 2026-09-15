@@ -12,21 +12,12 @@ import 'pages/dubai/lifting_operations_page.dart';
 class DubaiHsePartRouter {
   static Widget pageFor(ReferenceTopic topic) {
     switch (topic.id) {
-      // ==========================================================
-      // TOPIC 1 — DUBAI CONSTRUCTION SAFETY FRAMEWORK
-      // ==========================================================
       case 'dubai_construction_safety':
         return const DubaiConstructionSafetyFrameworkPage();
 
-      // ==========================================================
-      // TOPIC 2 — HSE MANAGEMENT SYSTEM
-      // ==========================================================
       case 'dubai_hse_management':
         return const DubaiHseManagementAdvancedLearningPage();
 
-      // ==========================================================
-      // DEDICATED TOPICS
-      // ==========================================================
       case 'dubai_scaffolding':
         return const ScaffoldingSafetyPage();
 
@@ -36,35 +27,8 @@ class DubaiHsePartRouter {
       case 'dubai_lifting':
         return const LiftingOperationsPage();
 
-      // ==========================================================
-      // OTHER TOPICS
-      // ==========================================================
-      case 'dubai_risk_assessment':
-      case 'dubai_hse_plan':
-      case 'dubai_work_at_height':
-      case 'dubai_confined_space':
-      case 'dubai_electrical':
-      case 'dubai_hot_work':
-      case 'dubai_traffic':
-      case 'dubai_demolition':
-      case 'dubai_temporary_works':
-      case 'dubai_heat_stress':
-      case 'dubai_occupational_health':
-      case 'dubai_ppe':
-      case 'dubai_emergency':
-      case 'dubai_incident':
-      case 'dubai_contractor':
-        return DubaiHseDetailPage(
-          topic: topic,
-        );
-
-      // ==========================================================
-      // FALLBACK
-      // ==========================================================
       default:
-        return DubaiHseDetailPage(
-          topic: topic,
-        );
+        return DubaiHseDetailPage(topic: topic);
     }
   }
 }
