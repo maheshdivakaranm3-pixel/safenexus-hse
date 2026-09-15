@@ -4,7 +4,6 @@ import 'dubai_hse_detail_page.dart';
 import 'models/reference_topic.dart';
 
 import 'pages/dubai/dubai_construction_safety_framework_page.dart';
-import 'pages/dubai/dubai_hse_management_advanced_learning_page.dart';
 import 'pages/dubai/scaffolding_safety_page.dart';
 import 'pages/dubai/excavation_trenching_page.dart';
 import 'pages/dubai/lifting_operations_page.dart';
@@ -15,8 +14,10 @@ class DubaiHsePartRouter {
       case 'dubai_construction_safety':
         return const DubaiConstructionSafetyFrameworkPage();
 
+      // HSE Management System opens its normal detail page first.
+      // The page contains an explicit Advanced Learning button.
       case 'dubai_hse_management':
-        return const DubaiHseManagementAdvancedLearningPage();
+        return DubaiHseDetailPage(topic: topic);
 
       case 'dubai_scaffolding':
         return const ScaffoldingSafetyPage();

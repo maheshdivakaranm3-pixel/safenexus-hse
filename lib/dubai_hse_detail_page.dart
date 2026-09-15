@@ -4,6 +4,7 @@ import 'models/reference_topic.dart';
 import 'pages/dubai/scaffolding_safety_page.dart';
 import 'pages/dubai/excavation_trenching_page.dart';
 import 'pages/dubai/lifting_operations_page.dart';
+import 'pages/dubai/dubai_hse_management_advanced_learning_page.dart';
 /// SafeNexus HSE — Dubai HSE professional topic-by-topic learning and field reference.
 /// Replace ONLY this file. Keep lib/data/dubai_guidelines.dart unchanged.
 class DubaiHseDetailPage extends StatelessWidget {
@@ -21,14 +22,96 @@ class DubaiHseDetailPage extends StatelessWidget {
       appBar: AppBar(title: Text(data.title, maxLines: 2, overflow: TextOverflow.ellipsis), backgroundColor: primary, foregroundColor: Colors.white),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         _intro(data),
+        if (topic.id == 'dubai_hse_management') ...[
+          const SizedBox(height: 12),
+          _advancedLearningButton(context),
+          const SizedBox(height: 12),
+        ],
         _section(context, '🏗️ Types / Systems', data.types, Icons.category_outlined),
         _section(context, '🔧 Components / Key Items', data.items, Icons.build_outlined),
-        for (final entry in data.sections.entries) _section(context, entry.key, entry.value, Icons.menu_book_outlined),
+        for (final entry in data.sections.entries)
+          _section(context, entry.key, entry.value, Icons.menu_book_outlined),
       ]),
     );
   }
 
   Widget _intro(_TopicData data) => Card(child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('📖 Introduction — What is it?', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)), const SizedBox(height: 10), Text(data.intro, style: const TextStyle(fontSize: 15, height: 1.6))])));
+  Widget _advancedLearningButton(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) =>
+                  const DubaiHseManagementAdvancedLearningPage(),
+            ),
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFF0B6B4F),
+                Color(0xFF159447),
+              ],
+            ),
+          ),
+          child: const Row(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.menu_book_rounded,
+                  color: Color(0xFF0B6B4F),
+                  size: 28,
+                ),
+              ),
+              SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '📚 Advanced Learning',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Tap here for detailed HSE Management System study & field reference',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   Widget _section(BuildContext context, String title, List<_DetailItem> values, IconData icon) => Card(margin: const EdgeInsets.only(bottom: 10), child: ExpansionTile(leading: Icon(icon, color: primary), title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)), children: [for (int i=0;i<values.length;i++) ListTile(leading: CircleAvatar(radius: 15, backgroundColor: primary, child: Text('${i+1}', style: const TextStyle(color: Colors.white, fontSize: 12))), title: Text(values[i].title, style: const TextStyle(fontWeight: FontWeight.w600)), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => DubaiHseItemDetailPage(sectionTitle: title, item: values[i].title, detail: values[i].detail))))]));
 
