@@ -376,7 +376,7 @@ class DubaiHseManagementPage extends StatelessWidget {
           _AdvancedButton(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (_) => const DubaiHseManagementAdvancedPage(),
                 ),
               );
