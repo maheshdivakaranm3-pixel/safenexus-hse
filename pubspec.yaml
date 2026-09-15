@@ -1,19 +1,15 @@
 name: safenexus_hse
-description: "AI-Powered HSE Safety & Observation App for UAE"
-publish_to: 'none'
-
-version: 1.0.1+2
+description: AI-Powered HSE Safety & Observation App for UAE
+publish_to: "none"
+version: 1.0.0+1
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  printing: ^5.13.4
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.6
-
   shared_preferences: ^2.3.2
   image_picker: ^1.1.2
   path_provider: ^2.1.4
@@ -22,29 +18,17 @@ dependencies:
   pdf: 3.11.3
   docx_dart: 1.2.0
   excel: 4.0.6
-
-dependency_overrides:
-  # Prevent path_provider_foundation 2.6.x from pulling objective_c native assets.
-  path_provider_foundation: 2.5.1
+  printing: ^5.13.4
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^3.0.1
   flutter_launcher_icons: ^0.14.4
 
+dependency_overrides:
+  path_provider_foundation: 2.5.1
+
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/images/safenexus_hse_header_mobile.png
-    - assets/images/safenexus_hse_banner.png
-    - assets/images/safenexus_logo.png
-
-flutter_launcher_icons:
-  android: true
-  ios: false
-  image_path: "assets/images/safenexus_logo.png"
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/safenexus_logo.png"
