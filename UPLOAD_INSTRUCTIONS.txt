@@ -1,1 +1,8 @@
-CODE ONLY: Replace lib/pages/dubai/dubai_construction_safety_framework_page.dart. This single file contains the complete Construction Safety Framework main page, topic-specific Advanced Learning, and Deeper Learning navigation. No second Dart file is required.
+SafeNexus HSE — Dubai Construction Safety Framework Advanced Learning
+
+Replace ONLY:
+lib/pages/dubai/dubai_construction_safety_framework_advanced_learning_page.dart
+
+This file is standalone and does not depend on ConstructionSafetyItem.
+Do not upload this file to the repository root.
+Do not delete the main framework page.
