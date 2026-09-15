@@ -14,7 +14,6 @@ class SafeNexusStep153Page extends StatefulWidget {
 
 class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {
   static const String _storageKey = 'workhub_hse_actions_v1';
-  static const String _stepPurpose = 'Track risk-related actions and verification.';
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -160,7 +159,7 @@ class _SafeNexusStep153PageState extends State<SafeNexusStep153Page> {
                     ),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<String>(
-                      value: priority,
+                      initialValue: priority,
                       decoration: const InputDecoration(
                         labelText: 'Priority',
                         border: OutlineInputBorder(),
