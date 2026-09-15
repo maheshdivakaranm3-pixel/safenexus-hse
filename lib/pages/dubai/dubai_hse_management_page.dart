@@ -1501,63 +1501,6 @@ class DubaiHseManagementAdvancedPage extends StatelessWidget {
   }
 }
 
-class _HeroCard extends StatelessWidget {
-  const _HeroCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF0B6B4F),
-            Color(0xFF159447),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.10),
-            blurRadius: 12,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.verified_user_outlined,
-            color: Colors.white,
-            size: 42,
-          ),
-          SizedBox(height: 12),
-          Text(
-            'Dubai HSE Management System',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          SizedBox(height: 7),
-          Text(
-            'Professional learning and field-reference module for HSE Officers, Supervisors, Engineers and Managers.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              height: 1.55,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ModuleCard extends StatelessWidget {
   final _HseModule module;
 
