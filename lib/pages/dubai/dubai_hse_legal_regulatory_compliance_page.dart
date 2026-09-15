@@ -64,7 +64,7 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.10),
+            color: Colors.black.withValues(alpha: 0.10),
             blurRadius: 16,
             offset: const Offset(0, 7),
           ),
@@ -131,7 +131,7 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFEAF6F0),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: primaryGreen.withOpacity(.25)),
+          border: Border.all(color: primaryGreen.withValues(alpha: .25)),
         ),
         child: const Row(
           children: [
@@ -213,7 +213,7 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
                 height: 42,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: primaryGreen.withOpacity(.10),
+                  color: primaryGreen.withValues(alpha: .10),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -352,9 +352,9 @@ class DubaiHseLegalRegulatoryDetailPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.amber.withOpacity(.10),
+              color: Colors.amber.withValues(alpha: .10),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.amber.withOpacity(.25)),
+              border: Border.all(color: Colors.amber.withValues(alpha: .25)),
             ),
             child: const Text(
               'Field note: verify the current official requirement, project conditions and approved documents before treating a compliance point as legally applicable.',
