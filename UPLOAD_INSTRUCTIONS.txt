@@ -1,21 +1,3 @@
-SafeNexus HSE — Excavation & Trenching
-UPGRADED SINGLE-FILE VERSION
-
-Upload/replace ONLY:
-lib/pages/dubai/excavation_trenching_page.dart
-
-Do NOT create any root-level Dart duplicate.
-Do NOT delete:
-lib/dubai_hse_topic_router.dart
-lib/pages/dubai/lifting_operations_page.dart
-lib/pages/dubai/scaffolding_safety_page.dart
-
-This file contains:
-- Professional Excavation & Trenching main page
-- 21-section learning structure
-- Tappable items with small right chevron
-- Advanced Learning page
-- Deeper Practical Decision Guide
-- Rigger / Plant topic-wise responsibilities
-- HSE role responsibilities at the end
-- Single-file architecture (no separate advanced file)
+Replace/add the two files under lib/pages/dubai/.
+No root-level duplicate Dart files.
+Main page includes tappable items with small chevrons, Advanced Learning, Deeper Learning and topic-wise HSE role details.
