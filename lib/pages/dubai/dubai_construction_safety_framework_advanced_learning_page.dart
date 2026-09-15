@@ -1,104 +1,77 @@
 import 'package:flutter/material.dart';
 
-class ConstructionSafetyItem {
-  final String title;
-  final String subtitle;
-  final List<String> points;
-
-  const ConstructionSafetyItem({
-    required this.title,
-    required this.subtitle,
-    required this.points,
-  });
-}
-
+/// Standalone Advanced Learning page.
+/// Kept independent so it does not depend on any model class from another file.
 class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
-  final ConstructionSafetyItem item;
+  final dynamic item;
 
   const DubaiConstructionSafetyAdvancedLearningPage({
     super.key,
     required this.item,
   });
 
-  static const green = Color(0xFF0B7653);
+  static const Color green = Color(0xFF0B7653);
+  static const Color background = Color(0xFFF5F8F7);
+
+  String get _title => item.title?.toString() ?? 'Construction Safety';
+  String get _subtitle => item.subtitle?.toString() ?? 'Advanced HSE Learning';
+
+  List<String> get _learning => _toStringList(item.learning);
+  List<String> get _fieldChecks => _toStringList(item.fieldChecks);
+  List<String> get _criticalControls => _toStringList(item.criticalControls);
+  List<String> get _stopWork => _toStringList(item.stopWork);
+
+  List<String> _toStringList(dynamic value) {
+    if (value is Iterable) {
+      return value.map((e) => e.toString()).toList();
+    }
+    return <String>[];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F8F7),
+      backgroundColor: background,
       appBar: AppBar(
         title: const Text('Advanced Learning'),
         backgroundColor: green,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(19),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    item.subtitle,
-                    style: const TextStyle(
-                      color: green,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          _card('Core Explanation', item.points),
-          _card('Field Verification', const [
-            'Confirm the approved control is available at the actual workface.',
-            'Verify competent personnel, supervision and required equipment.',
-            'Check that the physical condition matches the approved work method.',
-            'Record deviations and reassess significant changes before continuing.',
-          ]),
-          _card('Critical Control Points', const [
-            'Approved planning and risk controls.',
-            'Competent personnel and effective supervision.',
-            'Physical barriers and engineering controls where required.',
-            'Effective communication and interface coordination.',
-            'Inspection, corrective action and verification.',
-          ]),
-          _card('Stop-Work Triggers', const [
-            'A serious hazard is uncontrolled.',
-            'A critical safety barrier is missing or has failed.',
-            'Required competent supervision is absent.',
-            'Actual conditions materially differ from the approved method.',
-            'Continuing would expose people to unacceptable risk.',
-          ]),
+          _header(),
+          const SizedBox(height: 12),
+          _learningCard('1. Core Explanation', _learning),
+          _learningCard('2. Field Verification', _fieldChecks),
+          _learningCard('3. Critical Control Points', _criticalControls),
+          _learningCard('4. Stop-Work Triggers', _stopWork),
+          const SizedBox(height: 2),
           Card(
             color: const Color(0xFFEAF4F0),
             child: ListTile(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 17, vertical: 5),
               title: const Text(
-                'Deeper Learning',
+                '5. Deeper Learning',
                 style: TextStyle(fontWeight: FontWeight.w800),
               ),
               subtitle: const Text(
-                'Open the practical decision guide for this topic.',
+                'Open the practical field decision guide.',
               ),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      DubaiConstructionSafetyDeepLearningPage(item: item),
-                ),
-              ),
+              trailing: const Icon(Icons.chevron_right_rounded, size: 27),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        DubaiConstructionSafetyDeepLearningPage(
+                      title: _title,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -106,7 +79,41 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
     );
   }
 
-  Widget _card(String title, List<String> values) {
+  Widget _header() {
+    return Card(
+      elevation: 1.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(19),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _title,
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF10231D),
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              _subtitle,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: green,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _learningCard(String title, List<String> values) {
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       child: Padding(
@@ -122,33 +129,39 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            ...values.asMap().entries.map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.only(bottom: 9),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${e.key + 1}.',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: green,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            e.value,
+            if (values.isEmpty)
+              const Text(
+                'No additional points are available for this item.',
+                style: TextStyle(fontSize: 14, height: 1.45),
+              )
+            else
+              ...values.asMap().entries.map(
+                    (entry) => Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${entry.key + 1}.',
                             style: const TextStyle(
-                              fontSize: 15,
-                              height: 1.5,
+                              fontWeight: FontWeight.w800,
+                              color: green,
                             ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              entry.value,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
           ],
         ),
       ),
@@ -157,24 +170,27 @@ class DubaiConstructionSafetyAdvancedLearningPage extends StatelessWidget {
 }
 
 class DubaiConstructionSafetyDeepLearningPage extends StatelessWidget {
-  final ConstructionSafetyItem item;
+  final String title;
 
   const DubaiConstructionSafetyDeepLearningPage({
     super.key,
-    required this.item,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
+    const green = Color(0xFF0B7653);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8F7),
       appBar: AppBar(
         title: const Text('Deeper Learning'),
-        backgroundColor: const Color(0xFF0B7653),
+        backgroundColor: green,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           Card(
             child: Padding(
@@ -183,7 +199,7 @@ class DubaiConstructionSafetyDeepLearningPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${item.title} — Practical Decision Guide',
+                    '$title — Practical Decision Guide',
                     style: const TextStyle(
                       fontSize: 21,
                       fontWeight: FontWeight.w800,
@@ -191,11 +207,8 @@ class DubaiConstructionSafetyDeepLearningPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   const Text(
-                    'Before work starts, verify that the planned controls can actually be implemented at the workface. If conditions differ from the approved arrangement, stop, reassess and establish a safe method before exposure.',
-                    style: TextStyle(
-                      fontSize: 15,
-                      height: 1.55,
-                    ),
+                    'Use the approved project arrangements and actual workface conditions as the basis for the decision. Do not proceed when a critical control cannot be verified.',
+                    style: TextStyle(fontSize: 15, height: 1.55),
                   ),
                 ],
               ),
@@ -216,29 +229,29 @@ class DubaiConstructionSafetyDeepLearningPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ...[
-                    'Is the activity planned?',
-                    'Are the hazards assessed?',
-                    'Are critical controls physically available?',
-                    'Are competent people and supervision in place?',
-                    'Are interfaces and simultaneous operations controlled?',
-                    'Does the actual work match the approved method?',
-                    'If not, stop and correct before exposure.',
+                  ...const [
+                    'Plan the activity and define the safe sequence.',
+                    'Assess the hazards and interfaces.',
+                    'Verify critical controls at the workface.',
+                    'Confirm competent personnel and supervision.',
+                    'Coordinate simultaneous operations.',
+                    'Check that actual conditions match the approved method.',
+                    'Stop, reassess and correct when a critical control is not assured.',
                   ].asMap().entries.map(
-                        (e) => Padding(
+                        (entry) => Padding(
                           padding: const EdgeInsets.only(bottom: 9),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${e.key + 1}.',
+                                '${entry.key + 1}.',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: Color(0xFF0B7653),
+                                  color: green,
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              Expanded(child: Text(e.value)),
+                              Expanded(child: Text(entry.value)),
                             ],
                           ),
                         ),
