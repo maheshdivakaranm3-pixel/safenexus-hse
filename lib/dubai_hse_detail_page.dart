@@ -4,7 +4,6 @@ import 'models/reference_topic.dart';
 import 'pages/dubai/scaffolding_safety_page.dart';
 import 'pages/dubai/excavation_trenching_page.dart';
 import 'pages/dubai/lifting_operations_page.dart';
-import 'pages/dubai/dubai_hse_management_advanced_learning_page.dart';
 /// SafeNexus HSE — Dubai HSE professional topic-by-topic learning and field reference.
 /// Replace ONLY this file. Keep lib/data/dubai_guidelines.dart unchanged.
 class DubaiHseDetailPage extends StatelessWidget {
@@ -22,96 +21,14 @@ class DubaiHseDetailPage extends StatelessWidget {
       appBar: AppBar(title: Text(data.title, maxLines: 2, overflow: TextOverflow.ellipsis), backgroundColor: primary, foregroundColor: Colors.white),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         _intro(data),
-        if (topic.id == 'dubai_hse_management') ...[
-          const SizedBox(height: 12),
-          _advancedLearningButton(context),
-          const SizedBox(height: 12),
-        ],
         _section(context, '🏗️ Types / Systems', data.types, Icons.category_outlined),
         _section(context, '🔧 Components / Key Items', data.items, Icons.build_outlined),
-        for (final entry in data.sections.entries)
-          _section(context, entry.key, entry.value, Icons.menu_book_outlined),
+        for (final entry in data.sections.entries) _section(context, entry.key, entry.value, Icons.menu_book_outlined),
       ]),
     );
   }
 
   Widget _intro(_TopicData data) => Card(child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('📖 Introduction — What is it?', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)), const SizedBox(height: 10), Text(data.intro, style: const TextStyle(fontSize: 15, height: 1.6))])));
-  Widget _advancedLearningButton(BuildContext context) {
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) =>
-                  const DubaiHseManagementAdvancedLearningPage(),
-            ),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFF0B6B4F),
-                Color(0xFF159447),
-              ],
-            ),
-          ),
-          child: const Row(
-            children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.menu_book_rounded,
-                  color: Color(0xFF0B6B4F),
-                  size: 28,
-                ),
-              ),
-              SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '📚 Advanced Learning',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Tap here for detailed HSE Management System study & field reference',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
 
   Widget _section(BuildContext context, String title, List<_DetailItem> values, IconData icon) => Card(margin: const EdgeInsets.only(bottom: 10), child: ExpansionTile(leading: Icon(icon, color: primary), title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)), children: [for (int i=0;i<values.length;i++) ListTile(leading: CircleAvatar(radius: 15, backgroundColor: primary, child: Text('${i+1}', style: const TextStyle(color: Colors.white, fontSize: 12))), title: Text(values[i].title, style: const TextStyle(fontWeight: FontWeight.w600)), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => DubaiHseItemDetailPage(sectionTitle: title, item: values[i].title, detail: values[i].detail))))]));
 
@@ -119,10 +36,341 @@ class DubaiHseDetailPage extends StatelessWidget {
 }
 
 class DubaiHseItemDetailPage extends StatelessWidget {
-  final String sectionTitle; final String item; final String detail;
-  const DubaiHseItemDetailPage({super.key, required this.sectionTitle, required this.item, required this.detail});
+  final String sectionTitle;
+  final String item;
+  final String detail;
+
+  const DubaiHseItemDetailPage({
+    super.key,
+    required this.sectionTitle,
+    required this.item,
+    required this.detail,
+  });
+
   static const Color primary = Color(0xFF0B6B4F);
-  @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: Text(item, maxLines: 2, overflow: TextOverflow.ellipsis), backgroundColor: primary, foregroundColor: Colors.white), body: ListView(padding: const EdgeInsets.all(16), children: [Text(sectionTitle, style: const TextStyle(color: primary, fontWeight: FontWeight.bold)), const SizedBox(height: 8), Text(item, style: const TextStyle(fontSize: 23, fontWeight: FontWeight.bold)), const SizedBox(height: 16), Card(child: Padding(padding: const EdgeInsets.all(16), child: Text(detail, style: const TextStyle(fontSize: 15, height: 1.65)))), const SizedBox(height: 12), Card(elevation: 0, child: Padding(padding: const EdgeInsets.all(14), child: Text('Use this item only within the approved task method, competent-person requirements, equipment instructions and site controls.', style: const TextStyle(height: 1.5))))]));
+  static const Color background = Color(0xFFF5F8F7);
+
+  List<_LearningBlock> _blocks() {
+    final key = item.trim().toLowerCase();
+
+    if (key == 'risk management system') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'A Risk Management System is the structured process used to identify hazards before and during work, determine who or what may be exposed, assess the level of risk, select suitable controls and verify that those controls remain effective. A professional system does not stop when a risk assessment form is signed. The assessment must be connected to the actual work sequence, equipment, people, location, interfaces and environmental conditions. Where the task changes, the risk should be reconsidered rather than relying on an old assessment simply because it was previously approved.',
+        ),
+        _LearningBlock(
+          'How the Process Works',
+          'Start by defining the activity and breaking it into realistic work steps. Identify hazards associated with each step, identify people who may be affected, evaluate the risk using the project method, and select controls using the hierarchy of controls. The team should then develop or verify the RAMS, communicate the requirements to the workforce and check the residual risk before exposure begins. During execution, supervisors and HSE personnel should verify critical controls and reassess when conditions, sequence, equipment, personnel or interfaces change.',
+        ),
+        _LearningBlock(
+          'HSE Officer / Supervisor Verification',
+          'At the workface, verify that the approved risk assessment and RAMS describe the actual task. Check that the identified controls are physically present, suitable and understood by the workforce. Confirm permits, isolations, exclusion zones, access, competent personnel and required inspections where applicable. Ask workers to explain the main hazards and critical controls in their own words. If the site condition is materially different from the assessment, control the exposure and escalate for reassessment before continuing.',
+        ),
+        _LearningBlock(
+          'Common Failures',
+          'Typical weaknesses include copying generic risk assessments, failing to identify interfaces, treating PPE as the main control, not considering simultaneous operations, ignoring changes in ground or weather conditions, and closing actions without verifying effectiveness. Another common failure is completing a risk assessment in the office without checking whether the controls can actually be implemented at the workface. Repeated findings are a signal to review the quality of the risk-management process itself.',
+        ),
+        _LearningBlock(
+          'Stop-Work / Escalation',
+          'Work should be stopped or controlled when a significant hazard is not adequately controlled, a critical barrier is missing, the approved method cannot be followed, required isolation or permit conditions are not satisfied, or changed conditions make the existing assessment unreliable. The purpose of stop work is to prevent exposure, not to create blame. The team should make the area safe, reassess the risk, establish the required controls, brief affected personnel and verify the revised arrangement before restart.',
+        ),
+        _LearningBlock(
+          'Records & Evidence',
+          'Useful evidence can include approved risk assessments, RAMS, permit records, toolbox-talk attendance, photographs of critical controls, inspection findings, competency records, dynamic risk assessments and corrective-action verification. Records should be current, traceable and connected to the actual activity. Evidence should demonstrate that controls were implemented and checked, not simply that paperwork was produced.',
+        ),
+        _LearningBlock(
+          'Practical Construction Example',
+          'Consider an excavation beside a live access route. The initial assessment may identify collapse, falls, underground services and vehicle interaction. During the shift, traffic increases and water enters the excavation. The correct response is not to continue using the original assessment unchanged. The affected work should be controlled, the new conditions assessed, protective measures and traffic controls reviewed, the workforce briefed and the revised arrangement verified before work resumes.',
+        ),
+      ];
+    }
+
+    if (key == 'worker engagement') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'Worker engagement is the practical involvement of workers in identifying hazards, understanding controls, raising concerns, reporting near misses and contributing ideas that can improve how work is performed. It is more than collecting toolbox-talk signatures. Effective engagement means workers understand the task, can explain the important risks, have a reliable method to raise concerns and receive feedback about what happened after a concern or report was made.',
+        ),
+        _LearningBlock(
+          'Consultation & Communication',
+          'Consultation should happen before important work begins and whenever significant changes affect the workforce. Toolbox talks, pre-task briefings, daily coordination meetings, safety observations, worker committees and informal field discussions can all support communication. The method should suit the workforce. Where language, literacy or experience differs, supervisors should use demonstrations, simple explanations, visual aids or translated material where required so that understanding is genuine rather than assumed from a signature.',
+        ),
+        _LearningBlock(
+          'HSE Officer / Supervisor Verification',
+          'Observe whether workers can explain the main hazards, critical controls, emergency arrangements and stop-work expectations for their task. Check whether workers are actually being consulted before changes are introduced. Review hazard reports and near misses to see whether the workforce is using the reporting process. Most importantly, check management feedback: when workers raise an issue, is it acknowledged, controlled and communicated back to them?',
+        ),
+        _LearningBlock(
+          'Common Failures',
+          'Weak engagement often appears as toolbox talks becoming routine signatures, workers being discouraged from reporting, supervisors giving instructions without checking understanding, language barriers being ignored, or repeated concerns receiving no feedback. Another weakness is asking workers for observations while management continues to accept the same unsafe condition. Engagement becomes credible only when worker input can lead to visible action or a clear explanation of why a different decision was made.',
+        ),
+        _LearningBlock(
+          'Stop-Work / Escalation',
+          'A worker should be able to raise an immediate concern when a task cannot be performed safely under the current conditions. Examples include missing fall protection, an unsafe lifting area, defective equipment, unexpected services, uncontrolled traffic or a method that no longer matches the work. The supervisor should control the exposure and investigate the concern. Work should resume only after the required controls have been established and communicated.',
+        ),
+        _LearningBlock(
+          'Practical Construction Example',
+          'During a toolbox talk, workers explain that the planned material route crosses a pedestrian path and creates repeated near misses. Instead of treating the report as a worker-behaviour issue, the supervisor and HSE team review the route, introduce segregation and a controlled crossing arrangement, communicate the change and monitor it. The example shows how worker knowledge can identify practical hazards that may not be obvious from paperwork alone.',
+        ),
+      ];
+    }
+
+    if (key == 'leadership & policy' || key == 'hse policy') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'HSE leadership and policy establish the direction of the management system and demonstrate that protecting people is part of project decision-making. A policy should communicate commitments and expectations, but its real value is measured by management behaviour: providing competent resources, allowing time for safe planning, supporting corrective action, reviewing significant risks and refusing to accept uncontrolled exposure simply to maintain production progress.',
+        ),
+        _LearningBlock(
+          'Field Application',
+          'Visible leadership can include planned site walks, discussions with workers and supervisors, review of critical controls, participation in safety meetings and prompt decisions on significant findings. Managers should understand the highest-consequence activities on their project and ask whether the controls are physically effective. Safety leadership should also be demonstrated when there is schedule pressure, because that is when organisational priorities become most visible to the workforce.',
+        ),
+        _LearningBlock(
+          'HSE Verification',
+          'Verify that the policy is current, communicated and reflected in project objectives and arrangements. Review whether management provides sufficient HSE resources, closes significant actions and participates in assurance activities. Check whether HSE performance is discussed in management meetings and whether recurring high-risk findings result in management decisions rather than repeated reminders to workers.',
+        ),
+        _LearningBlock(
+          'Common Failures',
+          'Common failures include a policy displayed on a noticeboard but not understood by workers, management measuring only incident numbers, insufficient HSE staffing, delayed corrective actions and production decisions that quietly bypass critical controls. A policy cannot compensate for weak implementation. The system must show alignment between what leadership says and what the project actually permits at the workface.',
+        ),
+        _LearningBlock(
+          'Practical Example',
+          'If repeated inspections identify missing edge protection, leadership should not simply ask the HSE team to increase inspections. Management should examine procurement, planning, supervision and resource availability, provide the required control and verify that the improvement is sustained. This demonstrates leadership through action rather than words alone.',
+        ),
+      ];
+    }
+
+    if (key == 'assurance programme' || key == 'audit plan' || key == 'inspection register') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'An HSE assurance programme provides evidence that the management system and field controls are working as intended. It normally combines planned inspections, targeted inspections, audits, observations, performance reviews and corrective-action verification. The purpose is not to generate the largest number of observations; it is to identify meaningful weaknesses, control exposure and confirm that improvements are effective.',
+        ),
+        _LearningBlock(
+          'Field Application',
+          'Inspection frequency and depth should reflect the risk and project stage. High-risk activities should receive focused verification at the workface, while system audits should sample documents, interview people and observe actual work. Findings should be risk-ranked and assigned to responsible persons. Significant or repeated findings should be escalated and analysed for underlying causes instead of being treated as isolated defects.',
+        ),
+        _LearningBlock(
+          'Verification & Evidence',
+          'A strong inspection record identifies what was checked, what was found, who owns the action, what immediate control was applied and how closure was verified. Photographs can support evidence but should not replace a clear description and effectiveness check. Audit evidence should include records as well as interviews and field observations so that the auditor can compare documented requirements with actual practice.',
+        ),
+        _LearningBlock(
+          'Common Failures',
+          'Weak assurance can become a checklist exercise where the same observations appear repeatedly, actions are closed without field verification, or audits review paperwork without visiting the workface. Another failure is focusing on easy housekeeping observations while critical-control performance receives little attention. A professional programme should be risk-based and capable of identifying system weaknesses.',
+        ),
+        _LearningBlock(
+          'Practical Example',
+          'If several inspections find inadequate lifting exclusion zones, the assurance team should review whether the lifting plan, supervision, barriers, communication and worker understanding are adequate. The corrective action may require a change in planning or supervision rather than simply asking workers to be more careful.',
+        ),
+      ];
+    }
+
+    if (key == 'competence' || key == 'training matrix' || key.contains('training')) {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'Competence means having the knowledge, skills, experience and authorisation needed to perform a task safely under the conditions in which it is carried out. Training attendance alone does not prove competence. The project should identify safety-critical roles, define the applicable requirements, verify qualifications or experience where relevant and provide supervision and reassessment when people are new to the task or conditions change.',
+        ),
+        _LearningBlock(
+          'Field Application',
+          'Use induction and toolbox talks for general awareness, then provide task-specific instruction and practical verification for safety-critical work. Maintain a training or competency matrix so supervisors can identify gaps before assigning work. Operators, riggers, electrical personnel and other specialised roles should only perform duties within their approved competence and authorisation arrangements.',
+        ),
+        _LearningBlock(
+          'HSE Verification',
+          'Check that the person assigned to the task appears in the appropriate competency records and that the record is current according to project requirements. During field observation, verify that the person actually understands the controls and can operate or perform the task safely. Review refresher or additional training needs after incidents, significant findings, changes in equipment or changes in the work method.',
+        ),
+        _LearningBlock(
+          'Common Failures',
+          'Typical gaps include expired or missing evidence, generic training being accepted for specialised tasks, workers being assigned beyond their competence, language barriers and no follow-up after training. A signed attendance sheet is weak evidence if the person cannot explain the hazards or demonstrate safe practice.',
+        ),
+      ];
+    }
+
+    if (key == 'hse plan' || key == 'project hse plan') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'The Project HSE Plan describes how HSE will be managed on the specific project. It should translate applicable company, client, authority and project requirements into practical arrangements covering organisation, responsibilities, risk management, training, inspections, audits, emergency preparedness, contractor control, environmental and occupational-health arrangements, reporting and continual improvement. It should be a living management document rather than a file prepared once and forgotten.',
+        ),
+        _LearningBlock(
+          'Implementation at Site',
+          'The plan should be reflected in actual project procedures, registers, schedules and field controls. Supervisors should know where the relevant requirements are and how they apply to their work. When scope, design, sequence, workforce, subcontractors, plant or site conditions change, the relevant arrangements should be reviewed and updated through the project change-control process.',
+        ),
+        _LearningBlock(
+          'HSE Verification',
+          'Check that responsibilities are clear, resources are adequate, risk controls are defined and assurance activities are scheduled. Sample the plan against actual site conditions: if the plan states that a control will be inspected or a briefing will be conducted, verify that evidence exists and that the control is actually effective at the workface.',
+        ),
+        _LearningBlock(
+          'Common Failure',
+          'A common failure is a detailed plan that does not match the actual project. Another is leaving obsolete arrangements in place after a major change. The HSE plan should remain aligned with the current project risk profile and should be supported by controlled procedures and records.',
+        ),
+      ];
+    }
+
+    if (key == 'management of change') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'Management of Change is the structured review of HSE implications when something changes from the previously approved arrangement. Changes can involve design, scope, sequence, equipment, materials, people, subcontractors, access, temporary works, location or surrounding activities. The purpose is to prevent a change from silently introducing new hazards or making existing controls ineffective.',
+        ),
+        _LearningBlock(
+          'Field Application',
+          'When a significant change is identified, pause the affected planning process as necessary, identify the new hazards, review risk controls and update RAMS, permits, drawings or other controlled information where required. Brief the affected workforce and verify the revised controls at the workface before exposure begins.',
+        ),
+        _LearningBlock(
+          'Common Failure',
+          'The most common weakness is treating changes as purely production decisions. A new access route, different lifting equipment, altered excavation depth or changed work sequence can materially affect risk. If the HSE implications are not reviewed, the workforce may continue using controls designed for a different situation.',
+        ),
+      ];
+    }
+
+    if (key == 'corrective action register' || key == 'corrective action' || key == 'action closure') {
+      return const [
+        _LearningBlock(
+          'Detailed Explanation',
+          'Corrective action management converts findings into controlled improvement. A useful action record describes the problem clearly, identifies the responsible owner, establishes an appropriate due date, records immediate controls where exposure exists and defines what evidence will demonstrate effective closure. Closure should mean the risk or underlying weakness has been addressed, not simply that a response was uploaded.',
+        ),
+        _LearningBlock(
+          'Effectiveness Verification',
+          'After the action is reported complete, an authorised or independent person should verify the result where appropriate. For recurring or significant findings, check the workface again after implementation and determine whether the condition remains controlled. If the same issue returns, investigate why the previous action was ineffective and consider stronger controls or a system-level change.',
+        ),
+        _LearningBlock(
+          'Common Failure',
+          'Superficial closure is a frequent weakness: repainting a line, giving a reminder or uploading a photograph may not remove the underlying cause. The project should distinguish immediate correction from corrective action that prevents recurrence. Significant findings should be escalated through the appropriate management process.',
+        ),
+      ];
+    }
+
+    return [
+      _LearningBlock(
+        'Detailed Explanation',
+        '$detail This item is part of the broader HSE management arrangement and should be understood as a working control, not merely as a document or checklist entry. Its effectiveness depends on how well the requirement is translated into planning, communication, supervision, field verification and follow-up. The responsible team should understand what good performance looks like and what evidence demonstrates that the requirement is being implemented.',
+      ),
+      _LearningBlock(
+        'How to Apply on Site',
+        'Before the activity or process begins, confirm the applicable approved requirements, responsibilities, competent persons, equipment, access arrangements and control measures. During the work, compare the actual condition with the planned arrangement and intervene when the control is missing, ineffective or no longer suitable. Where conditions change, the affected work should be controlled and the relevant assessment, method or instruction reviewed before continuing.',
+      ),
+      _LearningBlock(
+        'HSE Officer / Supervisor Verification',
+        'The HSE Officer or supervisor should verify implementation at the workface rather than relying only on paperwork. Check whether workers understand the requirement, whether the physical controls are present, whether records are current and whether identified actions have been effectively closed. Ask practical questions and observe the work so that the review tests actual performance rather than only document availability.',
+      ),
+      _LearningBlock(
+        'Common Failures',
+        'Common failures include outdated information, unclear responsibility, incomplete briefing, weak supervision, controls that are specified but not physically installed, repeated findings and corrective actions that are closed without effectiveness verification. When the same problem appears repeatedly, the project should review the underlying planning, competence, resource or management-system weakness rather than continuing to treat each occurrence as an isolated event.',
+      ),
+      _LearningBlock(
+        'Stop-Work / Escalation',
+        'If this requirement is safety-critical and the necessary control is absent or ineffective, the affected exposure should be controlled and escalated according to the project arrangements. Work should not continue simply because the issue has been recorded. Restart should occur only after the required control has been established, the relevant risk or method has been reviewed where necessary and the responsible person has verified the safe arrangement.',
+      ),
+      _LearningBlock(
+        'Records & Evidence',
+        'Depending on the item, evidence may include approved procedures, RAMS, permits, inspection records, training or competency records, meeting minutes, toolbox-talk records, photographs, audit reports and corrective-action verification. Good evidence is current, traceable and relevant to the activity. It should help demonstrate what was planned, what was implemented, what was checked and what was improved.',
+      ),
+      _LearningBlock(
+        'Practical Site Example',
+        'A supervisor identifies that a planned control is difficult to maintain because the work sequence has changed. Instead of allowing workers to improvise, the activity is paused, the change is communicated to the responsible team, the risk and method are reviewed, the revised controls are installed and the workforce is briefed before restart. This demonstrates how an HSE requirement becomes a practical field decision.',
+      ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final blocks = _blocks();
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(item, maxLines: 2, overflow: TextOverflow.ellipsis),
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(14, 16, 14, 30),
+        children: [
+          Text(
+            sectionTitle,
+            style: const TextStyle(
+              color: primary,
+              fontWeight: FontWeight.w800,
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Text(
+            item,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+            ),
+          ),
+          const SizedBox(height: 16),
+          for (final block in blocks) _LearningBlockCard(block: block),
+          const SizedBox(height: 4),
+          Card(
+            elevation: 0,
+            color: const Color(0xFFEAF3EE),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                'Field-reference reminder: apply the approved project requirements, competent-person arrangements, equipment instructions, permits, RAMS and site controls applicable to the actual task. If conditions change or a critical control is missing, stop or control the affected exposure and escalate through the approved process.',
+                style: TextStyle(fontSize: 13.5, height: 1.65),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LearningBlock {
+  final String title;
+  final String body;
+  const _LearningBlock(this.title, this.body);
+}
+
+class _LearningBlockCard extends StatelessWidget {
+  final _LearningBlock block;
+  const _LearningBlockCard({required this.block});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 11),
+      elevation: 0.7,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 15, 16, 17),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              block.title,
+              style: const TextStyle(
+                color: Color(0xFF0B6B4F),
+                fontSize: 15.5,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 9),
+            Text(
+              block.body,
+              style: const TextStyle(
+                fontSize: 14.2,
+                height: 1.7,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _DetailItem { final String title; final String detail; const _DetailItem({required this.title, required this.detail}); }
