@@ -1068,7 +1068,7 @@ const List<HseOrgSection> _sections = [
   HseOrgSection(
     title: 'Practical Construction-Site Scenarios',
     summary: 'Apply the organisation structure to realistic site situations.',
-    icon: Icons.hard_hat_rounded,
+    icon: Icons.engineering_rounded,
     explanation: [
       'Scenario learning tests whether people know who owns a risk and how the organisation should respond.',
       'Examples include an unplanned excavation condition, a lifting-zone conflict, a permit discrepancy, a contractor interface issue or a serious access problem.',
@@ -1322,23 +1322,3 @@ const List<AdvancedModule> _advancedModules = [
   ),
 ];
 
-void main() {
-  runApp(const _PreviewApp());
-}
-
-class _PreviewApp extends StatelessWidget {
-  const _PreviewApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SafeNexus HSE — Step 03',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF159447)),
-        useMaterial3: true,
-      ),
-      home: const DubaiHseOrganisationResponsibilitiesPage(),
-    );
-  }
-}
