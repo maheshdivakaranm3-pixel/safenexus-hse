@@ -4,10 +4,10 @@ import 'dubai_hse_detail_page.dart';
 import 'models/reference_topic.dart';
 import 'pages/dubai/dubai_construction_safety_framework_page.dart';
 import 'pages/dubai/dubai_hse_management_page.dart';
-import 'pages/dubai/dubai_hse_legal_regulatory_compliance_page.dart';
 import 'pages/dubai/scaffolding_safety_page.dart';
 import 'pages/dubai/excavation_trenching_page.dart';
 import 'pages/dubai/lifting_operations_page.dart';
+import 'pages/dubai/dubai_hse_construction_hse_plan_page.dart';
 
 class DubaiHsePartRouter {
   static Widget pageFor(ReferenceTopic topic) {
@@ -16,8 +16,8 @@ class DubaiHsePartRouter {
         return const DubaiConstructionSafetyFrameworkPage();
       case 'dubai_hse_management':
         return const DubaiHseManagementPage();
-      case 'dubai_legal_regulatory_compliance':
-        return const DubaiHseLegalRegulatoryCompliancePage();
+      case 'dubai_hse_plan':
+        return DubaiHseConstructionHsePlanPage(topic: topic);
       case 'dubai_scaffolding':
         return const ScaffoldingSafetyPage();
       case 'dubai_excavation':
