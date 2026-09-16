@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import '../models/reference_topic.dart';
 import '../models/guideline_category.dart';
 
