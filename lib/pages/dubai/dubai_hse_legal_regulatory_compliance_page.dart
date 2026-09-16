@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-/// SafeNexus HSE — Topic 04
+/// SafeNexus HSE — Dubai Topic 04
 /// Legal & Regulatory Compliance
 ///
-/// Complete single-file topic module:
-/// Main Page + topic-specific Advanced Learning + detailed sections.
+/// Architecture:
+/// - One complete Dart file for the topic.
+/// - Main page + Advanced Learning + detailed topic pages.
+/// - No dependency on the deleted Part 1 / Part 2 architecture.
+/// - Intended to be routed from DubaiHsePartRouter using topic id:
+///   dubai_legal_regulatory_compliance
 ///
-/// Suggested topic id for router integration:
-/// dubai_legal_regulatory_compliance
-///
-/// Important: this is a learning/reference module. Current official legal text,
-/// authority publications, permits, project procedures and competent technical
-/// instructions take precedence for actual compliance decisions.
+/// Content is designed as professional learning/reference material.
+/// Always verify current official requirements before making a legal decision.
 
 class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
   const DubaiHseLegalRegulatoryCompliancePage({super.key});
 
-  static const Color green = Color(0xFF159447);
+  static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color navy = Color(0xFF17324D);
   static const Color background = Color(0xFFF5F8F7);
@@ -26,133 +26,345 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
-        title: const Text('Legal & Regulatory Compliance'),
+        title: const Text(
+          '04 • Legal & Regulatory Compliance',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            _hero(context),
+            const SizedBox(height: 16),
+            _advancedLearning(context),
+            const SizedBox(height: 18),
+            _sectionHeader('Complete Topic', 'All core legal and regulatory compliance content'),
+            const SizedBox(height: 10),
+            ..._legalSections.map((item) => _sectionCard(context, item)),
+            const SizedBox(height: 18),
+            _referenceCard(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _hero(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [darkGreen, primaryGreen],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _hero(),
-          const SizedBox(height: 16),
-          _advancedCard(context),
-          const SizedBox(height: 16),
-          _noticeCard(),
-          const SizedBox(height: 20),
-          const Text('Complete Topic', style: TextStyle(color: navy, fontSize: 21, fontWeight: FontWeight.w800)),
-          const SizedBox(height: 5),
-          const Text('Every section is specific to Legal & Regulatory Compliance.', style: TextStyle(color: Colors.black54, fontSize: 12.5)),
-          const SizedBox(height: 12),
-          ..._legalSections.map((s) => _sectionCard(context, s)),
-          const SizedBox(height: 14),
-          _referenceCard(),
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.white24,
+                child: Icon(Icons.gavel_rounded, color: Colors.white, size: 28),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'LEGAL & REGULATORY COMPLIANCE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: .3,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Dubai Construction HSE Reference',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 7),
+          Text(
+            'Identify applicable requirements, convert them into site controls, verify implementation and maintain objective evidence.',
+            style: TextStyle(
+              color: Colors.white70,
+              height: 1.45,
+              fontSize: 13.5,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _hero() => Container(
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(colors: [darkGreen, green], begin: Alignment.topLeft, end: Alignment.bottomRight),
-      borderRadius: BorderRadius.circular(22),
-    ),
-    child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        CircleAvatar(backgroundColor: Colors.white24, radius: 26, child: Icon(Icons.gavel_rounded, color: Colors.white, size: 29)),
-        SizedBox(width: 12),
-        Expanded(child: Text('LEGAL & REGULATORY COMPLIANCE', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800))),
-      ]),
-      SizedBox(height: 15),
-      Text('Dubai Construction HSE Reference', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700)),
-      SizedBox(height: 6),
-      Text('Identify requirements → convert them into controls → verify implementation → maintain evidence.', style: TextStyle(color: Colors.white70, height: 1.45, fontSize: 13.5)),
-    ]),
-  );
-
-  Widget _advancedCard(BuildContext context) => InkWell(
-    borderRadius: BorderRadius.circular(20),
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DubaiHseLegalRegulatoryAdvancedLearningPage())),
-    child: Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [darkGreen, green], begin: Alignment.centerLeft, end: Alignment.centerRight),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.10), blurRadius: 12, offset: const Offset(0, 5))],
+  Widget _advancedLearning(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const DubaiHseLegalRegulatoryAdvancedLearningPage(),
+        ),
       ),
-      child: const Row(children: [
-        CircleAvatar(radius: 27, backgroundColor: Colors.white, child: Icon(Icons.menu_book_rounded, color: darkGreen, size: 30)),
-        SizedBox(width: 14),
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('📚 Advanced Learning', style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w800)),
-          SizedBox(height: 5),
-          Text('Detailed legal study, compliance assurance, audit evidence and field reference', style: TextStyle(color: Colors.white70, height: 1.35, fontSize: 13)),
-        ])),
-        Icon(Icons.chevron_right_rounded, color: Colors.white, size: 32),
-      ]),
-    ),
-  );
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: const Color(0xFFEAF6F0),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: primaryGreen.withValues(alpha: .25)),
+        ),
+        child: const Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: primaryGreen,
+              child: Icon(Icons.menu_book_rounded, color: Colors.white),
+            ),
+            SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '📚 ADVANCED LEARNING',
+                    style: TextStyle(
+                      color: darkGreen,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Regulatory intelligence, compliance assurance, audit evidence, legal-change management and professional HSE application.',
+                    style: TextStyle(height: 1.35, fontSize: 12.8),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios_rounded, size: 17, color: darkGreen),
+          ],
+        ),
+      ),
+    );
+  }
 
-  Widget _noticeCard() => Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(color: const Color(0xFFF1F5EF), borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade300)),
-    child: const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Icon(Icons.info_outline_rounded, color: darkGreen, size: 28),
-      SizedBox(width: 12),
-      Expanded(child: Text('Learning and field-reference aid. For actual compliance decisions, always follow current applicable Dubai/UAE requirements, official authority publications, approved project procedures, RAMS, permits and competent technical instructions.', style: TextStyle(height: 1.5, fontSize: 13.5))),
-    ]),
-  );
+  Widget _sectionHeader(String title, String subtitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: navy,
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          subtitle,
+          style: const TextStyle(color: Colors.black54, fontSize: 12.5),
+        ),
+      ],
+    );
+  }
 
-  Widget _sectionCard(BuildContext context, _LegalSection s) => Card(
-    elevation: 0,
-    margin: const EdgeInsets.only(bottom: 10),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17), side: BorderSide(color: Colors.grey.shade200)),
-    child: InkWell(
-      borderRadius: BorderRadius.circular(17),
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DubaiHseLegalRegulatoryComplianceDetailPage(section: s))),
-      child: Padding(padding: const EdgeInsets.all(15), child: Row(children: [
-        Container(width: 44, height: 44, alignment: Alignment.center, decoration: BoxDecoration(color: green.withValues(alpha: .10), borderRadius: BorderRadius.circular(13)), child: Text(s.id, style: const TextStyle(color: darkGreen, fontWeight: FontWeight.w800, fontSize: 12))),
-        const SizedBox(width: 13),
-        Expanded(child: Text(s.title, style: const TextStyle(color: navy, fontWeight: FontWeight.w700, fontSize: 14.5))),
-        const Icon(Icons.chevron_right_rounded, color: Colors.black45),
-      ])),
-    ),
-  );
+  Widget _sectionCard(BuildContext context, _LegalSection item) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: Colors.grey.shade200),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DubaiHseLegalRegulatoryDetailPage(section: item),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(alpha: .10),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  item.id,
+                  style: const TextStyle(
+                    color: darkGreen,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Text(
+                  item.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: navy,
+                    fontSize: 14.5,
+                  ),
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: Colors.black45),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-  Widget _referenceCard() => Container(
-    padding: const EdgeInsets.all(17),
-    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200)),
-    child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('Reference Sources to Verify', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)),
-      SizedBox(height: 9),
-      Text('• Dubai Municipality — Laws and Legislations\n• Dubai Municipality — Planning and Construction / Technical Guidelines\n• Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works\n• Dubai Municipality Administrative Resolution No. (112) of 2026 approving the Safety Guide for Construction Works in the Emirate of Dubai\n• Safety Guide for Construction Works in the Emirate of Dubai\n• Dubai Municipality Health & Safety Technical Guidelines\n• Applicable project permits, approvals, specifications and HSE procedures', style: TextStyle(height: 1.55, fontSize: 13)),
-      SizedBox(height: 10),
-      Text('Always verify the current official publication and exact applicability before making a legal/compliance decision.', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12.5, height: 1.45)),
-    ]),
-  );
+  Widget _referenceCard() {
+    return Container(
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.library_books_rounded, color: darkGreen),
+              SizedBox(width: 8),
+              Text(
+                'Reference Discipline',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: navy,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Use current official Dubai Municipality publications and the project-approved document set when verifying legal requirements. This learning module is not a substitute for the official legal text.',
+            style: TextStyle(height: 1.5, fontSize: 13),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class DubaiHseLegalRegulatoryComplianceDetailPage extends StatelessWidget {
+class DubaiHseLegalRegulatoryDetailPage extends StatelessWidget {
   final _LegalSection section;
-  const DubaiHseLegalRegulatoryComplianceDetailPage({super.key, required this.section});
+
+  const DubaiHseLegalRegulatoryDetailPage({
+    super.key,
+    required this.section,
+  });
+
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color navy = Color(0xFF17324D);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(section.title), backgroundColor: const Color(0xFF0B5D4B), foregroundColor: Colors.white),
-    body: ListView(padding: const EdgeInsets.fromLTRB(18, 18, 18, 32), children: [
-      Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(color: const Color(0xFFEAF6F0), borderRadius: BorderRadius.circular(18)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Section ${section.id}', style: const TextStyle(color: Color(0xFF0B5D4B), fontWeight: FontWeight.w800)),
-        const SizedBox(height: 8),
-        Text(section.overview, style: const TextStyle(fontSize: 14, height: 1.55)),
-      ])),
-      const SizedBox(height: 18),
-      const Text('Field Application', style: TextStyle(color: Color(0xFF17324D), fontSize: 18, fontWeight: FontWeight.w800)),
-      const SizedBox(height: 8),
-      Text(section.detail, style: const TextStyle(fontSize: 13.5, height: 1.55)),
-      const SizedBox(height: 16),
-      Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: Colors.amber.withValues(alpha: .10), borderRadius: BorderRadius.circular(14), border: Border.all(color: Colors.amber.withValues(alpha: .25))), child: const Text('HSE field note: confirm the current official requirement, project scope and approved controls before treating a compliance point as applicable.', style: TextStyle(fontSize: 12.5, height: 1.45))),
-    ]),
-  );
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(section.title),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 32),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAF6F0),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Text(
+              section.description,
+              style: const TextStyle(height: 1.55, fontSize: 14),
+            ),
+          ),
+          const SizedBox(height: 18),
+          const Text(
+            'Key Application Points',
+            style: TextStyle(
+              color: navy,
+              fontWeight: FontWeight.w800,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ...section.points.map(
+            (point) => Padding(
+              padding: const EdgeInsets.only(bottom: 11),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 3),
+                    child: Icon(
+                      Icons.check_circle_rounded,
+                      size: 19,
+                      color: Color(0xFF159447),
+                    ),
+                  ),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: Text(
+                      point,
+                      style: const TextStyle(height: 1.45, fontSize: 13.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.amber.withValues(alpha: .10),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.amber.withValues(alpha: .25)),
+            ),
+            child: const Text(
+              'Field note: verify the current official requirement, project conditions and approved documents before treating a compliance point as legally applicable.',
+              style: TextStyle(height: 1.45, fontSize: 12.5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class DubaiHseLegalRegulatoryAdvancedLearningPage extends StatelessWidget {
@@ -162,423 +374,619 @@ class DubaiHseLegalRegulatoryAdvancedLearningPage extends StatelessWidget {
   static const Color navy = Color(0xFF17324D);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Advanced Learning'), backgroundColor: darkGreen, foregroundColor: Colors.white),
-    body: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 32), children: [
-      Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(gradient: const LinearGradient(colors: [darkGreen, Color(0xFF159447)]), borderRadius: BorderRadius.circular(20)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('📚 LEGAL & REGULATORY — ADVANCED STUDY', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w800)),
-        SizedBox(height: 8),
-        Text('This Advanced Learning module is specifically for Legal & Regulatory Compliance. It expands the topic into study, field assurance, audit and professional reference content.', style: TextStyle(color: Colors.white70, height: 1.5, fontSize: 13)),
-      ])),
-      const SizedBox(height: 16),
-      ..._advancedModules.map((m) => _moduleCard(m)),
-      const SizedBox(height: 10),
-      _masterChecklist(),
-      const SizedBox(height: 16),
-      _professionalQuestions(),
-      const SizedBox(height: 16),
-      _referenceCard(),
-    ]),
-  );
-
-  Widget _moduleCard(_AdvancedModule m) => Card(elevation: 0, margin: const EdgeInsets.only(bottom: 11), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17), side: BorderSide(color: Colors.grey.shade200)), child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Text('${m.id}  ${m.title}', style: const TextStyle(color: navy, fontSize: 15.5, fontWeight: FontWeight.w800)),
-    const SizedBox(height: 11),
-    ...m.points.map((p) => Padding(padding: const EdgeInsets.only(bottom: 9), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [const Padding(padding: EdgeInsets.only(top: 3), child: Icon(Icons.check_circle_rounded, size: 18, color: Color(0xFF159447))), const SizedBox(width: 8), Expanded(child: Text(p, style: const TextStyle(fontSize: 13.2, height: 1.45)))]))),
-  ])));
-
-  Widget _masterChecklist() {
-    const items=['Identify current official sources','Confirm applicability and effective status','Map each requirement to an operational control','Verify approvals / permits / competency','Check current RAMS and procedures','Perform field verification','Interview workers and supervisors','Capture objective evidence','Control and track non-compliance','Verify corrective-action effectiveness','Review regulatory changes','Retain traceable records'];
-    return Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: const Color(0xFFEAF6F0), borderRadius: BorderRadius.circular(18)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('Legal Compliance Master Checklist', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)), const SizedBox(height: 10), ...items.map((x)=>Padding(padding: const EdgeInsets.only(bottom: 8), child: Row(children:[const Icon(Icons.verified_rounded,size:18,color:darkGreen),const SizedBox(width:8),Expanded(child:Text(x,style:const TextStyle(fontSize:13)))])))]));
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Advanced Learning'),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [darkGreen, Color(0xFF159447)],
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '📚 ADVANCED LEGAL & REGULATORY LEARNING',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'For HSE Officers, Supervisors, Engineers and project leaders who need to move from document compliance to field assurance.',
+                  style: TextStyle(color: Colors.white70, height: 1.45),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          ..._advancedModules.map(
+            (module) => Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: Colors.grey.shade200),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${module.id}  ${module.title}',
+                      style: const TextStyle(
+                        color: navy,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      module.content,
+                      style: const TextStyle(height: 1.5, fontSize: 13.2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          _professionalChecklist(),
+          const SizedBox(height: 16),
+          _references(),
+        ],
+      ),
+    );
   }
 
-  Widget _professionalQuestions() => Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Text('Professional / Interview Questions', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)),
-    SizedBox(height: 10),
-    Text('1. How do you identify applicable legislation for a project?\n2. How do you maintain a legal register?\n3. How do you verify that a regulation is current?\n4. How do you convert a legal requirement into a site control?\n5. How do you audit contractor compliance?\n6. What evidence demonstrates implementation?\n7. How do you manage a regulatory change?\n8. When would you escalate or stop work?\n9. How do you handle repeated non-compliance?\n10. How do you verify corrective-action effectiveness?', style: TextStyle(fontSize: 13, height: 1.55)),
-  ]);
+  Widget _professionalChecklist() {
+    const items = [
+      'Current legal / regulatory register reviewed',
+      'Applicable requirements mapped to project controls',
+      'Current approvals, permits and competency evidence verified',
+      'RAMS and work-front controls aligned with requirements',
+      'Field implementation physically verified',
+      'Workers and supervisors understand critical controls',
+      'Non-conformities assigned and tracked',
+      'Closure effectiveness verified',
+      'Regulatory changes assessed and communicated',
+      'Objective evidence is retrievable for audit',
+    ];
 
-  Widget _referenceCard() => Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Text('Advanced Reference Sources', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)),
-    SizedBox(height: 9),
-    Text('Dubai Municipality Laws and Legislations; Dubai Municipality Planning and Construction resources; Safety Guide for Construction Works in the Emirate of Dubai; Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works; Administrative Resolution No. (112) of 2026 approving the Safety Guide for Construction Works; Dubai Municipality Health & Safety Technical Guidelines; applicable project documents.', style: TextStyle(fontSize: 13, height: 1.55)),
-    SizedBox(height: 9),
-    Text('Reference rule: official current publications and approved project requirements take precedence.', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12.5)),
-  ]);
+    return Container(
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEAF6F0),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Professional Compliance Verification Checklist',
+            style: TextStyle(
+              color: navy,
+              fontWeight: FontWeight.w800,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.verified_rounded, size: 18, color: darkGreen),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item, style: const TextStyle(fontSize: 13))),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _references() {
+    return Container(
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Official Reference Sources to Verify',
+            style: TextStyle(
+              color: navy,
+              fontWeight: FontWeight.w800,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            '• Dubai Municipality — Laws and Legislations\n'
+            '• Dubai Municipality — Planning and Construction\n'
+            '• Dubai Municipality — Construction Work Safety Guide / Safety Guide for Construction Works\n'
+            '• Dubai Municipality — Health & Safety Technical Guidelines\n'
+            '• Dubai Municipality Technical Guideline No. 137 — Health and Safety Risk Assessment\n'
+            '• Applicable project permits, approvals, specifications and HSE requirements',
+            style: TextStyle(height: 1.55, fontSize: 13),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Important: official legal text and current authority publications take precedence over this learning summary.',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+              height: 1.45,
+              fontSize: 12.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _LegalSection {
-  final String id; final String title; final String overview; final String detail;
-  const _LegalSection({required this.id, required this.title, required this.overview, required this.detail});
+  final String id;
+  final String title;
+  final String description;
+  final List<String> points;
+
+  const _LegalSection({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.points,
+  });
 }
 
 class _AdvancedModule {
-  final String id; final String title; final List<String> points;
-  const _AdvancedModule({required this.id, required this.title, required this.points});
+  final String id;
+  final String title;
+  final String content;
+
+  const _AdvancedModule({
+    required this.id,
+    required this.title,
+    required this.content,
+  });
 }
 
 const List<_LegalSection> _legalSections = [
-  const _LegalSection(
+  _LegalSection(
     id: '01',
     title: 'Legal & Regulatory Compliance — Introduction',
-    overview: 'Legal compliance means identifying every requirement that applies to the project, translating it into controls, implementing those controls and retaining objective evidence.',
-    detail: 'Start with jurisdiction, project scope and activity. Identify the authority/source. Confirm the current version. Map the requirement to project controls. Verify implementation in the field. Record evidence and review changes.',
+    description: 'Understand what legal compliance means on a Dubai construction project, why requirements must be identified before work starts, and how an HSE professional converts legal requirements into practical site controls.',
+    points: [
+      'Identify the authorities and legal instruments applicable to the project.',
+      'Maintain a current legal and regulatory register.',
+      'Translate applicable requirements into project procedures, RAMS, permits, inspections and training.',
+      'Verify implementation in the field and retain objective evidence.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '02',
     title: 'Legal Hierarchy & Applicability',
-    overview: 'A professional HSE officer must distinguish mandatory legislation from administrative requirements, technical guidance, project specifications and internal procedures. Applicability must be demonstrated, not assumed.',
-    detail: 'Confirm which requirement applies to the activity, location, client and project. Check effective status and revision. Where requirements overlap, use the applicable and more stringent project/legal control where required by the project, and escalate uncertainty rather than guessing.',
+    description: 'Differentiate laws, decrees, administrative resolutions, technical guidelines, circulars, codes, project specifications and internal procedures. Apply the requirement that is actually relevant to the activity, location and project scope.',
+    points: [
+      'Confirm jurisdiction and activity scope before applying a requirement.',
+      'Check effective dates and superseded versions.',
+      'Distinguish mandatory legal requirements from guidance and internal standards.',
+      'Escalate conflicts or uncertainty to competent management/legal/compliance support.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '03',
     title: 'Dubai Construction Safety Framework',
-    overview: 'Use the current Dubai Municipality construction-safety framework as the principal Dubai reference context for construction work. The project must also consider applicable permits, approvals, specifications and other authority requirements.',
-    detail: 'Maintain a controlled reference set. Identify which construction activities are covered. Map requirements into HSE plans, RAMS, permits, inspections, training and emergency arrangements.',
+    description: 'Use the Dubai construction safety framework as the principal reference context for construction activities, while checking the current official Dubai Municipality publications and project-specific requirements.',
+    points: [
+      'Identify the current construction safety legislation and approved guide.',
+      'Map project activities to relevant safety requirements.',
+      'Include construction safety obligations in project planning.',
+      'Keep evidence that requirements have been communicated and implemented.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '04',
-    title: 'Dubai Decree No. (19) of 2025 — Safety in Construction Work',
-    overview: 'The current Dubai legal framework includes Decree No. (19) of 2025 Concerning Safety in Construction Works. The official legal text should always be checked for the exact duty, scope and effective provisions.',
-    detail: 'Record the decree in the legal register when applicable. Identify duties affecting the project parties. Review project arrangements against current official requirements. Never treat an uncontrolled summary as a substitute for the official legal text.',
+    title: 'Decree No. (19) of 2025 — Safety in Construction Work',
+    description: 'Treat the current Dubai construction-safety legislation as a primary legal reference and verify its current official publication before relying on detailed provisions.',
+    points: [
+      'Identify duties relevant to the project parties.',
+      'Check project arrangements against the current decree and implementing requirements.',
+      'Do not rely on an uncontrolled summary when a legal decision is required.',
+      'Record compliance actions and responsible persons.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '05',
     title: 'Administrative Resolution No. (112) of 2026',
-    overview: 'The project reference set identifies Administrative Resolution No. (112) of 2026 approving the Safety Guide for Construction Works in the Emirate of Dubai. Use the current official publication and approved guide for detailed application.',
-    detail: 'Confirm the current approved guide/version. Map relevant guide requirements to site controls. Communicate applicable requirements. Reassess when the guide or associated requirements change.',
+    description: 'Recognize the Dubai Municipality administrative resolution approving the Safety Guide for Construction Works in the Emirate of Dubai and use the current official guide as a practical construction-safety reference.',
+    points: [
+      'Confirm the approved guide/version in the official source.',
+      'Map guide requirements to project controls.',
+      'Train relevant personnel on applicable requirements.',
+      'Review the register when the guide or related requirements are updated.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '06',
-    title: 'Legal & Regulatory Register',
-    overview: 'A legal register is a controlled list of applicable requirements with source, subject, revision/effective information, owner, project control, evidence and status.',
-    detail: 'Give each entry a unique reference. Record applicability. Link each requirement to procedures, RAMS, permits, inspections or training. Assign an owner. Review the register on a defined schedule and after regulatory change.',
+    title: 'Legal Register',
+    description: 'Build and maintain a controlled register showing each applicable requirement, source, subject, responsible owner, project procedure, evidence and review status.',
+    points: [
+      'Use unique register references.',
+      'Record issue/revision/effective information.',
+      'Assign an accountable owner for each requirement.',
+      'Link requirements to procedures, inspections, permits or records.',
+      'Review periodically and after regulatory changes.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '07',
-    title: 'Regulatory Monitoring & Change Updates',
-    overview: 'Compliance is continuous. A requirement that was correct last year may be superseded, amended or supplemented. Monitoring must therefore be planned and documented.',
-    detail: 'Monitor official authority publications. Screen changes for applicability. Record impact assessment. Update affected documents and training. Communicate changes before affected work continues.',
+    title: 'Regulatory Monitoring & Updates',
+    description: 'Compliance is continuous. Monitor official authority publications, project instructions and approved changes rather than assuming an old register remains current.',
+    points: [
+      'Define a regulatory-monitoring responsibility.',
+      'Check official authority updates at planned intervals.',
+      'Assess whether each change affects the project.',
+      'Document impact assessment and implementation.',
+      'Brief affected teams after significant changes.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '08',
     title: 'Permits, Approvals & NOCs',
-    overview: 'Legal compliance can depend on project permits, approvals, authority conditions and NOCs. These are controls with defined scope and conditions, not administrative paperwork only.',
-    detail: 'Verify validity, location, activity, dates and conditions. Check prerequisites. Keep evidence. Do not allow permit possession to replace risk assessment, RAMS or supervision.',
+    description: 'Understand the relationship between legal compliance, project approvals, permits, no-objection requirements and work-front authorization.',
+    points: [
+      'Verify required approvals before controlled activities start.',
+      'Check validity, scope, location and conditions.',
+      'Do not treat a permit as a substitute for risk assessment or supervision.',
+      'Retain approval evidence and close conditions before work proceeds.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '09',
     title: 'Contractor & Subcontractor Compliance',
-    overview: 'The main contractor remains responsible for controlling the HSE performance of its work interfaces. Subcontractor compliance must be checked through qualification, onboarding, documentation, field verification and corrective action.',
-    detail: 'Define requirements in contracts. Verify licenses, competencies and approvals. Review subcontractor RAMS. Audit work fronts. Track findings and repeated non-compliance.',
+    description: 'Control legal compliance across the contractor chain. Prequalification, contract requirements, competency, supervision and verification must be connected.',
+    points: [
+      'Define compliance duties in contracts and scope documents.',
+      'Evaluate subcontractor legal registers where relevant.',
+      'Verify licenses, competencies and required approvals.',
+      'Audit implementation rather than relying only on submitted documents.',
+      'Track and close subcontractor nonconformities.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '10',
     title: 'Competent Persons & Professional Duties',
-    overview: 'Safety-critical activities require suitably competent and, where applicable, authorised personnel. Competence includes knowledge, skill, experience and task-specific suitability.',
-    detail: 'Define competency criteria. Verify certificates and authorisations. Maintain a competency matrix. Prevent expired or unsuitable credentials from being used. Verify actual competence in the field.',
+    description: 'Identify when competent, authorized or suitably qualified persons are required and verify that assigned personnel match the work and legal/project requirements.',
+    points: [
+      'Define competency criteria for safety-critical tasks.',
+      'Verify qualifications, authorization and experience.',
+      'Control expired or unsuitable credentials.',
+      'Maintain a competency matrix and supporting evidence.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '11',
     title: 'Risk Assessment as a Compliance Tool',
-    overview: 'Risk assessment converts hazards and legal requirements into practical controls. Legal requirements should be considered during hazard identification and control selection.',
-    detail: 'Identify legal controls. Apply the hierarchy of controls. Assess residual risk. Review after change, incident, new equipment, altered sequence or changed conditions. Communicate critical controls.',
+    description: 'Use risk assessment to demonstrate that hazards have been identified and appropriate controls selected. Legal requirements should inform the risk-control process, not sit separately from it.',
+    points: [
+      'Identify legal controls during hazard identification.',
+      'Use the hierarchy of controls.',
+      'Review assessments when work, plant, people or conditions change.',
+      'Communicate significant controls to affected workers.',
+      'Retain approved assessments and review records.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '12',
     title: 'RAMS & Safe Work Procedures',
-    overview: 'RAMS should convert requirements into a safe sequence of work, responsibilities, controls, hold points, emergency arrangements and verification requirements.',
-    detail: 'Reference applicable requirements. Make controls task-specific. Brief affected workers. Control revisions. Verify the RAMS against the actual work front before accepting work.',
+    description: 'Convert applicable requirements into method statements, risk assessments and safe work procedures that workers can actually follow.',
+    points: [
+      'Reference applicable requirements in RAMS where appropriate.',
+      'Define responsibilities and hold points.',
+      'Specify inspection and verification requirements.',
+      'Brief workers before the task.',
+      'Control revisions so obsolete RAMS are not used.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '13',
     title: 'Permit to Work & Legal Controls',
-    overview: 'Permit systems provide controlled authorisation for defined high-risk work where required by the project or applicable requirements. A permit is one layer of control, not the whole risk-control system.',
-    detail: 'Verify prerequisites, isolations, competent persons and site conditions. Control simultaneous operations. Suspend when conditions change. Close the permit only after safe completion and restoration.',
+    description: 'Use permit systems for defined high-risk activities where required by the project or applicable rules, with clear conditions, authorization, isolation and close-out.',
+    points: [
+      'Identify activities requiring permits.',
+      'Verify prerequisites before authorization.',
+      'Check isolations and simultaneous operations.',
+      'Suspend permits when conditions change.',
+      'Close permits and restore the area safely.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '14',
     title: 'Inspection, Monitoring & Compliance Verification',
-    overview: 'Compliance must be tested where work happens. Document review without field verification can miss unsafe conditions or ineffective controls.',
-    detail: 'Use inspection criteria linked to requirements. Record objective findings. Classify findings. Assign owners and due dates. Verify effectiveness after corrective action.',
+    description: 'Compliance must be tested in the field. Combine planned inspections, task observations, document checks and management verification.',
+    points: [
+      'Use inspection criteria linked to applicable requirements.',
+      'Record objective findings.',
+      'Classify nonconformities consistently.',
+      'Assign corrective actions with owners and due dates.',
+      'Verify effectiveness after closure.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '15',
     title: 'Audit & Compliance Assessment',
-    overview: 'Audits evaluate whether requirements are documented, implemented and effective. A strong audit samples records, interviews people and observes actual work.',
-    detail: 'Define audit criteria. Sample high-risk activities and records. Interview workers and supervisors. Record evidence and findings. Track root causes and closure.',
+    description: 'Audits test whether the management system and field controls are implemented and effective. They should sample evidence, interview people and inspect conditions.',
+    points: [
+      'Prepare audit criteria from controlled requirements.',
+      'Sample records and work fronts.',
+      'Interview workers and supervisors.',
+      'Record evidence and findings.',
+      'Track corrective and preventive actions.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '16',
-    title: 'Incident, Near-Miss & Reporting Duties',
-    overview: 'Incidents and near misses can reveal regulatory non-compliance and may create internal or external escalation/reporting duties depending on the event and applicable requirements.',
-    detail: 'Use a clear incident classification system. Escalate serious events promptly. Preserve evidence. Check reporting obligations. Investigate causes and verify corrective actions.',
+    title: 'Incident, Near-Miss & Legal Reporting',
+    description: 'Understand that incidents may trigger internal escalation and external reporting obligations depending on the event, jurisdiction and applicable requirements.',
+    points: [
+      'Define incident classification and escalation.',
+      'Preserve evidence after serious events.',
+      'Check reporting obligations promptly.',
+      'Investigate root and contributing causes.',
+      'Track corrective actions and lessons learned.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '17',
     title: 'Occupational Health & Worker Welfare',
-    overview: 'Regulatory compliance includes occupational health, welfare, heat-stress controls, exposure management and suitable welfare arrangements where applicable.',
-    detail: 'Identify applicable health requirements. Provide suitable welfare facilities. Monitor heat stress and occupational exposures where relevant. Protect confidential health information. Verify welfare conditions.',
+    description: 'Legal compliance includes health protection and welfare arrangements, not only physical construction hazards.',
+    points: [
+      'Identify applicable occupational-health requirements.',
+      'Provide suitable welfare facilities.',
+      'Address heat stress and occupational exposure where applicable.',
+      'Maintain health-related records with appropriate confidentiality.',
+      'Verify welfare conditions through inspections.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '18',
     title: 'Environmental & Public Safety Interfaces',
-    overview: 'Construction HSE compliance can interface with environmental protection, public safety, traffic, dust, noise, waste, spills, site security and community protection requirements.',
-    detail: 'Identify public-interface risks. Control access and boundaries. Manage dust/noise/waste/spills according to applicable requirements. Coordinate HSE and environmental controls.',
+    description: 'Construction compliance can overlap with environmental, public safety, traffic, nuisance and community-protection requirements.',
+    points: [
+      'Identify public-interface risks.',
+      'Control access, hoarding, lighting and site security as applicable.',
+      'Control dust, noise, waste and spill risks according to applicable requirements.',
+      'Coordinate with environmental and project controls.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '19',
     title: 'Document & Record Control',
-    overview: 'Compliance is difficult to demonstrate when documents are uncontrolled. Current approved documents and traceable records must be available at the point of use.',
-    detail: 'Control approval and revision. Prevent obsolete copies. Retain inspection, training, permit, audit and corrective-action evidence. Define access and retention requirements.',
+    description: 'Legal compliance is difficult to demonstrate when records are uncontrolled. Maintain current documents and traceable evidence.',
+    points: [
+      'Control document revision and approval.',
+      'Prevent obsolete documents at work fronts.',
+      'Maintain inspection, training, permit and corrective-action records.',
+      'Define retention and access requirements.',
+      'Protect records from unauthorized alteration.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '20',
-    title: 'Objective Evidence of Compliance',
-    overview: 'Evidence should show that a requirement was understood, implemented and verified. Strong evidence is traceable, dated, identifiable and relevant to the control.',
-    detail: 'Link evidence to requirements. Use approved records. Check completeness and authenticity. Avoid unsupported tick-box compliance. Make evidence retrievable for audit or authority inspection.',
+    title: 'Evidence of Compliance',
+    description: 'A strong compliance system can show objective evidence: approved documents, inspections, photographs, training records, permits, certificates, audits and closure verification.',
+    points: [
+      'Link evidence to a requirement or control.',
+      'Use dated and identifiable records.',
+      'Avoid unsupported tick-box compliance.',
+      'Verify authenticity and completeness.',
+      'Make evidence retrievable for audit or inspection.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '21',
     title: 'Non-Compliance & Corrective Action',
-    overview: 'A non-compliance response begins with immediate risk control and continues through cause analysis, correction and effectiveness verification.',
-    detail: 'Make the unsafe condition safe. Decide whether work must stop. Assign ownership. Identify systemic causes where needed. Verify closure in the field.',
+    description: 'Respond proportionately to non-compliance. Immediate risk control comes first, followed by root-cause correction and verification.',
+    points: [
+      'Make unsafe conditions safe immediately.',
+      'Determine whether work must be stopped.',
+      'Assign corrective action ownership.',
+      'Identify systemic causes where appropriate.',
+      'Verify closure in the field.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '22',
     title: 'Stop-Work & Escalation',
-    overview: 'Serious legal or safety non-compliance may require immediate escalation and suspension of work. Stop-work arrangements should be defined before an event occurs.',
-    detail: 'Define triggers. Protect people first. Escalate serious/repeated breaches. Record why work was suspended. Restart only after controls are verified by authorised persons.',
+    description: 'Legal or serious safety non-compliance may require escalation and suspension of work. Stop-work authority should be understood before an emergency occurs.',
+    points: [
+      'Define stop-work triggers in project procedures.',
+      'Escalate serious or repeated non-compliance.',
+      'Protect people before preserving production.',
+      'Document the reason for suspension.',
+      'Restart only after controls are verified.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '23',
     title: 'Management of Change',
-    overview: 'Changes to legislation, design, equipment, sequence, contractors, workforce or site conditions can change compliance obligations and risk controls.',
-    detail: 'Identify the change. Assess legal/HSE impact. Update RAMS, permits, training and emergency arrangements. Communicate the change. Verify implementation.',
+    description: 'Regulatory changes, design changes, new equipment, new contractors, changed sequencing or changed site conditions can alter compliance requirements.',
+    points: [
+      'Identify changes early.',
+      'Assess legal and HSE impacts.',
+      'Update RAMS, permits and training.',
+      'Communicate changes before affected work resumes.',
+      'Verify implementation.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '24',
-    title: 'SIMOPS & Interface Compliance',
-    overview: 'Simultaneous operations can create conflicts between permits, isolations, exclusion zones and responsibilities. Interface control is therefore a compliance assurance activity.',
-    detail: 'Map overlapping work. Coordinate permits. Control access and isolations. Define interface ownership. Reassess as conditions change.',
+    title: 'Simultaneous Operations & Interface Compliance',
+    description: 'Multiple contractors and work fronts can create conflicting requirements and controls. Interface management is therefore a compliance issue as well as an operational issue.',
+    points: [
+      'Identify overlapping work activities.',
+      'Coordinate permits and isolations.',
+      'Control access and exclusion zones.',
+      'Define interface responsibilities.',
+      'Review changing conditions during coordination meetings.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '25',
     title: 'Regulatory Compliance Training',
-    overview: 'People need task-relevant understanding of the requirements that affect their work. Training should be role-based and evidence-based.',
-    detail: 'Define training needs. Include applicable legal/site rules in induction. Use toolbox talks for task controls. Assess understanding. Track competence and refresher needs.',
+    description: 'Workers and supervisors need practical understanding of the requirements that affect their tasks. Training should be role-specific and verifiable.',
+    points: [
+      'Create role-based training requirements.',
+      'Include legal and site rules in induction.',
+      'Use toolbox talks for task-specific controls.',
+      'Verify understanding through questions or practical checks.',
+      'Track attendance and competency evidence.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '26',
     title: 'Compliance KPIs & Performance',
-    overview: 'Compliance performance should be measured with leading and lagging indicators, not injury statistics alone. Indicators should reveal control health and repeated weaknesses.',
-    detail: 'Monitor inspection completion, overdue actions, repeat findings, training gaps, expired credentials, permit deviations and regulatory actions awaiting implementation.',
+    description: 'Measure whether compliance controls are functioning. Avoid relying only on injury statistics; include leading indicators.',
+    points: [
+      'Track inspection completion and overdue actions.',
+      'Monitor audit findings and repeat findings.',
+      'Track training/competency status.',
+      'Monitor permit and RAMS verification.',
+      'Analyze recurring non-compliance trends.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '27',
     title: 'Common Regulatory Compliance Failures',
-    overview: 'Typical weaknesses include outdated registers, copied RAMS, missing evidence, expired certificates, unverified subcontractor documents and closing actions without checking the field.',
-    detail: 'Compare documents with site reality. Check revision status. Sample evidence. Investigate repeat findings. Escalate deliberate or serious non-compliance.',
+    description: 'Recognize weak practices such as outdated legal registers, copied RAMS, missing evidence, expired certificates, unverified subcontractor documents and closing actions without field verification.',
+    points: [
+      'Test documents against actual site conditions.',
+      'Check revision status.',
+      'Sample records rather than accepting summaries.',
+      'Investigate repeated findings.',
+      'Escalate deliberate or serious non-compliance.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '28',
     title: 'Practical Construction-Site Scenarios',
-    overview: 'Apply compliance thinking to excavation, lifting, scaffolding, work at height, hot work, temporary works and public interfaces.',
-    detail: 'For each work front identify applicable requirements, approved controls, competent persons, permits/approvals, equipment status, physical controls and emergency arrangements.',
+    description: 'Apply compliance thinking to real work fronts: excavation, lifting, scaffolding, work at height, hot work, temporary works and public interfaces.',
+    points: [
+      'Identify the applicable requirements.',
+      'Check approvals, RAMS and permits.',
+      'Verify competent persons and equipment.',
+      'Inspect physical controls.',
+      'Document and close findings.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '29',
     title: 'HSE Officer Compliance Verification',
-    overview: 'A repeatable compliance routine helps the HSE officer move from paperwork checking to real assurance.',
-    detail: 'Review the legal register. Select requirements relevant to today’s activities. Inspect work fronts. Interview workers/supervisors. Record evidence. Track and verify actions.',
+    description: 'Use a repeatable field routine to confirm legal requirements are implemented, evidenced and understood by the people doing the work.',
+    points: [
+      'Review current legal register and project controls.',
+      'Select critical requirements for the day\'s activities.',
+      'Inspect work fronts.',
+      'Interview workers and supervisors.',
+      'Record evidence and corrective actions.'
+    ],
   ),
-  const _LegalSection(
+  _LegalSection(
     id: '30',
     title: 'Quick Reference & Professional Questions',
-    overview: 'Use this section for revision, field reference and interview preparation.',
-    detail: 'Know how to identify applicable legislation, maintain a legal register, manage changes, verify contractor compliance, audit evidence and escalate serious non-compliance.',
+    description: 'Use this section for final revision, field reference and interview preparation.',
+    points: [
+      'What is the difference between law, regulation, guideline and internal procedure?',
+      'How do you maintain a legal register?',
+      'How do you verify a subcontractor\'s compliance?',
+      'When would you escalate or stop work?',
+      'How do you prove a requirement was implemented?'
+    ],
   ),
 ];
 
 const List<_AdvancedModule> _advancedModules = [
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A1',
-    title: 'Regulatory Intelligence & Source Control',
-    points: [
-          'Identify the exact authority and source before relying on a requirement.',
-          'Keep official titles, reference numbers, issue/effective dates and revision information.',
-          'Separate current requirements from superseded material.',
-          'Record where the controlled copy is stored.',
-          'Escalate legal interpretation questions to authorised management/legal support.'
-        ],
+    title: 'Regulatory Intelligence',
+    content: 'Build a controlled process for identifying new laws, decrees, administrative resolutions, technical guidelines and authority publications. Every update should be screened for applicability, impact and implementation ownership.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A2',
     title: 'Requirement-to-Control Mapping',
-    points: [
-          'Create a compliance matrix with requirement, applicability, project control, responsible owner and evidence.',
-          'Link requirements to HSE plans, procedures, RAMS, PTW, inspections, training and emergency arrangements.',
-          'Use the matrix to identify requirements that have no operational control.',
-          'Use field verification to confirm that mapped controls actually exist.',
-          'Review the matrix whenever a requirement or project scope changes.'
-        ],
+    content: 'Create a compliance matrix linking each requirement to a procedure, RAMS, permit, inspection criterion, training requirement and objective evidence. This turns a legal register into an operational control system.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A3',
-    title: 'Three-Level Compliance Assurance',
-    points: [
-          'Level 1 — document assurance: current approvals, procedures, registers and records.',
-          'Level 2 — field assurance: physical conditions, worker behaviour and supervision.',
-          'Level 3 — effectiveness assurance: determine whether the control prevents/reduces the intended risk.',
-          'Do not close a major finding only because a document was revised.',
-          'Record evidence for all three levels where proportionate.'
-        ],
+    title: 'Compliance Assurance Model',
+    content: 'Use three levels of assurance: document review, field verification and effectiveness verification. A signed document alone is not sufficient evidence that the control works.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A4',
     title: 'Legal Change Management',
-    points: [
-          'Detect the official change.',
-          'Screen it for project applicability.',
-          'Assess affected activities, contracts, RAMS, permits, training and inspections.',
-          'Assign implementation ownership and due dates.',
-          'Communicate the change before affected work starts/continues.',
-          'Verify implementation and close the change record.'
-        ],
+    content: 'When an official requirement changes, assess affected activities, contracts, drawings, RAMS, permits, training, inspections, emergency arrangements and records. Record the decision and implementation evidence.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A5',
-    title: 'Dubai Construction Compliance Matrix',
-    points: [
-          'List applicable Dubai construction safety legislation and current approved guidance.',
-          'Map each requirement to the project activity and responsible party.',
-          'Identify related authority approvals, permits and conditions.',
-          'Cross-reference project procedures and evidence.',
-          'Review the matrix during HSE management review and regulatory updates.'
-        ],
-  ),
-  const _AdvancedModule(
-    id: 'A6',
     title: 'Contractor Compliance Assurance',
-    points: [
-          'Prequalify against defined HSE/legal criteria.',
-          'Verify documents before mobilisation.',
-          'Review contractor/subcontractor RAMS and competency.',
-          'Conduct field audits and worker interviews.',
-          'Track repeat findings and weak supervision.',
-          'Use performance data in contractor review decisions.'
-        ],
+    content: 'Use prequalification, onboarding, document verification, field audits, competency checks, performance reviews and corrective-action tracking as one connected assurance cycle.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
+    id: 'A6',
+    title: 'Audit Evidence Strategy',
+    content: 'For every major requirement ask: What is the requirement? Where is it controlled? Who owns it? What evidence proves implementation? How was effectiveness checked?',
+  ),
+  _AdvancedModule(
     id: 'A7',
     title: 'High-Risk Work Legal Interface',
-    points: [
-          'For high-risk work combine applicable requirements, risk assessment, RAMS, PTW where required, competent persons and supervision.',
-          'Verify equipment certification/inspection where applicable.',
-          'Confirm emergency and rescue arrangements.',
-          'Check simultaneous-operation interfaces.',
-          'Stop or escalate when critical prerequisites are absent.'
-        ],
+    content: 'For high-risk work, combine legal requirements with risk assessment, method statement, permit, competent-person verification, equipment certification, supervision and emergency arrangements.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A8',
-    title: 'Audit Evidence Strategy',
-    points: [
-          'Ask: What is the requirement?',
-          'Ask: Where is it controlled?',
-          'Ask: Who owns it?',
-          'Ask: What evidence proves implementation?',
-          'Ask: How was effectiveness checked?',
-          'Sample original/controlled evidence rather than relying on summary statements.'
-        ],
-  ),
-  const _AdvancedModule(
-    id: 'A9',
     title: 'Regulatory Non-Conformance Analysis',
-    points: [
-          'Immediate condition: what is unsafe now?',
-          'Control failure: which required control was absent or ineffective?',
-          'System cause: why did the system allow that failure?',
-          'Repeat issue: has the organisation seen the same weakness before?',
-          'Action: what prevents recurrence?',
-          'Effectiveness: did the corrective action work?'
-        ],
+    content: 'Separate immediate unsafe conditions from system failures. A repeated finding often indicates weaknesses in supervision, competency, planning, procurement, contractor control or management review.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
+    id: 'A9',
+    title: 'Dubai Authority Reference Discipline',
+    content: 'Use current official Dubai Municipality sources for legal and technical references. Where a legal interpretation is uncertain, escalate rather than presenting an uncontrolled interpretation as law.',
+  ),
+  _AdvancedModule(
     id: 'A10',
-    title: 'Evidence & Records Architecture',
-    points: [
-          'Use unique identifiers and dates.',
-          'Link permits, RAMS, inspections, training and actions to the work activity.',
-          'Control revisions and approvals.',
-          'Keep evidence retrievable for audits and inspections.',
-          'Avoid creating records that cannot demonstrate what was actually checked.'
-        ],
+    title: 'Compliance Dashboard',
+    content: 'A professional dashboard can show open legal actions, overdue actions, audit findings, repeat findings, training gaps, expired certificates, permit deviations and regulatory changes awaiting implementation.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A11',
-    title: 'Compliance Dashboard & KPIs',
-    points: [
-          'Legal register review completion.',
-          'Regulatory changes assessed and implemented.',
-          'Overdue compliance actions.',
-          'Repeat audit findings.',
-          'Training/competency gaps.',
-          'Expired certificates or approvals.',
-          'Permit/RAMS verification deviations.',
-          'Field verification closure effectiveness.'
-        ],
+    title: 'Professional HSE Interview Learning',
+    content: 'Be prepared to explain how you identify applicable legislation, maintain a legal register, verify compliance, manage regulatory change, audit contractors and demonstrate objective evidence.',
   ),
-  const _AdvancedModule(
+  _AdvancedModule(
     id: 'A12',
-    title: 'Management Review of Compliance',
-    points: [
-          'Review significant legal changes.',
-          'Review major non-compliances and repeat findings.',
-          'Review contractor compliance trends.',
-          'Review audit results and overdue actions.',
-          'Confirm resources and responsibilities.',
-          'Record management decisions and follow-up actions.'
-        ],
-  ),
-  const _AdvancedModule(
-    id: 'A13',
-    title: 'Field Verification Master Routine',
-    points: [
-          'Before work: confirm applicable requirements, RAMS, permits and competency.',
-          'During work: inspect critical controls and worker understanding.',
-          'After change: reassess controls.',
-          'After finding: apply immediate control and corrective action.',
-          'Before closure: verify the physical condition and evidence.'
-        ],
-  ),
-  const _AdvancedModule(
-    id: 'A14',
-    title: 'Professional Interview & Assessment Learning',
-    points: [
-          'Explain law versus guidance versus internal procedure.',
-          'Explain how you build a legal register.',
-          'Explain how you verify applicability.',
-          'Explain how you control regulatory changes.',
-          'Explain how you audit contractor compliance.',
-          'Explain how you demonstrate objective evidence.',
-          'Explain when you would escalate or stop work.'
-        ],
-  ),
-  const _AdvancedModule(
-    id: 'A15',
-    title: 'Final Legal Compliance Master Check',
-    points: [
-          'Current official sources identified.',
-          'Applicability confirmed.',
-          'Requirements mapped to controls.',
-          'Approvals/permits verified.',
-          'RAMS/procedures current.',
-          'Competent persons verified.',
-          'Field controls physically checked.',
-          'Worker understanding checked.',
-          'Evidence retrievable.',
-          'Non-compliances controlled and closed effectively.'
-        ],
+    title: 'Field Master Check',
+    content: 'Before accepting a work front, verify: current requirements, approved RAMS, competent people, permits/approvals, equipment status, physical controls, emergency arrangements, worker understanding and evidence.',
   ),
 ];
