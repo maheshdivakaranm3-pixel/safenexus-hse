@@ -212,7 +212,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
                 ? AbuDhabiCompleteTopicPage(topic: topic)
                 : topic.guidelineCategory == GuidelineCategory.uaeGeneral
                     ? UaeGeneralCompleteTopicPage(topic: topic)
-                    : GuidelineDetailPage(topic: topic),
+                    : topic.guidelineCategory == GuidelineCategory.hseReference
+                        ? HseReferenceCompleteTopicPage(topic: topic)
+                        : GuidelineDetailPage(topic: topic),
       ),
     );
   }
