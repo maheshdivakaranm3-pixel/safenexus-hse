@@ -1073,9 +1073,8 @@ const List<ReferenceTopic> uaeGeneralGuidelines = [
 // ============================================================================
 // UAE GENERAL HSE — COMPLETE PROFESSIONAL LEARNING PAGE
 // Existing ReferenceTopic content above is intentionally preserved.
-// Page structure matches the completed Abu Dhabi professional learning pattern:
+// Page structure follows the Abu Dhabi learning pattern:
 // Section -> Item -> Detailed Guidance -> Field Application -> Safe/Unsafe.
-// Existing UAE General topic content is preserved; only the presentation is aligned.
 // ============================================================================
 
 class UaeGeneralCompleteTopicPage extends StatelessWidget {
@@ -1105,6 +1104,8 @@ class UaeGeneralCompleteTopicPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 32),
         children: [
+          _UaeIntroCard(topic: topic),
+          const SizedBox(height: 14),
           for (var i = 0; i < sections.length; i++) ...[
             _UaeSectionTile(
               number: i + 1,
@@ -1179,6 +1180,57 @@ class _UaeItem {
     this.safe = const [],
     this.unsafe = const [],
   });
+}
+
+class _UaeIntroCard extends StatelessWidget {
+  final ReferenceTopic topic;
+  const _UaeIntroCard({required this.topic});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF087443), Color(0xFF159447)],
+        ),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'UAE HSE • COMPLETE LEARNING',
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              letterSpacing: .7,
+            ),
+          ),
+          const SizedBox(height: 9),
+          Text(
+            topic.title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Tap each section, then tap each item for detailed learning and field guidance.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              height: 1.45,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _UaeSectionTile extends StatelessWidget {
