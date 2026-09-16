@@ -1596,10 +1596,10 @@ class _HseReferenceSection {
   });
 }
 
-class HseReferenceCompleteTopicPage extends StatelessWidget {
+class HseReferenceTopicPage extends StatelessWidget {
   final ReferenceTopic topic;
 
-  const HseReferenceCompleteTopicPage({
+  const HseReferenceTopicPage({
     super.key,
     required this.topic,
   });
