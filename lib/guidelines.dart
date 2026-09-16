@@ -225,7 +225,9 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
       MaterialPageRoute(
         builder: (_) => topic.guidelineCategory == GuidelineCategory.dubai
             ? DubaiHsePartRouter.pageFor(topic)
-            : GuidelineDetailPage(topic: topic),
+            : topic.guidelineCategory == GuidelineCategory.abuDhabi
+                ? AbuDhabiCompleteTopicPage(topic: topic)
+                : GuidelineDetailPage(topic: topic),
       ),
     );
   }
