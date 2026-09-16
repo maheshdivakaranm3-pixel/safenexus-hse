@@ -96,53 +96,6 @@ const List<ReferenceTopic> dubaiGuidelines = [
     ],
   ),
 
-
-  ReferenceTopic(
-    id: 'dubai_legal_regulatory_compliance',
-    title: 'Legal & Regulatory Compliance',
-    shortTitle: 'Legal & Regulatory',
-    category: 'Dubai',
-    authority: 'Dubai Municipality',
-    jurisdiction: 'Dubai',
-    guidelineCategory: GuidelineCategory.dubai,
-    description:
-        'Professional reference for identifying, understanding, implementing and verifying applicable Dubai HSE legal, regulatory and project requirements.',
-    keyRequirements: [
-      'Identify applicable Dubai laws, regulations, decisions and official HSE guidance.',
-      'Determine which legal and regulatory requirements apply to the project and activities.',
-      'Translate applicable requirements into project HSE controls and procedures.',
-      'Maintain access to current approved legal and regulatory references.',
-      'Verify compliance through inspections, audits, records and site observations.',
-      'Communicate relevant requirements to management, supervisors, workers and contractors.',
-      'Track changes to applicable legal, regulatory and authority requirements.',
-      'Record and close compliance gaps through corrective action.',
-    ],
-    safetyControls: [
-      'Legal register',
-      'Compliance obligations register',
-      'Regulatory document control',
-      'Compliance verification',
-      'HSE inspections and audits',
-      'Training and communication',
-      'Corrective action tracking',
-      'Management review',
-    ],
-    responsibilities: [
-      'Management provides resources and ensures applicable compliance obligations are addressed.',
-      'HSE personnel identify, communicate and verify applicable requirements within their responsibilities.',
-      'Supervisors implement approved requirements at the work-front.',
-      'Workers follow applicable legal, project and safe-work requirements and report unsafe conditions.',
-      'Contractors and subcontractors comply with applicable requirements and project controls.',
-    ],
-    references: [
-      'Applicable Dubai Municipality construction safety legislation and official guidance',
-      'Dubai Municipality Safety Guide for Construction Works, where applicable',
-      'Applicable Dubai Municipality Health & Safety Technical Guidelines',
-      'Applicable authority requirements, permits and approvals',
-      'Project HSE Plan and contractual HSE requirements',
-      'Current approved legal and regulatory register',
-    ],
-  ),
   ReferenceTopic(
     id: 'dubai_risk_assessment',
     title: 'Health & Safety Risk Assessment',
