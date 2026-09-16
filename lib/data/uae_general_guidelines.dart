@@ -1104,12 +1104,11 @@ class UaeGeneralCompleteTopicPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 32),
         children: [
-          _UaeIntroCard(topic: topic),
-          const SizedBox(height: 14),
           for (var i = 0; i < sections.length; i++) ...[
             _UaeSectionTile(
               number: i + 1,
               section: sections[i],
+              topicId: topic.id,
             ),
             const SizedBox(height: 10),
           ],
@@ -1182,61 +1181,11 @@ class _UaeItem {
   });
 }
 
-class _UaeIntroCard extends StatelessWidget {
-  final ReferenceTopic topic;
-  const _UaeIntroCard({required this.topic});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF087443), Color(0xFF159447)],
-        ),
-        borderRadius: BorderRadius.circular(22),
-      ),
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'UAE HSE • COMPLETE LEARNING',
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-              letterSpacing: .7,
-            ),
-          ),
-          const SizedBox(height: 9),
-          Text(
-            topic.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.w800,
-              height: 1.15,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'Tap each section, then tap each item for detailed learning and field guidance.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              height: 1.45,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _UaeSectionTile extends StatelessWidget {
   final int number;
   final _UaeSection section;
-  const _UaeSectionTile({required this.number, required this.section});
+  final String topicId;
+  const _UaeSectionTile({required this.number, required this.section, required this.topicId});
 
   @override
   Widget build(BuildContext context) {
@@ -1270,7 +1219,7 @@ class _UaeSectionTile extends StatelessWidget {
           ),
           subtitle: Text('${section.items.length} detailed learning points'),
           children: section.items
-              .map((item) => _UaeItemTile(item: item))
+              .map((item) => _UaeItemTile(item: item, topicId: topicId))
               .toList(),
         ),
       ),
@@ -1280,7 +1229,8 @@ class _UaeSectionTile extends StatelessWidget {
 
 class _UaeItemTile extends StatelessWidget {
   final _UaeItem item;
-  const _UaeItemTile({required this.item});
+  final String topicId;
+  const _UaeItemTile({required this.item, required this.topicId});
 
   @override
   Widget build(BuildContext context) {
@@ -1312,6 +1262,13 @@ class _UaeItemTile extends StatelessWidget {
               label: 'FIELD APPLICATION / VERIFICATION',
               text: item.application,
             ),
+            if (_uaeDeepFieldGuidance.containsKey(topicId)) ...[
+              const SizedBox(height: 10),
+              _UaeDetailBlock(
+                label: 'TOPIC-SPECIFIC HSE FIELD NOTES',
+                text: _uaeDeepFieldGuidance[topicId]!,
+              ),
+            ],
             if (item.safe.isNotEmpty || item.unsafe.isNotEmpty) ...[
               const SizedBox(height: 12),
               _UaeSafeUnsafe(item: item),
@@ -1449,6 +1406,40 @@ class _UaeExampleCard extends StatelessWidget {
     );
   }
 }
+
+
+// ============================================================================
+// TOPIC-SPECIFIC HSE FIELD NOTES
+// Preserves the original learning content and adds deeper subject guidance.
+// ============================================================================
+
+final Map<String, String> _uaeDeepFieldGuidance = {
+  'general_hse_responsibilities': 'Define responsibility at three levels: management provides resources and systems; supervisors verify controls at the work front; workers follow the approved method and report changes. For high-risk work, identify the person authorised to stop the activity and the escalation route. Verify competence, supervision, equipment condition and communication rather than relying only on signed documents.',
+  'risk_assessment': 'Break the job into realistic steps and identify who may be exposed at each step. Consider simultaneous operations, temporary conditions, weather, energy sources, access, public interfaces and emergency arrangements. A changed condition should trigger a pause and reassessment. Critical controls should be observable in the field and linked to a named responsible person.',
+  'hazard_identification': 'Use a task walk-through to identify hazards before work, then repeat the check when the sequence, equipment, people or environment changes. Consider direct and indirect exposure, including people in adjacent areas. Check for physical, chemical, biological, ergonomic and environmental hazards and verify that identified controls actually remove or reduce the exposure.',
+  'hierarchy_of_controls': 'Apply controls in order: eliminate the hazard where practicable, substitute, use engineering controls, then administrative controls and PPE. Do not accept PPE as the only response to a significant hazard when a stronger control is reasonably practicable. For every critical control, define how it will be inspected, tested or demonstrated at the point of exposure.',
+  'permit_to_work': 'A permit is a control system, not a replacement for risk assessment or supervision. Before issue, confirm scope, location, isolations, simultaneous operations, competent persons, atmospheric testing where relevant and emergency arrangements. During the job, maintain permit conditions and stop when the scope or risk changes. Close and hand back the work area only after the responsible persons confirm a safe condition.',
+  'job_safety_analysis': 'A useful JSA follows the actual work sequence rather than listing generic hazards. For each step identify the hazard, potential consequence, specific control and verification method. Include non-routine steps such as mobilisation, setup, testing, temporary support and demobilisation. Brief the crew using language they understand and update the JSA when field conditions differ from the planned method.',
+  'toolbox_talk': 'A toolbox talk should be task-specific and short enough to be understood, but detailed enough to cover the critical risks. Explain the sequence, exclusion zones, energy controls, PPE, emergency response and stop-work triggers. Ask workers to explain back the critical controls and encourage them to raise changes or concerns. Record attendance without treating signatures as proof of competence.',
+  'accident_incident_reporting': 'Protect people first, preserve the scene where safe and make the required notifications through the applicable project and authority process. Capture facts, not assumptions: time, location, activity, equipment, people involved, conditions and immediate controls. Investigate underlying and organisational causes, assign corrective actions with owners and due dates, and verify effectiveness rather than closing actions only because a form is complete.',
+  'emergency_preparedness': 'Emergency planning should match credible site scenarios such as fire, medical emergency, collapse, confined-space rescue, spill, electrical incident and severe weather. Confirm alarm methods, emergency numbers, access for responders, muster points, first-aid capability, rescue equipment and trained personnel. Drills should test actual response time and communication, and lessons should be converted into corrective actions.',
+  'fire_safety': 'Control ignition sources and combustible loading together. Keep escape routes, fire doors and firefighting equipment accessible; control temporary electrical systems and hot work; and inspect storage areas for accumulation of combustibles. Workers should know how to raise the alarm, evacuate and report the location of a fire. Do not fight a fire when the person is not trained, the fire is beyond safe incipient-stage control or escape cannot be maintained.',
+  'heat_stress': 'Plan heavy or outdoor work around heat exposure, workload and worker acclimatisation. Provide accessible drinking water, suitable rest arrangements and supervision for signs of heat illness. Use work-rest controls and site arrangements applicable to the current UAE requirements and project conditions. If a worker develops confusion, collapse, severe weakness or other serious symptoms, treat it as an emergency and activate the site medical response.',
+  'work_at_height': 'Prefer ground-level work and collective fall prevention before relying on personal fall protection. Check edges, openings, platforms, access systems, fragile surfaces and dropped-object exposure. Where fall arrest is used, confirm anchor suitability, clearance, equipment compatibility and a practical rescue plan before exposure. Never treat a harness as permission to work without an effective system of work.',
+  'scaffolding_safety': 'Scaffolds should be suitable for the intended load and configuration, erected or modified by competent persons and protected against instability. Inspect after erection and following events that could affect integrity, and use the site tagging system where applicable. Do not remove braces, ties, platforms or guardrails without authorisation. Keep access, loading and housekeeping within the designed arrangement.',
+  'ladder_safety': 'Select a ladder only when it is suitable for the task and conditions and when a safer access method is not reasonably practicable. Inspect feet, stiles, steps and locking arrangements, place it on a stable surface and maintain secure contact while climbing. Do not overreach, improvise height with boxes or unstable supports, or carry loads that prevent safe climbing. Control access around the ladder when others or moving equipment are nearby.',
+  'confined_space': 'Treat confined-space entry as a planned high-risk activity. Identify atmospheric, engulfment, mechanical, electrical, thermal and access hazards; isolate energy and product sources; test the atmosphere using suitable equipment; and provide ventilation where required. Establish a competent standby arrangement and a rescue plan that does not depend on an unplanned entry by another worker. Stop entry when readings, conditions or communication fall outside the approved limits.',
+  'excavation_trenching': 'Before excavation, establish the location of underground services, ground conditions, required support or battering and safe plant routes. Provide safe access and egress and keep spoil, vehicles and materials away from edges according to the approved design and risk controls. Inspect after changes, rain, vibration or other events that could affect stability. Never allow workers to enter an unsupported or otherwise uncontrolled excavation.',
+  'lifting_operations': 'Plan the lift from load identification through set-down: determine weight and centre of gravity, select suitable lifting equipment and accessories, establish exclusion zones and agree communication. Verify inspection status, rated capacity and rigging condition before use. Control suspended-load exposure and account for wind, visibility, nearby structures and simultaneous work. Stop the lift when communication is lost, conditions change or the load cannot be controlled.',
+  'electrical_safety': 'Control electrical risk through design, competent work, suitable equipment, inspection and effective isolation. Temporary systems should be protected from damage and unauthorised access, with appropriate protection devices and earthing arrangements. Before work near electrical systems, identify the source and boundaries and use the approved isolation/verification process. Treat unknown or damaged electrical equipment as unsafe until assessed by a competent person.',
+  'lockout_tagout': 'Identify every hazardous energy source, including electrical, hydraulic, pneumatic, mechanical, thermal, chemical and stored or gravitational energy. Isolate, secure, identify and release stored energy, then verify zero energy before exposure. Personal control should be maintained according to the approved isolation system. Restoration must be controlled, communicated and completed only after people, tools and guards are confirmed clear.',
+  'hot_work': 'Before welding, cutting, grinding or similar work, inspect the area above, below, behind and adjacent to the work for combustible materials and hidden openings. Control sparks, cylinders, hoses and ignition sources, provide suitable fire protection and fire watch where required, and manage fumes through ventilation or extraction. Stop if flammable atmosphere, uncontrolled combustible exposure or loss of fire controls develops.',
+  'personal_protective_equipment': 'Select PPE from the actual residual risk and make sure it is compatible with other PPE and the work environment. Check fit, condition, cleanliness and service life before use. Train workers in limitations, adjustment, storage, cleaning and replacement. PPE should complement higher-level controls and should never be used to justify leaving a significant hazard uncontrolled.',
+  'chemical_safety': 'Identify each chemical and its hazards before receipt, storage or use. Maintain correct labelling and access to current safety information, segregate incompatible substances and control ventilation and exposure during transfer or use. Prepare spill and exposure response arrangements before the task. Never use an unlabelled container or mix substances unless the approved process specifically permits it and the compatibility has been assessed.',
+  'manual_handling': 'Assess the load, route, posture, frequency, distance and environment before lifting. Prefer mechanical aids for heavy, awkward or repetitive tasks and design the destination before movement starts. For team handling, use coordinated commands and enough people to control the load. Redesign repeated awkward lifting rather than relying only on worker technique or PPE.',
+  'vehicle_traffic_safety': 'Separate people and moving vehicles wherever practicable using physical barriers, controlled crossings and defined routes. Manage reversing through route design, visibility aids and trained banksmen where required. Control speed, parking, loading and delivery interfaces and review the arrangement as the site changes. Stop vehicle movement when the driver loses visibility, communication or the required exclusion zone.',
+  'housekeeping_workplace_safety': 'Housekeeping is a continuous control. Remove waste progressively, route hoses and cables to prevent trips, keep stairs and access routes clear and store materials so they cannot fall, roll or overload surfaces. Control spills immediately and use the correct waste route for contaminated material. Supervisors should inspect active work fronts during the shift, especially after deliveries, changes and high-production activities.',
+};
 
 // ============================================================================
 // TOPIC-SPECIFIC PROFESSIONAL LEARNING CONTENT
