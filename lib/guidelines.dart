@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/reference_topic.dart';
 import 'models/guideline_category.dart';
 import 'guideline_detail_page.dart';
+import 'hse_reference_complete_topic_page.dart';
 import 'dubai_hse_topic_router.dart';
 
 import 'data/uae_general_guidelines.dart';
