@@ -2297,7 +2297,7 @@ class AbuDhabiCompleteTopicPage extends StatelessWidget {
             ...sections.map(
               (section) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _AbuDhabiSectionTile(section: section),
+                child: _AbuDhabiSectionTile(section: section, topicId: topic.id),
               ),
             ),
             const SizedBox(height: 8),
@@ -2323,8 +2323,9 @@ class _AbuDhabiSection {
 
 class _AbuDhabiSectionTile extends StatelessWidget {
   final _AbuDhabiSection section;
+  final String topicId;
 
-  const _AbuDhabiSectionTile({required this.section});
+  const _AbuDhabiSectionTile({required this.section, required this.topicId});
 
   @override
   Widget build(BuildContext context) {
@@ -2377,6 +2378,8 @@ class _AbuDhabiSectionTile extends StatelessWidget {
             (index) => _AbuDhabiItemTile(
               number: index + 1,
               text: section.items[index],
+              topicId: topicId,
+              sectionTitle: section.title,
             ),
           ),
         ),
@@ -2388,10 +2391,14 @@ class _AbuDhabiSectionTile extends StatelessWidget {
 class _AbuDhabiItemTile extends StatelessWidget {
   final int number;
   final String text;
+  final String topicId;
+  final String sectionTitle;
 
   const _AbuDhabiItemTile({
     required this.number,
     required this.text,
+    required this.topicId,
+    required this.sectionTitle,
   });
 
   @override
@@ -2437,13 +2444,67 @@ class _AbuDhabiItemTile extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.55,
-                color: Color(0xFF374151),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'DETAILED PROFESSIONAL GUIDANCE',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.55,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'TOPIC-SPECIFIC FIELD EXPLANATION',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _abuDhabiTopicPracticeNotes[topicId] ??
+                      'Apply the requirement to the actual workface and verify the critical control before exposure.',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.55,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'HOW TO APPLY / VERIFY',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _abuDhabiSectionPracticeNote(sectionTitle),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.55,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -2516,6 +2577,103 @@ class _AbuDhabiSourceCard extends StatelessWidget {
       ),
     );
   }
+}
+
+const Map<String, String> _abuDhabiTopicPracticeNotes = {
+  'ad_oshad_sf': 'Treat the ADOSH-SF framework as the management-system foundation: identify the applicable entity and sector requirements, assign accountable roles, connect hazards to controls, and retain objective evidence. Field verification should confirm that the documented system is actually implemented at the point of work and that significant gaps are escalated and corrected.',
+  'ad_oshms': 'Build the OSHMS around policy, planning, risk control, operational procedures, competence, consultation, emergency preparedness, monitoring and management review. The practical test is whether the system drives safe decisions before and during work, not simply whether documents exist.',
+  'ad_risk_management': 'Apply risk management as a live process: identify hazards, assess the credible consequences and likelihood, select controls using the hierarchy of controls, assign owners and verify effectiveness. Reassess whenever the task, people, equipment, environment or assumptions change.',
+  'ad_hse_plan': 'The construction HSE Plan should explain how project risks will be controlled from mobilisation through completion, including responsibilities, RAMS, permits, emergency arrangements, welfare, occupational health, inspections and reporting. It should be usable by supervisors and workers at site level, not treated as a document kept only in the HSE office.',
+  'ad_roles_responsibilities': 'Define who has authority, competence and accountability for each critical control, including management, HSE, engineers, supervisors, workers and contractors. Avoid shared or vague responsibility: the responsible person should be identifiable, capable of acting and able to demonstrate completion.',
+  'ad_incident_reporting': 'Incident management should protect people first, preserve evidence, make required notifications, classify the event correctly, investigate causes and implement verified corrective actions. Near misses and high-potential events should also be used for learning before a serious injury occurs.',
+  'ad_training_competency': 'Training must be linked to actual job hazards and competency requirements. Confirm understanding through practical demonstration, observation or assessment where appropriate, and do not treat attendance alone as proof that a person is competent.',
+  'ad_contractor_management': 'Control contractor risk through prequalification, mobilisation, document review, competency verification, induction, RAMS/permit interfaces, field monitoring and performance review. Contractor arrangements must remain integrated with the principal project\'s critical controls.',
+  'ad_emergency_management': 'Emergency arrangements must be scenario-specific, accessible and practicable: define alarm, communication, roles, access, evacuation, rescue, first aid, firefighting interfaces and external emergency support. Test the arrangements through drills and close identified weaknesses.',
+  'ad_work_at_height': 'For work at height, prioritise eliminating work at height and preventing falls through suitable work platforms, edge protection and safe access before relying on personal fall arrest. Where fall arrest is necessary, verify anchor arrangements, equipment compatibility, clearance and a realistic rescue plan.',
+  'ad_scaffolding': 'Scaffold safety depends on design or selection, competent erection, foundation and stability, safe access, inspection/tagging, controlled alteration and correct loading. Never assume a scaffold is safe because it looks complete; its condition, configuration and intended use must be verified.',
+  'ad_lifting_operations': 'Lifting safety requires a planned lift, suitable and inspected lifting equipment/accessories, competent personnel, controlled communication, exclusion of people from danger zones and consideration of ground, weather and load conditions. The lift should stop when the planned critical controls cannot be maintained.',
+  'ad_confined_space': 'Confined-space work requires identification of the space and hazards, isolation, permit controls, atmospheric assessment, ventilation where required, communication, standby arrangements and a rescue plan that can be executed without creating additional casualties. Entry should never rely on a worker simply feeling that the atmosphere is safe.',
+  'ad_excavation': 'Excavation safety begins with planning and service information, then controls ground collapse, falling materials, plant interaction, water, access/egress and changing conditions. Competent inspection must continue throughout the excavation lifecycle, especially after changes, weather or events affecting stability.',
+  'ad_electrical_safety': 'Electrical controls should follow risk assessment, isolation and verification principles, with suitable equipment, protection, inspection and competent persons. Temporary systems and work near live or buried services require particular control because changing site conditions can invalidate earlier assumptions.',
+  'ad_hot_work': 'Hot work should be authorised only after hazards and combustible exposures are controlled. Prepare the area, isolate or protect combustibles, control cylinders and gases, provide suitable firefighting equipment and fire watch, and maintain post-work monitoring where residual ignition risk exists.',
+  'ad_traffic_management': 'Construction traffic safety requires physical separation of vehicles and pedestrians wherever practicable, controlled routes, crossings, visibility, speed management, reversing controls and competent operators. The traffic plan must reflect actual site changes rather than remain a static drawing.',
+  'ad_occupational_health': 'Occupational health controls should identify exposure pathways and affected groups, then apply engineering and administrative controls, suitable PPE and health surveillance where required. Monitor exposure and worker health information appropriately and use findings to improve the work environment.',
+  'ad_heat_stress': 'Heat-stress management should combine work planning, acclimatisation, hydration, shaded/rest arrangements, suitable clothing, supervision and recognition of early symptoms. Controls must be strengthened when heat, humidity, workload, clothing or individual susceptibility increases the risk.',
+  'ad_ppe': 'Select PPE from the hazard assessment and use it as part of the control system rather than as the first or only control. Verify correct fit, compatibility, condition, maintenance, replacement, storage and user training, and recognise that PPE has limitations.',
+  'ad_environmental_waste': 'Environmental and waste controls should identify waste streams, prevent spills and uncontrolled releases, segregate and store waste safely, use authorised handling/disposal routes and retain records. Environmental controls should be integrated into daily site planning rather than treated only as housekeeping.',
+  'ad_inspection_audit': 'Inspections verify conditions at the workplace while audits test whether the management system is working. Findings should be evidence-based, risk-prioritised, assigned to owners, given realistic due dates and verified closed rather than simply marked complete.',
+  'ad_performance_monitoring': 'Use a balanced performance system with leading and lagging indicators, critical-control verification, trend analysis and management review. Numbers should trigger investigation and improvement; they should not be used to hide recurring weaknesses or encourage under-reporting.',
+  'ad_electronic_reporting': 'Electronic reporting should improve timeliness, traceability and data quality without weakening the underlying investigation or field verification process. Define who enters, reviews, approves and closes information, protect records, and use reliable data for performance and regulatory reporting.',
+  'ad_hazardous_materials': 'Hazardous-material controls should cover identification, inventory, SDS information, labelling, storage, handling, exposure prevention, spill response, waste and worker information. Control incompatible materials and ensure emergency arrangements match the substances actually present.',
+  'ad_asbestos': 'Asbestos work must be based on reliable identification and a controlled management/removal approach by appropriately competent and authorised parties. Prevent fibre release, control access and contamination, use suitable methods and respiratory protection where required, and manage waste through the approved process.',
+  'ad_vibration': 'Control hand-arm and whole-body vibration by selecting lower-vibration equipment, maintaining it, limiting exposure time and improving work methods. Assess combined exposure and ensure workers understand symptoms, reporting arrangements and the importance of early intervention.',
+  'ad_first_aid': 'First-aid arrangements should reflect workforce size, work hazards, remoteness and emergency response time. Provide trained first aiders, suitable equipment, accessible locations, communication and clear arrangements for escalation and medical assistance.',
+  'ad_medical_surveillance': 'Medical surveillance should be tied to identified occupational-health risks and applicable requirements, with appropriate qualified medical oversight and confidentiality. Results should inform prevention and fitness-for-task decisions without replacing exposure controls.',
+  'ad_manual_handling': 'Manual-handling controls should assess load characteristics, posture, frequency, distance, environment and individual capability. Prefer mechanical aids and redesign of the task where practicable, then use team handling and safe techniques with suitable training.',
+  'ad_safety_in_design': 'Safety in design brings hazard elimination and risk reduction into planning before construction or operation. Designers and project teams should consider buildability, access, maintenance, temporary works, interfaces, foreseeable misuse and residual risks, then communicate those risks to those who will execute the work.',
+  'ad_lifting_equipment': 'Lifting equipment requires correct selection, safe working limits, inspection/examination arrangements, maintenance and competent use. Keep certification and identification traceable, prevent overload and misuse, and remove defective equipment from service until properly assessed.',
+  'ad_machine_guarding': 'Machine guarding should prevent access to dangerous moving parts while allowing the intended task to be performed safely. Guards, interlocks and emergency stops must remain effective; bypassing or removing them requires a formally controlled engineering solution.',
+  'ad_falsework': 'Falsework and temporary structural support must be designed, founded, erected and loaded according to the approved design and sequence. Control stability, bracing, load paths and interfaces, and do not remove supports until the authorised release conditions are met.',
+  'ad_steel_erection': 'Steel erection requires a stable erection sequence, competent lifting and connection methods, safe access, fall protection, exclusion zones and control of wind and suspended loads. Temporary stability must be maintained until the permanent structural system is capable of carrying the required loads.',
+  'ad_precast': 'Precast erection requires verified lifting points, suitable accessories, a planned sequence, temporary stability, controlled positioning and exclusion from crush zones. Do not remove temporary supports or release the lifting operation until the required stability and connection conditions are confirmed.',
+  'ad_temporary_structures': 'Temporary structures need the same disciplined control as permanent works: design, review, foundations, bracing, loading, erection, inspection and controlled modification. Consider wind, impact, changing loads and interfaces, and inspect after significant events.',
+  'ad_lone_remote': 'Lone and remote work needs a task-specific assessment of foreseeable emergencies, communication reliability, travel, access to assistance and worker capability. Define check-in arrangements, escalation triggers, emergency contacts and a practical response if the worker fails to respond.',
+  'ad_permit_to_work': 'Use a permit only for activities that require formal control and authorisation. Confirm scope, location, hazards, isolations, precautions, validity, handover and close-out; the worksite must be checked against the permit before exposure begins.',
+  'ad_plant_equipment': 'Plant and equipment must be selected for the intended task, maintained, inspected and operated by competent persons. Control interaction with people, stored energy, moving parts, stability, attachments, loading and defective equipment through clear exclusion and isolation arrangements.',
+  'ad_workplace_wellness': 'Worker wellbeing is supported by reasonable workload, rest, welfare, respectful supervision, suitable facilities and early response to fatigue or distress. Management should identify work factors that can affect safe performance and provide appropriate support within the project\'s arrangements.',
+  'ad_occupational_noise': 'Occupational noise control should identify significant exposure, prioritise engineering reduction and maintain equipment and enclosures. Where residual exposure remains, define hearing-protection requirements and apply monitoring and health surveillance where applicable.',
+  'ad_barricading': 'Barricades and warning systems must match the hazard, remain visible and prevent inadvertent entry where physical exclusion is required. Inspect them after site movement, weather or work changes and never use a weak barrier where a stronger physical control is necessary.',
+  'ad_ladders': 'Ladders are access equipment with limitations and should be selected only for suitable tasks and conditions. Check stability, condition, footing, angle and access arrangements; do not use damaged ladders or improvise height or support.',
+  'ad_concrete_placing': 'Concrete placing controls should address pump and hose movement, pressure, line integrity, formwork stability, vehicle interaction, pinch points and washout. Coordinate the placing sequence and keep people out of line-of-fire and unstable formwork areas.',
+  'ad_safety_signage': 'Safety signs and signals should communicate the actual hazard, mandatory control, prohibition or emergency information clearly. Position them where workers can see and understand them, keep them current and supplement signs with physical controls where needed.',
+  'ad_water_safety': 'Work on, over or adjacent to water requires assessment of drowning, falls, currents, weather, access and rescue. Provide suitable edge protection or fall-prevention controls, flotation and rescue arrangements where required, and ensure emergency recovery is practicable.',
+  'ad_portable_power_tools': 'Portable power tools require suitable selection, guards, electrical protection, pre-use inspection and competent operation. Control flying particles, cutting, entanglement, dust, noise and vibration, and isolate the tool before adjustment or maintenance.',
+  'ad_overhead_underground': 'Work near overhead or underground services requires reliable service information, physical or administrative controls, safe clearances and competent supervision. Treat unknown or inaccurately located services as a significant risk and stop work when the safe arrangement cannot be confirmed.',
+  'ad_driver_fatigue': 'Driver fatigue controls should address journey planning, working hours, rest, shift patterns, vehicle condition and the driver\'s fitness to operate. Supervisors should respond to signs of fatigue and avoid schedules that encourage unsafe driving behaviour.',
+  'ad_loto': 'Energy isolation must cover electrical, mechanical, hydraulic, pneumatic, thermal, gravity and other stored-energy sources relevant to the equipment. Lock, tag, release and verify isolation before exposure, and control re-energisation through a documented restoration process.',
+  'ad_workplace_amenities': 'Workplace amenities should be suitable for the workforce and activity, kept hygienic and accessible, and inspected regularly. Adequate drinking water, sanitation, washing, rest and changing arrangements help prevent secondary health and safety risks.',
+  'ad_special_needs': 'Consider how site arrangements affect workers or visitors with special needs, including access, communication, evacuation and task-specific risks. Apply reasonable practical controls and ensure emergency arrangements do not depend on assumptions about individual capability.',
+  'ad_lead_exposure': 'Lead exposure control should identify lead-containing materials and exposure routes, minimise dust and fumes, use effective engineering controls and hygiene arrangements, and apply health surveillance where required. Prevent contamination of clothing, food areas and workers\' homes through appropriate welfare and decontamination controls.',
+};
+
+
+String _abuDhabiSectionPracticeNote(String sectionTitle) {
+  final s = sectionTitle.toLowerCase();
+
+  if (s.contains('design') || s.contains('planning') || s.contains('scope')) {
+    return 'At planning stage, confirm the work scope, interfaces, competent persons, equipment, drawings or approved methods, applicable permits and the controls needed before exposure starts. Any assumption that cannot be verified at site should be treated as a trigger to stop and reassess.';
+  }
+  if (s.contains('risk') || s.contains('hazard')) {
+    return 'For field application, identify the actual hazard at the point of work, assess credible consequences, select controls using the hierarchy of controls, assign responsibility and verify that the controls remain effective after changes.';
+  }
+  if (s.contains('isolation') || s.contains('permit') || s.contains('energy')) {
+    return 'Before work, confirm the authorised scope and all relevant energy or process isolations. Verify the isolation or permit conditions at the workface, control handover and changes, and close the permit or restore energy only through the approved process.';
+  }
+  if (s.contains('inspection') || s.contains('audit') || s.contains('assurance') || s.contains('verification')) {
+    return 'Verification should be based on evidence: observe the work, speak with the people doing it, check equipment or records where relevant, identify the failed control and confirm effective close-out rather than accepting a paper-only response.';
+  }
+  if (s.contains('training') || s.contains('competence') || s.contains('communication') || s.contains('consultation')) {
+    return 'Competence is demonstrated by understanding and safe performance, not attendance alone. Use briefing, questioning, demonstration and field observation as appropriate, and repeat the communication when the method, hazard, workforce or conditions change.';
+  }
+  if (s.contains('emergency') || s.contains('rescue') || s.contains('response')) {
+    return 'Emergency arrangements must work under realistic site conditions. Confirm alarm and communication routes, access, trained responders, rescue equipment, casualty handling and escalation to external emergency services, then test the arrangement through drills or exercises.';
+  }
+  if (s.contains('monitoring') || s.contains('performance') || s.contains('trend')) {
+    return 'Use reliable field evidence and meaningful indicators to detect deterioration or repeated control failure. Review trends with responsible managers and convert significant findings into actions with owners, deadlines and effectiveness checks.';
+  }
+  if (s.contains('storage') || s.contains('handling') || s.contains('equipment') || s.contains('plant')) {
+    return 'Check that equipment and materials are suitable for the task, in good condition, correctly stored or positioned and used within their limitations. Keep people outside line-of-fire, pinch, crush and unexpected-movement zones and remove defective equipment from service.';
+  }
+  if (s.contains('worker') || s.contains('welfare') || s.contains('health')) {
+    return 'Consider the worker as part of the control system: provide suitable welfare, information, supervision and health controls, and respond early to symptoms, fatigue, heat, exposure or other conditions that may affect safe performance.';
+  }
+  if (s.contains('fire') || s.contains('hot work') || s.contains('chemical') || s.contains('spill')) {
+    return 'Control the source and the exposure before work starts. Keep incompatible hazards separated, protect surrounding areas, provide suitable emergency equipment and ensure workers know the immediate actions for fire, release, exposure or loss of containment.';
+  }
+  if (s.contains('field') || s.contains('practice') || s.contains('examples')) {
+    return 'Use this section as a field check: compare the approved arrangement with the actual work, identify any gap between the two, make the immediate area safe and escalate or reassess before the task continues.';
+  }
+  return 'Apply the requirement to the actual workface: confirm the hazard, control, responsible person and verification evidence. If conditions change or a critical control is missing, stop the exposure and reassess before restarting.';
 }
 
 const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
