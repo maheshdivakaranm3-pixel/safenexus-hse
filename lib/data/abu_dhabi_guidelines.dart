@@ -2297,7 +2297,7 @@ class AbuDhabiCompleteTopicPage extends StatelessWidget {
             ...sections.map(
               (section) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _AbuDhabiSectionTile(section: section),
+                child: _AbuDhabiSectionTile(section: section, topicId: topic.id),
               ),
             ),
           ],
@@ -2321,8 +2321,12 @@ class _AbuDhabiSection {
 
 class _AbuDhabiSectionTile extends StatelessWidget {
   final _AbuDhabiSection section;
+  final String topicId;
 
-  const _AbuDhabiSectionTile({required this.section});
+  const _AbuDhabiSectionTile({
+    required this.section,
+    required this.topicId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -2375,6 +2379,8 @@ class _AbuDhabiSectionTile extends StatelessWidget {
             (index) => _AbuDhabiItemTile(
               number: index + 1,
               text: section.items[index],
+              topicId: topicId,
+              sectionTitle: section.title,
             ),
           ),
         ),
@@ -2386,17 +2392,21 @@ class _AbuDhabiSectionTile extends StatelessWidget {
 class _AbuDhabiItemTile extends StatelessWidget {
   final int number;
   final String text;
+  final String topicId;
+  final String sectionTitle;
 
   const _AbuDhabiItemTile({
     required this.number,
     required this.text,
+    required this.topicId,
+    required this.sectionTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     final words = text.split(RegExp(r'\s+'));
-    final title = words.length > 8
-        ? '${words.take(8).join(' ')}…'
+    final title = words.length > 9
+        ? '${words.take(9).join(' ')}…'
         : text;
 
     return Card(
@@ -2408,7 +2418,7 @@ class _AbuDhabiItemTile extends StatelessWidget {
       ),
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 11, vertical: 1),
-        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 13),
+        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 15),
         leading: CircleAvatar(
           radius: 15,
           backgroundColor: const Color(0xFFE8F5EE),
@@ -2435,19 +2445,277 @@ class _AbuDhabiItemTile extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.55,
-                color: Color(0xFF374151),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'ORIGINAL GUIDANCE',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.58,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Text(
+                  'TOPIC-SPECIFIC EXPLANATION',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Text(
+                  _abuDhabiDeepItemExplanation(topicId, sectionTitle, text),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.58,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Text(
+                  'FIELD APPLICATION & CHECK',
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5D3B),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Text(
+                  _abuDhabiFieldVerification(topicId, sectionTitle, text),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.58,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                if (_abuDhabiSafeUnsafe.containsKey(topicId)) ...[
+                  const SizedBox(height: 15),
+                  const Text(
+                    'SAFE / UNSAFE FIELD EXAMPLES',
+                    style: TextStyle(
+                      fontSize: 11,
+                      letterSpacing: 0.6,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF0B5D3B),
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  _AbuDhabiSafeUnsafeCard(
+                    data: _abuDhabiSafeUnsafe[topicId]!,
+                  ),
+                ],
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
+
+class _AbuDhabiSafeUnsafeCard extends StatelessWidget {
+  final Map<String, String> data;
+  const _AbuDhabiSafeUnsafeCard({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(11),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEAF7EF),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'SAFE ✓\n${data['safe'] ?? ''}',
+            style: const TextStyle(
+              fontSize: 13.5,
+              height: 1.55,
+              color: Color(0xFF14532D),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(11),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF1F2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'UNSAFE ✕\n${data['unsafe'] ?? ''}',
+            style: const TextStyle(
+              fontSize: 13.5,
+              height: 1.55,
+              color: Color(0xFF9F1239),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+const Map<String, Map<String, String>> _abuDhabiSafeUnsafe = {
+  'ad_work_at_height': {
+    'safe': 'Use a suitable inspected access system, prioritise collective fall prevention, secure tools/materials against falling and maintain a practical rescue arrangement. The worker should understand the selected method and its limitations.',
+    'unsafe': 'Climbing on guardrails, using improvised platforms or damaged ladders, working at an unprotected edge, or relying on a harness without suitable anchorage, clearance and rescue arrangements.',
+  },
+  'ad_scaffolding': {
+    'safe': 'Use a correctly erected and inspected scaffold with stable foundations, complete decking, safe access, guardrails and toe boards. Modification is controlled by authorised competent personnel.',
+    'unsafe': 'Using incomplete decking, missing guardrails, unstable supports, damaged components or a scaffold with unclear inspection/tag status.',
+  },
+  'ad_lifting_operations': {
+    'safe': 'Use the approved lift plan, competent lifting team, verified load information, suitable inspected accessories, controlled exclusion zone and reliable communication.',
+    'unsafe': 'Lifting an unknown or unsuitable load, using defective accessories, allowing people below a suspended load or continuing when conditions differ from the approved lift plan.',
+  },
+  'ad_confined_space': {
+    'safe': 'Control entry through assessment and permit arrangements, isolate hazards, test the atmosphere, provide ventilation where required and keep competent standby and rescue arrangements ready.',
+    'unsafe': 'Entering without atmospheric testing or isolation, treating another worker as an improvised rescuer, or entering when standby/rescue equipment is unavailable.',
+  },
+  'ad_excavation': {
+    'safe': 'Verify services and ground conditions, provide suitable ground-support controls, safe access/egress and edge protection, and maintain competent inspection with plant kept clear of unsafe edges.',
+    'unsafe': 'Entering an unsupported excavation, placing spoil or plant close to the edge, ignoring cracks/water ingress or continuing after ground conditions change without reassessment.',
+  },
+  'ad_electrical_safety': {
+    'safe': 'Use suitable equipment and competent persons, maintain effective protection and isolation controls, verify the circuit condition before exposure and protect temporary systems from damage.',
+    'unsafe': 'Working on energised equipment without an approved method, using damaged cables/plugs, bypassing protective devices or making improvised connections.',
+  },
+  'ad_hot_work': {
+    'safe': 'Remove/control combustibles, establish the hot-work area, provide suitable fire protection, control cylinders and maintain the required fire-watch and post-work monitoring arrangement.',
+    'unsafe': 'Welding beside unprotected combustibles, using leaking cylinders, ignoring required gas testing or leaving immediately after hot work without completing fire-watch requirements.',
+  },
+  'ad_traffic_management': {
+    'safe': 'Separate pedestrians and vehicles, maintain a planned route, control reversing, provide visibility and communication and keep plant inside defined movement/exclusion areas.',
+    'unsafe': 'Allowing pedestrians into vehicle routes, reversing without adequate control, removing barriers for convenience or operating plant in an unplanned congested area.',
+  },
+  'ad_heat_stress': {
+    'safe': 'Plan work for heat conditions, provide water and suitable rest/shade arrangements, manage acclimatisation and respond immediately to symptoms of heat illness.',
+    'unsafe': 'Continuing severe heat exposure without adequate hydration/rest, ignoring symptoms or treating heat illness as a productivity issue.',
+  },
+  'ad_permit_to_work': {
+    'safe': 'Confirm scope, location, hazards, isolations, precautions, authorisation, validity and handover before exposure; close the permit only through the approved process.',
+    'unsafe': 'Starting before authorisation, changing scope without reassessment, bypassing isolation requirements or continuing after permit conditions expire.',
+  },
+  'ad_loto': {
+    'safe': 'Identify all relevant energy sources, isolate and lock them, release or restrain stored energy and verify the zero-energy state before exposure.',
+    'unsafe': 'Relying only on a switch position, missing secondary energy sources, removing another person\'s lock without the approved process or working before verification.',
+  },
+  'ad_portable_power_tools': {
+    'safe': 'Select the correct tool, keep guards and protection effective, inspect before use and isolate before adjustment, cleaning or maintenance.',
+    'unsafe': 'Using damaged tools, removing guards, defeating electrical protection, carrying a running tool by its cable or changing accessories while energised.',
+  },
+  'ad_overhead_underground': {
+    'safe': 'Verify service information, establish safe clearances and physical controls, brief workers and maintain competent supervision throughout the work.',
+    'unsafe': 'Digging or operating plant based on assumptions about service location, encroaching into overhead clearances or continuing when service location is uncertain.',
+  },
+  'ad_manual_handling': {
+    'safe': 'Assess the load and route, reduce the load or use mechanical assistance where practicable, plan team lifts and communicate during handling.',
+    'unsafe': 'Lifting an excessive or unstable load alone, twisting while carrying, blocking the route or repeatedly handling heavy loads without considering mechanical assistance.',
+  },
+  'ad_concrete_placing': {
+    'safe': 'Coordinate the pour sequence, inspect pump lines and formwork, control hose movement and vehicle interfaces and keep people outside crush and line-of-fire zones.',
+    'unsafe': 'Standing in the hose line of fire, working against unstable formwork, entering a congested pour area without control or using defective pumping equipment.',
+  },
+  'ad_steel_erection': {
+    'safe': 'Follow the engineered erection sequence, maintain temporary stability, use controlled lifting/connection methods, provide fall protection and maintain exclusion zones.',
+    'unsafe': 'Releasing a member before stability is secured, working below uncontrolled suspended steel, improvising connections or continuing when wind/stability conditions are unsafe.',
+  },
+  'ad_precast': {
+    'safe': 'Verify lifting points, accessories, erection sequence, temporary supports, positioning controls and exclusion zones before releasing the load.',
+    'unsafe': 'Using unverified lifting points, removing temporary supports early, allowing people in crush zones or releasing the crane load before stability is confirmed.',
+  },
+  'ad_machine_guarding': {
+    'safe': 'Keep guards and interlocks effective, isolate hazardous energy before intervention and ensure operators understand the machine-specific operating limits.',
+    'unsafe': 'Running with a removed guard, bypassing an interlock, reaching into moving machinery or clearing a jam without isolation.',
+  },
+};
+
+String _abuDhabiDeepItemExplanation(
+  String topicId,
+  String sectionTitle,
+  String itemText,
+) {
+  final focus = _abuDhabiTopicPracticeNotes[topicId] ??
+      'Apply this requirement to the actual workface and verify the critical control before exposure.';
+  final i = itemText.toLowerCase();
+  final s = sectionTitle.toLowerCase();
+  String specific;
+
+  if (i.contains('inspection') || s.contains('inspection') || s.contains('audit') || s.contains('assurance')) {
+    specific = 'For this point, check the physical condition as well as the supporting record. Identify exactly what is acceptable, what indicates deterioration, who is authorised to correct it and what evidence is needed before the control is considered effective.';
+  } else if (i.contains('compet') || s.contains('training') || s.contains('competence')) {
+    specific = 'The requirement should be demonstrated through knowledge, practical ability and safe decision-making, not attendance alone. Confirm role-specific authorisation, relevant experience and field performance, and reassess when the task, equipment, method or conditions change.';
+  } else if (i.contains('emergency') || i.contains('rescue') || s.contains('emergency') || s.contains('rescue')) {
+    specific = 'The control must remain workable during an actual emergency. Confirm communication, access, trained responders, equipment location, casualty handling and escalation arrangements, and check that the rescue method is physically achievable at the work location.';
+  } else if (i.contains('permit') || i.contains('isolation') || i.contains('energy') || s.contains('permit') || s.contains('isolation')) {
+    specific = 'Check the control at the point of exposure rather than relying only on paperwork. Confirm boundaries, affected systems, stored energy, handover and restoration arrangements, and require reassessment when the scope or condition changes.';
+  } else if (i.contains('equipment') || i.contains('plant') || i.contains('tool') || s.contains('equipment') || s.contains('plant')) {
+    specific = 'Verify correct selection, condition, inspection, maintenance, guarding/protection and competent operation. Equipment that is defective, unsuitable or outside its intended limitation should be removed from service rather than managed through an informal workaround.';
+  } else if (i.contains('risk') || i.contains('hazard') || s.contains('risk') || s.contains('hazard')) {
+    specific = 'Assess the actual exposure, credible consequence, people affected and effectiveness of existing controls. Prefer elimination or engineering controls where reasonably practicable, then verify the remaining risk at the workface before the task proceeds.';
+  } else if (i.contains('record') || i.contains('report') || s.contains('monitoring') || s.contains('reporting')) {
+    specific = 'The record should be accurate, current, traceable and linked to the actual event or activity. Use the information to identify repeated failures, assign accountable actions and verify effectiveness instead of treating document completion as the control itself.';
+  } else {
+    specific = 'Translate this requirement into a field control by identifying the hazard, defining the critical control, assigning responsibility, briefing the people exposed and checking the control before and during the task. If the critical control cannot be maintained, stop the affected work and reassess.';
+  }
+  return '$focus\n\n$specific';
+}
+
+String _abuDhabiFieldVerification(
+  String topicId,
+  String sectionTitle,
+  String itemText,
+) {
+  final t = topicId.toLowerCase();
+  final i = itemText.toLowerCase();
+  final s = sectionTitle.toLowerCase();
+  if (t == 'ad_work_at_height') {
+    return 'Verify access, edge protection, platform condition, anchorage where applicable, dropped-object controls, weather and rescue readiness. Ask the worker to explain the fall-prevention method and the immediate action if a critical control fails.';
+  }
+  if (t == 'ad_lifting_operations') {
+    return 'Verify load information, lift plan, equipment suitability, accessory identification/condition, ground or stability controls, exclusion zone and communication. Stop and reassess if the load, weather, equipment or workface differs from the approved arrangement.';
+  }
+  if (t == 'ad_excavation') {
+    return 'Verify service information, ground-support arrangement, access/egress, edge condition, water ingress, spoil/plant position and competent inspection. Reassess after rain, vibration, cracking, collapse signs, service discovery or other ground changes.';
+  }
+  if (t == 'ad_confined_space') {
+    return 'Verify permit, isolation, atmospheric test results, ventilation, entry/exit, communication, standby and rescue equipment immediately before entry and as required during the work. Do not enter if the rescue arrangement is not ready.';
+  }
+  if (t == 'ad_electrical_safety' || t == 'ad_loto') {
+    return 'Verify the correct circuit/equipment, isolation boundary, lock and tag identification, zero-energy test and protection against re-energisation. The exposed worker should understand the isolation and approved restoration process.';
+  }
+  if (t == 'ad_heat_stress') {
+    return 'Verify water, rest/shade arrangements, work-rest controls, acclimatisation, communication and supervision. Respond early to symptoms and follow the project first-aid/emergency process for suspected heat illness.';
+  }
+  if (t == 'ad_traffic_management') {
+    return 'Walk the route before the shift and verify pedestrian separation, barriers, crossings, visibility, lighting, reversing controls, speed controls and public/adjacent-work interfaces. Correct gaps before vehicle movement increases.';
+  }
+  if (i.contains('record') || i.contains('report') || s.contains('monitoring') || s.contains('performance')) {
+    return 'Check that evidence is current, traceable and linked to the actual activity. Review repeated findings or trends, assign actions to accountable persons and verify effectiveness before closure.';
+  }
+  return 'Verify the requirement at the point of work: observe the activity, compare the condition with the approved method, speak with the workers, check relevant records/equipment and confirm that the critical control remains effective. Significant change should trigger stop, communication and reassessment.';
 }
 
 const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
