@@ -3782,7 +3782,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
   'ad_confined_space': [
     _AbuDhabiSection(
       title: 'Identification and hazard assessment',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Identify spaces with restricted entry or exit, limited ventilation or other characteristics that can create serious risk.',
         'Assess oxygen deficiency or enrichment, toxic or flammable atmospheres and engulfment hazards.',
@@ -3795,7 +3795,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Permit, isolation and entry control',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Use a controlled permit-to-work process where required for confined-space entry.',
         'Isolate electrical, mechanical, process, pressure and material sources before entry.',
@@ -3808,7 +3808,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Atmospheric testing and ventilation',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Test the atmosphere with calibrated equipment suitable for the hazards identified.',
         'Check oxygen and relevant toxic, flammable or contaminant parameters before entry.',
@@ -3821,7 +3821,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Entry equipment and PPE',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Use suitable harnesses, retrieval systems, lighting, communication and respiratory protection where required by the risk assessment.',
         'Ensure rescue equipment is compatible with the space geometry and entry method.',
@@ -3834,7 +3834,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Standby, communication and rescue',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Provide a competent standby attendant when required by the confined-space system.',
         'Ensure the attendant continuously monitors entrants and does not leave the post without authorised replacement.',
@@ -3847,7 +3847,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Emergency response and medical considerations',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Plan for atmospheric poisoning, oxygen deficiency, fire, flooding, engulfment, injury and equipment failure as applicable.',
         'Ensure emergency responders can access the space and casualty extraction route.',
@@ -3860,7 +3860,7 @@ const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
     ),
     _AbuDhabiSection(
       title: 'Field verification and permit closure',
-      icon: Icons.door_open_outlined,
+      icon: Icons.meeting_room_outlined,
       items: [
         'Conduct a pre-entry verification of isolation, atmosphere, access, communication, standby and rescue readiness.',
         'Ask entrants to explain alarm response and evacuation triggers.',
