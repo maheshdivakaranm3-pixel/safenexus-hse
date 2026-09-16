@@ -58,12 +58,29 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
   // ALL TOPICS
   // ============================================================
 
-  List<ReferenceTopic> get _topics => [
-        ...uaeGeneralGuidelines,
-        ...abuDhabiGuidelines,
-        ...dubaiGuidelines,
-        ...hseSafetyReferences,
-      ];
+  List<ReferenceTopic> get _topics {
+    // ALL is a single aggregated view of the existing master
+    // reference lists. No new category or duplicate topic is created.
+    //
+    // Order is intentionally preserved: UAE General -> Abu Dhabi ->
+    // Dubai -> HSE Reference. If the same topic ID is ever present in
+    // more than one source list, the first occurrence is retained so
+    // the master list does not show duplicate cards.
+    final allTopics = <ReferenceTopic>[
+      ...uaeGeneralGuidelines,
+      ...abuDhabiGuidelines,
+      ...dubaiGuidelines,
+      ...hseSafetyReferences,
+    ];
+
+    final uniqueTopics = <String, ReferenceTopic>{};
+
+    for (final topic in allTopics) {
+      uniqueTopics.putIfAbsent(topic.id, () => topic);
+    }
+
+    return uniqueTopics.values.toList(growable: false);
+  }
 
   // ============================================================
   // CATEGORY LABEL
