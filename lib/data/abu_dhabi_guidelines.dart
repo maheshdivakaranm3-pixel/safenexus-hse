@@ -2297,7 +2297,7 @@ class AbuDhabiCompleteTopicPage extends StatelessWidget {
             ...sections.map(
               (section) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _AbuDhabiSectionTile(section: section, topicId: topic.id),
+                child: _AbuDhabiSectionTile(topicId: topic.id, section: section),
               ),
             ),
           ],
@@ -2320,12 +2320,12 @@ class _AbuDhabiSection {
 }
 
 class _AbuDhabiSectionTile extends StatelessWidget {
-  final _AbuDhabiSection section;
   final String topicId;
+  final _AbuDhabiSection section;
 
   const _AbuDhabiSectionTile({
-    required this.section,
     required this.topicId,
+    required this.section,
   });
 
   @override
@@ -2378,9 +2378,9 @@ class _AbuDhabiSectionTile extends StatelessWidget {
             section.items.length,
             (index) => _AbuDhabiItemTile(
               number: index + 1,
-              text: section.items[index],
               topicId: topicId,
               sectionTitle: section.title,
+              text: section.items[index],
             ),
           ),
         ),
@@ -2390,23 +2390,23 @@ class _AbuDhabiSectionTile extends StatelessWidget {
 }
 
 class _AbuDhabiItemTile extends StatelessWidget {
-  final int number;
-  final String text;
   final String topicId;
   final String sectionTitle;
+  final int number;
+  final String text;
 
   const _AbuDhabiItemTile({
-    required this.number,
-    required this.text,
     required this.topicId,
     required this.sectionTitle,
+    required this.number,
+    required this.text,
   });
 
   @override
   Widget build(BuildContext context) {
     final words = text.split(RegExp(r'\s+'));
-    final title = words.length > 9
-        ? '${words.take(9).join(' ')}…'
+    final title = words.length > 8
+        ? '${words.take(8).join(' ')}…'
         : text;
 
     return Card(
@@ -2418,7 +2418,7 @@ class _AbuDhabiItemTile extends StatelessWidget {
       ),
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 11, vertical: 1),
-        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 15),
+        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 13),
         leading: CircleAvatar(
           radius: 15,
           backgroundColor: const Color(0xFFE8F5EE),
@@ -2445,82 +2445,96 @@ class _AbuDhabiItemTile extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'ORIGINAL GUIDANCE',
-                  style: TextStyle(
-                    fontSize: 11,
-                    letterSpacing: 0.6,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF0B5D3B),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.58,
-                    color: Color(0xFF374151),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  'TOPIC-SPECIFIC EXPLANATION',
-                  style: TextStyle(
-                    fontSize: 11,
-                    letterSpacing: 0.6,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF0B5D3B),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  _abuDhabiDeepItemExplanation(topicId, sectionTitle, text),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.58,
-                    color: Color(0xFF374151),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  'FIELD APPLICATION & CHECK',
-                  style: TextStyle(
-                    fontSize: 11,
-                    letterSpacing: 0.6,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF0B5D3B),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  _abuDhabiFieldVerification(topicId, sectionTitle, text),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.58,
-                    color: Color(0xFF374151),
-                  ),
-                ),
-                if (_abuDhabiSafeUnsafe.containsKey(topicId)) ...[
-                  const SizedBox(height: 15),
-                  const Text(
-                    'SAFE / UNSAFE FIELD EXAMPLES',
-                    style: TextStyle(
-                      fontSize: 11,
-                      letterSpacing: 0.6,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF0B5D3B),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.55,
+                color: Color(0xFF374151),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _AbuDhabiPracticePanel(
+            topicId: topicId,
+            sectionTitle: sectionTitle,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AbuDhabiPracticePanel extends StatelessWidget {
+  final String topicId;
+  final String sectionTitle;
+
+  const _AbuDhabiPracticePanel({
+    required this.topicId,
+    required this.sectionTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final notes = _abuDhabiTopicPracticeNotes[topicId] ?? const <String>[];
+    if (notes.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(13, 12, 13, 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0F7F3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFD5EADF)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'PROFESSIONAL FIELD EXPLANATION',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w900,
+              letterSpacing: .45,
+              color: Color(0xFF0B5D3B),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            'How to apply "$sectionTitle" on site',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF172033),
+            ),
+          ),
+          const SizedBox(height: 8),
+          ...notes.map(
+            (note) => Padding(
+              padding: const EdgeInsets.only(bottom: 7),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: CircleAvatar(
+                      radius: 2.5,
+                      backgroundColor: Color(0xFF159447),
                     ),
                   ),
-                  const SizedBox(height: 7),
-                  _AbuDhabiSafeUnsafeCard(
-                    data: _abuDhabiSafeUnsafe[topicId]!,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      note,
+                      style: const TextStyle(
+                        fontSize: 13.2,
+                        height: 1.5,
+                        color: Color(0xFF374151),
+                      ),
+                    ),
                   ),
                 ],
-              ],
+              ),
             ),
           ),
         ],
@@ -2529,194 +2543,389 @@ class _AbuDhabiItemTile extends StatelessWidget {
   }
 }
 
-class _AbuDhabiSafeUnsafeCard extends StatelessWidget {
-  final Map<String, String> data;
-  const _AbuDhabiSafeUnsafeCard({required this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(11),
-          decoration: BoxDecoration(
-            color: const Color(0xFFEAF7EF),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            'SAFE ✓\n${data['safe'] ?? ''}',
-            style: const TextStyle(
-              fontSize: 13.5,
-              height: 1.55,
-              color: Color(0xFF14532D),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(11),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFF1F2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            'UNSAFE ✕\n${data['unsafe'] ?? ''}',
-            style: const TextStyle(
-              fontSize: 13.5,
-              height: 1.55,
-              color: Color(0xFF9F1239),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-const Map<String, Map<String, String>> _abuDhabiSafeUnsafe = {
-  'ad_work_at_height': {
-    'safe': 'Use a suitable inspected access system, prioritise collective fall prevention, secure tools/materials against falling and maintain a practical rescue arrangement. The worker should understand the selected method and its limitations.',
-    'unsafe': 'Climbing on guardrails, using improvised platforms or damaged ladders, working at an unprotected edge, or relying on a harness without suitable anchorage, clearance and rescue arrangements.',
-  },
-  'ad_scaffolding': {
-    'safe': 'Use a correctly erected and inspected scaffold with stable foundations, complete decking, safe access, guardrails and toe boards. Modification is controlled by authorised competent personnel.',
-    'unsafe': 'Using incomplete decking, missing guardrails, unstable supports, damaged components or a scaffold with unclear inspection/tag status.',
-  },
-  'ad_lifting_operations': {
-    'safe': 'Use the approved lift plan, competent lifting team, verified load information, suitable inspected accessories, controlled exclusion zone and reliable communication.',
-    'unsafe': 'Lifting an unknown or unsuitable load, using defective accessories, allowing people below a suspended load or continuing when conditions differ from the approved lift plan.',
-  },
-  'ad_confined_space': {
-    'safe': 'Control entry through assessment and permit arrangements, isolate hazards, test the atmosphere, provide ventilation where required and keep competent standby and rescue arrangements ready.',
-    'unsafe': 'Entering without atmospheric testing or isolation, treating another worker as an improvised rescuer, or entering when standby/rescue equipment is unavailable.',
-  },
-  'ad_excavation': {
-    'safe': 'Verify services and ground conditions, provide suitable ground-support controls, safe access/egress and edge protection, and maintain competent inspection with plant kept clear of unsafe edges.',
-    'unsafe': 'Entering an unsupported excavation, placing spoil or plant close to the edge, ignoring cracks/water ingress or continuing after ground conditions change without reassessment.',
-  },
-  'ad_electrical_safety': {
-    'safe': 'Use suitable equipment and competent persons, maintain effective protection and isolation controls, verify the circuit condition before exposure and protect temporary systems from damage.',
-    'unsafe': 'Working on energised equipment without an approved method, using damaged cables/plugs, bypassing protective devices or making improvised connections.',
-  },
-  'ad_hot_work': {
-    'safe': 'Remove/control combustibles, establish the hot-work area, provide suitable fire protection, control cylinders and maintain the required fire-watch and post-work monitoring arrangement.',
-    'unsafe': 'Welding beside unprotected combustibles, using leaking cylinders, ignoring required gas testing or leaving immediately after hot work without completing fire-watch requirements.',
-  },
-  'ad_traffic_management': {
-    'safe': 'Separate pedestrians and vehicles, maintain a planned route, control reversing, provide visibility and communication and keep plant inside defined movement/exclusion areas.',
-    'unsafe': 'Allowing pedestrians into vehicle routes, reversing without adequate control, removing barriers for convenience or operating plant in an unplanned congested area.',
-  },
-  'ad_heat_stress': {
-    'safe': 'Plan work for heat conditions, provide water and suitable rest/shade arrangements, manage acclimatisation and respond immediately to symptoms of heat illness.',
-    'unsafe': 'Continuing severe heat exposure without adequate hydration/rest, ignoring symptoms or treating heat illness as a productivity issue.',
-  },
-  'ad_permit_to_work': {
-    'safe': 'Confirm scope, location, hazards, isolations, precautions, authorisation, validity and handover before exposure; close the permit only through the approved process.',
-    'unsafe': 'Starting before authorisation, changing scope without reassessment, bypassing isolation requirements or continuing after permit conditions expire.',
-  },
-  'ad_loto': {
-    'safe': 'Identify all relevant energy sources, isolate and lock them, release or restrain stored energy and verify the zero-energy state before exposure.',
-    'unsafe': 'Relying only on a switch position, missing secondary energy sources, removing another person\'s lock without the approved process or working before verification.',
-  },
-  'ad_portable_power_tools': {
-    'safe': 'Select the correct tool, keep guards and protection effective, inspect before use and isolate before adjustment, cleaning or maintenance.',
-    'unsafe': 'Using damaged tools, removing guards, defeating electrical protection, carrying a running tool by its cable or changing accessories while energised.',
-  },
-  'ad_overhead_underground': {
-    'safe': 'Verify service information, establish safe clearances and physical controls, brief workers and maintain competent supervision throughout the work.',
-    'unsafe': 'Digging or operating plant based on assumptions about service location, encroaching into overhead clearances or continuing when service location is uncertain.',
-  },
-  'ad_manual_handling': {
-    'safe': 'Assess the load and route, reduce the load or use mechanical assistance where practicable, plan team lifts and communicate during handling.',
-    'unsafe': 'Lifting an excessive or unstable load alone, twisting while carrying, blocking the route or repeatedly handling heavy loads without considering mechanical assistance.',
-  },
-  'ad_concrete_placing': {
-    'safe': 'Coordinate the pour sequence, inspect pump lines and formwork, control hose movement and vehicle interfaces and keep people outside crush and line-of-fire zones.',
-    'unsafe': 'Standing in the hose line of fire, working against unstable formwork, entering a congested pour area without control or using defective pumping equipment.',
-  },
-  'ad_steel_erection': {
-    'safe': 'Follow the engineered erection sequence, maintain temporary stability, use controlled lifting/connection methods, provide fall protection and maintain exclusion zones.',
-    'unsafe': 'Releasing a member before stability is secured, working below uncontrolled suspended steel, improvising connections or continuing when wind/stability conditions are unsafe.',
-  },
-  'ad_precast': {
-    'safe': 'Verify lifting points, accessories, erection sequence, temporary supports, positioning controls and exclusion zones before releasing the load.',
-    'unsafe': 'Using unverified lifting points, removing temporary supports early, allowing people in crush zones or releasing the crane load before stability is confirmed.',
-  },
-  'ad_machine_guarding': {
-    'safe': 'Keep guards and interlocks effective, isolate hazardous energy before intervention and ensure operators understand the machine-specific operating limits.',
-    'unsafe': 'Running with a removed guard, bypassing an interlock, reaching into moving machinery or clearing a jam without isolation.',
-  },
+/// Topic-specific field notes used beneath the original learning point.
+/// The original source content is preserved; these notes add practical
+/// explanation without replacing the existing requirement text.
+const Map<String, List<String>> _abuDhabiTopicPracticeNotes = {
+  'ad_oshad_sf': [
+    'Start with the project scope and identify which ADOSH-SF requirements, sector requirements and project conditions apply to the actual activity.',
+    'Translate each significant requirement into an owner, a physical control, a verification method and objective evidence.',
+    'At the workface, confirm that the written system is actually implemented: competent people, current documents, controls, inspections and emergency arrangements should match the site condition.',
+    'If a requirement or project condition changes, stop relying on the old arrangement, reassess the impact and communicate the approved change before exposure continues.',
+    'Use recurring findings, incidents, worker feedback and critical-control failures as inputs to management review and continual improvement.',
+  ],
+  'ad_oshms': [
+    'Treat the OSHMS as a working management system rather than a document set; connect policy, objectives, risk controls, competence, emergency response and assurance.',
+    'For each high-risk process, identify the accountable owner and define how supervisors will verify the critical controls during the work.',
+    'Integrate contractor activities, procurement, temporary works and simultaneous operations into the same management-system controls.',
+    'Use inspections, audits and worker consultation to test whether procedures are practical and effective at the point of exposure.',
+    'When performance deteriorates, investigate the system cause and improve the process instead of only reminding workers to be careful.',
+  ],
+  'ad_risk_management': [
+    'Break the task into logical steps and identify hazards, exposed people, credible consequences and existing controls before selecting additional controls.',
+    'Apply elimination, substitution and engineering controls before depending on procedures, supervision or PPE.',
+    'Make critical controls specific and observable so a supervisor can verify them at the workface rather than simply signing a risk assessment.',
+    'Reassess when scope, sequence, equipment, personnel, weather, interfaces or site conditions change; a previously acceptable assessment may no longer be valid.',
+    'Confirm that residual risk is understood by the workforce and that stop-work triggers are clear before the task starts.',
+  ],
+  'ad_hse_plan': [
+    'Build the HSE Plan around the actual project scope, construction sequence, hazards, interfaces, resources and emergency arrangements.',
+    'Assign responsibilities and measurable controls to each major risk instead of using broad statements that cannot be verified.',
+    'Link the plan to RAMS, permits, inspection schedules, training, occupational health controls, environmental arrangements and contractor management.',
+    'Update the plan when design, programme, work methods, site boundaries or significant risks change and communicate the revision to affected teams.',
+    'Use field inspections and performance reviews to confirm that the HSE Plan is operating as intended, not only approved on paper.',
+  ],
+  'ad_roles_responsibilities': [
+    'Define who owns the risk, who controls the work, who supervises the exposure and who provides independent HSE assurance.',
+    'Make authority practical: supervisors and workers should know when they can stop work and how significant concerns are escalated.',
+    'Check competence for safety-critical roles through qualifications, experience, assessment and field observation as applicable.',
+    'Avoid gaps at interfaces between client, consultant, principal contractor, subcontractor and specialist service providers.',
+    'Review responsibilities whenever project organisation, scope or high-risk activities change.',
+  ],
+  'ad_incident_reporting': [
+    'Make the area safe first, provide appropriate assistance and prevent further exposure before beginning the investigation.',
+    'Preserve useful evidence such as photographs, equipment condition, permits, training records, witness information and relevant environmental conditions.',
+    'Separate immediate causes from underlying and organisational causes so corrective action addresses why the control failed.',
+    'Assign corrective actions to accountable owners with realistic due dates and verify effectiveness after completion.',
+    'Share lessons learned in a way that improves similar work elsewhere without blaming individuals for system weaknesses.',
+  ],
+  'ad_training_competency': [
+    'Define training needs from the hazards, legal/project requirements, role responsibilities and safety-critical tasks actually performed.',
+    'Induction should explain site hazards, emergency arrangements, reporting routes and basic rules; task training should address the specific method and controls.',
+    'Where competence is practical, verify it by demonstration, observation or assessment rather than attendance alone.',
+    'Refresh competence when equipment, process, risk, role or incident learning changes and remove people from safety-critical tasks when competence cannot be demonstrated.',
+    'Keep training records traceable to the worker, subject, date, assessment and required validity or refresher cycle where applicable.',
+  ],
+  'ad_contractor_management': [
+    'Prequalify contractors against the risk and capability required for the work, not only their paperwork or historical statistics.',
+    'Before mobilisation, align contractor RAMS, permits, competency, equipment certification, emergency arrangements and interfaces with the principal project system.',
+    'Supervise critical work at the point of exposure and verify that contractor controls match the approved method.',
+    'Manage simultaneous operations and changes through clear interface coordination so one contractor does not defeat another contractor\'s control.',
+    'Use performance reviews and close-out of repeated findings to drive improvement and escalation where necessary.',
+  ],
+  'ad_emergency_management': [
+    'Base emergency plans on credible scenarios for the actual project: fire, medical emergency, fall, confined-space event, lifting incident, utility strike and other significant risks as applicable.',
+    'Confirm alarm, communication, access, muster, emergency equipment and responder arrangements before work begins.',
+    'Rescue plans must be realistic for the location and task; identify equipment, trained responders and access constraints rather than relying on emergency services alone.',
+    'Drills should test response time, communication, equipment availability, accountability and coordination, then produce corrective actions.',
+    'Recheck emergency arrangements after layout changes, new work fronts, blocked access routes, temporary works or significant changes in risk.',
+  ],
+  'ad_work_at_height': [
+    'First ask whether the task can be eliminated or completed from ground level; then prefer collective fall prevention such as permanent floors, guardrails and properly designed platforms.',
+    'For access systems, verify design suitability, stability, safe access/egress, loading limits, inspection status and protection against unauthorised modification.',
+    'If fall arrest is required, check compatible equipment, suitable anchorage, clearance, swing-fall and sharp-edge risks, and a practical rescue arrangement before exposure.',
+    'Control openings, fragile surfaces, edges and dropped objects together; the person below must not be exposed simply because the worker above is protected.',
+    'Stop and reassess when edge protection, access, anchorage, weather conditions or rescue arrangements are compromised.',
+  ],
+  'ad_scaffolding': [
+    'Select the scaffold system for the intended load, configuration, height, access and environment and ensure design requirements are addressed where applicable.',
+    'Erection and alteration should be performed by competent personnel using the approved method and controlled access to incomplete scaffold.',
+    'Before use, verify foundations, stability, ties, platforms, guardrails, toe protection, access and other required components; do not rely only on a tag.',
+    'Reinspect after alteration, impact, severe weather or other events that could affect stability or integrity.',
+    'Never remove or modify a critical component informally; changes should be controlled and reverified before the scaffold is returned to service.',
+  ],
+  'ad_lifting_operations': [
+    'Start with a lift plan proportionate to the risk, including load characteristics, crane selection, ground conditions, lifting accessories, route and landing area.',
+    'Verify operator, rigger/slinger and signaler competence and inspect lifting equipment and accessories before use.',
+    'Establish an effective exclusion zone and prevent people from entering the suspended-load path or standing under a load.',
+    'Use clear communication and one agreed signaler where required; stop the lift if communication is lost or the load behaves unexpectedly.',
+    'Reassess for wind, visibility, ground condition, overhead services and simultaneous operations before and during the lift.',
+  ],
+  'ad_confined_space': [
+    'Identify the space and all credible hazards before entry: oxygen deficiency/enrichment, toxic or flammable atmosphere, engulfment, energy sources and restricted movement.',
+    'Use a controlled entry process with isolation, permit arrangements where required, atmospheric testing, ventilation and competent personnel.',
+    'Test the atmosphere at representative locations and frequencies appropriate to the hazard; do not assume one reading proves the space remains safe.',
+    'Maintain reliable communication and a dedicated standby/rescue arrangement appropriate to the entry risk.',
+    'Stop entry when alarms, isolation, ventilation, communication, atmospheric conditions or rescue capability are no longer within the approved controls.',
+  ],
+  'ad_excavation': [
+    'Before excavation, establish the location of underground services, assess ground conditions and select a safe excavation method and support system.',
+    'Provide suitable shoring, battering or other engineered protection where required and keep spoil, plant and loads away from edges as appropriate.',
+    'Provide safe access and egress and prevent falls into the excavation with suitable barriers and controlled work zones.',
+    'Inspect the excavation at the required frequency and after rain, water ingress, vibration, nearby work or other changes that can affect stability.',
+    'Stop entry when cracking, movement, water, unsupported faces, service damage or other signs indicate that the approved control is no longer reliable.',
+  ],
+  'ad_electrical_safety': [
+    'Identify electrical sources, normal and abnormal conditions, temporary supplies, tools and nearby services before work begins.',
+    'Use isolation and lockout/tagout where required and verify that the circuit or equipment is actually de-energised before exposure.',
+    'Maintain suitable temporary electrical protection, inspection and housekeeping; damaged cables, plugs or protective devices must not remain in service.',
+    'Control work near overhead and underground electrical services through planning, competent supervision, defined clearances and approved precautions.',
+    'Treat electrical work as a specialist activity where competence, authorisation, testing or technical controls are required.',
+  ],
+  'ad_hot_work': [
+    'Assess ignition sources, combustible materials, nearby openings, concealed spaces and simultaneous operations before issuing or accepting hot-work controls.',
+    'Remove or protect combustibles, establish barriers and ensure suitable firefighting equipment is immediately available at the workface.',
+    'Use a competent fire watch where required and maintain monitoring for sparks, heat transfer and smouldering after work is completed.',
+    'Control gas cylinders, hoses, regulators and flashback protection according to the equipment and task requirements.',
+    'Suspend hot work when the approved fire controls cannot be maintained or when changing conditions create an uncontrolled ignition risk.',
+  ],
+  'ad_traffic_management': [
+    'Separate pedestrians and vehicles as far as reasonably practicable using layout, barriers, designated routes and controlled crossing points.',
+    'Plan reversing and manoeuvring to minimise blind spots; use suitable visibility aids, trained banksmen/spotters where required and exclusion zones.',
+    'Control site entrances, public interfaces, delivery routes, temporary diversions and work-zone changes with clear communication and signage.',
+    'Verify traffic controls at the actual point of conflict, especially during shift changes, deliveries, poor visibility and simultaneous operations.',
+    'Stop vehicle movement when pedestrians enter an exclusion zone or when the planned traffic control is no longer effective.',
+  ],
+  'ad_occupational_health': [
+    'Identify occupational health hazards from the work process, materials, noise, vibration, dust, chemicals, ergonomics, heat and biological exposure as applicable.',
+    'Prefer source and engineering controls before relying on personal protective equipment or worker behaviour.',
+    'Use suitable exposure assessment and health-surveillance arrangements where the risk profile and applicable requirements call for them.',
+    'Ensure workers understand symptoms, reporting routes and controls for relevant occupational exposures.',
+    'Review health data, exposure results and recurring complaints to improve work methods, equipment and preventive controls.',
+  ],
+  'ad_heat_stress': [
+    'Assess heat risk using the actual work, clothing/PPE, workload, environmental conditions, acclimatisation and worker vulnerability rather than temperature alone.',
+    'Plan hydration, shaded/rest areas, work-rest arrangements and task scheduling before exposure becomes excessive.',
+    'Use supervision to recognise early symptoms such as unusual fatigue, dizziness, headache, confusion or reduced coordination and act promptly.',
+    'Never treat a heat-illness symptom as ordinary tiredness; stop exposure and follow the project emergency/medical response process.',
+    'Increase controls during hot periods, heavy physical work, restricted airflow, high radiant heat and when workers are not acclimatised.',
+  ],
+  'ad_ppe': [
+    'Select PPE from the hazard assessment and make sure it is compatible with the task, other PPE and the worker.',
+    'PPE is the last line of defence and must not replace feasible elimination, engineering or other higher-level controls.',
+    'Inspect PPE before use, remove defective equipment from service and maintain storage and replacement arrangements.',
+    'Train workers in correct fitting, limitations, cleaning, inspection and when PPE must be replaced.',
+    'Supervisors should verify actual use and suitability at the point of exposure rather than assuming PPE issued means PPE effective.',
+  ],
+  'ad_environmental_waste': [
+    'Identify environmental aspects and waste streams before work starts and define segregation, storage, transport and disposal arrangements.',
+    'Keep incompatible or hazardous materials controlled and prevent leaks, spills, windblown waste and uncontrolled discharge.',
+    'Use labelled, suitable containers and designated storage areas and keep waste routes clear from work and emergency access.',
+    'Prepare spill-response arrangements proportionate to the materials and potential release pathways.',
+    'Maintain waste and environmental records required by the project and verify that disposal follows the approved route.',
+  ],
+  'ad_inspection_audit': [
+    'Plan inspections around significant risks and critical controls, not only around a calendar or checklist.',
+    'During the field inspection, verify physical conditions, worker understanding, equipment status and actual implementation of the approved method.',
+    'Record findings with enough evidence to identify the location, risk, responsible owner and required corrective action.',
+    'Prioritise serious and recurring findings, assign owners and verify effectiveness after close-out.',
+    'Use audits to examine system effectiveness and inspections to check field conditions; both should feed improvement actions.',
+  ],
+  'ad_performance_monitoring': [
+    'Use leading indicators such as critical-control verification, inspections, training quality and action closure to detect deterioration early.',
+    'Use lagging indicators such as incidents and injuries to understand outcomes, but do not rely on them alone to judge control effectiveness.',
+    'Trend recurring findings, high-potential events, overdue actions and control failures by work area or activity.',
+    'Review performance with accountable managers and convert trends into specific risk-reduction actions.',
+    'Verify that improvement actions changed field conditions or exposure rather than only increasing the amount of paperwork.',
+  ],
+  'ad_electronic_reporting': [
+    'Define who enters, reviews, approves and closes electronic OSH reports and ensure responsibilities remain clear.',
+    'Use accurate, timely and consistent data so dashboards and reports reflect actual field performance.',
+    'Protect record integrity through controlled access, traceability, appropriate backups and documented correction processes.',
+    'Link electronic incident, inspection, action and performance data so recurring risks can be identified and managed.',
+    'Do not allow the reporting system to become a substitute for immediate field response, escalation or required notifications.',
+  ],
+  'ad_hazardous_materials': [
+    'Identify hazardous substances from procurement through storage, use, transfer and disposal and keep current safety information accessible.',
+    'Assess routes of exposure and select substitution, containment, ventilation and other engineering controls before relying on PPE.',
+    'Control labelling, compatible storage, access, spill response and emergency arrangements at the point of use.',
+    'Train workers on the hazards, safe handling, required PPE, exposure symptoms and emergency response for the substances they use.',
+    'Review controls whenever the substance, quantity, process or storage arrangement changes.',
+  ],
+  'ad_asbestos': [
+    'Treat suspected asbestos-containing material as a specialist risk and do not disturb it until identification and the approved control process are established.',
+    'Control access, work area containment, dust release and waste handling according to the approved asbestos management method.',
+    'Use competent specialist personnel and suitable respiratory/exposure controls where the work requires them.',
+    'Prevent uncontrolled cutting, drilling, breaking or removal that can release fibres.',
+    'Maintain records of identified materials, controlled work, clearance or verification and waste arrangements as required by the project.',
+  ],
+  'ad_lead_exposure': [
+    'Identify lead-containing materials and tasks that can create dust, fumes or contaminated surfaces before work starts.',
+    'Prefer substitution, enclosure, local exhaust and process controls to reduce exposure at source.',
+    'Control hygiene to prevent contaminated hands, clothing or equipment from transferring lead to eating areas or vehicles.',
+    'Use exposure assessment and health-surveillance arrangements where indicated by the risk and applicable requirements.',
+    'Investigate elevated exposure results and correct the process rather than relying only on additional PPE.',
+  ],
+  'ad_occupational_noise': [
+    'Identify noisy plant, tools and work activities and assess worker exposure rather than judging noise only by how loud it feels.',
+    'Reduce noise at source through equipment selection, maintenance, isolation, enclosure and work planning where practicable.',
+    'Use hearing protection as part of a broader noise-control programme when higher-level controls do not sufficiently reduce exposure.',
+    'Control hearing-protection fit, compatibility and worker understanding and provide suitable health-surveillance arrangements where required.',
+    'Review noise controls when equipment, duration, work location or production methods change.',
+  ],
+  'ad_vibration': [
+    'Identify hand-arm and whole-body vibration sources and consider equipment, exposure duration, task frequency and worker posture.',
+    'Select lower-vibration equipment where practicable and maintain tools so worn components do not increase exposure.',
+    'Control exposure through task rotation and work planning only after considering source and engineering controls.',
+    'Train workers to recognise symptoms and report problems early and provide health-surveillance arrangements where appropriate.',
+    'Use exposure information to improve equipment selection and task design rather than simply recording hours worked.',
+  ],
+  'ad_first_aid': [
+    'Provide first-aid arrangements based on workforce size, work activities, remoteness, hazards, shift pattern and emergency response time.',
+    'Ensure first-aiders are competent for the role and that first-aid equipment is suitable, accessible and maintained.',
+    'Keep emergency contact information and access routes clear and ensure workers know how to summon assistance.',
+    'For serious injury, protect the scene, call the appropriate emergency response and avoid unnecessary movement of the casualty unless immediate danger requires it.',
+    'Review first-aid performance after incidents, drills and changes in project risk.',
+  ],
+  'ad_medical_surveillance': [
+    'Base health surveillance on identified occupational health risks and applicable requirements, not on a generic medical package alone.',
+    'Ensure relevant workers are identified, informed and referred through the approved occupational-health process.',
+    'Protect medical confidentiality while providing management with the information necessary to control workplace risk.',
+    'Use surveillance findings and exposure data to identify trends and improve preventive controls.',
+    'Reassess the programme when materials, processes, exposure levels or workforce groups change.',
+  ],
+  'ad_workplace_amenities': [
+    'Provide welfare facilities appropriate to workforce size, work location, climate and project conditions and keep them clean and usable.',
+    'Ensure drinking water, sanitation, washing, rest and changing arrangements are accessible to the workforce as applicable.',
+    'Inspect welfare facilities regularly and correct shortages, poor hygiene or access problems promptly.',
+    'Consider remote work fronts, night shifts and changing workforce numbers when planning welfare capacity.',
+    'Treat poor welfare conditions as an HSE risk because they can contribute to dehydration, fatigue, hygiene problems and reduced safety performance.',
+  ],
+  'ad_workplace_wellness': [
+    'Support safe work through adequate rest, hydration, welfare, fatigue management and awareness of occupational health risks.',
+    'Encourage early reporting of health concerns and provide clear routes for workers to seek appropriate assistance.',
+    'Consider psychosocial and physical workload factors where they can affect concentration, fatigue or safe performance.',
+    'Use workforce feedback and health trends to identify recurring issues in work organisation or welfare.',
+    'Do not use wellness initiatives as a substitute for controlling hazardous workplace exposures.',
+  ],
+  'ad_manual_handling': [
+    'Avoid unnecessary manual handling by changing the task, using mechanical aids or reducing load size where practicable.',
+    'Assess load weight, shape, centre of gravity, grip, distance, posture, repetition and environmental constraints before lifting.',
+    'Plan team lifts and mechanical handling so roles, route and landing area are clear before movement starts.',
+    'Keep routes clear, improve storage height and use suitable aids to reduce twisting, overreaching and awkward postures.',
+    'Report pain or early musculoskeletal symptoms promptly and review the task rather than normalising repeated strain.',
+  ],
+  'ad_special_needs': [
+    'Identify workers who may require additional consideration because of mobility, sensory, communication or other task-relevant needs.',
+    'Assess the work and emergency arrangements to ensure reasonable, practical controls are available for the individual and task.',
+    'Provide information and alarms in a form the worker can understand and use safely.',
+    'Do not assume a standard control is effective for everyone; verify accessibility and practical use at the workface.',
+    'Review arrangements when the worker, task, location or emergency scenario changes.',
+  ],
+  'ad_safety_signage': [
+    'Use signs and signals to communicate a specific hazard, prohibition, mandatory control, emergency route or safe condition.',
+    'Place signs where they can be seen before a person enters the hazard area and keep them clear, legible and relevant.',
+    'Do not use excessive signage to compensate for missing physical controls; barriers and engineering controls should provide protection where required.',
+    'Coordinate signs with traffic routes, lifting zones, excavation edges, electrical hazards and emergency arrangements.',
+    'Remove obsolete signs promptly when the hazard or work condition changes.',
+  ],
+  'ad_safety_in_design': [
+    'Identify foreseeable construction, operation, maintenance and emergency hazards during design rather than waiting for site execution.',
+    'Prefer design changes that eliminate hazards or make safe access, isolation, lifting and maintenance inherently easier.',
+    'Record residual risks and communicate them clearly to the parties who will construct, operate or maintain the asset.',
+    'Review temporary works, access, interfaces, utilities and sequencing as part of design risk management.',
+    'Verify that design risk controls remain valid when drawings, materials, methods or construction sequence change.',
+  ],
+  'ad_permit_to_work': [
+    'Use the permit process for the activities that the project has identified as requiring formal authorisation and control.',
+    'Before issue, confirm scope, location, hazards, isolation, gas testing where applicable, competent people and required precautions.',
+    'The permit should control the work; it should not be treated as permission to bypass risk assessment or RAMS.',
+    'Suspend or cancel the permit when conditions change, controls fail, the job is interrupted beyond the approved conditions or an emergency occurs.',
+    'Close the permit only after the work area and equipment are left in the required safe condition and the responsible parties have verified completion.',
+  ],
+  'ad_barricading': [
+    'Use barriers to physically prevent access to hazards such as excavations, openings, lifting zones, electrical areas and unstable structures.',
+    'Select the barrier type and location according to the hazard; a visual warning alone is not adequate where physical prevention is required.',
+    'Provide controlled access points and keep barriers stable, visible and maintained throughout the work.',
+    'Inspect barricades after impact, relocation, weather or changes to the work area.',
+    'Remove or relocate barriers only when the hazard has been eliminated or an approved alternative control is in place.',
+  ],
+  'ad_loto': [
+    'Identify every hazardous energy source, including electrical, mechanical, hydraulic, pneumatic, thermal, gravity and stored energy.',
+    'Isolate the equipment using an approved procedure, apply locks/tags as required and release or restrain stored energy.',
+    'Verify zero-energy or safe-state condition using an appropriate test or try step before work begins.',
+    'Only authorised personnel should control personal locks and isolation points according to the project procedure.',
+    'Restore energy through a controlled process: inspect the area, account for people/tools, remove locks through the approved method and communicate re-energisation.',
+  ],
+  'ad_driver_fatigue': [
+    'Plan driving around realistic journey time, work hours, shift patterns, rest opportunities and night driving risk.',
+    'Supervisors should recognise fatigue indicators such as microsleeps, lane drift, slow reactions and repeated errors.',
+    'Do not manage severe fatigue by relying on caffeine or willpower; stop driving and use the approved fatigue-management response.',
+    'Control journey pressure, unrealistic schedules and excessive overtime that encourage unsafe driving decisions.',
+    'Review fatigue events and near misses to improve roster and journey planning.',
+  ],
+  'ad_lone_remote': [
+    'Identify tasks and locations where a worker may be isolated from immediate assistance and assess credible emergency scenarios.',
+    'Use communication, check-in, location tracking or buddy arrangements appropriate to the risk and reliability of the work area.',
+    'Do not permit lone work where the risk cannot be adequately controlled or timely rescue cannot be achieved.',
+    'Test the communication method in the actual location and define escalation if a scheduled check-in is missed.',
+    'Reassess lone-work arrangements when the task, location, weather, equipment or emergency risk changes.',
+  ],
+  'ad_water_safety': [
+    'Identify drowning, falling, entrapment, water current, contamination and rescue-access hazards before work near or over water.',
+    'Provide edge protection, safe access, life-saving equipment and exclusion controls appropriate to the water hazard.',
+    'Plan rescue before exposure and ensure trained personnel know how to use the available rescue equipment.',
+    'Control weather, visibility, lighting, plant movement and simultaneous operations that can increase the risk of falling into water.',
+    'Stop work when rescue arrangements, barriers, access or environmental conditions are no longer adequate.',
+  ],
+  'ad_lifting_equipment': [
+    'Select lifting equipment for the intended load, duty, environment and configuration and confirm required capacity and limitations.',
+    'Inspect equipment and accessories before use and maintain required certification, examination or inspection evidence.',
+    'Keep operators competent and ensure equipment-specific instructions are understood.',
+    'Control ground conditions, positioning, exclusion zones and nearby structures or services before operating lifting equipment.',
+    'Remove equipment from service when defects or safety-critical failures are identified until it is properly assessed and released.',
+  ],
+  'ad_portable_power_tools': [
+    'Select the right tool for the task and use guards, handles, protective devices and accessories specified for that tool.',
+    'Inspect tools, leads, plugs and accessories before use and remove damaged equipment from service.',
+    'Control kickback, entanglement, flying particles, noise, vibration, dust and electrical hazards according to the tool and material.',
+    'Use isolation before changing blades, bits or clearing jams when the task requires it.',
+    'Store and transport tools safely and prevent unauthorised or untrained use.',
+  ],
+  'ad_plant_equipment': [
+    'Use suitable plant with competent operators, required inspections and maintenance status confirmed before operation.',
+    'Define exclusion zones around moving plant and separate pedestrians from plant routes wherever practicable.',
+    'Control blind spots, reversing, attachments, stability, ground conditions and overhead/underground hazards.',
+    'Use pre-start inspections to identify safety-critical defects and do not operate plant that is not fit for service.',
+    'Coordinate plant movements with lifting, excavation, traffic and other simultaneous operations.',
+  ],
+  'ad_ladders': [
+    'Use a ladder only when it is suitable for the task, stable and an appropriate access method for the duration and nature of the work.',
+    'Inspect the ladder, feet, stiles, steps and locking devices before use and remove defective ladders from service.',
+    'Set the ladder on firm, level ground, secure it against movement and protect the surrounding area from traffic or openings.',
+    'Maintain safe body position and avoid overreaching, side loading or carrying loads that compromise balance.',
+    'Never improvise with boxes, drums or unstable surfaces to gain additional height.',
+  ],
+  'ad_concrete_placing': [
+    'Plan concrete placement for pump setup, delivery traffic, formwork stability, hose movement, access and emergency response.',
+    'Inspect formwork and temporary works before loading and ensure the pour sequence is compatible with the design.',
+    'Control pump hose whip, pinch points, pressure release and communication between pump operator and placing crew.',
+    'Protect workers from cement exposure, wet concrete burns, slips, manual handling and moving plant.',
+    'Stop the pour if formwork movement, blockage, equipment failure or other condition indicates loss of control.',
+  ],
+  'ad_overhead_underground': [
+    'Identify overhead and underground services before excavation, lifting, access-system erection or plant movement.',
+    'Use approved drawings, surveys, service locating methods and site verification appropriate to the risk.',
+    'Define exclusion zones and control plant height, reach and movement near overhead services.',
+    'Treat service information as a planning input that must be verified on site; do not rely on assumptions about service location.',
+    'Stop work and escalate immediately after suspected service contact, damage or unexpected service discovery.',
+  ],
+  'ad_falsework': [
+    'Ensure falsework is designed, erected, inspected and used according to the approved engineering requirements and loading sequence.',
+    'Verify foundations, bracing, connections, props, bearings and stability before loading.',
+    'Control unauthorised modification, removal or adjustment of critical components.',
+    'Inspect after impact, movement, overload, weather or changes that may affect stability.',
+    'Do not load or strip falsework outside the approved sequence without competent engineering review and authorisation.',
+  ],
+  'ad_steel_erection': [
+    'Plan erection sequence, lifting points, temporary stability, access, work at height and exclusion zones before steel arrives at the workface.',
+    'Control connections and temporary bracing so partially erected steel remains stable throughout the sequence.',
+    'Coordinate cranes, MEWPs, fall protection and material storage to avoid conflicting operations.',
+    'Prevent dropped objects and uncontrolled movement of steel members using suitable exclusion and handling controls.',
+    'Stop erection when wind, stability, access, lifting or temporary bracing conditions fall outside the approved method.',
+  ],
+  'ad_precast': [
+    'Plan lifting, transport, temporary stability, bearing points and installation sequence for each precast element.',
+    'Verify lifting anchors, accessories, element identification and handling instructions before the lift.',
+    'Provide stable temporary support and do not release lifting equipment until the element is securely supported as designed.',
+    'Keep workers out of suspended-load and crush zones and coordinate installation with other trades.',
+    'Stop work if an element, anchor, support or lifting arrangement does not match the approved method.',
+  ],
+  'ad_temporary_structures': [
+    'Identify temporary structures and treat them as engineered safety-critical systems where their failure could expose people or assets.',
+    'Confirm design, load limits, foundations, connections, bracing and inspection requirements before use.',
+    'Control unauthorised changes, overloading, impact and changes in adjacent work that can affect stability.',
+    'Inspect after erection, alteration, impact, adverse weather or other significant events.',
+    'Maintain clear records of approvals, inspections and any engineering changes required during the temporary structure life cycle.',
+  ],
+  'ad_machine_guarding': [
+    'Identify moving parts, nip points, entanglement, cutting, crushing and stored-energy hazards before operation or maintenance.',
+    'Use fixed or interlocked guards and other engineering controls to prevent access to dangerous moving parts during normal operation.',
+    'For maintenance, cleaning or jam clearing, isolate hazardous energy and verify safe state before reaching into the machine.',
+    'Never bypass interlocks, remove guards or defeat emergency stops to improve production speed.',
+    'Inspect guards and safety devices after maintenance or modification and verify the machine is safe before returning it to service.',
+  ],
 };
-
-String _abuDhabiDeepItemExplanation(
-  String topicId,
-  String sectionTitle,
-  String itemText,
-) {
-  final focus = _abuDhabiTopicPracticeNotes[topicId] ??
-      'Apply this requirement to the actual workface and verify the critical control before exposure.';
-  final i = itemText.toLowerCase();
-  final s = sectionTitle.toLowerCase();
-  String specific;
-
-  if (i.contains('inspection') || s.contains('inspection') || s.contains('audit') || s.contains('assurance')) {
-    specific = 'For this point, check the physical condition as well as the supporting record. Identify exactly what is acceptable, what indicates deterioration, who is authorised to correct it and what evidence is needed before the control is considered effective.';
-  } else if (i.contains('compet') || s.contains('training') || s.contains('competence')) {
-    specific = 'The requirement should be demonstrated through knowledge, practical ability and safe decision-making, not attendance alone. Confirm role-specific authorisation, relevant experience and field performance, and reassess when the task, equipment, method or conditions change.';
-  } else if (i.contains('emergency') || i.contains('rescue') || s.contains('emergency') || s.contains('rescue')) {
-    specific = 'The control must remain workable during an actual emergency. Confirm communication, access, trained responders, equipment location, casualty handling and escalation arrangements, and check that the rescue method is physically achievable at the work location.';
-  } else if (i.contains('permit') || i.contains('isolation') || i.contains('energy') || s.contains('permit') || s.contains('isolation')) {
-    specific = 'Check the control at the point of exposure rather than relying only on paperwork. Confirm boundaries, affected systems, stored energy, handover and restoration arrangements, and require reassessment when the scope or condition changes.';
-  } else if (i.contains('equipment') || i.contains('plant') || i.contains('tool') || s.contains('equipment') || s.contains('plant')) {
-    specific = 'Verify correct selection, condition, inspection, maintenance, guarding/protection and competent operation. Equipment that is defective, unsuitable or outside its intended limitation should be removed from service rather than managed through an informal workaround.';
-  } else if (i.contains('risk') || i.contains('hazard') || s.contains('risk') || s.contains('hazard')) {
-    specific = 'Assess the actual exposure, credible consequence, people affected and effectiveness of existing controls. Prefer elimination or engineering controls where reasonably practicable, then verify the remaining risk at the workface before the task proceeds.';
-  } else if (i.contains('record') || i.contains('report') || s.contains('monitoring') || s.contains('reporting')) {
-    specific = 'The record should be accurate, current, traceable and linked to the actual event or activity. Use the information to identify repeated failures, assign accountable actions and verify effectiveness instead of treating document completion as the control itself.';
-  } else {
-    specific = 'Translate this requirement into a field control by identifying the hazard, defining the critical control, assigning responsibility, briefing the people exposed and checking the control before and during the task. If the critical control cannot be maintained, stop the affected work and reassess.';
-  }
-  return '$focus\n\n$specific';
-}
-
-String _abuDhabiFieldVerification(
-  String topicId,
-  String sectionTitle,
-  String itemText,
-) {
-  final t = topicId.toLowerCase();
-  final i = itemText.toLowerCase();
-  final s = sectionTitle.toLowerCase();
-  if (t == 'ad_work_at_height') {
-    return 'Verify access, edge protection, platform condition, anchorage where applicable, dropped-object controls, weather and rescue readiness. Ask the worker to explain the fall-prevention method and the immediate action if a critical control fails.';
-  }
-  if (t == 'ad_lifting_operations') {
-    return 'Verify load information, lift plan, equipment suitability, accessory identification/condition, ground or stability controls, exclusion zone and communication. Stop and reassess if the load, weather, equipment or workface differs from the approved arrangement.';
-  }
-  if (t == 'ad_excavation') {
-    return 'Verify service information, ground-support arrangement, access/egress, edge condition, water ingress, spoil/plant position and competent inspection. Reassess after rain, vibration, cracking, collapse signs, service discovery or other ground changes.';
-  }
-  if (t == 'ad_confined_space') {
-    return 'Verify permit, isolation, atmospheric test results, ventilation, entry/exit, communication, standby and rescue equipment immediately before entry and as required during the work. Do not enter if the rescue arrangement is not ready.';
-  }
-  if (t == 'ad_electrical_safety' || t == 'ad_loto') {
-    return 'Verify the correct circuit/equipment, isolation boundary, lock and tag identification, zero-energy test and protection against re-energisation. The exposed worker should understand the isolation and approved restoration process.';
-  }
-  if (t == 'ad_heat_stress') {
-    return 'Verify water, rest/shade arrangements, work-rest controls, acclimatisation, communication and supervision. Respond early to symptoms and follow the project first-aid/emergency process for suspected heat illness.';
-  }
-  if (t == 'ad_traffic_management') {
-    return 'Walk the route before the shift and verify pedestrian separation, barriers, crossings, visibility, lighting, reversing controls, speed controls and public/adjacent-work interfaces. Correct gaps before vehicle movement increases.';
-  }
-  if (i.contains('record') || i.contains('report') || s.contains('monitoring') || s.contains('performance')) {
-    return 'Check that evidence is current, traceable and linked to the actual activity. Review repeated findings or trends, assign actions to accountable persons and verify effectiveness before closure.';
-  }
-  return 'Verify the requirement at the point of work: observe the activity, compare the condition with the approved method, speak with the workers, check relevant records/equipment and confirm that the critical control remains effective. Significant change should trigger stop, communication and reassessment.';
-}
 
 const Map<String, List<_AbuDhabiSection>> _abuDhabiDetailedContent = {
   'ad_oshad_sf': [
