@@ -60,7 +60,7 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
               height: 620,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: const _OriginalDetailHost(),
+                child: _OriginalDetailHost(topic: topic),
               ),
             ),
           ],
@@ -236,39 +236,22 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
 /// Hosts the existing detailed topic page without changing its content.
 /// A constrained viewport is used so the original page can scroll internally.
 class _OriginalDetailHost extends StatelessWidget {
-  const _OriginalDetailHost();
+  const _OriginalDetailHost({
+    required this.topic,
+  });
+
+  final ReferenceTopic topic;
 
   @override
   Widget build(BuildContext context) {
-    // This page is the original source of the detailed Construction HSE Plan
-    // content. It receives the same topic object that the router receives.
-    final topic = ModalRoute.of(context)?.settings.arguments;
-    if (topic is ReferenceTopic) {
-      return DubaiHseDetailPage(topic: topic);
-    }
-
-    // Safe fallback for direct construction in the app.
-    return const _DetailFallbackMessage();
-  }
-}
-
-class _DetailFallbackMessage extends StatelessWidget {
-  const _DetailFallbackMessage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(20),
-      child: const Center(
-        child: Text(
-          'Original detailed topic content is loaded by the app router.',
-          textAlign: TextAlign.center,
-        ),
-      ),
+    // The router already supplies the correct topic.
+    // Pass it directly to the original detailed-topic page.
+    return DubaiHseDetailPage(
+      topic: topic,
     );
   }
 }
+
 
 class DubaiHseConstructionHsePlanAdvancedLearningPage extends StatelessWidget {
   const DubaiHseConstructionHsePlanAdvancedLearningPage({super.key});
