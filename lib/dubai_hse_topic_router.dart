@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'dubai_hse_detail_page.dart';
 import 'models/reference_topic.dart';
 import 'pages/dubai/dubai_construction_safety_framework_page.dart';
+import 'pages/dubai/dubai_hse_construction_hse_plan_page.dart';
 import 'pages/dubai/dubai_hse_management_page.dart';
-import 'pages/dubai/scaffolding_safety_page.dart';
 import 'pages/dubai/excavation_trenching_page.dart';
 import 'pages/dubai/lifting_operations_page.dart';
-import 'pages/dubai/dubai_hse_construction_hse_plan_page.dart';
+import 'pages/dubai/scaffolding_safety_page.dart';
 
 class DubaiHsePartRouter {
   static Widget pageFor(ReferenceTopic topic) {
