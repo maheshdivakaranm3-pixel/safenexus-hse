@@ -5,11 +5,12 @@ import '../../models/reference_topic.dart';
 /// SafeNexus HSE — Dubai Topic 04
 /// Construction HSE Plan
 ///
-/// Main page: topic introduction, Advanced Learning entry point, and
-/// learning reference notice. Detailed study is provided in Advanced Learning.
-///
 /// Canonical file:
 /// lib/pages/dubai/dubai_hse_construction_hse_plan_page.dart
+///
+/// This page intentionally contains only the Step 04 main entry and its
+/// Advanced Learning entry point. The old "04 •" label, the large intro card,
+/// and the "Original Detailed Topic" block are intentionally not rendered.
 class DubaiHseConstructionHsePlanPage extends StatelessWidget {
   const DubaiHseConstructionHsePlanPage({
     super.key,
@@ -18,9 +19,8 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
 
   final ReferenceTopic topic;
 
-  static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color navy = Color(0xFF17324D);
+  static const Color primaryGreen = Color(0xFF159447);
   static const Color background = Color(0xFFF5F8F7);
 
   @override
@@ -151,12 +151,10 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
       ),
     );
   }
+}
 
-class DubaiHseConstructionHsePlanAdvancedLearningPage
-    extends StatelessWidget {
-  const DubaiHseConstructionHsePlanAdvancedLearningPage({
-    super.key,
-  });
+class DubaiHseConstructionHsePlanAdvancedLearningPage extends StatelessWidget {
+  const DubaiHseConstructionHsePlanAdvancedLearningPage({super.key});
 
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color navy = Color(0xFF17324D);
@@ -197,29 +195,19 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFF159447).withValues(alpha: .22),
-        ),
+        border: Border.all(color: const Color(0xFF159447).withValues(alpha: .22)),
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Construction HSE Plan — Advanced Study',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: navy,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: navy),
           ),
           SizedBox(height: 8),
           Text(
-            'Use this section for deeper study and field reference. The existing detailed topic content remains separate and is not replaced by this advanced layer.',
-            style: TextStyle(
-              fontSize: 13.5,
-              height: 1.5,
-              color: Color(0xFF52606D),
-            ),
+            'Use this section for deeper study, field application, verification and professional HSE reference.',
+            style: TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF52606D)),
           ),
         ],
       ),
@@ -232,33 +220,22 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Colors.black.withValues(alpha: .07),
-        ),
+        side: BorderSide(color: Colors.black.withValues(alpha: .07)),
       ),
       child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 4,
-        ),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         leading: CircleAvatar(
           radius: 20,
           backgroundColor: const Color(0xFFE8F5ED),
           child: Text(
             item.number,
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              color: darkGreen,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen),
           ),
         ),
         title: Text(
           item.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
-            color: navy,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w800, color: navy),
         ),
         subtitle: Text(item.subtitle),
         children: [
@@ -270,21 +247,13 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 6),
-                    child: Icon(
-                      Icons.check_circle_rounded,
-                      size: 15,
-                      color: darkGreen,
-                    ),
+                    child: Icon(Icons.check_circle_rounded, size: 15, color: darkGreen),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       point,
-                      style: const TextStyle(
-                        fontSize: 13.5,
-                        height: 1.5,
-                        color: Color(0xFF425466),
-                      ),
+                      style: const TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF425466)),
                     ),
                   ),
                 ],
@@ -328,67 +297,43 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage
       'What records demonstrate implementation rather than document-only compliance?',
       'What conditions would require escalation or stopping affected work?',
     ];
-    return _whiteCard(
-      'Professional / Interview Questions',
-      questions,
-      numbered: true,
-    );
+    return _whiteCard('Professional / Interview Questions', questions, numbered: true);
   }
 
-  Widget _whiteCard(
-    String title,
-    List<String> items, {
-    bool numbered = false,
-  }) {
+  Widget _whiteCard(String title, List<String> items, {bool numbered = false}) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.black.withValues(alpha: .07),
-        ),
+        border: Border.all(color: Colors.black.withValues(alpha: .07)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w800,
-              color: navy,
-            ),
-          ),
+          Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: navy)),
           const SizedBox(height: 10),
           ...items.asMap().entries.map(
-                (entry) => Padding(
-                  padding: const EdgeInsets.only(bottom: 9),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        numbered ? '${entry.key + 1}.' : '✓',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: darkGreen,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          entry.value,
-                          style: const TextStyle(
-                            fontSize: 13.5,
-                            height: 1.45,
-                            color: Color(0xFF425466),
-                          ),
-                        ),
-                      ),
-                    ],
+            (entry) => Padding(
+              padding: const EdgeInsets.only(bottom: 9),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    numbered ? '${entry.key + 1}.' : '✓',
+                    style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      entry.value,
+                      style: const TextStyle(fontSize: 13.5, height: 1.45, color: Color(0xFF425466)),
+                    ),
+                  ),
+                ],
               ),
+            ),
+          ),
         ],
       ),
     );
@@ -413,8 +358,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '01',
     title: 'HSE Plan Fundamentals',
-    subtitle:
-        'Purpose, scope and the difference between planning and field implementation.',
+    subtitle: 'Purpose, scope and the difference between planning and field implementation.',
     points: [
       'The HSE plan should translate project requirements and identified risks into an organised system of controls, responsibilities and monitoring activities.',
       'The plan should cover the project lifecycle and relevant interfaces rather than becoming a static document prepared only for approval.',
@@ -424,8 +368,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '02',
     title: 'Project Scope & HSE Objectives',
-    subtitle:
-        'Define what the plan controls and what the project is trying to achieve.',
+    subtitle: 'Define what the plan controls and what the project is trying to achieve.',
     points: [
       'Identify project phases, work packages, interfaces, locations, workforce and significant activities within the plan scope.',
       'Set clear HSE objectives and measurable targets appropriate to the project risk profile.',
@@ -435,8 +378,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '03',
     title: 'Organisation & Accountability',
-    subtitle:
-        'Turn the organisation chart into practical responsibility and authority.',
+    subtitle: 'Turn the organisation chart into practical responsibility and authority.',
     points: [
       'Define management, HSE, supervision, engineering, logistics, specialist and worker responsibilities relevant to the project.',
       'Clarify who approves, who implements, who verifies and who escalates critical HSE matters.',
@@ -446,8 +388,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '04',
     title: 'Risk Register & Control Integration',
-    subtitle:
-        'Connect the HSE plan with risk-based operational controls.',
+    subtitle: 'Connect the HSE plan with risk-based operational controls.',
     points: [
       'The project risk register should reflect significant hazards and interfaces identified during planning and delivery.',
       'Controls should be traceable into RAMS, permits, inspections, supervision and worker briefings where applicable.',
@@ -457,8 +398,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '05',
     title: 'RAMS & Permit-to-Work Interface',
-    subtitle:
-        'Control high-risk work through linked planning systems.',
+    subtitle: 'Control high-risk work through linked planning systems.',
     points: [
       'RAMS should describe how specific activities will be performed safely and should align with the project HSE plan.',
       'Permit-to-work arrangements should be integrated for activities requiring formal authorisation or isolation controls.',
@@ -468,8 +408,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '06',
     title: 'Training, Competency & Communication',
-    subtitle:
-        'Make the plan understandable and usable by the workforce.',
+    subtitle: 'Make the plan understandable and usable by the workforce.',
     points: [
       'Identify induction, task-specific training, competency and refresher requirements for relevant roles.',
       'Use toolbox talks and pre-task briefings to communicate changing hazards and critical controls.',
@@ -479,8 +418,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '07',
     title: 'Emergency Preparedness',
-    subtitle:
-        'Plan for credible emergencies before work starts.',
+    subtitle: 'Plan for credible emergencies before work starts.',
     points: [
       'Identify credible emergency scenarios and define alarm, communication, evacuation, first-aid, rescue and external-assistance arrangements as applicable.',
       'Ensure emergency routes, assembly arrangements, contacts and response resources are communicated and maintained.',
@@ -490,8 +428,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '08',
     title: 'Inspection, Audit & Monitoring',
-    subtitle:
-        'Verify that planned controls are operating in the field.',
+    subtitle: 'Verify that planned controls are operating in the field.',
     points: [
       'Define inspection and monitoring programmes appropriate to project activities and critical controls.',
       'Audits should test system effectiveness and implementation rather than only checking whether documents exist.',
@@ -501,8 +438,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '09',
     title: 'Contractor & Interface Management',
-    subtitle:
-        'Control shared risks across organisations and work packages.',
+    subtitle: 'Control shared risks across organisations and work packages.',
     points: [
       'Define contractor HSE requirements, responsibilities, coordination arrangements and reporting expectations.',
       'Control interfaces between contractors, plant, pedestrians, simultaneous operations and shared work areas.',
@@ -512,8 +448,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '10',
     title: 'Incident, CAPA & Learning',
-    subtitle:
-        'Use events and findings to improve the HSE plan.',
+    subtitle: 'Use events and findings to improve the HSE plan.',
     points: [
       'Include arrangements for reporting incidents, near misses, unsafe conditions and significant findings.',
       'Corrective actions should address causes and control weaknesses, not only the visible symptom.',
@@ -523,8 +458,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '11',
     title: 'Document Control & Review',
-    subtitle:
-        'Keep the approved plan current and traceable.',
+    subtitle: 'Keep the approved plan current and traceable.',
     points: [
       'Control revision status, approval, distribution and withdrawal of superseded versions.',
       'Review the plan when project scope, organisation, legislation, significant risks, methods or site conditions change.',
@@ -534,8 +468,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '12',
     title: 'HSE Officer Field Verification',
-    subtitle:
-        'A practical verification sequence for daily professional use.',
+    subtitle: 'A practical verification sequence for daily professional use.',
     points: [
       'Check the approved plan, current revision and project scope before assessing implementation.',
       'Walk the workface and compare actual conditions with the plan, risk controls, RAMS, permits and required competence.',
@@ -545,8 +478,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '13',
     title: 'Supervisor Application',
-    subtitle:
-        'Convert project arrangements into safe workface control.',
+    subtitle: 'Convert project arrangements into safe workface control.',
     points: [
       'Brief the team before work and confirm people understand the method, hazards, controls and emergency arrangements.',
       'Monitor changing conditions, housekeeping, access, plant interfaces and critical controls during the activity.',
@@ -556,8 +488,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '14',
     title: 'Stop-Work & Escalation',
-    subtitle:
-        'Respond when planned controls are absent or ineffective.',
+    subtitle: 'Respond when planned controls are absent or ineffective.',
     points: [
       'Affected work should be stopped or controlled when critical safeguards are missing, bypassed or ineffective.',
       'Make the area safe where practicable, inform the responsible supervision and reassess the task before restart.',
@@ -567,8 +498,7 @@ const _advancedModules = <_AdvancedModule>[
   _AdvancedModule(
     number: '15',
     title: 'Practical Construction-Site Scenario',
-    subtitle:
-        'Use the plan as a live control system.',
+    subtitle: 'Use the plan as a live control system.',
     points: [
       'A work sequence changes because another contractor enters the same area. The interface is paused and the affected risk controls are reassessed.',
       'The supervisor verifies revised access, segregation, permits and briefing requirements before the work resumes.',
