@@ -6,13 +6,13 @@ import '../../models/reference_topic.dart';
 /// SafeNexus HSE — Dubai Topic 04
 /// Construction HSE Plan
 ///
-/// IMPORTANT:
-/// This page intentionally preserves the existing SafeNexus HSE detailed
-/// content in DubaiHseDetailPage. It adds the new Advanced Learning layer
-/// ABOVE the original content instead of replacing or deleting it.
-///
-/// Canonical file:
-/// lib/pages/dubai/dubai_hse_construction_hse_plan_page.dart
+/// IMPORTANT ARCHITECTURE RULE:
+/// - Original Topic 04 is preserved: dubai_hse_plan.
+/// - The existing DubaiHseDetailPage remains the source for the original
+///   detailed topic content and is NOT deleted or replaced.
+/// - This page adds the new Advanced Learning layer and detailed expandable
+///   study sections around that original content.
+/// - No Part 1 / Part 2 dependency.
 class DubaiHseConstructionHsePlanPage extends StatelessWidget {
   const DubaiHseConstructionHsePlanPage({
     super.key,
@@ -21,15 +21,15 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
 
   final ReferenceTopic topic;
 
-  static const Color primaryGreen = Color(0xFF159447);
+  static const Color green = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color navy = Color(0xFF17324D);
-  static const Color background = Color(0xFFF5F8F7);
+  static const Color bg = Color(0xFFF5F8F7);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: background,
+      backgroundColor: bg,
       appBar: AppBar(
         title: const Text(
           '04 • Construction HSE Plan',
@@ -41,146 +41,94 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
           children: [
-            _topicIntro(),
+            _intro(),
             const SizedBox(height: 12),
-            _advancedLearningCard(context),
+            _advancedButton(context),
             const SizedBox(height: 12),
-            _noticeCard(),
+            _notice(),
             const SizedBox(height: 18),
-            _sectionTitle(
-              'Original Detailed Topic',
-              'All existing Construction HSE Plan content is preserved below.',
-            ),
-            const SizedBox(height: 10),
-            // DO NOT replace this with a new short summary.
-            // This is the original detailed SafeNexus content.
-            SizedBox(
-              height: 620,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: const _OriginalDetailHost(),
-              ),
-            ),
+            _heading('Complete Topic', 'Detailed Construction HSE Plan study sections'),
+            const SizedBox(height: 8),
+            for (final section in _sections) ...[
+              _sectionCard(section),
+              const SizedBox(height: 9),
+            ],
+            const SizedBox(height: 6),
+            _originalContentButton(context),
+            const SizedBox(height: 12),
+            _referenceCard(),
           ],
         ),
       ),
     );
   }
 
-  Widget _topicIntro() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: primaryGreen.withValues(alpha: .18)),
-      ),
-      child: const Column(
+  Widget _intro() {
+    return _card(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: const [
           Row(
             children: [
               CircleAvatar(
-                radius: 22,
+                radius: 23,
                 backgroundColor: Color(0xFFE8F5ED),
-                child: Icon(
-                  Icons.assignment_rounded,
-                  color: darkGreen,
-                ),
+                child: Icon(Icons.assignment_rounded, color: darkGreen, size: 27),
               ),
               SizedBox(width: 12),
               Expanded(
                 child: Text(
                   'Construction HSE Plan',
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w800,
-                    color: navy,
-                  ),
+                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: navy),
                 ),
               ),
             ],
           ),
           SizedBox(height: 12),
           Text(
-            'A project-specific HSE plan translates safety requirements, project risks, responsibilities, procedures, emergency arrangements and monitoring activities into an organised system for safe construction delivery.',
-            style: TextStyle(
-              fontSize: 14.5,
-              height: 1.55,
-              color: Color(0xFF425466),
-            ),
+            'A project-specific HSE plan converts Dubai construction safety requirements and project risks into defined responsibilities, procedures, programmes, emergency arrangements and monitoring activities.',
+            style: TextStyle(fontSize: 14.5, height: 1.55, color: Color(0xFF425466)),
           ),
         ],
       ),
     );
   }
 
-  Widget _advancedLearningCard(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (_) => const DubaiHseConstructionHsePlanAdvancedLearningPage(),
-            ),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: primaryGreen.withValues(alpha: .30)),
-          ),
-          child: const Row(
-            children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color(0xFFE8F5ED),
-                child: Icon(
-                  Icons.menu_book_rounded,
-                  color: darkGreen,
-                  size: 26,
-                ),
-              ),
-              SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '📚 ADVANCED LEARNING',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: darkGreen,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Detailed HSE Plan study, field application, verification and professional reference',
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: 1.4,
-                        color: Color(0xFF52606D),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(Icons.chevron_right_rounded, color: darkGreen, size: 30),
-            ],
-          ),
+  Widget _advancedButton(BuildContext context) {
+    return _card(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => const DubaiHseConstructionHsePlanAdvancedLearningPage(),
         ),
+      ),
+      borderColor: green.withValues(alpha: .30),
+      child: const Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: Color(0xFFE8F5ED),
+            child: Icon(Icons.menu_book_rounded, color: darkGreen, size: 27),
+          ),
+          SizedBox(width: 13),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('📚 ADVANCED LEARNING', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: darkGreen)),
+                SizedBox(height: 4),
+                Text('Detailed study, field application, verification and professional reference', style: TextStyle(fontSize: 13, height: 1.4, color: Color(0xFF52606D))),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, color: darkGreen, size: 30),
+        ],
       ),
     );
   }
 
-  Widget _noticeCard() {
+  Widget _notice() {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -195,12 +143,8 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Learning reference: project HSE plans must be developed, approved, communicated, implemented and reviewed against the actual project scope, hazards, applicable requirements and approved control arrangements.',
-              style: TextStyle(
-                fontSize: 13,
-                height: 1.5,
-                color: Color(0xFF5F5200),
-              ),
+              'Field reference: the plan should match the actual project scope, hazards, approved methods, responsibilities, emergency arrangements and applicable requirements. Review it when project conditions or controls change.',
+              style: TextStyle(fontSize: 13, height: 1.5, color: Color(0xFF5F5200)),
             ),
           ),
         ],
@@ -208,66 +152,148 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
     );
   }
 
-  Widget _sectionTitle(String title, String subtitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.w800,
-            color: navy,
-          ),
+  Widget _sectionCard(_PlanSection section) {
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(color: Colors.black.withValues(alpha: .07)),
+      ),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+        childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
+        leading: CircleAvatar(
+          radius: 19,
+          backgroundColor: const Color(0xFFE8F5ED),
+          child: Text(section.number, style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen)),
         ),
-        const SizedBox(height: 3),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 12.5,
-            color: Color(0xFF667085),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Hosts the existing detailed topic page without changing its content.
-/// A constrained viewport is used so the original page can scroll internally.
-class _OriginalDetailHost extends StatelessWidget {
-  const _OriginalDetailHost();
-
-  @override
-  Widget build(BuildContext context) {
-    // This page is the original source of the detailed Construction HSE Plan
-    // content. It receives the same topic object that the router receives.
-    final topic = ModalRoute.of(context)?.settings.arguments;
-    if (topic is ReferenceTopic) {
-      return DubaiHseDetailPage(topic: topic);
-    }
-
-    // Safe fallback for direct construction in the app.
-    return const _DetailFallbackMessage();
-  }
-}
-
-class _DetailFallbackMessage extends StatelessWidget {
-  const _DetailFallbackMessage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(20),
-      child: const Center(
-        child: Text(
-          'Original detailed topic content is loaded by the app router.',
-          textAlign: TextAlign.center,
-        ),
+        title: Text(section.title, style: const TextStyle(fontWeight: FontWeight.w800, color: navy)),
+        subtitle: Text(section.summary),
+        children: [
+          _detailBlock('What to understand', section.detail),
+          if (section.field.isNotEmpty) _detailBlock('Field application', section.field),
+          if (section.verify.isNotEmpty) _detailBlock('Verification', section.verify),
+        ],
       ),
     );
   }
+
+  Widget _detailBlock(String title, String text) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAF9),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen)),
+          const SizedBox(height: 5),
+          Text(text, style: const TextStyle(fontSize: 13.5, height: 1.55, color: Color(0xFF425466))),
+        ],
+      ),
+    );
+  }
+
+  Widget _originalContentButton(BuildContext context) {
+    return _card(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => DubaiHseDetailPage(topic: topic),
+        ),
+      ),
+      child: const Row(
+        children: [
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: Color(0xFFEAF0F7),
+            child: Icon(Icons.library_books_rounded, color: navy),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Original Detailed Topic', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: navy)),
+                SizedBox(height: 4),
+                Text('Open the existing SafeNexus detailed content without deleting or replacing it.', style: TextStyle(fontSize: 13, height: 1.4, color: Color(0xFF52606D))),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, color: navy, size: 29),
+        ],
+      ),
+    );
+  }
+
+  Widget _referenceCard() {
+    return _card(
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Reference Discipline', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: navy)),
+          SizedBox(height: 7),
+          Text('Use approved project documents, current applicable requirements, risk assessments, method statements, permits and competent-person arrangements as the working basis for the plan.', style: TextStyle(fontSize: 13.5, height: 1.55, color: Color(0xFF52606D))),
+        ],
+      ),
+    );
+  }
+
+  Widget _heading(String title, String subtitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: navy)),
+        const SizedBox(height: 3),
+        Text(subtitle, style: const TextStyle(fontSize: 12.5, color: Color(0xFF667085))),
+      ],
+    );
+  }
+
+  Widget _card({required Widget child, VoidCallback? onTap, Color? borderColor}) {
+    final content = Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: borderColor ?? Colors.black.withValues(alpha: .07)),
+      ),
+      child: child,
+    );
+    if (onTap == null) return content;
+    return Material(color: Colors.transparent, child: InkWell(borderRadius: BorderRadius.circular(17), onTap: onTap, child: content));
+  }
+
+  static const List<_PlanSection> _sections = [
+    _PlanSection('01', 'HSE Plan Introduction', 'Purpose and role of the project HSE plan.', 'The plan is the organised framework for translating project HSE requirements and risks into responsibilities, procedures, programmes, emergency arrangements and monitoring activities.', 'Confirm that the document is project-specific rather than a generic uncontrolled template.', 'Check title, project scope, approval status and revision information.'),
+    _PlanSection('02', 'Purpose & Scope', 'Define where and how the plan applies.', 'The original project content identifies Purpose as defining project HSE arrangements and translating requirements into work-package controls, with Scope covering planning, execution, inspection, supervision and close-out.', 'Map the plan to actual work packages, interfaces and project phases.', 'Verify that planned activities and interfaces are covered.'),
+    _PlanSection('03', 'Project HSE Organisation', 'Establish clear management and workface responsibilities.', 'The plan should identify management, HSE personnel, supervisors and other responsible roles so accountability is visible and workable.', 'Use an organisation chart and clear responsibility matrix.', 'Check named roles, authority, competence and communication lines.'),
+    _PlanSection('04', 'HSE Objectives & Programmes', 'Turn project commitments into measurable activities.', 'Objectives, programmes and planned activities should support the project risk profile and provide a basis for monitoring implementation.', 'Link objectives to inspections, training, toolbox talks, audits and corrective actions.', 'Check that planned programmes have owners, frequency and records.'),
+    _PlanSection('05', 'Risk Register & Hazard Controls', 'Connect the plan to project risks.', 'The original content identifies the Risk Register as a key component and requires controls to reflect actual hazards, conditions and changes.', 'Review high-risk activities and interfaces before mobilisation and as work progresses.', 'Confirm risks, controls, owners and review status are current.'),
+    _PlanSection('06', 'RAMS / Method Controls', 'Align methods with the approved safe system.', 'Approved methods and risk controls must align with actual site activities and competent arrangements.', 'Brief affected personnel before exposure and stop when the actual task materially differs from the approved method.', 'Compare field activity with the approved method and risk controls.'),
+    _PlanSection('07', 'Permit to Work Interface', 'Integrate permits where controlled work requires them.', 'Where a permit system applies, the HSE plan should identify how permits interface with risk assessment, method statements, authorisation and field verification.', 'Verify permit conditions at the workface before starting controlled activities.', 'Check permit validity, conditions, isolations and close-out where applicable.'),
+    _PlanSection('08', 'Training & Competence Plan', 'Ensure people are competent for assigned work.', 'The original plan identifies Training Plan as a key component and requires suitable training, experience and authority for the work.', 'Maintain induction, task-specific training, competency and refresher arrangements appropriate to the risk.', 'Check competency evidence and current training records.'),
+    _PlanSection('09', 'Communication & Toolbox Talks', 'Make controls understood at workface level.', 'Communication must brief affected personnel on relevant controls before exposure and provide a mechanism for feedback and reporting.', 'Use toolbox talks for task hazards, changes, lessons learned and critical controls.', 'Sample attendance, briefing content and worker understanding.'),
+    _PlanSection('10', 'Inspection & Monitoring Programme', 'Plan systematic field verification.', 'Inspection Programme is identified in the original content as a key component. Ongoing checks should monitor critical conditions during work and after changes.', 'Use risk-based inspections and record findings and actions.', 'Verify inspection frequency, findings, responsible persons and closure.'),
+    _PlanSection('11', 'Emergency Preparedness', 'Provide practical emergency arrangements.', 'The original content includes Emergency Plan as a key type/component and requires relevant emergency arrangements for the activity.', 'Ensure alarm, communication, access, assembly, response and recovery arrangements are understood for the site.', 'Check drills, equipment, contacts, access and response readiness.'),
+    _PlanSection('12', 'Contractor & Subcontractor Controls', 'Integrate contractor activities into one site HSE system.', 'The plan should make responsibilities and interfaces clear where multiple organisations work together.', 'Coordinate induction, RAMS, permits, supervision, inspections and corrective actions.', 'Verify contractor documents, competency, supervision and interface controls.'),
+    _PlanSection('13', 'Occupational Health & Welfare', 'Address worker health and welfare arrangements.', 'The plan should consider occupational health and welfare needs relevant to the project and workforce.', 'Include welfare, occupational health controls and task-specific exposure management where relevant.', 'Check welfare facilities, health arrangements and required records.'),
+    _PlanSection('14', 'Environmental Controls', 'Include environmental aspects within project planning.', 'Environmental requirements should be coordinated with the project controls where they affect construction activities and site conditions.', 'Address waste, spill prevention, nuisance, housekeeping and relevant project environmental controls.', 'Verify implementation and records against project requirements.'),
+    _PlanSection('15', 'Incident & Near-Miss Management', 'Define reporting, investigation and learning.', 'The plan should provide an organised route for reporting incidents and near misses, controlling immediate risk and applying learning.', 'Protect the scene where appropriate, report promptly and track actions to closure.', 'Check reports, investigation records, actions and lessons communicated.'),
+    _PlanSection('16', 'Corrective Actions', 'Turn findings into verified improvements.', 'The original content states that defects should be corrected and effectiveness verified before restart where critical controls fail.', 'Assign actions to responsible persons with realistic target dates and verification.', 'Do not close an action only on a verbal statement; verify effectiveness.'),
+    _PlanSection('17', 'Document & Record Control', 'Keep the plan controlled and traceable.', 'The plan, risk register, methods, permits, training and inspection records should be controlled so workers use the applicable information.', 'Remove obsolete copies from active use and communicate revisions.', 'Check revision, approval, distribution and retention arrangements.'),
+    _PlanSection('18', 'Change Management', 'Keep controls aligned when conditions change.', 'The original content identifies change as a reason to review controls when conditions affecting the HSE plan change.', 'Pause, reassess and update the safe system when scope, sequence, equipment, environment or interfaces change materially.', 'Verify revised documents and re-brief affected workers.'),
+    _PlanSection('19', 'Supervisor Application', 'Apply the plan at the workface.', 'Supervisors control the workface and verify safe execution. The plan becomes effective only when its arrangements are implemented in daily work.', 'Conduct pre-start checks, brief the team, monitor controls and intervene early.', 'Confirm field conditions match approved arrangements.'),
+    _PlanSection('20', 'HSE Officer Verification', 'Monitor compliance and provide assurance.', 'The HSE function monitors compliance, advises on controls and verifies corrective actions without replacing line-management responsibility.', 'Use inspections, observations, document reviews and action tracking.', 'Record objective evidence and escalate critical control failures.'),
+    _PlanSection('21', 'Worker Responsibilities', 'Workers follow the approved safe system and report change.', 'The original content requires workers to perform work within approved instructions and competence and report hazards, defects and changes.', 'Encourage stop-and-report behaviour and protect others through safe housekeeping and segregation.', 'Check understanding through field conversations and observations.'),
+    _PlanSection('22', 'Practical Construction Example', 'Apply the plan to a changing workface.', 'If a control gap is identified, the affected task should be paused, the area made safe, the condition corrected and the work rechecked before restart.', 'Use the event as a learning opportunity and update controls where necessary.', 'Verify corrective action and record the learning.'),
+    _PlanSection('23', 'Stop-Work Conditions', 'Stop when critical controls are missing or the safe system cannot be maintained.', 'The original content identifies missing critical controls, unsafe conditions and material deviation from the plan as stop-work triggers.', 'Stop the affected work, make the area safe, escalate and reassess before restart.', 'Restart only after critical controls are restored and verified.'),
+    _PlanSection('24', 'Key Learning & Close-Out', 'PLAN → CONTROL → INSPECT → ACT.', 'The original key learning points emphasise active control, field verification and early intervention. Documentation must match real site conditions.', 'Use lessons learned and management review to improve future work.', 'Confirm open actions, records, lessons and final close-out.'),
+  ];
 }
 
 class DubaiHseConstructionHsePlanAdvancedLearningPage extends StatelessWidget {
@@ -275,30 +301,27 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage extends StatelessWidget {
 
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color navy = Color(0xFF17324D);
-  static const Color background = Color(0xFFF5F8F7);
+  static const Color bg = Color(0xFFF5F8F7);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: background,
+      backgroundColor: bg,
       appBar: AppBar(
-        title: const Text(
-          '📚 Advanced Learning',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
+        title: const Text('📚 Advanced Learning', style: TextStyle(fontWeight: FontWeight.w700)),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
         children: [
-          _advancedHeader(),
-          const SizedBox(height: 14),
-          for (final module in _advancedModules) ...[
+          _advancedIntro(),
+          const SizedBox(height: 12),
+          for (final module in _modules) ...[
             _module(module),
-            const SizedBox(height: 10),
+            const SizedBox(height: 9),
           ],
-          _professionalChecklist(),
+          _checklist(),
           const SizedBox(height: 12),
           _questions(),
         ],
@@ -306,320 +329,200 @@ class DubaiHseConstructionHsePlanAdvancedLearningPage extends StatelessWidget {
     );
   }
 
-  Widget _advancedHeader() {
+  Widget _advancedIntro() {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(17),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFF159447).withValues(alpha: .22)),
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: const Color(0xFF159447).withValues(alpha: .25)),
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Construction HSE Plan — Advanced Study',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: navy),
-          ),
+          Text('Construction HSE Plan — Advanced Study', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: navy)),
           SizedBox(height: 8),
-          Text(
-            'Use this section for deeper study and field reference. The existing detailed topic content remains separate and is not replaced by this advanced layer.',
-            style: TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF52606D)),
-          ),
+          Text('This is the advanced reference layer for deeper study. It expands the original topic without replacing the original detailed SafeNexus content.', style: TextStyle(fontSize: 13.5, height: 1.55, color: Color(0xFF52606D))),
         ],
       ),
     );
   }
 
-  Widget _module(_AdvancedModule item) {
+  Widget _module(_AdvancedModule module) {
     return Card(
       margin: EdgeInsets.zero,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(15),
         side: BorderSide(color: Colors.black.withValues(alpha: .07)),
       ),
       child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+        childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
         leading: CircleAvatar(
-          radius: 20,
+          radius: 19,
           backgroundColor: const Color(0xFFE8F5ED),
-          child: Text(
-            item.number,
-            style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen),
-          ),
+          child: Text(module.number, style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen)),
         ),
-        title: Text(
-          item.title,
-          style: const TextStyle(fontWeight: FontWeight.w800, color: navy),
-        ),
-        subtitle: Text(item.subtitle),
+        title: Text(module.title, style: const TextStyle(fontWeight: FontWeight.w800, color: navy)),
+        subtitle: Text(module.subtitle),
         children: [
-          ...item.points.map(
-            (point) => Padding(
+          for (final point in module.points)
+            Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 6),
-                    child: Icon(Icons.check_circle_rounded, size: 15, color: darkGreen),
-                  ),
+                  const Padding(padding: EdgeInsets.only(top: 5), child: Icon(Icons.check_circle_rounded, size: 15, color: darkGreen)),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      point,
-                      style: const TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF425466)),
-                    ),
-                  ),
+                  Expanded(child: Text(point, style: const TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF425466)))),
                 ],
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
-  Widget _professionalChecklist() {
-    const items = [
-      'Approved project HSE plan is available and controlled.',
-      'Project scope, organisation and HSE responsibilities are defined.',
-      'Risk register and activity controls are consistent with actual work.',
-      'RAMS and permit requirements are linked to planned activities.',
-      'Training, competency and toolbox-talk arrangements are established.',
-      'Emergency arrangements, contacts and drills are addressed.',
-      'Inspection, audit, monitoring and corrective-action processes are defined.',
-      'Document revisions are communicated before affected work changes.',
-      'Contractor and subcontractor interfaces are controlled.',
-      'Plan effectiveness is reviewed when scope, conditions or risks change.',
-    ];
-    return _whiteCard(
-      'Field Verification Checklist',
-      items,
+  Widget _checklist() {
+    return _advancedCard(
+      'Professional Field Verification Checklist',
+      const [
+        'Approved project HSE Plan is available and current.',
+        'Project scope, phases and high-risk activities are covered.',
+        'Organisation chart and responsibilities are clear.',
+        'Risk register and RAMS align with actual work.',
+        'Permit interfaces are identified and controlled where applicable.',
+        'Training and competency evidence is current.',
+        'Inspection, monitoring and audit programmes are active.',
+        'Emergency arrangements are communicated and tested as required.',
+        'Findings and corrective actions are tracked to verified closure.',
+        'Changes are assessed and affected personnel are re-briefed.',
+      ],
     );
   }
 
   Widget _questions() {
-    const questions = [
-      'What is the difference between an HSE plan, a risk assessment and a method statement?',
-      'How would you verify that the HSE plan reflects actual site activities?',
-      'What evidence would you request during an HSE plan audit?',
-      'When should a project HSE plan be reviewed or revised?',
-      'How should contractor interfaces be reflected in the project HSE plan?',
-      'How do RAMS and PTW arrangements connect with the HSE plan?',
-      'What would you do if site conditions no longer match the approved plan?',
-      'How can HSE performance indicators be linked to the plan?',
-      'What records demonstrate implementation rather than document-only compliance?',
-      'What conditions would require escalation or stopping affected work?',
-    ];
-    return _whiteCard('Professional / Interview Questions', questions, numbered: true);
+    return _advancedCard(
+      'Professional Learning / Interview Questions',
+      const [
+        'What is the purpose of a project-specific Construction HSE Plan?',
+        'How do you verify that an HSE Plan reflects actual site conditions?',
+        'How should the HSE Plan connect with the risk register and RAMS?',
+        'What evidence would you check during an HSE Plan audit?',
+        'When should an HSE Plan be reviewed or revised?',
+        'How do contractors and subcontractors fit into the project HSE Plan?',
+        'What would make you stop affected work because the plan cannot be safely implemented?',
+        'How do toolbox talks and training support implementation of the plan?',
+        'How do you verify corrective-action effectiveness?',
+        'Give a practical example where a change in site conditions requires reassessment.',
+      ],
+    );
   }
 
-  Widget _whiteCard(String title, List<String> items, {bool numbered = false}) {
+  Widget _advancedCard(String title, List<String> points) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black.withValues(alpha: .07)),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.black.withValues(alpha: .07))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: navy)),
           const SizedBox(height: 10),
-          ...items.asMap().entries.map(
-            (entry) => Padding(
+          for (final point in points)
+            Padding(
               padding: const EdgeInsets.only(bottom: 9),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    numbered ? '${entry.key + 1}.' : '✓',
-                    style: const TextStyle(fontWeight: FontWeight.w800, color: darkGreen),
-                  ),
+                  const Padding(padding: EdgeInsets.only(top: 5), child: Icon(Icons.check_circle_outline_rounded, size: 16, color: darkGreen)),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      entry.value,
-                      style: const TextStyle(fontSize: 13.5, height: 1.45, color: Color(0xFF425466)),
-                    ),
-                  ),
+                  Expanded(child: Text(point, style: const TextStyle(fontSize: 13.5, height: 1.5, color: Color(0xFF425466)))),
                 ],
               ),
             ),
-          ),
         ],
       ),
     );
   }
+
+  static const List<_AdvancedModule> _modules = [
+    _AdvancedModule('A1', 'Plan Architecture & Control', 'How a project HSE plan becomes an operational control system.', [
+      'Start with project scope, work phases, interfaces, hazards and applicable requirements rather than copying a generic plan.',
+      'Define ownership, approval, distribution, implementation, monitoring and review so the document has an operational life.',
+      'Keep the plan consistent with the risk register, approved methods, permits, emergency arrangements and project programmes.',
+    ]),
+    _AdvancedModule('A2', 'Risk-Based Planning', 'Use the risk profile to determine the depth of controls and assurance.', [
+      'Identify significant hazards and high-risk activities early and link controls to responsible persons.',
+      'Consider simultaneous operations, interfaces, temporary works, access, plant, people and changing conditions.',
+      'Review the plan when risk information changes materially.',
+    ]),
+    _AdvancedModule('A3', 'RAMS & Workface Implementation', 'Move from approved documentation to actual work.', [
+      'Confirm the method is understood before exposure and that workers have the required competence.',
+      'Check field conditions against the approved safe system rather than treating document approval as proof of field compliance.',
+      'Stop and reassess when the actual activity differs materially from the approved arrangement.',
+    ]),
+    _AdvancedModule('A4', 'Permit Interface', 'Coordinate controlled work through the project permit system where applicable.', [
+      'Identify which activities require permits and define responsibilities for request, review, authorisation, field verification and close-out.',
+      'Ensure permit conditions remain consistent with isolation, risk assessment, method and actual work conditions.',
+    ]),
+    _AdvancedModule('A5', 'Competency & Supervision', 'Ensure people and supervision match the risk.', [
+      'Use training, experience, task competency and authority as part of work planning.',
+      'Supervision should be proportionate to risk and capable of detecting deviations early.',
+      'Maintain objective competency and briefing records.',
+    ]),
+    _AdvancedModule('A6', 'Inspection, Audit & Assurance', 'Verify implementation with objective evidence.', [
+      'Use inspections to check critical controls and audits to test whether the management arrangements are working as intended.',
+      'Sample documents and field conditions together; either one alone can give an incomplete picture.',
+      'Track findings to verified closure and examine recurring failures for systemic causes.',
+    ]),
+    _AdvancedModule('A7', 'Emergency Preparedness', 'Make emergency arrangements practical and site-specific.', [
+      'Plan alarm, communication, access, assembly, response, first aid and escalation arrangements appropriate to the site.',
+      'Communicate arrangements to affected personnel and test them through appropriate exercises or drills.',
+      'Review emergency arrangements after significant site or project changes.',
+    ]),
+    _AdvancedModule('A8', 'Contractor Integration', 'Prevent gaps between organisations.', [
+      'Define contractor responsibilities and interfaces before work starts.',
+      'Coordinate induction, RAMS, permits, supervision, inspections, reporting and corrective actions.',
+      'Verify contractor performance using field evidence and records.',
+    ]),
+    _AdvancedModule('A9', 'Change Management', 'Keep the HSE Plan alive as the project changes.', [
+      'Trigger review for scope changes, sequence changes, new equipment, changed environment, new interfaces or changed risk.',
+      'Update affected documents and re-brief workers before exposure to the changed condition.',
+      'Record the change and the resulting control decisions.',
+    ]),
+    _AdvancedModule('A10', 'Incident Learning & CAPA', 'Use events and findings to strengthen the plan.', [
+      'Control immediate risk first, then investigate and identify corrective actions.',
+      'Verify action effectiveness rather than closing actions only because a task was completed.',
+      'Feed significant lessons into procedures, briefings, training and future planning.',
+    ]),
+    _AdvancedModule('A11', 'Field Verification & Stop Work', 'Know when the approved safe system is no longer valid.', [
+      'Stop affected work when critical controls are missing, unsafe conditions exist or the activity cannot be performed within the approved safe system.',
+      'Make the area safe, escalate, reassess and verify controls before restart.',
+      'Record objective evidence and communicate the learning.',
+    ]),
+    _AdvancedModule('A12', 'HSE Professional Review', 'Use the plan as an assurance tool, not just a document.', [
+      'Ask whether the plan is current, understood, implemented, monitored and improved.',
+      'Check alignment between management intent, workface practice and evidence.',
+      'Use recurring findings, KPI trends, audits and lessons learned to support continual improvement.',
+    ]),
+  ];
+}
+
+class _PlanSection {
+  const _PlanSection(this.number, this.title, this.summary, this.detail, this.field, this.verify);
+  final String number;
+  final String title;
+  final String summary;
+  final String detail;
+  final String field;
+  final String verify;
 }
 
 class _AdvancedModule {
-  const _AdvancedModule({
-    required this.number,
-    required this.title,
-    required this.subtitle,
-    required this.points,
-  });
-
+  const _AdvancedModule(this.number, this.title, this.subtitle, this.points);
   final String number;
   final String title;
   final String subtitle;
   final List<String> points;
 }
-
-const _advancedModules = <_AdvancedModule>[
-  _AdvancedModule(
-    number: '01',
-    title: 'HSE Plan Fundamentals',
-    subtitle: 'Purpose, scope and the difference between planning and field implementation.',
-    points: [
-      'The HSE plan should translate project requirements and identified risks into an organised system of controls, responsibilities and monitoring activities.',
-      'The plan should cover the project lifecycle and relevant interfaces rather than becoming a static document prepared only for approval.',
-      'The plan should remain consistent with the project scope, work sequence, risk assessments, RAMS, permits and emergency arrangements.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '02',
-    title: 'Project Scope & HSE Objectives',
-    subtitle: 'Define what the plan controls and what the project is trying to achieve.',
-    points: [
-      'Identify project phases, work packages, interfaces, locations, workforce and significant activities within the plan scope.',
-      'Set clear HSE objectives and measurable targets appropriate to the project risk profile.',
-      'Ensure objectives are communicated to management, supervisors, contractors and workers who influence performance.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '03',
-    title: 'Organisation & Accountability',
-    subtitle: 'Turn the organisation chart into practical responsibility and authority.',
-    points: [
-      'Define management, HSE, supervision, engineering, logistics, specialist and worker responsibilities relevant to the project.',
-      'Clarify who approves, who implements, who verifies and who escalates critical HSE matters.',
-      'Ensure competent personnel and sufficient resources are available for the responsibilities assigned to them.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '04',
-    title: 'Risk Register & Control Integration',
-    subtitle: 'Connect the HSE plan with risk-based operational controls.',
-    points: [
-      'The project risk register should reflect significant hazards and interfaces identified during planning and delivery.',
-      'Controls should be traceable into RAMS, permits, inspections, supervision and worker briefings where applicable.',
-      'Changes in scope, sequence, environment or interfaces should trigger review of affected risks and controls.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '05',
-    title: 'RAMS & Permit-to-Work Interface',
-    subtitle: 'Control high-risk work through linked planning systems.',
-    points: [
-      'RAMS should describe how specific activities will be performed safely and should align with the project HSE plan.',
-      'Permit-to-work arrangements should be integrated for activities requiring formal authorisation or isolation controls.',
-      'Supervisors should verify that the approved documents actually match the workface before exposure begins.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '06',
-    title: 'Training, Competency & Communication',
-    subtitle: 'Make the plan understandable and usable by the workforce.',
-    points: [
-      'Identify induction, task-specific training, competency and refresher requirements for relevant roles.',
-      'Use toolbox talks and pre-task briefings to communicate changing hazards and critical controls.',
-      'Maintain evidence of attendance, competency and communication for activities where records are required.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '07',
-    title: 'Emergency Preparedness',
-    subtitle: 'Plan for credible emergencies before work starts.',
-    points: [
-      'Identify credible emergency scenarios and define alarm, communication, evacuation, first-aid, rescue and external-assistance arrangements as applicable.',
-      'Ensure emergency routes, assembly arrangements, contacts and response resources are communicated and maintained.',
-      'Use exercises, drills, inspections and incident learning to improve emergency readiness.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '08',
-    title: 'Inspection, Audit & Monitoring',
-    subtitle: 'Verify that planned controls are operating in the field.',
-    points: [
-      'Define inspection and monitoring programmes appropriate to project activities and critical controls.',
-      'Audits should test system effectiveness and implementation rather than only checking whether documents exist.',
-      'Findings should be assigned, tracked, closed and verified for effectiveness.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '09',
-    title: 'Contractor & Interface Management',
-    subtitle: 'Control shared risks across organisations and work packages.',
-    points: [
-      'Define contractor HSE requirements, responsibilities, coordination arrangements and reporting expectations.',
-      'Control interfaces between contractors, plant, pedestrians, simultaneous operations and shared work areas.',
-      'Escalate unresolved interface risks before they create uncontrolled exposure.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '10',
-    title: 'Incident, CAPA & Learning',
-    subtitle: 'Use events and findings to improve the HSE plan.',
-    points: [
-      'Include arrangements for reporting incidents, near misses, unsafe conditions and significant findings.',
-      'Corrective actions should address causes and control weaknesses, not only the visible symptom.',
-      'Relevant learning should be communicated and incorporated into procedures, RAMS, training or the HSE plan where appropriate.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '11',
-    title: 'Document Control & Review',
-    subtitle: 'Keep the approved plan current and traceable.',
-    points: [
-      'Control revision status, approval, distribution and withdrawal of superseded versions.',
-      'Review the plan when project scope, organisation, legislation, significant risks, methods or site conditions change.',
-      'Ensure affected personnel know which revision is current before relying on changed requirements.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '12',
-    title: 'HSE Officer Field Verification',
-    subtitle: 'A practical verification sequence for daily professional use.',
-    points: [
-      'Check the approved plan, current revision and project scope before assessing implementation.',
-      'Walk the workface and compare actual conditions with the plan, risk controls, RAMS, permits and required competence.',
-      'Record gaps, apply immediate controls where necessary, escalate critical issues and verify corrective action before closure.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '13',
-    title: 'Supervisor Application',
-    subtitle: 'Convert project arrangements into safe workface control.',
-    points: [
-      'Brief the team before work and confirm people understand the method, hazards, controls and emergency arrangements.',
-      'Monitor changing conditions, housekeeping, access, plant interfaces and critical controls during the activity.',
-      'Pause and seek reassessment when the work no longer matches the approved safe system.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '14',
-    title: 'Stop-Work & Escalation',
-    subtitle: 'Respond when planned controls are absent or ineffective.',
-    points: [
-      'Affected work should be stopped or controlled when critical safeguards are missing, bypassed or ineffective.',
-      'Make the area safe where practicable, inform the responsible supervision and reassess the task before restart.',
-      'Restart should occur only after the required controls are restored and the appropriate authority has verified the change.',
-    ],
-  ),
-  _AdvancedModule(
-    number: '15',
-    title: 'Practical Construction-Site Scenario',
-    subtitle: 'Use the plan as a live control system.',
-    points: [
-      'A work sequence changes because another contractor enters the same area. The interface is paused and the affected risk controls are reassessed.',
-      'The supervisor verifies revised access, segregation, permits and briefing requirements before the work resumes.',
-      'The HSE team records the learning and updates affected documents or controls when required by the project system.',
-    ],
-  ),
-];
