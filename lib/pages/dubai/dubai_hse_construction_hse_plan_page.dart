@@ -51,10 +51,12 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
 
   Widget _advancedLearningCard(BuildContext context) {
     return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
+      elevation: 3,
+      shadowColor: Colors.black.withValues(alpha: .18),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
@@ -63,45 +65,50 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
             ),
           );
         },
-        child: Container(
+        child: Ink(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: primaryGreen.withValues(alpha: .30),
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color(0xFF0B6B55),
+                Color(0xFF159447),
+              ],
             ),
           ),
           child: const Row(
             children: [
               CircleAvatar(
-                radius: 24,
-                backgroundColor: Color(0xFFE8F5ED),
+                radius: 26,
+                backgroundColor: Colors.white,
                 child: Icon(
                   Icons.menu_book_rounded,
                   color: darkGreen,
-                  size: 26,
+                  size: 28,
                 ),
               ),
-              SizedBox(width: 13),
+              SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '📚 ADVANCED LEARNING',
+                      '📚 Advanced Learning',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.w800,
-                        color: darkGreen,
+                        color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 5),
                     Text(
                       'Detailed HSE Plan study, field application, verification and professional reference',
                       style: TextStyle(
-                        fontSize: 13,
-                        height: 1.4,
-                        color: Color(0xFF52606D),
+                        fontSize: 13.5,
+                        height: 1.45,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -109,8 +116,8 @@ class DubaiHseConstructionHsePlanPage extends StatelessWidget {
               ),
               Icon(
                 Icons.chevron_right_rounded,
-                color: darkGreen,
-                size: 30,
+                color: Colors.white,
+                size: 32,
               ),
             ],
           ),
