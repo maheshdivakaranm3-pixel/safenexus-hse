@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'dubai_hse_detail_page.dart';
-import 'models/reference_topic.dart';
-import 'pages/dubai/dubai_construction_safety_framework_page.dart';
-import 'pages/dubai/dubai_hse_management_page.dart';
-import 'pages/dubai/scaffolding_safety_page.dart';
-import 'pages/dubai/excavation_trenching_page.dart';
-import 'pages/dubai/lifting_operations_page.dart';
-import 'pages/dubai/dubai_hse_construction_hse_plan_page.dart';
+import '../../dubai_hse_detail_page.dart';
+import '../../models/reference_topic.dart';
+import 'dubai_construction_safety_framework_page.dart';
+import 'dubai_hse_construction_hse_plan_page.dart';
+import 'dubai_hse_management_page.dart';
+import 'excavation_trenching_page.dart';
+import 'lifting_operations_page.dart';
+import 'scaffolding_safety_page.dart';
 
+/// Compatibility router for the accidental legacy path.
+/// The canonical router remains: lib/dubai_hse_topic_router.dart
 class DubaiHsePartRouter {
   static Widget pageFor(ReferenceTopic topic) {
     switch (topic.id) {
