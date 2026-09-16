@@ -109,7 +109,7 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17), side: BorderSide(color: Colors.grey.shade200)),
     child: InkWell(
       borderRadius: BorderRadius.circular(17),
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DubaiHseLegalRegulatoryDetailPage(section: s))),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DubaiHseLegalRegulatoryComplianceDetailPage(section: s))),
       child: Padding(padding: const EdgeInsets.all(15), child: Row(children: [
         Container(width: 44, height: 44, alignment: Alignment.center, decoration: BoxDecoration(color: green.withValues(alpha: .10), borderRadius: BorderRadius.circular(13)), child: Text(s.id, style: const TextStyle(color: darkGreen, fontWeight: FontWeight.w800, fontSize: 12))),
         const SizedBox(width: 13),
@@ -125,13 +125,7 @@ class DubaiHseLegalRegulatoryCompliancePage extends StatelessWidget {
     child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('Reference Sources to Verify', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)),
       SizedBox(height: 9),
-      Text('''• Dubai Municipality — Laws and Legislations
-• Dubai Municipality — Planning and Construction / Technical Guidelines
-• Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works
-• Dubai Municipality Administrative Resolution No. (112) of 2026 approving the Safety Guide for Construction Works in the Emirate of Dubai
-• Safety Guide for Construction Works in the Emirate of Dubai
-• Dubai Municipality Health & Safety Technical Guidelines
-• Applicable project permits, approvals, specifications and HSE procedures''', style: TextStyle(height: 1.55, fontSize: 13)),
+      Text('• Dubai Municipality — Laws and Legislations\n• Dubai Municipality — Planning and Construction / Technical Guidelines\n• Dubai Decree No. (19) of 2025 Concerning Safety in Construction Works\n• Dubai Municipality Administrative Resolution No. (112) of 2026 approving the Safety Guide for Construction Works in the Emirate of Dubai\n• Safety Guide for Construction Works in the Emirate of Dubai\n• Dubai Municipality Health & Safety Technical Guidelines\n• Applicable project permits, approvals, specifications and HSE procedures', style: TextStyle(height: 1.55, fontSize: 13)),
       SizedBox(height: 10),
       Text('Always verify the current official publication and exact applicability before making a legal/compliance decision.', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12.5, height: 1.45)),
     ]),
@@ -201,16 +195,7 @@ class DubaiHseLegalRegulatoryAdvancedLearningPage extends StatelessWidget {
   Widget _professionalQuestions() => Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Text('Professional / Interview Questions', style: TextStyle(color: navy, fontSize: 16, fontWeight: FontWeight.w800)),
     SizedBox(height: 10),
-    Text('''1. How do you identify applicable legislation for a project?
-2. How do you maintain a legal register?
-3. How do you verify that a regulation is current?
-4. How do you convert a legal requirement into a site control?
-5. How do you audit contractor compliance?
-6. What evidence demonstrates implementation?
-7. How do you manage a regulatory change?
-8. When would you escalate or stop work?
-9. How do you handle repeated non-compliance?
-10. How do you verify corrective-action effectiveness?''', style: TextStyle(fontSize: 13, height: 1.55)),
+    Text('1. How do you identify applicable legislation for a project?\n2. How do you maintain a legal register?\n3. How do you verify that a regulation is current?\n4. How do you convert a legal requirement into a site control?\n5. How do you audit contractor compliance?\n6. What evidence demonstrates implementation?\n7. How do you manage a regulatory change?\n8. When would you escalate or stop work?\n9. How do you handle repeated non-compliance?\n10. How do you verify corrective-action effectiveness?', style: TextStyle(fontSize: 13, height: 1.55)),
   ]);
 
   Widget _referenceCard() => Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
