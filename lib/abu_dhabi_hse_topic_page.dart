@@ -15,37 +15,7 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color pageBackground = Color(0xFFF6F8F7);
 
-  Widget _section(String title, List<String> items) {
-    if (items.isEmpty) return const SizedBox.shrink();
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 14),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: darkGreen)),
-            const SizedBox(height: 10),
-            ...items.map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 9),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 2),
-                        child: Text('•', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: primaryGreen)),
-                      ),
-                      const SizedBox(width: 9),
-                      Expanded(child: Text(item, style: const TextStyle(fontSize: 15.5, height: 1.45))),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
