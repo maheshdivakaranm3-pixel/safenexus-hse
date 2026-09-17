@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/reference_topic.dart';
 import 'models/guideline_category.dart';
 import 'guideline_detail_page.dart';
+import 'abu_dhabi_hse_topic_page.dart';
 import 'hse_reference_complete_topic_page.dart' as hse_reference_page;
 import 'dubai_hse_topic_router.dart';
 
@@ -210,7 +211,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
         builder: (_) => topic.guidelineCategory == GuidelineCategory.dubai
             ? DubaiHsePartRouter.pageFor(topic)
             : topic.guidelineCategory == GuidelineCategory.abuDhabi
-                ? AbuDhabiCompleteTopicPage(topic: topic)
+                ? AbuDhabiHseTopicPage(topic: topic)
                 : topic.guidelineCategory == GuidelineCategory.uaeGeneral
                     ? UaeGeneralCompleteTopicPage(topic: topic)
                     : topic.guidelineCategory == GuidelineCategory.hseReference
