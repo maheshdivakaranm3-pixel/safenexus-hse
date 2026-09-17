@@ -32,7 +32,7 @@ class AbuDhabiHseTopicContent {
 
 final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
   'ad_cop_1_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.0 — Hazardous Materials provides the Abu Dhabi OSH framework for managing risks arising from hazardous substances and materials used, stored, handled or otherwise encountered at work. Effective control starts with knowing what the material is, understanding its hazards and exposure routes, selecting suitable controls, communicating the information to people who may be exposed, and maintaining emergency and inspection arrangements that remain effective when work conditions change.',
+    overview: 'CoP 1.0 — Hazardous Materials. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.0 — Hazardous Materials.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -90,7 +90,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_1_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.1 — Management of Asbestos Containing Materials addresses the controlled management of asbestos-containing materials so that workers and others are not unnecessarily exposed to asbestos fibres. The learning focus is on identification, assessment, planning, competent management, controlled work methods, prevention of fibre release, area controls, worker protection, waste handling and evidence that the work was properly controlled.',
+    overview: 'CoP 1.1 — Management of Asbestos Containing Materials. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.1 — Management of Asbestos Containing Materials.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -148,7 +148,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_1_2': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.2 — Lead Exposure Management focuses on preventing harmful occupational exposure to lead during work activities that may disturb, generate or handle lead-containing materials. A sound program combines hazard identification, exposure assessment, suitable engineering and work-practice controls, hygiene, PPE where required, health surveillance and clear arrangements for workers who may be exposed.',
+    overview: 'CoP 1.2 — Lead Exposure Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.2 — Lead Exposure Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -206,7 +206,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_2_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 2.0 — Personal Protective Equipment explains how PPE fits into a wider risk-control system and how suitable protective equipment should be selected, provided, used, maintained and monitored. PPE must match the identified hazard, task and wearer, while supervision and inspection ensure that equipment remains serviceable and is actually used correctly in the field.',
+    overview: 'CoP 2.0 — Personal Protective Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 2.0 — Personal Protective Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -264,7 +264,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_3_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 3.0 — Occupational Noise addresses harmful workplace noise and the need to prevent or reduce exposure through good planning and effective controls. The subject covers noise-source identification, assessment, engineering and administrative measures, hearing protection, worker awareness, health surveillance where applicable and verification that controls continue to work during normal operations.',
+    overview: 'CoP 3.0 — Occupational Noise. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 3.0 — Occupational Noise.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -322,7 +322,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_3_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 3.1 — Vibration addresses occupational exposure to hand-arm and/or whole-body vibration arising from tools, equipment, vehicles and work processes. Good management requires identifying vibration sources, considering duration and work patterns, selecting lower-exposure methods where practicable, maintaining equipment, training workers and monitoring whether controls are reducing exposure.',
+    overview: 'CoP 3.1 — Vibration. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 3.1 — Vibration.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -380,7 +380,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_4_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 4.0 — First Aid and Medical Emergency Treatment establishes the workplace arrangements needed to respond promptly to injury and sudden illness. The practical focus is on assessing foreseeable emergencies, providing appropriate first-aid capability, competent personnel, communication and access arrangements, emergency equipment, escalation to medical services and records that demonstrate readiness and response.',
+    overview: 'CoP 4.0 — First Aid and Medical Emergency Treatment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 4.0 — First Aid and Medical Emergency Treatment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -438,7 +438,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_5_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 5.0 — Occupational Health Screening and Medical Surveillance focuses on identifying work-related health risks early and using appropriate health monitoring where exposure or job demands make it necessary. The system should connect identified hazards with suitable medical or health surveillance, protect confidentiality, communicate relevant fitness or restriction information appropriately and use results to improve workplace controls.',
+    overview: 'CoP 5.0 — Occupational Health Screening and Medical Surveillance. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 5.0 — Occupational Health Screening and Medical Surveillance.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -496,7 +496,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_8_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 8.0 — General Workplace Amenities covers the basic workplace facilities needed to support worker health, hygiene, welfare and safe working conditions. Practical management includes suitable access to sanitary and welfare facilities, cleanliness, maintenance, drinking-water arrangements and consideration of the workforce, work environment and changing site conditions.',
+    overview: 'CoP 8.0 — General Workplace Amenities. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 8.0 — General Workplace Amenities.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -554,7 +554,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.0 — Workplace Wellness addresses workplace arrangements that support worker wellbeing alongside conventional occupational safety controls. It encourages a systematic approach to factors that can affect health and wellbeing, with suitable communication, supportive practices, prevention measures and management review rather than treating wellness as a separate activity from the wider OSH system.',
+    overview: 'CoP 9.0 — Workplace Wellness. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.0 — Workplace Wellness.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -612,7 +612,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.1 — New and Expectant Mothers focuses on managing workplace risks for pregnant workers and workers who have recently given birth where job demands or exposures may affect them. The practical approach is to identify relevant hazards, assess individual circumstances appropriately, implement suitable adjustments or controls and maintain communication without compromising dignity, confidentiality or safe work.',
+    overview: 'CoP 9.1 — New and Expectant Mothers. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.1 — New and Expectant Mothers.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -670,7 +670,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_2': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.2 — Managing Work-Related Stress addresses work factors that can contribute to harmful stress and the need for organisational controls. Effective management considers workload, work organisation, working relationships, support, communication and changes in work, then uses prevention and early intervention rather than relying only on individual coping strategies.',
+    overview: 'CoP 9.2 — Managing Work-Related Stress. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.2 — Managing Work-Related Stress.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -728,7 +728,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_10_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 10.0 — Rehabilitation and Return to Work supports a structured and safe return to suitable work following illness or injury. The process should consider medical information that is legitimately available to the employer, functional capability, suitable duties, workplace adjustments, communication and review so that returning workers are not exposed to avoidable risk or pressured into unsuitable tasks.',
+    overview: 'CoP 10.0 — Rehabilitation and Return to Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 10.0 — Rehabilitation and Return to Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -786,7 +786,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_11_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 11.0 — Safety in the Heat addresses the elevated risks created by hot working conditions, particularly where physical work, protective clothing, humidity or limited recovery opportunities increase heat strain. Effective control combines planning, hydration and welfare arrangements, work-rest strategies, acclimatisation, supervision, recognition of heat-illness symptoms and prompt response when workers show signs of heat stress.',
+    overview: 'CoP 11.0 — Safety in the Heat. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 11.0 — Safety in the Heat.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -844,7 +844,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_12_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 12.0 — Prevention and Control of Legionnaires Disease addresses the management of water systems and conditions that can allow Legionella bacteria to proliferate and expose people to contaminated aerosols. The control strategy is risk-based and includes system knowledge, suitable assessment, water-system management, monitoring and maintenance, corrective action and appropriate records.',
+    overview: 'CoP 12.0 — Prevention and Control of Legionnaires Disease. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 12.0 — Prevention and Control of Legionnaires Disease.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -902,7 +902,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_13_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 13.0 — Violence in the Workplace focuses on preventing and managing violence or threatening behaviour that may arise from work activities, people, locations or organisational arrangements. A practical program identifies foreseeable scenarios, reduces opportunities for violence, provides communication and emergency arrangements, trains relevant personnel and ensures incidents are reported, investigated and used to improve controls.',
+    overview: 'CoP 13.0 — Violence in the Workplace. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 13.0 — Violence in the Workplace.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -960,7 +960,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_14_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 14.0 — Manual Handling and Ergonomics addresses musculoskeletal risks arising from lifting, carrying, pushing, pulling, repetitive work, awkward postures and poorly designed tasks. Good practice begins with task and load assessment, then improves workplace design, mechanical assistance, work methods and organisation before relying on worker technique or PPE.',
+    overview: 'CoP 14.0 — Manual Handling and Ergonomics. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 14.0 — Manual Handling and Ergonomics.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1018,7 +1018,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_14_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 14.1 — Manual Tasks Involving the Handling of People focuses on the additional ergonomic and dignity considerations involved when workers physically assist, move or handle people. Controls should consider the person\'s condition and mobility, the task environment, equipment, staffing, communication and safe handling methods so that both the worker and the person being assisted are protected.',
+    overview: 'CoP 14.1 — Manual Tasks Involving the Handling of People. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 14.1 — Manual Tasks Involving the Handling of People.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1076,7 +1076,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_15_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 15.0 — Electrical Safety addresses the prevention of electric shock, burns, arc-flash, fire and other electrical incidents through safe design, installation, use, isolation, inspection and maintenance. Field control depends on competent persons, suitable equipment, identification of electrical hazards, controlled access, effective isolation and verification before work begins.',
+    overview: 'CoP 15.0 — Electrical Safety. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 15.0 — Electrical Safety.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1134,7 +1134,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_16_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 16.0 — OSH Requirements for People with Special Needs focuses on ensuring that workplace risk assessments and emergency arrangements consider workers and others who may have specific accessibility or functional needs. The objective is not simply access to facilities, but safe participation in work through appropriate assessment, adjustments, communication, equipment and emergency planning.',
+    overview: 'CoP 16.0 — OSH Requirements for People with Special Needs. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 16.0 — OSH Requirements for People with Special Needs.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1192,7 +1192,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_17_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 17.0 — Safety Signage and Signals addresses the use of clear visual and other signals to communicate hazards, restrictions, required actions and emergency information. Effective signage supports, but does not replace, physical controls and safe systems of work; signs must be appropriate to the hazard, visible, understandable, maintained and positioned where people can act on the information.',
+    overview: 'CoP 17.0 — Safety Signage and Signals. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 17.0 — Safety Signage and Signals.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1250,7 +1250,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_18_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 18.0 — Employer Supplied Accommodation — General Requirements covers OSH and welfare considerations for accommodation provided to workers by an employer. The subject includes suitability of facilities, hygiene, occupancy, maintenance, emergency arrangements, fire safety, housekeeping and management systems that protect residents from foreseeable accommodation-related hazards.',
+    overview: 'CoP 18.0 — Employer Supplied Accommodation-General Requirements. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 18.0 — Employer Supplied Accommodation-General Requirements.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1308,7 +1308,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_18_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 18.1 — Temporary Employer Supplied Accommodation addresses the additional controls needed where worker accommodation is temporary or established for a limited project or period. Management must consider the temporary nature of the facilities, safe installation and operation, welfare, emergency access, fire arrangements, maintenance and changing occupancy or site conditions.',
+    overview: 'CoP 18.1 — Temporary Employer Supplied Accommodation. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 18.1 — Temporary Employer Supplied Accommodation.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1366,7 +1366,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_19_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 19.0 — Occupational Food Handling and Food Preparation Areas addresses occupational hygiene and safety risks associated with preparing, handling and serving food in workplace environments. Controls include hygienic practices, suitable facilities, prevention of contamination, worker health considerations, safe equipment and cleaning arrangements, together with monitoring and corrective action.',
+    overview: 'CoP 19.0 — Occupational Food Handling and Food Preparation Areas. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 19.0 — Occupational Food Handling and Food Preparation Areas.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1424,7 +1424,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_20_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 20.0 — Safety in Design (Construction) focuses on eliminating or reducing foreseeable OSH risks through design decisions before construction hazards become difficult or expensive to control. Designers, clients, contractors and other duty holders should consider construction, maintenance, operation and future modification risks and communicate residual risks to those who will manage the work.',
+    overview: 'CoP 20.0 — Safety in Design (Construction). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 20.0 — Safety in Design (Construction).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1482,7 +1482,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_21_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 21.0 — Permit to Work Systems provides a controlled method for authorising specified high-risk activities and confirming that required precautions are in place. A good PTW system connects hazard identification, isolation, precautions, responsible persons, work boundaries, communication, suspension and close-out so that a permit is an active control rather than just paperwork.',
+    overview: 'CoP 21.0 — Permit to Work Systems. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 21.0 — Permit to Work Systems.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1540,7 +1540,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_22_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 22.0 — Barricading of Hazards addresses the physical separation and warning of people from hazardous areas, openings, edges, plant movements or other unsafe conditions. Effective barricading should be selected for the hazard, strong enough for the situation, visible, maintained and supported by access control and corrective action rather than used as a substitute for eliminating the hazard.',
+    overview: 'CoP 22.0 — Barricading of Hazards. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 22.0 — Barricading of Hazards.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1598,7 +1598,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_23_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 23.0 — Working at Heights addresses the risk of falls from elevated work areas, structures, platforms, openings and other locations where a fall can cause harm. The control approach prioritises safe design and prevention, suitable access and work platforms, edge protection and other fall-prevention measures, with personal fall protection used where appropriate and supported by rescue planning.',
+    overview: 'CoP 23.0 — Working at Heights. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 23.0 — Working at Heights.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1656,7 +1656,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_24_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 24.0 — Lock-out Tag-out (Isolation) addresses the control of hazardous energy before maintenance, repair, cleaning or other intrusive work. The process requires clear identification of energy sources, controlled isolation, locking and tagging, verification of a safe state, management of stored energy and disciplined restoration of equipment after the work is complete.',
+    overview: 'CoP 24.0 — Lock-out Tag-out (Isolation). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 24.0 — Lock-out Tag-out (Isolation).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1714,7 +1714,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_25_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 25.0 — Driver Fatigue Prevention addresses the risk that tiredness, insufficient recovery or unsuitable work scheduling can reduce driver alertness and increase the likelihood of a vehicle incident. Effective controls combine journey and roster planning, suitable rest opportunities, awareness, supervision, reporting of fatigue and management action when a driver is not fit to continue safely.',
+    overview: 'CoP 25.0 — Driver Fatigue Prevention. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 25.0 — Driver Fatigue Prevention.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1772,7 +1772,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_26_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 26.0 — Scaffolding addresses the safe planning, erection, use, inspection, alteration and dismantling of scaffold systems used to provide temporary access or working platforms. Stability, foundations, components, access, edge protection, loading, ties and bracing, competent work and inspection are interconnected controls; a scaffold should never be treated as safe merely because it has been erected.',
+    overview: 'CoP 26.0 — Scaffolding. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 26.0 — Scaffolding.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1830,7 +1830,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_27_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 27.0 — Confined Spaces addresses spaces where access, ventilation or layout can create serious risks including hazardous atmospheres, engulfment, restricted escape or other foreseeable dangers. Safe entry requires proper identification, assessment, isolation where necessary, atmospheric controls and monitoring, communication, competent personnel, entry control and a realistic emergency and rescue arrangement.',
+    overview: 'CoP 27.0 — Confined Spaces. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 27.0 — Confined Spaces.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1888,7 +1888,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_28_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 28.0 — Hot Work Operations, including welding and cutting, addresses ignition, heat, sparks, molten metal, fumes, gas and equipment-related hazards created by hot work. Controls should cover planning, combustible materials, work area preparation, gas equipment, ventilation, fire protection, permits where applicable, competent operators, PPE, fire watch and post-work checks.',
+    overview: 'CoP 28.0 — Hot Work Operations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 28.0 — Hot Work Operations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1946,7 +1946,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_29_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 29.0 — Excavation Work addresses the risks created when soil or other ground is removed, including collapse, falling materials, underground services, water ingress, plant interaction, hazardous atmospheres and unsafe access. Safe excavation depends on planning, knowledge of ground and surrounding conditions, service identification, suitable protective systems, controlled access, inspection and emergency preparedness.',
+    overview: 'CoP 29.0 — Excavation Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 29.0 — Excavation Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2004,7 +2004,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_30_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 30.0 — Lone Working and/or in Remote Locations addresses situations where a worker may be unable to obtain immediate assistance after an incident. Risk controls should consider the work, location, communication, travel, environmental conditions, emergency response, check-in arrangements, competence and the circumstances that would require the work to stop or additional support to be provided.',
+    overview: 'CoP 30.0 — Lone Working and/or in Remote Locations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 30.0 — Lone Working and/or in Remote Locations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2062,7 +2062,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_30_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 30.1 — Working in International Locations addresses the additional planning needed when personnel perform work outside their normal operating environment or jurisdiction. The assessment should consider local legal requirements, health risks, travel, security, emergency arrangements, communications, competence and interfaces with local organisations while maintaining the employer\'s OSH responsibilities.',
+    overview: 'CoP 30.1 — Working in International Locations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 30.1 — Working in International Locations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2120,7 +2120,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_31_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 31.0 — Working on, Over or Adjacent to Water addresses drowning, falls, vessel and plant interaction, changing environmental conditions and rescue challenges. Controls should combine suitable access and work systems, edge and fall prevention, flotation or other protection where applicable, supervision, weather and water-condition assessment, communication and a credible rescue plan.',
+    overview: 'CoP 31.0 — Working on, Over or Adjacent to Water. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 31.0 — Working on, Over or Adjacent to Water.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2178,7 +2178,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_33_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 33.0 — Working On or Adjacent to a Road addresses the interaction between workers, moving traffic, construction activities and changing road conditions. Safe management requires a planned traffic interface, appropriate separation and visibility, controlled work areas, trained personnel, communication, safe access and continuous review as traffic patterns or site activities change.',
+    overview: 'CoP 33.0 — Working On or Adjacent to a Road. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 33.0 — Working On or Adjacent to a Road.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2236,7 +2236,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_33_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 33.1 — Traffic Incident Site Management focuses on protecting responders, road users and the incident scene when managing an incident on or near a road. Controls should establish safe approach and positioning, traffic warning and separation, communication, coordination with relevant emergency or road authorities, scene awareness and safe removal or handover arrangements.',
+    overview: 'CoP 33.1 — Traffic Incident Site Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 33.1 — Traffic Incident Site Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2294,7 +2294,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_34_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories addresses the planning and control of lifting operations so that equipment, accessories, loads and people remain within safe operating conditions. The subject covers selection, inspection, competence, lifting plans, load characteristics, stability, exclusion zones, communication and the prevention of suspended-load and dropped-object incidents.',
+    overview: 'CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2352,7 +2352,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_35_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 35.0 — Portable Power Tools addresses injuries and other hazards from electrically or otherwise powered hand tools, including contact, entanglement, flying particles, noise, vibration and damaged equipment. Safe use depends on correct tool selection, inspection, guards and protective features, competent use, suitable work methods, maintenance and appropriate PPE.',
+    overview: 'CoP 35.0 — Portable Power Tools. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 35.0 — Portable Power Tools.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2410,7 +2410,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_36_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 36.0 — Plant and Equipment addresses the safe selection, installation, operation, inspection, maintenance and control of workplace plant and equipment. Risk management should consider moving parts, energy sources, stability, visibility, access, operator competence, interaction with people and other plant, and changes in operating conditions.',
+    overview: 'CoP 36.0 — Plant and Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 36.0 — Plant and Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2468,7 +2468,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_37_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 37.0 — Ladders addresses the selection and safe use of ladders where they are appropriate for the task and conditions. The user should consider stability, access, condition, positioning, work duration and the need for safer alternatives, with inspection and correct use preventing slips, falls and overreaching.',
+    overview: 'CoP 37.0 — Ladders. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 37.0 — Ladders.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2526,7 +2526,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_38_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 38.0 — Concrete Placing Equipment addresses hazards associated with pumps, placing booms, hoses, pipelines and related concrete delivery equipment. Controls should consider equipment stability, pressure and stored energy, line condition, hose movement, access, communication, cleaning and maintenance, with competent operation and inspection protecting workers from struck-by and pressure-related incidents.',
+    overview: 'CoP 38.0 — Concrete Placing Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 38.0 — Concrete Placing Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2584,7 +2584,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_39_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 39.0 — Overhead and Underground Services addresses the serious risks of contacting electrical, gas, water, telecommunications and other services during construction or excavation. Safe work requires accurate service information, planning and authorisation, appropriate detection and protection, controlled excavation and plant movement, competent supervision and immediate escalation when service information or conditions are uncertain.',
+    overview: 'CoP 39.0 — Overhead and Underground Services. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 39.0 — Overhead and Underground Services.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2642,7 +2642,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_40_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 40.0 — False Work (Formwork) addresses the temporary structural systems used to support concrete and construction loads until the permanent structure can safely carry them. Safe control depends on design and engineering, foundations, stability, erection, bracing, loading, inspection, controlled access and disciplined striking or dismantling so that premature failure does not occur.',
+    overview: 'CoP 40.0 — False Work (Formwork). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 40.0 — False Work (Formwork).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2700,7 +2700,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_41_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 41.0 — Steel Erection addresses the risks of lifting, positioning, connecting and stabilising structural steel components. Controls need to cover planning, lifting operations, temporary stability, work at height, dropped objects, connection methods, exclusion zones, weather and communication, with the sequence of erection managed so that the partially completed structure remains stable.',
+    overview: 'CoP 41.0 — Steel Erection. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 41.0 — Steel Erection.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2758,7 +2758,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_42_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 42.0 — Pre Cast Construction addresses the safe handling, lifting, transportation, positioning and temporary support of precast elements. Because large elements can be heavy and unstable during erection, planning must cover lifting points, equipment capacity, stability, connections, temporary bracing, exclusion zones, communication and the controlled sequence of installation.',
+    overview: 'CoP 42.0 — Pre Cast Construction. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 42.0 — Pre Cast Construction.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2816,7 +2816,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_43_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 43.0 — Temporary Structures addresses structures that are erected for temporary use and may present significant stability, loading, access or environmental risks. Controls should establish design and approval arrangements, foundations, structural stability, loading limits, inspection, modification control, weather considerations and safe dismantling.',
+    overview: 'CoP 43.0 — Temporary Structures. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 43.0 — Temporary Structures.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2874,7 +2874,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_44_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 44.0 — Traffic Management and Logistics addresses the planned movement of vehicles, plant, materials and people around work sites and logistics areas. Effective management separates incompatible movements where practicable, controls speed and access, provides safe routes and loading areas, manages deliveries and reversing, and continuously reviews arrangements as the project changes.',
+    overview: 'CoP 44.0 — Traffic Management and Logistics. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 44.0 — Traffic Management and Logistics.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2932,7 +2932,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_45_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 45.0 — Underwater Activities addresses the specialist hazards associated with diving and other work performed underwater, including pressure, breathing systems, decompression, entanglement, currents, visibility, equipment failure and emergency recovery. Safe operations require specialist planning, competent personnel, suitable equipment, communication, environmental assessment, medical/emergency arrangements and disciplined control of the diving operation.',
+    overview: 'CoP 45.0 — Underwater Activities. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 45.0 — Underwater Activities.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2990,7 +2990,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_46_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 46.0 — Underground Construction addresses construction activities performed below ground where collapse, ground movement, restricted access, water ingress, hazardous atmospheres, services and difficult rescue conditions can combine. The control system must integrate engineering and construction planning, ground support, access and egress, monitoring, ventilation or atmospheric controls, communication and emergency response.',
+    overview: 'CoP 46.0 — Underground Construction. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 46.0 — Underground Construction.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3048,7 +3048,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_46_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 46.1 — Construction of Water Wells addresses the specialist risks involved in constructing, accessing and completing water wells. Planning should consider ground conditions, drilling equipment, falling objects, rotating machinery, unstable openings, water and other environmental hazards, together with controlled access, competent operation, inspection and emergency arrangements.',
+    overview: 'CoP 46.1 — Construction of Water Wells. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 46.1 — Construction of Water Wells.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3106,7 +3106,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_47_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 47.0 — Machine Guarding addresses the prevention of contact with moving machine parts and other hazardous points of operation. Effective guarding should prevent access to danger zones without creating new hazards, while interlocks, isolation, inspection, maintenance and safe work procedures control risks during normal operation and intervention.',
+    overview: 'CoP 47.0 — Machine Guarding. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 47.0 — Machine Guarding.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3164,7 +3164,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_48_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 48.0 — Spray Finishing addresses hazards from sprayed coatings, including flammable materials, vapours, aerosols, exposure through inhalation or skin contact and ignition sources. Controls should cover product information, ventilation, equipment condition, ignition control, safe application methods, PPE, storage and emergency arrangements.',
+    overview: 'CoP 48.0 — Spray Finishing. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 48.0 — Spray Finishing.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3222,7 +3222,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_49_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 49.0 — Compressed Gases and Air addresses the high-energy and chemical hazards associated with compressed gases, cylinders, pressure systems and compressed air. Safe management includes correct identification, storage, handling, securing, compatible equipment, leak prevention, pressure control, inspection, transport and emergency response.',
+    overview: 'CoP 49.0 — Compressed Gases and Air. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 49.0 — Compressed Gases and Air.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3280,7 +3280,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_50_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work addresses hazards from blasting media, high-energy equipment, dust, coatings, noise and potential exposure to hazardous substances. Controls should combine containment, ventilation or dust control, equipment integrity, competent operation, respiratory and other PPE, exclusion zones, surface-preparation planning and waste management.',
+    overview: 'CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3338,7 +3338,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_51_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 51.0 — Powered Lift Trucks addresses risks from vehicle movement, loads, stability, visibility, pedestrian interaction and improper operation. Safe management includes suitable truck selection, competent authorised operators, pre-use checks, load control, route planning, segregation, speed and parking controls, maintenance and supervision.',
+    overview: 'CoP 51.0 — Powered Lift Trucks. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 51.0 — Powered Lift Trucks.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3396,7 +3396,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_52_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 52.0 — Local Exhaust Ventilation addresses the capture and removal of airborne contaminants at or near the point where they are generated. Effective LEV management depends on suitable design, capture performance, positioning, maintenance, inspection and user understanding, with failures identified before workers are exposed to uncontrolled contaminants.',
+    overview: 'CoP 52.0 — Local Exhaust Ventilation. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 52.0 — Local Exhaust Ventilation.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3454,7 +3454,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_53_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 53.0 — OSH Management During Construction Work addresses the management arrangements needed to control OSH risks across a construction project. It connects leadership, planning, risk assessment, competency, contractor control, communication, inspection, incident management and performance monitoring so that safety responsibilities are implemented throughout the project rather than left to individual workers.',
+    overview: 'CoP 53.0 — OSH Management During Construction Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 53.0 — OSH Management During Construction Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3512,7 +3512,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_53_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 53.1 — OSH Construction Management Plan focuses on the structured project plan used to describe how construction OSH risks and responsibilities will be managed. A useful plan links project activities and hazards to roles, controls, procedures, emergency arrangements, training, inspection, reporting and review, and it should remain current as the project scope and risks evolve.',
+    overview: 'CoP 53.1 — OSH Construction Management Plan. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 53.1 — OSH Construction Management Plan.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3570,7 +3570,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_54_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 54.0 — Waste Management addresses the safe identification, segregation, handling, storage, movement and disposal of workplace waste. Effective management prevents injury, contamination, fire, environmental harm and uncontrolled exposure by establishing suitable containers, routes, housekeeping, contractor interfaces, emergency arrangements and records appropriate to the waste streams generated.',
+    overview: 'CoP 54.0 — Waste Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 54.0 — Waste Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3628,3 +3628,720 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
 };
+
+// -----------------------------------------------------------------------------
+// SafeNexus HSE — CoP 1.0 Gold-Standard Point Data
+// Source baseline: ADPHC ADOSH-SF CoP 1.0, Version 4.0, 15 July 2024.
+// Content paraphrases and expands the official structure for study.
+// -----------------------------------------------------------------------------
+
+class CopGoldPoint {
+  final String clause;
+  final String title;
+  final String meaning;
+  final String explanation;
+  final String example;
+  final String hazards;
+  final String controls;
+  final String fieldCheck;
+  final String commonMistake;
+  final String action;
+  final String records;
+  final String interview;
+
+  const CopGoldPoint({
+    required this.clause,
+    required this.title,
+    required this.meaning,
+    required this.explanation,
+    required this.example,
+    required this.hazards,
+    required this.controls,
+    required this.fieldCheck,
+    required this.commonMistake,
+    required this.action,
+    required this.records,
+    required this.interview,
+  });
+}
+
+class CopGoldSection {
+  final String title;
+  final String introduction;
+  final List<CopGoldPoint> points;
+
+  const CopGoldSection({required this.title, required this.introduction, required this.points});
+}
+
+final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
+  CopGoldSection(
+    title: '1. Introduction',
+    introduction: 'This section establishes the scope, purpose, regulatory interface and exclusions of CoP 1.0. These points are the starting boundary for deciding when the CoP applies and how it must be used with other applicable requirements.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '1.0 (a)',
+        title: 'Scope: entities that import, store, transport, sell or use hazardous materials',
+        meaning: 'CoP 1.0 applies to concerned entities in Abu Dhabi that import, store, transport, sell or use hazardous materials. The practical lesson is that the control system must follow the material through its lifecycle and not only the moment when a worker opens a container.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. CoP 1.0 applies to concerned entities in Abu Dhabi that import, store, transport, sell or use hazardous materials. The practical lesson is that the control system must follow the material through its lifecycle and not only the moment when a worker opens a container. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A construction project imports paint thinner, stores it in a chemical store, issues small quantities to painters and later sends empty or waste containers for disposal. Each stage creates a control interface that should be covered by the hazardous-material management system.',
+        hazards: 'Uncontrolled chemical exposure, fire, incompatible storage, spill, transport incident, environmental release and poor worker information.',
+        controls: 'Identify every hazardous-material activity; include contractors and temporary materials; connect procurement, storage, use, transport and disposal controls; verify applicable permits and procedures.',
+        fieldCheck: 'Check the chemical/material inventory, contractor materials, storage areas, work fronts and transport arrangements. Confirm that the risk assessment covers the actual materials present.',
+        commonMistake: 'Treating hazardous materials as only a stores issue and ignoring chemicals at the point of use or in contractor-controlled areas.',
+        action: 'Create a complete material/activity inventory and assign responsibility for each stage from receipt to final disposal.',
+        records: 'Material inventory; risk assessments; contractor registers; storage records; permits/approvals; waste transfer evidence where applicable.',
+        interview: 'What types of activities bring an entity within CoP 1.0? Answer: importing, storing, transporting, selling or using hazardous materials, subject to the CoP scope and exclusions.',
+      ),
+      CopGoldPoint(
+        clause: '1.0 (b)',
+        title: 'Purpose: reduce risks to employees and the community',
+        meaning: 'The purpose is broader than protecting the worker holding the chemical. The control system must also consider other employees, contractors, visitors, nearby members of the public and the surrounding environment where exposure or release could affect them.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The purpose is broader than protecting the worker holding the chemical. The control system must also consider other employees, contractors, visitors, nearby members of the public and the surrounding environment where exposure or release could affect them. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical store is located beside a pedestrian route. Even if store workers are trained, a leak could affect people outside the store. The layout, containment, access control and emergency arrangements therefore need to consider the wider population at risk.',
+        hazards: 'Exposure beyond the immediate work team, fire spread, vapour migration, contaminated drainage and community impact.',
+        controls: 'Identify all potentially affected people and credible consequences during risk assessment; control the source; provide suitable storage, access, containment and emergency arrangements.',
+        fieldCheck: 'Ask who could be affected if the material leaks, catches fire or is released outside the work area. Check whether the assessment includes people beyond the task team.',
+        commonMistake: 'Focusing only on the person performing the task and ignoring adjacent workers, visitors or the public.',
+        action: 'Expand the risk assessment boundary and strengthen controls where a release could affect people outside the immediate work area.',
+        records: 'Risk assessment; site layout; emergency plan; chemical inventory; incident/near-miss records.',
+        interview: 'Why does the CoP mention the community? Answer: hazardous-material incidents can affect people beyond employees, so controls must consider wider exposure and consequences.',
+      ),
+      CopGoldPoint(
+        clause: '1.0 (c)',
+        title: 'Use the CoP together with other applicable laws, regulations and guidance',
+        meaning: 'The CoP is not a substitute for every other applicable legal or authority requirement. Employers must read and apply it together with relevant Federal and Abu Dhabi laws, regulations and guidance. Where another applicable authority requirement conflicts, the CoP states that the more stringent requirement is to be followed.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The CoP is not a substitute for every other applicable legal or authority requirement. Employers must read and apply it together with relevant Federal and Abu Dhabi laws, regulations and guidance. Where another applicable authority requirement conflicts, the CoP states that the more stringent requirement is to be followed. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A facility stores chemicals that are also subject to a specific authority approval. The HSE team does not stop at the CoP; it identifies the other applicable authority conditions and checks that the site procedure reflects the complete regulatory picture.',
+        hazards: 'Regulatory non-compliance, conflicting instructions, missing approvals and uncontrolled interfaces between authorities.',
+        controls: 'Create a regulatory register; identify competent authorities/SRAs; check permit conditions and current guidance; document the basis used for the site procedure.',
+        fieldCheck: 'Review the project regulatory register and approvals. Ask which authority requirements apply to the specific material and activity.',
+        commonMistake: 'Treating the CoP as the only legal document and assuming a generic company procedure automatically satisfies every authority requirement.',
+        action: 'Trace the activity to all applicable regulatory sources before declaring compliance.',
+        records: 'Legal/regulatory register; permits; approvals; authority notices; procedures; audit evidence.',
+        interview: 'What should you do if another applicable authority requirement conflicts with the CoP? Answer: follow the more stringent requirement as stated by the CoP, while confirming the applicable authority basis.',
+      ),
+      CopGoldPoint(
+        clause: '1.0 (d)',
+        title: 'Scope exclusions: radioactive sources and limited treatment of explosives',
+        meaning: 'The CoP does not apply to radioactive sources classified as Class 7 under the cited UN Model Regulations. For explosives, the CoP applies only to chemical substances that have explosive properties but are also used for other applications, with ammonium nitrate as an example in the official text.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The CoP does not apply to radioactive sources classified as Class 7 under the cited UN Model Regulations. For explosives, the CoP applies only to chemical substances that have explosive properties but are also used for other applications, with ammonium nitrate as an example in the official text. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A site has a radioactive source and also stores a chemical product with explosive properties used for a non-explosive application. The HSE team must identify which regulatory framework governs each material rather than putting every hazardous substance into one undifferentiated category.',
+        hazards: 'Applying the wrong regulatory regime, missing specialist authority controls or using an unsuitable risk assessment.',
+        controls: 'Classify the material correctly; identify the competent authority and applicable specialist framework; keep specialist materials clearly separated in the compliance register.',
+        fieldCheck: 'Check material classification and ask whether a specialist regime applies. Verify that the site has the correct authority and technical controls for excluded/specialist materials.',
+        commonMistake: 'Assuming the word “hazardous” means CoP 1.0 covers every possible hazardous substance without checking the stated exclusions.',
+        action: 'Escalate specialist materials to the competent authority/framework and document the applicable regulatory boundary.',
+        records: 'Classification records; specialist permits; authority approvals; inventory; SDS/profile information.',
+        interview: 'Does CoP 1.0 cover radioactive sources? Answer: no, the official CoP states that radioactive sources in Class 7 are excluded.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '2. Training and Competency',
+    introduction: 'Training is not a single induction topic. The official CoP separates general awareness, role-appropriate hazardous-material training, transport training, transport documentation/marking training, security awareness and communication/literacy considerations.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '2 (a)',
+        title: 'Training must align with ADOSH-SF training and practitioner/service-provider requirements',
+        meaning: 'The employer must ensure OSH training complies with ADOSH-SF Element 5 and Mechanism 7. This connects hazardous-material training to the wider Abu Dhabi OSH competency system rather than treating it as an isolated toolbox talk.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The employer must ensure OSH training complies with ADOSH-SF Element 5 and Mechanism 7. This connects hazardous-material training to the wider Abu Dhabi OSH competency system rather than treating it as an isolated toolbox talk. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A company introduces a chemical-handling course but also maps the course to its formal competency and OSH training system, including the relevant practitioner/service-provider requirements.',
+        hazards: 'Unqualified trainers, incomplete competency controls, inconsistent training records and workers being assigned tasks without the required knowledge.',
+        controls: 'Use a competency matrix, approved training arrangements where required, role-specific learning objectives and documented assessment/verification.',
+        fieldCheck: 'Check training matrix, course content, trainer/participant evidence and whether the training matches the worker’s actual responsibility.',
+        commonMistake: 'Counting attendance alone as proof of competence.',
+        action: 'Close competency gaps before assigning the person to hazardous-material duties and document the basis for competence.',
+        records: 'Training matrix; course material; attendance; assessment; competency authorization; refresher records.',
+        interview: 'How do you demonstrate hazardous-material competency? Answer: link role requirements to appropriate training, assessment, authorization and field verification.',
+      ),
+      CopGoldPoint(
+        clause: '2 (b)',
+        title: 'General hazardous-material awareness before starting work',
+        meaning: 'Employees must receive general awareness/familiarization with hazardous materials before starting work. This creates a minimum baseline before exposure to the work environment.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employees must receive general awareness/familiarization with hazardous materials before starting work. This creates a minimum baseline before exposure to the work environment. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A new painter joins a project. Before starting, the worker is briefed on chemical identification, labels, SDS access, basic exposure controls, PPE, emergency actions and prohibited practices relevant to the site.',
+        hazards: 'Uninformed handling, incorrect identification, unsafe decanting, incompatible practices and delayed emergency response.',
+        controls: 'Provide induction before exposure; use a language and format the worker can understand; verify understanding through questioning or practical demonstration where appropriate.',
+        fieldCheck: 'Ask a worker to identify the chemical, explain the main hazard and describe what to do for a spill or exposure.',
+        commonMistake: 'Allowing a worker to start first and giving the hazardous-material induction later.',
+        action: 'Stop the person from performing the hazardous-material task until the required awareness training is completed.',
+        records: 'Induction record; training material; worker acknowledgment/assessment.',
+        interview: 'When must general hazardous-material awareness be provided? Answer: before the employee starts work.',
+      ),
+      CopGoldPoint(
+        clause: '2 (c)',
+        title: 'Role-appropriate training for employees and contractors handling hazardous materials',
+        meaning: 'Employees and contractors who package, handle, store or transport hazardous materials need training commensurate with their responsibilities. The official minimum topics include SDS/profile sheets, PPE, material properties and risks, storage/handling/decanting, disposal, release prevention, incompatibility/segregation, labelling, signs/placards, specialized role requirements and incident controls.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employees and contractors who package, handle, store or transport hazardous materials need training commensurate with their responsibilities. The official minimum topics include SDS/profile sheets, PPE, material properties and risks, storage/handling/decanting, disposal, release prevention, incompatibility/segregation, labelling, signs/placards, specialized role requirements and incident controls. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A storekeeper needs deeper training than a visitor because the storekeeper receives, checks, stores and issues chemicals. A worker who decants chemicals needs practical instruction on compatible containers and the specific material controls.',
+        hazards: 'Incorrect storage, wrong PPE, incompatible mixing, poor labelling, improper disposal and inadequate incident response.',
+        controls: 'Build a role-based curriculum. Include SDS use, material hazards, PPE, storage/handling/decanting, disposal, spill prevention, segregation, labels/signs, specialized controls and incident response.',
+        fieldCheck: 'Sample a worker from each role and ask practical questions. Compare the role duties with the training record and competency matrix.',
+        commonMistake: 'Using one generic chemical induction for every role regardless of responsibility.',
+        action: 'Provide additional task/role-specific training and verify competence before the person performs the activity.',
+        records: 'Role matrix; training records; competency assessments; contractor training evidence; toolbox records.',
+        interview: 'Name key minimum hazardous-material training topics. Answer: SDS/profile use, PPE, properties/risks, storage/handling/decanting, disposal, release prevention, segregation, labelling/signs, specialized requirements and incident controls.',
+      ),
+      CopGoldPoint(
+        clause: '2 (d)',
+        title: 'Additional training for employees transporting hazardous materials',
+        meaning: 'Transport personnel need the general hazardous-material training plus safe driving, loading/unloading, load securing, incident response, spill response, journey-management/reporting/logbook requirements and any authority-assigned transport routes.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Transport personnel need the general hazardous-material training plus safe driving, loading/unloading, load securing, incident response, spill response, journey-management/reporting/logbook requirements and any authority-assigned transport routes. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A driver transporting chemical drums is trained not only in driving but also in securing the load, responding to a spill, following the journey plan and using the required transport documentation and route controls.',
+        hazards: 'Vehicle collision, load shift, package damage, spill, fire, delayed emergency response and non-compliant routing.',
+        controls: 'Use transport-specific competency training, practical loading checks, journey-management procedures and emergency-response drills appropriate to the material and route.',
+        fieldCheck: 'Review driver training, vehicle checks, journey documents, load-securing practice and the driver’s understanding of spill/emergency actions.',
+        commonMistake: 'Assuming a normal driving licence is sufficient for hazardous-material transport duties.',
+        action: 'Do not assign transport duties until the required role-specific training and authorization are confirmed.',
+        records: 'Driver competency; journey plan; logbook; vehicle inspection; load-securing checklist; emergency information.',
+        interview: 'What additional transport topics are required? Answer: safe driving, loading/unloading, securing, incident/spill response, journey management/reporting/logbooks and applicable pre-assigned routes.',
+      ),
+      CopGoldPoint(
+        clause: '2 (e)',
+        title: 'Training for classification, labelling, packaging and transport-document functions',
+        meaning: 'People directly involved in classifying, labelling, packaging, preparing transport documents, accepting/handling shipments or marking/placarding/loading/unloading need specialized training. The official minimum includes hazard classification, marking/placarding, transport documentation and emergency-management documents.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. People directly involved in classifying, labelling, packaging, preparing transport documents, accepting/handling shipments or marking/placarding/loading/unloading need specialized training. The official minimum includes hazard classification, marking/placarding, transport documentation and emergency-management documents. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A logistics coordinator prepares a shipment. The person must understand the hazard classification and the information needed for labels, marks, placards and transport documents rather than relying on memory or a generic warehouse induction.',
+        hazards: 'Misclassification, incorrect labels, incompatible packaging, missing transport information and poor emergency communication.',
+        controls: 'Use task-specific training and competency verification for people performing regulatory transport functions.',
+        fieldCheck: 'Sample a shipment and trace classification, package/label, marks/placards, documents and emergency information from source material to vehicle.',
+        commonMistake: 'Assuming the driver or warehouse worker can infer classification and transport-document requirements without formal role training.',
+        action: 'Correct the classification/documentation gap and prevent dispatch until the required information is verified.',
+        records: 'Classification records; transport documents; labels/placards; emergency documents; competency records.',
+        interview: 'Why is classification training important? Answer: classification drives the correct packaging, labelling, marking/placarding, documentation and emergency information.',
+      ),
+      CopGoldPoint(
+        clause: '2 (f)',
+        title: 'Security awareness for managers and supervisors',
+        meaning: 'Managers and supervisors must receive security-awareness training covering recognition of security risks, controls to reduce them, actions after a security breach and notification systems for new security risks.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Managers and supervisors must receive security-awareness training covering recognition of security risks, controls to reduce them, actions after a security breach and notification systems for new security risks. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical store supervisor notices an unusual access attempt or missing container. The supervisor knows how to secure the situation, escalate the breach and notify management through the defined system.',
+        hazards: 'Unauthorized access, theft, diversion, tampering and delayed response to security threats.',
+        controls: 'Include security scenarios in management training, define reporting channels and maintain controlled access to hazardous-material areas.',
+        fieldCheck: 'Ask supervisors how they would respond to a suspected breach and where they would report it.',
+        commonMistake: 'Treating hazardous-material security as purely a physical-lock issue with no reporting or management process.',
+        action: 'Secure the area, follow the site security/emergency process and notify the responsible authority/management as required.',
+        records: 'Security training; access records; incident reports; notification contacts; security risk assessment.',
+        interview: 'What four security-awareness themes are specified? Answer: recognizing risks, reducing risks, responding to breaches and notifying management about new risks.',
+      ),
+      CopGoldPoint(
+        clause: '2 (g)',
+        title: 'Training must consider literacy and appropriate language',
+        meaning: 'Training must take account of literacy levels and be delivered in a language appropriate for employees. The purpose is meaningful understanding, not merely attendance.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Training must take account of literacy levels and be delivered in a language appropriate for employees. The purpose is meaningful understanding, not merely attendance. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A multilingual workforce handles chemicals. The supervisor uses translated/appropriate training material, visual labels and verbal checks so workers can explain the hazards and emergency actions in a way they understand.',
+        hazards: 'Misunderstanding labels, incorrect PPE selection, unsafe handling and delayed emergency response.',
+        controls: 'Use suitable language, visual aids, demonstrations and comprehension checks. Adapt delivery to worker literacy and task complexity.',
+        fieldCheck: 'Ask workers to explain the chemical hazard, required control and emergency action rather than relying only on a signature.',
+        commonMistake: 'Giving an English-only slide deck to workers who cannot understand it and recording attendance as competence.',
+        action: 'Re-deliver the training in an appropriate format/language and verify understanding before the task continues.',
+        records: 'Training material; language matrix; assessments; toolbox records; translated/visual aids where used.',
+        interview: 'Does the CoP require training to consider literacy and language? Answer: yes.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.1.1 All Employers that Handle Hazardous Materials',
+    introduction: 'These points establish the core management duties for employers handling hazardous materials: risk assessment, legal awareness, banned/restricted material controls, approvals, competent persons, source control, inspection, employee protection, emergency planning and disposal.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.1.1 (a)',
+        title: 'Perform a hazardous-material risk assessment covering activities, products and services',
+        meaning: 'Employers must perform risk assessment in accordance with ADOSH-SF Element 2 and identify hazardous materials present, stored or handled at the worksite and the risks associated with them. The assessment should cover the full range of relevant activities, products and services.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must perform risk assessment in accordance with ADOSH-SF Element 2 and identify hazardous materials present, stored or handled at the worksite and the risks associated with them. The assessment should cover the full range of relevant activities, products and services. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A site uses solvents, paints, cleaning chemicals and gases. The HSE team maps where each material enters the site, where it is stored, how it is used and who can be exposed, then checks controls for each activity.',
+        hazards: 'Unidentified chemicals, uncontrolled exposure, incompatible storage, spills, fire, waste generation and contractor exposure.',
+        controls: 'Maintain a current chemical inventory, task-specific risk assessments, exposure/control evaluation and change-management process.',
+        fieldCheck: 'Compare the inventory with the physical site and work fronts. Sample a chemical and trace it through procurement, storage, use and disposal.',
+        commonMistake: 'A generic chemical risk assessment that does not identify the actual products or activities.',
+        action: 'Update the assessment and controls before the affected work continues where a significant gap is found.',
+        records: 'Risk assessments; chemical inventory; SDS; task procedures; change-management records.',
+        interview: 'What must the risk assessment identify? Answer: hazardous materials present, stored or handled and the risks associated with them across relevant activities, products and services.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (b)',
+        title: 'Know the applicable Federal, Abu Dhabi, authority and SDS requirements',
+        meaning: 'Employers must familiarize themselves with applicable Federal and Abu Dhabi laws and regulations, authority procedures/guidelines, applicable international model regulations, competent-authority/SRA requirements and manufacturer SDS information. This is the regulatory research step behind the site control system.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must familiarize themselves with applicable Federal and Abu Dhabi laws and regulations, authority procedures/guidelines, applicable international model regulations, competent-authority/SRA requirements and manufacturer SDS information. This is the regulatory research step behind the site control system. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'Before approving a chemical storage procedure, the HSE manager checks the applicable Federal/local framework, authority conditions and the manufacturer SDS rather than relying on an old company procedure.',
+        hazards: 'Missing legal obligations, incorrect controls, obsolete instructions and unrecognized authority conditions.',
+        controls: 'Maintain a regulatory register and controlled source library; assign responsibility for monitoring updates; link each critical control to its source.',
+        fieldCheck: 'Select a chemical and ask the responsible HSE person to show the regulatory basis and current SDS used for the control decision.',
+        commonMistake: 'Using a copied internet summary or old project procedure as the only source of regulatory truth.',
+        action: 'Verify the current official/authority source and update the procedure or register as required.',
+        records: 'Regulatory register; authority guidance; permit conditions; SDS; controlled procedures.',
+        interview: 'Why must the SDS be considered? Answer: the CoP specifically includes manufacturer SDS information among the requirements employers must familiarize themselves with.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (c)',
+        title: 'Do not handle banned materials; obtain approvals for restricted materials',
+        meaning: 'Employers must know applicable lists of hazardous materials. Banned materials must not be imported, produced, stored, exported or otherwise handled. Restricted materials require the relevant import permits/approvals and compliance with their special conditions.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must know applicable lists of hazardous materials. Banned materials must not be imported, produced, stored, exported or otherwise handled. Restricted materials require the relevant import permits/approvals and compliance with their special conditions. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'Procurement proposes a restricted chemical. The HSE team checks the material status and required authority approval before the shipment is accepted or used.',
+        hazards: 'Illegal possession/use, uncontrolled exposure, enforcement action, environmental harm and unsafe storage of restricted substances.',
+        controls: 'Screen materials before procurement; verify permits/approvals; maintain restricted-material conditions in the chemical register and purchasing workflow.',
+        fieldCheck: 'Sample new chemical requests and confirm status, approval and conditions before delivery to site.',
+        commonMistake: 'Accepting a chemical because the supplier can deliver it without checking whether it is banned or restricted.',
+        action: 'Quarantine/stop the activity as appropriate and escalate for authority verification before use or movement.',
+        records: 'Material approval; permit; procurement screening; inventory; supplier documentation.',
+        interview: 'What is the difference between banned and restricted material control? Answer: banned materials must not be handled; restricted materials require the specified approval/permit and special conditions.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (d)',
+        title: 'Hold required permits, licences, approvals and documentation',
+        meaning: 'Employers must ensure they have the permits, licences, approvals and other necessary documents required by competent authorities and/or SRAs for their activities.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must ensure they have the permits, licences, approvals and other necessary documents required by competent authorities and/or SRAs for their activities. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical storage facility is checked before operation. The HSE team verifies the approvals relevant to the facility, material and activity and confirms they are current and applicable.',
+        hazards: 'Operating without authorization, invalid permits, enforcement action and unsafe conditions not reviewed by the relevant authority.',
+        controls: 'Maintain a permit/approval register with owner, validity, conditions and renewal dates; link conditions to operational inspections.',
+        fieldCheck: 'Check the physical activity against the permit conditions, not just the existence of a certificate in a file.',
+        commonMistake: 'Keeping expired approvals in the project folder and assuming their presence proves compliance.',
+        action: 'Escalate and suspend the affected activity where required until the authorization status is resolved.',
+        records: 'Permits; licences; approvals; conditions; renewal records; authority correspondence.',
+        interview: 'What should an HSE Officer verify about a permit? Answer: validity, applicability, conditions and actual compliance in the field.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (e)',
+        title: 'Appoint competent persons to oversee storage, use and disposal',
+        meaning: 'Employers must appoint competent persons to oversee hazardous-material storage, use and disposal. The role is therefore not merely administrative; it provides competent oversight of the material lifecycle.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must appoint competent persons to oversee hazardous-material storage, use and disposal. The role is therefore not merely administrative; it provides competent oversight of the material lifecycle. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A facility designates a competent person responsible for chemical storage inspections, use controls, waste coordination and escalation of abnormal conditions.',
+        hazards: 'Poor storage, incorrect handling, uncontrolled disposal and delayed response to defects.',
+        controls: 'Define competency requirements, authority and responsibilities; maintain coverage during shifts and contractor activities.',
+        fieldCheck: 'Ask who is the competent person, what authority they have and how they verify storage/use/disposal controls.',
+        commonMistake: 'Naming someone on an organization chart without verifying competence or actual involvement.',
+        action: 'Close the competency/coverage gap and formally assign the oversight responsibility.',
+        records: 'Appointment letter; competency evidence; duty matrix; inspection records.',
+        interview: 'Who should oversee hazardous-material storage, use and disposal? Answer: a competent person appointed by the employer.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (f)',
+        title: 'Reduce harmful effects at source using reasonably practicable controls',
+        meaning: 'The employer must implement reasonably practicable controls to reduce harmful effects on health by preventing or minimizing emissions, exposure and hazardous-waste generation at source.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The employer must implement reasonably practicable controls to reduce harmful effects on health by preventing or minimizing emissions, exposure and hazardous-waste generation at source. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A process generates chemical vapour. Instead of relying only on respirators, the project first evaluates process containment, substitution or engineering controls that reduce the release at source.',
+        hazards: 'Inhalation, skin/eye exposure, environmental release and unnecessary hazardous-waste generation.',
+        controls: 'Apply the hierarchy of controls and prioritize source reduction, containment and engineering controls before relying on administrative measures and PPE.',
+        fieldCheck: 'Compare the risk assessment with actual engineering controls. Ask why the chosen control is reasonably practicable and whether a higher-level control was considered.',
+        commonMistake: 'Providing PPE while leaving a preventable emission source uncontrolled.',
+        action: 'Strengthen source/engineering controls and update the risk assessment and procedure.',
+        records: 'Risk assessment; engineering-control records; exposure monitoring where applicable; maintenance records.',
+        interview: 'Why is source control important? Answer: the CoP specifically requires prevention/minimization of emissions, exposure and hazardous-waste generation at source.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (g)',
+        title: 'Inspect stored/used materials and replace expired or damaged materials and labels',
+        meaning: 'Routine inspection is required for hazardous materials in storage/use. Expired or damaged materials must be handled under applicable Federal/local requirements, and unclear or damaged labels must be replaced.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Routine inspection is required for hazardous materials in storage/use. Expired or damaged materials must be handled under applicable Federal/local requirements, and unclear or damaged labels must be replaced. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'During a store inspection, the HSE officer finds a damaged solvent container and an unreadable label. The material is isolated and managed through the applicable procedure rather than left in service.',
+        hazards: 'Leakage, misidentification, accidental mixing, use of degraded product and emergency-response errors.',
+        controls: 'Schedule inspections; check container condition, labels, dates and storage compatibility; quarantine damaged/expired material and manage it correctly.',
+        fieldCheck: 'Physically inspect containers rather than checking the register only. Confirm damaged/expired items have a documented disposition.',
+        commonMistake: 'Assuming an old chemical is safe because it is still sealed or leaving a damaged label because the worker “knows what it is.”',
+        action: 'Isolate, identify, assess and dispose/replace through the approved process; restore correct labelling before use.',
+        records: 'Inspection checklist; inventory; expiry records; damaged-material log; waste/disposal records.',
+        interview: 'What should happen to unclear or damaged labels? Answer: they must be replaced.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (h)',
+        title: 'Dispose of expired and waste chemicals through approved methods or contractors',
+        meaning: 'Expired and waste chemicals/hazardous materials must be disposed of through methods or contractors approved/permitted by the relevant Abu Dhabi waste-management authority, with reference to CoP 54.0 Waste Management.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Expired and waste chemicals/hazardous materials must be disposed of through methods or contractors approved/permitted by the relevant Abu Dhabi waste-management authority, with reference to CoP 54.0 Waste Management. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A project accumulates waste solvent. The HSE team segregates and labels it, selects an approved waste route/contractor and retains transfer evidence rather than pouring it into a drain or general waste stream.',
+        hazards: 'Environmental contamination, fire, exposure, illegal disposal and uncontrolled waste transport.',
+        controls: 'Identify waste at source, use compatible containers, maintain records and use approved/permitted disposal arrangements.',
+        fieldCheck: 'Trace waste from generation point to storage and final transfer. Verify contractor approval and documentation.',
+        commonMistake: 'Treating chemical waste as ordinary waste or keeping waste containers without a defined disposal route.',
+        action: 'Stop inappropriate disposal and arrange compliant containment and approved disposal.',
+        records: 'Waste inventory; waste profiles; transfer notes; contractor approval; disposal certificates.',
+        interview: 'Which CoP is specifically referenced for hazardous-waste disposal? Answer: CoP 54.0 Waste Management.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (i)',
+        title: 'Protect employees working with or near hazardous materials',
+        meaning: 'Employers must implement appropriate programs to protect employees who work with or near hazardous materials. The program should cover direct handlers and people who may be exposed indirectly.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must implement appropriate programs to protect employees who work with or near hazardous materials. The program should cover direct handlers and people who may be exposed indirectly. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A maintenance worker works near a chemical process but does not handle the chemical. The risk assessment still considers potential vapour, splash or spill exposure and provides appropriate controls.',
+        hazards: 'Indirect exposure, cross-contamination, inadequate PPE, health effects and unexpected contact during maintenance.',
+        controls: 'Map adjacent activities and exposed persons, provide communication, access control, monitoring and suitable protection as required.',
+        fieldCheck: 'Ask which non-handlers can be exposed and how the site protects them.',
+        commonMistake: 'Defining “exposed person” only as the worker who opens the container.',
+        action: 'Extend controls to adjacent work groups and revise the risk assessment if needed.',
+        records: 'Exposure assessment; site layout; induction; monitoring; PPE records.',
+        interview: 'Who needs protection? Answer: employees working with hazardous materials and those working near them, as applicable.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.1 (j)',
+        title: 'Develop an emergency response plan for hazardous-material incidents',
+        meaning: 'Employers must develop an emergency response plan for incidents involving hazardous materials, with the detailed emergency-management requirements addressed in Section 3.3.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must develop an emergency response plan for incidents involving hazardous materials, with the detailed emergency-management requirements addressed in Section 3.3. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical store has defined spill, fire and exposure scenarios, emergency contacts, response equipment, containment arrangements and escalation routes that workers can actually use.',
+        hazards: 'Uncontrolled release, delayed medical care, fire/explosion escalation, environmental contamination and poor notification.',
+        controls: 'Use risk-based scenarios, emergency equipment, trained responders, communication, containment and authority notification arrangements.',
+        fieldCheck: 'Ask workers what they would do first for a spill, fire or exposure and check that the response equipment is accessible.',
+        commonMistake: 'Having a generic emergency plan that does not reflect the actual hazardous materials stored.',
+        action: 'Review the emergency plan against the inventory and actual site conditions and correct gaps before continuing high-risk storage/handling.',
+        records: 'Emergency plan; drills; contact list; response-kit inspection; incident reports.',
+        interview: 'What should an emergency plan be based on? Answer: credible/risk-based hazardous-material emergency scenarios and applicable authority requirements.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.1.2 Manufacturers of Hazardous Materials',
+    introduction: 'Manufacturers have duties to classify hazardous materials, generate and maintain SDS information, maintain inventory and ensure appropriate labelling. These requirements are important to users because they form the information chain on which downstream controls depend.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.1.2 (a)',
+        title: 'Classify materials by physical, health, biological or other hazard',
+        meaning: 'Manufacturers must assess and classify materials using applicable international model regulations, laboratory analysis, expert judgment and/or weight of evidence to determine the relevant hazard types.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Manufacturers must assess and classify materials using applicable international model regulations, laboratory analysis, expert judgment and/or weight of evidence to determine the relevant hazard types. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A manufacturer evaluates a product and determines whether it presents physical, health, biological or other hazards before the product is supplied with its safety information.',
+        hazards: 'Incorrect hazard classification can lead to wrong controls, packaging, labels, transport information and emergency response.',
+        controls: 'Use the applicable classification framework and reliable evidence; ensure classification information flows into the SDS and label.',
+        fieldCheck: 'For a product received on site, verify that the SDS/label information is consistent and complete enough for the intended use.',
+        commonMistake: 'Using an informal product description instead of the formal hazard classification information.',
+        action: 'Escalate inconsistencies to the supplier/manufacturer before treating the material information as reliable.',
+        records: 'Classification records; laboratory data; SDS; label; supplier documentation.',
+        interview: 'Why is classification important? Answer: it determines the hazard information that drives safe handling, labelling and other controls.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.2 (b)',
+        title: 'Create, maintain and provide SDS/inventory/labels',
+        meaning: 'Manufacturers must use classification data to create an SDS, provide it with offsite shipments, make an electronic copy available as far as reasonably practicable, maintain inventory records, review/update the SDS annually and ensure containers/bulk packaging are labelled as required.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Manufacturers must use classification data to create an SDS, provide it with offsite shipments, make an electronic copy available as far as reasonably practicable, maintain inventory records, review/update the SDS annually and ensure containers/bulk packaging are labelled as required. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A supplier sends a chemical shipment with the current SDS and correctly labelled containers. The receiving site keeps the SDS accessible and checks the information against the material received.',
+        hazards: 'Missing or outdated SDS, incorrect labels, wrong emergency information and poor traceability.',
+        controls: 'Maintain controlled SDS access, inventory records and label verification; review supplier information and manage updates.',
+        fieldCheck: 'Check that the SDS is available to users/emergency responders and that container labels match the product.',
+        commonMistake: 'Keeping a single old SDS in a central office where users cannot access it.',
+        action: 'Obtain the correct information, control the outdated copy and update the site records before the material is used where necessary.',
+        records: 'SDS register; inventory; supplier documents; label inspection; update records.',
+        interview: 'How often does the CoP require manufacturers to review and update the SDS? Answer: annually.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.1.3 Importers and Distributors',
+    introduction: 'Importers and distributors sit between manufacturers and end users. Their duties include approval checks, packaging/labelling/SDS controls and inventory traceability.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.1.3 (a)',
+        title: 'Do not import restricted material without required approval',
+        meaning: 'Importers must not import restricted material unless they possess the required import permit(s) or approval(s), to the extent required by applicable law or competent authority.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Importers must not import restricted material unless they possess the required import permit(s) or approval(s), to the extent required by applicable law or competent authority. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'Before a restricted chemical shipment is dispatched, the importer verifies the required approval and retains the evidence for the shipment.',
+        hazards: 'Unapproved import, regulatory enforcement, seizure and unsafe handling of restricted material.',
+        controls: 'Use pre-import screening and approval gates in procurement/logistics workflows.',
+        fieldCheck: 'Sample restricted-material imports and verify approval before shipment acceptance.',
+        commonMistake: 'Assuming supplier delivery means the importer is authorized to receive the material.',
+        action: 'Hold the shipment and resolve the approval requirement before import/acceptance.',
+        records: 'Import permit; approval; shipment records; material register.',
+        interview: 'What is the control point before importing a restricted material? Answer: possession of the required permit/approval.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.3 (b)',
+        title: 'Ensure packaging, labelling, SDS and inventory controls before sale/storage/transport/disposal',
+        meaning: 'Importers/distributors must not store, transport, dispense, sell or dispose of hazardous material unless it is appropriately packaged and labelled and accompanied by an SDS or equivalent. They must also maintain inventory records and inform manufacturers/suppliers of relevant local requirements.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Importers/distributors must not store, transport, dispense, sell or dispose of hazardous material unless it is appropriately packaged and labelled and accompanied by an SDS or equivalent. They must also maintain inventory records and inform manufacturers/suppliers of relevant local requirements. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A distributor checks incoming drums, labels, packaging and SDS before placing them into stock and keeps an inventory that can trace the product.',
+        hazards: 'Leakage, misidentification, unsafe handling, poor emergency information and weak traceability.',
+        controls: 'Incoming inspection, inventory control, SDS availability and supplier communication.',
+        fieldCheck: 'Inspect packaging and labels at receipt and confirm the SDS accompanies the material or is otherwise available as required.',
+        commonMistake: 'Accepting damaged packaging because the product itself appears usable.',
+        action: 'Quarantine non-conforming material and resolve packaging/label/SDS issues before distribution or use.',
+        records: 'Receiving inspection; inventory; SDS; supplier communication; non-conformance record.',
+        interview: 'What minimum information should accompany hazardous material? Answer: appropriate packaging and labelling plus an SDS or equivalent, as applicable.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.1.4 Transporters of Hazardous Materials',
+    introduction: 'Transport controls cover receipt, packaging, labelling, documentation, vehicle condition, load security, emergency equipment, journey management, driver qualification, security and designated routes, plus a transport emergency response plan.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.1.4 (a)',
+        title: 'Comply with applicable transport laws, authority requirements, SDS and special instructions',
+        meaning: 'Transporters must follow the requirements applicable to the transport mode, including Federal/local law, ratified/current model regulations, competent-authority/SRA requirements, manufacturer SDS information and special handling instructions.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Transporters must follow the requirements applicable to the transport mode, including Federal/local law, ratified/current model regulations, competent-authority/SRA requirements, manufacturer SDS information and special handling instructions. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A road transporter checks the material classification, packaging, documents, vehicle requirements and any special instructions before dispatching a load.',
+        hazards: 'Wrong packaging, wrong documentation, route/permit failures, incompatible handling and emergency-response delays.',
+        controls: 'Use a transport compliance checklist linked to the material, mode and authority requirements.',
+        fieldCheck: 'Trace a shipment from dispatch documentation to vehicle and delivery requirements.',
+        commonMistake: 'Using one transport checklist for every hazardous material without considering material-specific instructions.',
+        action: 'Correct the shipment controls before dispatch when a critical requirement is missing.',
+        records: 'Transport documents; SDS; vehicle permits; route requirements; load checklist.',
+        interview: 'What sources must transporters consider? Answer: applicable laws/regulations, relevant model regulations, competent-authority/SRA requirements, SDS and special handling instructions.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.4 (b)',
+        title: 'Meet specified vehicle, load, equipment, journey and driver controls',
+        meaning: 'Where required by applicable law/authority, hazardous materials must be transported in compatible and labelled containers/packages/vehicles/tankers; loads must be secured; vehicles must meet approved specifications, carry appropriate emergency equipment, be maintained, have GPS where required, be permitted, use manifest-based journey management, be operated by qualified drivers/persons, use security escort where required and follow pre-assigned roads within Abu Dhabi.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Where required by applicable law/authority, hazardous materials must be transported in compatible and labelled containers/packages/vehicles/tankers; loads must be secured; vehicles must meet approved specifications, carry appropriate emergency equipment, be maintained, have GPS where required, be permitted, use manifest-based journey management, be operated by qualified drivers/persons, use security escort where required and follow pre-assigned roads within Abu Dhabi. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'Before a hazardous-material journey, the dispatcher checks the package/container, load security, vehicle condition and permit status; the driver has the required competency and emergency information; the journey is documented and follows the approved route requirements.',
+        hazards: 'Vehicle crash, load shift, package damage, fire, spill, unauthorized route, poor emergency response and security incident.',
+        controls: 'Pre-dispatch inspection; load securing; vehicle maintenance; emergency equipment; GPS/permit verification; journey manifest; qualified driver; route/escort controls where applicable.',
+        fieldCheck: 'Physically inspect the vehicle and load. Verify permits, emergency equipment, journey manifest, driver qualification and route requirements.',
+        commonMistake: 'Checking paperwork while failing to inspect the actual load security or vehicle condition.',
+        action: 'Do not dispatch until critical transport controls are restored and documented.',
+        records: 'Vehicle inspection; permit; GPS evidence; journey manifest; driver competency; load-securing checklist; emergency equipment inspection.',
+        interview: 'Name key transport controls. Answer: compatible/labelled packages, secure loads, approved vehicle, emergency equipment, maintenance, GPS/permit where required, manifest journey management, qualified drivers, security escort and pre-assigned routes where applicable.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.4 (c)',
+        title: 'Develop a transport emergency response plan',
+        meaning: 'Transporters must develop an Emergency Response Plan for hazardous-material incidents during transportation, linked to the emergency-management requirements of Section 3.3.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Transporters must develop an Emergency Response Plan for hazardous-material incidents during transportation, linked to the emergency-management requirements of Section 3.3. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A transport company has a material-specific response procedure covering collision, spill, fire, exposure, communication and escalation, with emergency information available to the crew.',
+        hazards: 'Delayed isolation, exposure, fire escalation, environmental release and poor notification after a road incident.',
+        controls: 'Define credible transport scenarios, emergency contacts, response equipment, communication and authority notification arrangements.',
+        fieldCheck: 'Ask the driver what the first actions are after a spill or collision and check that the required emergency information/equipment is available.',
+        commonMistake: 'Assuming the site emergency plan automatically covers a vehicle once it leaves the site.',
+        action: 'Use the transport emergency plan and notify the relevant authorities/emergency services according to applicable requirements.',
+        records: 'Transport emergency plan; drills; contact list; emergency information; incident reports.',
+        interview: 'Why does transport need its own emergency plan? Answer: the hazards and response environment change when hazardous material is in transit.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.1.5 Entities Using or Storing Hazardous Materials',
+    introduction: 'These points describe the practical site-management system: classification/profile sheets for mixtures and waste, storage compatibility, hazardous-waste controls, storage-facility approvals and the minimum contents of a hazardous-material/waste management system.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.1.5 (a)',
+        title: 'Classify mixtures and hazardous waste and create profile sheets',
+        meaning: 'When employers mix hazardous materials or produce hazardous waste, they must assess and classify the material/waste, create a “Mixed Material Profile” or “Waste Material Profile” equivalent to an SDS, provide it with offsite shipments, make electronic access available as far as reasonably practicable, review/update annually, maintain inventory and label containers/bulk packaging as required.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. When employers mix hazardous materials or produce hazardous waste, they must assess and classify the material/waste, create a “Mixed Material Profile” or “Waste Material Profile” equivalent to an SDS, provide it with offsite shipments, make electronic access available as far as reasonably practicable, review/update annually, maintain inventory and label containers/bulk packaging as required. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A site mixes chemical residues into a waste stream. Instead of calling the document an SDS, it creates the required waste profile, keeps it with the waste information and uses it to support safe handling and transport.',
+        hazards: 'Unknown waste composition, incompatible reactions, exposure, incorrect disposal and emergency-response errors.',
+        controls: 'Characterize the mixture/waste, document its hazards, label it correctly, maintain inventory and keep the profile current.',
+        fieldCheck: 'Sample a waste container and trace its classification, profile, label, inventory entry and disposal route.',
+        commonMistake: 'Calling every internally generated mixture an SDS and using a generic waste label without hazard information.',
+        action: 'Stop movement/use if necessary and obtain the correct classification/profile and compliant waste route.',
+        records: 'Mixed Material Profile; Waste Material Profile; inventory; labels; disposal documentation.',
+        interview: 'What is the correct name for the internal waste document? Answer: “Waste Material Profile” (and “Mixed Material Profile” for mixed materials), not an SDS.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.5 (b)',
+        title: 'Store hazardous materials appropriately and complete compatibility risk assessment',
+        meaning: 'When not in operational use, hazardous materials must be stored in an appropriate storage facility and appropriate compatibility risk assessments must be undertaken.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. When not in operational use, hazardous materials must be stored in an appropriate storage facility and appropriate compatibility risk assessments must be undertaken. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical store separates incompatible materials and uses a storage arrangement based on the properties and compatibility of the materials rather than simply arranging containers by purchase date.',
+        hazards: 'Fire, toxic release, violent reaction, container damage and escalation of a spill.',
+        controls: 'Perform compatibility assessment; segregate incompatible materials; control access; maintain suitable storage conditions and emergency arrangements.',
+        fieldCheck: 'Compare the physical store with the compatibility assessment and inventory. Check whether actual locations match the planned arrangement.',
+        commonMistake: 'Storing chemicals together because there is available shelf space without checking compatibility.',
+        action: 'Relocate incompatible materials safely and update the storage plan and assessment.',
+        records: 'Compatibility assessment; store plan; inventory; inspection records.',
+        interview: 'Why is compatibility assessment important? Answer: incompatible materials can react or worsen an incident when stored together.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.5 (c)',
+        title: 'Manage hazardous waste according to the Abu Dhabi waste authority guidance',
+        meaning: 'Hazardous waste must be identified, handled/stored onsite, pre-treated where required, transported offsite and disposed of according to applicable guidance issued by the Centre for Waste Management – Abu Dhabi.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Hazardous waste must be identified, handled/stored onsite, pre-treated where required, transported offsite and disposed of according to applicable guidance issued by the Centre for Waste Management – Abu Dhabi. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A project identifies contaminated absorbents and solvent waste as hazardous waste, stores them correctly, applies required treatment/handling and sends them through the approved waste route.',
+        hazards: 'Environmental contamination, worker exposure, illegal disposal and cross-contamination of other waste streams.',
+        controls: 'Use waste classification, segregation, secure storage, approved transport and disposal routes.',
+        fieldCheck: 'Walk the waste area and trace each waste stream to its final disposal evidence.',
+        commonMistake: 'Mixing hazardous waste with general waste because the quantity is small.',
+        action: 'Segregate and route the waste through the approved hazardous-waste process.',
+        records: 'Waste register; profiles; storage inspection; transfer notes; disposal certificate.',
+        interview: 'What authority guidance is specifically referenced? Answer: guidance issued by the Centre for Waste Management – Abu Dhabi.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.5 (d)',
+        title: 'Ensure storage facility location, construction and design meet applicable requirements',
+        meaning: 'Before hazardous materials/waste are stored, the facility must meet applicable location, construction and design requirements, specifications, guidelines and approval/permitting conditions. The CoP points to Federal hazardous-material regulations, Abu Dhabi chemical/hazardous-material storage guidance, petroleum-industry requirements where relevant and Civil Defence/UAE Fire and Life Safety Code requirements.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Before hazardous materials/waste are stored, the facility must meet applicable location, construction and design requirements, specifications, guidelines and approval/permitting conditions. The CoP points to Federal hazardous-material regulations, Abu Dhabi chemical/hazardous-material storage guidance, petroleum-industry requirements where relevant and Civil Defence/UAE Fire and Life Safety Code requirements. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A new chemical store is reviewed at design stage for location, construction, fire/life-safety provisions and authority approvals before chemicals are moved in.',
+        hazards: 'Fire spread, structural/storage failure, incompatible location, emergency access problems and non-compliant fire protection.',
+        controls: 'Review design against all applicable authority requirements before commissioning; document approvals and conditions.',
+        fieldCheck: 'Inspect the facility against its approved design and conditions, including access/escape and emergency/fire arrangements.',
+        commonMistake: 'Treating a container room as a chemical store without checking its approved use, design or fire/life-safety requirements.',
+        action: 'Do not populate a non-compliant store; escalate design/approval gaps and correct them before use.',
+        records: 'Approved drawings; permits; authority approvals; fire/life-safety records; inspection reports.',
+        interview: 'Which fire/life-safety framework is referenced? Answer: the Civil Defence requirements, including the latest edition of the UAE Fire and Life Safety Code.',
+      ),
+      CopGoldPoint(
+        clause: '3.1.5 (e)',
+        title: 'Maintain a hazardous-material/waste management system with defined minimum elements',
+        meaning: 'The management system must include, at minimum, a store plan showing material/waste locations and emergency/fire equipment and access/escape routes; compatibility risk assessments; quantity limitations; storage conditions/procedures; an accurate inventory; current SDS/profile sheets accessible to employees and responders in languages understood by the workforce; and an emergency response plan.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The management system must include, at minimum, a store plan showing material/waste locations and emergency/fire equipment and access/escape routes; compatibility risk assessments; quantity limitations; storage conditions/procedures; an accurate inventory; current SDS/profile sheets accessible to employees and responders in languages understood by the workforce; and an emergency response plan. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'During an audit, the HSE officer selects a chemical from the inventory and verifies its physical location, quantity, SDS, compatibility assessment, storage conditions and emergency arrangements against the store plan.',
+        hazards: 'Unknown inventory, incompatible storage, excessive quantities, missing emergency information and delayed response.',
+        controls: 'Maintain the management system as a live control system, not a static document. Reconcile inventory, locations, quantities, SDS/profile access and emergency arrangements during inspections.',
+        fieldCheck: 'Check one material end-to-end: name, manufacturer, location, quantity, expiry where applicable, SDS/profile access, storage condition and emergency plan.',
+        commonMistake: 'Keeping the inventory in the office while actual quantities/locations change in the store without reconciliation.',
+        action: 'Update the management system and correct any mismatch before relying on it for emergency or compliance decisions.',
+        records: 'Store schematic; compatibility assessments; quantity limits; inventory; SDS/profile sheets; emergency plan; inspection records.',
+        interview: 'What five inventory fields are explicitly listed? Answer: hazardous material/waste name, manufacturer, location, quantity onsite and expiry date where applicable.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.2 Employees Safety and Health',
+    introduction: 'These points translate hazardous-material controls into worker protection: prevent exposure, use the hierarchy of controls, connect occupational health measures, provide appropriate PPE, keep welfare facilities separated and define safe worker practices around hazardous materials.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.2 (a)',
+        title: 'Prevent exposure to hazardous-material safety and health risks as far as reasonably practicable',
+        meaning: 'Employers must ensure, as far as reasonably practicable, that employees and other persons are not exposed to OSH risks from hazardous materials. This is a broad prevention duty that includes people who may be affected indirectly.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must ensure, as far as reasonably practicable, that employees and other persons are not exposed to OSH risks from hazardous materials. This is a broad prevention duty that includes people who may be affected indirectly. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical cleaning task is redesigned so fewer workers enter the exposure area and the chemical is handled in a controlled enclosure where reasonably practicable.',
+        hazards: 'Acute poisoning, irritation, burns, chronic health effects, fire/explosion and contamination.',
+        controls: 'Eliminate or substitute where possible; contain the source; use engineering controls; then administrative controls and suitable PPE.',
+        fieldCheck: 'Observe the work rather than only the PPE. Ask how exposure is prevented at source and who could still be exposed.',
+        commonMistake: 'Assuming exposure is acceptable because workers are wearing PPE.',
+        action: 'Reassess the control strategy and improve higher-level controls where reasonably practicable.',
+        records: 'Risk assessment; exposure assessment; engineering-control records; PPE records; health surveillance where applicable.',
+        interview: 'What is the first question when reviewing a hazardous-material task? Answer: how can exposure be prevented or minimized, not simply what PPE can be issued.',
+      ),
+      CopGoldPoint(
+        clause: '3.2 (b)',
+        title: 'Apply the OSH hierarchy of controls',
+        meaning: 'The employer must use the OSH hierarchy of controls when developing and implementing hazardous-material controls, in accordance with ADOSH-SF Element 2 Risk Management.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The employer must use the OSH hierarchy of controls when developing and implementing hazardous-material controls, in accordance with ADOSH-SF Element 2 Risk Management. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A site considers whether a hazardous solvent can be eliminated or substituted before relying on ventilation and respiratory protection.',
+        hazards: 'Residual exposure, over-reliance on PPE and control failure when PPE is not used correctly.',
+        controls: 'Document the hierarchy in the risk assessment and prioritize source-level/engineering controls where reasonably practicable.',
+        fieldCheck: 'Ask the HSE team to explain why the selected controls are at the appropriate level of the hierarchy.',
+        commonMistake: 'A risk assessment that lists only PPE as the control.',
+        action: 'Review the hierarchy and improve controls at source or through engineering measures where feasible.',
+        records: 'Risk assessment; design review; substitution assessment; engineering-control verification.',
+        interview: 'Which ADOSH-SF element is referenced? Answer: Element 2 — Risk Management.',
+      ),
+      CopGoldPoint(
+        clause: '3.2 (c)',
+        title: 'Protect workers through exposure prevention, PPE, first aid, vaccination/prophylaxis and medical surveillance as applicable',
+        meaning: 'The CoP links worker protection to effective programs for preventing overexposure, personal protection, first aid/medical facilities, vaccination or prophylaxis and medical surveillance, with cross-references to relevant ADOSH-SF CoPs and occupational standards/guideline values.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The CoP links worker protection to effective programs for preventing overexposure, personal protection, first aid/medical facilities, vaccination or prophylaxis and medical surveillance, with cross-references to relevant ADOSH-SF CoPs and occupational standards/guideline values. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A workplace handling a material with a recognized health risk maps exposure controls to the applicable occupational-health program and ensures medical/first-aid arrangements match the risk.',
+        hazards: 'Unrecognized exposure, delayed treatment, occupational disease and inadequate health monitoring.',
+        controls: 'Use exposure assessment, suitable PPE, first-aid/medical arrangements and occupational-health surveillance where required by the hazard and applicable requirements.',
+        fieldCheck: 'Check whether the risk assessment identifies health effects and whether the occupational-health response is linked to the hazard.',
+        commonMistake: 'Treating chemical safety as purely an HSE inspection issue with no occupational-health interface.',
+        action: 'Refer the hazard to the competent occupational-health/medical process and close identified gaps.',
+        records: 'Exposure assessment; occupational-health records; medical surveillance where applicable; first-aid arrangements; PPE records.',
+        interview: 'Which related CoPs are referenced? Answer: CoP 2.0 PPE, CoP 4.0 First Aid and Medical Emergency Treatment, and CoP 5.0 Occupational Health Screening and Medical Surveillance.',
+      ),
+      CopGoldPoint(
+        clause: '3.2 (d)',
+        title: 'Provide appropriate PPE for hazardous-material activities',
+        meaning: 'The CoP lists PPE that may be required, including protective helmets/caps, safety spectacles/goggles/face shields, respiratory protection, gloves, rubber/plastic aprons, coveralls and safety boots. The actual selection must be suitable for the identified hazard and task.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The CoP lists PPE that may be required, including protective helmets/caps, safety spectacles/goggles/face shields, respiratory protection, gloves, rubber/plastic aprons, coveralls and safety boots. The actual selection must be suitable for the identified hazard and task. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical-transfer task is reviewed and the PPE selection is matched to the material, exposure route and work method. The worker is trained in correct use and limitations.',
+        hazards: 'Eye/skin contact, inhalation, contamination and foot/hand injury.',
+        controls: 'Select compatible PPE based on the risk assessment and SDS; ensure availability, fit/condition, training and maintenance/decontamination as applicable.',
+        fieldCheck: 'Inspect PPE condition and ask workers why the selected PPE is appropriate for the chemical and task.',
+        commonMistake: 'Issuing generic gloves or masks without checking chemical compatibility or exposure route.',
+        action: 'Stop the task if required PPE is unavailable/unsuitable and provide the correct protection before resuming.',
+        records: 'PPE assessment; issue records; fit/selection evidence where applicable; inspection; training.',
+        interview: 'Is PPE the only control? Answer: no. The CoP requires the hierarchy of controls, with PPE as part of the overall protection program.',
+      ),
+      CopGoldPoint(
+        clause: '3.2 (e)',
+        title: 'Keep eating and changing facilities separated from hazardous-material storage/use areas',
+        meaning: 'Eating or changing clothes is not allowed within areas where hazardous materials are stored or used. The CoP specifies that eating and changing facilities are to be segregated by at least 10 m from storage/use areas.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Eating or changing clothes is not allowed within areas where hazardous materials are stored or used. The CoP specifies that eating and changing facilities are to be segregated by at least 10 m from storage/use areas. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'Workers remove contaminated PPE and use a designated changing/welfare area rather than changing beside a chemical store. Food is kept away from the hazardous-material area.',
+        hazards: 'Ingestion, cross-contamination, transfer of chemicals to clothing and secondary exposure.',
+        controls: 'Provide designated welfare/changing facilities, enforce separation, control contaminated clothing and communicate the rule to workers.',
+        fieldCheck: 'Inspect welfare areas and chemical stores together. Check actual worker behaviour, not only signs.',
+        commonMistake: 'Workers eating/drinking in a chemical work area because the task is short.',
+        action: 'Stop the unsafe practice, clean/decontaminate as appropriate and reinforce the separation requirement.',
+        records: 'Site layout; welfare inspection; signage; worker briefing records.',
+        interview: 'What minimum separation does the CoP specify for eating/changing facilities? Answer: at least 10 m from hazardous-material storage/use areas.',
+      ),
+      CopGoldPoint(
+        clause: '3.2 (f)',
+        title: 'Follow safe worker practices around hazardous materials',
+        meaning: 'The CoP gives specific minimum worker practices: never use smell, taste or touch to identify material; do not smoke; avoid incompatible/risky practices such as welding/lighters near flammable materials; do not mix unknown/incompatible materials; use compatible identified portable containers; identify tanks/valves/pumps and flow direction with colours/tags where required; clean/decontaminate PPE; and follow SDS precautions.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The CoP gives specific minimum worker practices: never use smell, taste or touch to identify material; do not smoke; avoid incompatible/risky practices such as welding/lighters near flammable materials; do not mix unknown/incompatible materials; use compatible identified portable containers; identify tanks/valves/pumps and flow direction with colours/tags where required; clean/decontaminate PPE; and follow SDS precautions. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A worker finds an unlabelled container and does not smell it to identify the contents. The worker isolates it and asks the competent person for identification. During liquid transfer, the portable container is compatible and identified, and the equipment flow direction is marked.',
+        hazards: 'Poisoning, burns, fire/explosion, incompatible reaction, wrong transfer and cross-contamination.',
+        controls: 'Prohibit unsafe identification methods, control ignition sources, segregate incompatibles, use compatible identified containers, maintain equipment identification and follow SDS precautions.',
+        fieldCheck: 'Observe worker behaviour, transfer practices, smoking/ignition controls, container identification and equipment tags.',
+        commonMistake: 'Using smell to identify a chemical, using an unlabelled bottle for a small quantity or performing hot work near flammable storage.',
+        action: 'Stop the unsafe practice, isolate the material/task and restore the required control before continuing.',
+        records: 'SDS; container labels; equipment tags; worker training; inspection records; PPE decontamination records where applicable.',
+        interview: 'Give two prohibited practices from this clause. Answer: never use smell/taste/touch for identification and never mix unknown/incompatible materials.',
+      ),
+    ],
+  ),
+  CopGoldSection(
+    title: '3.3 Emergency Management and Notifications',
+    introduction: 'Emergency planning must be risk-based and coordinated with the relevant emergency authorities/stakeholders. The official CoP identifies specific controls for static/sparks, grounding/bonding, detection, contacts, response kits, spill containment, decontamination, firefighting systems, inspection and incident reporting.',
+    points: <CopGoldPoint>[
+      CopGoldPoint(
+        clause: '3.3 (a)',
+        title: 'Meet applicable inventory, recordkeeping, notification and incident-planning requirements',
+        meaning: 'Facilities importing, exporting, producing, storing or managing chemicals/hazardous materials must comply with applicable inventory/recordkeeping, notification and incident-planning requirements set by law or competent authorities/SRAs.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Facilities importing, exporting, producing, storing or managing chemicals/hazardous materials must comply with applicable inventory/recordkeeping, notification and incident-planning requirements set by law or competent authorities/SRAs. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical facility maintains a current inventory and incident records and knows which notifications are required for its materials and operations.',
+        hazards: 'Missing information during an emergency, delayed authority notification and inability to demonstrate compliance.',
+        controls: 'Maintain controlled records, define notification responsibilities and periodically verify contact/recordkeeping arrangements.',
+        fieldCheck: 'Select a material and ask where its inventory, emergency information and notification requirements are documented.',
+        commonMistake: 'Keeping an outdated inventory that does not match the physical store.',
+        action: 'Reconcile the inventory and update notification/recordkeeping arrangements before relying on them during an incident.',
+        records: 'Inventory; notification records; incident reports; emergency plan; authority correspondence.',
+        interview: 'Why is an accurate inventory important during an emergency? Answer: responders and authorities need reliable information about what materials are present and the applicable response/notification requirements.',
+      ),
+      CopGoldPoint(
+        clause: '3.3 (b)',
+        title: 'Perform risk-based emergency-scenario identification and develop response plans with authorities/stakeholders',
+        meaning: 'Hazardous-material storage and handling facilities must identify potential emergency scenarios using a risk-based approach and develop emergency management programs and response plans in consultation with emergency-management authorities and other stakeholders. The plan must meet the applicable requirements of ADOSH-SF Element 6, NCEMA, Civil Defence and local emergency services including Abu Dhabi Police and DoH Abu Dhabi.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Hazardous-material storage and handling facilities must identify potential emergency scenarios using a risk-based approach and develop emergency management programs and response plans in consultation with emergency-management authorities and other stakeholders. The plan must meet the applicable requirements of ADOSH-SF Element 6, NCEMA, Civil Defence and local emergency services including Abu Dhabi Police and DoH Abu Dhabi. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A chemical store develops scenarios for spill, fire, toxic release and exposure, then checks its response arrangements with the relevant emergency stakeholders and integrates the agreed escalation routes into the site plan.',
+        hazards: 'Uncoordinated response, incompatible emergency actions, delayed rescue/notification and escalation of the incident.',
+        controls: 'Use scenario-based planning, authority consultation, defined roles, communication, drills and review after changes/incidents.',
+        fieldCheck: 'Ask workers and emergency coordinators to explain their role for a credible scenario. Check contact details and response interfaces.',
+        commonMistake: 'Copying a generic fire plan without considering chemical-specific release scenarios.',
+        action: 'Review the emergency program against the current inventory and risk profile and update it with the relevant authorities/stakeholders as required.',
+        records: 'Emergency plan; risk scenarios; consultation records; drills; authority contacts; review records.',
+        interview: 'Which external stakeholders are specifically named? Answer: NCEMA, Civil Defence, Abu Dhabi Police and Department of Health – Abu Dhabi, as applicable.',
+      ),
+      CopGoldPoint(
+        clause: '3.3 (c)',
+        title: 'Provide risk-based controls for static, detection, communication, spill containment, decontamination and firefighting',
+        meaning: 'The emergency program must identify and provide, as required, controls for static/sparks and ignition, grounding/bonding of flammable containers, alarms/detectors/tests, emergency contact information, response kits, spill containment that prevents releases to groundwater/sewer/stormwater, site decontamination and waste disposal, suitable firefighting systems and inspection/surveillance.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. The emergency program must identify and provide, as required, controls for static/sparks and ignition, grounding/bonding of flammable containers, alarms/detectors/tests, emergency contact information, response kits, spill containment that prevents releases to groundwater/sewer/stormwater, site decontamination and waste disposal, suitable firefighting systems and inspection/surveillance. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A flammable-liquid storage area has bonding/grounding arrangements where required, detection/alarms appropriate to the hazard, emergency contacts, spill response materials, containment and firefighting provisions. The controls are inspected and kept accessible.',
+        hazards: 'Fire/explosion, toxic exposure, environmental contamination, uncontrolled runoff and delayed emergency response.',
+        controls: 'Design controls from the hazard assessment; maintain response kits and firefighting systems; protect drains/water pathways; inspect and test relevant equipment.',
+        fieldCheck: 'Walk the emergency route and verify that the response kit, contacts, containment, fire equipment and detection/alarms are actually available and functional as required.',
+        commonMistake: 'Having spill kits or extinguishers on a checklist but inaccessible, empty or unsuitable for the material.',
+        action: 'Restore the emergency control immediately where practicable and escalate any critical impairment.',
+        records: 'Emergency equipment inspection; detector/alarm tests; containment inspection; fire-system records; decontamination/waste records.',
+        interview: 'What environmental pathways must spill controls protect? Answer: groundwater, sewerage networks and storm-water pipes, as identified by the CoP.',
+      ),
+      CopGoldPoint(
+        clause: '3.3 (d)',
+        title: 'Report hazardous-material incidents to relevant authorities/emergency services',
+        meaning: 'Hazardous-material incidents at entities or during transport must be reported to relevant emergency services, competent authorities and/or SRAs in accordance with ADOSH-SF Element 7 Monitoring, Investigation and Reporting and other applicable requirements.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Hazardous-material incidents at entities or during transport must be reported to relevant emergency services, competent authorities and/or SRAs in accordance with ADOSH-SF Element 7 Monitoring, Investigation and Reporting and other applicable requirements. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'After a significant chemical release, the site follows its incident procedure, protects people, contacts emergency services/authorities as required and preserves the information needed for investigation.',
+        hazards: 'Delayed emergency response, repeated exposure, environmental impact and failure to meet reporting duties.',
+        controls: 'Define notification thresholds, contacts and responsibilities; train staff; maintain an incident-reporting process linked to Element 7.',
+        fieldCheck: 'Ask the emergency coordinator to identify who must be notified, how and where the reporting evidence is recorded.',
+        commonMistake: 'Treating every chemical incident as an internal housekeeping issue without checking notification requirements.',
+        action: 'Activate emergency/incident reporting procedures and notify the relevant bodies according to the applicable requirements.',
+        records: 'Incident report; notification log; investigation; corrective actions; authority correspondence.',
+        interview: 'Which ADOSH-SF element is referenced for reporting? Answer: Element 7 — Monitoring, Investigation and Reporting.',
+      ),
+      CopGoldPoint(
+        clause: '3.3 (e)',
+        title: 'Disclose hazardous-material ingredients to authorized responders/medical/enforcement personnel when requested',
+        meaning: 'Employers must disclose hazardous-material ingredients when requested by emergency responders, licensed medical practitioners treating exposed patients, enforcement agencies and authorized members of competent authorities/SRAs.',
+        explanation: 'Study this requirement as a working HSE control, not as a sentence to memorise. Employers must disclose hazardous-material ingredients when requested by emergency responders, licensed medical practitioners treating exposed patients, enforcement agencies and authorized members of competent authorities/SRAs. In practice, the responsible person should connect the requirement to the actual material, task, people, location and supporting evidence, then verify that the control remains effective when conditions change.',
+        example: 'A responder arrives after a chemical exposure and requests product information. The responsible site representative provides the available hazardous-material information through the defined emergency process so responders and clinicians can make informed decisions.',
+        hazards: 'Delayed or inappropriate treatment, responder exposure and poor incident control caused by missing material information.',
+        controls: 'Maintain accessible SDS/profile information and a clear process for releasing ingredient information to authorized parties during incidents.',
+        fieldCheck: 'Check whether responders can access the required material information quickly and whether staff know who is authorized to request it.',
+        commonMistake: 'Keeping critical chemical information locked away where responders cannot obtain it during an emergency.',
+        action: 'Provide the requested information through the authorized emergency process and document the disclosure where required.',
+        records: 'SDS/profile; emergency contact list; disclosure procedure; incident record.',
+        interview: 'Who may request ingredient information under the CoP? Answer: emergency responders, licensed medical practitioners treating exposed patients, enforcement agencies and authorized competent-authority/SRA members.',
+      ),
+    ],
+  ),
+];
