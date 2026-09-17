@@ -1,24 +1,17 @@
-SafeNexus HSE — Abu Dhabi CoP 1.0 Advanced Interactive Pilot v1
+SafeNexus HSE — Abu Dhabi 62 CoP Top Standard v1
 
-Files included:
+Replace these complete files:
 1. lib/abu_dhabi_hse_topic_page.dart
-2. lib/data/abu_dhabi_hse_topics.dart
-3. lib/data/abu_dhabi_hse_topic_content.dart
+2. lib/data/abu_dhabi_hse_topic_content.dart
+3. lib/data/abu_dhabi_hse_topics.dart (master registry preserved)
 
-What changed:
-- Existing 62-CoP master topic registry is preserved.
-- Existing Abu Dhabi CoP content is preserved.
-- CoP 1.0 now opens an advanced Study & Reference page.
-- Each section is tappable and opens a second page.
-- Each individual point is tappable and opens a micro-detail page.
-- Other CoPs retain the existing page behavior.
-- No new Dart file is required; the 3-file architecture is preserved.
+UI flow:
+CoP -> Study section -> individual point -> point-specific detail page.
 
-Important:
-- This is an interactive learning/navigation enhancement.
-- It does not replace, delete, or silently rewrite Abu Dhabi regulatory requirements.
-- Exact regulatory numbers/limits must be verified against the current official ADPHC CoP before compliance use.
+The 62-CoP master registry is preserved. Existing content fields are preserved and each CoP now has a dedicated detailed overview paragraph. The page adds learning/reference layers around the content.
 
-Integration:
-Replace the three corresponding files in the project. Do not delete the existing
-abu_dhabi_guidelines.dart unless the complete migration has separately been verified.
+Important: educational explanations do not replace the official ADPHC CoP. Verify current version, exact mandatory wording, numeric limits, exceptions and applicability against the current official source before regulatory use.
+
+Recommended checks:
+flutter analyze
+flutter build apk --release
