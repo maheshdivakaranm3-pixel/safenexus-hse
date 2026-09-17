@@ -9,6 +9,7 @@ import 'dubai_hse_topic_router.dart';
 
 import 'data/uae_general_guidelines.dart';
 import 'data/abu_dhabi_guidelines.dart';
+import 'data/abu_dhabi_hse_topics.dart';
 import 'data/dubai_guidelines.dart';
 import 'data/hse_safety_reference.dart';
 
@@ -62,7 +63,7 @@ class _GuidelinesPageState extends State<GuidelinesPage> {
 
   List<ReferenceTopic> get _topics => [
         ...uaeGeneralGuidelines,
-        ...abuDhabiGuidelines,
+        ...abuDhabiHseTopics,
         ...dubaiGuidelines,
         ...hseSafetyReferences,
       ];
