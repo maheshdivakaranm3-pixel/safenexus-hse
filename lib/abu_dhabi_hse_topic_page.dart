@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'data/abu_dhabi_hse_topics.dart';
 import 'data/abu_dhabi_hse_topic_content.dart';
 import 'models/reference_topic.dart';
 
@@ -15,8 +14,6 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color pageBackground = Color(0xFFF6F8F7);
-
-  String _masterId(ReferenceTopic topic) => topic.id;
 
   Widget _section(String title, List<String> items) {
     if (items.isEmpty) return const SizedBox.shrink();
@@ -77,8 +74,7 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content =
-        abuDhabiHseTopicContent[_masterId(topic)];
+    final content = abuDhabiHseTopicContent[topic.id];
 
     return Scaffold(
       backgroundColor: pageBackground,
@@ -125,9 +121,13 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
+          _section(
+            'Overview',
+            [content?.overview.isNotEmpty == true
+                ? content!.overview
+                : topic.description],
+          ),
           if (content != null) ...[
-            _section('Overview', [content.overview]),
             _section('Deep Study', content.deepStudy),
             _section('Micro-Detail', content.microDetails),
             _section('Field Practical', content.fieldPractical),
@@ -135,12 +135,8 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
             _section('Emergency / Response', content.emergencyResponse),
             _section('Records & Evidence', content.records),
             _section('Interview Questions', content.interviewQuestions),
-            _section(
-              'Regulatory Verification',
-              content.regulatoryVerification,
-            ),
+            _section('Regulatory Verification', content.regulatoryVerification),
           ] else ...[
-            _section('Overview', [topic.description]),
             _section('Key Requirements', topic.keyRequirements),
             _section('Safety Controls', topic.safetyControls),
             _section('Responsibilities', topic.responsibilities),
