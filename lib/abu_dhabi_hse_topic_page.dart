@@ -161,7 +161,7 @@ class AbuDhabiCop10GoldStandardPage extends StatelessWidget {
             const Text('Gold-standard learning and field-reference pilot', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: primaryGreen)),
             const SizedBox(height: 14),
             const Text(
-              'This module is built from the current official Abu Dhabi ADPHC CoP 1.0 structure. It preserves the regulatory subject while adding practical explanations, site examples, HSE field checks, records, common mistakes and interview preparation. Tap a section, then tap a point to study that exact requirement.',
+              'This module is built from the current official Abu Dhabi ADPHC CoP 1.0 structure. It preserves the regulatory subject while adding practical explanations, site examples, HSE field checks, records, common mistakes. Tap a section, then tap a point to study that exact requirement.',
               style: TextStyle(fontSize: 15.5, height: 1.5),
             ),
           ],
