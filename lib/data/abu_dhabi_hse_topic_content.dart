@@ -3647,7 +3647,6 @@ class CopGoldPoint {
   final String commonMistake;
   final String action;
   final String records;
-  final String interview;
 
   const CopGoldPoint({
     required this.clause,
@@ -3661,7 +3660,6 @@ class CopGoldPoint {
     required this.commonMistake,
     required this.action,
     required this.records,
-    required this.interview,
   });
 }
 
@@ -3690,7 +3688,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating hazardous materials as only a stores issue and ignoring chemicals at the point of use or in contractor-controlled areas.',
         action: 'Create a complete material/activity inventory and assign responsibility for each stage from receipt to final disposal.',
         records: 'Material inventory; risk assessments; contractor registers; storage records; permits/approvals; waste transfer evidence where applicable.',
-        interview: 'What types of activities bring an entity within CoP 1.0? Answer: importing, storing, transporting, selling or using hazardous materials, subject to the CoP scope and exclusions.',
+
       ),
       CopGoldPoint(
         clause: '1.0 (b)',
@@ -3704,7 +3702,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Focusing only on the person performing the task and ignoring adjacent workers, visitors or the public.',
         action: 'Expand the risk assessment boundary and strengthen controls where a release could affect people outside the immediate work area.',
         records: 'Risk assessment; site layout; emergency plan; chemical inventory; incident/near-miss records.',
-        interview: 'Why does the CoP mention the community? Answer: hazardous-material incidents can affect people beyond employees, so controls must consider wider exposure and consequences.',
+
       ),
       CopGoldPoint(
         clause: '1.0 (c)',
@@ -3718,7 +3716,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating the CoP as the only legal document and assuming a generic company procedure automatically satisfies every authority requirement.',
         action: 'Trace the activity to all applicable regulatory sources before declaring compliance.',
         records: 'Legal/regulatory register; permits; approvals; authority notices; procedures; audit evidence.',
-        interview: 'What should you do if another applicable authority requirement conflicts with the CoP? Answer: follow the more stringent requirement as stated by the CoP, while confirming the applicable authority basis.',
+
       ),
       CopGoldPoint(
         clause: '1.0 (d)',
@@ -3732,7 +3730,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming the word “hazardous” means CoP 1.0 covers every possible hazardous substance without checking the stated exclusions.',
         action: 'Escalate specialist materials to the competent authority/framework and document the applicable regulatory boundary.',
         records: 'Classification records; specialist permits; authority approvals; inventory; SDS/profile information.',
-        interview: 'Does CoP 1.0 cover radioactive sources? Answer: no, the official CoP states that radioactive sources in Class 7 are excluded.',
+
       ),
     ],
   ),
@@ -3752,7 +3750,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Counting attendance alone as proof of competence.',
         action: 'Close competency gaps before assigning the person to hazardous-material duties and document the basis for competence.',
         records: 'Training matrix; course material; attendance; assessment; competency authorization; refresher records.',
-        interview: 'How do you demonstrate hazardous-material competency? Answer: link role requirements to appropriate training, assessment, authorization and field verification.',
+
       ),
       CopGoldPoint(
         clause: '2 (b)',
@@ -3766,7 +3764,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Allowing a worker to start first and giving the hazardous-material induction later.',
         action: 'Stop the person from performing the hazardous-material task until the required awareness training is completed.',
         records: 'Induction record; training material; worker acknowledgment/assessment.',
-        interview: 'When must general hazardous-material awareness be provided? Answer: before the employee starts work.',
+
       ),
       CopGoldPoint(
         clause: '2 (c)',
@@ -3780,7 +3778,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Using one generic chemical induction for every role regardless of responsibility.',
         action: 'Provide additional task/role-specific training and verify competence before the person performs the activity.',
         records: 'Role matrix; training records; competency assessments; contractor training evidence; toolbox records.',
-        interview: 'Name key minimum hazardous-material training topics. Answer: SDS/profile use, PPE, properties/risks, storage/handling/decanting, disposal, release prevention, segregation, labelling/signs, specialized requirements and incident controls.',
+
       ),
       CopGoldPoint(
         clause: '2 (d)',
@@ -3794,7 +3792,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming a normal driving licence is sufficient for hazardous-material transport duties.',
         action: 'Do not assign transport duties until the required role-specific training and authorization are confirmed.',
         records: 'Driver competency; journey plan; logbook; vehicle inspection; load-securing checklist; emergency information.',
-        interview: 'What additional transport topics are required? Answer: safe driving, loading/unloading, securing, incident/spill response, journey management/reporting/logbooks and applicable pre-assigned routes.',
+
       ),
       CopGoldPoint(
         clause: '2 (e)',
@@ -3808,7 +3806,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming the driver or warehouse worker can infer classification and transport-document requirements without formal role training.',
         action: 'Correct the classification/documentation gap and prevent dispatch until the required information is verified.',
         records: 'Classification records; transport documents; labels/placards; emergency documents; competency records.',
-        interview: 'Why is classification training important? Answer: classification drives the correct packaging, labelling, marking/placarding, documentation and emergency information.',
+
       ),
       CopGoldPoint(
         clause: '2 (f)',
@@ -3822,7 +3820,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating hazardous-material security as purely a physical-lock issue with no reporting or management process.',
         action: 'Secure the area, follow the site security/emergency process and notify the responsible authority/management as required.',
         records: 'Security training; access records; incident reports; notification contacts; security risk assessment.',
-        interview: 'What four security-awareness themes are specified? Answer: recognizing risks, reducing risks, responding to breaches and notifying management about new risks.',
+
       ),
       CopGoldPoint(
         clause: '2 (g)',
@@ -3836,7 +3834,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Giving an English-only slide deck to workers who cannot understand it and recording attendance as competence.',
         action: 'Re-deliver the training in an appropriate format/language and verify understanding before the task continues.',
         records: 'Training material; language matrix; assessments; toolbox records; translated/visual aids where used.',
-        interview: 'Does the CoP require training to consider literacy and language? Answer: yes.',
+
       ),
     ],
   ),
@@ -3856,7 +3854,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'A generic chemical risk assessment that does not identify the actual products or activities.',
         action: 'Update the assessment and controls before the affected work continues where a significant gap is found.',
         records: 'Risk assessments; chemical inventory; SDS; task procedures; change-management records.',
-        interview: 'What must the risk assessment identify? Answer: hazardous materials present, stored or handled and the risks associated with them across relevant activities, products and services.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (b)',
@@ -3870,7 +3868,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Using a copied internet summary or old project procedure as the only source of regulatory truth.',
         action: 'Verify the current official/authority source and update the procedure or register as required.',
         records: 'Regulatory register; authority guidance; permit conditions; SDS; controlled procedures.',
-        interview: 'Why must the SDS be considered? Answer: the CoP specifically includes manufacturer SDS information among the requirements employers must familiarize themselves with.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (c)',
@@ -3884,7 +3882,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Accepting a chemical because the supplier can deliver it without checking whether it is banned or restricted.',
         action: 'Quarantine/stop the activity as appropriate and escalate for authority verification before use or movement.',
         records: 'Material approval; permit; procurement screening; inventory; supplier documentation.',
-        interview: 'What is the difference between banned and restricted material control? Answer: banned materials must not be handled; restricted materials require the specified approval/permit and special conditions.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (d)',
@@ -3898,7 +3896,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Keeping expired approvals in the project folder and assuming their presence proves compliance.',
         action: 'Escalate and suspend the affected activity where required until the authorization status is resolved.',
         records: 'Permits; licences; approvals; conditions; renewal records; authority correspondence.',
-        interview: 'What should an HSE Officer verify about a permit? Answer: validity, applicability, conditions and actual compliance in the field.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (e)',
@@ -3912,7 +3910,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Naming someone on an organization chart without verifying competence or actual involvement.',
         action: 'Close the competency/coverage gap and formally assign the oversight responsibility.',
         records: 'Appointment letter; competency evidence; duty matrix; inspection records.',
-        interview: 'Who should oversee hazardous-material storage, use and disposal? Answer: a competent person appointed by the employer.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (f)',
@@ -3926,7 +3924,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Providing PPE while leaving a preventable emission source uncontrolled.',
         action: 'Strengthen source/engineering controls and update the risk assessment and procedure.',
         records: 'Risk assessment; engineering-control records; exposure monitoring where applicable; maintenance records.',
-        interview: 'Why is source control important? Answer: the CoP specifically requires prevention/minimization of emissions, exposure and hazardous-waste generation at source.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (g)',
@@ -3940,7 +3938,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming an old chemical is safe because it is still sealed or leaving a damaged label because the worker “knows what it is.”',
         action: 'Isolate, identify, assess and dispose/replace through the approved process; restore correct labelling before use.',
         records: 'Inspection checklist; inventory; expiry records; damaged-material log; waste/disposal records.',
-        interview: 'What should happen to unclear or damaged labels? Answer: they must be replaced.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (h)',
@@ -3954,7 +3952,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating chemical waste as ordinary waste or keeping waste containers without a defined disposal route.',
         action: 'Stop inappropriate disposal and arrange compliant containment and approved disposal.',
         records: 'Waste inventory; waste profiles; transfer notes; contractor approval; disposal certificates.',
-        interview: 'Which CoP is specifically referenced for hazardous-waste disposal? Answer: CoP 54.0 Waste Management.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (i)',
@@ -3968,7 +3966,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Defining “exposed person” only as the worker who opens the container.',
         action: 'Extend controls to adjacent work groups and revise the risk assessment if needed.',
         records: 'Exposure assessment; site layout; induction; monitoring; PPE records.',
-        interview: 'Who needs protection? Answer: employees working with hazardous materials and those working near them, as applicable.',
+
       ),
       CopGoldPoint(
         clause: '3.1.1 (j)',
@@ -3982,7 +3980,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Having a generic emergency plan that does not reflect the actual hazardous materials stored.',
         action: 'Review the emergency plan against the inventory and actual site conditions and correct gaps before continuing high-risk storage/handling.',
         records: 'Emergency plan; drills; contact list; response-kit inspection; incident reports.',
-        interview: 'What should an emergency plan be based on? Answer: credible/risk-based hazardous-material emergency scenarios and applicable authority requirements.',
+
       ),
     ],
   ),
@@ -4002,7 +4000,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Using an informal product description instead of the formal hazard classification information.',
         action: 'Escalate inconsistencies to the supplier/manufacturer before treating the material information as reliable.',
         records: 'Classification records; laboratory data; SDS; label; supplier documentation.',
-        interview: 'Why is classification important? Answer: it determines the hazard information that drives safe handling, labelling and other controls.',
+
       ),
       CopGoldPoint(
         clause: '3.1.2 (b)',
@@ -4016,7 +4014,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Keeping a single old SDS in a central office where users cannot access it.',
         action: 'Obtain the correct information, control the outdated copy and update the site records before the material is used where necessary.',
         records: 'SDS register; inventory; supplier documents; label inspection; update records.',
-        interview: 'How often does the CoP require manufacturers to review and update the SDS? Answer: annually.',
+
       ),
     ],
   ),
@@ -4036,7 +4034,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming supplier delivery means the importer is authorized to receive the material.',
         action: 'Hold the shipment and resolve the approval requirement before import/acceptance.',
         records: 'Import permit; approval; shipment records; material register.',
-        interview: 'What is the control point before importing a restricted material? Answer: possession of the required permit/approval.',
+
       ),
       CopGoldPoint(
         clause: '3.1.3 (b)',
@@ -4050,7 +4048,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Accepting damaged packaging because the product itself appears usable.',
         action: 'Quarantine non-conforming material and resolve packaging/label/SDS issues before distribution or use.',
         records: 'Receiving inspection; inventory; SDS; supplier communication; non-conformance record.',
-        interview: 'What minimum information should accompany hazardous material? Answer: appropriate packaging and labelling plus an SDS or equivalent, as applicable.',
+
       ),
     ],
   ),
@@ -4070,7 +4068,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Using one transport checklist for every hazardous material without considering material-specific instructions.',
         action: 'Correct the shipment controls before dispatch when a critical requirement is missing.',
         records: 'Transport documents; SDS; vehicle permits; route requirements; load checklist.',
-        interview: 'What sources must transporters consider? Answer: applicable laws/regulations, relevant model regulations, competent-authority/SRA requirements, SDS and special handling instructions.',
+
       ),
       CopGoldPoint(
         clause: '3.1.4 (b)',
@@ -4084,7 +4082,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Checking paperwork while failing to inspect the actual load security or vehicle condition.',
         action: 'Do not dispatch until critical transport controls are restored and documented.',
         records: 'Vehicle inspection; permit; GPS evidence; journey manifest; driver competency; load-securing checklist; emergency equipment inspection.',
-        interview: 'Name key transport controls. Answer: compatible/labelled packages, secure loads, approved vehicle, emergency equipment, maintenance, GPS/permit where required, manifest journey management, qualified drivers, security escort and pre-assigned routes where applicable.',
+
       ),
       CopGoldPoint(
         clause: '3.1.4 (c)',
@@ -4098,7 +4096,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming the site emergency plan automatically covers a vehicle once it leaves the site.',
         action: 'Use the transport emergency plan and notify the relevant authorities/emergency services according to applicable requirements.',
         records: 'Transport emergency plan; drills; contact list; emergency information; incident reports.',
-        interview: 'Why does transport need its own emergency plan? Answer: the hazards and response environment change when hazardous material is in transit.',
+
       ),
     ],
   ),
@@ -4118,7 +4116,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Calling every internally generated mixture an SDS and using a generic waste label without hazard information.',
         action: 'Stop movement/use if necessary and obtain the correct classification/profile and compliant waste route.',
         records: 'Mixed Material Profile; Waste Material Profile; inventory; labels; disposal documentation.',
-        interview: 'What is the correct name for the internal waste document? Answer: “Waste Material Profile” (and “Mixed Material Profile” for mixed materials), not an SDS.',
+
       ),
       CopGoldPoint(
         clause: '3.1.5 (b)',
@@ -4132,7 +4130,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Storing chemicals together because there is available shelf space without checking compatibility.',
         action: 'Relocate incompatible materials safely and update the storage plan and assessment.',
         records: 'Compatibility assessment; store plan; inventory; inspection records.',
-        interview: 'Why is compatibility assessment important? Answer: incompatible materials can react or worsen an incident when stored together.',
+
       ),
       CopGoldPoint(
         clause: '3.1.5 (c)',
@@ -4146,7 +4144,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Mixing hazardous waste with general waste because the quantity is small.',
         action: 'Segregate and route the waste through the approved hazardous-waste process.',
         records: 'Waste register; profiles; storage inspection; transfer notes; disposal certificate.',
-        interview: 'What authority guidance is specifically referenced? Answer: guidance issued by the Centre for Waste Management – Abu Dhabi.',
+
       ),
       CopGoldPoint(
         clause: '3.1.5 (d)',
@@ -4160,7 +4158,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating a container room as a chemical store without checking its approved use, design or fire/life-safety requirements.',
         action: 'Do not populate a non-compliant store; escalate design/approval gaps and correct them before use.',
         records: 'Approved drawings; permits; authority approvals; fire/life-safety records; inspection reports.',
-        interview: 'Which fire/life-safety framework is referenced? Answer: the Civil Defence requirements, including the latest edition of the UAE Fire and Life Safety Code.',
+
       ),
       CopGoldPoint(
         clause: '3.1.5 (e)',
@@ -4174,7 +4172,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Keeping the inventory in the office while actual quantities/locations change in the store without reconciliation.',
         action: 'Update the management system and correct any mismatch before relying on it for emergency or compliance decisions.',
         records: 'Store schematic; compatibility assessments; quantity limits; inventory; SDS/profile sheets; emergency plan; inspection records.',
-        interview: 'What five inventory fields are explicitly listed? Answer: hazardous material/waste name, manufacturer, location, quantity onsite and expiry date where applicable.',
+
       ),
     ],
   ),
@@ -4194,7 +4192,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Assuming exposure is acceptable because workers are wearing PPE.',
         action: 'Reassess the control strategy and improve higher-level controls where reasonably practicable.',
         records: 'Risk assessment; exposure assessment; engineering-control records; PPE records; health surveillance where applicable.',
-        interview: 'What is the first question when reviewing a hazardous-material task? Answer: how can exposure be prevented or minimized, not simply what PPE can be issued.',
+
       ),
       CopGoldPoint(
         clause: '3.2 (b)',
@@ -4208,7 +4206,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'A risk assessment that lists only PPE as the control.',
         action: 'Review the hierarchy and improve controls at source or through engineering measures where feasible.',
         records: 'Risk assessment; design review; substitution assessment; engineering-control verification.',
-        interview: 'Which ADOSH-SF element is referenced? Answer: Element 2 — Risk Management.',
+
       ),
       CopGoldPoint(
         clause: '3.2 (c)',
@@ -4222,7 +4220,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating chemical safety as purely an HSE inspection issue with no occupational-health interface.',
         action: 'Refer the hazard to the competent occupational-health/medical process and close identified gaps.',
         records: 'Exposure assessment; occupational-health records; medical surveillance where applicable; first-aid arrangements; PPE records.',
-        interview: 'Which related CoPs are referenced? Answer: CoP 2.0 PPE, CoP 4.0 First Aid and Medical Emergency Treatment, and CoP 5.0 Occupational Health Screening and Medical Surveillance.',
+
       ),
       CopGoldPoint(
         clause: '3.2 (d)',
@@ -4236,7 +4234,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Issuing generic gloves or masks without checking chemical compatibility or exposure route.',
         action: 'Stop the task if required PPE is unavailable/unsuitable and provide the correct protection before resuming.',
         records: 'PPE assessment; issue records; fit/selection evidence where applicable; inspection; training.',
-        interview: 'Is PPE the only control? Answer: no. The CoP requires the hierarchy of controls, with PPE as part of the overall protection program.',
+
       ),
       CopGoldPoint(
         clause: '3.2 (e)',
@@ -4250,7 +4248,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Workers eating/drinking in a chemical work area because the task is short.',
         action: 'Stop the unsafe practice, clean/decontaminate as appropriate and reinforce the separation requirement.',
         records: 'Site layout; welfare inspection; signage; worker briefing records.',
-        interview: 'What minimum separation does the CoP specify for eating/changing facilities? Answer: at least 10 m from hazardous-material storage/use areas.',
+
       ),
       CopGoldPoint(
         clause: '3.2 (f)',
@@ -4264,7 +4262,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Using smell to identify a chemical, using an unlabelled bottle for a small quantity or performing hot work near flammable storage.',
         action: 'Stop the unsafe practice, isolate the material/task and restore the required control before continuing.',
         records: 'SDS; container labels; equipment tags; worker training; inspection records; PPE decontamination records where applicable.',
-        interview: 'Give two prohibited practices from this clause. Answer: never use smell/taste/touch for identification and never mix unknown/incompatible materials.',
+
       ),
     ],
   ),
@@ -4284,7 +4282,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Keeping an outdated inventory that does not match the physical store.',
         action: 'Reconcile the inventory and update notification/recordkeeping arrangements before relying on them during an incident.',
         records: 'Inventory; notification records; incident reports; emergency plan; authority correspondence.',
-        interview: 'Why is an accurate inventory important during an emergency? Answer: responders and authorities need reliable information about what materials are present and the applicable response/notification requirements.',
+
       ),
       CopGoldPoint(
         clause: '3.3 (b)',
@@ -4298,7 +4296,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Copying a generic fire plan without considering chemical-specific release scenarios.',
         action: 'Review the emergency program against the current inventory and risk profile and update it with the relevant authorities/stakeholders as required.',
         records: 'Emergency plan; risk scenarios; consultation records; drills; authority contacts; review records.',
-        interview: 'Which external stakeholders are specifically named? Answer: NCEMA, Civil Defence, Abu Dhabi Police and Department of Health – Abu Dhabi, as applicable.',
+
       ),
       CopGoldPoint(
         clause: '3.3 (c)',
@@ -4312,7 +4310,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Having spill kits or extinguishers on a checklist but inaccessible, empty or unsuitable for the material.',
         action: 'Restore the emergency control immediately where practicable and escalate any critical impairment.',
         records: 'Emergency equipment inspection; detector/alarm tests; containment inspection; fire-system records; decontamination/waste records.',
-        interview: 'What environmental pathways must spill controls protect? Answer: groundwater, sewerage networks and storm-water pipes, as identified by the CoP.',
+
       ),
       CopGoldPoint(
         clause: '3.3 (d)',
@@ -4326,7 +4324,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Treating every chemical incident as an internal housekeeping issue without checking notification requirements.',
         action: 'Activate emergency/incident reporting procedures and notify the relevant bodies according to the applicable requirements.',
         records: 'Incident report; notification log; investigation; corrective actions; authority correspondence.',
-        interview: 'Which ADOSH-SF element is referenced for reporting? Answer: Element 7 — Monitoring, Investigation and Reporting.',
+
       ),
       CopGoldPoint(
         clause: '3.3 (e)',
@@ -4340,7 +4338,7 @@ final List<CopGoldSection> cop10GoldStandardSections = <CopGoldSection>[
         commonMistake: 'Keeping critical chemical information locked away where responders cannot obtain it during an emergency.',
         action: 'Provide the requested information through the authorized emergency process and document the disclosure where required.',
         records: 'SDS/profile; emergency contact list; disclosure procedure; incident record.',
-        interview: 'Who may request ingredient information under the CoP? Answer: emergency responders, licensed medical practitioners treating exposed patients, enforcement agencies and authorized competent-authority/SRA members.',
+
       ),
     ],
   ),
