@@ -52,6 +52,9 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
     if (topic.id == 'ad_cop_1_0') {
       return AbuDhabiCop10GoldStandardPage(topic: topic);
     }
+    if (topic.id == 'ad_cop_1_1') {
+      return AbuDhabiCop11GoldStandardPage(topic: topic);
+    }
 
     final content = abuDhabiHseTopicContent[topic.id];
     return Scaffold(
@@ -230,6 +233,187 @@ class AbuDhabiCop10GoldStandardPage extends StatelessWidget {
   }
 }
 
+
+class AbuDhabiCop11GoldStandardPage extends StatelessWidget {
+  final ReferenceTopic topic;
+
+  const AbuDhabiCop11GoldStandardPage({
+    super.key,
+    required this.topic,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: const Text('CoP 1.1 — Asbestos'),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          _hero(),
+          const SizedBox(height: 14),
+          _baselineCard(),
+          const SizedBox(height: 14),
+          ...cop11GoldStandardSections.asMap().entries.map(
+                (entry) => _sectionCard(context, entry.key + 1, entry.value),
+              ),
+        ],
+      ),
+    );
+  }
+
+  Widget _hero() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              topic.title,
+              style: const TextStyle(
+                fontSize: 24,
+                height: 1.18,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Gold-standard learning and field-reference module',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: primaryGreen,
+              ),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'A detailed SafeNexus HSE study module for managing asbestos-containing materials in Abu Dhabi. The module follows the official CoP structure and expands each requirement into practical field learning without replacing the official publication.',
+              style: TextStyle(fontSize: 15.5, height: 1.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _baselineCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'Official baseline',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Abu Dhabi Occupational Safety and Health System Framework (ADOSH-SF) — CoP 1.1: Management of Asbestos Containing Materials.',
+              style: TextStyle(fontSize: 15.2, height: 1.45),
+            ),
+            SizedBox(height: 6),
+            Text(
+              'Version 4.1 • Effective 27 February 2026',
+              style: TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                color: primaryGreen,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionCard(
+    BuildContext context,
+    int number,
+    CopGoldSection section,
+  ) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AbuDhabiCop10GoldSectionPage(section: section),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '$number',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      section.title,
+                      style: const TextStyle(
+                        fontSize: 16.5,
+                        fontWeight: FontWeight.w900,
+                        color: darkGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${section.points.length} study points',
+                      style: const TextStyle(
+                        fontSize: 13.5,
+                        color: primaryGreen,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: darkGreen),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class AbuDhabiCop10GoldSectionPage extends StatelessWidget {
   final CopGoldSection section;
 
@@ -342,7 +526,6 @@ class AbuDhabiCop10GoldPointPage extends StatelessWidget {
           _detailCard(Icons.error_outline_rounded, 'Common mistakes', point.commonMistake),
           _detailCard(Icons.task_alt_rounded, 'What to do / corrective action', point.action),
           _detailCard(Icons.folder_copy_outlined, 'Documents / evidence', point.records),
-          _regulatoryCard(),
         ],
       ),
     );
@@ -384,25 +567,6 @@ class AbuDhabiCop10GoldPointPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(text, style: const TextStyle(fontSize: 15.5, height: 1.55)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _regulatoryCard() {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(top: 12),
-      color: const Color(0xFFF1F6ED),
-      child: Padding(
-        padding: const EdgeInsets.all(17),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text('Regulatory verification', style: TextStyle(fontSize: 17.5, fontWeight: FontWeight.w900, color: primaryGreen)),
-            SizedBox(height: 10),
-            Text('Source baseline: Abu Dhabi ADPHC, ADOSH-SF Code of Practice 1.0 — Hazardous Materials, Version 4.0, 15 July 2024. The clause reference on this page is a study locator; use the official publication for the controlling wording and for any regulatory decision.', style: TextStyle(fontSize: 14.5, height: 1.5)),
           ],
         ),
       ),
