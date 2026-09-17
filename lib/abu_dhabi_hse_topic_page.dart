@@ -57,6 +57,53 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
     }
 
     final content = abuDhabiHseTopicContent[topic.id];
+
+    if (content == null) {
+      return AbuDhabiGenericGoldStandardPage(
+        topic: topic,
+        content: const AbuDhabiHseTopicContent(),
+      );
+    }
+
+    return AbuDhabiGenericGoldStandardPage(
+      topic: topic,
+      content: content,
+    );
+  }
+}
+
+class AbuDhabiGenericGoldStandardPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final AbuDhabiHseTopicContent content;
+
+  const AbuDhabiGenericGoldStandardPage({
+    super.key,
+    required this.topic,
+    required this.content,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  List<_GenericGoldSection> get _sections {
+    final sections = <_GenericGoldSection>[
+      _GenericGoldSection('Overview', content.overview.isEmpty ? <String>[] : <String>[content.overview]),
+      _GenericGoldSection('Deep Study', content.deepStudy),
+      _GenericGoldSection('Micro-Detail', content.microDetails),
+      _GenericGoldSection('Field Practical', content.fieldPractical),
+      _GenericGoldSection('Inspection Checklist', content.inspectionChecklist),
+      _GenericGoldSection('Emergency / Response', content.emergencyResponse),
+      _GenericGoldSection('Records & Evidence', content.records),
+    ];
+
+    // Existing interview/regulatory content is preserved in the data layer,
+    // but these two sections are intentionally not displayed in the Gold UI.
+    return sections.where((section) => section.points.isNotEmpty).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pageBackground,
       appBar: AppBar(
@@ -66,7 +113,253 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
         elevation: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          _hero(),
+          const SizedBox(height: 14),
+          ..._sections.asMap().entries.map(
+            (entry) => _sectionCard(context, entry.key + 1, entry.value),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _hero() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              topic.title,
+              style: const TextStyle(
+                fontSize: 24,
+                height: 1.18,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${topic.shortTitle} • Abu Dhabi HSE Gold Standard',
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: primaryGreen,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              topic.description,
+              style: const TextStyle(fontSize: 15.5, height: 1.5),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Tap a section, then tap a point to study the requirement with detailed explanation, field application, hazards, controls, checks, mistakes, corrective action and records.',
+              style: TextStyle(fontSize: 15.2, height: 1.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionCard(
+    BuildContext context,
+    int number,
+    _GenericGoldSection section,
+  ) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AbuDhabiGenericGoldSectionPage(
+              topic: topic,
+              section: section,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: primaryGreen.withValues(alpha: 0.12),
+                child: Text(
+                  '$number',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Text(
+                  section.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: darkGreen),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GenericGoldSection {
+  final String title;
+  final List<String> points;
+
+  const _GenericGoldSection(this.title, this.points);
+}
+
+class AbuDhabiGenericGoldSectionPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final _GenericGoldSection section;
+
+  const AbuDhabiGenericGoldSectionPage({
+    super.key,
+    required this.topic,
+    required this.section,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(section.title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Text(
+                '${topic.shortTitle} — ${section.title}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: darkGreen,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...section.points.asMap().entries.map(
+            (entry) => _pointCard(context, entry.key + 1, entry.value),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _pointCard(BuildContext context, int number, String point) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AbuDhabiGenericGoldPointPage(
+              topic: topic,
+              section: section,
+              pointNumber: number,
+              point: point,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: primaryGreen.withValues(alpha: 0.12),
+                child: Text(
+                  '$number',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  point,
+                  style: const TextStyle(
+                    fontSize: 15.2,
+                    height: 1.45,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(Icons.chevron_right, color: darkGreen),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AbuDhabiGenericGoldPointPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final _GenericGoldSection section;
+  final int pointNumber;
+  final String point;
+
+  const AbuDhabiGenericGoldPointPage({
+    super.key,
+    required this.topic,
+    required this.section,
+    required this.pointNumber,
+    required this.point,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
         children: [
           Card(
             elevation: 0,
@@ -75,40 +368,107 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(topic.title, style: const TextStyle(fontSize: 21, height: 1.2, fontWeight: FontWeight.w800, color: darkGreen)),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      Chip(label: Text(topic.shortTitle)),
-                      Chip(label: Text(topic.category)),
-                      Chip(label: Text(topic.jurisdiction)),
-                    ],
+                  Text(
+                    '${section.title} • Point $pointNumber',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: primaryGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    point,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      height: 1.3,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 12),
-          if (content != null) ...[
-            _section('Overview', [content.overview]),
-            _section('Deep Study', content.deepStudy),
-            _section('Micro-Detail', content.microDetails),
-            _section('Field Practical', content.fieldPractical),
-            _section('Inspection Checklist', content.inspectionChecklist),
-            _section('Emergency / Response', content.emergencyResponse),
-            _section('Records & Evidence', content.records),
-            _section('Interview Questions', content.interviewQuestions),
-            _section('Regulatory Verification', content.regulatoryVerification),
-          ] else ...[
-            _section('Overview', [topic.description]),
-            _section('Key Requirements', topic.keyRequirements),
-            _section('Safety Controls', topic.safetyControls),
-            _section('Responsibilities', topic.responsibilities),
-            _section('References', topic.references),
-          ],
+          _detailCard('What This Point Means', point),
+          _detailCard(
+            'Detailed Study',
+            'Study this requirement in the context of ${topic.title}. '
+            'Confirm the applicable task, people exposed, equipment, work area, '
+            'supervision and safe system of work before the activity starts.',
+          ),
+          _detailCard(
+            'Practical Site Example',
+            'During a site inspection, observe the actual activity covered by this point. '
+            'Compare the field condition with the approved risk assessment, method statement, '
+            'procedure and worker instructions. Correct gaps before work continues.',
+          ),
+          _detailCard(
+            'Hazards & Consequences',
+            'Failure to control this requirement can expose workers, contractors, visitors, '
+            'equipment or the environment to foreseeable hazards. Consider injury, illness, '
+            'property damage, environmental impact and escalation of the incident as applicable.',
+          ),
+          _detailCard(
+            'Control Measures',
+            'Apply the hierarchy of controls: eliminate the hazard where practicable, '
+            'substitute or isolate it, use engineering controls, establish administrative '
+            'controls and provide suitable PPE as the final layer.',
+          ),
+          _detailCard(
+            'HSE Officer Field Check',
+            'Verify the work area, responsible person, competence, controls, equipment condition, '
+            'inspection status, access, housekeeping, signage and required records. '
+            'Reassess when conditions or scope change.',
+          ),
+          _detailCard(
+            'Common Mistakes',
+            'Typical failures include relying only on PPE, using an outdated risk assessment, '
+            'poor communication, incomplete inspection, inadequate supervision, missing records '
+            'or continuing work after conditions have changed.',
+          ),
+          _detailCard(
+            'Corrective Action',
+            'Stop or control the unsafe condition where necessary, inform the responsible supervisor, '
+            'make the area safe, correct the control failure, brief affected personnel and record '
+            'the action and follow-up verification.',
+          ),
+          _detailCard(
+            'Documents / Records',
+            'Review the documents applicable to this topic, such as risk assessment, method statement, '
+            'permit, inspection/checklist, training or competency evidence, maintenance records, '
+            'monitoring records, incident records and corrective-action evidence.',
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _detailCard(String title, String text) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(17),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              text,
+              style: const TextStyle(fontSize: 15.2, height: 1.5),
+            ),
+          ],
+        ),
       ),
     );
   }
