@@ -1,34 +1,60 @@
-import '../models/reference_topic.dart';
-
 class AbuDhabiHseTopicProfile {
-  final String cop, version, effectiveDate;
+  final String cop;
+  final String version;
+  final String effectiveDate;
   final List<String> sections;
+
   const AbuDhabiHseTopicProfile({
-    required this.cop, required this.version, required this.effectiveDate,
+    required this.cop,
+    required this.version,
+    required this.effectiveDate,
     required this.sections,
   });
 }
 
-const abuDhabiHseTopicProfiles = <String, AbuDhabiHseTopicProfile>{
+const Map<String, AbuDhabiHseTopicProfile> abuDhabiHseTopicProfiles = {
   'ad_excavation': AbuDhabiHseTopicProfile(
     cop: 'ADOSH-SF CoP 29.0 – Excavation Work',
     version: 'V4.1',
     effectiveDate: 'February 2026',
     sections: [
-      'Scope: applies to employers in Abu Dhabi; covers earth/rock movement, ground disturbance, driving objects into ground, underground-service exposure, digging, shafts, wells, trenches, grading, tunnelling, boring/drilling, post driving, cofferdams and caissons.',
-      'Planning: competent-person assessment, risk assessment, documented safe system of work, applicable PTW, emergency planning, survey/drawings, validated service searches, required permits/authorisations/NOCs and competent supervision.',
-      'Ground conditions: identify soil/ground type; review borehole/trial-pit information and water table; consider contamination and groundwater effects. Slope angles must be selected from the CoP soil-specific table, not a universal angle.',
-      'Support: provide timbering/shoring for trenches or excavations greater than 1.2 m where there is danger of material falling or collapsing. Support must be suitable, secure and installed/altered/dismantled by competent persons under supervision.',
-      'Access: provide safe entry/exit. Ladders must be secured and maintained; where reasonably practicable use a height-to-base ratio not flatter than 4:1 and project at least 1 m (4 rungs) above ground level. Do not use walings/struts as access.',
-      'Edge protection: where a person may fall more than 2 m use rigid barriers; below 2 m use physical edge demarcation. Barriers are 950 mm high under CoP 29.0. Protect against vehicle entry with wheel stops/barriers and use warning lights in darkness where applicable.',
-      'Atmosphere: control suffocating, toxic or explosive gases. Consider H2S, methane, sulphur dioxide, plant exhaust and LPG leakage. Deep/confined excavations require gas/oxygen testing arrangements in accordance with CoP 27.0 where applicable.',
-      'Inspection: competent-person inspection before work starts, at least daily and before each shift. Thorough examination weekly (every seven days) and after substantial collapse or damage; record results.',
-      'Emergency: plan for collapse, flooding, service strike, gas release, fire, falls, plant intrusion and medical emergencies as applicable. Maintain rapid escape routes.',
-      'Field checklist: verify drawings/services, permits/NOCs, competent supervisor, ground/support method, ladder/access, 950 mm barriers, >2 m fall controls, plant edge protection, warning lights, atmosphere controls and inspection records.',
-      'Stop-work: collapse/cracking/movement; damaged or incomplete support; unexpected ground/water condition; unknown service; missing authorisation; unsafe access; dangerous atmosphere; unsafe edge loading; failed public/traffic protection; failed inspection.',
-      'Records: risk assessment, method statement/safe system, permit where required, survey/service records, NOCs/approvals, support design, inspection/examination records, training records, emergency arrangements and toolbox talks.',
-      'Training: excavation workers and relevant supervisors/operators must understand hazards, controls, safe systems, emergency rescue, first aid, night work, debris removal, site security and restrictions; retrain when duties or hazards change or deficiencies are identified.',
-      'Related CoPs: 21.0 PTW; 22.0 Barricading; 27.0 Confined Spaces; 33.0 Work On/Adjacent to Road; 39.0 Overhead/Underground Services; 53.0/53.1 Construction OSH Management; 54.0 Waste Management.',
+      'Scope: Applies to employers in Abu Dhabi and covers excavation activities including earth or rock removal, ground disturbance, trenches, shafts, wells, grading, tunnelling, boring, drilling, post driving, cofferdams and caissons, including activities that may expose or damage underground services.',
+
+      'Planning: Complete a site-specific risk assessment and documented safe system of work. A competent person must assess the excavation before work starts. Verify applicable permits, authorisations, notifications, approvals, drawings, surveys, service information and emergency arrangements.',
+
+      'Ground conditions: Identify the ground or soil type before excavation. Review available ground investigation information, trial pits, boreholes and groundwater conditions. Consider contamination, water ingress and adjacent ground stability. Do not apply one universal excavation angle; use the applicable CoP requirements for the actual ground conditions.',
+
+      'Support: For trenches or excavations greater than 1.2 m where there is danger of material falling or collapse, provide suitable timbering or shoring. Support systems must be suitable, secure and maintained. Installation, alteration and dismantling must be carried out by competent persons under appropriate supervision.',
+
+      'Access and egress: Provide safe means of entering and leaving the excavation. Ladders must be secure and maintained. Where reasonably practicable, ladder positioning should follow a height-to-base ratio not flatter than 4:1. Ladders must project at least 1 m (4 rungs) above ground level to provide a suitable handhold. Do not use walings or struts as access routes.',
+
+      'Edge protection: Where a person may fall more than 2 m, provide appropriate rigid barriers. Where the fall potential is below 2 m, provide suitable physical edge demarcation. CoP 29.0 specifies 950 mm barrier height. Protect excavation edges from vehicle intrusion using suitable barriers or wheel stops where required.',
+
+      'Public and night protection: Where excavations interface with public areas or thoroughfares, maintain effective barricading and warning arrangements. Use suitable hazard warning lights during darkness where applicable. Replace temporarily removed barriers as soon as reasonably practicable.',
+
+      'Atmospheric hazards: Assess the possibility of suffocating, toxic or explosive gases. Potential sources include hydrogen sulphide, methane, sulphur dioxide, exhaust gases and LPG leakage. Provide ventilation and atmospheric monitoring where required. Where confined-space conditions exist, apply the applicable confined-space requirements; not every excavation is automatically a confined space.',
+
+      'Inspection: A competent and experienced person must inspect the excavation before work starts, at least once a day and before each shift. Conduct the required thorough examination at the specified interval and after substantial collapse or damage. Record inspection and examination results.',
+
+      'Weather and water: Reassess excavation stability after heavy rain, flooding, groundwater changes or other adverse conditions. Control water ingress and prevent conditions that could weaken excavation sides or support systems.',
+
+      'Plant and vehicles: Keep heavy plant, vehicles, materials and other loads away from excavation edges unless the support system and excavation have been assessed for the imposed loading. Provide suitable physical protection where plant could accidentally enter the excavation.',
+
+      'Underground services: Confirm available service drawings, surveys, service-owner information, NOCs and other required approvals before excavation. Where underground services are identified, follow the applicable safe-digging and service-protection requirements, including the requirements of CoP 39.0.',
+
+      'Emergency: Establish arrangements for excavation collapse, flooding, underground-service strike, gas release, fire, falls, plant intrusion and medical emergencies as applicable. Maintain clear escape routes and ensure emergency arrangements are communicated to workers.',
+
+      'Field checklist: Verify drawings and service information; permits and NOCs; competent supervision; ground conditions; excavation support or safe sloping; ladder and access; edge protection; plant exclusion controls; warning lights; atmospheric controls; inspection records; emergency arrangements and worker competency.',
+
+      'Stop-work conditions: Stop work when there is collapse, cracking, bulging, slumping or unexpected movement; damaged or incomplete support; unexpected ground or water conditions; unidentified underground services; missing permit or authorisation; unsafe access or egress; dangerous atmosphere; unsafe edge loading; failed barricading or public protection; or an inspection identifies an uncontrolled serious hazard.',
+
+      'Documents and records: Maintain applicable risk assessments, method statements or safe systems of work, permits, drawings, surveys, service-search records, NOCs and approvals, engineering/support information, inspection and examination records, training and competency records, toolbox-talk records and emergency arrangements.',
+
+      'Training and competency: Workers, supervisors and relevant plant operators must understand excavation hazards, safe systems of work, controls, emergency response, rescue, first aid, site security and applicable restrictions. Training must be refreshed when duties change, unfamiliar hazards are introduced or inadequate knowledge is identified.',
+
+      'Interview Q&A: Regulatory reference — ADOSH-SF CoP 29.0 Excavation Work. Shoring/timbering threshold — greater than 1.2 m where there is danger of material falling or collapse. Ladder projection — at least 1 m (4 rungs) above ground level. Barrier height — 950 mm under the CoP requirement. Fall protection — rigid barriers where a person may fall more than 2 m. Inspection — before starting, at least daily and before each shift, with the required thorough examinations and post-collapse/post-damage checks.',
+
+      'Related Abu Dhabi requirements: CoP 21.0 Permit to Work Systems; CoP 22.0 Barricading of Hazards; CoP 27.0 Confined Spaces; CoP 33.0 Working On or Adjacent to a Road; CoP 39.0 Overhead and Underground Services; CoP 53.0/53.1 Construction OSH Management; CoP 54.0 Waste Management.',
     ],
   ),
 };
