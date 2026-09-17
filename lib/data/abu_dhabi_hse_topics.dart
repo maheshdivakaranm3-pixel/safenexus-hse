@@ -1,8 +1,8 @@
 import '../models/reference_topic.dart';
 import '../models/guideline_category.dart';
 
-/// Abu Dhabi ADPHC Code of Practice master registry.
-/// This is the 62-CoP regulatory baseline for SafeNexus HSE.
+/// SafeNexus HSE — Abu Dhabi ADPHC Code of Practice Master Registry.
+/// Exactly 62 official CoP entries in the locked Abu Dhabi baseline.
 const List<ReferenceTopic> abuDhabiHseTopics = [
   ReferenceTopic(
     id: 'ad_cop_1_0',
@@ -12,7 +12,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 1.0 — Hazardous Materials. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 1.0 — Hazardous Materials. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -23,7 +23,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -46,7 +46,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 1.1 — Management of Asbestos Containing Materials. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 1.1 — Management of Asbestos Containing Materials. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -57,7 +57,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -80,7 +80,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 1.2 — Lead Exposure Management. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 1.2 — Lead Exposure Management. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -91,7 +91,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -114,7 +114,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 2.0 — Personal Protective Equipment. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 2.0 — Personal Protective Equipment. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -125,7 +125,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -148,7 +148,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 3.0 — Occupational Noise. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 3.0 — Occupational Noise. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -159,7 +159,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -182,7 +182,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 3.1 — Vibration. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 3.1 — Vibration. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -193,7 +193,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -216,7 +216,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 4.0 — First Aid and Medical Emergency Treatment. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 4.0 — First Aid and Medical Emergency Treatment. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -227,7 +227,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -250,7 +250,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 5.0 — Occupational Health Screening and Medical Surveillance. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 5.0 — Occupational Health Screening and Medical Surveillance. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -261,7 +261,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -284,7 +284,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 8.0 — General Workplace Amenities. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 8.0 — General Workplace Amenities. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -295,7 +295,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -318,7 +318,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 9.0 — Workplace Wellness. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 9.0 — Workplace Wellness. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -329,7 +329,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -352,7 +352,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 9.1 — New and Expectant Mothers. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 9.1 — New and Expectant Mothers. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -363,7 +363,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -386,7 +386,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 9.2 — Managing Work-Related Stress. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 9.2 — Managing Work-Related Stress. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -397,7 +397,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -420,7 +420,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 10.0 — Rehabilitation and Return to Work. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 10.0 — Rehabilitation and Return to Work. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -431,7 +431,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -454,7 +454,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 11.0 — Safety in the Heat. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 11.0 — Safety in the Heat. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -465,7 +465,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -488,7 +488,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 12.0 — Prevention and Control of Legionnaires Disease. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 12.0 — Prevention and Control of Legionnaires Disease. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -499,7 +499,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -522,7 +522,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 13.0 — Violence in the Workplace. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 13.0 — Violence in the Workplace. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -533,7 +533,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -556,7 +556,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 14.0 — Manual Handling and Ergonomics. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 14.0 — Manual Handling and Ergonomics. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -567,7 +567,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -590,7 +590,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 14.1 — Manual Tasks Involving the Handling of People. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 14.1 — Manual Tasks Involving the Handling of People. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -601,7 +601,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -624,7 +624,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 15.0 — Electrical Safety. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 15.0 — Electrical Safety. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -635,7 +635,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -658,7 +658,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 16.0 — OSH Requirements for People with Special Needs. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 16.0 — OSH Requirements for People with Special Needs. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -669,7 +669,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -692,7 +692,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 17.0 — Safety Signage and Signals. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 17.0 — Safety Signage and Signals. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -703,7 +703,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -726,7 +726,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 18.0 — Employer Supplied Accommodation-General Requirements. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 18.0 — Employer Supplied Accommodation-General Requirements. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -737,7 +737,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -760,7 +760,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 18.1 — Temporary Employer Supplied Accommodation. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 18.1 — Temporary Employer Supplied Accommodation. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -771,7 +771,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -794,7 +794,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 19.0 — Occupational Food Handling and Food Preparation Areas. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 19.0 — Occupational Food Handling and Food Preparation Areas. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -805,7 +805,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -828,7 +828,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 20.0 — Safety in Design (Construction). Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 20.0 — Safety in Design (Construction). Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -839,7 +839,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -862,7 +862,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 21.0 — Permit to Work Systems. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 21.0 — Permit to Work Systems. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -873,7 +873,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -896,7 +896,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 22.0 — Barricading of Hazards. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 22.0 — Barricading of Hazards. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -907,7 +907,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -930,7 +930,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 23.0 — Working at Heights. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 23.0 — Working at Heights. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -941,7 +941,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -964,7 +964,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 24.0 — Lock-out Tag-out (Isolation). Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 24.0 — Lock-out Tag-out (Isolation). Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -975,7 +975,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -998,7 +998,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 25.0 — Driver Fatigue Prevention. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 25.0 — Driver Fatigue Prevention. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1009,7 +1009,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1032,7 +1032,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 26.0 — Scaffolding. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 26.0 — Scaffolding. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1043,7 +1043,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1066,7 +1066,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 27.0 — Confined Spaces. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 27.0 — Confined Spaces. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1077,7 +1077,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1100,7 +1100,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 28.0 — Hot Work Operations. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 28.0 — Hot Work Operations. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1111,7 +1111,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1134,7 +1134,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 29.0 — Excavation Work. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 29.0 — Excavation Work. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1145,7 +1145,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1168,7 +1168,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 30.0 — Lone Working and/or in Remote Locations. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 30.0 — Lone Working and/or in Remote Locations. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1179,7 +1179,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1202,7 +1202,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 30.1 — Working in International Locations. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 30.1 — Working in International Locations. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1213,7 +1213,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1236,7 +1236,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 31.0 — Working on, Over or Adjacent to Water. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 31.0 — Working on, Over or Adjacent to Water. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1247,7 +1247,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1270,7 +1270,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 33.0 — Working On or Adjacent to a Road. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 33.0 — Working On or Adjacent to a Road. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1281,7 +1281,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1304,7 +1304,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 33.1 — Traffic Incident Site Management. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 33.1 — Traffic Incident Site Management. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1315,7 +1315,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1338,7 +1338,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 34.0 — Safe Use of Lifting Equipment and Lifting Accessories. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 34.0 — Safe Use of Lifting Equipment and Lifting Accessories. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1349,7 +1349,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1372,7 +1372,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 35.0 — Portable Power Tools. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 35.0 — Portable Power Tools. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1383,7 +1383,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1406,7 +1406,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 36.0 — Plant and Equipment. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 36.0 — Plant and Equipment. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1417,7 +1417,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1440,7 +1440,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 37.0 — Ladders. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 37.0 — Ladders. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1451,7 +1451,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1474,7 +1474,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 38.0 — Concrete Placing Equipment. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 38.0 — Concrete Placing Equipment. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1485,7 +1485,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1508,7 +1508,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 39.0 — Overhead and Underground Services. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 39.0 — Overhead and Underground Services. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1519,7 +1519,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1542,7 +1542,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 40.0 — False Work (Formwork). Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 40.0 — False Work (Formwork). Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1553,7 +1553,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1576,7 +1576,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 41.0 — Steel Erection. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 41.0 — Steel Erection. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1587,7 +1587,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1610,7 +1610,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 42.0 — Pre Cast Construction. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 42.0 — Pre Cast Construction. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1621,7 +1621,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1644,7 +1644,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 43.0 — Temporary Structures. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 43.0 — Temporary Structures. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1655,7 +1655,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1678,7 +1678,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 44.0 — Traffic Management and Logistics. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 44.0 — Traffic Management and Logistics. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1689,7 +1689,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1712,7 +1712,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 45.0 — Underwater Activities. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 45.0 — Underwater Activities. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1723,7 +1723,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1746,7 +1746,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 46.0 — Underground Construction. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 46.0 — Underground Construction. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1757,7 +1757,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1780,7 +1780,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 46.1 — Construction of Water Wells. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 46.1 — Construction of Water Wells. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1791,7 +1791,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1814,7 +1814,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 47.0 — Machine Guarding. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 47.0 — Machine Guarding. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1825,7 +1825,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1848,7 +1848,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 48.0 — Spray Finishing. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 48.0 — Spray Finishing. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1859,7 +1859,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1882,7 +1882,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 49.0 — Compressed Gases and Air. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 49.0 — Compressed Gases and Air. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1893,7 +1893,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1916,7 +1916,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 50.0 — Abrasive Blasting and Associated Protective Coating Work. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 50.0 — Abrasive Blasting and Associated Protective Coating Work. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1927,7 +1927,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1950,7 +1950,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 51.0 — Powered Lift Trucks. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 51.0 — Powered Lift Trucks. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1961,7 +1961,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -1984,7 +1984,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 52.0 — Local Exhaust Ventilation. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 52.0 — Local Exhaust Ventilation. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -1995,7 +1995,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -2018,7 +2018,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 53.0 — OSH Management During Construction Work. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 53.0 — OSH Management During Construction Work. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -2029,7 +2029,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -2052,7 +2052,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 53.1 — OSH Construction Management Plan. Current registry baseline: V4.1, effective 27 February 2026.',
+    description: 'Abu Dhabi ADPHC Code of Practice 53.1 — OSH Construction Management Plan. Version V4.1; effective 27 February 2026.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -2063,7 +2063,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
@@ -2086,7 +2086,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
     guidelineCategory: GuidelineCategory.abuDhabi,
     authority: 'Abu Dhabi Public Health Centre (ADPHC)',
     jurisdiction: 'Abu Dhabi',
-    description: 'Abu Dhabi ADPHC Code of Practice 54.0 — Waste Management. Current registry baseline: V4.0, effective 15 July 2024.',
+    description: 'Abu Dhabi ADPHC Code of Practice 54.0 — Waste Management. Version V4.0; effective 15 July 2024.',
     keyRequirements: const <String>[
       'Apply the current CoP requirements relevant to the activity and workplace.',
       'Integrate applicable ADOSH-SF management-system requirements.',
@@ -2097,7 +2097,7 @@ const List<ReferenceTopic> abuDhabiHseTopics = [
       'Risk assessment and method statement',
       'Competent persons and supervision',
       'Pre-start verification and inspection',
-      'PPE and engineering/administrative controls as applicable',
+      'Engineering, administrative and PPE controls as applicable',
       'Monitoring, reporting and corrective action',
     ],
     responsibilities: const <String>[
