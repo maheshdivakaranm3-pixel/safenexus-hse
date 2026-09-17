@@ -1,17 +1,10 @@
-SafeNexus HSE — Abu Dhabi 62 CoP Top Standard v1
+62-CoP master application package.
 
 Replace these complete files:
-1. lib/abu_dhabi_hse_topic_page.dart
-2. lib/data/abu_dhabi_hse_topic_content.dart
-3. lib/data/abu_dhabi_hse_topics.dart (master registry preserved)
+lib/abu_dhabi_hse_topic_page.dart
+lib/data/abu_dhabi_hse_topic_content.dart
+lib/data/abu_dhabi_hse_topics.dart
 
-UI flow:
-CoP -> Study section -> individual point -> point-specific detail page.
-
-The 62-CoP master registry is preserved. Existing content fields are preserved and each CoP now has a dedicated detailed overview paragraph. The page adds learning/reference layers around the content.
-
-Important: educational explanations do not replace the official ADPHC CoP. Verify current version, exact mandatory wording, numeric limits, exceptions and applicability against the current official source before regulatory use.
-
-Recommended checks:
-flutter analyze
-flutter build apk --release
+The topic registry remains the 62-CoP registry from the existing master file.
+Do not delete any other existing files.
+Run flutter analyze, then flutter build apk --release.
