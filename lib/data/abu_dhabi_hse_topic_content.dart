@@ -32,7 +32,7 @@ class AbuDhabiHseTopicContent {
 
 final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
   'ad_cop_1_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.0 — Hazardous Materials. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 1.0 — Hazardous Materials provides the Abu Dhabi OSH framework for managing risks arising from hazardous substances and materials used, stored, handled or otherwise encountered at work. Effective control starts with knowing what the material is, understanding its hazards and exposure routes, selecting suitable controls, communicating the information to people who may be exposed, and maintaining emergency and inspection arrangements that remain effective when work conditions change.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.0 — Hazardous Materials.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -90,7 +90,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_1_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.1 — Management of Asbestos Containing Materials. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 1.1 — Management of Asbestos Containing Materials addresses the controlled management of asbestos-containing materials so that workers and others are not unnecessarily exposed to asbestos fibres. The learning focus is on identification, assessment, planning, competent management, controlled work methods, prevention of fibre release, area controls, worker protection, waste handling and evidence that the work was properly controlled.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.1 — Management of Asbestos Containing Materials.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -148,7 +148,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_1_2': const AbuDhabiHseTopicContent(
-    overview: 'CoP 1.2 — Lead Exposure Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 1.2 — Lead Exposure Management focuses on preventing harmful occupational exposure to lead during work activities that may disturb, generate or handle lead-containing materials. A sound program combines hazard identification, exposure assessment, suitable engineering and work-practice controls, hygiene, PPE where required, health surveillance and clear arrangements for workers who may be exposed.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 1.2 — Lead Exposure Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -206,7 +206,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_2_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 2.0 — Personal Protective Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 2.0 — Personal Protective Equipment explains how PPE fits into a wider risk-control system and how suitable protective equipment should be selected, provided, used, maintained and monitored. PPE must match the identified hazard, task and wearer, while supervision and inspection ensure that equipment remains serviceable and is actually used correctly in the field.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 2.0 — Personal Protective Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -264,7 +264,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_3_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 3.0 — Occupational Noise. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 3.0 — Occupational Noise addresses harmful workplace noise and the need to prevent or reduce exposure through good planning and effective controls. The subject covers noise-source identification, assessment, engineering and administrative measures, hearing protection, worker awareness, health surveillance where applicable and verification that controls continue to work during normal operations.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 3.0 — Occupational Noise.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -322,7 +322,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_3_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 3.1 — Vibration. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 3.1 — Vibration addresses occupational exposure to hand-arm and/or whole-body vibration arising from tools, equipment, vehicles and work processes. Good management requires identifying vibration sources, considering duration and work patterns, selecting lower-exposure methods where practicable, maintaining equipment, training workers and monitoring whether controls are reducing exposure.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 3.1 — Vibration.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -380,7 +380,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_4_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 4.0 — First Aid and Medical Emergency Treatment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 4.0 — First Aid and Medical Emergency Treatment establishes the workplace arrangements needed to respond promptly to injury and sudden illness. The practical focus is on assessing foreseeable emergencies, providing appropriate first-aid capability, competent personnel, communication and access arrangements, emergency equipment, escalation to medical services and records that demonstrate readiness and response.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 4.0 — First Aid and Medical Emergency Treatment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -438,7 +438,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_5_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 5.0 — Occupational Health Screening and Medical Surveillance. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 5.0 — Occupational Health Screening and Medical Surveillance focuses on identifying work-related health risks early and using appropriate health monitoring where exposure or job demands make it necessary. The system should connect identified hazards with suitable medical or health surveillance, protect confidentiality, communicate relevant fitness or restriction information appropriately and use results to improve workplace controls.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 5.0 — Occupational Health Screening and Medical Surveillance.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -496,7 +496,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_8_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 8.0 — General Workplace Amenities. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 8.0 — General Workplace Amenities covers the basic workplace facilities needed to support worker health, hygiene, welfare and safe working conditions. Practical management includes suitable access to sanitary and welfare facilities, cleanliness, maintenance, drinking-water arrangements and consideration of the workforce, work environment and changing site conditions.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 8.0 — General Workplace Amenities.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -554,7 +554,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.0 — Workplace Wellness. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 9.0 — Workplace Wellness addresses workplace arrangements that support worker wellbeing alongside conventional occupational safety controls. It encourages a systematic approach to factors that can affect health and wellbeing, with suitable communication, supportive practices, prevention measures and management review rather than treating wellness as a separate activity from the wider OSH system.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.0 — Workplace Wellness.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -612,7 +612,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.1 — New and Expectant Mothers. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 9.1 — New and Expectant Mothers focuses on managing workplace risks for pregnant workers and workers who have recently given birth where job demands or exposures may affect them. The practical approach is to identify relevant hazards, assess individual circumstances appropriately, implement suitable adjustments or controls and maintain communication without compromising dignity, confidentiality or safe work.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.1 — New and Expectant Mothers.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -670,7 +670,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_9_2': const AbuDhabiHseTopicContent(
-    overview: 'CoP 9.2 — Managing Work-Related Stress. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 9.2 — Managing Work-Related Stress addresses work factors that can contribute to harmful stress and the need for organisational controls. Effective management considers workload, work organisation, working relationships, support, communication and changes in work, then uses prevention and early intervention rather than relying only on individual coping strategies.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 9.2 — Managing Work-Related Stress.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -728,7 +728,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_10_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 10.0 — Rehabilitation and Return to Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 10.0 — Rehabilitation and Return to Work supports a structured and safe return to suitable work following illness or injury. The process should consider medical information that is legitimately available to the employer, functional capability, suitable duties, workplace adjustments, communication and review so that returning workers are not exposed to avoidable risk or pressured into unsuitable tasks.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 10.0 — Rehabilitation and Return to Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -786,7 +786,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_11_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 11.0 — Safety in the Heat. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 11.0 — Safety in the Heat addresses the elevated risks created by hot working conditions, particularly where physical work, protective clothing, humidity or limited recovery opportunities increase heat strain. Effective control combines planning, hydration and welfare arrangements, work-rest strategies, acclimatisation, supervision, recognition of heat-illness symptoms and prompt response when workers show signs of heat stress.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 11.0 — Safety in the Heat.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -844,7 +844,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_12_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 12.0 — Prevention and Control of Legionnaires Disease. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 12.0 — Prevention and Control of Legionnaires Disease addresses the management of water systems and conditions that can allow Legionella bacteria to proliferate and expose people to contaminated aerosols. The control strategy is risk-based and includes system knowledge, suitable assessment, water-system management, monitoring and maintenance, corrective action and appropriate records.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 12.0 — Prevention and Control of Legionnaires Disease.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -902,7 +902,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_13_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 13.0 — Violence in the Workplace. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 13.0 — Violence in the Workplace focuses on preventing and managing violence or threatening behaviour that may arise from work activities, people, locations or organisational arrangements. A practical program identifies foreseeable scenarios, reduces opportunities for violence, provides communication and emergency arrangements, trains relevant personnel and ensures incidents are reported, investigated and used to improve controls.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 13.0 — Violence in the Workplace.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -960,7 +960,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_14_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 14.0 — Manual Handling and Ergonomics. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 14.0 — Manual Handling and Ergonomics addresses musculoskeletal risks arising from lifting, carrying, pushing, pulling, repetitive work, awkward postures and poorly designed tasks. Good practice begins with task and load assessment, then improves workplace design, mechanical assistance, work methods and organisation before relying on worker technique or PPE.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 14.0 — Manual Handling and Ergonomics.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1018,7 +1018,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_14_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 14.1 — Manual Tasks Involving the Handling of People. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 14.1 — Manual Tasks Involving the Handling of People focuses on the additional ergonomic and dignity considerations involved when workers physically assist, move or handle people. Controls should consider the person\'s condition and mobility, the task environment, equipment, staffing, communication and safe handling methods so that both the worker and the person being assisted are protected.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 14.1 — Manual Tasks Involving the Handling of People.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1076,7 +1076,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_15_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 15.0 — Electrical Safety. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 15.0 — Electrical Safety addresses the prevention of electric shock, burns, arc-flash, fire and other electrical incidents through safe design, installation, use, isolation, inspection and maintenance. Field control depends on competent persons, suitable equipment, identification of electrical hazards, controlled access, effective isolation and verification before work begins.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 15.0 — Electrical Safety.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1134,7 +1134,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_16_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 16.0 — OSH Requirements for People with Special Needs. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 16.0 — OSH Requirements for People with Special Needs focuses on ensuring that workplace risk assessments and emergency arrangements consider workers and others who may have specific accessibility or functional needs. The objective is not simply access to facilities, but safe participation in work through appropriate assessment, adjustments, communication, equipment and emergency planning.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 16.0 — OSH Requirements for People with Special Needs.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1192,7 +1192,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_17_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 17.0 — Safety Signage and Signals. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 17.0 — Safety Signage and Signals addresses the use of clear visual and other signals to communicate hazards, restrictions, required actions and emergency information. Effective signage supports, but does not replace, physical controls and safe systems of work; signs must be appropriate to the hazard, visible, understandable, maintained and positioned where people can act on the information.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 17.0 — Safety Signage and Signals.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1250,7 +1250,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_18_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 18.0 — Employer Supplied Accommodation-General Requirements. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 18.0 — Employer Supplied Accommodation — General Requirements covers OSH and welfare considerations for accommodation provided to workers by an employer. The subject includes suitability of facilities, hygiene, occupancy, maintenance, emergency arrangements, fire safety, housekeeping and management systems that protect residents from foreseeable accommodation-related hazards.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 18.0 — Employer Supplied Accommodation-General Requirements.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1308,7 +1308,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_18_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 18.1 — Temporary Employer Supplied Accommodation. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 18.1 — Temporary Employer Supplied Accommodation addresses the additional controls needed where worker accommodation is temporary or established for a limited project or period. Management must consider the temporary nature of the facilities, safe installation and operation, welfare, emergency access, fire arrangements, maintenance and changing occupancy or site conditions.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 18.1 — Temporary Employer Supplied Accommodation.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1366,7 +1366,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_19_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 19.0 — Occupational Food Handling and Food Preparation Areas. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 19.0 — Occupational Food Handling and Food Preparation Areas addresses occupational hygiene and safety risks associated with preparing, handling and serving food in workplace environments. Controls include hygienic practices, suitable facilities, prevention of contamination, worker health considerations, safe equipment and cleaning arrangements, together with monitoring and corrective action.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 19.0 — Occupational Food Handling and Food Preparation Areas.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1424,7 +1424,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_20_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 20.0 — Safety in Design (Construction). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 20.0 — Safety in Design (Construction) focuses on eliminating or reducing foreseeable OSH risks through design decisions before construction hazards become difficult or expensive to control. Designers, clients, contractors and other duty holders should consider construction, maintenance, operation and future modification risks and communicate residual risks to those who will manage the work.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 20.0 — Safety in Design (Construction).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1482,7 +1482,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_21_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 21.0 — Permit to Work Systems. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 21.0 — Permit to Work Systems provides a controlled method for authorising specified high-risk activities and confirming that required precautions are in place. A good PTW system connects hazard identification, isolation, precautions, responsible persons, work boundaries, communication, suspension and close-out so that a permit is an active control rather than just paperwork.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 21.0 — Permit to Work Systems.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1540,7 +1540,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_22_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 22.0 — Barricading of Hazards. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 22.0 — Barricading of Hazards addresses the physical separation and warning of people from hazardous areas, openings, edges, plant movements or other unsafe conditions. Effective barricading should be selected for the hazard, strong enough for the situation, visible, maintained and supported by access control and corrective action rather than used as a substitute for eliminating the hazard.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 22.0 — Barricading of Hazards.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1598,7 +1598,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_23_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 23.0 — Working at Heights. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 23.0 — Working at Heights addresses the risk of falls from elevated work areas, structures, platforms, openings and other locations where a fall can cause harm. The control approach prioritises safe design and prevention, suitable access and work platforms, edge protection and other fall-prevention measures, with personal fall protection used where appropriate and supported by rescue planning.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 23.0 — Working at Heights.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1656,7 +1656,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_24_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 24.0 — Lock-out Tag-out (Isolation). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 24.0 — Lock-out Tag-out (Isolation) addresses the control of hazardous energy before maintenance, repair, cleaning or other intrusive work. The process requires clear identification of energy sources, controlled isolation, locking and tagging, verification of a safe state, management of stored energy and disciplined restoration of equipment after the work is complete.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 24.0 — Lock-out Tag-out (Isolation).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1714,7 +1714,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_25_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 25.0 — Driver Fatigue Prevention. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 25.0 — Driver Fatigue Prevention addresses the risk that tiredness, insufficient recovery or unsuitable work scheduling can reduce driver alertness and increase the likelihood of a vehicle incident. Effective controls combine journey and roster planning, suitable rest opportunities, awareness, supervision, reporting of fatigue and management action when a driver is not fit to continue safely.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 25.0 — Driver Fatigue Prevention.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1772,7 +1772,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_26_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 26.0 — Scaffolding. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 26.0 — Scaffolding addresses the safe planning, erection, use, inspection, alteration and dismantling of scaffold systems used to provide temporary access or working platforms. Stability, foundations, components, access, edge protection, loading, ties and bracing, competent work and inspection are interconnected controls; a scaffold should never be treated as safe merely because it has been erected.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 26.0 — Scaffolding.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1830,7 +1830,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_27_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 27.0 — Confined Spaces. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 27.0 — Confined Spaces addresses spaces where access, ventilation or layout can create serious risks including hazardous atmospheres, engulfment, restricted escape or other foreseeable dangers. Safe entry requires proper identification, assessment, isolation where necessary, atmospheric controls and monitoring, communication, competent personnel, entry control and a realistic emergency and rescue arrangement.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 27.0 — Confined Spaces.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1888,7 +1888,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_28_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 28.0 — Hot Work Operations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 28.0 — Hot Work Operations, including welding and cutting, addresses ignition, heat, sparks, molten metal, fumes, gas and equipment-related hazards created by hot work. Controls should cover planning, combustible materials, work area preparation, gas equipment, ventilation, fire protection, permits where applicable, competent operators, PPE, fire watch and post-work checks.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 28.0 — Hot Work Operations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -1946,7 +1946,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_29_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 29.0 — Excavation Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 29.0 — Excavation Work addresses the risks created when soil or other ground is removed, including collapse, falling materials, underground services, water ingress, plant interaction, hazardous atmospheres and unsafe access. Safe excavation depends on planning, knowledge of ground and surrounding conditions, service identification, suitable protective systems, controlled access, inspection and emergency preparedness.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 29.0 — Excavation Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2004,7 +2004,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_30_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 30.0 — Lone Working and/or in Remote Locations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 30.0 — Lone Working and/or in Remote Locations addresses situations where a worker may be unable to obtain immediate assistance after an incident. Risk controls should consider the work, location, communication, travel, environmental conditions, emergency response, check-in arrangements, competence and the circumstances that would require the work to stop or additional support to be provided.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 30.0 — Lone Working and/or in Remote Locations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2062,7 +2062,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_30_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 30.1 — Working in International Locations. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 30.1 — Working in International Locations addresses the additional planning needed when personnel perform work outside their normal operating environment or jurisdiction. The assessment should consider local legal requirements, health risks, travel, security, emergency arrangements, communications, competence and interfaces with local organisations while maintaining the employer\'s OSH responsibilities.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 30.1 — Working in International Locations.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2120,7 +2120,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_31_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 31.0 — Working on, Over or Adjacent to Water. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 31.0 — Working on, Over or Adjacent to Water addresses drowning, falls, vessel and plant interaction, changing environmental conditions and rescue challenges. Controls should combine suitable access and work systems, edge and fall prevention, flotation or other protection where applicable, supervision, weather and water-condition assessment, communication and a credible rescue plan.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 31.0 — Working on, Over or Adjacent to Water.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2178,7 +2178,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_33_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 33.0 — Working On or Adjacent to a Road. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 33.0 — Working On or Adjacent to a Road addresses the interaction between workers, moving traffic, construction activities and changing road conditions. Safe management requires a planned traffic interface, appropriate separation and visibility, controlled work areas, trained personnel, communication, safe access and continuous review as traffic patterns or site activities change.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 33.0 — Working On or Adjacent to a Road.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2236,7 +2236,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_33_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 33.1 — Traffic Incident Site Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 33.1 — Traffic Incident Site Management focuses on protecting responders, road users and the incident scene when managing an incident on or near a road. Controls should establish safe approach and positioning, traffic warning and separation, communication, coordination with relevant emergency or road authorities, scene awareness and safe removal or handover arrangements.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 33.1 — Traffic Incident Site Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2294,7 +2294,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_34_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories addresses the planning and control of lifting operations so that equipment, accessories, loads and people remain within safe operating conditions. The subject covers selection, inspection, competence, lifting plans, load characteristics, stability, exclusion zones, communication and the prevention of suspended-load and dropped-object incidents.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2352,7 +2352,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_35_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 35.0 — Portable Power Tools. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 35.0 — Portable Power Tools addresses injuries and other hazards from electrically or otherwise powered hand tools, including contact, entanglement, flying particles, noise, vibration and damaged equipment. Safe use depends on correct tool selection, inspection, guards and protective features, competent use, suitable work methods, maintenance and appropriate PPE.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 35.0 — Portable Power Tools.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2410,7 +2410,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_36_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 36.0 — Plant and Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 36.0 — Plant and Equipment addresses the safe selection, installation, operation, inspection, maintenance and control of workplace plant and equipment. Risk management should consider moving parts, energy sources, stability, visibility, access, operator competence, interaction with people and other plant, and changes in operating conditions.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 36.0 — Plant and Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2468,7 +2468,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_37_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 37.0 — Ladders. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 37.0 — Ladders addresses the selection and safe use of ladders where they are appropriate for the task and conditions. The user should consider stability, access, condition, positioning, work duration and the need for safer alternatives, with inspection and correct use preventing slips, falls and overreaching.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 37.0 — Ladders.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2526,7 +2526,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_38_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 38.0 — Concrete Placing Equipment. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 38.0 — Concrete Placing Equipment addresses hazards associated with pumps, placing booms, hoses, pipelines and related concrete delivery equipment. Controls should consider equipment stability, pressure and stored energy, line condition, hose movement, access, communication, cleaning and maintenance, with competent operation and inspection protecting workers from struck-by and pressure-related incidents.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 38.0 — Concrete Placing Equipment.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2584,7 +2584,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_39_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 39.0 — Overhead and Underground Services. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 39.0 — Overhead and Underground Services addresses the serious risks of contacting electrical, gas, water, telecommunications and other services during construction or excavation. Safe work requires accurate service information, planning and authorisation, appropriate detection and protection, controlled excavation and plant movement, competent supervision and immediate escalation when service information or conditions are uncertain.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 39.0 — Overhead and Underground Services.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2642,7 +2642,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_40_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 40.0 — False Work (Formwork). Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 40.0 — False Work (Formwork) addresses the temporary structural systems used to support concrete and construction loads until the permanent structure can safely carry them. Safe control depends on design and engineering, foundations, stability, erection, bracing, loading, inspection, controlled access and disciplined striking or dismantling so that premature failure does not occur.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 40.0 — False Work (Formwork).',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2700,7 +2700,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_41_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 41.0 — Steel Erection. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 41.0 — Steel Erection addresses the risks of lifting, positioning, connecting and stabilising structural steel components. Controls need to cover planning, lifting operations, temporary stability, work at height, dropped objects, connection methods, exclusion zones, weather and communication, with the sequence of erection managed so that the partially completed structure remains stable.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 41.0 — Steel Erection.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2758,7 +2758,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_42_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 42.0 — Pre Cast Construction. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 42.0 — Pre Cast Construction addresses the safe handling, lifting, transportation, positioning and temporary support of precast elements. Because large elements can be heavy and unstable during erection, planning must cover lifting points, equipment capacity, stability, connections, temporary bracing, exclusion zones, communication and the controlled sequence of installation.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 42.0 — Pre Cast Construction.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2816,7 +2816,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_43_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 43.0 — Temporary Structures. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 43.0 — Temporary Structures addresses structures that are erected for temporary use and may present significant stability, loading, access or environmental risks. Controls should establish design and approval arrangements, foundations, structural stability, loading limits, inspection, modification control, weather considerations and safe dismantling.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 43.0 — Temporary Structures.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2874,7 +2874,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_44_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 44.0 — Traffic Management and Logistics. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 44.0 — Traffic Management and Logistics addresses the planned movement of vehicles, plant, materials and people around work sites and logistics areas. Effective management separates incompatible movements where practicable, controls speed and access, provides safe routes and loading areas, manages deliveries and reversing, and continuously reviews arrangements as the project changes.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 44.0 — Traffic Management and Logistics.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2932,7 +2932,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_45_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 45.0 — Underwater Activities. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 45.0 — Underwater Activities addresses the specialist hazards associated with diving and other work performed underwater, including pressure, breathing systems, decompression, entanglement, currents, visibility, equipment failure and emergency recovery. Safe operations require specialist planning, competent personnel, suitable equipment, communication, environmental assessment, medical/emergency arrangements and disciplined control of the diving operation.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 45.0 — Underwater Activities.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -2990,7 +2990,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_46_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 46.0 — Underground Construction. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 46.0 — Underground Construction addresses construction activities performed below ground where collapse, ground movement, restricted access, water ingress, hazardous atmospheres, services and difficult rescue conditions can combine. The control system must integrate engineering and construction planning, ground support, access and egress, monitoring, ventilation or atmospheric controls, communication and emergency response.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 46.0 — Underground Construction.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3048,7 +3048,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_46_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 46.1 — Construction of Water Wells. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 46.1 — Construction of Water Wells addresses the specialist risks involved in constructing, accessing and completing water wells. Planning should consider ground conditions, drilling equipment, falling objects, rotating machinery, unstable openings, water and other environmental hazards, together with controlled access, competent operation, inspection and emergency arrangements.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 46.1 — Construction of Water Wells.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3106,7 +3106,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_47_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 47.0 — Machine Guarding. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 47.0 — Machine Guarding addresses the prevention of contact with moving machine parts and other hazardous points of operation. Effective guarding should prevent access to danger zones without creating new hazards, while interlocks, isolation, inspection, maintenance and safe work procedures control risks during normal operation and intervention.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 47.0 — Machine Guarding.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3164,7 +3164,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_48_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 48.0 — Spray Finishing. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 48.0 — Spray Finishing addresses hazards from sprayed coatings, including flammable materials, vapours, aerosols, exposure through inhalation or skin contact and ignition sources. Controls should cover product information, ventilation, equipment condition, ignition control, safe application methods, PPE, storage and emergency arrangements.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 48.0 — Spray Finishing.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3222,7 +3222,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_49_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 49.0 — Compressed Gases and Air. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 49.0 — Compressed Gases and Air addresses the high-energy and chemical hazards associated with compressed gases, cylinders, pressure systems and compressed air. Safe management includes correct identification, storage, handling, securing, compatible equipment, leak prevention, pressure control, inspection, transport and emergency response.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 49.0 — Compressed Gases and Air.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3280,7 +3280,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_50_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work addresses hazards from blasting media, high-energy equipment, dust, coatings, noise and potential exposure to hazardous substances. Controls should combine containment, ventilation or dust control, equipment integrity, competent operation, respiratory and other PPE, exclusion zones, surface-preparation planning and waste management.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 50.0 — Abrasive Blasting and Associated Protective Coating Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3338,7 +3338,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_51_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 51.0 — Powered Lift Trucks. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 51.0 — Powered Lift Trucks addresses risks from vehicle movement, loads, stability, visibility, pedestrian interaction and improper operation. Safe management includes suitable truck selection, competent authorised operators, pre-use checks, load control, route planning, segregation, speed and parking controls, maintenance and supervision.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 51.0 — Powered Lift Trucks.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3396,7 +3396,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_52_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 52.0 — Local Exhaust Ventilation. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 52.0 — Local Exhaust Ventilation addresses the capture and removal of airborne contaminants at or near the point where they are generated. Effective LEV management depends on suitable design, capture performance, positioning, maintenance, inspection and user understanding, with failures identified before workers are exposed to uncontrolled contaminants.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 52.0 — Local Exhaust Ventilation.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3454,7 +3454,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_53_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 53.0 — OSH Management During Construction Work. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 53.0 — OSH Management During Construction Work addresses the management arrangements needed to control OSH risks across a construction project. It connects leadership, planning, risk assessment, competency, contractor control, communication, inspection, incident management and performance monitoring so that safety responsibilities are implemented throughout the project rather than left to individual workers.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 53.0 — OSH Management During Construction Work.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3512,7 +3512,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_53_1': const AbuDhabiHseTopicContent(
-    overview: 'CoP 53.1 — OSH Construction Management Plan. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 53.1 — OSH Construction Management Plan focuses on the structured project plan used to describe how construction OSH risks and responsibilities will be managed. A useful plan links project activities and hazards to roles, controls, procedures, emergency arrangements, training, inspection, reporting and review, and it should remain current as the project scope and risks evolve.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 53.1 — OSH Construction Management Plan.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
@@ -3570,7 +3570,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
   ),
   'ad_cop_54_0': const AbuDhabiHseTopicContent(
-    overview: 'CoP 54.0 — Waste Management. Abu Dhabi ADPHC HSE topic for deep study, field practical application, inspection and regulatory verification.',
+    overview: 'CoP 54.0 — Waste Management addresses the safe identification, segregation, handling, storage, movement and disposal of workplace waste. Effective management prevents injury, contamination, fire, environmental harm and uncontrolled exposure by establishing suitable containers, routes, housekeeping, contractor interfaces, emergency arrangements and records appropriate to the waste streams generated.',
     deepStudy: const <String>[
       'Understand the scope and applicability of CoP 54.0 — Waste Management.',
       'Identify foreseeable hazards, exposed persons and credible consequences.',
