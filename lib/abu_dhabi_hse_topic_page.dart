@@ -342,7 +342,6 @@ class AbuDhabiCop10GoldPointPage extends StatelessWidget {
           _detailCard(Icons.error_outline_rounded, 'Common mistakes', point.commonMistake),
           _detailCard(Icons.task_alt_rounded, 'What to do / corrective action', point.action),
           _detailCard(Icons.folder_copy_outlined, 'Documents / evidence', point.records),
-          _detailCard(Icons.question_answer_outlined, 'Interview preparation', point.interview),
           _regulatoryCard(),
         ],
       ),
