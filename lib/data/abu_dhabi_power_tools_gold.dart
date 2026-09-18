@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// Abu Dhabi HSE Gold Standard — CoP 35.0 Portable Power Tools
 ///
 /// Regulatory basis:
@@ -312,7 +310,7 @@ const List<PowerToolsGoldSection> portablePowerToolsGoldStandardSections = [
       PowerToolsGoldPoint(title: 'Controls', points: [
         'Identify combustible materials, gases, vapours and dust before generating sparks or heat.',
         'Use suitable screens, housekeeping and fire precautions.',
-        'Where the activity meets the site's definition of hot work, comply with the applicable hot-work permit and controls.',
+        'Where the activity meets the site definition of hot work, comply with the applicable hot-work permit and controls.',
       ]),
     ],
   ),
@@ -366,7 +364,7 @@ const List<PowerToolsGoldSection> portablePowerToolsGoldStandardSections = [
     points: [
       PowerToolsGoldPoint(title: 'Permit interface', points: [
         'Use the site PTW system where the task or location requires a permit, including applicable hot work, electrical isolation, confined-space or other permits.',
-        'Permit requirements do not replace the manufacturer's instructions, RAMS or risk assessment.',
+        'Permit requirements do not replace the manufacturer instructions, RAMS or risk assessment.',
       ]),
     ],
   ),
