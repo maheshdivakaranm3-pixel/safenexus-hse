@@ -1133,7 +1133,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 14.0 — Manual Handling and Ergonomics — V4.0.
+      'Official ADPHC CoP 14.0 — Manual Handling and Ergonomics — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1189,7 +1189,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 14.1 — Manual Tasks Involving the Handling of People — V4.0.
+      'Official ADPHC CoP 14.1 — Manual Tasks Involving the Handling of People — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1247,7 +1247,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 15.0 — Electrical Safety — V4.0.
+      'Official ADPHC CoP 15.0 — Electrical Safety — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1302,7 +1302,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 16.0 — OSH Requirements for People with Special Needs — V4.0.
+      'Official ADPHC CoP 16.0 — OSH Requirements for People with Special Needs — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1355,7 +1355,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 17.0 — Safety Signage and Signals — V4.0.
+      'Official ADPHC CoP 17.0 — Safety Signage and Signals — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1412,7 +1412,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 18.0 — Employer Supplied Accommodation — General Requirements — V4.0.
+      'Official ADPHC CoP 18.0 — Employer Supplied Accommodation — General Requirements — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
@@ -1468,7 +1468,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 18.1 — Temporary Employer Supplied Accommodation — V4.0.
+      'Official ADPHC CoP 18.1 — Temporary Employer Supplied Accommodation — V4.0.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
