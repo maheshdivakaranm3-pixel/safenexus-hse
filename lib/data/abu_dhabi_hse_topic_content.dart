@@ -1530,7 +1530,7 @@ final Map<String, AbuDhabiHseTopicContent> abuDhabiHseTopicContent = {
     ],
     interviewQuestions: const <String>[],
     regulatoryVerification: const <String>[
-      Official ADPHC CoP 19.0 — Occupational Food Handling and Food Preparation Areas — V4.1.
+      'Official ADPHC CoP 19.0 — Occupational Food Handling and Food Preparation Areas — V4.1.',
       'Official source: ADPHC Code of Practices.',
       'Verify current version, effective date, applicability and any more stringent authority requirement before treating a numeric or legal requirement as final.',
     ],
