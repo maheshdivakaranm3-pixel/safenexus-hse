@@ -14,7 +14,6 @@ import 'data/abu_dhabi_permit_to_work_gold.dart';
 import 'data/abu_dhabi_power_tools_gold.dart';
 import 'data/abu_dhabi_safety_in_heat_gold.dart';
 import 'data/abu_dhabi_scaffolding_gold.dart';
-import 'data/abu_dhabi_telehandler_gold.dart';
 import 'data/abu_dhabi_working_at_height_gold.dart';
 import 'data/abu_dhabi_crane_lifting_book_gold.dart';
 import 'models/reference_topic.dart';
