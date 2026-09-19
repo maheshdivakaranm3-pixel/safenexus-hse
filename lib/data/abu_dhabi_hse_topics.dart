@@ -2,7 +2,7 @@ import '../models/reference_topic.dart';
 import '../models/guideline_category.dart';
 
 /// Official Abu Dhabi ADPHC Code of Practices registry.
-/// Detailed content is kept separately in abu_dhabi_hse_topic_content.dart.
+/// Detailed content is provided by the central Abu Dhabi Gold Standard router.
 const List<ReferenceTopic> abuDhabiHseTopics = [
   ReferenceTopic(
     id: 'ad_cop_1_0',
