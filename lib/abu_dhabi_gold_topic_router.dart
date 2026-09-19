@@ -11,6 +11,7 @@ import 'data/abu_dhabi_formwork_gold.dart';
 import 'data/abu_dhabi_forklift_powered_lift_trucks_gold.dart';
 import 'data/abu_dhabi_mewp_gold.dart';
 import 'data/abu_dhabi_permit_to_work_gold.dart';
+import 'data/abu_dhabi_power_tools_gold.dart';
 import 'data/abu_dhabi_safety_in_heat_gold.dart';
 import 'data/abu_dhabi_scaffolding_gold.dart';
 import 'data/abu_dhabi_telehandler_gold.dart';
