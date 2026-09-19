@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'data/abu_dhabi_excavation_gold.dart';
 import 'data/abu_dhabi_power_tools_gold.dart';
 import 'data/abu_dhabi_hse_topic_content.dart';
+import 'abu_dhabi_gold_topic_router.dart';
 import 'models/reference_topic.dart';
 
 /// SafeNexus HSE — Abu Dhabi HSE reusable topic detail engine.
@@ -24,6 +25,11 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routedGoldPage = buildAbuDhabiGoldTopicPage(topic);
+    if (routedGoldPage != null) {
+      return routedGoldPage;
+    }
+
     if (topic.id == 'ad_excavation') {
       return AbuDhabiExcavationGoldStandardPage(topic: topic);
     }
