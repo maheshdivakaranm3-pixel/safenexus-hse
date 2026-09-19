@@ -25,8 +25,8 @@ import 'models/reference_topic.dart';
 /// the app opens that source instead of the older generic CoP content.
 Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
   switch (topic.id) {
-    case 'ad_excavation':
-      return null; // Existing dedicated excavation page remains authoritative.
+    case 'ad_cop_29_0':
+      return null; // Existing dedicated excavation Gold page remains authoritative.
     case 'ad_cop_23_0':
       return AbuDhabiGoldBookPage(
         topic: topic,
