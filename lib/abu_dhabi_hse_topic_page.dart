@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/abu_dhabi_excavation_gold.dart';
-import 'abu_dhabi_gold_topic_router.dart';
+import 'data/abu_dhabi_power_tools_gold.dart';
 import 'data/abu_dhabi_hse_topic_content.dart';
 import 'models/reference_topic.dart';
 
@@ -28,9 +28,8 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
       return AbuDhabiExcavationGoldStandardPage(topic: topic);
     }
 
-    final goldPage = buildAbuDhabiGoldTopicPage(topic);
-    if (goldPage != null) {
-      return goldPage;
+    if (topic.id == 'ad_portable_power_tools') {
+      return AbuDhabiPowerToolsGoldStandardPage(topic: topic);
     }
 
     final content = abuDhabiHseTopicContent[topic.id];
@@ -357,6 +356,242 @@ class AbuDhabiExcavationGoldSectionPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+
+class AbuDhabiPowerToolsGoldStandardPage extends StatelessWidget {
+  final ReferenceTopic topic;
+
+  const AbuDhabiPowerToolsGoldStandardPage({
+    super.key,
+    required this.topic,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    topic.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Abu Dhabi HSE • Gold Standard Field Handbook',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: primaryGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    topic.description,
+                    style: const TextStyle(fontSize: 15.2, height: 1.5),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'IDENTIFY → ASSESS → ELIMINATE → CONTROL → VERIFY → MONITOR → REVIEW → IMPROVE',
+                    style: TextStyle(
+                      fontSize: 13.2,
+                      height: 1.45,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Regulatory baseline: ADOSH-SF CoP 35.0 — Portable Power Tools, Version 4.1. '
+                    'Use the current official ADPHC publication and project requirements as the controlling source.',
+                    style: TextStyle(fontSize: 13.5, height: 1.45),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          ...portablePowerToolsGoldStandardSections.asMap().entries.map(
+                (entry) => _powerToolsSectionCard(
+                  context,
+                  entry.key,
+                  entry.value,
+                ),
+              ),
+        ],
+      ),
+    );
+  }
+
+  Widget _powerToolsSectionCard(
+    BuildContext context,
+    int index,
+    PowerToolsGoldSection section,
+  ) {
+    final preview = section.points.isEmpty
+        ? ''
+        : section.points.first.points.isEmpty
+            ? ''
+            : section.points.first.points.first;
+
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AbuDhabiPowerToolsGoldSectionPage(
+              section: section,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryGreen.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '${index + 1}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      section.title,
+                      style: const TextStyle(
+                        fontSize: 16.2,
+                        fontWeight: FontWeight.w900,
+                        color: darkGreen,
+                      ),
+                    ),
+                    if (preview.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        preview,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 13.2,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.chevron_right, color: darkGreen),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AbuDhabiPowerToolsGoldSectionPage extends StatelessWidget {
+  final PowerToolsGoldSection section;
+
+  const AbuDhabiPowerToolsGoldSectionPage({
+    super.key,
+    required this.section,
+  });
+
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(
+          section.title,
+          overflow: TextOverflow.ellipsis,
+        ),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          ...section.points.map(
+            (point) => Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 12),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      point.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        color: darkGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 9),
+                    ...point.points.map(
+                      (pointText) => Padding(
+                        padding: const EdgeInsets.only(bottom: 7),
+                        child: Text(
+                          '• $pointText',
+                          style: const TextStyle(
+                            fontSize: 14.7,
+                            height: 1.48,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
