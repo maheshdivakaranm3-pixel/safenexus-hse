@@ -3,7 +3,7 @@
 Replace these complete files in the SafeNexus HSE project:
 
 1. lib/abu_dhabi_hse_topic_page.dart
-2. lib/data/abu_dhabi_hse_topic_content.dart
+2. (legacy generic Abu Dhabi content removed; Gold Router is authoritative)
 
 Do NOT replace or delete:
 - lib/data/abu_dhabi_hse_topics.dart
