@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/abu_dhabi_excavation_gold.dart';
+import 'abu_dhabi_gold_topic_router.dart';
 import 'data/abu_dhabi_hse_topic_content.dart';
 import 'models/reference_topic.dart';
 
@@ -25,6 +26,11 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (topic.id == 'ad_excavation') {
       return AbuDhabiExcavationGoldStandardPage(topic: topic);
+    }
+
+    final goldPage = buildAbuDhabiGoldTopicPage(topic);
+    if (goldPage != null) {
+      return goldPage;
     }
 
     final content = abuDhabiHseTopicContent[topic.id];
