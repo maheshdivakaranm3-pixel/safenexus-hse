@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'abu_dhabi_gold_topic_router.dart';
+import 'abu_dhabi_gold_root_page.dart';
 
 import 'data/abu_dhabi_excavation_gold.dart';
-import 'data/abu_dhabi_hse_topic_content.dart';
 import 'models/reference_topic.dart';
 
 /// SafeNexus HSE — Abu Dhabi HSE reusable topic detail engine.
@@ -35,11 +35,9 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
       return AbuDhabiExcavationGoldStandardPage(topic: topic);
     }
 
-    final content = abuDhabiHseTopicContent[topic.id];
-    return AbuDhabiGenericGoldStandardPage(
-      topic: topic,
-      content: content ?? const AbuDhabiHseTopicContent(),
-    );
+    // No legacy generic CoP renderer is allowed at runtime.
+    // Every non-dedicated topic now enters the new Abu Dhabi Gold root.
+    return AbuDhabiGoldRootPage(topic: topic);
   }
 }
 
@@ -359,223 +357,6 @@ class AbuDhabiExcavationGoldSectionPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Generic Abu Dhabi CoP renderer used when a topic does not yet have a
-/// dedicated Gold Standard module in the central router.
-///
-/// The registry remains complete: every registered topic can still open its
-/// structured content layer instead of falling back to a dead-end screen.
-class AbuDhabiGenericGoldStandardPage extends StatelessWidget {
-  final ReferenceTopic topic;
-  final AbuDhabiHseTopicContent content;
-
-  const AbuDhabiGenericGoldStandardPage({
-    super.key,
-    required this.topic,
-    required this.content,
-  });
-
-  static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  List<_GenericSection> get _sections => [
-        _GenericSection('Overview', [
-          if (content.overview.isNotEmpty) content.overview,
-        ]),
-        _GenericSection('Deep Study', content.deepStudy),
-        _GenericSection('Micro-Detail', content.microDetails),
-        _GenericSection('Field Practical', content.fieldPractical),
-        _GenericSection('Inspection Checklist', content.inspectionChecklist),
-        _GenericSection('Emergency / Response', content.emergencyResponse),
-        _GenericSection('Records & Evidence', content.records),
-        _GenericSection('Interview Questions', content.interviewQuestions),
-        _GenericSection(
-          'Regulatory Verification',
-          content.regulatoryVerification,
-        ),
-      ].where((section) => section.points.isNotEmpty).toList();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: pageBackground,
-      appBar: AppBar(
-        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
-        children: [
-          Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    topic.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Abu Dhabi HSE • Structured Reference',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      color: primaryGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    topic.description,
-                    style: const TextStyle(fontSize: 15.2, height: 1.5),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 14),
-          ..._sections.asMap().entries.map(
-                (entry) => _sectionCard(
-                  context,
-                  entry.key + 1,
-                  entry.value,
-                ),
-              ),
-        ],
-      ),
-    );
-  }
-
-  Widget _sectionCard(
-    BuildContext context,
-    int number,
-    _GenericSection section,
-  ) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 6,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: primaryGreen.withValues(alpha: 0.12),
-          child: Text(
-            '$number',
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              color: darkGreen,
-            ),
-          ),
-        ),
-        title: Text(
-          section.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            color: darkGreen,
-          ),
-        ),
-        subtitle: Text(
-          section.points.first,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: const Icon(Icons.chevron_right, color: darkGreen),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => AbuDhabiGenericGoldSectionPage(
-              topic: topic,
-              section: section,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GenericSection {
-  final String title;
-  final List<String> points;
-
-  const _GenericSection(this.title, this.points);
-}
-
-class AbuDhabiGenericGoldSectionPage extends StatelessWidget {
-  final ReferenceTopic topic;
-  final _GenericSection section;
-
-  const AbuDhabiGenericGoldSectionPage({
-    super.key,
-    required this.topic,
-    required this.section,
-  });
-
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: pageBackground,
-      appBar: AppBar(
-        title: Text(
-          section.title,
-          overflow: TextOverflow.ellipsis,
-        ),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
-        children: [
-          Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                topic.title,
-                style: const TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w900,
-                  color: darkGreen,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...section.points.asMap().entries.map(
-                (entry) => Card(
-                  elevation: 0,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      '${entry.key + 1}. ${entry.value}',
-                      style: const TextStyle(
-                        fontSize: 15.2,
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-        ],
       ),
     );
   }
