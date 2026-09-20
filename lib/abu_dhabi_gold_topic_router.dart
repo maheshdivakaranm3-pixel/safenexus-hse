@@ -16,6 +16,7 @@ import 'data/abu_dhabi_safety_in_heat_gold.dart';
 import 'data/abu_dhabi_scaffolding_gold.dart';
 import 'data/abu_dhabi_working_at_height_gold.dart';
 import 'data/abu_dhabi_crane_lifting_book_gold.dart';
+import 'data/abu_dhabi_steps_5N_to_5Q_book_gold.dart';
 import 'models/reference_topic.dart';
 
 /// Step 5AK-A: central Gold Standard router.
@@ -74,6 +75,46 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
         topic: topic,
         sections: forkliftPoweredLiftTruckGoldSections,
         regulatory: 'ADPHC CoP 51.0 — Powered Lift Trucks — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_14_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5P — Manual Handling')
+            .toList(),
+        regulatory: 'ADPHC CoP 14.0 — Manual Handling and Ergonomics.',
+      );
+    case 'ad_cop_15_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) =>
+                section.category == '5N — Electricity on Site & Electrical Tools')
+            .toList(),
+        regulatory: 'ADPHC CoP 15.0 — Electrical Safety.',
+      );
+    case 'ad_cop_28_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5Q — Hot Work')
+            .toList(),
+        regulatory: 'ADPHC CoP 28.0 — Hot Work.',
+      );
+    case 'ad_cop_34_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: craneLiftingGoldStandardSections,
+        regulatory:
+            'ADPHC CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories.',
+      );
+    case 'ad_cop_43_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5O — Temporary Works')
+            .toList(),
+        regulatory: 'ADPHC CoP 43.0 — Temporary Structures.',
       );
     case 'ad_cop_36_0':
       return AbuDhabiPlantEquipmentGoldIndexPage(topic: topic);
