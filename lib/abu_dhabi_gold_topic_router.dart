@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'abu_dhabi_gold_root_page.dart';
+
+import 'data/abu_dhabi_excavation_gold.dart';
 import 'data/abu_dhabi_5AJ_part1_interfaces_specialist_plant_gold.dart';
 import 'data/abu_dhabi_5AJ_part2_gap_duplicate_cop36_gold.dart';
 import 'data/abu_dhabi_5AB_to_5AE_plant_haulage_compaction_gold.dart';
@@ -27,7 +30,7 @@ import 'models/reference_topic.dart';
 Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
   switch (topic.id) {
     case 'ad_cop_29_0':
-      return null; // Existing dedicated excavation Gold page remains authoritative.
+      return AbuDhabiExcavationGoldStandardPage(topic: topic);
     case 'ad_cop_23_0':
       return AbuDhabiGoldBookPage(
         topic: topic,
@@ -119,7 +122,7 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
     case 'ad_cop_36_0':
       return AbuDhabiPlantEquipmentGoldIndexPage(topic: topic);
     default:
-      return null;
+      return AbuDhabiGoldRootPage(topic: topic);
   }
 }
 
