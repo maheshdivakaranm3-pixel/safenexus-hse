@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'abu_dhabi_gold_topic_router.dart';
+import 'abu_dhabi_gold_topic_router.dart' as gold_router;
 import 'abu_dhabi_gold_root_page.dart';
 
 import 'data/abu_dhabi_excavation_gold.dart';
@@ -25,7 +25,7 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget? goldPage = buildAbuDhabiGoldTopicPage(topic);
+    final Widget? goldPage = gold_router.buildAbuDhabiGoldTopicPage(topic);
     if (goldPage != null) {
       return goldPage;
     }
