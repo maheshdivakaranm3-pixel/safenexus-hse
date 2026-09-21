@@ -1,10 +1,13 @@
 // SafeNexus HSE — Abu Dhabi Specialist HSE — Consolidated Gold Reference
-// Consolidated minimum-file architecture.
-// Specialist/high-risk HSE topics consolidated into one reusable data file.
-// Existing Gold Standard topic data is preserved below.
+// Canonical consolidated data file for the existing 10 specialist Gold modules.
+// Existing topic structures and content are preserved; no new topic filenames are introduced here.
 // Regulatory/legal/numerical requirements must always be checked against the current controlled official source.
 
 // ===== SOURCE: abu_dhabi_excavation_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi Excavation Gold Standard content.
+/// Regulatory baseline: ADOSH-SF CoP 29.0 — Excavation Work, Version 4.1, February 2026.
+/// This is a field-reference layer; official ADPHC publications remain controlling for compliance decisions.
+
 class ExcavationGoldPoint {
   final String clause;
   final String title;
@@ -652,17 +655,6 @@ const List<ExcavationGoldSection> excavationGoldStandardSections = [
       records: 'Official CoP links, version record, project legal register.',
     ),
   ),
-
-  ExcavationGoldSection(number: '39', title: 'Ground investigation and underground services', introduction: 'Confirm ground conditions and buried-service risks before excavation.', point: ExcavationGoldPoint(clause: 'Ground conditions', title: 'Ground investigation and underground services', meaning: 'Review available drawings, surveys, service information and site conditions before breaking ground.', hazards: 'Unexpected services, unstable ground and changing soil/water conditions.', controls: 'Use competent assessment, service locating, controlled excavation and change management.', fieldCheck: 'Verify survey/service information and work-front controls.', commonMistake: 'Relying on old drawings or visual assumptions.', action: 'Stop work when service location or ground conditions are uncertain.', records: 'Survey/service records, permits and inspection evidence.')),
-  ExcavationGoldSection(number: '40', title: 'Protective system selection', introduction: 'Select the protective method for the actual excavation and conditions.', point: ExcavationGoldPoint(clause: 'Protection', title: 'Protective system selection', meaning: 'Use an engineered or approved protective system appropriate to the excavation conditions and work method.', hazards: 'Collapse, engulfment, falling materials and worker entrapment.', controls: 'Use suitable sloping, benching, shoring or other approved protection as applicable.', fieldCheck: 'Check installation, condition and suitability before entry.', commonMistake: 'Improvising support from unsuitable materials.', action: 'Keep workers out until adequate protection is established.', records: 'Design, inspection and approval records.')),
-  ExcavationGoldSection(number: '41', title: 'Access and egress', introduction: 'Provide safe entry and exit throughout excavation work.', point: ExcavationGoldPoint(clause: 'Access', title: 'Access and egress', meaning: 'Provide safe access and egress appropriate to depth, configuration and work activity.', hazards: 'Falls, slips, blocked escape and delayed rescue.', controls: 'Keep access routes clear and provide suitable systems as required by the risk assessment.', fieldCheck: 'Inspect access at the start of work and after changes.', commonMistake: 'Climbing on spoil, plant or unstable edges.', action: 'Stop work until safe access is restored.', records: 'Inspection checklist and corrective actions.')),
-  ExcavationGoldSection(number: '42', title: 'Spoil, materials and edge loading', introduction: 'Control loads that can affect excavation stability.', point: ExcavationGoldPoint(clause: 'Edge loading', title: 'Spoil, materials and edge loading', meaning: 'Keep spoil, materials and plant controlled so they do not create unacceptable edge loading or collapse risk.', hazards: 'Edge failure, falling material and engulfment.', controls: 'Use planned set-backs, barriers and plant controls based on the approved assessment/design.', fieldCheck: 'Check edge condition and storage/plant location.', commonMistake: 'Allowing materials to accumulate at the edge.', action: 'Relocate loads and reassess stability.', records: 'Daily excavation inspection records.')),
-  ExcavationGoldSection(number: '43', title: 'Plant, traffic and excavation interfaces', introduction: 'Separate mobile plant from workers and excavation edges.', point: ExcavationGoldPoint(clause: 'Plant interface', title: 'Plant, traffic and excavation interfaces', meaning: 'Plan plant movement, reversing, lifting and loading around the excavation.', hazards: 'Vehicle entry, edge collapse, struck-by and falling loads.', controls: 'Use barriers, traffic controls, competent operators and defined routes.', fieldCheck: 'Verify exclusion zones and spotter arrangements where required.', commonMistake: 'Allowing plant to approach an unsupported edge.', action: 'Stop movement and establish safe separation.', records: 'Traffic plan, permits and observations.')),
-  ExcavationGoldSection(number: '44', title: 'Water ingress and environmental change', introduction: 'Groundwater, rain and changing conditions can alter stability.', point: ExcavationGoldPoint(clause: 'Water', title: 'Water ingress and environmental change', meaning: 'Monitor water ingress, rainfall and other environmental changes that affect the excavation.', hazards: 'Softening, erosion, collapse, flooding and worker entrapment.', controls: 'Provide suitable dewatering and protection measures based on the assessment.', fieldCheck: 'Inspect after rain, pumping changes or visible ground movement.', commonMistake: 'Continuing in a flooded or deteriorating excavation.', action: 'Evacuate and reassess before re-entry.', records: 'Weather/dewatering and inspection records.')),
-  ExcavationGoldSection(number: '45', title: 'Underground service exposure', introduction: 'Excavation near services requires controlled exposure and isolation.', point: ExcavationGoldPoint(clause: 'Services', title: 'Underground service exposure', meaning: 'Use the approved service-location and safe-dig process before and during excavation.', hazards: 'Electric shock, gas release, flooding and service interruption.', controls: 'Use competent persons, controlled digging methods and service owner coordination.', fieldCheck: 'Verify service identification and protection.', commonMistake: 'Assuming a service is deeper or elsewhere without verification.', action: 'Stop work on unexpected service discovery and escalate.', records: 'Permit, drawings, survey and service-owner records.')),
-  ExcavationGoldSection(number: '46', title: 'Inspection and change control', introduction: 'Excavation conditions must be checked throughout the work.', point: ExcavationGoldPoint(clause: 'Inspection', title: 'Inspection and change control', meaning: 'Inspect before entry and after changes or events that could affect stability or safety.', hazards: 'Unrecognized movement, damaged shoring and unsafe access.', controls: 'Use competent inspection and record defects/corrective actions.', fieldCheck: 'Check walls, support, edge, access, water, services and surrounding loads.', commonMistake: 'Treating the first inspection as permanent approval.', action: 'Prevent entry until defects are corrected and verified.', records: 'Inspection register and corrective-action records.')),
-  ExcavationGoldSection(number: '47', title: 'Emergency and rescue', introduction: 'Plan for collapse, engulfment, service strike, flooding and injury.', point: ExcavationGoldPoint(clause: 'Emergency', title: 'Emergency and rescue', meaning: 'Maintain an emergency plan that matches foreseeable excavation scenarios.', hazards: 'Burial, collapse, electrocution, flooding and delayed rescue.', controls: 'Provide communication, exclusion controls and trained emergency response arrangements.', fieldCheck: 'Verify emergency access and contacts.', commonMistake: 'Entering an unstable excavation to rescue without assessment.', action: 'Isolate the area and activate the planned rescue response.', records: 'Emergency plan, drills and incident records.')),
-  ExcavationGoldSection(number: '48', title: 'Backfilling and close-out', introduction: 'Close the excavation safely and restore the area under controlled conditions.', point: ExcavationGoldPoint(clause: 'Close-out', title: 'Backfilling and close-out', meaning: 'Backfill, compact, remove protection and restore the area only through the approved sequence.', hazards: 'Collapse during backfill, plant interaction, open edges and residual hazards.', controls: 'Control plant, maintain exclusion zones and verify completion before reopening the area.', fieldCheck: 'Inspect final condition, barriers, covers and housekeeping.', commonMistake: 'Removing protection before the hazard is eliminated.', action: 'Keep the area controlled until final verification.', records: 'Backfill/close-out records and handover.')),
 ];
 
 // ===== SOURCE: abu_dhabi_scaffolding_gold.dart =====
@@ -1313,20 +1305,16 @@ const List<ScaffoldingGoldSection> scaffoldingGoldStandardSections = [
       records: 'Official CoP, legal register, revision record.',
     ),
   ),
-
-  ScaffoldingGoldSection(number: '39', title: 'Scaffold design and loading', introduction: 'Engineering basis, duty and load control.', point: ScaffoldingGoldPoint(clause: 'Design', title: 'Scaffold design and loading', meaning: 'Use the approved scaffold design and intended duty class for the actual work.', hazards: 'Overloading, instability, unauthorized changes and unsuitable foundations.', controls: 'Control loads, access, storage and modifications against the approved design and manufacturer requirements.', fieldCheck: 'Verify design status, duty, supports, ties and loading arrangements.', commonMistake: 'Treating a scaffold as generic regardless of its design or intended load.', action: 'Stop loading and obtain competent review when the configuration or load changes.', records: 'Design/drawing, inspection and release records.')),
-  ScaffoldingGoldSection(number: '40', title: 'Erection sequence and temporary stability', introduction: 'Safe erection requires stability at every stage.', point: ScaffoldingGoldPoint(clause: 'Erection', title: 'Erection sequence and temporary stability', meaning: 'Erect progressively so stability and access are maintained throughout the sequence.', hazards: 'Partial collapse, falls, dropped components and uncontrolled movement.', controls: 'Use competent erectors, controlled exclusion zones and the approved sequence.', fieldCheck: 'Observe ties, bracing, foundations, access and temporary stability.', commonMistake: 'Removing a brace/tie early to make erection easier.', action: 'Stop work and restore stability before continuing.', records: 'Erection checklist and competent-person records.')),
-  ScaffoldingGoldSection(number: '41', title: 'Scaffold access and egress', introduction: 'Access must remain safe throughout the scaffold life cycle.', point: ScaffoldingGoldPoint(clause: 'Access', title: 'Scaffold access and egress', meaning: 'Provide suitable access and keep routes clear from erection through dismantling.', hazards: 'Falls, slips, blocked escape and unsafe climbing.', controls: 'Use approved access arrangements; keep platforms and access points unobstructed.', fieldCheck: 'Check access, gates/openings, ladders/stairs and housekeeping.', commonMistake: 'Using braces or frames as improvised access.', action: 'Provide compliant access before allowing routine work.', records: 'Inspection records and access checks.')),
-  ScaffoldingGoldSection(number: '42', title: 'Edge protection and falling objects', introduction: 'Control both worker falls and objects falling from the scaffold.', point: ScaffoldingGoldPoint(clause: 'Protection', title: 'Edge protection and falling objects', meaning: 'Use collective fall and dropped-object controls appropriate to the scaffold configuration.', hazards: 'Falls from edges, falling tools/materials and exposure below.', controls: 'Maintain guardrails, toe protection, containment and exclusion zones as required.', fieldCheck: 'Inspect edge protection and the area below.', commonMistake: 'Removing edge protection temporarily without controlled replacement.', action: 'Stop work below/above when dropped-object controls are missing.', records: 'Daily/periodic inspection evidence.')),
-  ScaffoldingGoldSection(number: '43', title: 'Scaffold inspection and tagging', introduction: 'Inspection is a release and change-control activity.', point: ScaffoldingGoldPoint(clause: 'Inspection', title: 'Scaffold inspection and tagging', meaning: 'Inspect before use and after events or changes that may affect safety, following the applicable procedure.', hazards: 'Unidentified defects, use of incomplete or altered scaffold.', controls: 'Use competent inspectors, record defects and clearly communicate status.', fieldCheck: 'Check tag/status, structure, access, platforms, protection and foundations.', commonMistake: 'Assuming a tag remains valid after modification or impact.', action: 'Quarantine or prevent use until defects are rectified and re-inspected.', records: 'Inspection register, tag/status record and corrective actions.')),
-  ScaffoldingGoldSection(number: '44', title: 'Alteration, modification and unauthorized changes', introduction: 'Changes can invalidate the original design and inspection.', point: ScaffoldingGoldPoint(clause: 'Modification', title: 'Alteration, modification and unauthorized changes', meaning: 'Only authorized competent persons should alter a scaffold within the approved system/design.', hazards: 'Collapse, missing ties/bracing, unsafe gaps and incompatible components.', controls: 'Control changes through authorization, inspection and re-release.', fieldCheck: 'Look for missing components, added platforms, altered ties and improvised supports.', commonMistake: 'Workers adding/removing components for convenience.', action: 'Stop use and restore or formally redesign/reinspect the scaffold.', records: 'Modification approval and reinspection record.')),
-  ScaffoldingGoldSection(number: '45', title: 'Dismantling and dropped-component control', introduction: 'Dismantling needs the same level of planning as erection.', point: ScaffoldingGoldPoint(clause: 'Dismantling', title: 'Dismantling and dropped-component control', meaning: 'Dismantle in a controlled sequence that preserves stability and protects people below.', hazards: 'Collapse, falls, dropped components and struck-by injuries.', controls: 'Use competent workers, exclusion zones, controlled lowering and the approved sequence.', fieldCheck: 'Verify sequence, access, exclusion zone and component handling.', commonMistake: 'Throwing components or removing stabilizing parts too early.', action: 'Stop dismantling if stability or exclusion controls fail.', records: 'Dismantling plan/checklist and close-out record.')),
-  ScaffoldingGoldSection(number: '46', title: 'Scaffold interfaces with plant and construction', introduction: 'Scaffolds often interact with cranes, MEWPs, vehicles and adjacent work.', point: ScaffoldingGoldPoint(clause: 'Interfaces', title: 'Scaffold interfaces with plant and construction', meaning: 'Coordinate scaffold location and use with surrounding plant and activities.', hazards: 'Impact, entanglement, electrical contact, falling objects and access conflicts.', controls: 'Provide separation, barriers, communication and controlled interfaces.', fieldCheck: 'Check clearance, vehicle routes, lifting zones and adjacent work.', commonMistake: 'Ignoring changes in surrounding construction activities.', action: 'Reassess and modify controls when site interfaces change.', records: 'Interface risk assessment and inspection evidence.')),
-  ScaffoldingGoldSection(number: '47', title: 'Scaffold emergency and rescue', introduction: 'Plan for falls, collapse, access blockage and severe weather.', point: ScaffoldingGoldPoint(clause: 'Emergency', title: 'Scaffold emergency and rescue', meaning: 'The scaffold emergency plan must match foreseeable scenarios and available rescue resources.', hazards: 'Suspended worker, partial collapse, falling objects and blocked access.', controls: 'Maintain communication, emergency access, rescue equipment and competent responders.', fieldCheck: 'Verify rescue route and emergency contacts.', commonMistake: 'Assuming emergency services alone provide immediate task-specific rescue.', action: 'Stop work after a serious event until the scaffold is assessed and released.', records: 'Emergency plan, drill/training and incident records.')),
-  ScaffoldingGoldSection(number: '48', title: 'Final HSE field audit and close-out', introduction: 'A scaffold is only safe when its complete lifecycle is controlled.', point: ScaffoldingGoldPoint(clause: 'Close-out', title: 'Final HSE field audit and close-out', meaning: 'Complete a final field verification covering structure, access, protection, status and housekeeping.', hazards: 'Residual defects, incomplete dismantling and uncontrolled handover.', controls: 'Close corrective actions, update status and hand over formally.', fieldCheck: 'Walk the full scaffold and verify all critical controls.', commonMistake: 'Closing paperwork without field verification.', action: 'Keep the scaffold out of service until unresolved critical issues are closed.', records: 'Final inspection, handover and corrective-action records.')),
 ];
 
 // ===== SOURCE: abu_dhabi_working_at_height_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi Working at Height Gold Standard.
+/// Primary regulatory baseline: ADOSH-SF CoP 23.0 — Working at Heights.
+/// This is a structured field-reference layer. The current official ADPHC
+/// publication remains the controlling source for regulatory decisions.
+///
+/// 38-section Gold Standard content model.
+
 class WorkingAtHeightGoldPoint {
   final String clause;
   final String title;
@@ -1974,20 +1962,17 @@ const List<WorkingAtHeightGoldSection> workingAtHeightGoldStandardSections = [
       records: 'RAMS/JSA, inspection record, competency evidence, permit/authorization and corrective-action record where applicable.',
     ),
   ),
-
-  WorkingAtHeightGoldSection(number: '39', title: 'Planning and hierarchy of controls', introduction: 'Plan to eliminate or collectively control work at height.', point: WorkingAtHeightGoldPoint(clause: 'Planning', title: 'Planning and hierarchy of controls', meaning: 'Avoid height exposure where practicable and select collective controls before personal fall protection.', hazards: 'Falls, dropped objects, unsuitable access and rescue delays.', controls: 'Use design, access planning, edge protection and task-specific risk assessment.', fieldCheck: 'Check method, access, collective protection and rescue arrangements.', commonMistake: 'Starting with a harness because it is easy to issue.', action: 'Replan where collective protection is reasonably practicable.', records: 'Risk assessment, method statement and inspection records.')),
-  WorkingAtHeightGoldSection(number: '40', title: 'Platform and edge protection', introduction: 'Maintain a protected working platform throughout the task.', point: WorkingAtHeightGoldPoint(clause: 'Edge protection', title: 'Platform and edge protection', meaning: 'Provide suitable working platforms and edge protection for the actual task.', hazards: 'Falls through edges/openings and falling materials.', controls: 'Protect edges/openings and control temporary removal.', fieldCheck: 'Inspect rails, toe protection, gates and openings.', commonMistake: 'Removing protection without an approved temporary control.', action: 'Stop work until equivalent protection is restored.', records: 'Inspection and corrective-action records.')),
-  WorkingAtHeightGoldSection(number: '41', title: 'Fall-arrest system and rescue', introduction: 'Fall arrest is only effective when the complete system is planned.', point: WorkingAtHeightGoldPoint(clause: 'Fall arrest', title: 'Fall-arrest system and rescue', meaning: 'Use compatible equipment, anchor arrangements, clearance and rescue planning.', hazards: 'Suspension injury, swing fall, equipment failure and delayed rescue.', controls: 'Inspect equipment, use suitable anchors and maintain rescue capability.', fieldCheck: 'Check harness, connectors, lifeline, anchor and rescue plan.', commonMistake: 'Using an anchor without confirming suitability.', action: 'Remove defective equipment and stop work until the system is verified.', records: 'Equipment inspection and training records.')),
-  WorkingAtHeightGoldSection(number: '42', title: 'Dropped-object prevention', introduction: 'Control tools and materials that can fall from elevated work.', point: WorkingAtHeightGoldPoint(clause: 'Dropped objects', title: 'Dropped-object prevention', meaning: 'Identify and control all objects that could fall from the work area.', hazards: 'Struck-by injuries, property damage and secondary hazards.', controls: 'Use containment, securing systems, exclusion zones and controlled transfer.', fieldCheck: 'Inspect edge areas and the zone below.', commonMistake: 'Leaving small tools/materials unsecured.', action: 'Stop work and secure the area before continuing.', records: 'Observation and inspection records.')),
-  WorkingAtHeightGoldSection(number: '43', title: 'MEWP and access-equipment interface', introduction: 'Access equipment must be selected and operated within its limitations.', point: WorkingAtHeightGoldPoint(clause: 'MEWP', title: 'MEWP and access-equipment interface', meaning: 'Use competent operators, pre-use checks, suitable ground/support and emergency arrangements.', hazards: 'Tip-over, entrapment, falls and collision.', controls: 'Follow manufacturer instructions and site traffic/exclusion controls.', fieldCheck: 'Check equipment status, ground, overhead hazards and rescue.', commonMistake: 'Using access equipment as a crane or outside its intended use.', action: 'Remove equipment from service when defects or unsafe conditions exist.', records: 'Pre-use inspection and operator records.')),
-  WorkingAtHeightGoldSection(number: '44', title: 'Weather and environmental change', introduction: 'Environmental conditions can rapidly change the risk.', point: WorkingAtHeightGoldPoint(clause: 'Weather', title: 'Weather and environmental change', meaning: 'Monitor conditions relevant to the equipment and task.', hazards: 'Wind, rain, lightning, heat, reduced visibility and slippery surfaces.', controls: 'Use approved weather limits and secure equipment/materials.', fieldCheck: 'Check conditions before and during work.', commonMistake: 'Continuing because the task is almost finished.', action: 'Suspend work when controls or equipment limitations are exceeded.', records: 'Weather/stop-work records where required.')),
-  WorkingAtHeightGoldSection(number: '45', title: 'Ladders and short-duration tasks', introduction: 'Ladders require task-appropriate selection and stable use.', point: WorkingAtHeightGoldPoint(clause: 'Ladders', title: 'Ladders and short-duration tasks', meaning: 'Select and use ladders only where the task and risk assessment support their use.', hazards: 'Falls, overreaching, displacement and carrying loads while climbing.', controls: 'Provide stable footing, suitable positioning and safe climbing practices.', fieldCheck: 'Inspect condition and setup.', commonMistake: 'Using damaged ladders or standing in unsafe positions.', action: 'Provide a more suitable access system where the task demands it.', records: 'Pre-use checks and observations.')),
-  WorkingAtHeightGoldSection(number: '46', title: 'Rescue and suspension response', introduction: 'Every fall-protection task needs a realistic recovery plan.', point: WorkingAtHeightGoldPoint(clause: 'Rescue', title: 'Rescue and suspension response', meaning: 'Plan rescue before work starts and make equipment/personnel available.', hazards: 'Suspension trauma, delayed recovery and secondary rescue exposure.', controls: 'Provide trained responders, communication and suitable rescue equipment.', fieldCheck: 'Verify route, equipment and contact method.', commonMistake: 'No rescue plan because workers have harnesses.', action: 'Stop work until rescue arrangements are practical.', records: 'Rescue plan and drill/training records.')),
-  WorkingAtHeightGoldSection(number: '47', title: 'Supervision and competency', introduction: 'Competency and active supervision are critical controls.', point: WorkingAtHeightGoldPoint(clause: 'Competency', title: 'Supervision and competency', meaning: 'Workers and supervisors must be trained and competent for the access system and task.', hazards: 'Incorrect equipment use, unsafe shortcuts and poor response to changes.', controls: 'Verify competence, brief workers and supervise critical activities.', fieldCheck: 'Check authorization and observe actual work.', commonMistake: 'Assuming experience equals current competency.', action: 'Remove unqualified personnel from the task and arrange competent coverage.', records: 'Training/authorization records.')),
-  WorkingAtHeightGoldSection(number: '48', title: 'Final inspection and close-out', introduction: 'End the task by removing residual exposure and restoring the area.', point: WorkingAtHeightGoldPoint(clause: 'Close-out', title: 'Final inspection and close-out', meaning: 'Verify that elevated areas, access systems and dropped-object risks are safely closed.', hazards: 'Residual tools/materials, unprotected edges and unauthorized access.', controls: 'Remove temporary controls only when exposure has ended and the area is safe.', fieldCheck: 'Complete a final walkdown.', commonMistake: 'Leaving an elevated area open because work is finished for the day.', action: 'Secure, barricade or remove the hazard before handover.', records: 'Close-out and corrective-action records.')),
 ];
 
 // ===== SOURCE: abu_dhabi_power_tools_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi HSE Gold Standard
+/// Topic: Portable Power Tools
+/// Regulatory basis: ADOSH-SF CoP 35.0, Version 4.1, effective 16 February 2026.
+///
+/// This is structured reference content. Project-specific RAMS, JSA,
+/// manufacturer instructions, permits, competent-person requirements and
+/// current official regulatory documents remain applicable.
+
 class PowerToolsGoldPoint {
   final String title;
   final List<String> points;
@@ -2709,130 +2694,17 @@ const List<PowerToolsGoldSection> portablePowerToolsGoldStandardSections = [
       ),
     ],
   ),
-
-  PowerToolsGoldSection(
-    number: '39',
-    title: 'Equipment selection & suitability',
-    points: [
-      'Select the tool for the intended task, material and environment.',
-      'Use the manufacturer instructions and current site risk assessment as the baseline.',
-      'Do not use a portable tool outside its intended duty, capacity or operating method.',
-      'Check compatibility of accessories, discs, blades, bits and guards before use.',
-      'Consider electrical supply, battery type, pneumatic source, dust, noise, heat and wet conditions.',
-      'Remove damaged, modified or unidentified tools from service until formally assessed.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '40',
-    title: 'Pre-use inspection',
-    points: [
-      'Inspect body, guards, switches, handles, cables, plugs, hoses, batteries and accessories.',
-      'Check that safety devices are present and functional.',
-      'Look for cracks, exposed conductors, damaged insulation, loose components and abnormal wear.',
-      'Confirm the accessory is correctly fitted, secured and suitable for the tool.',
-      'Check inspection/tag status where the site system requires periodic inspection.',
-      'Record defects and quarantine unsafe equipment rather than relying on verbal warnings.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '41',
-    title: 'Electrical safety',
-    points: [
-      'Use the approved electrical supply and protection required by the site electrical system.',
-      'Protect cables from vehicles, sharp edges, heat, water and mechanical damage.',
-      'Do not pull, carry or suspend a tool by its cable.',
-      'Keep connections protected from moisture and unauthorized interference.',
-      'Use competent persons for electrical inspection, repair and testing.',
-      'Stop work when electrical protection is damaged, bypassed or uncertain.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '42',
-    title: 'Grinding, cutting & abrasive work',
-    points: [
-      'Use the correct wheel or cutting accessory for the tool and material.',
-      'Confirm the accessory rating is compatible with the equipment.',
-      'Keep guards correctly positioned and do not defeat them.',
-      'Control sparks, fragments, dust and nearby combustible materials.',
-      'Use suitable eye/face, hearing and respiratory protection based on the risk assessment.',
-      'Inspect wheels and accessories for damage before fitting and after any significant event.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '43',
-    title: 'Drilling, chasing & impact work',
-    points: [
-      'Check the work surface for concealed services before drilling or chasing.',
-      'Secure the workpiece and establish a stable operating position.',
-      'Control flying fragments, dust and noise.',
-      'Use the correct bit or accessory and do not force the tool beyond its design.',
-      'Isolate or protect nearby workers from the line of fire.',
-      'Use dust extraction or suppression where required by the risk assessment.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '44',
-    title: 'Pneumatic tools & hoses',
-    points: [
-      'Inspect hoses, couplings, regulators and fittings before connection.',
-      'Prevent hose whip and accidental disconnection using suitable controls.',
-      'Depressurize before maintenance, accessory change or disconnection.',
-      'Route hoses to avoid trip hazards, vehicle damage and sharp edges.',
-      'Use the specified pressure and accessories for the equipment.',
-      'Do not use compressed air for unsafe cleaning practices or bodily exposure.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '45',
-    title: 'Battery-powered tools',
-    points: [
-      'Use the correct battery, charger and accessory combination.',
-      'Inspect batteries for swelling, leakage, damage, overheating or abnormal condition.',
-      'Protect batteries from heat, impact, moisture and unauthorized modification.',
-      'Use designated charging arrangements and follow manufacturer requirements.',
-      'Keep damaged batteries isolated and managed under the site disposal procedure.',
-      'Control stored energy during transport, maintenance and accessory changes.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '46',
-    title: 'Ergonomics, vibration & fatigue',
-    points: [
-      'Select tools that minimize excessive force, awkward posture and prolonged vibration.',
-      'Plan task duration, rotation and recovery according to the risk assessment.',
-      'Keep handles clean and maintain a secure grip without over-gripping.',
-      'Report numbness, tingling, pain or reduced control promptly.',
-      'Maintain sharp and properly maintained accessories to avoid unnecessary force.',
-      'Consider the combined exposure from multiple vibrating tools and tasks.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '47',
-    title: 'Dust, noise & occupational exposure',
-    points: [
-      'Identify dust-generating, noisy and other exposure hazards before work.',
-      'Apply engineering controls before relying on PPE.',
-      'Use extraction, wet methods, barriers or isolation where appropriate.',
-      'Select respiratory and hearing protection from the exposure assessment.',
-      'Maintain controls and verify that they remain effective during the task.',
-      'Escalate uncontrolled exposure rather than continuing until symptoms occur.',
-    ],
-  ),
-  PowerToolsGoldSection(
-    number: '48',
-    title: 'Close-out & records',
-    points: [
-      'Switch off and isolate the tool before cleaning, adjustment or storage.',
-      'Remove accessories safely and inspect the equipment after use.',
-      'Report defects, incidents, near misses and abnormal performance.',
-      'Return equipment to the designated storage location.',
-      'Maintain inspection, maintenance and defect records required by the site system.',
-      'Verify that temporary controls or exclusion zones are removed only when safe.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_formwork_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi HSE Gold Standard
+/// Topic: Formwork / False Work
+/// Regulatory basis: ADOSH-SF CoP 40.0, Version 4.1, February 2026.
+///
+/// Structured reference content. Project-specific temporary-works design,
+/// RAMS, manufacturer instructions, permits and competent-person requirements
+/// remain applicable.
+
 class FormworkGoldPoint {
   final String title;
   final List<String> points;
@@ -3639,130 +3511,17 @@ const List<FormworkGoldSection> formworkGoldStandardSections = [
       ),
     ],
   ),
-
-  FormworkGoldSection(
-    number: '39',
-    title: 'Design & engineering control',
-    points: [
-      'Use an approved formwork/falsework design appropriate to the concrete loads and construction sequence.',
-      'Identify temporary works interfaces, load paths, supports and stability requirements before erection.',
-      'Do not improvise structural members, connections or supports.',
-      'Confirm design changes are reviewed by the responsible competent person.',
-      'Communicate the approved sequence to the erection and concreting teams.',
-      'Treat temporary works as engineered structures requiring controlled change.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '40',
-    title: 'Pre-erection planning',
-    points: [
-      'Review drawings, method statement, risk assessment and lifting/handling arrangements.',
-      'Confirm materials, components, access, exclusion zones and competent workforce.',
-      'Check ground/support conditions and the capacity of bearing surfaces.',
-      'Plan interaction with cranes, MEWPs, concrete placing equipment and other trades.',
-      'Establish inspection and hold points before loading the formwork.',
-      'Brief workers on the sequence and prohibited modifications.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '41',
-    title: 'Erection & stability',
-    points: [
-      'Erect according to the approved sequence and manufacturer/design requirements.',
-      'Provide positive stability while the structure is incomplete.',
-      'Secure components against movement, displacement and accidental release.',
-      'Maintain safe access and prevent workers from standing on unstable components.',
-      'Do not remove supports or ties without authorization.',
-      'Stop work if actual conditions differ materially from the approved design.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '42',
-    title: 'Loading & concrete placement',
-    points: [
-      'Control concrete placement sequence and rate according to the design.',
-      'Avoid concentrated loads, impact loading and uncontrolled material storage.',
-      'Monitor movement, deflection, leakage and signs of distress during placement.',
-      'Keep unauthorized persons outside the loading and placement zone.',
-      'Coordinate concrete placing equipment with the temporary works supervisor.',
-      'Stop placement when instability, abnormal movement or uncontrolled loading is observed.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '43',
-    title: 'Working at height & falling objects',
-    points: [
-      'Provide designed platforms, access and edge protection for work at height.',
-      'Secure tools and materials against falling.',
-      'Control openings and leading edges throughout erection and dismantling.',
-      'Use fall protection where collective controls do not fully protect the worker.',
-      'Maintain exclusion zones below overhead work.',
-      'Inspect access arrangements whenever the temporary works configuration changes.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '44',
-    title: 'Inspection & hold points',
-    points: [
-      'Inspect components before erection for damage, distortion, corrosion or missing parts.',
-      'Inspect the completed temporary works before loading.',
-      'Reinspect after significant modification, impact, abnormal weather or other events affecting stability.',
-      'Record findings and corrective actions.',
-      'Do not release a hold point until the competent person confirms readiness.',
-      'Make inspection status visible to the work team where the site system requires it.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '45',
-    title: 'Stripping / striking',
-    points: [
-      'Plan striking as a controlled temporary-works operation, not routine dismantling.',
-      'Confirm concrete strength/approval and sequence requirements before removing supports.',
-      'Establish exclusion zones for falling materials and sudden load transfer.',
-      'Remove components in the approved sequence.',
-      'Do not remove critical supports early to accelerate production.',
-      'Stop work if cracking, movement or unexpected load transfer occurs.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '46',
-    title: 'Dismantling & storage',
-    points: [
-      'Dismantle in a planned sequence that preserves stability.',
-      'Lower components safely; do not throw or drop materials.',
-      'Segregate damaged components from serviceable stock.',
-      'Stack and store components so they cannot roll, collapse or obstruct access.',
-      'Protect reusable components from contamination and damage.',
-      'Update records when components are rejected or sent for repair.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '47',
-    title: 'Interface controls',
-    points: [
-      'Coordinate formwork with reinforcement, embedded items, MEP and concrete operations.',
-      'Control simultaneous activities that could destabilize or overload temporary works.',
-      'Maintain clear communication between supervisors and plant operators.',
-      'Control crane lifting around workers and temporary structures.',
-      'Resolve design/interface conflicts before field execution.',
-      'Use a controlled permit or hold point where the project system requires one.',
-    ],
-  ),
-  FormworkGoldSection(
-    number: '48',
-    title: 'Emergency & close-out',
-    points: [
-      'Establish a response for collapse, partial collapse, trapped persons and uncontrolled concrete release.',
-      'Stop adjacent work and isolate the affected area after a serious instability event.',
-      'Do not enter a damaged temporary structure until it is assessed and made safe.',
-      'Record the event and preserve relevant evidence for investigation.',
-      'Close out temporary works only after removal, area inspection and housekeeping.',
-      'Retain required design, inspection, release and dismantling records.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_permit_to_work_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi HSE Gold Standard
+/// Topic: Permit to Work Systems
+/// Regulatory basis: ADOSH-SF CoP 21.0, Version 4.0, effective 15 July 2024.
+///
+/// Structured reference content. The entity/project PTW procedure, RAMS/JSA,
+/// isolation procedure, permits, competency requirements and current official
+/// regulatory documents remain applicable.
+
 class PermitToWorkGoldPoint {
   final String title;
   final List<String> points;
@@ -4572,130 +4331,16 @@ const List<PermitToWorkGoldSection> permitToWorkGoldStandardSections = [
       ),
     ],
   ),
-
-  PermitToWorkGoldSection(
-    number: '39',
-    title: 'Permit lifecycle',
-    points: [
-      'Treat the permit as a controlled authorization for a defined task, location, time and conditions.',
-      'Confirm the permit is issued only after hazards and controls are understood.',
-      'Maintain clear links between permit, risk assessment, method statement and isolations.',
-      'Communicate permit conditions to everyone involved.',
-      'Suspend or cancel the permit when conditions change beyond its control basis.',
-      'Close the permit only after the work area and equipment are left in a safe state.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '40',
-    title: 'Roles & authorization',
-    points: [
-      'Define issuer, performing authority, area authority and other roles used by the site system.',
-      'Ensure each role understands its authority and limits.',
-      'Do not allow unauthorized persons to issue, extend or alter permits.',
-      'Confirm competence for specialist permits and isolations.',
-      'Maintain handover arrangements between shifts.',
-      'Escalate conflicting authority or unclear responsibility before work starts.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '41',
-    title: 'Hazard review & controls',
-    points: [
-      'Review the task-specific risk assessment before permit issue.',
-      'Identify simultaneous operations and interface hazards.',
-      'Confirm required isolations, gas testing, fire protection, rescue and access controls.',
-      'Verify controls are physically implemented rather than only written.',
-      'Use the hierarchy of controls and avoid relying solely on PPE.',
-      'Record additional precautions introduced at the worksite.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '42',
-    title: 'Isolation & LOTO interface',
-    points: [
-      'Identify all hazardous energy sources relevant to the work.',
-      'Verify isolation requirements with the responsible competent person.',
-      'Use the approved lockout/tagout process where applicable.',
-      'Confirm zero-energy or safe-state verification before exposure.',
-      'Control stored and residual energy.',
-      'Do not remove another person’s lock or defeat an isolation without the authorized emergency process.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '43',
-    title: 'Hot work / confined space / excavation permits',
-    points: [
-      'Apply additional permit controls where the task category requires them.',
-      'Verify atmospheric testing, fire watch, excavation controls or rescue arrangements as applicable.',
-      'Link specialist permits and certificates so conflicting controls are not overlooked.',
-      'Ensure the permit describes the actual worksite, not a generic area.',
-      'Revalidate controls when the job or environment changes.',
-      'Stop work when a required specialist control is absent.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '44',
-    title: 'Shift change & handover',
-    points: [
-      'Review open permits before shift change.',
-      'Communicate status, outstanding hazards, isolations and incomplete work.',
-      'Ensure the incoming responsible person accepts the handover.',
-      'Reconfirm site conditions when work resumes after interruption.',
-      'Avoid relying on an expired permit simply because the task is unchanged.',
-      'Maintain traceable records of extensions and revalidation.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '45',
-    title: 'Field verification',
-    points: [
-      'The issuer or authorized verifier should confirm key controls at the worksite.',
-      'Check barriers, signage, PPE, access, isolation and emergency arrangements.',
-      'Verify that the work matches the permit scope.',
-      'Confirm test results are current where testing is required.',
-      'Record deviations and corrective actions.',
-      'Do not sign a permit as a substitute for actual field verification.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '46',
-    title: 'Suspension / cancellation',
-    points: [
-      'Suspend work when weather, process conditions, alarms, gas readings, equipment condition or other hazards change.',
-      'Make the area safe before leaving an incomplete job.',
-      'Cancel permits when the authorization is no longer valid.',
-      'Reissue or revalidate only through the approved process.',
-      'Communicate suspension to all affected workers and control rooms where applicable.',
-      'Preserve records of the reason and time of suspension/cancellation.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '47',
-    title: 'Permit audit & records',
-    points: [
-      'Maintain permit registers and required supporting documents.',
-      'Audit completed permits for quality, completeness and field alignment.',
-      'Track recurring deviations and use them for corrective action.',
-      'Retain test certificates, isolation records and approvals where required.',
-      'Ensure records are legible, traceable and retrievable.',
-      'Use audit findings to improve the permit system.',
-    ],
-  ),
-  PermitToWorkGoldSection(
-    number: '48',
-    title: 'Close-out',
-    points: [
-      'Confirm tools, waste and temporary equipment are removed or left safely.',
-      'Confirm guards, covers, barriers and systems are restored as authorized.',
-      'Verify isolations are removed only by the approved process.',
-      'Return the area to the responsible authority.',
-      'Close the permit formally; do not leave it open indefinitely.',
-      'Record lessons learned and outstanding actions.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_safety_in_heat_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi HSE Gold Standard
+/// Topic: Safety in the Heat / Working in Hot & Humid Climate
+/// Regulatory basis: ADOSH-SF CoP 11.0, Version 4.0, effective 15 July 2024.
+///
+/// Structured reference content. Site heat-management procedures, medical
+/// guidance, risk assessments and current official requirements remain applicable.
+
 class SafetyInHeatGoldPoint {
   final String title;
   final List<String> points;
@@ -5229,130 +4874,16 @@ const List<SafetyInHeatGoldSection> safetyInHeatGoldStandardSections = [
       ),
     ],
   ),
-
-  SafetyInHeatGoldSection(
-    number: '39',
-    title: 'Heat-risk planning',
-    points: [
-      'Assess heat stress risk using the current approved UAE/Abu Dhabi heat-management requirements and site procedure.',
-      'Consider season, work intensity, clothing, acclimatization, humidity, radiant heat and individual factors.',
-      'Plan demanding work for lower-risk periods where practicable.',
-      'Provide shaded recovery areas, hydration and suitable welfare arrangements.',
-      'Brief workers and supervisors on heat illness recognition and response.',
-      'Review controls when weather or work conditions change.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '40',
-    title: 'Hydration & rest',
-    points: [
-      'Provide potable drinking water and encourage regular hydration according to the site heat plan.',
-      'Provide suitable shaded or cooled recovery arrangements where required.',
-      'Schedule work/rest arrangements from the approved heat-risk assessment.',
-      'Do not discourage workers from reporting thirst, weakness or symptoms.',
-      'Monitor availability of water and welfare facilities during the shift.',
-      'Record and investigate heat-related incidents and near misses.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '41',
-    title: 'Acclimatization & vulnerable workers',
-    points: [
-      'Manage new or returning workers through the site acclimatization process.',
-      'Provide additional supervision when workers are unfamiliar with the climate or task demands.',
-      'Consider individual risk factors through the applicable occupational-health process.',
-      'Do not disclose private medical information unnecessarily.',
-      'Encourage early reporting of symptoms.',
-      'Escalate repeated heat symptoms for occupational-health review.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '42',
-    title: 'Heat illness recognition',
-    points: [
-      'Train workers to recognize heat cramps, heat exhaustion and potentially life-threatening heat illness.',
-      'Treat confusion, collapse, altered behavior or severe deterioration as an emergency.',
-      'Stop the task and move the affected person to a safe recovery location.',
-      'Activate the site emergency/medical response without delay.',
-      'Do not allow an affected worker to return to strenuous work without appropriate clearance.',
-      'Record the event and review contributing conditions.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '43',
-    title: 'PPE & clothing',
-    points: [
-      'Select PPE and clothing compatible with the heat-risk assessment and task hazards.',
-      'Avoid unnecessary layers while maintaining mandatory protection.',
-      'Keep PPE clean, serviceable and properly fitted.',
-      'Consider cooling or ventilation options where compatible with the hazard.',
-      'Do not remove critical PPE to manage heat without an approved alternative control.',
-      'Monitor whether PPE is increasing heat burden.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '44',
-    title: 'Work intensity & mechanization',
-    points: [
-      'Reduce unnecessary physical effort through planning, mechanization and team handling.',
-      'Use plant or tools to reduce manual exertion where practicable.',
-      'Rotate demanding tasks according to the risk assessment.',
-      'Monitor workers for fatigue and reduced concentration.',
-      'Reassess the task when production pressure increases physical demand.',
-      'Stop work when heat controls are no longer effective.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '45',
-    title: 'Monitoring & supervision',
-    points: [
-      'Supervisors should actively observe workers rather than relying only on self-reporting.',
-      'Monitor weather and approved heat-risk indicators used by the site.',
-      'Verify water, shade, rest and emergency arrangements throughout the shift.',
-      'Increase monitoring during high-risk activities or changing conditions.',
-      'Record heat observations and corrective actions.',
-      'Escalate recurring failures to management.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '46',
-    title: 'Emergency response',
-    points: [
-      'Maintain a clear emergency route and communication method.',
-      'Train supervisors in first-response actions for suspected heat illness.',
-      'Keep emergency contact arrangements current.',
-      'Provide rapid access to medical assistance.',
-      'Prevent crowding and protect the affected person from additional exposure.',
-      'Investigate serious cases and implement corrective actions.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '47',
-    title: 'Worker communication',
-    points: [
-      'Deliver toolbox talks before high-risk heat work and when conditions change.',
-      'Use language and communication methods understood by the workforce.',
-      'Explain symptoms, hydration, rest, buddy checks and reporting expectations.',
-      'Encourage workers to speak up without fear of production consequences.',
-      'Use visual reminders at work fronts and welfare areas.',
-      'Verify understanding through questions and field observation.',
-    ],
-  ),
-  SafetyInHeatGoldSection(
-    number: '48',
-    title: 'Close-out & seasonal review',
-    points: [
-      'Review heat incidents, observations and worker feedback.',
-      'Check whether welfare facilities remained adequate.',
-      'Update the heat-risk assessment for future work.',
-      'Capture lessons learned and corrective actions.',
-      'Verify that temporary seasonal arrangements are removed or maintained appropriately.',
-      'Retain required monitoring and training records.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_confined_spaces_gold.dart =====
+/// SafeNexus HSE — Abu Dhabi HSE Gold Standard
+/// Topic: Confined Spaces
+/// Regulatory basis: ADOSH-SF CoP 27.0, Version 4.0, July 2024.
+///
+/// Structured reference content. Site PTW, RAMS/JSA, isolation, atmospheric
+/// testing, rescue, competency and current official requirements remain applicable.
+
 class ConfinedSpaceGoldPoint {
   final String title;
   final List<String> points;
@@ -5938,130 +5469,10 @@ const List<ConfinedSpaceGoldSection> confinedSpaceGoldStandardSections = [
       ),
     ],
   ),
-
-  ConfinedSpaceGoldSection(
-    number: '39',
-    title: 'Entry decision & alternatives',
-    points: [
-      'Determine whether the task can be completed without entry.',
-      'Treat entry as a controlled operation requiring specific risk assessment and authorization.',
-      'Identify the space, hazards, configuration, access points and potential changes before entry.',
-      'Define the entry boundary and who is authorized to enter.',
-      'Confirm rescue feasibility before anyone enters.',
-      'Do not start because a worker can physically fit inside; the hazard assessment controls the decision.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '40',
-    title: 'Permit & roles',
-    points: [
-      'Use the approved confined-space entry permit where required.',
-      'Define entrant, attendant, entry supervisor and rescue responsibilities.',
-      'Ensure each role is competent for its duties.',
-      'Brief all participants on hazards, controls, communication and emergency actions.',
-      'Maintain an entry roster/log where required by the site system.',
-      'Do not combine incompatible duties when doing so would reduce continuous monitoring or emergency response.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '41',
-    title: 'Atmospheric testing',
-    points: [
-      'Identify oxygen deficiency/enrichment, flammable atmospheres and relevant toxic contaminants.',
-      'Use suitable, calibrated and function-checked instruments.',
-      'Test from safe locations and consider stratification and inaccessible areas.',
-      'Test before entry and continue monitoring at the frequency required by the risk assessment/permit.',
-      'Record results and instrument identification as required.',
-      'Stop entry when readings exceed approved limits or the instrument indicates an unsafe condition.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '42',
-    title: 'Ventilation & isolation',
-    points: [
-      'Provide effective ventilation where it is a suitable control.',
-      'Prevent introduction of hazardous gases, vapors or contaminants through connected systems.',
-      'Isolate process lines, electrical sources, mechanical movement and other hazardous energy as applicable.',
-      'Verify isolation rather than assuming a valve or switch is sufficient.',
-      'Maintain ventilation without creating additional hazards.',
-      'Reassess the atmosphere after interruptions or changes.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '43',
-    title: 'Attendant & communication',
-    points: [
-      'Maintain an effective attendant arrangement for the entry operation where required.',
-      'The attendant must understand the entry status, alarms and emergency triggers.',
-      'Maintain reliable communication with entrants.',
-      'Keep the entrance controlled and prevent unauthorized entry.',
-      'Never enter to perform an unplanned rescue unless trained, equipped and authorized under the rescue plan.',
-      'Maintain continuous awareness of entrant status.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '44',
-    title: 'Access / egress & rescue',
-    points: [
-      'Provide safe entry and exit suitable for the space configuration.',
-      'Keep access points clear throughout the operation.',
-      'Use retrieval/rescue systems where required by the assessment and space geometry.',
-      'Confirm rescue equipment is ready before entry.',
-      'Plan for both vertical and horizontal rescue challenges.',
-      'Do not rely solely on external emergency services when the task requires immediate rescue capability.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '45',
-    title: 'Work inside the space',
-    points: [
-      'Control ignition sources, tools, chemicals, welding and other task hazards.',
-      'Maintain housekeeping so the exit remains usable.',
-      'Control fatigue, heat, noise, dust and other occupational exposures.',
-      'Keep the attendant informed of work progress and changing conditions.',
-      'Suspend work for alarms, communication failure, ventilation failure or unsafe atmospheric changes.',
-      'Revalidate the permit after significant interruption.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '46',
-    title: 'Emergency / non-entry rescue',
-    points: [
-      'Define alarm, evacuation and rescue triggers before entry.',
-      'Use the planned non-entry rescue method where feasible.',
-      'Provide trained rescue personnel and suitable equipment for foreseeable scenarios.',
-      'Control secondary exposure so rescuers are not unnecessarily endangered.',
-      'Preserve the scene after an emergency where safe to do so.',
-      'Investigate the event and review the rescue plan before restarting work.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '47',
-    title: 'Records & verification',
-    points: [
-      'Retain permits, gas-test records, entrant logs, equipment checks and training records as required.',
-      'Verify instruments are within calibration/inspection status.',
-      'Audit the entry against the approved procedure.',
-      'Track defects and corrective actions.',
-      'Review recurring atmospheric or operational deviations.',
-      'Do not close the job until the space is confirmed clear and the permit is formally closed.',
-    ],
-  ),
-  ConfinedSpaceGoldSection(
-    number: '48',
-    title: 'Close-out',
-    points: [
-      'Account for all entrants, tools and equipment.',
-      'Confirm the space is left safe and access is restored or controlled.',
-      'Remove temporary ventilation/rescue equipment only when authorized.',
-      'Close the permit and entry log.',
-      'Record lessons learned and outstanding actions.',
-      'Verify that no person remains exposed before the area is returned to normal operation.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_worker_welfare_gold.dart =====
+
 class WorkerWelfareGoldPoint {
   final String title;
   final String content;
@@ -6463,130 +5874,13 @@ const List<WorkerWelfareGoldSection> workerWelfareGoldStandardSections = [
       ),
     ],
   ),
-
-  WorkerWelfareGoldSection(
-    number: '39',
-    title: 'Welfare management system',
-    points: [
-      'Provide welfare arrangements appropriate to workforce size, work location, climate and task.',
-      'Integrate welfare into project planning rather than treating it as an optional facility.',
-      'Assign responsibility for inspection, cleaning, replenishment and corrective action.',
-      'Consider remote, mobile and changing work fronts.',
-      'Use worker feedback to identify welfare deficiencies.',
-      'Record inspections and corrective actions.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '40',
-    title: 'Drinking water & hygiene',
-    points: [
-      'Provide safe potable drinking water in suitable, clean and accessible arrangements.',
-      'Protect drinking water from contamination.',
-      'Provide suitable handwashing and hygiene facilities.',
-      'Replenish supplies before they become unavailable.',
-      'Separate potable-water arrangements from non-potable sources.',
-      'Correct hygiene failures promptly.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '41',
-    title: 'Sanitation & toilets',
-    points: [
-      'Provide sanitary facilities suitable for the workforce and location.',
-      'Keep facilities clean, functional, ventilated and adequately supplied.',
-      'Provide privacy and safe access.',
-      'Increase cleaning/servicing where workforce or environmental conditions require it.',
-      'Record inspections and servicing.',
-      'Escalate repeated failures as a welfare and health risk.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '42',
-    title: 'Rest areas & heat protection',
-    points: [
-      'Provide suitable shaded or cooled rest arrangements according to the heat-risk assessment.',
-      'Keep rest areas clean and free from operational hazards.',
-      'Locate welfare facilities so workers can reasonably access them during work.',
-      'Provide seating and other facilities appropriate to the workforce.',
-      'Monitor facility condition during the shift.',
-      'Do not use unsafe work areas as substitute welfare spaces.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '43',
-    title: 'Accommodation / living arrangements',
-    points: [
-      'Where accommodation is within project responsibility, maintain safe, hygienic and suitable living conditions.',
-      'Control fire, electrical, sanitation and overcrowding risks through the applicable management system.',
-      'Provide emergency arrangements and clear reporting channels.',
-      'Respect privacy while maintaining safety inspections.',
-      'Record defects and corrective actions.',
-      'Escalate serious accommodation risks promptly.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '44',
-    title: 'Food & catering hygiene',
-    points: [
-      'Use food-service arrangements that maintain hygiene and safe storage.',
-      'Control temperature-sensitive food according to applicable food-safety requirements.',
-      'Keep preparation and eating areas clean.',
-      'Provide hand hygiene before eating.',
-      'Manage waste to prevent pests and contamination.',
-      'Report suspected food-related illness immediately.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '45',
-    title: 'First aid & emergency welfare',
-    points: [
-      'Provide first-aid arrangements based on project risk and workforce needs.',
-      'Make emergency contacts and locations known to workers.',
-      'Ensure first-aid equipment is inspected and replenished.',
-      'Provide access routes for emergency response.',
-      'Record treatment and incidents through the applicable system.',
-      'Review welfare-related emergencies for systemic causes.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '46',
-    title: 'Housekeeping & waste',
-    points: [
-      'Keep welfare areas free from waste, standing water, pests and trip hazards.',
-      'Provide appropriate waste containers and collection arrangements.',
-      'Separate incompatible or hazardous wastes where applicable.',
-      'Maintain access and emergency exits.',
-      'Assign cleaning responsibilities.',
-      'Verify housekeeping during routine inspections.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '47',
-    title: 'Worker communication & feedback',
-    points: [
-      'Provide welfare information in languages and formats understood by workers.',
-      'Give workers a safe mechanism to report welfare concerns.',
-      'Do not ignore repeated complaints about water, sanitation, heat or rest.',
-      'Track corrective actions to closure.',
-      'Include welfare in toolbox talks and inspections.',
-      'Use trends to improve facilities.',
-    ],
-  ),
-  WorkerWelfareGoldSection(
-    number: '48',
-    title: 'Inspection & close-out',
-    points: [
-      'Conduct planned welfare inspections and document findings.',
-      'Prioritize failures affecting health, hygiene, drinking water or emergency access.',
-      'Assign responsible persons and due dates for corrective actions.',
-      'Verify completion in the field.',
-      'Review welfare performance during management meetings.',
-      'Retain records required by the project and applicable regulations.',
-    ],
-  ),
 ];
 
 // ===== SOURCE: abu_dhabi_steps_5N_to_5Q_book_gold.dart =====
+// SafeNexus HSE — Abu Dhabi HSE Reference
+// Detailed Gold Standard: Steps 5N–5Q
+// Pure data file: no Flutter import required.
+
 class AbuDhabiFiveNQPoint {
   final String title;
   final String content;
@@ -8279,109 +7573,5 @@ const List<AbuDhabiFiveNQSection> abuDhabiFiveNQGoldStandardSections = [
       ),
     ],
   ),
-
-  AbuDhabiFiveNQSection(
-    number: '5N-01',
-    title: 'Electrical isolation & safe state',
-    category: '5N — Electricity on Site & Electrical Tools',
-    points: [
-      'Identify all electrical sources before work.',
-      'Use the approved isolation/LOTO process where applicable.',
-      'Verify safe state before exposing conductors or equipment.',
-      'Control stored energy and backfeed sources.',
-      'Only competent persons perform electrical work within their authorization.',
-      'Protect temporary electrical systems from mechanical and environmental damage.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5N-02',
-    title: 'Temporary electrical distribution',
-    category: '5N — Electricity on Site & Electrical Tools',
-    points: [
-      'Use approved distribution equipment and protection.',
-      'Keep boards accessible, identified and protected.',
-      'Route cables to prevent damage and trip hazards.',
-      'Inspect connections, enclosures and protective devices.',
-      'Do not bypass protective devices.',
-      'Record inspections and defects.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5O-01',
-    title: 'Temporary works planning',
-    category: '5O — Temporary Works',
-    points: [
-      'Use approved design, method and sequence for temporary works.',
-      'Identify loads, stability, interfaces and removal sequence.',
-      'Control unauthorized modifications.',
-      'Provide competent supervision and inspection.',
-      'Establish hold points before loading.',
-      'Stop work when actual conditions differ from the design basis.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5O-02',
-    title: 'Temporary works inspection & release',
-    category: '5O — Temporary Works',
-    points: [
-      'Inspect materials before use.',
-      'Inspect erected temporary works before loading or use.',
-      'Reinspect after modification, impact or other significant change.',
-      'Record defects and corrective actions.',
-      'Release the structure only through the approved competent-person process.',
-      'Retain design and inspection evidence.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5P-01',
-    title: 'Manual handling assessment',
-    category: '5P — Manual Handling',
-    points: [
-      'Identify load, posture, frequency, distance and environmental risks.',
-      'Eliminate or mechanize unnecessary manual handling.',
-      'Plan team handling where mechanization is not practicable.',
-      'Use suitable handling aids.',
-      'Keep routes clear and lighting adequate.',
-      'Report injuries and recurring handling problems.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5P-02',
-    title: 'Safe lifting and carrying',
-    category: '5P — Manual Handling',
-    points: [
-      'Assess the load before lifting.',
-      'Adopt a stable position and avoid unnecessary twisting.',
-      'Use handles or aids where available.',
-      'Coordinate team lifts with one designated leader.',
-      'Do not lift loads beyond the assessed capability of the worker/team.',
-      'Store materials so repeated handling is minimized.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5Q-01',
-    title: 'Hot-work planning',
-    category: '5Q — Hot Work',
-    points: [
-      'Use the applicable hot-work permit where required.',
-      'Remove or protect combustible materials.',
-      'Provide suitable fire protection and fire-watch arrangements.',
-      'Control gas cylinders, hoses and ignition sources.',
-      'Provide ventilation appropriate to the process and environment.',
-      'Stop work when fire controls are compromised.',
-    ],
-  ),
-  AbuDhabiFiveNQSection(
-    number: '5Q-02',
-    title: 'Hot-work close-out',
-    category: '5Q — Hot Work',
-    points: [
-      'Inspect the area after hot work for smoldering or residual fire risk.',
-      'Maintain fire watch for the period required by the approved procedure.',
-      'Isolate equipment and secure cylinders.',
-      'Remove waste and hot metal safely.',
-      'Close the permit formally.',
-      'Record incidents, observations and corrective actions.',
-    ],
-  ),
 ];
+
