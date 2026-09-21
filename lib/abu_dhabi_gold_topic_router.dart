@@ -244,50 +244,98 @@ String _sectionTitle(dynamic section) {
   try { return section.title as String; } catch (_) { return 'Section'; }
 }
 
-String _sectionPreview(dynamic section) {
+List<dynamic> _goldSectionPoints(dynamic section) {
+  // Gold data modules are intentionally allowed to use either:
+  //   1) section.points -> List<GoldPoint>
+  //   2) section.point  -> GoldPoint
+  // Keep both shapes supported so the detail page never silently renders blank.
   try {
     final points = section.points as List;
-    if (points.isEmpty) return '';
-    final first = points.first;
-    try { return (first.detail as String); } catch (_) {}
-    try { return (first.content as String); } catch (_) {}
-    try { final list = (first.points as List).cast<String>(); return list.isEmpty ? '' : list.first; } catch (_) {}
-    return '';
-  } catch (_) { return ''; }
+    if (points.isNotEmpty) return points.cast<dynamic>();
+  } catch (_) {}
+
+  try {
+    final point = section.point;
+    return <dynamic>[point];
+  } catch (_) {}
+
+  return <dynamic>[];
+}
+
+String _goldText(dynamic value) {
+  if (value == null) return '';
+  final text = value.toString().trim();
+  if (text.isEmpty || text == 'null') return '';
+  return text;
+}
+
+String _sectionPreview(dynamic section) {
+  final points = _goldSectionPoints(section);
+  if (points.isEmpty) return '';
+
+  final first = points.first;
+  try {
+    final detail = _goldText(first.detail);
+    if (detail.isNotEmpty) return detail;
+  } catch (_) {}
+  try {
+    final content = _goldText(first.content);
+    if (content.isNotEmpty) return content;
+  } catch (_) {}
+  try {
+    final list = first.points as List;
+    if (list.isNotEmpty) return _goldText(list.first);
+  } catch (_) {}
+  try {
+    final meaning = _goldText(first.meaning);
+    if (meaning.isNotEmpty) return meaning;
+  } catch (_) {}
+  return '';
 }
 
 List<(String, List<String>)> _sectionBlocks(dynamic section) {
   final result = <(String, List<String>)>[];
-  try {
-    final points = section.points as List;
-    for (final point in points) {
-      String title = 'Field control';
-      try { title = point.title as String; } catch (_) {}
-      final values = <String>[];
-      try {
-        final detail = point.detail as String;
-        values.add(detail);
-      } catch (_) {}
-      try {
-        final content = point.content as String;
-        values.add(content);
-      } catch (_) {}
-      try {
-        final list = point.points as List;
-        values.addAll(list.map((e) => e.toString()));
-      } catch (_) {}
-      try {
-        values.add('Meaning: ${point.meaning}');
-        values.add('Hazards: ${point.hazards}');
-        values.add('Controls: ${point.controls}');
-        values.add('Field check: ${point.fieldCheck}');
-        values.add('Common mistake: ${point.commonMistake}');
-        values.add('Corrective action: ${point.action}');
-        values.add('Records / evidence: ${point.records}');
-      } catch (_) {}
-      result.add((title, values.where((e) => e.trim().isNotEmpty).toList()));
+  final points = _goldSectionPoints(section);
+
+  for (final point in points) {
+    String title = 'Field control';
+    try {
+      final value = _goldText(point.title);
+      if (value.isNotEmpty) title = value;
+    } catch (_) {}
+
+    final values = <String>[];
+
+    void addText(dynamic value) {
+      final text = _goldText(value);
+      if (text.isNotEmpty && !values.contains(text)) values.add(text);
     }
-  } catch (_) {}
+
+    // Direct narrative fields used by several Gold modules.
+    try { addText(point.detail); } catch (_) {}
+    try { addText(point.content); } catch (_) {}
+
+    // Some modules store several field-control bullets in point.points.
+    try {
+      final list = point.points as List;
+      for (final item in list) addText(item);
+    } catch (_) {}
+
+    // Structured Gold fields used by the detailed field modules.
+    try { addText('Meaning: ${_goldText(point.meaning)}'); } catch (_) {}
+    try { addText('Hazards: ${_goldText(point.hazards)}'); } catch (_) {}
+    try { addText('Controls: ${_goldText(point.controls)}'); } catch (_) {}
+    try { addText('Field check: ${_goldText(point.fieldCheck)}'); } catch (_) {}
+    try { addText('Common mistake: ${_goldText(point.commonMistake)}'); } catch (_) {}
+    try { addText('Corrective action: ${_goldText(point.action)}'); } catch (_) {}
+    try { addText('Records / evidence: ${_goldText(point.records)}'); } catch (_) {}
+
+    // Never add an empty card. A point with valid content is always rendered.
+    if (values.isNotEmpty) {
+      result.add((title, values));
+    }
+  }
+
   return result;
 }
 
