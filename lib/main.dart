@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'abu_dhabi_gold_root_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1960,6 +1961,13 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Future<void> _openGuidelineCategory(
     GuidelineCategory category,
   ) async {
+    if (category == GuidelineCategory.abuDhabi) {
+      await _openPage(
+        const AbuDhabiGoldRootPage(),
+      );
+      return;
+    }
+
     await _openPage(
       GuidelinesPage(
         initialCategory: category,
