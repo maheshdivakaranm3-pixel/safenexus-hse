@@ -51,7 +51,10 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
           const SizedBox(height: 6),
           const Text(
             'Select an ADPHC Code of Practice topic to open its Gold Standard field reference.',
-            style: TextStyle(fontSize: 15, height: 1.45),
+            style: TextStyle(
+              fontSize: 15,
+              height: 1.45,
+            ),
           ),
           const SizedBox(height: 14),
           ...abuDhabiHseTopics.map(
@@ -95,7 +98,10 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
             SizedBox(height: 9),
             Text(
               'Central Abu Dhabi topic navigation with dedicated Gold Standard modules where verified content is available.',
-              style: TextStyle(fontSize: 15, height: 1.5),
+              style: TextStyle(
+                fontSize: 15,
+                height: 1.5,
+              ),
             ),
           ],
         ),
@@ -103,7 +109,10 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
     );
   }
 
-  Widget _topicCard(BuildContext context, ReferenceTopic item) {
+  Widget _topicCard(
+    BuildContext context,
+    ReferenceTopic item,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(
@@ -118,7 +127,7 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
             vertical: 8,
           ),
           leading: CircleAvatar(
-            backgroundColor: primaryGreen.withOpacity(.10),
+            backgroundColor: primaryGreen.withValues(alpha: 0.10),
             child: const Icon(
               Icons.menu_book_rounded,
               color: primaryGreen,
@@ -139,11 +148,15 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          trailing: const Icon(Icons.chevron_right_rounded),
+          trailing: const Icon(
+            Icons.chevron_right_rounded,
+          ),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => AbuDhabiHseTopicPage(topic: item),
+                builder: (_) => AbuDhabiHseTopicPage(
+                  topic: item,
+                ),
               ),
             );
           },
@@ -156,7 +169,9 @@ class AbuDhabiGoldRootPage extends StatelessWidget {
 class _TopicGoldRoot extends StatelessWidget {
   final ReferenceTopic topic;
 
-  const _TopicGoldRoot({required this.topic});
+  const _TopicGoldRoot({
+    required this.topic,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +187,12 @@ class _TopicGoldRoot extends StatelessWidget {
         elevation: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 20, 16, 32),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          20,
+          16,
+          32,
+        ),
         children: [
           Card(
             elevation: 0,
@@ -202,7 +222,10 @@ class _TopicGoldRoot extends StatelessWidget {
                   const SizedBox(height: 16),
                   const Text(
                     'This topic is connected to the Abu Dhabi Gold Standard routing layer. A dedicated verified Gold module opens automatically where one is available.',
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                    ),
                   ),
                 ],
               ),
