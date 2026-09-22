@@ -19,8 +19,31 @@ import 'data/hse_work_categories.dart';
 import 'models/hse_work_categories.dart';
 import 'project_pre_start.dart';
 import 'workhub_company_daylog.dart';
+import 'safenexus_integration_center.dart';
+import 'safenexus_unified_data_center.dart';
+import 'hse_document_evidence_center.dart';
+import 'hse_risk_control_center.dart';
+import 'hse_contractor_supplier.dart';
+import 'safenexus_steps51_60_advanced_hse.dart';
+import 'safenexus_steps61_70_advanced_operations_intelligence.dart';
+import 'safenexus_steps71_80_digital_ecosystem_enterprise_intelligence.dart';
+import 'safenexus_steps81_90_ai_automation_decision_intelligence.dart';
+import 'safenexus_steps91_100_ultimate_hse_enterprise.dart';
 import 'safenexus_step112_record_linkage.dart';
 import 'safenexus_step113_evidence_hub.dart';
+import 'safenexus_step101_master_integration.dart';
+import 'safenexus_step102_master_navigation_integration_hub.dart';
+import 'safenexus_step103_unified_workflow_orchestration.dart';
+import 'safenexus_step104_unified_evidence_intelligence.dart';
+import 'safenexus_step105_unified_risk_control_evidence.dart';
+import 'safenexus_step106_workhub_navigation_integration.dart';
+import 'safenexus_step107_unified_data_record_linking.dart';
+import 'safenexus_step108_cross_module_workflow_integration.dart';
+import 'safenexus_step109_global_hse_dashboard_intelligence.dart';
+import 'safenexus_step110_final_system_integration_release_readiness.dart';
+import 'safenexus_step115_record_search_filter.dart';
+import 'safenexus_step116_record_detail_review.dart';
+import 'safenexus_step117_125_record_intelligence.dart';
 
 /// SafeNexus WorkHub
 ///
@@ -250,6 +273,18 @@ class WorkHubPage extends StatelessWidget {
     );
   }
 
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -307,6 +342,331 @@ class WorkHubPage extends StatelessWidget {
                 subtitle:
                     'Attach site photos and HSE evidence notes to each Daily Work Record',
                 onTap: () => _openEvidenceHub(context),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.shield_outlined,
+                title: 'Risk Control Center',
+                subtitle: 'Central risk register, controls, hierarchy and closure tracking',
+                onTap: () => _openCanonical(context, const HseRiskControlCenterPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.business_outlined,
+                title: 'Contractor & Supplier HSE',
+                subtitle: 'Contractor readiness, compliance, performance and records',
+                onTap: () => _openCanonical(context, const HseContractorSupplierPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.folder_shared_outlined,
+                title: 'Document & Evidence Center',
+                subtitle: 'Controlled HSE documents, evidence, status and review records',
+                onTap: () => _openCanonical(context, const HseDocumentEvidenceCenterPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.account_tree_outlined,
+                title: 'Integration & Data Center',
+                subtitle: 'Unified module connection and cross-module record management',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusIntegrationShell(
+                    modules: <SafeNexusModule>[
+                      SafeNexusModule(
+                        id: 'risk_control',
+                        phase: 'WorkHub',
+                        title: 'Risk Control Center',
+                        subtitle: 'Risk register and controls',
+                        icon: Icons.shield_outlined,
+                        group: 'WorkHub',
+                      ),
+                      SafeNexusModule(
+                        id: 'contractor_supplier',
+                        phase: 'WorkHub',
+                        title: 'Contractor & Supplier HSE',
+                        subtitle: 'Contractor compliance and readiness',
+                        icon: Icons.business_outlined,
+                        group: 'WorkHub',
+                      ),
+                      SafeNexusModule(
+                        id: 'document_evidence',
+                        phase: 'WorkHub',
+                        title: 'Document & Evidence Center',
+                        subtitle: 'Controlled documents and evidence',
+                        icon: Icons.folder_shared_outlined,
+                        group: 'WorkHub',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
+              child: Row(
+                children: <Widget>[
+                  const Expanded(
+                    child: Text(
+                      'Advanced HSE & Enterprise Intelligence',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: darkGreen,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.auto_graph_outlined,
+                title: 'Advanced HSE (Steps 51–60)',
+                subtitle: 'Leadership, risk intelligence, performance, assurance and management intelligence',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps51To60AdvancedHSEPage(),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.insights_outlined,
+                title: 'Operations Intelligence (Steps 61–70)',
+                subtitle: 'Operational performance, evidence, emergency and workforce intelligence',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps61To70AdvancedOperationsIntelligencePage(),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.hub_outlined,
+                title: 'Digital Enterprise Intelligence (Steps 71–80)',
+                subtitle: 'Workflow orchestration, knowledge, analytics, resilience and enterprise HSE',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps71To80DigitalEcosystemPage(),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.psychology_outlined,
+                title: 'AI & Decision Intelligence (Steps 81–90)',
+                subtitle: 'AI-assisted risk, incident intelligence, predictive analytics and workflow automation',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps81To90AiIntelligencePage(),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 18),
+              child: _FeatureCard(
+                icon: Icons.domain_outlined,
+                title: 'Ultimate Enterprise HSE (Steps 91–100)',
+                subtitle: 'Critical risk, crisis, human performance, supply-chain and enterprise governance',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps91To100UltimateHsePage(),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
+              child: Row(
+                children: <Widget>[
+                  const Expanded(
+                    child: Text(
+                      'Integration, Evidence & Record Intelligence (Steps 101–125)',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: darkGreen,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.integration_instructions,
+                title: 'Master Integration (Step 101)',
+                subtitle: 'Architecture, navigation, storage and workflow integration guidance',
+                onTap: () => _openStep101To125(context, const SafenexusStep101MasterIntegrationPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.account_tree_outlined,
+                title: 'Master Navigation Hub (Step 102)',
+                subtitle: 'Enterprise HSE module navigation and Abu Dhabi Gold entry points',
+                onTap: () => _openStep101To125(context, const SafenexusStep102MasterNavigationIntegrationHub()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.sync_alt_outlined,
+                title: 'Unified Workflow (Step 103)',
+                subtitle: 'Cross-module workflow orchestration and status flow',
+                onTap: () => _openStep101To125(context, const SafeNexusStep103UnifiedWorkflowPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.photo_library_outlined,
+                title: 'Unified Evidence Intelligence (Step 104)',
+                subtitle: 'Evidence review, status and cross-module intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep104UnifiedEvidencePage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.shield_outlined,
+                title: 'Unified Risk Control Evidence (Step 105)',
+                subtitle: 'Risk controls, evidence and closure intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep105UnifiedRiskControlPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.hub_outlined,
+                title: 'WorkHub Navigation Integration (Step 106)',
+                subtitle: 'WorkHub setup and module integration guidance',
+                onTap: () => _openStep101To125(context, const SafeNexusStep106WorkHubIntegrationPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.link_outlined,
+                title: 'Unified Data & Record Linking (Step 107)',
+                subtitle: 'Cross-module record linkage architecture',
+                onTap: () => _openStep101To125(context, const SafeNexusStep107UnifiedRecordLinkingPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.workflow_outlined,
+                title: 'Cross-Module Workflow (Step 108)',
+                subtitle: 'Workflow stages across HSE modules',
+                onTap: () => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.dashboard_outlined,
+                title: 'Global HSE Dashboard (Step 109)',
+                subtitle: 'Enterprise HSE dashboard and domain intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep109GlobalHseDashboardPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.verified_outlined,
+                title: 'Release Readiness (Step 110)',
+                subtitle: 'System integration and release-readiness guidance',
+                onTap: () => _openStep101To125(context, const SafeNexusStep110FinalIntegrationPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.search_outlined,
+                title: 'Record Search & Filter (Step 115)',
+                subtitle: 'Search and filter linked daily-work records',
+                onTap: () => _openStep101To125(context, const SafeNexusRecordSearchFilterPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.description_outlined,
+                title: 'Record Detail Review (Step 116)',
+                subtitle: 'Review linked record details and evidence',
+                onTap: () => _openStep101To125(context, const SafeNexusRecordDetailReviewPage()),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 18),
+              child: _FeatureCard(
+                icon: Icons.insights_outlined,
+                title: 'Record Intelligence (Steps 117–125)',
+                subtitle: 'Record-level intelligence, filtering and cross-module insights',
+                onTap: () => _openStep101To125(context, const SafeNexusSteps117125Page()),
               ),
             ),
           ),
@@ -400,6 +760,18 @@ class _FeatureCard extends StatelessWidget {
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
 
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -468,6 +840,18 @@ class _HeroCard extends StatelessWidget {
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
+
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -562,6 +946,18 @@ class _PhaseCard extends StatelessWidget {
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
+
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -683,6 +1079,18 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
     }).toList();
   }
 
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final activities = _filtered;
@@ -798,6 +1206,18 @@ class _ActivityDetailsPage extends StatelessWidget {
 
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color primaryGreen = Color(0xFF159447);
+
+  void _openStep101To125(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+
+  void _openCanonical(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
