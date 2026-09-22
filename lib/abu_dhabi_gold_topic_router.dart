@@ -28,7 +28,7 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
         regulatory: 'ADPHC CoP 23.0 — Working at Heights — V4.1; effective 27 February 2026.',
       );
     case 'ad_cop_26_0':
-      return AbuDhabiGoldBookPage(
+      return ScaffoldingGoldPilotPage(
         topic: topic,
         sections: scaffoldingGoldStandardSections,
         regulatory: 'ADPHC CoP 26.0 — Scaffolding — V4.1; effective 27 February 2026.',
@@ -115,6 +115,450 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
       return null;
   }
 }
+
+
+/// Locked pilot implementation for CoP 26.0 Scaffolding.
+///
+/// Navigation:
+/// Subject introduction -> 38 chapter points -> point detail ->
+/// tappable sub-points -> sub-point detail.
+///
+/// The existing Gold data remains the source of the content. This UI layer
+/// does not invent regulatory values or replace the underlying CoP data.
+class ScaffoldingGoldPilotPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final List<ScaffoldingGoldSection> sections;
+  final String regulatory;
+
+  const ScaffoldingGoldPilotPage({
+    super.key,
+    required this.topic,
+    required this.sections,
+    required this.regulatory,
+  });
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: const Text('Scaffolding'),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
+        children: [
+          _introCard(),
+          const SizedBox(height: 14),
+          const Text(
+            'Complete Field Handbook',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: darkGreen,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '${sections.length} structured chapters • Tap any chapter to open the detailed field page.',
+            style: const TextStyle(fontSize: 14.5, height: 1.45),
+          ),
+          const SizedBox(height: 12),
+          ...sections.asMap().entries.map(
+            (entry) => _chapterCard(context, entry.key + 1, entry.value),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _introCard() {
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'ABU DHABI HSE • GOLD STANDARD',
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w900,
+                color: green,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              topic.title,
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 9),
+            const Text(
+              'Scaffolding is a temporary access and working-platform system. '
+              'Safe use depends on suitable selection, competent erection and '
+              'alteration, inspection, stability, safe access, fall protection, '
+              'load control and effective management of interfaces and changes.',
+              style: TextStyle(fontSize: 15, height: 1.55),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'Main Hazards',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 7),
+            ...const [
+              'Falls from height',
+              'Scaffold instability or collapse',
+              'Falling objects and materials',
+              'Unsafe access and egress',
+              'Overloading',
+              'Unsafe erection or alteration',
+              'Electrical interface',
+              'Weather and wind exposure',
+              'Poor foundation or ground condition',
+            ].map(
+              (item) => Padding(
+                padding: EdgeInsets.only(bottom: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('• ', style: TextStyle(fontWeight: FontWeight.w900)),
+                    Expanded(child: Text(item)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              regulatory,
+              style: const TextStyle(
+                fontSize: 13.5,
+                height: 1.45,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _chapterCard(
+    BuildContext context,
+    int index,
+    ScaffoldingGoldSection section,
+  ) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 8,
+        ),
+        leading: CircleAvatar(
+          backgroundColor: green.withValues(alpha: 0.12),
+          child: Text(
+            '$index',
+            style: const TextStyle(
+              fontWeight: FontWeight.w900,
+              color: darkGreen,
+            ),
+          ),
+        ),
+        title: Text(
+          section.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w900,
+            color: darkGreen,
+          ),
+        ),
+        subtitle: Text(
+          section.introduction,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: const Icon(Icons.chevron_right, color: darkGreen),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ScaffoldingChapterDetailPage(
+              chapterNumber: index,
+              section: section,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ScaffoldingChapterDetailPage extends StatelessWidget {
+  final int chapterNumber;
+  final ScaffoldingGoldSection section;
+
+  const ScaffoldingChapterDetailPage({
+    super.key,
+    required this.chapterNumber,
+    required this.section,
+  });
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    final p = section.point;
+
+    final subPoints = <_ScaffoldingSubPoint>[
+      _ScaffoldingSubPoint('Meaning / What this means', p.meaning),
+      _ScaffoldingSubPoint('Hazards / Consequences', p.hazards),
+      _ScaffoldingSubPoint('Control Measures', p.controls),
+      _ScaffoldingSubPoint('HSE Officer Field Check', p.fieldCheck),
+      _ScaffoldingSubPoint('Common Mistake', p.commonMistake),
+      _ScaffoldingSubPoint('Corrective Action', p.action),
+      _ScaffoldingSubPoint('Records / Evidence', p.records),
+    ].where((item) => item.detail.trim().isNotEmpty).toList();
+
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(
+          section.title,
+          overflow: TextOverflow.ellipsis,
+        ),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'CHAPTER $chapterNumber • ${section.number}',
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w900,
+                      color: green,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    section.title,
+                    style: const TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    section.introduction,
+                    style: const TextStyle(fontSize: 15, height: 1.55),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Clause: ${p.clause}',
+                    style: const TextStyle(
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          const Text(
+            'Detailed Field Controls',
+            style: TextStyle(
+              fontSize: 21,
+              fontWeight: FontWeight.w900,
+              color: darkGreen,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Tap each item to open its full explanation.',
+            style: TextStyle(fontSize: 14.5),
+          ),
+          const SizedBox(height: 12),
+          ...subPoints.asMap().entries.map(
+            (entry) => Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 9,
+                ),
+                leading: CircleAvatar(
+                  backgroundColor: green.withValues(alpha: 0.12),
+                  child: Text(
+                    '${entry.key + 1}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                ),
+                title: Text(
+                  entry.value.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+                subtitle: Text(
+                  entry.value.detail,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: darkGreen,
+                ),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ScaffoldingSubPointDetailPage(
+                      chapterTitle: section.title,
+                      point: entry.value,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScaffoldingSubPoint {
+  final String title;
+  final String detail;
+
+  const _ScaffoldingSubPoint(this.title, this.detail);
+}
+
+class ScaffoldingSubPointDetailPage extends StatelessWidget {
+  final String chapterTitle;
+  final _ScaffoldingSubPoint point;
+
+  const ScaffoldingSubPointDetailPage({
+    super.key,
+    required this.chapterTitle,
+    required this.point,
+  });
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(
+          point.title,
+          overflow: TextOverflow.ellipsis,
+        ),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(19),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'SCAFFOLDING • FIELD DETAIL',
+                    style: TextStyle(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w900,
+                      color: green,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    chapterTitle,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    point.title,
+                    style: const TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    point.detail,
+                    style: const TextStyle(fontSize: 16, height: 1.6),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Icon(Icons.verified_user_outlined, color: green),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Field use: apply the current approved CoP, risk assessment, method statement, competent-person requirements, manufacturer instructions and project controls applicable to the task.',
+                      style: TextStyle(fontSize: 14.5, height: 1.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 class _GoldChapter {
   final String title;
