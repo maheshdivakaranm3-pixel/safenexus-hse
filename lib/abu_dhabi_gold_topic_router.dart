@@ -394,6 +394,30 @@ String _readString(dynamic object, String field) {
   return '';
 }
 
+String _sectionTitle(dynamic section) {
+  for (final field in const ['title', 'name', 'heading', 'category', 'number']) {
+    final value = _readString(section, field);
+    if (value.isNotEmpty) return value;
+  }
+  return 'Field Safety Section';
+}
+
+String _sectionPreview(dynamic section) {
+  for (final field in const [
+    'introduction',
+    'detail',
+    'content',
+    'meaning',
+    'description',
+  ]) {
+    final value = _readString(section, field);
+    if (value.isNotEmpty) return value;
+  }
+  final points = _sectionPoints(section);
+  if (points.isNotEmpty) return _pointPreview(points.first);
+  return '';
+}
+
 List<dynamic> _sectionPoints(dynamic section) {
   try {
     final list = section.points as List;
