@@ -1,415 +1,505 @@
 import 'package:flutter/material.dart';
 
-import 'abu_dhabi_gold_topic_router.dart';
-
-import 'data/abu_dhabi_excavation_gold.dart';
-import 'data/abu_dhabi_hse_topic_content.dart';
+import 'data/abu_dhabi_specialist_hse_complete_gold.dart';
+import 'data/abu_dhabi_5AJ_part1_interfaces_specialist_plant_gold.dart';
+import 'data/abu_dhabi_5AJ_part2_gap_duplicate_cop36_gold.dart';
+import 'data/abu_dhabi_5AB_to_5AE_plant_haulage_compaction_gold.dart';
+import 'data/abu_dhabi_5AF_to_5AI_paver_trencher_compressor_generator_gold.dart';
+import 'data/abu_dhabi_5S_to_5V_mobile_material_handling_gold.dart';
+import 'data/abu_dhabi_5W_to_5Z_earthmoving_gold.dart';
+import 'data/abu_dhabi_forklift_powered_lift_trucks_gold.dart';
+import 'data/abu_dhabi_mewp_gold.dart';
+import 'data/abu_dhabi_crane_lifting_book_gold.dart';
 import 'models/reference_topic.dart';
 
-/// SafeNexus HSE — Abu Dhabi HSE reusable topic detail engine.
+/// Step 5AK-A: central Gold Standard router.
 ///
-/// The generic CoP content layer remains intact for the wider registry.
-/// Excavation is routed to its dedicated Gold Standard module so the first
-/// topic can expose the complete locked 38-section field-handbook structure.
-class AbuDhabiHseTopicPage extends StatelessWidget {
-  final ReferenceTopic topic;
-
-  const AbuDhabiHseTopicPage({
-    super.key,
-    required this.topic,
-  });
-
-  static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  @override
-  Widget build(BuildContext context) {
-    final goldPage = buildAbuDhabiGoldTopicPage(topic);
-    if (goldPage != null) {
-      return goldPage;
-    }
-
-    if (topic.id == 'ad_cop_29_0') {
-      return AbuDhabiExcavationGoldStandardPage(topic: topic);
-    }
-
-
-    final content = abuDhabiHseTopicContent[topic.id];
-    return AbuDhabiGenericGoldStandardPage(
-      topic: topic,
-      content: content ?? const AbuDhabiHseTopicContent(),
-    );
+/// The old Abu Dhabi registry remains the index. This router decides whether
+/// a selected topic has a dedicated Gold Standard data source. If it does,
+/// the app opens that source instead of the older generic CoP content.
+Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
+  switch (topic.id) {
+    case 'ad_cop_29_0':
+      return null; // Excavation is handled by AbuDhabiHseTopicPage.
+    case 'ad_cop_23_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: workingAtHeightGoldStandardSections,
+        regulatory: 'ADPHC CoP 23.0 — Working at Heights — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_26_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: scaffoldingGoldStandardSections,
+        regulatory: 'ADPHC CoP 26.0 — Scaffolding — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_27_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: confinedSpaceGoldStandardSections,
+        regulatory: 'ADPHC CoP 27.0 — Confined Spaces — V4.0; effective 15 July 2024.',
+      );
+    case 'ad_cop_21_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: permitToWorkGoldStandardSections,
+        regulatory: 'ADPHC CoP 21.0 — Permit to Work Systems — V4.0; effective 15 July 2024.',
+      );
+    case 'ad_cop_11_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: safetyInHeatGoldStandardSections,
+        regulatory: 'ADPHC CoP 11.0 — Safety in the Heat — V4.0; effective 15 July 2024.',
+      );
+    case 'ad_cop_35_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: portablePowerToolsGoldStandardSections,
+        regulatory: 'ADPHC CoP 35.0 — Portable Power Tools — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_40_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: formworkGoldStandardSections,
+        regulatory: 'ADPHC CoP 40.0 — False Work (Formwork) — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_51_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: forkliftPoweredLiftTruckGoldSections,
+        regulatory: 'ADPHC CoP 51.0 — Powered Lift Trucks — V4.1; effective 27 February 2026.',
+      );
+    case 'ad_cop_14_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5P — Manual Handling')
+            .toList(),
+        regulatory: 'ADPHC CoP 14.0 — Manual Handling and Ergonomics.',
+      );
+    case 'ad_cop_15_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) =>
+                section.category == '5N — Electricity on Site & Electrical Tools')
+            .toList(),
+        regulatory: 'ADPHC CoP 15.0 — Electrical Safety.',
+      );
+    case 'ad_cop_28_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5Q — Hot Work')
+            .toList(),
+        regulatory: 'ADPHC CoP 28.0 — Hot Work.',
+      );
+    case 'ad_cop_34_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: craneLiftingGoldStandardSections,
+        regulatory:
+            'ADPHC CoP 34.0 — Safe Use of Lifting Equipment and Lifting Accessories.',
+      );
+    case 'ad_cop_43_0':
+      return AbuDhabiGoldBookPage(
+        topic: topic,
+        sections: abuDhabiFiveNQGoldStandardSections
+            .where((section) => section.category == '5O — Temporary Works')
+            .toList(),
+        regulatory: 'ADPHC CoP 43.0 — Temporary Structures.',
+      );
+    case 'ad_cop_36_0':
+      return AbuDhabiPlantEquipmentGoldIndexPage(topic: topic);
+    default:
+      return null;
   }
 }
 
-class AbuDhabiExcavationGoldStandardPage extends StatelessWidget {
-  final ReferenceTopic topic;
+class _GoldChapter {
+  final String title;
+  final String subtitle;
+  final List<dynamic> sections;
 
-  const AbuDhabiExcavationGoldStandardPage({
+  const _GoldChapter({required this.title, required this.subtitle, required this.sections});
+}
+
+class AbuDhabiGoldBookPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final List<dynamic> sections;
+  final String regulatory;
+
+  const AbuDhabiGoldBookPage({
     super.key,
     required this.topic,
+    required this.sections,
+    required this.regulatory,
   });
 
-  static const Color primaryGreen = Color(0xFF159447);
+  static const Color green = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
+  static const Color background = Color(0xFFF6F8F7);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pageBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        title: const Text('Excavation'),
+        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
-        children: [
-          _hero(),
-          const SizedBox(height: 12),
-          _regulatoryCard(),
-          const SizedBox(height: 14),
-          const Text(
-            'Gold Standard Field Handbook',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: darkGreen,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            '38 structured sections. Tap any section for the requirement, hazards, controls, field checks, common mistakes, corrective action and evidence to retain.',
-            style: TextStyle(fontSize: 14.8, height: 1.45),
-          ),
-          const SizedBox(height: 12),
-          ...excavationGoldStandardSections.asMap().entries.map(
-                (entry) => _sectionCard(context, entry.key, entry.value),
-              ),
-        ],
-      ),
-    );
-  }
-
-  Widget _hero() {
-    return Card(
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              topic.title,
-              style: const TextStyle(
-                fontSize: 25,
-                height: 1.18,
-                fontWeight: FontWeight.w900,
-                color: darkGreen,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Abu Dhabi HSE • Gold Standard Field Safety Module',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-                color: primaryGreen,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              topic.description,
-              style: const TextStyle(fontSize: 15.2, height: 1.5),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'IDENTIFY → ASSESS → ELIMINATE → CONTROL → VERIFY → MONITOR → REVIEW → IMPROVE',
-              style: TextStyle(
-                fontSize: 13.2,
-                height: 1.45,
-                fontWeight: FontWeight.w900,
-                color: darkGreen,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _regulatoryCard() {
-    return Card(
-      elevation: 0,
-      color: const Color(0xFFEFF7F1),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Official regulatory baseline',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w900,
-                color: darkGreen,
-              ),
-            ),
-            SizedBox(height: 7),
-            Text(
-              'ADOSH-SF CoP 29.0 — Excavation Work • Version 4.1 • February 2026',
-              style: TextStyle(
-                fontSize: 14.8,
-                height: 1.45,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            SizedBox(height: 7),
-            Text(
-              'SafeNexus HSE is a learning and field-reference layer. Use the current official ADPHC publication as the controlling source for compliance decisions.',
-              style: TextStyle(fontSize: 14.2, height: 1.45),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _sectionCard(
-    BuildContext context,
-    int index,
-    ExcavationGoldSection section,
-  ) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => AbuDhabiExcavationGoldSectionPage(
-              section: section,
-            ),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: primaryGreen.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${index + 1}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: darkGreen,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      section.title,
-                      style: const TextStyle(
-                        fontSize: 16.2,
-                        fontWeight: FontWeight.w900,
-                        color: darkGreen,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      section.introduction,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13.3,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(Icons.chevron_right, color: darkGreen),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AbuDhabiExcavationGoldSectionPage extends StatelessWidget {
-  final ExcavationGoldSection section;
-
-  const AbuDhabiExcavationGoldSectionPage({
-    super.key,
-    required this.section,
-  });
-
-  static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  @override
-  Widget build(BuildContext context) {
-    final point = section.point;
-
-    return Scaffold(
-      backgroundColor: pageBackground,
-      appBar: AppBar(
-        title: Text(section.title, overflow: TextOverflow.ellipsis),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
         children: [
           Card(
             elevation: 0,
-            color: const Color(0xFFEFF7F1),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(topic.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: darkGreen)),
+                const SizedBox(height: 9),
+                Text('Gold Standard Field Handbook', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: green)),
+                const SizedBox(height: 10),
+                Text(topic.description, style: const TextStyle(fontSize: 15, height: 1.5)),
+                const SizedBox(height: 12),
+                Text(regulatory, style: const TextStyle(fontSize: 14.2, height: 1.45, fontWeight: FontWeight.w800)),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 14),
+          ...sections.asMap().entries.map((e) => _sectionCard(context, e.key + 1, e.value)),
+        ],
+      ),
+    );
+  }
+
+  Widget _sectionCard(BuildContext context, int number, dynamic section) {
+    final title = _sectionTitle(section);
+    final preview = _sectionPreview(section);
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+        leading: CircleAvatar(
+          backgroundColor: green.withValues(alpha: 0.12),
+          child: Text('$number', style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+        subtitle: preview.isEmpty ? null : Text(preview, maxLines: 2, overflow: TextOverflow.ellipsis),
+        trailing: const Icon(Icons.chevron_right, color: darkGreen),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => AbuDhabiGoldSectionPage(title: title, section: section))),
+      ),
+    );
+  }
+}
+
+class AbuDhabiGoldSectionPage extends StatelessWidget {
+  final String title;
+  final dynamic section;
+
+  const AbuDhabiGoldSectionPage({super.key, required this.title, required this.section});
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    final points = _sectionPoints(section);
+    final sectionIntro = _readString(section, 'introduction');
+    final category = _readString(section, 'category');
+    final number = _readString(section, 'number');
+
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
             child: Padding(
               padding: const EdgeInsets.all(18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (number.isNotEmpty)
+                    Text(number, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: green)),
+                  if (category.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(category, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: darkGreen)),
+                  ],
+                  const SizedBox(height: 8),
+                  Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: darkGreen)),
+                  if (sectionIntro.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Text(sectionIntro, style: const TextStyle(fontSize: 15, height: 1.5)),
+                  ],
+                  const SizedBox(height: 12),
                   Text(
-                    'SECTION ${section.number}',
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w900,
-                      color: primaryGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    section.title,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      height: 1.25,
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 9),
-                  Text(
-                    section.introduction,
-                    style: const TextStyle(fontSize: 15, height: 1.5),
+                    '${points.length} detailed point${points.length == 1 ? '' : 's'} • Tap any point to open the full field explanation.',
+                    style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800),
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 12),
-          _detailCard(Icons.menu_book_rounded, 'What this means', point.meaning),
-          _detailCard(Icons.warning_amber_rounded, 'Hazards / Consequences', point.hazards),
-          _detailCard(Icons.shield_outlined, 'Control Measures', point.controls),
-          _detailCard(Icons.fact_check_outlined, 'HSE Officer Field Check', point.fieldCheck),
-          _detailCard(Icons.error_outline_rounded, 'Common Mistake', point.commonMistake),
-          _detailCard(Icons.task_alt_rounded, 'Corrective Action', point.action),
-          _detailCard(Icons.folder_copy_outlined, 'Documents / Evidence', point.records),
-        ],
-      ),
-    );
-  }
+          ...points.asMap().entries.map((entry) {
+            final index = entry.key + 1;
+            final point = entry.value;
+            final pointTitle = _readString(point, 'title').isEmpty
+                ? 'Field Point $index'
+                : _readString(point, 'title');
+            final preview = _pointPreview(point);
 
-  Widget _detailCard(IconData icon, String title, String text) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Padding(
-        padding: const EdgeInsets.all(17),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: primaryGreen, size: 23),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16.5,
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
+            return Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                leading: CircleAvatar(
+                  backgroundColor: green.withValues(alpha: 0.12),
+                  child: Text('$index', style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+                ),
+                title: Text(pointTitle, style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+                subtitle: preview.isEmpty
+                    ? const Text('Open detailed field explanation')
+                    : Text(preview, maxLines: 2, overflow: TextOverflow.ellipsis),
+                trailing: const Icon(Icons.chevron_right, color: darkGreen),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => AbuDhabiGoldPointDetailPage(
+                      title: pointTitle,
+                      point: point,
                     ),
                   ),
-                  const SizedBox(height: 7),
-                  Text(
-                    text,
-                    style: const TextStyle(fontSize: 15, height: 1.5),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
+            );
+          }),
+        ],
       ),
     );
   }
 }
 
-/// Generic Abu Dhabi CoP renderer used when a topic does not yet have a
-/// dedicated Gold Standard module in the central router.
-///
-/// The registry remains complete: every registered topic can still open its
-/// structured content layer instead of falling back to a dead-end screen.
-class AbuDhabiGenericGoldStandardPage extends StatelessWidget {
-  final ReferenceTopic topic;
-  final AbuDhabiHseTopicContent content;
+class AbuDhabiGoldPointDetailPage extends StatelessWidget {
+  final String title;
+  final dynamic point;
 
-  const AbuDhabiGenericGoldStandardPage({
-    super.key,
-    required this.topic,
-    required this.content,
-  });
+  const AbuDhabiGoldPointDetailPage({super.key, required this.title, required this.point});
 
-  static const Color primaryGreen = Color(0xFF159447);
+  static const Color green = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
+  static const Color background = Color(0xFFF6F8F7);
 
-  List<_GenericSection> get _sections => [
-        _GenericSection('Overview', [
-          if (content.overview.isNotEmpty) content.overview,
-        ]),
-        _GenericSection('Deep Study', content.deepStudy),
-        _GenericSection('Micro-Detail', content.microDetails),
-        _GenericSection('Field Practical', content.fieldPractical),
-        _GenericSection('Inspection Checklist', content.inspectionChecklist),
-        _GenericSection('Emergency / Response', content.emergencyResponse),
-        _GenericSection('Records & Evidence', content.records),
-        _GenericSection('Interview Questions', content.interviewQuestions),
-        _GenericSection(
-          'Regulatory Verification',
-          content.regulatoryVerification,
-        ),
-      ].where((section) => section.points.isNotEmpty).toList();
+  @override
+  Widget build(BuildContext context) {
+    final fields = _pointFields(point);
+
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('GOLD STANDARD FIELD EXPLANATION', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w900, color: green)),
+                  const SizedBox(height: 7),
+                  Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: darkGreen)),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Use this page as the field-level explanation. Check the applicable controlled CoP, approved method statement, risk assessment, manufacturer instructions and project requirements before execution.',
+                    style: TextStyle(fontSize: 14.5, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...fields.map((field) => Card(
+                elevation: 0,
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.shield_outlined, color: green),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(field.$1, style: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w900, color: darkGreen))),
+                        ],
+                      ),
+                      const SizedBox(height: 9),
+                      Text(field.$2, style: const TextStyle(fontSize: 15, height: 1.55)),
+                    ],
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+}
+
+String _readString(dynamic object, String field) {
+  try {
+    final value = switch (field) {
+      'title' => object.title,
+      'detail' => object.detail,
+      'content' => object.content,
+      'meaning' => object.meaning,
+      'hazards' => object.hazards,
+      'controls' => object.controls,
+      'fieldCheck' => object.fieldCheck,
+      'commonMistake' => object.commonMistake,
+      'action' => object.action,
+      'records' => object.records,
+      'fieldProcedure' => object.fieldProcedure,
+      'roles' => object.roles,
+      'preWork' => object.preWork,
+      'duringWork' => object.duringWork,
+      'monitoring' => object.monitoring,
+      'emergency' => object.emergency,
+      'stopWork' => object.stopWork,
+      'checklist' => object.checklist,
+      'interview' => object.interview,
+      'number' => object.number,
+      'category' => object.category,
+      'introduction' => object.introduction,
+      _ => null,
+    };
+    if (value is String) return value.trim();
+  } catch (_) {}
+  return '';
+}
+
+String _sectionTitle(dynamic section) {
+  for (final field in const ['title', 'name', 'heading', 'category', 'number']) {
+    final value = _readString(section, field);
+    if (value.isNotEmpty) return value;
+  }
+  return 'Field Safety Section';
+}
+
+String _sectionPreview(dynamic section) {
+  for (final field in const [
+    'introduction',
+    'detail',
+    'content',
+    'meaning',
+    'description',
+  ]) {
+    final value = _readString(section, field);
+    if (value.isNotEmpty) return value;
+  }
+  final points = _sectionPoints(section);
+  if (points.isNotEmpty) return _pointPreview(points.first);
+  return '';
+}
+
+List<dynamic> _sectionPoints(dynamic section) {
+  try {
+    final list = section.points as List;
+    return list.toList();
+  } catch (_) {}
+  try {
+    return [section.point];
+  } catch (_) {}
+  return const [];
+}
+
+String _pointPreview(dynamic point) {
+  for (final field in const ['detail', 'content', 'meaning', 'hazards', 'controls']) {
+    final value = _readString(point, field);
+    if (value.isNotEmpty) return value;
+  }
+  return '';
+}
+
+List<(String, String)> _pointFields(dynamic point) {
+  final result = <(String, String)>[];
+
+  void add(String label, String field) {
+    final value = _readString(point, field);
+    if (value.isNotEmpty) result.add((label, value));
+  }
+
+  add('Meaning / Detail', 'detail');
+  add('Content', 'content');
+  add('Meaning', 'meaning');
+  add('Hazards / Consequences', 'hazards');
+  add('Control Measures', 'controls');
+  add('Field HSE Check', 'fieldCheck');
+  add('Common Mistake', 'commonMistake');
+  add('Corrective Action', 'action');
+  add('Records / Evidence', 'records');
+  add('Field Procedure', 'fieldProcedure');
+  add('Roles & Responsibilities', 'roles');
+  add('Before Starting', 'preWork');
+  add('During Work', 'duringWork');
+  add('Monitoring / Verification', 'monitoring');
+  add('Emergency / Rescue', 'emergency');
+  add('Stop-Work Condition', 'stopWork');
+  add('HSE Officer Checklist', 'checklist');
+  add('Interview Question', 'interview');
+
+  // Some Gold sources expose a list of strings inside a point.
+  try {
+    final list = point.points as List;
+    for (final item in list) {
+      final text = item.toString().trim();
+      if (text.isNotEmpty) result.add(('Field Point', text));
+    }
+  } catch (_) {}
+
+  return result;
+}
+
+class AbuDhabiPlantEquipmentGoldIndexPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  const AbuDhabiPlantEquipmentGoldIndexPage({super.key, required this.topic});
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  List<_GoldChapter> get chapters => [
+    _GoldChapter(title: '5S–5V — Mobile / Material Handling', subtitle: 'Gold equipment chapters', sections: abuDhabi5STo5VTopics.expand((t) => t.sections).toList()),
+    _GoldChapter(title: '5W–5Z — Earthmoving', subtitle: 'Gold equipment chapters', sections: abuDhabi5WTo5ZTopics.expand((t) => t.sections).toList()),
+    _GoldChapter(title: '5AB–5AE — Haulage / Compaction', subtitle: 'Gold equipment chapters', sections: abuDhabi5ABTo5AETopics.expand((t) => t.sections).toList()),
+    _GoldChapter(title: '5AF–5AI — Paver / Trencher / Compressor / Generator', subtitle: 'Gold equipment chapters', sections: abuDhabi5AFTo5AITopics.expand((t) => t.sections).toList()),
+    _GoldChapter(title: 'Crane & Lifting', subtitle: 'Dedicated Gold Standard book', sections: craneLiftingGoldStandardSections),
+    _GoldChapter(title: 'MEWP', subtitle: 'Dedicated Gold Standard book', sections: mewpGoldStandardSections),
+    _GoldChapter(title: '5AJ Part 1 — Interfaces / Specialist Plant', subtitle: 'Master audit and field interfaces', sections: abuDhabiPlantInterfaceGoldSections),
+    _GoldChapter(title: '5AJ Part 2 — Gaps / Duplicate / CoP 36.0', subtitle: 'Master audit and closure', sections: abuDhabiPlantAuditGoldSections),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pageBackground,
-      appBar: AppBar(
-        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
+      backgroundColor: background,
+      appBar: AppBar(title: const Text('Plant & Equipment — Gold Standard'), backgroundColor: darkGreen, foregroundColor: Colors.white),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
         children: [
@@ -420,161 +510,26 @@ class AbuDhabiGenericGoldStandardPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    topic.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
-                    ),
-                  ),
+                  Text(topic.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: darkGreen)),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Abu Dhabi HSE • Structured Reference',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      color: primaryGreen,
-                    ),
-                  ),
+                  const Text('CoP 36.0 • Integrated Gold Standard Plant & Equipment Reference', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: green)),
                   const SizedBox(height: 10),
-                  Text(
-                    topic.description,
-                    style: const TextStyle(fontSize: 15.2, height: 1.5),
-                  ),
+                  Text(topic.description, style: const TextStyle(fontSize: 15, height: 1.5)),
+                  const SizedBox(height: 10),
+                  const Text('The registry remains the index; these dedicated books are now the active detailed content layer.', style: TextStyle(fontSize: 14.5, height: 1.45)),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 14),
-          ..._sections.asMap().entries.map(
-                (entry) => _sectionCard(
-                  context,
-                  entry.key + 1,
-                  entry.value,
-                ),
-              ),
-        ],
-      ),
-    );
-  }
-
-  Widget _sectionCard(
-    BuildContext context,
-    int number,
-    _GenericSection section,
-  ) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 6,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: primaryGreen.withValues(alpha: 0.12),
-          child: Text(
-            '$number',
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              color: darkGreen,
-            ),
-          ),
-        ),
-        title: Text(
-          section.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            color: darkGreen,
-          ),
-        ),
-        subtitle: Text(
-          section.points.first,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: const Icon(Icons.chevron_right, color: darkGreen),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => AbuDhabiGenericGoldSectionPage(
-              topic: topic,
-              section: section,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GenericSection {
-  final String title;
-  final List<String> points;
-
-  const _GenericSection(this.title, this.points);
-}
-
-class AbuDhabiGenericGoldSectionPage extends StatelessWidget {
-  final ReferenceTopic topic;
-  final _GenericSection section;
-
-  const AbuDhabiGenericGoldSectionPage({
-    super.key,
-    required this.topic,
-    required this.section,
-  });
-
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: pageBackground,
-      appBar: AppBar(
-        title: Text(
-          section.title,
-          overflow: TextOverflow.ellipsis,
-        ),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
-        children: [
-          Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                topic.title,
-                style: const TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w900,
-                  color: darkGreen,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...section.points.asMap().entries.map(
-                (entry) => Card(
-                  elevation: 0,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      '${entry.key + 1}. ${entry.value}',
-                      style: const TextStyle(
-                        fontSize: 15.2,
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+          ...chapters.map((chapter) => Card(elevation: 0, margin: const EdgeInsets.only(bottom: 10), child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: CircleAvatar(backgroundColor: green.withValues(alpha: 0.12), child: const Icon(Icons.precision_manufacturing_outlined, color: darkGreen)),
+            title: Text(chapter.title, style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+            subtitle: Text('${chapter.subtitle} • ${chapter.sections.length} sections'),
+            trailing: const Icon(Icons.chevron_right, color: darkGreen),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => AbuDhabiGoldBookPage(topic: topic, sections: chapter.sections, regulatory: 'Integrated under ADPHC CoP 36.0 Plant and Equipment; apply the specific related CoP and manufacturer requirements for the equipment/task.'))),
+          ))),
         ],
       ),
     );

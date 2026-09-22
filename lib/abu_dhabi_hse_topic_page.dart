@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'abu_dhabi_gold_topic_router.dart' as gold_router;
-import 'abu_dhabi_gold_root_page.dart';
 
 import 'data/abu_dhabi_excavation_gold.dart';
+import 'data/abu_dhabi_hse_topic_content.dart';
 import 'models/reference_topic.dart';
 
 /// SafeNexus HSE — Abu Dhabi HSE reusable topic detail engine.
@@ -25,19 +25,20 @@ class AbuDhabiHseTopicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget? goldPage = gold_router.buildAbuDhabiGoldTopicPage(topic);
+    final goldPage = gold_router.buildAbuDhabiGoldTopicPage(topic);
     if (goldPage != null) {
       return goldPage;
     }
 
-    // Excavation has its own dedicated Gold Standard page.
     if (topic.id == 'ad_cop_29_0') {
       return AbuDhabiExcavationGoldStandardPage(topic: topic);
     }
 
-    // No legacy generic CoP renderer is allowed at runtime.
-    // Every non-dedicated topic now enters the new Abu Dhabi Gold root.
-    return AbuDhabiGoldRootPage(topic: topic);
+    final content = abuDhabiHseTopicContent[topic.id];
+    return AbuDhabiGenericGoldStandardPage(
+      topic: topic,
+      content: content ?? const AbuDhabiHseTopicContent(),
+    );
   }
 }
 
@@ -357,6 +358,156 @@ class AbuDhabiExcavationGoldSectionPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+
+/// Existing generic Abu Dhabi CoP renderer. This remains available for the
+/// wider registry so Step 5A does not disturb the other topics.
+class AbuDhabiGenericGoldStandardPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final AbuDhabiHseTopicContent content;
+
+  const AbuDhabiGenericGoldStandardPage({
+    super.key,
+    required this.topic,
+    required this.content,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  List<_GenericGoldSection> get _sections {
+    final sections = <_GenericGoldSection>[
+      _GenericGoldSection(
+        'Overview',
+        content.overview.isEmpty ? const <String>[] : <String>[content.overview],
+      ),
+      _GenericGoldSection('Deep Study', content.deepStudy),
+      _GenericGoldSection('Micro-Detail', content.microDetails),
+      _GenericGoldSection('Field Practical', content.fieldPractical),
+      _GenericGoldSection('Inspection Checklist', content.inspectionChecklist),
+      _GenericGoldSection('Emergency / Response', content.emergencyResponse),
+      _GenericGoldSection('Records & Evidence', content.records),
+    ];
+    return sections.where((section) => section.points.isNotEmpty).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(topic.shortTitle, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    topic.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(topic.description, style: const TextStyle(fontSize: 15.2, height: 1.5)),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          ..._sections.asMap().entries.map(
+                (entry) => _genericSectionCard(context, entry.key + 1, entry.value),
+              ),
+        ],
+      ),
+    );
+  }
+
+  Widget _genericSectionCard(BuildContext context, int number, _GenericGoldSection section) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        leading: CircleAvatar(
+          backgroundColor: primaryGreen.withValues(alpha: 0.12),
+          child: Text('$number', style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+        ),
+        title: Text(section.title, style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+        trailing: const Icon(Icons.chevron_right, color: darkGreen),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AbuDhabiGenericGoldSectionPage(topic: topic, section: section),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GenericGoldSection {
+  final String title;
+  final List<String> points;
+
+  const _GenericGoldSection(this.title, this.points);
+}
+
+class AbuDhabiGenericGoldSectionPage extends StatelessWidget {
+  final ReferenceTopic topic;
+  final _GenericGoldSection section;
+
+  const AbuDhabiGenericGoldSectionPage({
+    super.key,
+    required this.topic,
+    required this.section,
+  });
+
+  static const Color primaryGreen = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color pageBackground = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: pageBackground,
+      appBar: AppBar(
+        title: Text(section.title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          ...section.points.asMap().entries.map(
+                (entry) => Card(
+                  elevation: 0,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      '${entry.key + 1}. ${entry.value}',
+                      style: const TextStyle(fontSize: 15.2, height: 1.5),
+                    ),
+                  ),
+                ),
+              ),
+        ],
       ),
     );
   }
