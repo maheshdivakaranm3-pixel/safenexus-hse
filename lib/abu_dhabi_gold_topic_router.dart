@@ -252,59 +252,71 @@ String _sectionPreview(dynamic section) {
 List<(String, List<String>)> _sectionBlocks(dynamic section) {
   final result = <(String, List<String>)>[];
 
-  // Gold data files use either `point` (single detailed point) or `points`
-  // (multiple points). Support both so no valid Gold content is silently
-  // dropped by the renderer.
+  // Gold data files intentionally use different point schemas.
+  // Read optional fields defensively so a valid section can never crash
+  // the page merely because that schema does not contain a field.
   final points = <dynamic>[];
   try {
     final list = section.points as List;
     points.addAll(list);
   } catch (_) {
     try {
-      final point = section.point;
-      points.add(point);
+      points.add(section.point);
     } catch (_) {}
   }
 
   for (final point in points) {
     String title = 'Field control';
-    try { title = point.title as String; } catch (_) {}
+    try {
+      title = point.title as String;
+    } catch (_) {}
 
     final values = <String>[];
+
     void add(String label, dynamic value) {
+      if (value is String && value.trim().isNotEmpty) {
+        values.add('$label: $value');
+      }
+    }
+
+    void addOptional(String label, dynamic Function() getter) {
       try {
-        final text = value as String;
-        if (text.trim().isNotEmpty) values.add('$label: $text');
+        add(label, getter());
       } catch (_) {}
     }
 
-    // Preserve the common Gold data shapes used across existing files.
-    add('Detail', point.detail);
-    add('Content', point.content);
+    // Common Gold schemas. Every optional property is guarded because the
+    // point classes are strongly typed and do not all expose the same fields.
+    addOptional('Detail', () => point.detail);
+    addOptional('Content', () => point.content);
+    addOptional('Meaning', () => point.meaning);
+    addOptional('Hazards', () => point.hazards);
+    addOptional('Controls', () => point.controls);
+    addOptional('Field check', () => point.fieldCheck);
+    addOptional('Common mistake', () => point.commonMistake);
+    addOptional('Corrective action', () => point.action);
+    addOptional('Records / evidence', () => point.records);
+
+    // Extended field-handbook layer, when present in a source schema.
+    addOptional('Field procedure', () => point.fieldProcedure);
+    addOptional('Roles & responsibilities', () => point.roles);
+    addOptional('Before starting', () => point.preWork);
+    addOptional('During work', () => point.duringWork);
+    addOptional('Monitoring / verification', () => point.monitoring);
+    addOptional('Emergency / rescue', () => point.emergency);
+    addOptional('Stop-work condition', () => point.stopWork);
+    addOptional('HSE officer checklist', () => point.checklist);
+    addOptional('Interview question', () => point.interview);
+
+    // Multi-point schemas such as Safety in the Heat / Power Tools use a
+    // List<String> named `points`. Render it directly when available.
     try {
       final list = point.points as List;
-      values.addAll(list.map((e) => e.toString()).where((e) => e.trim().isNotEmpty));
+      for (final item in list) {
+        final text = item.toString().trim();
+        if (text.isNotEmpty) values.add(text);
+      }
     } catch (_) {}
-
-    // Existing single-point Gold schema.
-    add('Meaning', point.meaning);
-    add('Hazards', point.hazards);
-    add('Controls', point.controls);
-    add('Field check', point.fieldCheck);
-    add('Common mistake', point.commonMistake);
-    add('Corrective action', point.action);
-    add('Records / evidence', point.records);
-
-    // Extended field-handbook layer.
-    add('Field procedure', point.fieldProcedure);
-    add('Roles & responsibilities', point.roles);
-    add('Before starting', point.preWork);
-    add('During work', point.duringWork);
-    add('Monitoring / verification', point.monitoring);
-    add('Emergency / rescue', point.emergency);
-    add('Stop-work condition', point.stopWork);
-    add('HSE officer checklist', point.checklist);
-    add('Interview question', point.interview);
 
     if (values.isNotEmpty) {
       result.add((title, values));
