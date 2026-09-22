@@ -207,121 +207,247 @@ class AbuDhabiGoldSectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blocks = _sectionBlocks(section);
+    final points = _sectionPoints(section);
+    final sectionIntro = _readString(section, 'introduction');
+    final category = _readString(section, 'category');
+    final number = _readString(section, 'number');
+
     return Scaffold(
       backgroundColor: background,
-      appBar: AppBar(title: Text(title, overflow: TextOverflow.ellipsis), backgroundColor: darkGreen, foregroundColor: Colors.white),
+      appBar: AppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
-        children: blocks.asMap().entries.map((entry) {
-          final block = entry.value;
-          return Card(
+        children: [
+          Card(
             elevation: 0,
-            margin: const EdgeInsets.only(bottom: 10),
             child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(children: [const Icon(Icons.shield_outlined, color: green), const SizedBox(width: 10), Expanded(child: Text(block.$1, style: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w900, color: darkGreen)))]),
-                const SizedBox(height: 8),
-                ...block.$2.map((p) => Padding(padding: const EdgeInsets.only(bottom: 7), child: Text('• $p', style: const TextStyle(fontSize: 15, height: 1.48)))),
-              ]),
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (number.isNotEmpty)
+                    Text(number, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: green)),
+                  if (category.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(category, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: darkGreen)),
+                  ],
+                  const SizedBox(height: 8),
+                  Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: darkGreen)),
+                  if (sectionIntro.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Text(sectionIntro, style: const TextStyle(fontSize: 15, height: 1.5)),
+                  ],
+                  const SizedBox(height: 12),
+                  Text(
+                    '${points.length} detailed point${points.length == 1 ? '' : 's'} • Tap any point to open the full field explanation.',
+                    style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
             ),
-          );
-        }).toList(),
+          ),
+          const SizedBox(height: 12),
+          ...points.asMap().entries.map((entry) {
+            final index = entry.key + 1;
+            final point = entry.value;
+            final pointTitle = _readString(point, 'title').isEmpty
+                ? 'Field Point $index'
+                : _readString(point, 'title');
+            final preview = _pointPreview(point);
+
+            return Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                leading: CircleAvatar(
+                  backgroundColor: green.withValues(alpha: 0.12),
+                  child: Text('$index', style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+                ),
+                title: Text(pointTitle, style: const TextStyle(fontWeight: FontWeight.w900, color: darkGreen)),
+                subtitle: preview.isEmpty
+                    ? const Text('Open detailed field explanation')
+                    : Text(preview, maxLines: 2, overflow: TextOverflow.ellipsis),
+                trailing: const Icon(Icons.chevron_right, color: darkGreen),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => AbuDhabiGoldPointDetailPage(
+                      title: pointTitle,
+                      point: point,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
 }
 
-String _sectionTitle(dynamic section) {
-  try { return section.title as String; } catch (_) { return 'Section'; }
+class AbuDhabiGoldPointDetailPage extends StatelessWidget {
+  final String title;
+  final dynamic point;
+
+  const AbuDhabiGoldPointDetailPage({super.key, required this.title, required this.point});
+
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF0B5D4B);
+  static const Color background = Color(0xFFF6F8F7);
+
+  @override
+  Widget build(BuildContext context) {
+    final fields = _pointFields(point);
+
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        backgroundColor: darkGreen,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 34),
+        children: [
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('GOLD STANDARD FIELD EXPLANATION', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w900, color: green)),
+                  const SizedBox(height: 7),
+                  Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: darkGreen)),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Use this page as the field-level explanation. Check the applicable controlled CoP, approved method statement, risk assessment, manufacturer instructions and project requirements before execution.',
+                    style: TextStyle(fontSize: 14.5, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...fields.map((field) => Card(
+                elevation: 0,
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.shield_outlined, color: green),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(field.$1, style: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w900, color: darkGreen))),
+                        ],
+                      ),
+                      const SizedBox(height: 9),
+                      Text(field.$2, style: const TextStyle(fontSize: 15, height: 1.55)),
+                    ],
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
 }
 
-String _sectionPreview(dynamic section) {
+String _readString(dynamic object, String field) {
   try {
-    final points = section.points as List;
-    if (points.isEmpty) return '';
-    final first = points.first;
-    try { return (first.detail as String); } catch (_) {}
-    try { return (first.content as String); } catch (_) {}
-    try { final list = (first.points as List).cast<String>(); return list.isEmpty ? '' : list.first; } catch (_) {}
-    return '';
-  } catch (_) { return ''; }
+    final value = switch (field) {
+      'title' => object.title,
+      'detail' => object.detail,
+      'content' => object.content,
+      'meaning' => object.meaning,
+      'hazards' => object.hazards,
+      'controls' => object.controls,
+      'fieldCheck' => object.fieldCheck,
+      'commonMistake' => object.commonMistake,
+      'action' => object.action,
+      'records' => object.records,
+      'fieldProcedure' => object.fieldProcedure,
+      'roles' => object.roles,
+      'preWork' => object.preWork,
+      'duringWork' => object.duringWork,
+      'monitoring' => object.monitoring,
+      'emergency' => object.emergency,
+      'stopWork' => object.stopWork,
+      'checklist' => object.checklist,
+      'interview' => object.interview,
+      'number' => object.number,
+      'category' => object.category,
+      'introduction' => object.introduction,
+      _ => null,
+    };
+    if (value is String) return value.trim();
+  } catch (_) {}
+  return '';
 }
 
-List<(String, List<String>)> _sectionBlocks(dynamic section) {
-  final result = <(String, List<String>)>[];
-
-  // Gold data files intentionally use different point schemas.
-  // Read optional fields defensively so a valid section can never crash
-  // the page merely because that schema does not contain a field.
-  final points = <dynamic>[];
+List<dynamic> _sectionPoints(dynamic section) {
   try {
     final list = section.points as List;
-    points.addAll(list);
-  } catch (_) {
-    try {
-      points.add(section.point);
-    } catch (_) {}
+    return list.toList();
+  } catch (_) {}
+  try {
+    return [section.point];
+  } catch (_) {}
+  return const [];
+}
+
+String _pointPreview(dynamic point) {
+  for (final field in const ['detail', 'content', 'meaning', 'hazards', 'controls']) {
+    final value = _readString(point, field);
+    if (value.isNotEmpty) return value;
+  }
+  return '';
+}
+
+List<(String, String)> _pointFields(dynamic point) {
+  final result = <(String, String)>[];
+
+  void add(String label, String field) {
+    final value = _readString(point, field);
+    if (value.isNotEmpty) result.add((label, value));
   }
 
-  for (final point in points) {
-    String title = 'Field control';
-    try {
-      title = point.title as String;
-    } catch (_) {}
+  add('Meaning / Detail', 'detail');
+  add('Content', 'content');
+  add('Meaning', 'meaning');
+  add('Hazards / Consequences', 'hazards');
+  add('Control Measures', 'controls');
+  add('Field HSE Check', 'fieldCheck');
+  add('Common Mistake', 'commonMistake');
+  add('Corrective Action', 'action');
+  add('Records / Evidence', 'records');
+  add('Field Procedure', 'fieldProcedure');
+  add('Roles & Responsibilities', 'roles');
+  add('Before Starting', 'preWork');
+  add('During Work', 'duringWork');
+  add('Monitoring / Verification', 'monitoring');
+  add('Emergency / Rescue', 'emergency');
+  add('Stop-Work Condition', 'stopWork');
+  add('HSE Officer Checklist', 'checklist');
+  add('Interview Question', 'interview');
 
-    final values = <String>[];
-
-    void add(String label, dynamic value) {
-      if (value is String && value.trim().isNotEmpty) {
-        values.add('$label: $value');
-      }
+  // Some Gold sources expose a list of strings inside a point.
+  try {
+    final list = point.points as List;
+    for (final item in list) {
+      final text = item.toString().trim();
+      if (text.isNotEmpty) result.add(('Field Point', text));
     }
-
-    void addOptional(String label, dynamic Function() getter) {
-      try {
-        add(label, getter());
-      } catch (_) {}
-    }
-
-    // Common Gold schemas. Every optional property is guarded because the
-    // point classes are strongly typed and do not all expose the same fields.
-    addOptional('Detail', () => point.detail);
-    addOptional('Content', () => point.content);
-    addOptional('Meaning', () => point.meaning);
-    addOptional('Hazards', () => point.hazards);
-    addOptional('Controls', () => point.controls);
-    addOptional('Field check', () => point.fieldCheck);
-    addOptional('Common mistake', () => point.commonMistake);
-    addOptional('Corrective action', () => point.action);
-    addOptional('Records / evidence', () => point.records);
-
-    // Extended field-handbook layer, when present in a source schema.
-    addOptional('Field procedure', () => point.fieldProcedure);
-    addOptional('Roles & responsibilities', () => point.roles);
-    addOptional('Before starting', () => point.preWork);
-    addOptional('During work', () => point.duringWork);
-    addOptional('Monitoring / verification', () => point.monitoring);
-    addOptional('Emergency / rescue', () => point.emergency);
-    addOptional('Stop-work condition', () => point.stopWork);
-    addOptional('HSE officer checklist', () => point.checklist);
-    addOptional('Interview question', () => point.interview);
-
-    // Multi-point schemas such as Safety in the Heat / Power Tools use a
-    // List<String> named `points`. Render it directly when available.
-    try {
-      final list = point.points as List;
-      for (final item in list) {
-        final text = item.toString().trim();
-        if (text.isNotEmpty) values.add(text);
-      }
-    } catch (_) {}
-
-    if (values.isNotEmpty) {
-      result.add((title, values));
-    }
-  }
+  } catch (_) {}
 
   return result;
 }
