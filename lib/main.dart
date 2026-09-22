@@ -16,6 +16,12 @@ import 'data/hse_safety_reference.dart';
 import 'data/uae_general_guidelines.dart';
 import 'tbt.dart';
 import 'workhub.dart';
+import 'safenexus_alert_center.dart';
+import 'hse_analytics_center.dart';
+import 'hse_workflow_approval.dart';
+import 'hse_access_control.dart';
+import 'hse_backup_recovery.dart';
+import 'safenexus_unified_data_center.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1340,6 +1346,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // REPORT HOME
   // ==========================================================
 
+  void _openCanonicalFromHome(Widget page) {
+    _openPage(page);
+  }
+
   Widget _buildReportHome() {
     return SafeArea(
       child: ListView(
@@ -1363,6 +1373,22 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 const HazardReportPage(),
               );
             },
+          ),
+          const SizedBox(height: 10),
+          _reportChoiceCard(
+            title: 'HSE Analytics',
+            subtitle: 'KPIs, trends, completion rates and management metrics',
+            icon: Icons.analytics_outlined,
+            color: Color(0xFF159447),
+            onTap: () => _openCanonicalFromHome(const HseAnalyticsCenterPage()),
+          ),
+          const SizedBox(height: 10),
+          _reportChoiceCard(
+            title: 'Alert Center',
+            subtitle: 'Critical risks, overdue actions, permits and expiry alerts',
+            icon: Icons.notifications_active_outlined,
+            color: Color(0xFF8A4B08),
+            onTap: () => _openCanonicalFromHome(const SafeNexusAlertCenterPage()),
           ),
         ],
       ),
@@ -1633,6 +1659,35 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             onTap: () {
               _openPage(const WorkHubPage());
             },
+          ),
+          const SizedBox(height: 10),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'Workflow & Approval',
+            subtitle: 'Review, approve and track HSE workflow actions',
+            icon: Icons.approval_outlined,
+            onTap: () => _openCanonicalFromHome(const HseWorkflowApprovalPage()),
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'Access Control',
+            subtitle: 'HSE roles, access and authorization controls',
+            icon: Icons.admin_panel_settings_outlined,
+            onTap: () => _openCanonicalFromHome(const HseAccessControlPage()),
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'Backup & Recovery',
+            subtitle: 'Backup records, verification and recovery readiness',
+            icon: Icons.backup_outlined,
+            onTap: () => _openCanonicalFromHome(const HseBackupRecoveryPage()),
+          ),
+          const SizedBox(height: 10),
+          _settingsAction(
+            title: 'Unified Data Center',
+            subtitle: 'Cross-module HSE records and data management',
+            icon: Icons.storage_outlined,
+            onTap: () => _openCanonicalFromHome(const SafeNexusUnifiedDataCenterPage()),
           ),
           const SizedBox(height: 10),
           _settingsAction(
