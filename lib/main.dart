@@ -114,25 +114,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     _loadDashboardStats();
   }
 
-  // ==========================================================
-  // REFERENCE COUNTS
-  // ==========================================================
-
-  int get _uaeGeneralCount {
-    return uaeGeneralGuidelines.length;
-  }
-
-  int get _abuDhabiCount {
-    return abuDhabiGuidelines.length;
-  }
-
-  int get _dubaiCount {
-    return dubaiGuidelines.length;
-  }
-
-  int get _hseReferenceCount {
-    return hseSafetyReferences.length;
-  }
 
   // ==========================================================
   // LOAD DASHBOARD STATISTICS
@@ -715,110 +696,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // SAFETY OVERVIEW
   // ==========================================================
 
-  Widget _buildSafetyOverview() {
-    return Container(
-      padding: const EdgeInsets.all(17),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(23),
-        border: Border.all(
-          color: const Color(0xFFE1EAF0),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(12),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'Safety Overview',
-                  style: TextStyle(
-                    color: navy,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF8F0),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Text(
-                  'LIVE',
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.warning_amber_rounded,
-                  iconColor: const Color(0xFFC51E30),
-                  value: _loadingStats
-                      ? '...'
-                      : _hazards.toString(),
-                  title: 'Hazards',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.visibility_rounded,
-                  iconColor: const Color(0xFF1475D1),
-                  value: _loadingStats
-                      ? '...'
-                      : _observations.toString(),
-                  title: 'Observations',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.pending_actions_rounded,
-                  iconColor: const Color(0xFFB16A00),
-                  value: _loadingStats
-                      ? '...'
-                      : _openReports.toString(),
-                  title: 'Open Reports',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.assignment_turned_in_rounded,
-                  iconColor: primaryGreen,
-                  value: _loadingStats
-                      ? '...'
-                      : _totalReports.toString(),
-                  title: 'Total Reports',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   // ==========================================================
   // OVERVIEW METRIC
@@ -971,13 +848,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // REFERENCE MINI CARD
   // ==========================================================
 
-  Widget _referenceMiniCard({
-    required String title,
-    required int count,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
+) {
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(18),
@@ -1043,65 +914,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // SAFETY MESSAGE
   // ==========================================================
 
-  Widget _buildSafetyMessage() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF075B45),
-            Color(0xFF0B9860),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(23),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(20),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.eco_rounded,
-              color: Color(0xFFDFFF91),
-              size: 29,
-            ),
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Small Actions. Big Difference.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Safe Today - Healthy Tomorrow - Stronger UAE',
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: Color(0xFFE2FFB1),
-                    fontSize: 10,
-                    height: 1.25,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   // ==========================================================
   // UAE CARD
@@ -1318,82 +1130,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // LEARNING HOME
   // ==========================================================
 
-  Widget _buildLearningHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'Learning Center',
-            subtitle: 'Build Knowledge - Build a Safer You',
-            icon: Icons.school_rounded,
-          ),
-          const SizedBox(height: 16),
-          _learningCard(
-            title: 'TBT - Toolbox Talk',
-            subtitle: '100 ready-to-use toolbox talk topics for site teams.',
-            icon: Icons.handyman_rounded,
-            color: darkGreen,
-            onTap: () {
-              _openPage(const TbtHomePage());
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'UAE General HSE',
-            subtitle:
-                'Explore UAE-wide safety guidance and best practices.',
-            icon: Icons.flag_rounded,
-            color: const Color(0xFF1475D1),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.uaeGeneral,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Abu Dhabi HSE',
-            subtitle:
-                'Explore Abu Dhabi specific HSE requirements.',
-            icon: Icons.location_city_rounded,
-            color: primaryGreen,
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.abuDhabi,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Dubai HSE',
-            subtitle:
-                'Explore Dubai safety requirements and guidance.',
-            icon: Icons.apartment_rounded,
-            color: const Color(0xFF6330D7),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.dubai,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Professional HSE Reference',
-            subtitle:
-                'Useful professional HSE reference topics.',
-            icon: Icons.library_books_rounded,
-            color: const Color(0xFFB16A00),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.hseReference,
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
   // ==========================================================
   // LEARNING CARD
@@ -1624,95 +1360,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // PROFILE HOME
   // ==========================================================
 
-  Widget _buildProfileHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'SafeNexus Profile',
-            subtitle: 'Your HSE safety workspace',
-            icon: Icons.person_rounded,
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF0A8653),
-                  Color(0xFF075B45),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: const Column(
-              children: [
-                CircleAvatar(
-                  radius: 34,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person_rounded,
-                    size: 39,
-                    color: Color(0xFF075B45),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'HSE Professional',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'SafeNexus HSE 鈥� UAE',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          _profileAction(
-            title: 'Observation History',
-            subtitle: 'View your submitted safety reports',
-            icon: Icons.history_rounded,
-            onTap: () {
-              _openPage(
-                const ObservationHistoryPage(),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          _profileAction(
-            title: 'UAE HSE Guidelines',
-            subtitle: 'Open safety reference library',
-            icon: Icons.menu_book_rounded,
-            onTap: _openGuidelines,
-          ),
-          const SizedBox(height: 10),
-          _profileAction(
-            title: 'About SafeNexus HSE',
-            subtitle: 'UAE-wide HSE safety platform',
-            icon: Icons.info_outline_rounded,
-            onTap: () {
-              _showMessage(
-                'SafeNexus HSE',
-                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          _buildUaeCard(),
-        ],
-      ),
-    );
-  }
 
   // ==========================================================
   // PROFILE ACTION
