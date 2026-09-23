@@ -1,4 +1,4 @@
-name: SafeNexus HSE - Android Build
+name: SafeNexus HSE - Analyze and Build APK
 
 on:
   push:
@@ -8,8 +8,16 @@ on:
 
 jobs:
   build:
-    name: Analyze and Build APK
+    name: Flutter Analyze + Release APK
     runs-on: ubuntu-latest
+
+    env:
+      # These values are used only when the GitHub release-signing
+      # secrets are not configured. The temporary keystore is generated
+      # inside GitHub Actions and is NOT committed to the repository.
+      FALLBACK_KEYSTORE_PASSWORD: SafeNexusCI2026
+      FALLBACK_KEY_ALIAS: safenexus-ci
+      FALLBACK_KEY_PASSWORD: SafeNexusCI2026
 
     steps:
       - name: Checkout repository
@@ -29,7 +37,7 @@ jobs:
           flutter-version: '3.47.2'
           cache: true
 
-      - name: Check tool versions
+      - name: Show tool versions
         run: |
           flutter --version
           dart --version
@@ -43,66 +51,83 @@ jobs:
       - name: Flutter Pub Get
         run: flutter pub get
 
-      - name: Generate App Icons
-        run: dart run flutter_launcher_icons
-
       - name: Flutter Clean
         run: flutter clean
 
       - name: Flutter Pub Get After Clean
         run: flutter pub get
 
-      - name: Generate App Icons After Clean
-        run: dart run flutter_launcher_icons
-
-      - name: Restore release keystore
+      - name: Restore release keystore from GitHub Secret
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          test -n "$KEYSTORE_BASE64" || {
-            echo "ERROR: GitHub secret KEYSTORE_BASE64 is missing."
-            exit 1
-          }
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+
           test -s android/app/upload-keystore.jks || {
-            echo "ERROR: upload-keystore.jks was not created."
+            echo "ERROR: The decoded release keystore is empty."
             exit 1
           }
-          echo "Release keystore restored successfully."
+
+          echo "Release keystore restored from GitHub Secret."
+
+      - name: Create temporary CI release keystore
+        if: ${{ secrets.KEYSTORE_BASE64 == '' }}
+        env:
+          KEYSTORE_PASSWORD: ${{ env.FALLBACK_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ env.FALLBACK_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ env.FALLBACK_KEY_PASSWORD }}
+        run: |
+          echo "WARNING: KEYSTORE_BASE64 is not configured."
+          echo "Creating a temporary CI-only release keystore."
+          echo "This keystore is NOT suitable for publishing or future app updates."
+
+          keytool -genkeypair \
+            -v \
+            -keystore android/app/upload-keystore.jks \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -keypass "$KEY_PASSWORD" \
+            -alias "$KEY_ALIAS" \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=SafeNexus HSE, OU=HSE, O=SafeNexus, L=Abu Dhabi, ST=Abu Dhabi, C=AE"
+
+          test -s android/app/upload-keystore.jks
+
+      - name: Select signing credentials
+        run: |
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            {
+              echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}"
+              echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}"
+              echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}"
+            } >> "$GITHUB_ENV"
+            echo "Using configured GitHub release signing credentials."
+          else
+            {
+              echo "KEYSTORE_PASSWORD=$FALLBACK_KEYSTORE_PASSWORD"
+              echo "KEY_ALIAS=$FALLBACK_KEY_ALIAS"
+              echo "KEY_PASSWORD=$FALLBACK_KEY_PASSWORD"
+            } >> "$GITHUB_ENV"
+            echo "Using temporary CI signing credentials."
+          fi
 
       - name: Flutter Analyze
         run: flutter analyze
 
       - name: Build Release APK
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          test -n "$KEYSTORE_PASSWORD" || {
-            echo "ERROR: GitHub secret KEYSTORE_PASSWORD is missing."
-            exit 1
-          }
-          test -n "$KEY_ALIAS" || {
-            echo "ERROR: GitHub secret KEY_ALIAS is missing."
-            exit 1
-          }
-          test -n "$KEY_PASSWORD" || {
-            echo "ERROR: GitHub secret KEY_PASSWORD is missing."
-            exit 1
-          }
-          flutter build apk --release
+        run: flutter build apk --release
 
       - name: Verify APK
         run: |
-          echo "Checking generated APK..."
-          ls -lh build/app/outputs/flutter-apk/
           test -f build/app/outputs/flutter-apk/app-release.apk
-          echo "APK successfully generated."
+          ls -lh build/app/outputs/flutter-apk/app-release.apk
+          echo "SafeNexus HSE release APK generated successfully."
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SafeNexus-HSE-APK
+          name: SafeNexus-HSE-release
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
