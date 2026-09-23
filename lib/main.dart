@@ -1,41 +1,33 @@
-import 'dart:convert';
-import 'abu_dhabi_gold_root_page.dart';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'guidelines.dart';
-import 'hazard_report.dart';
-import 'observation_history.dart';
-import 'safety_observation.dart';
-import 'models/guideline_category.dart';
-
-import 'data/abu_dhabi_guidelines.dart';
+import 'abu_dhabi_gold_root_page.dart';
 import 'data/dubai_guidelines.dart';
 import 'data/hse_safety_reference.dart';
 import 'data/uae_general_guidelines.dart';
-import 'tbt.dart';
+import 'guidelines.dart';
+import 'hazard_report.dart';
+import 'models/guideline_category.dart';
+import 'observation_history.dart';
+import 'safety_observation.dart';
+import 'voice_report.dart';
 import 'workhub.dart';
-import 'safenexus_alert_center.dart';
-import 'hse_analytics_center.dart';
-import 'hse_workflow_approval.dart';
-import 'hse_access_control.dart';
-import 'hse_backup_recovery.dart';
-import 'safenexus_unified_data_center.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const SafeNexusApp());
 }
 
-// ============================================================
-// APP
-// ============================================================
-
+/// SafeNexus HSE
+/// Production app entry point.
+///
+/// This file is the active application shell. The previous large dashboard
+/// implementation is intentionally removed from the app entry point so the
+/// current HSE modules and reference layers are what the APK opens.
 class SafeNexusApp extends StatelessWidget {
   const SafeNexusApp({super.key});
 
-  static const Color primaryGreen = Color(0xFF159447);
+  static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF075B45);
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +37,13 @@ class SafeNexusApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryGreen,
+          seedColor: green,
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: const Color(0xFFF4F8FB),
-        fontFamily: 'Roboto',
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
+          backgroundColor: darkGreen,
+          foregroundColor: Colors.white,
           elevation: 0,
         ),
       ),
@@ -60,602 +52,440 @@ class SafeNexusApp extends StatelessWidget {
   }
 }
 
-// ============================================================
-// HOME PAGE
-// ============================================================
-
 class SafeNexusHomePage extends StatefulWidget {
   const SafeNexusHomePage({super.key});
 
   @override
-  State<SafeNexusHomePage> createState() =>
-      _SafeNexusHomePageState();
+  State<SafeNexusHomePage> createState() => _SafeNexusHomePageState();
 }
 
 class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
-  // ==========================================================
-  // COLORS
-  // ==========================================================
-
-  static const Color primaryGreen = Color(0xFF159447);
+  static const Color green = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF075B45);
   static const Color navy = Color(0xFF082653);
 
-  // ==========================================================
-  // STORAGE
-  // ==========================================================
+  int _index = 0;
 
-  static const String _storageKey = 'safenexus_observations';
+  final List<String> _titles = const [
+    'SafeNexus HSE',
+    'Safety Reporting',
+    'HSE WorkHub',
+    'HSE Reference',
+    'Settings',
+  ];
 
-  // ==========================================================
-  // NAVIGATION
-  // ==========================================================
-
-  int _currentIndex = 0;
-
-  // ==========================================================
-  // STATISTICS
-  // ==========================================================
-
-  int _totalReports = 0;
-  int _observations = 0;
-  int _hazards = 0;
-  int _openReports = 0;
-  bool _loadingStats = true;
-
-  // ==========================================================
-  // INIT
-  // ==========================================================
-
-  @override
-  void initState() {
-    super.initState();
-    _loadDashboardStats();
-  }
-
-  // ==========================================================
-  // REFERENCE COUNTS
-  // ==========================================================
-
-  int get _uaeGeneralCount {
-    return uaeGeneralGuidelines.length;
-  }
-
-  int get _abuDhabiCount {
-    return abuDhabiGuidelines.length;
-  }
-
-  int get _dubaiCount {
-    return dubaiGuidelines.length;
-  }
-
-  int get _hseReferenceCount {
-    return hseSafetyReferences.length;
-  }
-
-  // ==========================================================
-  // LOAD DASHBOARD STATISTICS
-  // ==========================================================
-
-  Future<void> _loadDashboardStats() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final records =
-          prefs.getStringList(_storageKey) ?? <String>[];
-
-      int total = 0;
-      int observations = 0;
-      int hazards = 0;
-      int open = 0;
-
-      final List<String> normalizedRecords = <String>[];
-      bool storageChanged = false;
-
-      for (final raw in records) {
-        try {
-          final decoded = jsonDecode(raw);
-
-          if (decoded is! Map) {
-            continue;
-          }
-
-          final report = Map<String, dynamic>.from(decoded);
-
-          final id = _stringValue(report['id']);
-
-          if (id.isEmpty) {
-            continue;
-          }
-
-          final originalType = _stringValue(report['reportType']);
-          final originalObservationType =
-              _stringValue(report['observationType']);
-
-          final canonicalType = _canonicalReportType(
-            reportType: originalType,
-            observationType: originalObservationType,
-          );
-
-          if (originalType != canonicalType) {
-            report['reportType'] = canonicalType;
-            storageChanged = true;
-          } else if (originalType.isEmpty) {
-            report['reportType'] = canonicalType;
-            storageChanged = true;
-          }
-
-          normalizedRecords.add(jsonEncode(report));
-
-          total++;
-
-          if (canonicalType == 'Hazard Report') {
-            hazards++;
-          } else {
-            observations++;
-          }
-
-          final status = _normalizeStatus(report['status']);
-
-          if (_isOpenStatus(status)) {
-            open++;
-          }
-        } catch (_) {
-          // Ignore corrupted individual records.
-          continue;
-        }
-      }
-
-      // Keep dashboard classification aligned with Observation History.
-      // Only rewrite storage when a legacy/missing reportType was normalized.
-      if (storageChanged) {
-        await prefs.setStringList(
-          _storageKey,
-          normalizedRecords,
-        );
-      }
-
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _totalReports = total;
-        _observations = observations;
-        _hazards = hazards;
-        _openReports = open;
-        _loadingStats = false;
-      });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _totalReports = 0;
-        _observations = 0;
-        _hazards = 0;
-        _openReports = 0;
-        _loadingStats = false;
-      });
-    }
-  }
-
-  // ==========================================================
-  // CANONICAL REPORT TYPE
-  // ==========================================================
-
-  String _canonicalReportType({
-    required String reportType,
-    required String observationType,
-  }) {
-    final type = reportType.trim().toLowerCase();
-    final legacyType = observationType.trim().toLowerCase();
-
-    if (type.contains('hazard') ||
-        legacyType.contains('hazard')) {
-      return 'Hazard Report';
-    }
-
-    return 'Safety Observation';
-  }
-
-  // ==========================================================
-  // NORMALIZED STATUS
-  // ==========================================================
-
-  String _normalizeStatus(dynamic value) {
-    final status = _stringValue(value).toLowerCase();
-
-    if (status.isEmpty) {
-      return 'open';
-    }
-
-    if (status == 'in progress' ||
-        status == 'in-progress' ||
-        status == 'inprogress') {
-      return 'in progress';
-    }
-
-    return status;
-  }
-
-  // ==========================================================
-  // OPEN STATUS
-  // ==========================================================
-
-  bool _isOpenStatus(String status) {
-    return status == 'open' ||
-        status == 'pending' ||
-        status == 'in progress';
-  }
-
-  // ==========================================================
-  // STRING VALUE
-  // ==========================================================
-
-  String _stringValue(dynamic value) {
-    if (value == null) {
-      return '';
-    }
-
-    return value.toString().trim();
-  }
-
-  // ==========================================================
-  // OPEN PAGE
-  // ==========================================================
-
-  Future<void> _openPage(Widget page) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => page,
-      ),
+  void _open(Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
     );
+  }
 
-    if (!mounted) {
+  void _openReference(GuidelineCategory category) {
+    if (category == GuidelineCategory.abuDhabi) {
+      _open(const AbuDhabiGoldRootPage());
       return;
     }
 
-    await _loadDashboardStats();
+    _open(GuidelinesPage(initialCategory: category));
   }
-
-  // ==========================================================
-  // OPEN GUIDELINES
-  // ==========================================================
-
-  Future<void> _openGuidelines() async {
-    await _openPage(
-      const GuidelinesPage(),
-    );
-  }
-
-  // ==========================================================
-  // BUILD
-  // ==========================================================
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          _buildDashboard(),
-          _buildGuidelinesHome(),
-          _buildReportHome(),
-          _buildLearningHome(),
-          _buildSettingsHome(),
-          _buildProfileHome(),
+      appBar: AppBar(
+        title: Text(
+          _titles[_index],
+          style: const TextStyle(fontWeight: FontWeight.w800),
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'Observation History',
+            onPressed: () => _open(const ObservationHistoryPage()),
+            icon: const Icon(Icons.history_rounded),
+          ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigation(),
+      body: IndexedStack(
+        index: _index,
+        children: [
+          _home(),
+          _reporting(),
+          const WorkHubPage(),
+          _reference(),
+          _settings(),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: (value) {
+          setState(() => _index = value);
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home_rounded),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.report_outlined),
+            selectedIcon: Icon(Icons.report_rounded),
+            label: 'Report',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.work_outline_rounded),
+            selectedIcon: Icon(Icons.work_rounded),
+            label: 'WorkHub',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book_rounded),
+            label: 'Reference',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings_rounded),
+            label: 'Settings',
+          ),
+        ],
+      ),
     );
   }
 
-  // ==========================================================
-  // BOTTOM NAVIGATION
-  // ==========================================================
+  Widget _home() {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+      children: [
+        _hero(),
+        const SizedBox(height: 18),
+        _sectionTitle('Quick Safety Actions', 'Field reporting'),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: _actionCard(
+                icon: Icons.visibility_rounded,
+                title: 'Safety Observation',
+                subtitle: 'Record safe / unsafe conditions',
+                onTap: () => _open(const SafetyObservationPage()),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _actionCard(
+                icon: Icons.warning_amber_rounded,
+                title: 'Hazard Report',
+                subtitle: 'Report an immediate hazard',
+                onTap: () => _open(const HazardReportPage()),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: _actionCard(
+                icon: Icons.mic_rounded,
+                title: 'Voice Report',
+                subtitle: 'Report by voice',
+                onTap: () => _open(const VoiceReportPage()),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _actionCard(
+                icon: Icons.history_rounded,
+                title: 'Report History',
+                subtitle: 'Review saved reports',
+                onTap: () => _open(const ObservationHistoryPage()),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 22),
+        _sectionTitle('HSE Reference', 'Professional UAE field reference'),
+        const SizedBox(height: 10),
+        _referenceCard(
+          icon: '🇦🇪',
+          title: 'UAE HSE Reference',
+          subtitle: '${uaeGeneralGuidelines.length} UAE-wide reference topics',
+          onTap: () => _openReference(GuidelineCategory.uaeGeneral),
+        ),
+        _referenceCard(
+          icon: '🟢',
+          title: 'Abu Dhabi HSE Reference',
+          subtitle: 'ADPHC / Abu Dhabi Gold Standard reference',
+          onTap: () => _openReference(GuidelineCategory.abuDhabi),
+        ),
+        _referenceCard(
+          icon: '🔵',
+          title: 'Dubai HSE Reference',
+          subtitle: '${dubaiGuidelines.length} Dubai reference topics',
+          onTap: () => _openReference(GuidelineCategory.dubai),
+        ),
+        _referenceCard(
+          icon: '📚',
+          title: 'Complete HSE Guide',
+          subtitle: '${hseSafetyReferences.length} professional HSE reference topics',
+          onTap: () => _openReference(GuidelineCategory.hseReference),
+        ),
+        const SizedBox(height: 22),
+        _sectionTitle('HSE Field Areas', 'Current application modules'),
+        const SizedBox(height: 10),
+        _fieldAreaGrid(),
+      ],
+    );
+  }
 
-  Widget _buildBottomNavigation() {
-    return NavigationBar(
-      height: 76,
-      backgroundColor: Colors.white,
-      elevation: 8,
-      selectedIndex: _currentIndex,
-      onDestinationSelected: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
+  Widget _hero() {
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF159447),
+            Color(0xFF075B45),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(25),
+            blurRadius: 16,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '🇦🇪 UAE HSE',
+            style: TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.1,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'SafeNexus HSE',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 29,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          SizedBox(height: 7),
+          Text(
+            'Professional UAE HSE Field Safety Application',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              height: 1.4,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-        if (index == 0) {
-          _loadDashboardStats();
-        }
-      },
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home_rounded),
-          label: 'Home',
+  Widget _reporting() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        _sectionTitle('Safety Reporting', 'Capture field information quickly'),
+        const SizedBox(height: 12),
+        _largeAction(
+          Icons.visibility_rounded,
+          'Safety Observation',
+          'Record safe acts, unsafe acts and unsafe conditions.',
+          () => _open(const SafetyObservationPage()),
         ),
-        NavigationDestination(
-          icon: Icon(Icons.menu_book_outlined),
-          selectedIcon: Icon(Icons.menu_book_rounded),
-          label: 'Guideline',
+        _largeAction(
+          Icons.warning_amber_rounded,
+          'Hazard Report',
+          'Create a hazard report with field details and evidence.',
+          () => _open(const HazardReportPage()),
         ),
-        NavigationDestination(
-          icon: Icon(Icons.warning_amber_outlined),
-          selectedIcon: Icon(Icons.warning_rounded),
-          label: 'Report',
+        _largeAction(
+          Icons.mic_rounded,
+          'Voice Report',
+          'Use the voice reporting workflow.',
+          () => _open(const VoiceReportPage()),
         ),
-        NavigationDestination(
-          icon: Icon(Icons.school_outlined),
-          selectedIcon: Icon(Icons.school_rounded),
-          label: 'Learning',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.settings_outlined),
-          selectedIcon: Icon(Icons.settings_rounded),
-          label: 'Setting',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.person_outline_rounded),
-          selectedIcon: Icon(Icons.person_rounded),
-          label: 'Profile',
+        _largeAction(
+          Icons.history_rounded,
+          'Observation History',
+          'Review previously saved observations and reports.',
+          () => _open(const ObservationHistoryPage()),
         ),
       ],
     );
   }
 
-  // ==========================================================
-  // DASHBOARD
-  // ==========================================================
-
-  Widget _buildDashboard() {
-    return SafeArea(
-      child: RefreshIndicator(
-        onRefresh: _loadDashboardStats,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(
-            16,
-            8,
-            16,
-            28,
-          ),
-          children: [
-            // ==================================================
-            // SAFE NEXUS HSE HEADER
-            // ==================================================
-
-            _buildProfessionalHeader(),
-
-            const SizedBox(height: 14),
-
-            // ==================================================
-            // UAE HERO BANNER
-            // ==================================================
-
-            _buildProfessionalHero(),
-
-            const SizedBox(height: 20),
-
-            _buildQuickActionsTitle(),
-
-            const SizedBox(height: 10),
-
-            _buildQuickActions(),
-
-            const SizedBox(height: 20),
-
-            _buildSafetyOverview(),
-
-            const SizedBox(height: 20),
-
-            _buildReferencePreview(),
-
-            const SizedBox(height: 20),
-
-            _buildSafetyMessage(),
-
-            const SizedBox(height: 16),
-
-            _buildUaeCard(),
-          ],
+  Widget _reference() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        _sectionTitle('HSE Reference', 'Jurisdiction and professional guidance'),
+        const SizedBox(height: 12),
+        _referenceCard(
+          icon: '🇦🇪',
+          title: 'UAE HSE Reference',
+          subtitle: 'UAE-wide HSE guidance',
+          onTap: () => _openReference(GuidelineCategory.uaeGeneral),
         ),
-      ),
+        _referenceCard(
+          icon: '🟢',
+          title: 'Abu Dhabi HSE Reference',
+          subtitle: 'Abu Dhabi / ADPHC Gold Standard routing',
+          onTap: () => _openReference(GuidelineCategory.abuDhabi),
+        ),
+        _referenceCard(
+          icon: '🔵',
+          title: 'Dubai HSE Reference',
+          subtitle: 'Dubai HSE guidance',
+          onTap: () => _openReference(GuidelineCategory.dubai),
+        ),
+        _referenceCard(
+          icon: '📚',
+          title: 'Complete HSE Guide',
+          subtitle: 'Professional HSE knowledge reference',
+          onTap: () => _openReference(GuidelineCategory.hseReference),
+        ),
+      ],
     );
   }
 
-  // ==========================================================
-  // PROFESSIONAL TOP HEADER
-  //
-  // IMAGE:
-  // assets/images/safenexus_hse_header_mobile.png
-  //
-  // IMPORTANT:
-  // BoxFit.contain keeps the FULL HEADER IMAGE visible.
-  // No cropping.
-  // ==========================================================
-
-  Widget _buildProfessionalHeader() {
-    return Container(
-      width: double.infinity,
-      height: 105,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFFE1E8EE),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+  Widget _settings() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        _sectionTitle('Settings', 'SafeNexus HSE'),
+        const SizedBox(height: 12),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.menu_book_rounded, color: green),
+            title: const Text('HSE Reference'),
+            subtitle: const Text('Open the complete reference library'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => setState(() => _index = 3),
           ),
-        ],
-      ),
-      child: Image.asset(
-        'assets/images/safenexus_hse_header_mobile.png',
-
-        // ======================================================
-        // MAIN FIX
-        // ======================================================
-
-        fit: BoxFit.contain,
-
-        width: double.infinity,
-        height: double.infinity,
-
-        alignment: Alignment.center,
-
-        errorBuilder: (
-          context,
-          error,
-          stackTrace,
-        ) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.image_not_supported_rounded,
-                  color: primaryGreen,
-                  size: 30,
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'SafeNexus HSE',
-                  style: TextStyle(
-                    color: navy,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+        ),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.history_rounded, color: green),
+            title: const Text('Observation History'),
+            subtitle: const Text('Review saved field reports'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => _open(const ObservationHistoryPage()),
+          ),
+        ),
+        Card(
+          child: const ListTile(
+            leading: Icon(Icons.language_rounded, color: green),
+            title: Text('Language'),
+            subtitle: Text('English • Malayalam'),
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Center(
+          child: Text(
+            'SafeNexus HSE\nSafe People • Safe Workplaces • Safer UAE',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF607D8B),
+              height: 1.5,
+              fontWeight: FontWeight.w600,
             ),
-          );
-        },
-      ),
+          ),
+        ),
+      ],
     );
   }
 
-  // ==========================================================
-  // PROFESSIONAL HERO
-  //
-  // IMAGE:
-  // assets/images/safenexus_hse_banner.png
-  // ==========================================================
+  Widget _fieldAreaGrid() {
+    const areas = [
+      ('🏗️', 'Construction'),
+      ('🛢️', 'Oil & Gas'),
+      ('⚓', 'Offshore'),
+      ('🏭', 'Industrial'),
+      ('🩺', 'Occupational Health'),
+      ('🌱', 'Environmental HSE'),
+      ('🚨', 'Emergency & Rescue'),
+      ('🔥', 'Fire & Life Safety'),
+      ('📚', 'Specialist / Cross-Sector'),
+      ('🎓', 'Learning + Interview'),
+    ];
 
-  Widget _buildProfessionalHero() {
-    return Container(
-      width: double.infinity,
-      height: 155,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(22),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
-          ),
-        ],
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: areas.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1.55,
       ),
-      child: Image.asset(
-        'assets/images/safenexus_hse_banner.png',
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-        errorBuilder: (
-          context,
-          error,
-          stackTrace,
-        ) {
-          return Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF063E73),
-                  Color(0xFF075B45),
-                  Color(0xFF0B9860),
+      itemBuilder: (context, index) {
+        final area = areas[index];
+        return Card(
+          elevation: 0,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => _openReference(GuidelineCategory.hseReference),
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(area.$1, style: const TextStyle(fontSize: 25)),
+                  const SizedBox(height: 7),
+                  Text(
+                    area.$2,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: navy,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
             ),
-            child: const Center(
-              child: Icon(
-                Icons.image_not_supported_rounded,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
-  // ==========================================================
-  // QUICK ACTIONS TITLE
-  // ==========================================================
-
-  Widget _buildQuickActionsTitle() {
+  Widget _sectionTitle(String title, String subtitle) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Quick Actions',
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                   color: navy,
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 3),
               Text(
-                'Take action for a safer workplace',
-                style: TextStyle(
+                subtitle,
+                style: const TextStyle(
                   color: Color(0xFF607D8B),
-                  fontSize: 10.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 6,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE3F6EC),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.shield_rounded,
-                color: primaryGreen,
-                size: 15,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'SAFETY FIRST',
-                style: TextStyle(
-                  color: darkGreen,
-                  fontSize: 8.5,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
                 ),
               ),
             ],
@@ -665,173 +495,42 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  // ==========================================================
-  // QUICK ACTIONS
-  // ==========================================================
-
-  Widget _buildQuickActions() {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: _quickActionCard(
-            title: 'SafeNexus WorkHub',
-            subtitle: 'Plan & control HSE work',
-            icon: Icons.work_rounded,
-            iconColor: primaryGreen,
-            background: const Color(0xFFEAF8F0),
-            onTap: () {
-              _openPage(const WorkHubPage());
-            },
-          ),
-        ),
-        const SizedBox(height: 11),
-        Row(
-          children: [
-            Expanded(
-              child: _quickActionCard(
-                title: 'Report Hazard',
-                subtitle: 'Unsafe condition',
-                icon: Icons.warning_rounded,
-                iconColor: const Color(0xFFC51E30),
-                background: const Color(0xFFFFF2F2),
-                onTap: () {
-                  _openPage(
-                    const HazardReportPage(),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 11),
-            Expanded(
-              child: _quickActionCard(
-                title: 'Voice Report',
-                subtitle: 'Speak your concern',
-                icon: Icons.mic_rounded,
-                iconColor: const Color(0xFF5A1BB8),
-                background: const Color(0xFFF4EEFF),
-                onTap: () {
-                  _showMessage(
-                    'Voice Report',
-                    'Voice reporting can be connected here.',
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 11),
-        Row(
-          children: [
-            Expanded(
-              child: _quickActionCard(
-                title: 'Safety Observation',
-                subtitle: 'Observe & record',
-                icon: Icons.visibility_rounded,
-                iconColor: const Color(0xFF1475D1),
-                background: const Color(0xFFEDF7FF),
-                onTap: () {
-                  _openPage(
-                    const SafetyObservationPage(),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 11),
-            Expanded(
-              child: _quickActionCard(
-                title: 'HSE Guidelines',
-                subtitle: 'UAE safety guidance',
-                icon: Icons.menu_book_rounded,
-                iconColor: primaryGreen,
-                background: const Color(0xFFEBF9F1),
-                onTap: _openGuidelines,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 11),
-        _quickActionCard(
-          title: 'TBT - Toolbox Talk',
-          subtitle: '100 safety briefing topics',
-          icon: Icons.handyman_rounded,
-          iconColor: darkGreen,
-          background: const Color(0xFFEAF8F0),
-          onTap: () {
-            _openPage(const TbtHomePage());
-          },
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // QUICK ACTION CARD
-  // ==========================================================
-
-  Widget _quickActionCard({
+  Widget _actionCard({
+    required IconData icon,
     required String title,
     required String subtitle,
-    required IconData icon,
-    required Color iconColor,
-    required Color background,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: background,
-      borderRadius: BorderRadius.circular(20),
+    return Card(
+      elevation: 0,
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
         child: Padding(
           padding: const EdgeInsets.all(14),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 51,
-                height: 51,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Icon(
-                  icon,
-                  color: iconColor,
-                  size: 27,
+              Icon(icon, color: green, size: 28),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: navy,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 13,
                 ),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 9.5,
-                      ),
-                    ),
-                  ],
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF607D8B),
+                  fontSize: 10.5,
+                  height: 1.35,
                 ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: iconColor,
-                size: 22,
               ),
             ],
           ),
@@ -840,1240 +539,71 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  // ==========================================================
-  // SAFETY OVERVIEW
-  // ==========================================================
-
-  Widget _buildSafetyOverview() {
-    return Container(
-      padding: const EdgeInsets.all(17),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(23),
-        border: Border.all(
-          color: const Color(0xFFE1EAF0),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(12),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'Safety Overview',
-                  style: TextStyle(
-                    color: navy,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF8F0),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Text(
-                  'LIVE',
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.warning_amber_rounded,
-                  iconColor: const Color(0xFFC51E30),
-                  value: _loadingStats
-                      ? '...'
-                      : _hazards.toString(),
-                  title: 'Hazards',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.visibility_rounded,
-                  iconColor: const Color(0xFF1475D1),
-                  value: _loadingStats
-                      ? '...'
-                      : _observations.toString(),
-                  title: 'Observations',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.pending_actions_rounded,
-                  iconColor: const Color(0xFFB16A00),
-                  value: _loadingStats
-                      ? '...'
-                      : _openReports.toString(),
-                  title: 'Open Reports',
-                ),
-              ),
-              _overviewDivider(),
-              Expanded(
-                child: _overviewMetric(
-                  icon: Icons.assignment_turned_in_rounded,
-                  iconColor: primaryGreen,
-                  value: _loadingStats
-                      ? '...'
-                      : _totalReports.toString(),
-                  title: 'Total Reports',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // OVERVIEW METRIC
-  // ==========================================================
-
-  Widget _overviewMetric({
-    required IconData icon,
-    required Color iconColor,
-    required String value,
+  Widget _referenceCard({
+    required String icon,
     required String title,
+    required String subtitle,
+    required VoidCallback onTap,
   }) {
-    return Column(
-      children: [
-        Container(
-          width: 37,
-          height: 37,
-          decoration: BoxDecoration(
-            color: iconColor.withAlpha(18),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: 20,
-          ),
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 7,
         ),
-        const SizedBox(height: 7),
-        Text(
-          value,
+        leading: CircleAvatar(
+          backgroundColor: green.withAlpha(20),
+          child: Text(icon, style: const TextStyle(fontSize: 20)),
+        ),
+        title: Text(
+          title,
           style: const TextStyle(
             color: navy,
-            fontSize: 20,
             fontWeight: FontWeight.w900,
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFF607D8B),
-            fontSize: 8.5,
-            fontWeight: FontWeight.w600,
-          ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 3),
+          child: Text(subtitle),
         ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // OVERVIEW DIVIDER
-  // ==========================================================
-
-  Widget _overviewDivider() {
-    return Container(
-      width: 1,
-      height: 66,
-      color: const Color(0xFFE2E9ED),
-    );
-  }
-
-  // ==========================================================
-  // REFERENCE PREVIEW
-  // ==========================================================
-
-  Widget _buildReferencePreview() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'UAE HSE Reference',
-                    style: TextStyle(
-                      color: navy,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Safety guidance across the United Arab Emirates',
-                    style: TextStyle(
-                      color: Color(0xFF607D8B),
-                      fontSize: 10,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              Icons.menu_book_rounded,
-              color: primaryGreen,
-              size: 24,
-            ),
-          ],
-        ),
-        const SizedBox(height: 11),
-        Row(
-          children: [
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'UAE General',
-                count: _uaeGeneralCount,
-                icon: Icons.flag_rounded,
-                color: const Color(0xFF1378C7),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.uaeGeneral,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'Abu Dhabi',
-                count: _abuDhabiCount,
-                icon: Icons.location_city_rounded,
-                color: const Color(0xFF0B7B53),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.abuDhabi,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 9),
-        Row(
-          children: [
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'Dubai',
-                count: _dubaiCount,
-                icon: Icons.apartment_rounded,
-                color: const Color(0xFF6A36C8),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.dubai,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'HSE Reference',
-                count: _hseReferenceCount,
-                icon: Icons.library_books_rounded,
-                color: const Color(0xFFB16A00),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.hseReference,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
-  // REFERENCE MINI CARD
-  // ==========================================================
-
-  Widget _referenceMiniCard({
-    required String title,
-    required int count,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        trailing: const Icon(Icons.chevron_right_rounded),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(13),
-          child: Row(
-            children: [
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: color.withAlpha(20),
-                  borderRadius: BorderRadius.circular(13),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 9),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      '$count topics',
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 9.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 21,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
 
-  // ==========================================================
-  // SAFETY MESSAGE
-  // ==========================================================
-
-  Widget _buildSafetyMessage() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF075B45),
-            Color(0xFF0B9860),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(23),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(20),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.eco_rounded,
-              color: Color(0xFFDFFF91),
-              size: 29,
-            ),
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Small Actions. Big Difference.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Safe Today - Healthy Tomorrow - Stronger UAE',
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: Color(0xFFE2FFB1),
-                    fontSize: 10,
-                    height: 1.25,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // UAE CARD
-  // ==========================================================
-
-  Widget _buildUaeCard() {
-    return Container(
-      padding: const EdgeInsets.all(17),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE9F8F1),
-        borderRadius: BorderRadius.circular(21),
-        border: Border.all(
-          color: const Color(0xFFCDEBDD),
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x12000000),
-            blurRadius: 12,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
-              color: Color(0xFFD7F0E3),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              Icons.flag_rounded,
-              color: Color(0xFF159447),
-              size: 30,
-            ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'UAE-wide HSE Safety App',
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 3),
-                Text(
-                  'Built for HSE professionals and safer workplaces across the United Arab Emirates.',
-                  style: TextStyle(
-                    color: Color(0xFF527064),
-                    fontSize: 10,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // GUIDELINES HOME
-  // ==========================================================
-
-  Widget _buildGuidelinesHome() {
-    return SafeArea(
-      child: Column(
-        children: [
-          _simplePageHeader(
-            title: 'HSE Guidelines',
-            subtitle: 'UAE Regulations & Best Practices',
-            icon: Icons.menu_book_rounded,
-          ),
-          const Expanded(
-            child: GuidelinesPage(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // REPORT HOME
-  // ==========================================================
-
-  void _openCanonicalFromHome(Widget page) {
-    _openPage(page);
-  }
-
-  Widget _buildReportHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'Safety Reports',
-            subtitle:
-                'Report an unsafe condition or workplace hazard',
-            icon: Icons.warning_rounded,
-          ),
-          const SizedBox(height: 12),
-          _reportChoiceCard(
-            title: 'Report Hazard',
-            subtitle:
-                'Report an unsafe condition or workplace hazard.',
-            icon: Icons.warning_rounded,
-            color: const Color(0xFFC51E30),
-            onTap: () {
-              _openPage(
-                const HazardReportPage(),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          _reportChoiceCard(
-            title: 'HSE Analytics',
-            subtitle: 'KPIs, trends, completion rates and management metrics',
-            icon: Icons.analytics_outlined,
-            color: Color(0xFF159447),
-            onTap: () => _openCanonicalFromHome(const HseAnalyticsCenterPage()),
-          ),
-          const SizedBox(height: 10),
-          _reportChoiceCard(
-            title: 'Alert Center',
-            subtitle: 'Critical risks, overdue actions, permits and expiry alerts',
-            icon: Icons.notifications_active_outlined,
-            color: Color(0xFF8A4B08),
-            onTap: () => _openCanonicalFromHome(const SafeNexusAlertCenterPage()),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // REPORT CHOICE CARD
-  // ==========================================================
-
-  Widget _reportChoiceCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(22),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(22),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Row(
-            children: [
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  color: color.withAlpha(20),
-                  borderRadius: BorderRadius.circular(17),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 30,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 12,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 28,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // LEARNING HOME
-  // ==========================================================
-
-  Widget _buildLearningHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'Learning Center',
-            subtitle: 'Build Knowledge - Build a Safer You',
-            icon: Icons.school_rounded,
-          ),
-          const SizedBox(height: 16),
-          _learningCard(
-            title: 'TBT - Toolbox Talk',
-            subtitle: '100 ready-to-use toolbox talk topics for site teams.',
-            icon: Icons.handyman_rounded,
-            color: darkGreen,
-            onTap: () {
-              _openPage(const TbtHomePage());
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'UAE General HSE',
-            subtitle:
-                'Explore UAE-wide safety guidance and best practices.',
-            icon: Icons.flag_rounded,
-            color: const Color(0xFF1475D1),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.uaeGeneral,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Abu Dhabi HSE',
-            subtitle:
-                'Explore Abu Dhabi specific HSE requirements.',
-            icon: Icons.location_city_rounded,
-            color: primaryGreen,
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.abuDhabi,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Dubai HSE',
-            subtitle:
-                'Explore Dubai safety requirements and guidance.',
-            icon: Icons.apartment_rounded,
-            color: const Color(0xFF6330D7),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.dubai,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          _learningCard(
-            title: 'Professional HSE Reference',
-            subtitle:
-                'Useful professional HSE reference topics.',
-            icon: Icons.library_books_rounded,
-            color: const Color(0xFFB16A00),
-            onTap: () {
-              _openGuidelineCategory(
-                GuidelineCategory.hseReference,
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // LEARNING CARD
-  // ==========================================================
-
-  Widget _learningCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(21),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(21),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(17),
-          child: Row(
-            children: [
-              Container(
-                width: 57,
-                height: 57,
-                decoration: BoxDecoration(
-                  color: color.withAlpha(20),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 29,
-                ),
-              ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 11.5,
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 26,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // SETTINGS HOME
-  // ==========================================================
-
-  Widget _buildSettingsHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'Settings',
-            subtitle: 'SafeNexus HSE app settings',
-            icon: Icons.settings_rounded,
-          ),
-          const SizedBox(height: 16),
-          _settingsAction(
-            title: 'App Information',
-            subtitle: 'SafeNexus HSE - UAE-wide HSE Safety App',
-            icon: Icons.info_outline_rounded,
-            onTap: () {
-              _showMessage(
-                'SafeNexus HSE',
-                'UAE-wide HSE Safety App for safer workplaces.',
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'HSE Guidelines',
-            subtitle: 'UAE General, Abu Dhabi, Dubai & HSE references',
-            icon: Icons.menu_book_rounded,
-            onTap: _openGuidelines,
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'WorkHub',
-            subtitle: 'HSE work planning and control',
-            icon: Icons.work_outline_rounded,
-            onTap: () {
-              _openPage(const WorkHubPage());
-            },
-          ),
-          const SizedBox(height: 10),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'Workflow & Approval',
-            subtitle: 'Review, approve and track HSE workflow actions',
-            icon: Icons.approval_outlined,
-            onTap: () => _openCanonicalFromHome(const HseWorkflowApprovalPage()),
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'Access Control',
-            subtitle: 'HSE roles, access and authorization controls',
-            icon: Icons.admin_panel_settings_outlined,
-            onTap: () => _openCanonicalFromHome(const HseAccessControlPage()),
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'Backup & Recovery',
-            subtitle: 'Backup records, verification and recovery readiness',
-            icon: Icons.backup_outlined,
-            onTap: () => _openCanonicalFromHome(const HseBackupRecoveryPage()),
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'Unified Data Center',
-            subtitle: 'Cross-module HSE records and data management',
-            icon: Icons.storage_outlined,
-            onTap: () => _openCanonicalFromHome(const SafeNexusUnifiedDataCenterPage()),
-          ),
-          const SizedBox(height: 10),
-          _settingsAction(
-            title: 'Observation History',
-            subtitle: 'View submitted safety observations and reports',
-            icon: Icons.history_rounded,
-            onTap: () {
-              _openPage(const ObservationHistoryPage());
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // SETTINGS ACTION
-  // ==========================================================
-
-  Widget _settingsAction({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Container(
-                width: 47,
-                height: 47,
-                decoration: BoxDecoration(
-                  color: primaryGreen.withAlpha(18),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(
-                  icon,
-                  color: primaryGreen,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 10.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: primaryGreen,
-                size: 25,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // PROFILE HOME
-  // ==========================================================
-
-  Widget _buildProfileHome() {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          _simplePageHeader(
-            title: 'SafeNexus Profile',
-            subtitle: 'Your HSE safety workspace',
-            icon: Icons.person_rounded,
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF0A8653),
-                  Color(0xFF075B45),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: const Column(
-              children: [
-                CircleAvatar(
-                  radius: 34,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person_rounded,
-                    size: 39,
-                    color: Color(0xFF075B45),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'HSE Professional',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'SafeNexus HSE 鈥� UAE',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          _profileAction(
-            title: 'Observation History',
-            subtitle: 'View your submitted safety reports',
-            icon: Icons.history_rounded,
-            onTap: () {
-              _openPage(
-                const ObservationHistoryPage(),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          _profileAction(
-            title: 'UAE HSE Guidelines',
-            subtitle: 'Open safety reference library',
-            icon: Icons.menu_book_rounded,
-            onTap: _openGuidelines,
-          ),
-          const SizedBox(height: 10),
-          _profileAction(
-            title: 'About SafeNexus HSE',
-            subtitle: 'UAE-wide HSE safety platform',
-            icon: Icons.info_outline_rounded,
-            onTap: () {
-              _showMessage(
-                'SafeNexus HSE',
-                'Safe People 鈥� Safe Workplaces 鈥� Safer UAE',
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          _buildUaeCard(),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================================
-  // PROFILE ACTION
-  // ==========================================================
-
-  Widget _profileAction({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Container(
-                width: 47,
-                height: 47,
-                decoration: BoxDecoration(
-                  color: primaryGreen.withAlpha(18),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(
-                  icon,
-                  color: primaryGreen,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 10.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: primaryGreen,
-                size: 25,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // SIMPLE PAGE HEADER
-  // ==========================================================
-
-  Widget _simplePageHeader({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        18,
-        12,
-        18,
-        4,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(17),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(21),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(12),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: primaryGreen.withAlpha(20),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Icon(
-                icon,
-                color: primaryGreen,
-                size: 27,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: navy,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: Color(0xFF607D8B),
-                      fontSize: 10.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
-  // GUIDELINE CATEGORY
-  // ==========================================================
-
-  Future<void> _openGuidelineCategory(
-    GuidelineCategory category,
-  ) async {
-    if (category == GuidelineCategory.abuDhabi) {
-      await _openPage(
-        const AbuDhabiGoldRootPage(),
-      );
-      return;
-    }
-
-    await _openPage(
-      GuidelinesPage(
-        initialCategory: category,
-      ),
-    );
-  }
-
-  // ==========================================================
-  // MESSAGE
-  // ==========================================================
-
-  void _showMessage(
+  Widget _largeAction(
+    IconData icon,
     String title,
-    String message,
+    String subtitle,
+    VoidCallback onTap,
   ) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22),
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(14),
+        leading: CircleAvatar(
+          radius: 25,
+          backgroundColor: green.withAlpha(20),
+          child: Icon(icon, color: green),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: navy,
+            fontWeight: FontWeight.w900,
           ),
-          title: Text(
-            title,
-            style: const TextStyle(
-              color: navy,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          content: Text(
-            message,
-            style: const TextStyle(
-              color: Color(0xFF455A64),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'OK',
-                style: TextStyle(
-                  color: primaryGreen,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text(subtitle),
+        ),
+        trailing: const Icon(Icons.chevron_right_rounded),
+        onTap: onTap,
+      ),
     );
   }
 }
