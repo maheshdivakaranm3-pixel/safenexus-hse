@@ -55,7 +55,6 @@ class SafeNexusApp extends StatelessWidget {
 class SafeNexusHomePage extends StatefulWidget {
   const SafeNexusHomePage({super.key});
 
-  static const Color darkGreen = Color(0xFF075B45);
 
   @override
   State<SafeNexusHomePage> createState() => _SafeNexusHomePageState();
@@ -63,17 +62,10 @@ class SafeNexusHomePage extends StatefulWidget {
 
 class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color green = Color(0xFF159447);
+  static const Color darkGreen = Color(0xFF075B45);
   static const Color navy = Color(0xFF082653);
 
   int _index = 0;
-
-  final List<String> _titles = const [
-    'SafeNexus HSE',
-    'Safety Reporting',
-    'HSE WorkHub',
-    'HSE Reference',
-    'Settings',
-  ];
 
   void _open(Widget page) {
     Navigator.of(context).push(
@@ -94,9 +86,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _titles[_index],
-          style: const TextStyle(fontWeight: FontWeight.w800),
+        backgroundColor: Colors.white,
+        foregroundColor: darkGreen,
+        toolbarHeight: 68,
+        titleSpacing: 10,
+        title: Image.asset(
+          'assets/images/safenexus_hse_header_mobile.png',
+          height: 54,
+          fit: BoxFit.contain,
+          alignment: Alignment.centerLeft,
         ),
         actions: [
           IconButton(
@@ -239,57 +237,15 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   Widget _hero() {
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF159447),
-            Color(0xFF075B45),
-          ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: AspectRatio(
+        aspectRatio: 1672 / 941,
+        child: Image.asset(
+          'assets/images/safenexus_hse_banner.png',
+          width: double.infinity,
+          fit: BoxFit.cover,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(25),
-            blurRadius: 16,
-            offset: const Offset(0, 7),
-          ),
-        ],
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '🇦🇪 UAE HSE',
-            style: TextStyle(
-              color: Colors.white70,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.1,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'SafeNexus HSE',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 29,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          SizedBox(height: 7),
-          Text(
-            'Professional UAE HSE Field Safety Application',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              height: 1.4,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
       ),
     );
   }
