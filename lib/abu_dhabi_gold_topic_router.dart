@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'data/abu_dhabi_specialist_hse_complete_gold.dart';
 import 'data/abu_dhabi_5AJ_part1_interfaces_specialist_plant_gold.dart';
 import 'data/abu_dhabi_5AJ_part2_gap_duplicate_cop36_gold.dart';
+import 'data/abu_dhabi_5AB_to_5AE_plant_haulage_compaction_gold.dart';
+import 'data/abu_dhabi_5AF_to_5AI_paver_trencher_compressor_generator_gold.dart';
+import 'data/abu_dhabi_5S_to_5V_mobile_material_handling_gold.dart';
+import 'data/abu_dhabi_5W_to_5Z_earthmoving_gold.dart';
 import 'data/abu_dhabi_forklift_powered_lift_trucks_gold.dart';
 import 'data/abu_dhabi_mewp_gold.dart';
 import 'data/abu_dhabi_crane_lifting_book_gold.dart';
-import 'data/abu_dhabi_5S_to_5V_mobile_material_handling_gold.dart';
-import 'data/abu_dhabi_5W_to_5Z_earthmoving_gold.dart';
-import 'data/abu_dhabi_5AB_to_5AE_plant_haulage_compaction_gold.dart';
-import 'data/abu_dhabi_5AF_to_5AI_paver_trencher_compressor_generator_gold.dart';
 import 'models/reference_topic.dart';
 
 /// Step 5AK-A: central Gold Standard router.
@@ -28,7 +28,7 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
         regulatory: 'ADPHC CoP 23.0 — Working at Heights — V4.1; effective 27 February 2026.',
       );
     case 'ad_cop_26_0':
-      return ScaffoldingGoldPilotPage(
+      return ScaffoldingGoldBookPage(
         topic: topic,
         sections: scaffoldingGoldStandardSections,
         regulatory: 'ADPHC CoP 26.0 — Scaffolding — V4.1; effective 27 February 2026.',
@@ -117,20 +117,22 @@ Widget? buildAbuDhabiGoldTopicPage(ReferenceTopic topic) {
 }
 
 
-/// Locked pilot implementation for CoP 26.0 Scaffolding.
+/// Production Gold Standard implementation for CoP 26.0 Scaffolding.
 ///
 /// Navigation:
 /// Subject introduction -> 38 chapter points -> point detail ->
 /// tappable sub-points -> sub-point detail.
 ///
-/// The existing Gold data remains the source of the content. This UI layer
-/// does not invent regulatory values or replace the underlying CoP data.
-class ScaffoldingGoldPilotPage extends StatelessWidget {
+/// The existing consolidated Gold data remains the source of the content.
+/// The enhancement layer adds field examples, measurements, checklists,
+/// stop-work points, emergency prompts and visual guidance without creating
+/// a new scaffolding data file.
+class ScaffoldingGoldBookPage extends StatelessWidget {
   final ReferenceTopic topic;
   final List<ScaffoldingGoldSection> sections;
   final String regulatory;
 
-  const ScaffoldingGoldPilotPage({
+  const ScaffoldingGoldBookPage({
     super.key,
     required this.topic,
     required this.sections,
@@ -323,6 +325,7 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = section.point;
+    final enhancement = scaffoldingGoldEnhancements[section.title];
 
     final subPoints = <_ScaffoldingSubPoint>[
       _ScaffoldingSubPoint('Meaning / What this means', p.meaning),
@@ -449,7 +452,117 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
               ),
             ),
           ),
+          if (enhancement != null) ...[
+            const SizedBox(height: 10),
+            const Text(
+              'Gold Standard Field Layer',
+              style: TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.w900,
+                color: darkGreen,
+              ),
+            ),
+            const SizedBox(height: 7),
+            _enhancementCard('Regulatory Basis', enhancement.regulatory, Icons.gavel),
+            _enhancementCard('Measurements / Limits', enhancement.measurements, Icons.straighten),
+            _enhancementCard('Field Example', enhancement.fieldExample, Icons.construction),
+            _visualCard(enhancement.visualGuide),
+            _enhancementCard('Field Checklist', enhancement.checklist, Icons.fact_check_outlined),
+            _enhancementCard('Stop-Work Conditions', enhancement.stopWork, Icons.stop_circle_outlined),
+            _enhancementCard('Emergency / Rescue', enhancement.emergency, Icons.emergency_outlined),
+            _enhancementCard('Interview Question', enhancement.interview, Icons.school_outlined),
+            _enhancementCard('Official / Control Reference', enhancement.reference, Icons.menu_book_outlined),
+          ],
         ],
+      ),
+    );
+  }
+
+  Widget _enhancementCard(String title, String detail, IconData icon) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: green),
+            const SizedBox(width: 11),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    detail,
+                    style: const TextStyle(fontSize: 14.5, height: 1.55),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _visualCard(String guide) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.account_tree_outlined, color: green),
+                SizedBox(width: 11),
+                Text(
+                  'Visual Field Guide',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: darkGreen,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(13),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: green.withValues(alpha: 0.07),
+                border: Border.all(color: green.withValues(alpha: 0.18)),
+              ),
+              child: Text(
+                guide,
+                style: const TextStyle(
+                  fontSize: 14.5,
+                  height: 1.55,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 9),
+            const Text(
+              'SafeNexus visual principle: use a simple diagram/illustration whenever a measurement, sequence, component relationship or safe/unsafe condition is easier to understand visually.',
+              style: TextStyle(fontSize: 12.8, height: 1.45),
+            ),
+          ],
+        ),
       ),
     );
   }
