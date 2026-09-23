@@ -353,32 +353,32 @@ class WorkHubPage extends StatelessWidget {
             icon: Icons.auto_graph_outlined,
             title: 'Advanced HSE (Steps 51–60)',
             subtitle: 'Leadership, risk intelligence, performance, assurance and management intelligence',
-            onTap: (context) => _openCanonical(context, const SafeNexusSteps51To60AdvancedHSEPage()),
+            onTap: () => _openCanonical(context, const SafeNexusSteps51To60AdvancedHSEPage()),
           ),
           _featureSliver(
             icon: Icons.insights_outlined,
             title: 'Operations Intelligence (Steps 61–70)',
             subtitle: 'Operational performance, evidence, emergency and workforce intelligence',
-            onTap: (context) => _openCanonical(context, const SafeNexusSteps61To70AdvancedOperationsIntelligencePage()),
+            onTap: () => _openCanonical(context, const SafeNexusSteps61To70AdvancedOperationsIntelligencePage()),
           ),
           _featureSliver(
             icon: Icons.hub_outlined,
             title: 'Digital Enterprise Intelligence (Steps 71–80)',
             subtitle: 'Workflow orchestration, knowledge, analytics, resilience and enterprise HSE',
-            onTap: (context) => _openCanonical(context, const SafeNexusSteps71To80DigitalEcosystemPage()),
+            onTap: () => _openCanonical(context, const SafeNexusSteps71To80DigitalEcosystemPage()),
           ),
           _featureSliver(
             icon: Icons.psychology_outlined,
             title: 'AI & Decision Intelligence (Steps 81–90)',
             subtitle: 'AI-assisted risk, incident intelligence, predictive analytics and workflow automation',
-            onTap: (context) => _openCanonical(context, const SafeNexusSteps81To90AiIntelligencePage()),
+            onTap: () => _openCanonical(context, const SafeNexusSteps81To90AiIntelligencePage()),
           ),
           _featureSliver(
             icon: Icons.domain_outlined,
             title: 'Ultimate Enterprise HSE (Steps 91–100)',
             subtitle: 'Critical risk, crisis, human performance, supply-chain and enterprise governance',
             bottomPadding: 18,
-            onTap: (context) => _openCanonical(context, const SafeNexusSteps91To100UltimateHsePage()),
+            onTap: () => _openCanonical(context, const SafeNexusSteps91To100UltimateHsePage()),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -403,80 +403,80 @@ class WorkHubPage extends StatelessWidget {
             icon: Icons.integration_instructions,
             title: 'Master Integration (Step 101)',
             subtitle: 'Architecture, navigation, storage and workflow integration guidance',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep101MasterIntegrationPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep101MasterIntegrationPage()),
           ),
           _featureSliver(
             icon: Icons.account_tree_outlined,
             title: 'Master Navigation Hub (Step 102)',
             subtitle: 'Enterprise HSE module navigation and Abu Dhabi Gold entry points',
-            onTap: (context) => _openStep101To125(context, const SafenexusStep102MasterNavigationIntegrationHub()),
+            onTap: () => _openStep101To125(context, const SafenexusStep102MasterNavigationIntegrationHub()),
           ),
           _featureSliver(
             icon: Icons.sync_alt_outlined,
             title: 'Unified Workflow (Step 103)',
             subtitle: 'Cross-module workflow orchestration and status flow',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep103UnifiedWorkflowPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep103UnifiedWorkflowPage()),
           ),
           _featureSliver(
             icon: Icons.photo_library_outlined,
             title: 'Unified Evidence Intelligence (Step 104)',
             subtitle: 'Evidence review, status and cross-module intelligence',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep104UnifiedEvidencePage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep104UnifiedEvidencePage()),
           ),
           _featureSliver(
             icon: Icons.shield_outlined,
             title: 'Unified Risk Control Evidence (Step 105)',
             subtitle: 'Risk controls, evidence and closure intelligence',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep105UnifiedRiskControlPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep105UnifiedRiskControlPage()),
           ),
           _featureSliver(
             icon: Icons.hub_outlined,
             title: 'WorkHub Navigation Integration (Step 106)',
             subtitle: 'WorkHub setup and module integration guidance',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep106WorkHubIntegrationPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep106WorkHubIntegrationPage()),
           ),
           _featureSliver(
             icon: Icons.link_outlined,
             title: 'Unified Data & Record Linking (Step 107)',
             subtitle: 'Cross-module record linkage architecture',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep107UnifiedRecordLinkingPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep107UnifiedRecordLinkingPage()),
           ),
           _featureSliver(
             icon: Icons.account_tree_outlined,
             title: 'Cross-Module Workflow (Step 108)',
             subtitle: 'Workflow stages across HSE modules',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
           ),
           _featureSliver(
             icon: Icons.dashboard_outlined,
             title: 'Global HSE Dashboard (Step 109)',
             subtitle: 'Enterprise HSE dashboard and domain intelligence',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep109GlobalHseDashboardPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep109GlobalHseDashboardPage()),
           ),
           _featureSliver(
             icon: Icons.verified_outlined,
             title: 'Release Readiness (Step 110)',
             subtitle: 'System integration and release-readiness guidance',
-            onTap: (context) => _openStep101To125(context, const SafeNexusStep110FinalIntegrationPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusStep110FinalIntegrationPage()),
           ),
           _featureSliver(
             icon: Icons.search_outlined,
             title: 'Record Search & Filter (Step 115)',
             subtitle: 'Search and filter linked daily-work records',
-            onTap: (context) => _openStep101To125(context, const SafeNexusRecordSearchFilterPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusRecordSearchFilterPage()),
           ),
           _featureSliver(
             icon: Icons.description_outlined,
             title: 'Record Detail Review (Step 116)',
             subtitle: 'Review linked record details and evidence',
-            onTap: (context) => _openStep101To125(context, const SafeNexusRecordDetailReviewPage()),
+            onTap: () => _openStep101To125(context, const SafeNexusRecordDetailReviewPage()),
           ),
           _featureSliver(
             icon: Icons.insights_outlined,
             title: 'Record Intelligence (Steps 117–125)',
             subtitle: 'Record-level intelligence, filtering and cross-module insights',
             bottomPadding: 18,
-            onTap: (context) => _openStep101To125(context, const SafeNexusSteps117125Page()),
+            onTap: () => _openStep101To125(context, const SafeNexusSteps117125Page()),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -534,11 +534,11 @@ class WorkHubPage extends StatelessWidget {
     );
   }
 
-  static Widget _featureSliver({
+  Widget _featureSliver({
     required IconData icon,
     required String title,
     required String subtitle,
-    required void Function(BuildContext context) onTap,
+    required VoidCallback onTap,
     double bottomPadding = 0,
   }) {
     return SliverToBoxAdapter(
@@ -548,7 +548,7 @@ class WorkHubPage extends StatelessWidget {
           icon: icon,
           title: title,
           subtitle: subtitle,
-          onTap: () => onTap(context),
+          onTap: onTap,
         ),
       ),
     );
