@@ -6,6 +6,10 @@ import 'data/abu_dhabi_5AJ_part2_gap_duplicate_cop36_gold.dart';
 import 'data/abu_dhabi_forklift_powered_lift_trucks_gold.dart';
 import 'data/abu_dhabi_mewp_gold.dart';
 import 'data/abu_dhabi_crane_lifting_book_gold.dart';
+import 'data/abu_dhabi_5S_to_5V_mobile_material_handling_gold.dart';
+import 'data/abu_dhabi_5W_to_5Z_earthmoving_gold.dart';
+import 'data/abu_dhabi_5AB_to_5AE_plant_haulage_compaction_gold.dart';
+import 'data/abu_dhabi_5AF_to_5AI_paver_trencher_compressor_generator_gold.dart';
 import 'models/reference_topic.dart';
 
 /// Step 5AK-A: central Gold Standard router.
