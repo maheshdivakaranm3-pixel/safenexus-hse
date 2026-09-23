@@ -8,6 +8,7 @@ import 'guidelines.dart';
 import 'hazard_report.dart';
 import 'observation_history.dart';
 import 'safety_observation.dart';
+import 'voice_report.dart';
 import 'models/guideline_category.dart';
 
 import 'data/abu_dhabi_guidelines.dart';
@@ -342,11 +343,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         index: _currentIndex,
         children: [
           _buildDashboard(),
-          _buildGuidelinesHome(),
           _buildReportHome(),
-          _buildLearningHome(),
+          const WorkHubPage(),
+          _buildGuidelinesHome(),
           _buildSettingsHome(),
-          _buildProfileHome(),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
@@ -359,7 +359,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   Widget _buildBottomNavigation() {
     return NavigationBar(
-      height: 76,
+      height: 78,
       backgroundColor: Colors.white,
       elevation: 8,
       selectedIndex: _currentIndex,
@@ -379,29 +379,24 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.menu_book_outlined),
-          selectedIcon: Icon(Icons.menu_book_rounded),
-          label: 'Guideline',
-        ),
-        NavigationDestination(
           icon: Icon(Icons.warning_amber_outlined),
           selectedIcon: Icon(Icons.warning_rounded),
           label: 'Report',
         ),
         NavigationDestination(
-          icon: Icon(Icons.school_outlined),
-          selectedIcon: Icon(Icons.school_rounded),
-          label: 'Learning',
+          icon: Icon(Icons.work_outline_rounded),
+          selectedIcon: Icon(Icons.work_rounded),
+          label: 'WorkHub',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.menu_book_outlined),
+          selectedIcon: Icon(Icons.menu_book_rounded),
+          label: 'Reference',
         ),
         NavigationDestination(
           icon: Icon(Icons.settings_outlined),
           selectedIcon: Icon(Icons.settings_rounded),
-          label: 'Setting',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.person_outline_rounded),
-          selectedIcon: Icon(Icons.person_rounded),
-          label: 'Profile',
+          label: 'Settings',
         ),
       ],
     );
@@ -413,54 +408,30 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   Widget _buildDashboard() {
     return SafeArea(
+      top: false,
       child: RefreshIndicator(
         onRefresh: _loadDashboardStats,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(
-            16,
-            8,
-            16,
-            28,
-          ),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
           children: [
-            // ==================================================
-            // SAFE NEXUS HSE HEADER
-            // ==================================================
-
             _buildProfessionalHeader(),
-
-            const SizedBox(height: 14),
-
-            // ==================================================
-            // UAE HERO BANNER
-            // ==================================================
-
             _buildProfessionalHero(),
-
-            const SizedBox(height: 20),
-
-            _buildQuickActionsTitle(),
-
-            const SizedBox(height: 10),
-
-            _buildQuickActions(),
-
-            const SizedBox(height: 20),
-
-            _buildSafetyOverview(),
-
-            const SizedBox(height: 20),
-
-            _buildReferencePreview(),
-
-            const SizedBox(height: 20),
-
-            _buildSafetyMessage(),
-
-            const SizedBox(height: 16),
-
-            _buildUaeCard(),
+            const SizedBox(height: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildQuickActionsTitle(),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildQuickActions(),
+            ),
+            const SizedBox(height: 18),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildReferencePreview(),
+            ),
           ],
         ),
       ),
@@ -481,21 +452,21 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Widget _buildProfessionalHeader() {
     return Container(
       width: double.infinity,
-      height: 120,
+      height: 132,
       color: Colors.white,
-      child: Row(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                top: 8,
-                bottom: 8,
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 44,
+              vertical: 8,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: double.infinity,
               child: Image.asset(
                 'assets/images/safenexus_hse_header_mobile.png',
-                width: double.infinity,
-                height: double.infinity,
                 fit: BoxFit.contain,
                 alignment: Alignment.center,
                 errorBuilder: (context, error, stackTrace) {
@@ -504,8 +475,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                       'SafeNexus HSE',
                       style: TextStyle(
                         color: navy,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 22,
                       ),
                     ),
                   );
@@ -513,22 +484,24 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
               ),
             ),
           ),
-          SizedBox(
-            width: 58,
-            child: IconButton(
-              tooltip: 'Observation History',
-              padding: EdgeInsets.zero,
-              onPressed: () {
-                _openPage(const ObservationHistoryPage());
-              },
-              icon: const Icon(
-                Icons.history_rounded,
-                color: darkGreen,
-                size: 30,
+          Positioned(
+            right: 18,
+            top: 0,
+            bottom: 0,
+            child: Center(
+              child: IconButton(
+                tooltip: 'Observation History',
+                onPressed: () {
+                  _openPage(const ObservationHistoryPage());
+                },
+                icon: const Icon(
+                  Icons.history_rounded,
+                  color: darkGreen,
+                  size: 31,
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 4),
         ],
       ),
     );
@@ -542,53 +515,43 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
 
   Widget _buildProfessionalHero() {
-    return Container(
-      width: double.infinity,
-      height: 155,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(22),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(24),
+        ),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.asset(
+            'assets/images/safenexus_hse_banner.png',
+            width: double.infinity,
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF063E73),
+                      Color(0xFF075B45),
+                      Color(0xFF0B9860),
+                    ],
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.image_not_supported_rounded,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
-      child: Image.asset(
-        'assets/images/safenexus_hse_banner.png',
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-        errorBuilder: (
-          context,
-          error,
-          stackTrace,
-        ) {
-          return Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF063E73),
-                  Color(0xFF075B45),
-                  Color(0xFF0B9860),
-                ],
-              ),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.image_not_supported_rounded,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          );
-        },
+        ),
       ),
     );
   }
@@ -598,58 +561,23 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
 
   Widget _buildQuickActionsTitle() {
-    return Row(
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Quick Actions',
-                style: TextStyle(
-                  color: navy,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(height: 2),
-              Text(
-                'Take action for a safer workplace',
-                style: TextStyle(
-                  color: Color(0xFF607D8B),
-                  fontSize: 10.5,
-                ),
-              ),
-            ],
+        Text(
+          'Quick Safety Actions',
+          style: TextStyle(
+            color: navy,
+            fontSize: 27,
+            fontWeight: FontWeight.w900,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 6,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE3F6EC),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.shield_rounded,
-                color: primaryGreen,
-                size: 15,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'SAFETY FIRST',
-                style: TextStyle(
-                  color: darkGreen,
-                  fontSize: 8.5,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ],
+        SizedBox(height: 4),
+        Text(
+          'Field reporting',
+          style: TextStyle(
+            color: Color(0xFF607D8B),
+            fontSize: 16,
           ),
         ),
       ],
@@ -663,94 +591,64 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   Widget _buildQuickActions() {
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: _quickActionCard(
-            title: 'SafeNexus WorkHub',
-            subtitle: 'Plan & control HSE work',
-            icon: Icons.work_rounded,
-            iconColor: primaryGreen,
-            background: const Color(0xFFEAF8F0),
-            onTap: () {
-              _openPage(const WorkHubPage());
-            },
-          ),
-        ),
-        const SizedBox(height: 11),
-        Row(
-          children: [
-            Expanded(
-              child: _quickActionCard(
-                title: 'Report Hazard',
-                subtitle: 'Unsafe condition',
-                icon: Icons.warning_rounded,
-                iconColor: const Color(0xFFC51E30),
-                background: const Color(0xFFFFF2F2),
-                onTap: () {
-                  _openPage(
-                    const HazardReportPage(),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 11),
-            Expanded(
-              child: _quickActionCard(
-                title: 'Voice Report',
-                subtitle: 'Speak your concern',
-                icon: Icons.mic_rounded,
-                iconColor: const Color(0xFF5A1BB8),
-                background: const Color(0xFFF4EEFF),
-                onTap: () {
-                  _showMessage(
-                    'Voice Report',
-                    'Voice reporting can be connected here.',
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 11),
         Row(
           children: [
             Expanded(
               child: _quickActionCard(
                 title: 'Safety Observation',
-                subtitle: 'Observe & record',
+                subtitle: 'Record safe / unsafe conditions',
                 icon: Icons.visibility_rounded,
-                iconColor: const Color(0xFF1475D1),
-                background: const Color(0xFFEDF7FF),
+                iconColor: primaryGreen,
+                background: const Color(0xFFF4F7F1),
                 onTap: () {
-                  _openPage(
-                    const SafetyObservationPage(),
-                  );
+                  _openPage(const SafetyObservationPage());
                 },
               ),
             ),
-            const SizedBox(width: 11),
+            const SizedBox(width: 14),
             Expanded(
               child: _quickActionCard(
-                title: 'HSE Guidelines',
-                subtitle: 'UAE safety guidance',
-                icon: Icons.menu_book_rounded,
+                title: 'Hazard Report',
+                subtitle: 'Report an immediate hazard',
+                icon: Icons.warning_amber_rounded,
                 iconColor: primaryGreen,
-                background: const Color(0xFFEBF9F1),
-                onTap: _openGuidelines,
+                background: const Color(0xFFF4F7F1),
+                onTap: () {
+                  _openPage(const HazardReportPage());
+                },
               ),
             ),
           ],
         ),
-        const SizedBox(height: 11),
-        _quickActionCard(
-          title: 'TBT - Toolbox Talk',
-          subtitle: '100 safety briefing topics',
-          icon: Icons.handyman_rounded,
-          iconColor: darkGreen,
-          background: const Color(0xFFEAF8F0),
-          onTap: () {
-            _openPage(const TbtHomePage());
-          },
+        const SizedBox(height: 14),
+        Row(
+          children: [
+            Expanded(
+              child: _quickActionCard(
+                title: 'Voice Report',
+                subtitle: 'Report by voice',
+                icon: Icons.mic_rounded,
+                iconColor: primaryGreen,
+                background: const Color(0xFFF4F7F1),
+                onTap: () {
+                  _openPage(const VoiceReportPage());
+                },
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: _quickActionCard(
+                title: 'Report History',
+                subtitle: 'Review saved reports',
+                icon: Icons.history_rounded,
+                iconColor: primaryGreen,
+                background: const Color(0xFFF4F7F1),
+                onTap: () {
+                  _openPage(const ObservationHistoryPage());
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -770,59 +668,41 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }) {
     return Material(
       color: background,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
+          padding: const EdgeInsets.fromLTRB(18, 18, 16, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 51,
-                height: 51,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Icon(
-                  icon,
-                  color: iconColor,
-                  size: 27,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 9.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Icon(
-                Icons.chevron_right_rounded,
+                icon,
                 color: iconColor,
-                size: 22,
+                size: 40,
+              ),
+              const SizedBox(height: 14),
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: navy,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 7),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF78909C),
+                  fontSize: 14,
+                  height: 1.25,
+                ),
               ),
             ],
           ),
@@ -1010,105 +890,82 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        const Text(
+          'HSE Reference',
+          style: TextStyle(
+            color: navy,
+            fontSize: 27,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Professional UAE field reference',
+          style: TextStyle(
+            color: Color(0xFF78909C),
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Material(
+          color: const Color(0xFFF4F7F1),
+          borderRadius: BorderRadius.circular(18),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: () {
+              _openGuidelineCategory(GuidelineCategory.uaeGeneral);
+            },
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(18, 18, 16, 18),
+              child: Row(
                 children: [
-                  Text(
-                    'UAE HSE Reference',
-                    style: TextStyle(
-                      color: navy,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w900,
+                  CircleAvatar(
+                    radius: 29,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.menu_book_rounded,
+                      color: primaryGreen,
+                      size: 30,
                     ),
                   ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Safety guidance across the United Arab Emirates',
-                    style: TextStyle(
-                      color: Color(0xFF607D8B),
-                      fontSize: 10,
+                  SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'UAE HSE Reference',
+                          style: TextStyle(
+                            color: navy,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Federal laws, standards and best practices',
+                          style: TextStyle(
+                            color: Color(0xFF78909C),
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: primaryGreen,
+                    size: 30,
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.menu_book_rounded,
-              color: primaryGreen,
-              size: 24,
-            ),
-          ],
-        ),
-        const SizedBox(height: 11),
-        Row(
-          children: [
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'UAE General',
-                count: _uaeGeneralCount,
-                icon: Icons.flag_rounded,
-                color: const Color(0xFF1378C7),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.uaeGeneral,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'Abu Dhabi',
-                count: _abuDhabiCount,
-                icon: Icons.location_city_rounded,
-                color: const Color(0xFF0B7B53),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.abuDhabi,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 9),
-        Row(
-          children: [
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'Dubai',
-                count: _dubaiCount,
-                icon: Icons.apartment_rounded,
-                color: const Color(0xFF6A36C8),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.dubai,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: _referenceMiniCard(
-                title: 'HSE Reference',
-                count: _hseReferenceCount,
-                icon: Icons.library_books_rounded,
-                color: const Color(0xFFB16A00),
-                onTap: () {
-                  _openGuidelineCategory(
-                    GuidelineCategory.hseReference,
-                  );
-                },
-              ),
-            ),
-          ],
+          ),
         ),
       ],
     );
   }
+
 
   // ==========================================================
   // REFERENCE MINI CARD
