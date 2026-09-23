@@ -534,7 +534,7 @@ class WorkHubPage extends StatelessWidget {
                 icon: Icons.integration_instructions,
                 title: 'Master Integration (Step 101)',
                 subtitle: 'Architecture, navigation, storage and workflow integration guidance',
-                onTap: () => _openStep101To125(context, const SafenexusStep101MasterIntegrationPage()),
+                onTap: () => _openStep101To125(context, const SafeNexusStep101MasterIntegrationPage()),
               ),
             ),
           ),
@@ -608,7 +608,7 @@ class WorkHubPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
               child: _FeatureCard(
-                icon: Icons.workflow_outlined,
+                icon: Icons.account_tree_outlined,
                 title: 'Cross-Module Workflow (Step 108)',
                 subtitle: 'Workflow stages across HSE modules',
                 onTap: () => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
