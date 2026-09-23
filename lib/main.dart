@@ -661,56 +661,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // SAFETY OVERVIEW
-  // ==========================================================
-
-
-  // ==========================================================
-  // OVERVIEW METRIC
-  // ==========================================================
-
-) {
-    return Column(
-      children: [
-        Container(
-          width: 37,
-          height: 37,
-          decoration: BoxDecoration(
-            color: iconColor.withAlpha(18),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: 20,
-          ),
-        ),
-        const SizedBox(height: 7),
-        Text(
-          value,
-          style: const TextStyle(
-            color: navy,
-            fontSize: 20,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFF607D8B),
-            fontSize: 8.5,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ==========================================================
   // OVERVIEW DIVIDER
   // ==========================================================
 
@@ -799,72 +749,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-
-  // ==========================================================
-  // REFERENCE MINI CARD
-  // ==========================================================
-
-) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(13),
-          child: Row(
-            children: [
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: color.withAlpha(20),
-                  borderRadius: BorderRadius.circular(13),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 9),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      '$count topics',
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 9.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 21,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   // ==========================================================
   // SAFETY MESSAGE
@@ -1027,71 +911,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
 
   // ==========================================================
-  // LEARNING CARD
-  // ==========================================================
-
-) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(21),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(21),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(17),
-          child: Row(
-            children: [
-              Container(
-                width: 57,
-                height: 57,
-                decoration: BoxDecoration(
-                  color: color.withAlpha(20),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 29,
-                ),
-              ),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 11.5,
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: color,
-                size: 26,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==========================================================
   // SETTINGS HOME
   // ==========================================================
 
@@ -1245,74 +1064,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  // ==========================================================
-  // PROFILE HOME
-  // ==========================================================
-
-
-  // ==========================================================
-  // PROFILE ACTION
-  // ==========================================================
-
-) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Container(
-                width: 47,
-                height: 47,
-                decoration: BoxDecoration(
-                  color: primaryGreen.withAlpha(18),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(
-                  icon,
-                  color: primaryGreen,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: navy,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF607D8B),
-                        fontSize: 10.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: primaryGreen,
-                size: 25,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   // ==========================================================
   // SIMPLE PAGE HEADER
