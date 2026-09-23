@@ -20,7 +20,6 @@ import 'models/hse_work_categories.dart';
 import 'project_pre_start.dart';
 import 'workhub_company_daylog.dart';
 import 'safenexus_integration_center.dart';
-import 'safenexus_unified_data_center.dart';
 import 'hse_document_evidence_center.dart';
 import 'hse_risk_control_center.dart';
 import 'hse_contractor_supplier.dart';
@@ -760,18 +759,6 @@ class _FeatureCard extends StatelessWidget {
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
 
-  void _openStep101To125(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  void _openCanonical(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -840,18 +827,6 @@ class _HeroCard extends StatelessWidget {
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
-
-  void _openStep101To125(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  void _openCanonical(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -946,18 +921,6 @@ class _PhaseCard extends StatelessWidget {
 
   static const Color primaryGreen = Color(0xFF159447);
   static const Color darkGreen = Color(0xFF0B5D4B);
-
-  void _openStep101To125(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  void _openCanonical(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1079,18 +1042,6 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
     }).toList();
   }
 
-  void _openStep101To125(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  void _openCanonical(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final activities = _filtered;
@@ -1206,18 +1157,6 @@ class _ActivityDetailsPage extends StatelessWidget {
 
   static const Color darkGreen = Color(0xFF0B5D4B);
   static const Color primaryGreen = Color(0xFF159447);
-
-  void _openStep101To125(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  void _openCanonical(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
