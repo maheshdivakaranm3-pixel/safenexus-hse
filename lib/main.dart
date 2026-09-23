@@ -27,7 +27,6 @@ class SafeNexusApp extends StatelessWidget {
   const SafeNexusApp({super.key});
 
   static const Color green = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF075B45);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,6 @@ class SafeNexusHomePage extends StatefulWidget {
 
 class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   static const Color green = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF075B45);
   static const Color navy = Color(0xFF082653);
 
   int _index = 0;
