@@ -59,22 +59,102 @@ class WorkHubPage extends StatelessWidget {
   static const Color pageBackground = Color(0xFFF6F8F7);
 
   static const List<_WorkHubPhase> _phases = <_WorkHubPhase>[
-    _WorkHubPhase(1, Icons.folder_copy_outlined, 'Project Pre-Start', 'Project information & setup'),
-    _WorkHubPhase(2, Icons.assignment_outlined, 'HSE Management System', 'Policy, plan, KPI & procedures'),
-    _WorkHubPhase(3, Icons.warning_amber_outlined, 'Risk & Planning', 'HIRA, JSA, JHA, RAMS & risks'),
-    _WorkHubPhase(4, Icons.fact_check_outlined, 'Permit to Work', 'PTW & work permits'),
-    _WorkHubPhase(5, Icons.home_work_outlined, 'Site Mobilization', 'Site setup, welfare & access'),
-    _WorkHubPhase(6, Icons.groups_outlined, 'Workforce & Competency', 'Induction, training & competency'),
-    _WorkHubPhase(7, Icons.construction_outlined, 'Equipment & Machinery', 'Equipment, certificates & inspections'),
-    _WorkHubPhase(8, Icons.local_fire_department_outlined, 'High-Risk Activities', 'Critical work activity controls'),
-    _WorkHubPhase(9, Icons.record_voice_over_outlined, 'Daily HSE Work', 'TBT, inspections & observations'),
-    _WorkHubPhase(10, Icons.emergency_outlined, 'Emergency', 'ERP, drills, rescue & evacuation'),
-    _WorkHubPhase(11, Icons.health_and_safety_outlined, 'Occupational Health', 'Medical, heat stress & welfare'),
-    _WorkHubPhase(12, Icons.science_outlined, 'Chemical & Environment', 'Chemical, waste & environmental records'),
-    _WorkHubPhase(13, Icons.search_outlined, 'Inspection & Audit', 'Inspections, audits & actions'),
-    _WorkHubPhase(14, Icons.car_crash_outlined, 'Incident Management', 'Incident, investigation & lessons learned'),
-    _WorkHubPhase(15, Icons.bar_chart_outlined, 'HSE Reporting', 'Daily, weekly, monthly & KPI'),
-    _WorkHubPhase(16, Icons.account_balance_outlined, 'Legal / Authority', 'UAE & jurisdiction-specific requirements'),
+    _WorkHubPhase(
+      1,
+      Icons.folder_copy_outlined,
+      'Project Pre-Start',
+      'Project information & setup',
+    ),
+    _WorkHubPhase(
+      2,
+      Icons.assignment_outlined,
+      'HSE Management System',
+      'Policy, plan, KPI & procedures',
+    ),
+    _WorkHubPhase(
+      3,
+      Icons.warning_amber_outlined,
+      'Risk & Planning',
+      'HIRA, JSA, JHA, RAMS & risks',
+    ),
+    _WorkHubPhase(
+      4,
+      Icons.fact_check_outlined,
+      'Permit to Work',
+      'PTW & work permits',
+    ),
+    _WorkHubPhase(
+      5,
+      Icons.home_work_outlined,
+      'Site Mobilization',
+      'Site setup, welfare & access',
+    ),
+    _WorkHubPhase(
+      6,
+      Icons.groups_outlined,
+      'Workforce & Competency',
+      'Induction, training & competency',
+    ),
+    _WorkHubPhase(
+      7,
+      Icons.construction_outlined,
+      'Equipment & Machinery',
+      'Equipment, certificates & inspections',
+    ),
+    _WorkHubPhase(
+      8,
+      Icons.local_fire_department_outlined,
+      'High-Risk Activities',
+      'Critical work activity controls',
+    ),
+    _WorkHubPhase(
+      9,
+      Icons.record_voice_over_outlined,
+      'Daily HSE Work',
+      'TBT, inspections & observations',
+    ),
+    _WorkHubPhase(
+      10,
+      Icons.emergency_outlined,
+      'Emergency',
+      'ERP, drills, rescue & evacuation',
+    ),
+    _WorkHubPhase(
+      11,
+      Icons.health_and_safety_outlined,
+      'Occupational Health',
+      'Medical, heat stress & welfare',
+    ),
+    _WorkHubPhase(
+      12,
+      Icons.science_outlined,
+      'Chemical & Environment',
+      'Chemical, waste & environmental records',
+    ),
+    _WorkHubPhase(
+      13,
+      Icons.search_outlined,
+      'Inspection & Audit',
+      'Inspections, audits & actions',
+    ),
+    _WorkHubPhase(
+      14,
+      Icons.car_crash_outlined,
+      'Incident Management',
+      'Incident, investigation & lessons learned',
+    ),
+    _WorkHubPhase(
+      15,
+      Icons.bar_chart_outlined,
+      'HSE Reporting',
+      'Daily, weekly, monthly & KPI',
+    ),
+    _WorkHubPhase(
+      16,
+      Icons.account_balance_outlined,
+      'Legal / Authority',
+      'UAE & jurisdiction-specific requirements',
+    ),
   ];
 
   void _openPhase(BuildContext context, _WorkHubPhase phase) {
@@ -134,7 +214,9 @@ class WorkHubPage extends StatelessWidget {
     }
 
     Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
+      MaterialPageRoute<void>(
+        builder: (_) => page,
+      ),
     );
   }
 
@@ -155,7 +237,10 @@ class WorkHubPage extends StatelessWidget {
     );
   }
 
-  void _openActivity(BuildContext context, HseWorkActivity activity) {
+  void _openActivity(
+    BuildContext context,
+    HseWorkActivity activity,
+  ) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => _ActivityDetailsPage(activity: activity),
@@ -229,7 +314,8 @@ class WorkHubPage extends StatelessWidget {
               child: _FeatureCard(
                 icon: Icons.business_center_outlined,
                 title: 'Company & Daily Work Log',
-                subtitle: 'Company logo, daily records, copy & PDF / Word / Excel / Image export',
+                subtitle:
+                    'Company logo, daily records, copy & PDF / Word / Excel / Image export',
                 onTap: () => _openCompanyDayLog(context),
               ),
             ),
@@ -240,7 +326,8 @@ class WorkHubPage extends StatelessWidget {
               child: _FeatureCard(
                 icon: Icons.link_outlined,
                 title: 'Daily Work Record Linkage',
-                subtitle: 'Link existing PTW, RAMS, Risk, Workforce & Equipment records by ID',
+                subtitle:
+                    'Link existing PTW, RAMS, Risk, Workforce & Equipment records by ID',
                 onTap: () => _openRecordLinkage(context),
               ),
             ),
@@ -251,7 +338,8 @@ class WorkHubPage extends StatelessWidget {
               child: _FeatureCard(
                 icon: Icons.photo_library_outlined,
                 title: 'Daily Work Evidence Hub',
-                subtitle: 'Attach site photos and HSE evidence notes to each Daily Work Record',
+                subtitle:
+                    'Attach site photos and HSE evidence notes to each Daily Work Record',
                 onTap: () => _openEvidenceHub(context),
               ),
             ),
@@ -334,8 +422,8 @@ class WorkHubPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
               child: Row(
-                children: const <Widget>[
-                  Expanded(
+                children: <Widget>[
+                  const Expanded(
                     child: Text(
                       'Advanced HSE & Enterprise Intelligence',
                       style: TextStyle(
@@ -349,43 +437,82 @@ class WorkHubPage extends StatelessWidget {
               ),
             ),
           ),
-          _featureSliver(
-            icon: Icons.auto_graph_outlined,
-            title: 'Advanced HSE (Steps 51–60)',
-            subtitle: 'Leadership, risk intelligence, performance, assurance and management intelligence',
-            onTap: () => _openCanonical(context, const SafeNexusSteps51To60AdvancedHSEPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.auto_graph_outlined,
+                title: 'Advanced HSE (Steps 51–60)',
+                subtitle: 'Leadership, risk intelligence, performance, assurance and management intelligence',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps51To60AdvancedHSEPage(),
+                ),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.insights_outlined,
-            title: 'Operations Intelligence (Steps 61–70)',
-            subtitle: 'Operational performance, evidence, emergency and workforce intelligence',
-            onTap: () => _openCanonical(context, const SafeNexusSteps61To70AdvancedOperationsIntelligencePage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.insights_outlined,
+                title: 'Operations Intelligence (Steps 61–70)',
+                subtitle: 'Operational performance, evidence, emergency and workforce intelligence',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps61To70AdvancedOperationsIntelligencePage(),
+                ),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.hub_outlined,
-            title: 'Digital Enterprise Intelligence (Steps 71–80)',
-            subtitle: 'Workflow orchestration, knowledge, analytics, resilience and enterprise HSE',
-            onTap: () => _openCanonical(context, const SafeNexusSteps71To80DigitalEcosystemPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.hub_outlined,
+                title: 'Digital Enterprise Intelligence (Steps 71–80)',
+                subtitle: 'Workflow orchestration, knowledge, analytics, resilience and enterprise HSE',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps71To80DigitalEcosystemPage(),
+                ),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.psychology_outlined,
-            title: 'AI & Decision Intelligence (Steps 81–90)',
-            subtitle: 'AI-assisted risk, incident intelligence, predictive analytics and workflow automation',
-            onTap: () => _openCanonical(context, const SafeNexusSteps81To90AiIntelligencePage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+              child: _FeatureCard(
+                icon: Icons.psychology_outlined,
+                title: 'AI & Decision Intelligence (Steps 81–90)',
+                subtitle: 'AI-assisted risk, incident intelligence, predictive analytics and workflow automation',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps81To90AiIntelligencePage(),
+                ),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.domain_outlined,
-            title: 'Ultimate Enterprise HSE (Steps 91–100)',
-            subtitle: 'Critical risk, crisis, human performance, supply-chain and enterprise governance',
-            bottomPadding: 18,
-            onTap: () => _openCanonical(context, const SafeNexusSteps91To100UltimateHsePage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 18),
+              child: _FeatureCard(
+                icon: Icons.domain_outlined,
+                title: 'Ultimate Enterprise HSE (Steps 91–100)',
+                subtitle: 'Critical risk, crisis, human performance, supply-chain and enterprise governance',
+                onTap: () => _openCanonical(
+                  context,
+                  const SafeNexusSteps91To100UltimateHsePage(),
+                ),
+              ),
+            ),
           ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
               child: Row(
-                children: const <Widget>[
-                  Expanded(
+                children: <Widget>[
+                  const Expanded(
                     child: Text(
                       'Integration, Evidence & Record Intelligence (Steps 101–125)',
                       style: TextStyle(
@@ -399,84 +526,148 @@ class WorkHubPage extends StatelessWidget {
               ),
             ),
           ),
-          _featureSliver(
-            icon: Icons.integration_instructions,
-            title: 'Master Integration (Step 101)',
-            subtitle: 'Architecture, navigation, storage and workflow integration guidance',
-            onTap: () => _openStep101To125(context, const SafeNexusStep101MasterIntegrationPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.integration_instructions,
+                title: 'Master Integration (Step 101)',
+                subtitle: 'Architecture, navigation, storage and workflow integration guidance',
+                onTap: () => _openStep101To125(context, const SafeNexusStep101MasterIntegrationPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.account_tree_outlined,
-            title: 'Master Navigation Hub (Step 102)',
-            subtitle: 'Enterprise HSE module navigation and Abu Dhabi Gold entry points',
-            onTap: () => _openStep101To125(context, const SafenexusStep102MasterNavigationIntegrationHub()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.account_tree_outlined,
+                title: 'Master Navigation Hub (Step 102)',
+                subtitle: 'Enterprise HSE module navigation and Abu Dhabi Gold entry points',
+                onTap: () => _openStep101To125(context, const SafenexusStep102MasterNavigationIntegrationHub()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.sync_alt_outlined,
-            title: 'Unified Workflow (Step 103)',
-            subtitle: 'Cross-module workflow orchestration and status flow',
-            onTap: () => _openStep101To125(context, const SafeNexusStep103UnifiedWorkflowPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.sync_alt_outlined,
+                title: 'Unified Workflow (Step 103)',
+                subtitle: 'Cross-module workflow orchestration and status flow',
+                onTap: () => _openStep101To125(context, const SafeNexusStep103UnifiedWorkflowPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.photo_library_outlined,
-            title: 'Unified Evidence Intelligence (Step 104)',
-            subtitle: 'Evidence review, status and cross-module intelligence',
-            onTap: () => _openStep101To125(context, const SafeNexusStep104UnifiedEvidencePage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.photo_library_outlined,
+                title: 'Unified Evidence Intelligence (Step 104)',
+                subtitle: 'Evidence review, status and cross-module intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep104UnifiedEvidencePage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.shield_outlined,
-            title: 'Unified Risk Control Evidence (Step 105)',
-            subtitle: 'Risk controls, evidence and closure intelligence',
-            onTap: () => _openStep101To125(context, const SafeNexusStep105UnifiedRiskControlPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.shield_outlined,
+                title: 'Unified Risk Control Evidence (Step 105)',
+                subtitle: 'Risk controls, evidence and closure intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep105UnifiedRiskControlPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.hub_outlined,
-            title: 'WorkHub Navigation Integration (Step 106)',
-            subtitle: 'WorkHub setup and module integration guidance',
-            onTap: () => _openStep101To125(context, const SafeNexusStep106WorkHubIntegrationPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.hub_outlined,
+                title: 'WorkHub Navigation Integration (Step 106)',
+                subtitle: 'WorkHub setup and module integration guidance',
+                onTap: () => _openStep101To125(context, const SafeNexusStep106WorkHubIntegrationPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.link_outlined,
-            title: 'Unified Data & Record Linking (Step 107)',
-            subtitle: 'Cross-module record linkage architecture',
-            onTap: () => _openStep101To125(context, const SafeNexusStep107UnifiedRecordLinkingPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.link_outlined,
+                title: 'Unified Data & Record Linking (Step 107)',
+                subtitle: 'Cross-module record linkage architecture',
+                onTap: () => _openStep101To125(context, const SafeNexusStep107UnifiedRecordLinkingPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.account_tree_outlined,
-            title: 'Cross-Module Workflow (Step 108)',
-            subtitle: 'Workflow stages across HSE modules',
-            onTap: () => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.account_tree_outlined,
+                title: 'Cross-Module Workflow (Step 108)',
+                subtitle: 'Workflow stages across HSE modules',
+                onTap: () => _openStep101To125(context, const SafeNexusStep108CrossModuleWorkflowPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.dashboard_outlined,
-            title: 'Global HSE Dashboard (Step 109)',
-            subtitle: 'Enterprise HSE dashboard and domain intelligence',
-            onTap: () => _openStep101To125(context, const SafeNexusStep109GlobalHseDashboardPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.dashboard_outlined,
+                title: 'Global HSE Dashboard (Step 109)',
+                subtitle: 'Enterprise HSE dashboard and domain intelligence',
+                onTap: () => _openStep101To125(context, const SafeNexusStep109GlobalHseDashboardPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.verified_outlined,
-            title: 'Release Readiness (Step 110)',
-            subtitle: 'System integration and release-readiness guidance',
-            onTap: () => _openStep101To125(context, const SafeNexusStep110FinalIntegrationPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.verified_outlined,
+                title: 'Release Readiness (Step 110)',
+                subtitle: 'System integration and release-readiness guidance',
+                onTap: () => _openStep101To125(context, const SafeNexusStep110FinalIntegrationPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.search_outlined,
-            title: 'Record Search & Filter (Step 115)',
-            subtitle: 'Search and filter linked daily-work records',
-            onTap: () => _openStep101To125(context, const SafeNexusRecordSearchFilterPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.search_outlined,
+                title: 'Record Search & Filter (Step 115)',
+                subtitle: 'Search and filter linked daily-work records',
+                onTap: () => _openStep101To125(context, const SafeNexusRecordSearchFilterPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.description_outlined,
-            title: 'Record Detail Review (Step 116)',
-            subtitle: 'Review linked record details and evidence',
-            onTap: () => _openStep101To125(context, const SafeNexusRecordDetailReviewPage()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 0),
+              child: _FeatureCard(
+                icon: Icons.description_outlined,
+                title: 'Record Detail Review (Step 116)',
+                subtitle: 'Review linked record details and evidence',
+                onTap: () => _openStep101To125(context, const SafeNexusRecordDetailReviewPage()),
+              ),
+            ),
           ),
-          _featureSliver(
-            icon: Icons.insights_outlined,
-            title: 'Record Intelligence (Steps 117–125)',
-            subtitle: 'Record-level intelligence, filtering and cross-module insights',
-            bottomPadding: 18,
-            onTap: () => _openStep101To125(context, const SafeNexusSteps117125Page()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0 , 16, 18),
+              child: _FeatureCard(
+                icon: Icons.insights_outlined,
+                title: 'Record Intelligence (Steps 117–125)',
+                subtitle: 'Record-level intelligence, filtering and cross-module insights',
+                onTap: () => _openStep101To125(context, const SafeNexusSteps117125Page()),
+              ),
+            ),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -494,7 +685,10 @@ class WorkHubPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: primaryGreen.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(20),
@@ -530,26 +724,6 @@ class WorkHubPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _featureSliver({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-    double bottomPadding = 0,
-  }) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 0, 16, bottomPadding),
-        child: _FeatureCard(
-          icon: icon,
-          title: title,
-          subtitle: subtitle,
-          onTap: onTap,
-        ),
       ),
     );
   }
@@ -606,7 +780,10 @@ class _FeatureCard extends StatelessWidget {
                   color: primaryGreen.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(icon, color: primaryGreen),
+                child: Icon(
+                  icon,
+                  color: primaryGreen,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -629,7 +806,10 @@ class _FeatureCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, size: 16),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
             ],
           ),
         ),
@@ -694,16 +874,7 @@ class _HeroCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          const Text(
-            'HSE Work Planning & Control',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const Text(
             'Plan • Prepare • Control • Monitor • Close',
             style: TextStyle(
@@ -840,11 +1011,13 @@ class _ActivityPickerSheet extends StatefulWidget {
   });
 
   @override
-  State<_ActivityPickerSheet> createState() => _ActivityPickerSheetState();
+  State<_ActivityPickerSheet> createState() =>
+      _ActivityPickerSheetState();
 }
 
 class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -921,9 +1094,16 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
             ),
             Expanded(
               child: activities.isEmpty
-                  ? const Center(child: Text('No matching activities.'))
+                  ? const Center(
+                      child: Text('No matching activities.'),
+                    )
                   : ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      padding: const EdgeInsets.fromLTRB(
+                        20,
+                        0,
+                        20,
+                        20,
+                      ),
                       itemCount: activities.length,
                       itemBuilder: (_, index) {
                         final activity = activities[index];
@@ -946,12 +1126,15 @@ class _ActivityPickerSheetState extends State<_ActivityPickerSheet> {
                               ),
                             ),
                             subtitle: Text(
-                              '${activity.category}\n${activity.description}',
+                              '${activity.category}\n'
+                              '${activity.description}',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             isThreeLine: true,
-                            trailing: const Icon(Icons.chevron_right),
+                            trailing: const Icon(
+                              Icons.chevron_right,
+                            ),
                             onTap: () => widget.onSelected(activity),
                           ),
                         );
@@ -1009,7 +1192,8 @@ class _ActivityDetailsPage extends StatelessWidget {
                       Icons.category_outlined,
                       size: 18,
                     ),
-                    backgroundColor: primaryGreen.withValues(alpha: 0.10),
+                    backgroundColor:
+                        primaryGreen.withValues(alpha: 0.10),
                   ),
                   const SizedBox(height: 12),
                   Text(
