@@ -27,12 +27,21 @@ android {
         jvmTarget = '17'
     }
 
+    signingConfigs {
+        release {
+            storeFile file("upload-keystore.jks")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
-            // Temporary release signing.
-            // Replace with a proper release keystore before
-            // publishing the app to Google Play.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
