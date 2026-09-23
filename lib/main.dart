@@ -547,29 +547,27 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 title: 'Safety Observation',
                 subtitle: 'Record safe / unsafe conditions',
                 icon: Icons.visibility_rounded,
-                iconColor: primaryGreen,
-                background: const Color(0xFFF4F7F1),
-                onTap: () {
-                  _openPage(const SafetyObservationPage());
-                },
+                iconColor: const Color(0xFF159447),
+                background: const Color(0xFFE7F8EE),
+                arrowColor: const Color(0xFF159447),
+                onTap: () => _openPage(const SafetyObservationPage()),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: _quickActionCard(
                 title: 'Hazard Report',
                 subtitle: 'Report an immediate hazard',
                 icon: Icons.warning_amber_rounded,
-                iconColor: primaryGreen,
-                background: const Color(0xFFF4F7F1),
-                onTap: () {
-                  _openPage(const HazardReportPage());
-                },
+                iconColor: const Color(0xFFD92828),
+                background: const Color(0xFFFFE8E8),
+                arrowColor: const Color(0xFFD92828),
+                onTap: () => _openPage(const HazardReportPage()),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
@@ -577,24 +575,22 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 title: 'Voice Report',
                 subtitle: 'Report by voice',
                 icon: Icons.mic_rounded,
-                iconColor: primaryGreen,
-                background: const Color(0xFFF4F7F1),
-                onTap: () {
-                  _openPage(const VoiceReportPage());
-                },
+                iconColor: const Color(0xFF6A1B9A),
+                background: const Color(0xFFF0E7FF),
+                arrowColor: const Color(0xFF6A1B9A),
+                onTap: () => _openPage(const VoiceReportPage()),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: _quickActionCard(
                 title: 'Report History',
                 subtitle: 'Review saved reports',
                 icon: Icons.history_rounded,
-                iconColor: primaryGreen,
-                background: const Color(0xFFF4F7F1),
-                onTap: () {
-                  _openPage(const ObservationHistoryPage());
-                },
+                iconColor: const Color(0xFF1976D2),
+                background: const Color(0xFFE5F2FF),
+                arrowColor: const Color(0xFF1976D2),
+                onTap: () => _openPage(const ObservationHistoryPage()),
               ),
             ),
           ],
@@ -603,35 +599,43 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  // ==========================================================
-  // QUICK ACTION CARD
-  // ==========================================================
-
   Widget _quickActionCard({
     required String title,
     required String subtitle,
     required IconData icon,
     required Color iconColor,
     required Color background,
+    required Color arrowColor,
     required VoidCallback onTap,
   }) {
     return Material(
       color: background,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 18, 16, 20),
+          padding: const EdgeInsets.fromLTRB(16, 16, 12, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                icon,
-                color: iconColor,
-                size: 40,
+              Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: iconColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 27),
+                  ),
+                  const Spacer(),
+                  Icon(Icons.arrow_forward_ios_rounded,
+                      color: arrowColor, size: 20),
+                ],
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 15),
               Text(
                 title,
                 maxLines: 2,
@@ -639,6 +643,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 style: const TextStyle(
                   color: navy,
                   fontSize: 17,
+                  height: 1.12,
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -648,9 +653,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  color: Color(0xFF78909C),
-                  fontSize: 14,
-                  height: 1.25,
+                  color: Color(0xFF607D8B),
+                  fontSize: 13,
+                  height: 1.3,
                 ),
               ),
             ],
@@ -670,6 +675,100 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
 
   Widget _buildReferencePreview() {
+    const categories = <Map<String, dynamic>>[
+      {
+        'emoji': '🇦🇪',
+        'title': 'UAE HSE',
+        'subtitle': 'UAE-wide HSE laws, standards and best practices',
+        'color': Color(0xFF159447),
+        'number': '01',
+      },
+      {
+        'emoji': '🟢',
+        'title': 'Abu Dhabi HSE',
+        'subtitle': 'Abu Dhabi HSE and ADPHC Gold Reference',
+        'color': Color(0xFF43A047),
+        'number': '02',
+      },
+      {
+        'emoji': '🔵',
+        'title': 'Dubai HSE',
+        'subtitle': 'Dubai HSE requirements and safety guidance',
+        'color': Color(0xFF1976D2),
+        'number': '03',
+      },
+      {
+        'emoji': '🏗️',
+        'title': 'Construction',
+        'subtitle': 'Construction HSE, site safety and field controls',
+        'color': Color(0xFFE38B00),
+        'number': '04',
+      },
+      {
+        'emoji': '🛢️',
+        'title': 'Oil & Gas',
+        'subtitle': 'Oil & Gas HSE, process safety and field controls',
+        'color': Color(0xFF7B35C8),
+        'number': '05',
+      },
+      {
+        'emoji': '⚓',
+        'title': 'Offshore',
+        'subtitle': 'Offshore operations, marine safety and emergency controls',
+        'color': Color(0xFF0C9DB5),
+        'number': '06',
+      },
+      {
+        'emoji': '🏭',
+        'title': 'Industrial',
+        'subtitle': 'Industrial HSE, machinery, plant and operational safety',
+        'color': Color(0xFFE23B45),
+        'number': '07',
+      },
+      {
+        'emoji': '🩺',
+        'title': 'Occupational Health',
+        'subtitle': 'Occupational health, welfare and workplace exposure control',
+        'color': Color(0xFFE83E8C),
+        'number': '08',
+      },
+      {
+        'emoji': '🌱',
+        'title': 'Environmental',
+        'subtitle': 'Environmental protection, waste and pollution controls',
+        'color': Color(0xFF4CAF50),
+        'number': '09',
+      },
+      {
+        'emoji': '🚨',
+        'title': 'Emergency & Rescue',
+        'subtitle': 'Emergency preparedness, response and rescue planning',
+        'color': Color(0xFFE53935),
+        'number': '10',
+      },
+      {
+        'emoji': '🔥',
+        'title': 'Fire & Life Safety',
+        'subtitle': 'Fire prevention, protection, evacuation and life safety',
+        'color': Color(0xFFFF7A00),
+        'number': '11',
+      },
+      {
+        'emoji': '📚',
+        'title': 'Specialist / Cross-Sector',
+        'subtitle': 'Specialist HSE topics applicable across sectors',
+        'color': Color(0xFF7B2CBF),
+        'number': '12',
+      },
+      {
+        'emoji': '🎓',
+        'title': 'Learning + Interview',
+        'subtitle': 'HSE learning, practical knowledge and interview preparation',
+        'color': Color(0xFF1976D2),
+        'number': '13',
+      },
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -677,137 +776,167 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
           'HSE Reference',
           style: TextStyle(
             color: navy,
-            fontSize: 27,
+            fontSize: 28,
             fontWeight: FontWeight.w900,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 3),
         const Text(
           'Professional UAE field reference',
           style: TextStyle(
-            color: Color(0xFF78909C),
+            color: Color(0xFF607D8B),
             fontSize: 16,
           ),
         ),
         const SizedBox(height: 14),
-        _referenceCategoryCard('🇦🇪', 'UAE HSE',
-            'UAE-wide HSE laws, guidance and best practices',
-            primaryGreen, () => _openGuidelineCategory(GuidelineCategory.uaeGeneral)),
-        _referenceGap(),
-        _referenceCategoryCard('🟢', 'Abu Dhabi HSE',
-            'Abu Dhabi HSE and ADPHC Gold Reference',
-            primaryGreen, () => _openGuidelineCategory(GuidelineCategory.abuDhabi)),
-        _referenceGap(),
-        _referenceCategoryCard('🔵', 'Dubai HSE',
-            'Dubai HSE requirements and safety guidance',
-            const Color(0xFF1565C0), () => _openGuidelineCategory(GuidelineCategory.dubai)),
-        _referenceGap(),
-        _referenceCategoryCard('🏗️', 'Construction',
-            'Construction HSE, site safety and field controls',
-            const Color(0xFF8A4B08), () => _openSectorReference('Construction',
-                'Construction HSE, site safety and field controls')),
-        _referenceGap(),
-        _referenceCategoryCard('🛢️', 'Oil & Gas',
-            'Oil & Gas HSE, process safety and field controls',
-            const Color(0xFF6D4C41), () => _openSectorReference('Oil & Gas',
-                'Oil & Gas HSE, process safety and field controls')),
-        _referenceGap(),
-        _referenceCategoryCard('⚓', 'Offshore',
-            'Offshore operations, marine safety and emergency controls',
-            const Color(0xFF0277BD), () => _openSectorReference('Offshore',
-                'Offshore operations, marine safety and emergency controls')),
-        _referenceGap(),
-        _referenceCategoryCard('🏭', 'Industrial',
-            'Industrial HSE, machinery, plant and operational safety',
-            const Color(0xFF546E7A), () => _openSectorReference('Industrial',
-                'Industrial HSE, machinery, plant and operational safety')),
-        _referenceGap(),
-        _referenceCategoryCard('🩺', 'Occupational Health',
-            'Occupational health, welfare and workplace exposure controls',
-            const Color(0xFF00897B), () => _openSectorReference('Occupational Health',
-                'Occupational health, welfare and workplace exposure controls')),
-        _referenceGap(),
-        _referenceCategoryCard('🌱', 'Environmental',
-            'Environmental protection, waste and pollution controls',
-            const Color(0xFF2E7D32), () => _openSectorReference('Environmental',
-                'Environmental protection, waste and pollution controls')),
-        _referenceGap(),
-        _referenceCategoryCard('🚨', 'Emergency & Rescue',
-            'Emergency preparedness, response and rescue planning',
-            const Color(0xFFC62828), () => _openSectorReference('Emergency & Rescue',
-                'Emergency preparedness, response and rescue planning')),
-        _referenceGap(),
-        _referenceCategoryCard('🔥', 'Fire & Life Safety',
-            'Fire prevention, protection, evacuation and life safety',
-            const Color(0xFFE65100), () => _openSectorReference('Fire & Life Safety',
-                'Fire prevention, protection, evacuation and life safety')),
-        _referenceGap(),
-        _referenceCategoryCard('📚', 'Specialist / Cross-Sector',
-            'Specialist HSE topics applicable across sectors',
-            const Color(0xFF6A1B9A), () => _openSectorReference('Specialist / Cross-Sector',
-                'Specialist HSE topics applicable across sectors')),
-        _referenceGap(),
-        _referenceCategoryCard('🎓', 'Learning + Interview',
-            'HSE learning, practical knowledge and interview preparation',
-            const Color(0xFF283593), () => _openSectorReference('Learning + Interview',
-                'HSE learning, practical knowledge and interview preparation')),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFE1F5E8), Color(0xFFE9F5FF)],
+            ),
+            borderRadius: BorderRadius.circular(22),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.menu_book_rounded, color: primaryGreen, size: 32),
+              SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Professional UAE HSE knowledge at your fingertips',
+                  style: TextStyle(
+                    color: navy,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final twoColumns = constraints.maxWidth >= 500;
+            final width = twoColumns
+                ? (constraints.maxWidth - 12) / 2
+                : constraints.maxWidth;
+
+            return Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                for (final item in categories)
+                  SizedBox(
+                    width: width,
+                    child: _referenceCategoryCard(
+                      item['emoji'] as String,
+                      item['title'] as String,
+                      item['subtitle'] as String,
+                      item['color'] as Color,
+                      () {
+                        final title = item['title'] as String;
+                        if (title == 'UAE HSE') {
+                          _openGuidelineCategory(GuidelineCategory.uaeGeneral);
+                        } else if (title == 'Abu Dhabi HSE') {
+                          _openGuidelineCategory(GuidelineCategory.abuDhabi);
+                        } else if (title == 'Dubai HSE') {
+                          _openGuidelineCategory(GuidelineCategory.dubai);
+                        } else {
+                          _openSectorReference(title, item['subtitle'] as String);
+                        }
+                      },
+                      number: item['number'] as String,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ],
     );
   }
-
-  Widget _referenceGap() => const SizedBox(height: 10);
 
   Widget _referenceCategoryCard(
     String emoji,
     String title,
     String subtitle,
     Color color,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap, {
+    required String number,
+  }) {
     return Material(
-      color: const Color(0xFFF4F7F1),
-      borderRadius: BorderRadius.circular(18),
+      color: color.withAlpha(22),
+      borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 13),
           child: Row(
             children: [
               Container(
-                width: 50,
-                height: 50,
-                alignment: Alignment.center,
+                width: 58,
+                height: 58,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(17),
+                  boxShadow: [
+                    BoxShadow(
+                      color: color.withAlpha(25),
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-                child: Text(emoji, style: const TextStyle(fontSize: 25)),
+                alignment: Alignment.center,
+                child: Text(
+                  emoji,
+                  style: const TextStyle(fontSize: 28),
+                ),
               ),
-              const SizedBox(width: 13),
+              const SizedBox(width: 11),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                          color: navy,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                        )),
-                    const SizedBox(height: 4),
-                    Text(subtitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Color(0xFF78909C),
-                          fontSize: 12,
-                          height: 1.3,
-                        )),
+                    Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: navy,
+                        fontSize: 15.5,
+                        height: 1.12,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      number,
+                      style: TextStyle(
+                        color: color,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
+                        fontSize: 11.5,
+                        height: 1.25,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: color, size: 28),
+              const SizedBox(width: 5),
+              Icon(Icons.chevron_right_rounded, color: color, size: 29),
             ],
           ),
         ),
@@ -815,9 +944,8 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  void _openSectorReference(String title, String subtitle) {
-    _openPage(_SectorReferencePage(title: title, subtitle: subtitle));
-  }
+  Widget _referenceGap() => const SizedBox(height: 10);
+
   // ==========================================================
   // SAFETY MESSAGE
   // ==========================================================
