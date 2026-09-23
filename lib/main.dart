@@ -11,11 +11,6 @@ import 'safety_observation.dart';
 import 'voice_report.dart';
 import 'models/guideline_category.dart';
 
-import 'data/abu_dhabi_guidelines.dart';
-import 'data/dubai_guidelines.dart';
-import 'data/hse_safety_reference.dart';
-import 'data/uae_general_guidelines.dart';
-import 'tbt.dart';
 import 'workhub.dart';
 import 'safenexus_alert_center.dart';
 import 'hse_analytics_center.dart';
@@ -98,11 +93,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // STATISTICS
   // ==========================================================
 
-  int _totalReports = 0;
-  int _observations = 0;
-  int _hazards = 0;
-  int _openReports = 0;
-  bool _loadingStats = true;
 
   // ==========================================================
   // INIT
@@ -126,10 +116,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       final records =
           prefs.getStringList(_storageKey) ?? <String>[];
 
-      int total = 0;
-      int observations = 0;
-      int hazards = 0;
-      int open = 0;
 
       final List<String> normalizedRecords = <String>[];
       bool storageChanged = false;
@@ -169,18 +155,14 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
           normalizedRecords.add(jsonEncode(report));
 
-          total++;
 
           if (canonicalType == 'Hazard Report') {
-            hazards++;
           } else {
-            observations++;
           }
 
           final status = _normalizeStatus(report['status']);
 
           if (_isOpenStatus(status)) {
-            open++;
           }
         } catch (_) {
           // Ignore corrupted individual records.
@@ -201,25 +183,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
         return;
       }
 
-      setState(() {
-        _totalReports = total;
-        _observations = observations;
-        _hazards = hazards;
-        _openReports = open;
-        _loadingStats = false;
-      });
     } catch (_) {
       if (!mounted) {
         return;
       }
 
-      setState(() {
-        _totalReports = 0;
-        _observations = 0;
-        _hazards = 0;
-        _openReports = 0;
-        _loadingStats = false;
-      });
     }
   }
 
@@ -701,12 +669,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // OVERVIEW METRIC
   // ==========================================================
 
-  Widget _overviewMetric({
-    required IconData icon,
-    required Color iconColor,
-    required String value,
-    required String title,
-  }) {
+) {
     return Column(
       children: [
         Container(
@@ -751,13 +714,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // OVERVIEW DIVIDER
   // ==========================================================
 
-  Widget _overviewDivider() {
-    return Container(
-      width: 1,
-      height: 66,
-      color: const Color(0xFFE2E9ED),
-    );
-  }
 
   // ==========================================================
   // REFERENCE PREVIEW
@@ -845,6 +801,72 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
 
   // ==========================================================
+  // REFERENCE MINI CARD
+  // ==========================================================
+
+) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(13),
+          child: Row(
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: color.withAlpha(20),
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: navy,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      '$count topics',
+                      style: const TextStyle(
+                        color: Color(0xFF607D8B),
+                        fontSize: 9.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: color,
+                size: 21,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ==========================================================
   // SAFETY MESSAGE
   // ==========================================================
 
@@ -853,67 +875,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // UAE CARD
   // ==========================================================
 
-  Widget _buildUaeCard() {
-    return Container(
-      padding: const EdgeInsets.all(17),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE9F8F1),
-        borderRadius: BorderRadius.circular(21),
-        border: Border.all(
-          color: const Color(0xFFCDEBDD),
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x12000000),
-            blurRadius: 12,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
-              color: Color(0xFFD7F0E3),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              Icons.flag_rounded,
-              color: Color(0xFF159447),
-              size: 30,
-            ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'UAE-wide HSE Safety App',
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 3),
-                Text(
-                  'Built for HSE professionals and safer workplaces across the United Arab Emirates.',
-                  style: TextStyle(
-                    color: Color(0xFF527064),
-                    fontSize: 10,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   // ==========================================================
   // GUIDELINES HOME
@@ -1069,13 +1030,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // LEARNING CARD
   // ==========================================================
 
-  Widget _learningCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
+) {
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(21),
@@ -1299,12 +1254,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // PROFILE ACTION
   // ==========================================================
 
-  Widget _profileAction({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
+) {
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(18),
