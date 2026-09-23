@@ -689,67 +689,135 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             fontSize: 16,
           ),
         ),
-        const SizedBox(height: 12),
-        Material(
-          color: const Color(0xFFF4F7F1),
-          borderRadius: BorderRadius.circular(18),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(18),
-            onTap: () {
-              _openGuidelineCategory(GuidelineCategory.uaeGeneral);
-            },
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(18, 18, 16, 18),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 29,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.menu_book_rounded,
-                      color: primaryGreen,
-                      size: 30,
-                    ),
-                  ),
-                  SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'UAE HSE Reference',
-                          style: TextStyle(
-                            color: navy,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Federal laws, standards and best practices',
-                          style: TextStyle(
-                            color: Color(0xFF78909C),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: primaryGreen,
-                    size: 30,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        const SizedBox(height: 14),
+        _referenceCategoryCard('🇦🇪', 'UAE HSE',
+            'UAE-wide HSE laws, guidance and best practices',
+            primaryGreen, () => _openGuidelineCategory(GuidelineCategory.uaeGeneral)),
+        _referenceGap(),
+        _referenceCategoryCard('🟢', 'Abu Dhabi HSE',
+            'Abu Dhabi HSE and ADPHC Gold Reference',
+            primaryGreen, () => _openGuidelineCategory(GuidelineCategory.abuDhabi)),
+        _referenceGap(),
+        _referenceCategoryCard('🔵', 'Dubai HSE',
+            'Dubai HSE requirements and safety guidance',
+            const Color(0xFF1565C0), () => _openGuidelineCategory(GuidelineCategory.dubai)),
+        _referenceGap(),
+        _referenceCategoryCard('🏗️', 'Construction',
+            'Construction HSE, site safety and field controls',
+            const Color(0xFF8A4B08), () => _openSectorReference('Construction',
+                'Construction HSE, site safety and field controls')),
+        _referenceGap(),
+        _referenceCategoryCard('🛢️', 'Oil & Gas',
+            'Oil & Gas HSE, process safety and field controls',
+            const Color(0xFF6D4C41), () => _openSectorReference('Oil & Gas',
+                'Oil & Gas HSE, process safety and field controls')),
+        _referenceGap(),
+        _referenceCategoryCard('⚓', 'Offshore',
+            'Offshore operations, marine safety and emergency controls',
+            const Color(0xFF0277BD), () => _openSectorReference('Offshore',
+                'Offshore operations, marine safety and emergency controls')),
+        _referenceGap(),
+        _referenceCategoryCard('🏭', 'Industrial',
+            'Industrial HSE, machinery, plant and operational safety',
+            const Color(0xFF546E7A), () => _openSectorReference('Industrial',
+                'Industrial HSE, machinery, plant and operational safety')),
+        _referenceGap(),
+        _referenceCategoryCard('🩺', 'Occupational Health',
+            'Occupational health, welfare and workplace exposure controls',
+            const Color(0xFF00897B), () => _openSectorReference('Occupational Health',
+                'Occupational health, welfare and workplace exposure controls')),
+        _referenceGap(),
+        _referenceCategoryCard('🌱', 'Environmental',
+            'Environmental protection, waste and pollution controls',
+            const Color(0xFF2E7D32), () => _openSectorReference('Environmental',
+                'Environmental protection, waste and pollution controls')),
+        _referenceGap(),
+        _referenceCategoryCard('🚨', 'Emergency & Rescue',
+            'Emergency preparedness, response and rescue planning',
+            const Color(0xFFC62828), () => _openSectorReference('Emergency & Rescue',
+                'Emergency preparedness, response and rescue planning')),
+        _referenceGap(),
+        _referenceCategoryCard('🔥', 'Fire & Life Safety',
+            'Fire prevention, protection, evacuation and life safety',
+            const Color(0xFFE65100), () => _openSectorReference('Fire & Life Safety',
+                'Fire prevention, protection, evacuation and life safety')),
+        _referenceGap(),
+        _referenceCategoryCard('📚', 'Specialist / Cross-Sector',
+            'Specialist HSE topics applicable across sectors',
+            const Color(0xFF6A1B9A), () => _openSectorReference('Specialist / Cross-Sector',
+                'Specialist HSE topics applicable across sectors')),
+        _referenceGap(),
+        _referenceCategoryCard('🎓', 'Learning + Interview',
+            'HSE learning, practical knowledge and interview preparation',
+            const Color(0xFF283593), () => _openSectorReference('Learning + Interview',
+                'HSE learning, practical knowledge and interview preparation')),
       ],
     );
   }
 
+  Widget _referenceGap() => const SizedBox(height: 10);
 
+  Widget _referenceCategoryCard(
+    String emoji,
+    String title,
+    String subtitle,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return Material(
+      color: const Color(0xFFF4F7F1),
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(emoji, style: const TextStyle(fontSize: 25)),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: const TextStyle(
+                          color: navy,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        )),
+                    const SizedBox(height: 4),
+                    Text(subtitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Color(0xFF78909C),
+                          fontSize: 12,
+                          height: 1.3,
+                        )),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded, color: color, size: 28),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openSectorReference(String title, String subtitle) {
+    _openPage(_SectorReferencePage(title: title, subtitle: subtitle));
+  }
   // ==========================================================
   // SAFETY MESSAGE
   // ==========================================================
@@ -1207,3 +1275,102 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 }
+
+class _SectorReferencePage extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _SectorReferencePage({
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const green = Color(0xFF159447);
+    const navy = Color(0xFF082653);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F8FB),
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.white,
+        foregroundColor: navy,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(18),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: const TextStyle(
+                      color: navy,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    )),
+                const SizedBox(height: 8),
+                Text(subtitle,
+                    style: const TextStyle(
+                      color: Color(0xFF607D8B),
+                      fontSize: 14,
+                      height: 1.4,
+                    )),
+                const SizedBox(height: 18),
+                const Divider(),
+                const SizedBox(height: 12),
+                const Text(
+                  'Professional HSE Reference',
+                  style: TextStyle(
+                    color: navy,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Use the complete HSE reference topics for detailed safety guidance, controls, field practices and UAE requirements.',
+                  style: TextStyle(
+                    color: Color(0xFF607D8B),
+                    fontSize: 13,
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const GuidelinesPage(
+                            initialCategory: GuidelineCategory.hseReference,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.menu_book_rounded),
+                    label: const Text('Open HSE Reference Topics'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: green,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
