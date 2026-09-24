@@ -14,16 +14,16 @@ jobs:
 
     steps:
 
-      # --------------------------------------------------
-      # 1. Checkout
-      # --------------------------------------------------
+      # ==================================================
+      # 1. CHECKOUT
+      # ==================================================
       - name: Checkout repository
         uses: actions/checkout@v4
 
 
-      # --------------------------------------------------
-      # 2. Java 17
-      # --------------------------------------------------
+      # ==================================================
+      # 2. JAVA 17
+      # ==================================================
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
@@ -32,9 +32,9 @@ jobs:
           cache: gradle
 
 
-      # --------------------------------------------------
-      # 3. Flutter
-      # --------------------------------------------------
+      # ==================================================
+      # 3. FLUTTER 3.47.2
+      # ==================================================
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -43,9 +43,9 @@ jobs:
           cache: true
 
 
-      # --------------------------------------------------
-      # 4. Tool versions
-      # --------------------------------------------------
+      # ==================================================
+      # 4. TOOL VERSIONS
+      # ==================================================
       - name: Show tool versions
         run: |
           flutter --version
@@ -53,39 +53,39 @@ jobs:
           java -version
 
 
-      # --------------------------------------------------
-      # 5. Android local.properties
-      # --------------------------------------------------
+      # ==================================================
+      # 5. ANDROID LOCAL PROPERTIES
+      # ==================================================
       - name: Create Android local.properties
         run: |
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
           echo "sdk.dir=$ANDROID_SDK_ROOT" >> android/local.properties
 
 
-      # --------------------------------------------------
-      # 6. Flutter pub get
-      # --------------------------------------------------
+      # ==================================================
+      # 6. FLUTTER PUB GET
+      # ==================================================
       - name: Flutter Pub Get
         run: flutter pub get
 
 
-      # --------------------------------------------------
-      # 7. Flutter clean
-      # --------------------------------------------------
+      # ==================================================
+      # 7. FLUTTER CLEAN
+      # ==================================================
       - name: Flutter Clean
         run: flutter clean
 
 
-      # --------------------------------------------------
-      # 8. Pub get after clean
-      # --------------------------------------------------
+      # ==================================================
+      # 8. PUB GET AFTER CLEAN
+      # ==================================================
       - name: Flutter Pub Get After Clean
         run: flutter pub get
 
 
-      # --------------------------------------------------
-      # 9. Check signing secrets
-      # --------------------------------------------------
+      # ==================================================
+      # 9. CHECK ALL FOUR SIGNING SECRETS
+      # ==================================================
       - name: Validate release signing secrets
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -119,9 +119,9 @@ jobs:
           echo "All four release signing secrets are present."
 
 
-      # --------------------------------------------------
-      # 10. Restore permanent keystore
-      # --------------------------------------------------
+      # ==================================================
+      # 10. RESTORE PERMANENT KEYSTORE
+      # ==================================================
       - name: Restore permanent release keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -141,9 +141,9 @@ jobs:
           echo "Permanent release keystore restored successfully."
 
 
-      # --------------------------------------------------
-      # 11. Validate keystore PASSWORD first
-      # --------------------------------------------------
+      # ==================================================
+      # 11. VALIDATE KEYSTORE PASSWORD
+      # ==================================================
       - name: Validate keystore password
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -166,9 +166,9 @@ jobs:
           fi
 
 
-      # --------------------------------------------------
-      # 12. Validate KEY_ALIAS
-      # --------------------------------------------------
+      # ==================================================
+      # 12. VALIDATE KEY ALIAS
+      # ==================================================
       - name: Validate keystore alias
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -195,16 +195,48 @@ jobs:
           fi
 
 
-      # --------------------------------------------------
-      # 13. Flutter Analyze
-      # --------------------------------------------------
+      # ==================================================
+      # 13. VALIDATE PRIVATE KEY PASSWORD
+      # ==================================================
+      - name: Validate private key password
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+        run: |
+          echo "Checking private key password..."
+
+          rm -f /tmp/key-validation.jks
+
+          if keytool -importkeystore \
+            -srckeystore android/app/upload-keystore.jks \
+            -srcstorepass "$KEYSTORE_PASSWORD" \
+            -srcalias "$KEY_ALIAS" \
+            -srckeypass "$KEY_PASSWORD" \
+            -destkeystore /tmp/key-validation.jks \
+            -deststorepass "$KEYSTORE_PASSWORD" \
+            -destkeypass "$KEY_PASSWORD" \
+            -destalias "$KEY_ALIAS" \
+            -noprompt
+          then
+            echo "OK: Private key password is correct."
+          else
+            echo "ERROR: KEY_PASSWORD does not match the private key."
+            exit 1
+          fi
+
+
+      # ==================================================
+      # 14. FLUTTER ANALYZE
+      # ==================================================
       - name: Flutter Analyze
         run: flutter analyze
 
 
-      # --------------------------------------------------
-      # 14. Build Release APK
-      # --------------------------------------------------
+      # ==================================================
+      # 15. BUILD RELEASE APK
+      # ==================================================
       - name: Build Release APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -215,9 +247,9 @@ jobs:
           flutter build apk --release
 
 
-      # --------------------------------------------------
-      # 15. Verify APK
-      # --------------------------------------------------
+      # ==================================================
+      # 16. VERIFY APK
+      # ==================================================
       - name: Verify APK
         run: |
           test -f build/app/outputs/flutter-apk/app-release.apk
@@ -227,9 +259,9 @@ jobs:
           echo "SafeNexus HSE release APK generated successfully."
 
 
-      # --------------------------------------------------
-      # 16. Upload APK
-      # --------------------------------------------------
+      # ==================================================
+      # 17. UPLOAD APK ARTIFACT
+      # ==================================================
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
 
