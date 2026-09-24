@@ -12,10 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      FALLBACK_KEYSTORE_PASSWORD: SafeNexusCI2026
-      FALLBACK_KEY_ALIAS: safenexus-ci
-      FALLBACK_KEY_PASSWORD: SafeNexusCI2026
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -60,40 +56,37 @@ jobs:
       - name: Generate App Icons After Clean
         run: dart run flutter_launcher_icons
 
-      - name: Select signing mode
+      - name: Require permanent release signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD_SECRET: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS_SECRET: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD_SECRET: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ -n "$KEYSTORE_BASE64" ]; then
-            echo "HAS_RELEASE_KEYSTORE=true" >> "$GITHUB_ENV"
-            echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD_SECRET" >> "$GITHUB_ENV"
-            echo "KEY_ALIAS=$KEY_ALIAS_SECRET" >> "$GITHUB_ENV"
-            echo "KEY_PASSWORD=$KEY_PASSWORD_SECRET" >> "$GITHUB_ENV"
-            echo "Permanent GitHub release keystore found."
-          else
-            echo "HAS_RELEASE_KEYSTORE=false" >> "$GITHUB_ENV"
-            echo "KEYSTORE_PASSWORD=$FALLBACK_KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
-            echo "KEY_ALIAS=$FALLBACK_KEY_ALIAS" >> "$GITHUB_ENV"
-            echo "KEY_PASSWORD=$FALLBACK_KEY_PASSWORD" >> "$GITHUB_ENV"
-            echo "KEYSTORE_BASE64 is not configured."
-            echo "A temporary CI-only keystore will be generated."
-          fi
+          test -n "$KEYSTORE_BASE64" || { echo "ERROR: KEYSTORE_BASE64 secret is missing."; exit 1; }
+          test -n "$KEYSTORE_PASSWORD" || { echo "ERROR: KEYSTORE_PASSWORD secret is missing."; exit 1; }
+          test -n "$KEY_ALIAS" || { echo "ERROR: KEY_ALIAS secret is missing."; exit 1; }
+          test -n "$KEY_PASSWORD" || { echo "ERROR: KEY_PASSWORD secret is missing."; exit 1; }
 
-      - name: Restore permanent release keystore
+          mkdir -p android/app
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+          test -s android/app/upload-keystore.jks || { echo "ERROR: Keystore file was not created."; exit 1; }
+
+      - name: Require permanent release signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ "$HAS_RELEASE_KEYSTORE" = "true" ]; then
-            echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
-            test -s android/app/upload-keystore.jks || {
-              echo "ERROR: Decoded release keystore is empty."
-              exit 1
-            }
-            echo "Permanent release keystore restored."
-          fi
+          test -n "$KEYSTORE_BASE64" || { echo "ERROR: KEYSTORE_BASE64 secret is missing."; exit 1; }
+          test -n "$KEYSTORE_PASSWORD" || { echo "ERROR: KEYSTORE_PASSWORD secret is missing."; exit 1; }
+          test -n "$KEY_ALIAS" || { echo "ERROR: KEY_ALIAS secret is missing."; exit 1; }
+          test -n "$KEY_PASSWORD" || { echo "ERROR: KEY_PASSWORD secret is missing."; exit 1; }
+
+          mkdir -p android/app
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+          test -s android/app/upload-keystore.jks || { echo "ERROR: Keystore file was not created."; exit 1; }
 
       - name: Create temporary CI release keystore
         run: |
