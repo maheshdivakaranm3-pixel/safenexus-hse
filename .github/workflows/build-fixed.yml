@@ -49,7 +49,7 @@ jobs:
       - name: Flutter Pub Get After Clean
         run: flutter pub get
 
-      - name: Require permanent release signing
+      - name: Validate release signing secrets
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -76,6 +76,12 @@ jobs:
             exit 1
           }
 
+          echo "All four release signing secrets are present."
+
+      - name: Restore permanent release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
           mkdir -p android/app
 
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
@@ -85,14 +91,25 @@ jobs:
             exit 1
           }
 
-          echo "Permanent release keystore created successfully."
+          echo "Permanent release keystore restored successfully."
+
+      - name: Validate keystore password and alias
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          keytool -list \
+            -keystore android/app/upload-keystore.jks \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -alias "$KEY_ALIAS" > /tmp/keystore-check.txt
+
+          echo "Keystore password and alias validated successfully."
 
       - name: Flutter Analyze
         run: flutter analyze
 
       - name: Build Release APK
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -102,7 +119,9 @@ jobs:
       - name: Verify APK
         run: |
           test -f build/app/outputs/flutter-apk/app-release.apk
+
           ls -lh build/app/outputs/flutter-apk/app-release.apk
+
           echo "SafeNexus HSE release APK generated successfully."
 
       - name: Upload APK Artifact
