@@ -11,7 +11,6 @@ jobs:
     name: Flutter Analyze + Release APK
     runs-on: ubuntu-latest
 
-    env:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,43 +63,10 @@ jobs:
 
           mkdir -p android/app
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
-          test -s android/app/upload-keystore.jks || { echo "ERROR: Keystore file was not created."; exit 1; }
-
-      - name: Require permanent release signing
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          test -n "$KEYSTORE_BASE64" || { echo "ERROR: KEYSTORE_BASE64 secret is missing."; exit 1; }
-          test -n "$KEYSTORE_PASSWORD" || { echo "ERROR: KEYSTORE_PASSWORD secret is missing."; exit 1; }
-          test -n "$KEY_ALIAS" || { echo "ERROR: KEY_ALIAS secret is missing."; exit 1; }
-          test -n "$KEY_PASSWORD" || { echo "ERROR: KEY_PASSWORD secret is missing."; exit 1; }
-
-          mkdir -p android/app
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
-          test -s android/app/upload-keystore.jks || { echo "ERROR: Keystore file was not created."; exit 1; }
-
-      - name: Create temporary CI release keystore
-        run: |
-          if [ "$HAS_RELEASE_KEYSTORE" = "false" ]; then
-            echo "Creating temporary CI-only release keystore."
-            echo "This keystore is NOT suitable for publishing or future app updates."
-            keytool -genkeypair \
-              -v \
-              -keystore android/app/upload-keystore.jks \
-              -storepass "$KEYSTORE_PASSWORD" \
-              -keypass "$KEY_PASSWORD" \
-              -alias "$KEY_ALIAS" \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -dname "CN=SafeNexus HSE, OU=HSE, O=SafeNexus, L=Abu Dhabi, ST=Abu Dhabi, C=AE"
-            test -s android/app/upload-keystore.jks
-          else
-            echo "Permanent release keystore already available."
-          fi
+          test -s android/app/upload-keystore.jks || {
+            echo "ERROR: Release keystore file was not created."
+            exit 1
+          }
 
       - name: Flutter Analyze
         run: flutter analyze
