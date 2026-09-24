@@ -976,26 +976,37 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final p = section.point;
+    final point = section.point;
     final enhancement = scaffoldingGoldEnhancements[section.title];
 
-    final subPoints = <_ScaffoldingSubPoint>[
-      _ScaffoldingSubPoint('Meaning / What this means', p.meaning),
-      _ScaffoldingSubPoint('Hazards / Consequences', p.hazards),
-      _ScaffoldingSubPoint('Control Measures', p.controls),
-      _ScaffoldingSubPoint('HSE Officer Field Check', p.fieldCheck),
-      _ScaffoldingSubPoint('Common Mistake', p.commonMistake),
-      _ScaffoldingSubPoint('Corrective Action', p.action),
-      _ScaffoldingSubPoint('Records / Evidence', p.records),
-    ].where((item) => item.detail.trim().isNotEmpty).toList();
+    final cards = <Widget>[
+      _detailCard('Purpose / Meaning', point.meaning, Icons.info_outline),
+      _detailCard('Hazards / Consequences', point.hazards, Icons.warning_amber_outlined),
+      _detailCard('Control Measures', point.controls, Icons.shield_outlined),
+      _detailCard('HSE Officer Field Check', point.fieldCheck, Icons.fact_check_outlined),
+      _detailCard('Common Mistake', point.commonMistake, Icons.error_outline),
+      _detailCard('Corrective Action', point.action, Icons.build_circle_outlined),
+      _detailCard('Records / Evidence', point.records, Icons.folder_copy_outlined),
+    ];
+
+    if (enhancement != null) {
+      cards.addAll([
+        _detailCard('Abu Dhabi Regulatory Basis', enhancement.regulatory, Icons.gavel_outlined),
+        _detailCard('Measurements / Limits', enhancement.measurements, Icons.straighten_outlined),
+        _detailCard('Field Example', enhancement.fieldExample, Icons.construction_outlined),
+        _visualCard(enhancement.visualGuide),
+        _detailCard('Field Checklist', enhancement.checklist, Icons.fact_check_outlined),
+        _detailCard('Stop-Work Conditions', enhancement.stopWork, Icons.stop_circle_outlined),
+        _detailCard('Emergency / Rescue', enhancement.emergency, Icons.emergency_outlined),
+        _detailCard('Interview Question', enhancement.interview, Icons.school_outlined),
+        _detailCard('Official / Control Reference', enhancement.reference, Icons.menu_book_outlined),
+      ]);
+    }
 
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
-        title: Text(
-          section.title,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(section.title, overflow: TextOverflow.ellipsis),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
       ),
@@ -1010,7 +1021,7 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'CHAPTER $chapterNumber • ${section.number}',
+                    'SCAFFOLDING • CHAPTER $chapterNumber • ${section.number}',
                     style: const TextStyle(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w900,
@@ -1031,9 +1042,9 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
                     section.introduction,
                     style: const TextStyle(fontSize: 15, height: 1.55),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Text(
-                    'Clause: ${p.clause}',
+                    'Clause: ${point.clause}',
                     style: const TextStyle(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w800,
@@ -1045,7 +1056,7 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           const Text(
-            'Detailed Field Controls',
+            'Gold Standard Field Requirements',
             style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.w900,
@@ -1054,83 +1065,19 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Tap each item to open its full explanation.',
-            style: TextStyle(fontSize: 14.5),
+            'Unified field content — regulatory basis, hazards, controls, measurements, verification, emergency actions and references.',
+            style: TextStyle(fontSize: 14.5, height: 1.45),
           ),
           const SizedBox(height: 12),
-          ...subPoints.asMap().entries.map(
-            (entry) => Card(
-              elevation: 0,
-              margin: const EdgeInsets.only(bottom: 10),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 9,
-                ),
-                leading: CircleAvatar(
-                  backgroundColor: green.withValues(alpha: 0.12),
-                  child: Text(
-                    '${entry.key + 1}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  entry.value.title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: darkGreen,
-                  ),
-                ),
-                subtitle: Text(
-                  entry.value.detail,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: const Icon(
-                  Icons.chevron_right,
-                  color: darkGreen,
-                ),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ScaffoldingSubPointDetailPage(
-                      chapterTitle: section.title,
-                      point: entry.value,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          if (enhancement != null) ...[
-            const SizedBox(height: 10),
-            const Text(
-              'Gold Standard Field Layer',
-              style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.w900,
-                color: darkGreen,
-              ),
-            ),
-            const SizedBox(height: 7),
-            _enhancementCard('Regulatory Basis', enhancement.regulatory, Icons.gavel),
-            _enhancementCard('Measurements / Limits', enhancement.measurements, Icons.straighten),
-            _enhancementCard('Field Example', enhancement.fieldExample, Icons.construction),
-            _visualCard(enhancement.visualGuide),
-            _enhancementCard('Field Checklist', enhancement.checklist, Icons.fact_check_outlined),
-            _enhancementCard('Stop-Work Conditions', enhancement.stopWork, Icons.stop_circle_outlined),
-            _enhancementCard('Emergency / Rescue', enhancement.emergency, Icons.emergency_outlined),
-            _enhancementCard('Interview Question', enhancement.interview, Icons.school_outlined),
-            _enhancementCard('Official / Control Reference', enhancement.reference, Icons.menu_book_outlined),
-          ],
+          ...cards,
         ],
       ),
     );
   }
 
-  Widget _enhancementCard(String title, String detail, IconData icon) {
+  Widget _detailCard(String title, String detail, IconData icon) {
+    if (detail.trim().isEmpty) return const SizedBox.shrink();
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.only(bottom: 10),
@@ -1168,6 +1115,8 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
   }
 
   Widget _visualCard(String guide) {
+    if (guide.trim().isEmpty) return const SizedBox.shrink();
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.only(bottom: 10),
@@ -1195,7 +1144,7 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(13),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
                 color: green.withValues(alpha: 0.07),
                 border: Border.all(color: green.withValues(alpha: 0.18)),
               ),
@@ -1208,122 +1157,12 @@ class ScaffoldingChapterDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 9),
-            const Text(
-              'SafeNexus visual principle: use a simple diagram/illustration whenever a measurement, sequence, component relationship or safe/unsafe condition is easier to understand visually.',
-              style: TextStyle(fontSize: 12.8, height: 1.45),
-            ),
           ],
         ),
       ),
     );
   }
 }
-
-class _ScaffoldingSubPoint {
-  final String title;
-  final String detail;
-
-  const _ScaffoldingSubPoint(this.title, this.detail);
-}
-
-class ScaffoldingSubPointDetailPage extends StatelessWidget {
-  final String chapterTitle;
-  final _ScaffoldingSubPoint point;
-
-  const ScaffoldingSubPointDetailPage({
-    super.key,
-    required this.chapterTitle,
-    required this.point,
-  });
-
-  static const Color green = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color background = Color(0xFFF6F8F7);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: background,
-      appBar: AppBar(
-        title: Text(
-          point.title,
-          overflow: TextOverflow.ellipsis,
-        ),
-        backgroundColor: darkGreen,
-        foregroundColor: Colors.white,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
-        children: [
-          Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(19),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'SCAFFOLDING • FIELD DETAIL',
-                    style: TextStyle(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w900,
-                      color: green,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    chapterTitle,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: darkGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    point.title,
-                    style: const TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w900,
-                      color: darkGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    point.detail,
-                    style: const TextStyle(fontSize: 16, height: 1.6),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Icon(Icons.verified_user_outlined, color: green),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Field use: apply the current approved CoP, risk assessment, method statement, competent-person requirements, manufacturer instructions and project controls applicable to the task.',
-                      style: TextStyle(fontSize: 14.5, height: 1.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 
 class _GoldChapter {
   final String title;
