@@ -56,23 +56,48 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          test -n "$KEYSTORE_BASE64" || { echo "ERROR: KEYSTORE_BASE64 secret is missing."; exit 1; }
-          test -n "$KEYSTORE_PASSWORD" || { echo "ERROR: KEYSTORE_PASSWORD secret is missing."; exit 1; }
-          test -n "$KEY_ALIAS" || { echo "ERROR: KEY_ALIAS secret is missing."; exit 1; }
-          test -n "$KEY_PASSWORD" || { echo "ERROR: KEY_PASSWORD secret is missing."; exit 1; }
+          test -n "$KEYSTORE_BASE64" || {
+            echo "ERROR: KEYSTORE_BASE64 secret is missing."
+            exit 1
+          }
+
+          test -n "$KEYSTORE_PASSWORD" || {
+            echo "ERROR: KEYSTORE_PASSWORD secret is missing."
+            exit 1
+          }
+
+          test -n "$KEY_ALIAS" || {
+            echo "ERROR: KEY_ALIAS secret is missing."
+            exit 1
+          }
+
+          test -n "$KEY_PASSWORD" || {
+            echo "ERROR: KEY_PASSWORD secret is missing."
+            exit 1
+          }
 
           mkdir -p android/app
+
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+
           test -s android/app/upload-keystore.jks || {
             echo "ERROR: Release keystore file was not created."
             exit 1
           }
 
+          echo "Permanent release keystore created successfully."
+
       - name: Flutter Analyze
         run: flutter analyze
 
       - name: Build Release APK
-        run: flutter build apk --release
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          flutter build apk --release
 
       - name: Verify APK
         run: |
