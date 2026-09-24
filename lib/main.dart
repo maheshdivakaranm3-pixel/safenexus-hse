@@ -944,8 +944,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     );
   }
 
-  Widget _referenceGap() => const SizedBox(height: 10);
-
   // ==========================================================
   // SAFETY MESSAGE
   // ==========================================================
@@ -1331,6 +1329,22 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // ==========================================================
+  // SECTOR REFERENCE
+  // ==========================================================
+
+  Future<void> _openSectorReference(
+    String title,
+    String subtitle,
+  ) async {
+    await _openPage(
+      _SectorReferencePage(
+        title: title,
+        subtitle: subtitle,
       ),
     );
   }
