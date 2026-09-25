@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'abu_dhabi_gold_root_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'guidelines.dart';
 import 'hazard_report.dart';
 import 'observation_history.dart';
 import 'safety_observation.dart';
 import 'voice_report.dart';
-import 'models/guideline_category.dart';
 
 import 'workhub.dart';
 import 'safenexus_alert_center.dart';
@@ -276,9 +273,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   // ==========================================================
 
   Future<void> _openGuidelines() async {
-    await _openPage(
-      const GuidelinesPage(),
-    );
+    if (!mounted) return;
+    setState(() {
+      _currentIndex = 3;
+    });
   }
 
   // ==========================================================
@@ -837,15 +835,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
                       item['color'] as Color,
                       () {
                         final title = item['title'] as String;
-                        if (title == 'UAE HSE') {
-                          _openGuidelineCategory(GuidelineCategory.uaeGeneral);
-                        } else if (title == 'Abu Dhabi HSE') {
-                          _openGuidelineCategory(GuidelineCategory.abuDhabi);
-                        } else if (title == 'Dubai HSE') {
-                          _openGuidelineCategory(GuidelineCategory.dubai);
-                        } else {
-                          _openSectorReference(title, item['subtitle'] as String);
-                        }
+                        _openSectorReference(title, item['subtitle'] as String);
                       },
                       number: item['number'] as String,
                     ),
@@ -960,17 +950,9 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
 
   Widget _buildGuidelinesHome() {
     return SafeArea(
-      child: Column(
-        children: [
-          _simplePageHeader(
-            title: 'HSE Guidelines',
-            subtitle: 'UAE Regulations & Best Practices',
-            icon: Icons.menu_book_rounded,
-          ),
-          const Expanded(
-            child: GuidelinesPage(),
-          ),
-        ],
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
+        child: _buildReferencePreview(),
       ),
     );
   }
@@ -1350,27 +1332,6 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   }
 
   // ==========================================================
-  // GUIDELINE CATEGORY
-  // ==========================================================
-
-  Future<void> _openGuidelineCategory(
-    GuidelineCategory category,
-  ) async {
-    if (category == GuidelineCategory.abuDhabi) {
-      await _openPage(
-        const AbuDhabiGoldRootPage(),
-      );
-      return;
-    }
-
-    await _openPage(
-      GuidelinesPage(
-        initialCategory: category,
-      ),
-    );
-  }
-
-  // ==========================================================
   // MESSAGE
   // ==========================================================
 
@@ -1490,14 +1451,7 @@ class _SectorReferencePage extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const GuidelinesPage(
-                            initialCategory: GuidelineCategory.hseReference,
-                          ),
-                        ),
-                      );
+                      Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.menu_book_rounded),
                     label: const Text('Open HSE Reference Topics'),
