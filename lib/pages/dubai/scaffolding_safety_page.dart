@@ -597,6 +597,106 @@ class _ScaffoldLearning {
       );
 }
 
+
+class ScaffoldingRegulatoryReference {
+  final String jurisdiction;
+  final String authority;
+  final String document;
+  final String version;
+  final String applicability;
+  final String note;
+
+  const ScaffoldingRegulatoryReference({
+    required this.jurisdiction,
+    required this.authority,
+    required this.document,
+    required this.version,
+    required this.applicability,
+    required this.note,
+  });
+}
+
+class ScaffoldingRegulatoryReferencePage extends StatelessWidget {
+  final ScaffoldingRegulatoryReference reference;
+
+  const ScaffoldingRegulatoryReferencePage({
+    super.key,
+    required this.reference,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F8F6),
+      appBar: AppBar(
+        title: const Text('Regulatory Reference'),
+        backgroundColor: const Color(0xFFEAF2EF),
+        foregroundColor: const Color(0xFF17211E),
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+        children: [
+          Card(
+            elevation: 1,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${reference.jurisdiction} — Scaffolding',
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+                  ),
+                  const SizedBox(height: 14),
+                  _meta('Authority', reference.authority),
+                  _meta('Document / CoP / Guideline', reference.document),
+                  _meta('Version / date', reference.version),
+                  _meta('Applicability', reference.applicability),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                reference.note,
+                style: const TextStyle(fontSize: 15.5, height: 1.5),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            color: const Color(0xFFFFF8E8),
+            child: const Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                'Source-control rule: third-party articles are background/reference material only. Regulatory requirements, numerical limits and approval conditions must be checked against the applicable current authority document, project requirements and approved scaffold design/manufacturer instructions before field use.',
+                style: TextStyle(fontSize: 14.5, height: 1.5, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _meta(String label, String value) => Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
+            const SizedBox(height: 2),
+            Text(value, style: const TextStyle(fontSize: 15, height: 1.4)),
+          ],
+        ),
+      );
+}
+
 class ScaffoldingSafetyPage extends StatelessWidget {
   const ScaffoldingSafetyPage({super.key});
 
@@ -736,12 +836,89 @@ class ScaffoldingSafetyPage extends StatelessWidget {
     DubaiDetailSection('🏗️ 15. Structural Design & Calculation', 'Engineering reference layer: establish the design basis and intended use; determine the applicable design and approval requirements; assess dead, imposed and relevant environmental loads; maintain a complete load path; verify foundation/ground and supporting-structure capacity; provide the required bracing, ties and anchorage; confirm stability and working-platform capacity; control special or non-standard arrangements; and retain approved drawings, calculations where required, manufacturer/system information and change-control records. Exact dimensions, capacities and regulatory limits must come from the applicable current authority requirement, approved scaffold design and manufacturer/system instructions. Do not improvise structural values in the field.'),
   ];
 
+
+  static const regulatoryReferences = <ScaffoldingRegulatoryReference>[
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🇦🇪 UAE — Common Reference',
+      authority: 'Applicable federal, emirate, sector and project authorities',
+      document: 'Use the current authority / project requirement applicable to the work',
+      version: 'Verify current edition before use',
+      applicability: 'Depends on emirate, authority, free zone, sector, project and scaffold type.',
+      note: 'UAE scaffolding controls are not a single universal numerical checklist. The applicable emirate/authority requirements, project specifications, approved scaffold design and manufacturer/system instructions must be identified before technical decisions are made.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🟢 Abu Dhabi',
+      authority: 'Abu Dhabi Public Health Centre (ADPHC)',
+      document: 'ADOSH-SF Code of Practice 26.0 — Scaffolding',
+      version: 'Version 4.1 — effective 16 February 2026',
+      applicability: 'Employers and scaffold activities within the Abu Dhabi jurisdiction subject to the ADOSH-SF framework and applicable sector requirements.',
+      note: 'Use the current CoP 26.0 requirements for planning, assessment, design, erection, use, inspection, maintenance, alteration and dismantling. Engineering decisions must follow the applicable design basis and approved information.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🔵 Dubai',
+      authority: 'Dubai Municipality / applicable Dubai authority',
+      document: 'Current Dubai construction-safety requirements and applicable project/authority requirements',
+      version: 'Verify the current applicable edition before use',
+      applicability: 'Dubai construction activities and projects under the relevant Dubai authority.',
+      note: 'Older references may describe historic Dubai Municipality scaffold requirements. Do not treat a third-party article or old chapter number as the current legal requirement without checking the current authority source and project applicability.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🔵 Trakhees / PCFC',
+      authority: 'Trakhees / Ports, Customs and Free Zone Corporation',
+      document: 'Applicable Construction Safety Regulations for the project area',
+      version: 'Verify current edition and section before use',
+      applicability: 'Projects and development zones regulated by Trakhees/PCFC.',
+      note: 'Where a Trakhees requirement applies, use the current controlled document and project requirements. Do not automatically transfer Dubai-wide requirements into a Trakhees project or vice versa.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🔵 DMCC',
+      authority: 'DMCC',
+      document: 'Current DMCC HSE requirements applicable to scaffold and work platforms',
+      version: 'Verify current controlled edition',
+      applicability: 'Projects and workplaces under DMCC requirements.',
+      note: 'Check the current DMCC HSE requirement for erection, modification, dismantling, inspection, tagging, edge protection and access. Project-specific controls may also apply.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🔵 Dubai Development Authority',
+      authority: 'Dubai Development Authority (DDA)',
+      document: 'Current DDA HSE requirements applicable to scaffolds and work platforms',
+      version: 'Verify current controlled edition',
+      applicability: 'Projects and workplaces under DDA jurisdiction.',
+      note: 'Use the current DDA controlled requirements for scaffold construction, platforms, access, stability, inspection and fall protection where applicable.',
+    ),
+    ScaffoldingRegulatoryReference(
+      jurisdiction: '🟠 Sharjah',
+      authority: 'Sharjah Prevention and Safety Authority (SPSA)',
+      document: 'OSHJ Guideline 03 — Scaffolding; applicable OSHJ work-at-height requirements',
+      version: 'Verify current controlled edition',
+      applicability: 'Scaffolding activities within the Sharjah OSHJ framework.',
+      note: 'The Sharjah scaffold reference covers risk assessment, management, design, erection, platforms, loading, access, inspection/handover, modification, maintenance, dismantling, training and emergency preparedness. Mobile access towers are addressed separately under the applicable guideline.',
+    ),
+  ];
+
+  static DubaiDetailItem _referenceItem(ScaffoldingRegulatoryReference ref) =>
+      DubaiDetailItem(
+        title: ref.jurisdiction,
+        subtitle: ref.authority,
+        details: [
+          'Document: ${ref.document}',
+          'Version/date: ${ref.version}',
+          'Applicability: ${ref.applicability}',
+          ref.note,
+        ],
+      );
+
+  static const regulatorySection = DubaiDetailSection(
+    '⚖️ 16. Regulatory Reference & Source Control',
+    'Every regulatory requirement should be presented with four control fields: authority, document/CoP/guideline, version or effective date, and applicability. Third-party articles may help identify topics but must not be treated as the legal source. Numerical limits, design triggers, inspection requirements and approval conditions must be verified against the current applicable authority document, project requirements, approved scaffold design and manufacturer/system instructions.',
+  );
+
   @override
   Widget build(BuildContext context) => DubaiTopicPage(
         title: 'Scaffolding Safety',
         emoji: '🏗️',
         introduction: 'Scaffolding is a temporary structure used to provide safe access, working platforms and fall protection for construction, maintenance, inspection and other work-at-height activities. A scaffold must be properly planned, suitable for its intended purpose, erected by competent persons, inspected, maintained and safely dismantled.',
-        sections: sections,
-        tappableItems: [...types, ...components],
+        sections: [...sections, regulatorySection],
+        tappableItems: [...types, ...components, ...regulatoryReferences.map(_referenceItem)],
       );
 }
