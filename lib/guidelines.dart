@@ -118,7 +118,7 @@ class GuidelinesPage extends StatelessWidget {
       backgroundColor: _pageBackground,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: _navy,
+        backgroundColor: const Color(0xFF123047),
         foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
