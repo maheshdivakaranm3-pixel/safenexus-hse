@@ -1,900 +1,478 @@
 import 'package:flutter/material.dart';
 
-import 'models/reference_topic.dart';
-import 'models/guideline_category.dart';
-import 'guideline_detail_page.dart';
-import 'abu_dhabi_hse_topic_page.dart';
-import 'hse_reference_complete_topic_page.dart' as hse_reference_page;
-import 'dubai_hse_topic_router.dart';
+/// SafeNexus HSE — Reference screen
+///
+/// This file intentionally contains NO dependency on the old UAE / Abu Dhabi /
+/// Dubai reference models, data files, topic routers, or detail pages.
+///
+/// The existing SafeNexus application shell can continue to open [GuidelinesPage].
+/// The reference content itself is being rebuilt from zero, while preserving the
+/// current Reference-screen concept and sector cards.
+///
+/// When the new reference modules are implemented, each card can be connected
+/// to its dedicated page without changing the SafeNexus shell.
 
-import 'data/uae_general_guidelines.dart';
-import 'data/abu_dhabi_hse_topics.dart';
-import 'data/dubai_guidelines.dart';
-import 'data/hse_safety_reference.dart';
+class GuidelinesPage extends StatelessWidget {
+  const GuidelinesPage({super.key});
 
-class GuidelinesPage extends StatefulWidget {
-  final GuidelineCategory initialCategory;
-
-  const GuidelinesPage({
-    super.key,
-    this.initialCategory = GuidelineCategory.all,
-  });
-
-  @override
-  State<GuidelinesPage> createState() => _GuidelinesPageState();
-}
-
-class _GuidelinesPageState extends State<GuidelinesPage> {
-  final TextEditingController _searchController =
-      TextEditingController();
-
-  late GuidelineCategory _selectedCategory;
-
-  String _searchQuery = '';
-
-  static const Color primaryGreen = Color(0xFF159447);
-  static const Color darkGreen = Color(0xFF0B5D4B);
-  static const Color pageBackground = Color(0xFFF6F8F7);
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedCategory = widget.initialCategory;
-  }
-
-  @override
-  void didUpdateWidget(
-    covariant GuidelinesPage oldWidget,
-  ) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.initialCategory !=
-        widget.initialCategory) {
-      setState(() {
-        _selectedCategory = widget.initialCategory;
-      });
-    }
-  }
-
-  // ============================================================
-  // ALL TOPICS
-  // ============================================================
-
-  List<ReferenceTopic> get _topics => [
-        ...uaeGeneralGuidelines,
-        ...abuDhabiHseTopics,
-        ...dubaiGuidelines,
-        ...hseSafetyReferences,
-      ];
-
-  // ============================================================
-  // CATEGORY LABEL
-  // ============================================================
-
-  String _categoryLabel(
-    GuidelineCategory category,
-  ) {
-    switch (category) {
-      case GuidelineCategory.all:
-        return 'All';
-
-      case GuidelineCategory.uaeGeneral:
-        return 'UAE General';
-
-      case GuidelineCategory.abuDhabi:
-        return 'Abu Dhabi';
-
-      case GuidelineCategory.dubai:
-        return 'Dubai';
-
-      case GuidelineCategory.hseReference:
-        return 'HSE Reference';
-    }
-  }
-
-  // ============================================================
-  // CATEGORY ICON
-  // ============================================================
-
-  IconData _categoryIcon(
-    GuidelineCategory category,
-  ) {
-    switch (category) {
-      case GuidelineCategory.all:
-        return Icons.apps_outlined;
-
-      case GuidelineCategory.uaeGeneral:
-        return Icons.flag_outlined;
-
-      case GuidelineCategory.abuDhabi:
-        return Icons.location_city_outlined;
-
-      case GuidelineCategory.dubai:
-        return Icons.apartment_outlined;
-
-      case GuidelineCategory.hseReference:
-        return Icons.menu_book_outlined;
-    }
-  }
-
-  // ============================================================
-  // CATEGORY COUNT
-  // ============================================================
-
-  int _categoryCount(
-    GuidelineCategory category,
-  ) {
-    if (category == GuidelineCategory.all) {
-      return _topics.length;
-    }
-
-    return _topics
-        .where(
-          (topic) =>
-              topic.guidelineCategory == category,
-        )
-        .length;
-  }
-
-  // ============================================================
-  // SELECT CATEGORY
-  // ============================================================
-
-  void _selectCategory(
-    GuidelineCategory category,
-  ) {
-    if (_selectedCategory == category) {
-      return;
-    }
-
-    setState(() {
-      _selectedCategory = category;
-    });
-  }
-
-  // ============================================================
-  // FILTERED TOPICS
-  // ============================================================
-
-  List<ReferenceTopic> get _filteredTopics {
-    final query =
-        _searchQuery.trim().toLowerCase();
-
-    Iterable<ReferenceTopic> result = _topics;
-
-    if (_selectedCategory !=
-        GuidelineCategory.all) {
-      result = result.where(
-        (topic) =>
-            topic.guidelineCategory ==
-            _selectedCategory,
-      );
-    }
-
-    if (query.isNotEmpty) {
-      result = result.where(
-        (topic) {
-          return topic.title
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.shortTitle
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.description
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.category
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.authority
-                  .toLowerCase()
-                  .contains(query) ||
-              topic.jurisdiction
-                  .toLowerCase()
-                  .contains(query);
-        },
-      );
-    }
-
-    return result.toList();
-  }
-
-  // ============================================================
-  // OPEN TOPIC
-  // ============================================================
-
-  void _openTopic(
-    ReferenceTopic topic,
-  ) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => topic.guidelineCategory == GuidelineCategory.dubai
-            ? DubaiHsePartRouter.pageFor(topic)
-            : topic.guidelineCategory == GuidelineCategory.abuDhabi
-                ? AbuDhabiHseTopicPage(topic: topic)
-                : topic.guidelineCategory == GuidelineCategory.uaeGeneral
-                    ? UaeGeneralCompleteTopicPage(topic: topic)
-                    : topic.guidelineCategory == GuidelineCategory.hseReference
-                        ? hse_reference_page.HseReferenceTopicPage(topic: topic)
-                        : GuidelineDetailPage(topic: topic),
-      ),
-    );
-  }
-
-  // ============================================================
-  // DISPOSE
-  // ============================================================
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  // ============================================================
-  // BUILD
-  // ============================================================
+  static const Color _navy = Color(0xFF123047);
+  static const Color _green = Color(0xFF138A5B);
+  static const Color _lightGreen = Color(0xFFEAF7F0);
+  static const Color _pageBackground = Color(0xFFF5F8F7);
 
   @override
   Widget build(BuildContext context) {
-    final topics = _filteredTopics;
-
-    final bottomSafeSpace =
-        MediaQuery.of(context)
-            .viewPadding
-            .bottom;
+    final sections = <_ReferenceSection>[
+      const _ReferenceSection(
+        title: 'UAE HSE',
+        subtitle: 'UAE-wide HSE reference',
+        icon: Icons.account_balance,
+        color: _green,
+        kind: _ReferenceKind.uae,
+      ),
+      const _ReferenceSection(
+        title: 'Abu Dhabi HSE',
+        subtitle: 'Abu Dhabi HSE reference',
+        icon: Icons.location_city,
+        color: Color(0xFF1B8A63),
+        kind: _ReferenceKind.abuDhabi,
+      ),
+      const _ReferenceSection(
+        title: 'Dubai HSE',
+        subtitle: 'Dubai HSE reference',
+        icon: Icons.apartment,
+        color: Color(0xFF1976A8),
+        kind: _ReferenceKind.dubai,
+      ),
+      const _ReferenceSection(
+        title: 'Construction',
+        subtitle: 'Construction safety',
+        icon: Icons.construction,
+        color: Color(0xFFB86B00),
+        kind: _ReferenceKind.construction,
+      ),
+      const _ReferenceSection(
+        title: 'Oil & Gas',
+        subtitle: 'Oil & Gas HSE',
+        icon: Icons.local_gas_station,
+        color: Color(0xFF7A4E00),
+        kind: _ReferenceKind.oilGas,
+      ),
+      const _ReferenceSection(
+        title: 'Offshore',
+        subtitle: 'Offshore operations',
+        icon: Icons.sailing,
+        color: Color(0xFF176B87),
+        kind: _ReferenceKind.offshore,
+      ),
+      const _ReferenceSection(
+        title: 'Industrial',
+        subtitle: 'Industrial HSE',
+        icon: Icons.factory,
+        color: Color(0xFF555F6D),
+        kind: _ReferenceKind.industrial,
+      ),
+      const _ReferenceSection(
+        title: 'Occupational Health',
+        subtitle: 'Worker health & wellbeing',
+        icon: Icons.health_and_safety,
+        color: Color(0xFF8B4F8E),
+        kind: _ReferenceKind.occupationalHealth,
+      ),
+      const _ReferenceSection(
+        title: 'Environmental',
+        subtitle: 'Environmental HSE',
+        icon: Icons.eco,
+        color: Color(0xFF3C7D45),
+        kind: _ReferenceKind.environmental,
+      ),
+      const _ReferenceSection(
+        title: 'Emergency & Rescue',
+        subtitle: 'Emergency response',
+        icon: Icons.emergency,
+        color: Color(0xFFB3261E),
+        kind: _ReferenceKind.emergency,
+      ),
+      const _ReferenceSection(
+        title: 'Fire & Life Safety',
+        subtitle: 'Fire and life safety',
+        icon: Icons.local_fire_department,
+        color: Color(0xFFC44B16),
+        kind: _ReferenceKind.fireLifeSafety,
+      ),
+      const _ReferenceSection(
+        title: 'Specialist / Cross-Sector',
+        subtitle: 'Specialist HSE topics',
+        icon: Icons.engineering,
+        color: Color(0xFF5B4B8A),
+        kind: _ReferenceKind.specialist,
+      ),
+      const _ReferenceSection(
+        title: 'Learning + Interview',
+        subtitle: 'Learning and interview preparation',
+        icon: Icons.school,
+        color: Color(0xFF1565C0),
+        kind: _ReferenceKind.learning,
+      ),
+    ];
 
     return Scaffold(
-      backgroundColor: pageBackground,
+      backgroundColor: _pageBackground,
       appBar: AppBar(
-        toolbarHeight: 48,
         elevation: 0,
-        scrolledUnderElevation: 0,
-        backgroundColor: primaryGreen,
+        backgroundColor: _navy,
         foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          'HSE Safety Reference',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          'HSE Reference',
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 17,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.2,
           ),
         ),
       ),
-      body: Column(
-        children: [
-          // ======================================================
-          // HEADER
-          // ======================================================
-
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              8,
-              16,
-              12,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: _ReferenceHeader(),
             ),
-            decoration: const BoxDecoration(
-              color: primaryGreen,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(18),
-                bottomRight: Radius.circular(18),
-              ),
-            ),
-            child: Column(
-              children: [
-                const Text(
-                  'Professional HSE Reference',
-                  maxLines: 1,
-                  overflow:
-                      TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'UAE-wide safety guidance and professional HSE references',
-                  maxLines: 1,
-                  overflow:
-                      TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 11.5,
-                  ),
-                ),
-                const SizedBox(height: 9),
-                _buildSearchField(),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // ======================================================
-          // CATEGORY FILTERS
-          // ======================================================
-
-          SizedBox(
-            height: 48,
-            child: ListView(
-              scrollDirection:
-                  Axis.horizontal,
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              children: [
-                _buildCategoryChip(
-                  GuidelineCategory.all,
-                ),
-                _buildCategoryChip(
-                  GuidelineCategory.uaeGeneral,
-                ),
-                _buildCategoryChip(
-                  GuidelineCategory.abuDhabi,
-                ),
-                _buildCategoryChip(
-                  GuidelineCategory.dubai,
-                ),
-                _buildCategoryChip(
-                  GuidelineCategory.hseReference,
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 6),
-
-          // ======================================================
-          // ACTIVE CATEGORY
-          // ======================================================
-
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        primaryGreen.withValues(
-                      alpha: 0.10,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(
-                      12,
-                    ),
-                  ),
-                  child: Icon(
-                    _categoryIcon(
-                      _selectedCategory,
-                    ),
-                    color: primaryGreen,
-                    size: 23,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    _categoryLabel(
-                      _selectedCategory,
-                    ),
-                    maxLines: 1,
-                    overflow:
-                        TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight:
-                          FontWeight.w800,
-                      color: darkGreen,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding:
-                      const EdgeInsets
-                          .symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration:
-                      BoxDecoration(
-                    color:
-                        Colors.blueGrey
-                            .withValues(
-                      alpha: 0.08,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(
-                      20,
-                    ),
-                  ),
-                  child: Text(
-                    '${topics.length}',
-                    style: TextStyle(
-                      color:
-                          Colors.blueGrey
-                              .shade700,
-                      fontWeight:
-                          FontWeight.w800,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // ======================================================
-          // TOPIC LIST
-          // ======================================================
-
-          Expanded(
-            child: topics.isEmpty
-                ? _buildEmptyState()
-                : ListView.builder(
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior
-                            .onDrag,
-                    physics:
-                        const AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.fromLTRB(
-                      16,
-                      4,
-                      16,
-                      bottomSafeSpace + 32,
-                    ),
-                    itemCount:
-                        topics.length,
-                    itemBuilder:
-                        (context, index) {
-                      return _buildTopicCard(
-                        topics[index],
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // SEARCH FIELD
-  // ============================================================
-
-  Widget _buildSearchField() {
-    return SizedBox(
-      height: 52,
-      child: TextField(
-        controller: _searchController,
-        onChanged: (value) {
-          setState(() {
-            _searchQuery = value;
-          });
-        },
-        textInputAction:
-            TextInputAction.search,
-        textAlignVertical:
-            TextAlignVertical.center,
-        style: const TextStyle(
-          fontSize: 15,
-          color: Colors.black87,
-        ),
-        decoration: InputDecoration(
-          hintText:
-              'Search HSE guidelines...',
-          hintStyle: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 14,
-          ),
-          prefixIcon: const Icon(
-            Icons.search_rounded,
-            size: 24,
-            color: Colors.black54,
-          ),
-          suffixIcon:
-              _searchQuery.isNotEmpty
-                  ? IconButton(
-                      tooltip:
-                          'Clear search',
-                      onPressed: () {
-                        _searchController
-                            .clear();
-
-                        setState(() {
-                          _searchQuery = '';
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.clear_rounded,
-                        color:
-                            Colors.black54,
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final section = sections[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _ReferenceCard(
+                        section: section,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => _ReferencePlaceholderPage(
+                                section: section,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    )
-                  : null,
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding:
-              const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          border: OutlineInputBorder(
-            borderRadius:
-                BorderRadius.circular(13),
-            borderSide:
-                BorderSide.none,
-          ),
-          enabledBorder:
-              OutlineInputBorder(
-            borderRadius:
-                BorderRadius.circular(13),
-            borderSide:
-                BorderSide.none,
-          ),
-          focusedBorder:
-              OutlineInputBorder(
-            borderRadius:
-                BorderRadius.circular(13),
-            borderSide: BorderSide(
-              color:
-                  primaryGreen.withValues(
-                alpha: 0.35,
-              ),
-              width: 1.5,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // CATEGORY CHIP
-  // ============================================================
-
-  Widget _buildCategoryChip(
-    GuidelineCategory category,
-  ) {
-    final isSelected =
-        _selectedCategory == category;
-
-    final count =
-        _categoryCount(category);
-
-    return Padding(
-      padding:
-          const EdgeInsets.only(right: 8),
-      child: ChoiceChip(
-        selected: isSelected,
-        onSelected: (_) {
-          _selectCategory(category);
-        },
-        avatar: Icon(
-          _categoryIcon(category),
-          size: 17,
-          color: isSelected
-              ? Colors.white
-              : primaryGreen,
-        ),
-        label: Text(
-          '${_categoryLabel(category)} ($count)',
-          maxLines: 1,
-          overflow:
-              TextOverflow.ellipsis,
-        ),
-        labelStyle: TextStyle(
-          color: isSelected
-              ? Colors.white
-              : darkGreen,
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-        ),
-        backgroundColor: Colors.white,
-        selectedColor: primaryGreen,
-        side: BorderSide(
-          color: isSelected
-              ? primaryGreen
-              : Colors.grey.shade300,
-        ),
-        shape:
-            RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(22),
-        ),
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 7,
-          vertical: 4,
-        ),
-        showCheckmark: false,
-      ),
-    );
-  }
-
-  // ============================================================
-  // TOPIC CARD
-  // ============================================================
-
-  Widget _buildTopicCard(
-    ReferenceTopic topic,
-  ) {
-    return Card(
-      margin:
-          const EdgeInsets.only(
-        bottom: 12,
-      ),
-      elevation: 1,
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      shape:
-          RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(18),
-      ),
-      child: InkWell(
-        borderRadius:
-            BorderRadius.circular(18),
-        onTap: () => _openTopic(topic),
-        child: Padding(
-          padding:
-              const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                alignment:
-                    Alignment.center,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      primaryGreen.withValues(
-                    alpha: 0.10,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(
-                    14,
-                  ),
+                    );
+                  },
+                  childCount: sections.length,
                 ),
-                child: Icon(
-                  _categoryIcon(
-                    topic.guidelineCategory,
-                  ),
-                  color: primaryGreen,
-                  size: 27,
-                ),
-              ),
-
-              const SizedBox(width: 13),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      topic.title,
-                      maxLines: 2,
-                      overflow:
-                          TextOverflow.ellipsis,
-                      style:
-                          const TextStyle(
-                        fontSize: 16,
-                        height: 1.25,
-                        fontWeight:
-                            FontWeight.w800,
-                        color: darkGreen,
-                      ),
-                    ),
-
-                    const SizedBox(
-                        height: 7),
-
-                    Text(
-                      topic.description,
-                      maxLines: 3,
-                      overflow:
-                          TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: 1.35,
-                        color:
-                            Colors.grey.shade700,
-                      ),
-                    ),
-
-                    const SizedBox(
-                        height: 10),
-
-                    Wrap(
-                      spacing: 7,
-                      runSpacing: 5,
-                      children: [
-                        _buildTag(
-                          topic.category,
-                          primaryGreen,
-                        ),
-                        _buildTag(
-                          topic.jurisdiction,
-                          Colors.blueGrey,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 5),
-
-              const Padding(
-                padding:
-                    EdgeInsets.only(
-                  top: 2,
-                ),
-                child: Icon(
-                  Icons
-                      .arrow_forward_ios_rounded,
-                  size: 15,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // TAG
-  // ============================================================
-
-  Widget _buildTag(
-    String text,
-    Color color,
-  ) {
-    final cleanText =
-        text.trim();
-
-    if (cleanText.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      constraints:
-          const BoxConstraints(
-        maxWidth: 150,
-      ),
-      padding:
-          const EdgeInsets.symmetric(
-        horizontal: 9,
-        vertical: 5,
-      ),
-      decoration:
-          BoxDecoration(
-        color:
-            color.withValues(
-          alpha: 0.09,
-        ),
-        borderRadius:
-            BorderRadius.circular(
-          20,
-        ),
-      ),
-      child: Text(
-        cleanText,
-        maxLines: 1,
-        overflow:
-            TextOverflow.ellipsis,
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight:
-              FontWeight.w700,
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // EMPTY STATE
-  // ============================================================
-
-  Widget _buildEmptyState() {
-    final hasSearch =
-        _searchQuery.trim().isNotEmpty;
-
-    return Center(
-      child: SingleChildScrollView(
-        padding:
-            const EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-          children: [
-            Icon(
-              hasSearch
-                  ? Icons.search_off_rounded
-                  : Icons.menu_book_outlined,
-              size: 62,
-              color: Colors.grey.shade400,
-            ),
-
-            const SizedBox(height: 14),
-
-            Text(
-              hasSearch
-                  ? 'No guidelines found'
-                  : 'No guidelines available',
-              textAlign:
-                  TextAlign.center,
-              style: const TextStyle(
-                fontSize: 19,
-                fontWeight:
-                    FontWeight.w800,
-                color: darkGreen,
               ),
             ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              hasSearch
-                  ? 'Try another search term.'
-                  : 'No guidelines are available in this category.',
-              textAlign:
-                  TextAlign.center,
-              style: TextStyle(
-                color:
-                    Colors.grey.shade600,
-                height: 1.4,
-              ),
-            ),
-
-            if (hasSearch) ...[
-              const SizedBox(height: 16),
-
-              OutlinedButton.icon(
-                onPressed: () {
-                  _searchController
-                      .clear();
-
-                  setState(() {
-                    _searchQuery = '';
-                  });
-                },
-                icon: const Icon(
-                  Icons.clear_rounded,
-                ),
-                label: const Text(
-                  'Clear Search',
-                ),
-              ),
-            ],
           ],
         ),
       ),
     );
   }
+}
+
+class _ReferenceHeader extends StatelessWidget {
+  const _ReferenceHeader();
+
+  static const Color _navy = Color(0xFF123047);
+  static const Color _green = Color(0xFF138A5B);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 18),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF123047),
+            Color(0xFF185D4A),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 16,
+            offset: const Offset(0, 7),
+            color: Colors.black.withOpacity(0.10),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.14),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(
+              Icons.menu_book_rounded,
+              color: Colors.white,
+              size: 29,
+            ),
+          ),
+          const SizedBox(width: 14),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SafeNexus HSE Reference',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'Professional field reference for UAE HSE, '
+                  'jurisdictional requirements and specialist sectors.',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 13.5,
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Icon(
+            Icons.verified_rounded,
+            color: _green.withOpacity(0.95),
+            size: 25,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReferenceCard extends StatelessWidget {
+  const _ReferenceCard({
+    required this.section,
+    required this.onTap,
+  });
+
+  final _ReferenceSection section;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 86),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: const Color(0xFFE3EAE7)),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+                color: Colors.black.withOpacity(0.045),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: section.color.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(
+                  section.icon,
+                  color: section.color,
+                  size: 27,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      section.title,
+                      style: const TextStyle(
+                        color: Color(0xFF18313E),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w750,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      section.subtitle,
+                      style: const TextStyle(
+                        color: Color(0xFF6D7B82),
+                        fontSize: 12.5,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: section.color,
+                size: 27,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ReferencePlaceholderPage extends StatelessWidget {
+  const _ReferencePlaceholderPage({
+    required this.section,
+  });
+
+  final _ReferenceSection section;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F8F7),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFF123047),
+        foregroundColor: Colors.white,
+        title: Text(
+          section.title,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: const Color(0xFFE0E8E4)),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: section.color.withOpacity(0.10),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    section.icon,
+                    color: section.color,
+                    size: 36,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  section.title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xFF123047),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'New SafeNexus HSE reference content is being built '
+                  'from a clean architecture.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF66757C),
+                    fontSize: 14,
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEAF7F0),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: const Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.info_outline_rounded,
+                        color: Color(0xFF138A5B),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Old UAE, Abu Dhabi and Dubai reference data '
+                          'is intentionally not connected here. '
+                          'The new reference modules will be added separately.',
+                          style: TextStyle(
+                            color: Color(0xFF245B46),
+                            fontSize: 13,
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum _ReferenceKind {
+  uae,
+  abuDhabi,
+  dubai,
+  construction,
+  oilGas,
+  offshore,
+  industrial,
+  occupationalHealth,
+  environmental,
+  emergency,
+  fireLifeSafety,
+  specialist,
+  learning,
+}
+
+class _ReferenceSection {
+  const _ReferenceSection({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.kind,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final _ReferenceKind kind;
 }
