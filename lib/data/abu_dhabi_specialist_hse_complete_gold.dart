@@ -1894,7 +1894,7 @@ const List<ScaffoldingGoldSection> scaffoldingGoldStandardSections = [
       records: 'Applicable design/drawing, RAMS or safe system, inspection records, competency records and other evidence required by the clause or site system.',
     ),
   ),
-]
+];
 
 // ===== SOURCE: abu_dhabi_working_at_height_gold.dart =====
 /// SafeNexus HSE — Abu Dhabi Working at Height Gold Standard.
