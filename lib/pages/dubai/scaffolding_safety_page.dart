@@ -458,6 +458,36 @@ class ScaffoldingAdvancedLearningPage extends StatelessWidget {
           ['Immediate danger.', 'Control not implemented.', 'Work resumes before verification.'],
           'A façade crew finds a missing tie. The correct response is STOP → EXCLUDE → ASSESS → CORRECT → RE-INSPECT → STATUS → RESUME.',
         );
+      case 13:
+        return _ScaffoldLearning.fromLists(
+          [
+            'Confirm whether the scaffold arrangement requires engineered design, calculation or a competent technical review under the applicable authority requirements, approved design and system instructions.',
+            'Trace the design load path from the working platform through transoms, ledgers, standards, base plates and the supporting ground or structure.',
+            'Verify foundation and ground conditions, stability, bracing, ties, anchorage, supporting structure, working platforms and intended loading against the approved design.',
+            'Check special arrangements such as suspended, cantilever, freestanding, screened or non-standard scaffolds for specific engineering controls.',
+            'Confirm design drawings, calculations where required, manufacturer/system information and change-control arrangements are available before construction or alteration.',
+          ],
+          [
+            'Do not guess structural dimensions, capacities or tie arrangements in the field.',
+            'Maintain a complete and continuous load path and the stability arrangement shown by the approved design/system.',
+            'Consider reasonably expected environmental effects and the most adverse applicable loading combination.',
+            'Do not alter a load-bearing, bracing, tie, anchorage or support arrangement without competent technical assessment and required re-approval.',
+          ],
+          [
+            'HSE verifies that field conditions match the approved engineering controls but does not substitute a visual inspection for structural design.',
+            'Competent scaffold personnel and engineers address design, calculation and technical deviations within their authority and competence.',
+            'Construction supervision prevents unauthorised loading, modification and use outside the intended design.',
+            'Any uncertainty about capacity, stability, support or configuration is escalated before work continues.',
+          ],
+          [
+            'Design information is missing, unclear or does not match the scaffold being erected.',
+            'Foundation/support condition is unsuitable or materially different from the design basis.',
+            'Required tie, brace, anchorage or load-path component is missing, damaged or altered.',
+            'Intended loading or configuration has changed without technical reassessment.',
+            'Wind, rain, screening, excavation, nearby works or another condition may materially affect stability.',
+          ],
+          'A façade scaffold is required to carry a changed work load and additional screening. Work pauses before the change is made. The competent technical team reviews the design basis, loading, stability, ties and supporting conditions, then issues the controlled arrangement before erection or use continues.',
+        );
       default:
         return _ScaffoldLearning.fromLists(
           ['Use the learning formula as a field verification sequence.', 'Check each critical control rather than relying on appearance.', 'Escalate uncertainty before work continues.'],
@@ -703,6 +733,7 @@ class ScaffoldingSafetyPage extends StatelessWidget {
     DubaiDetailSection('🚨 12. Emergency Response', 'Scaffold collapse/instability/fall: STOP → ALARM → EXCLUDE → DO NOT ENTER AN UNSTABLE AREA → FOLLOW EMERGENCY/RESCUE PLAN → FIRST AID WITHIN COMPETENCE → REPORT & INVESTIGATE.'),
     DubaiDetailSection('👷 13. Practical Site Example', 'Situation: A façade team is using a tied scaffold and one required tie has been removed. HSE response: STOP WORK → isolate affected area → competent-person stability assessment → restore/control the approved tie arrangement → re-inspect → confirm status → resume only after verification.'),
     DubaiDetailSection('🧠 14. Quick Learning Formula', 'BASE → FRAME → BRACE → TIE → PLATFORM → GUARDRAIL → ACCESS → LOAD → INSPECT → TAG → USE'),
+    DubaiDetailSection('🏗️ 15. Structural Design & Calculation', 'Engineering reference layer: establish the design basis and intended use; determine the applicable design and approval requirements; assess dead, imposed and relevant environmental loads; maintain a complete load path; verify foundation/ground and supporting-structure capacity; provide the required bracing, ties and anchorage; confirm stability and working-platform capacity; control special or non-standard arrangements; and retain approved drawings, calculations where required, manufacturer/system information and change-control records. Exact dimensions, capacities and regulatory limits must come from the applicable current authority requirement, approved scaffold design and manufacturer/system instructions. Do not improvise structural values in the field.'),
   ];
 
   @override
