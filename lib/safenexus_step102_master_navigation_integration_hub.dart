@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'abu_dhabi_gold_root_page.dart';
 
 /// SafeNexus HSE — Step 102 Master Navigation Integration Hub.
-/// Connects the main dashboard modules to the new Abu Dhabi Gold Root page.
+/// Preserved as part of the existing WorkHub integration layer.
 class SafenexusStep102MasterNavigationIntegrationHub extends StatelessWidget {
   const SafenexusStep102MasterNavigationIntegrationHub({super.key});
 
@@ -44,12 +43,12 @@ class SafenexusStep102MasterNavigationIntegrationHub extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundColor: primaryGreen.withValues(alpha: 0.10),
                 child: const Icon(
-                  Icons.location_city_rounded,
+                  Icons.menu_book_rounded,
                   color: primaryGreen,
                 ),
               ),
               title: const Text(
-                'Abu Dhabi HSE Gold Standard',
+                'HSE Reference Modules',
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   color: darkGreen,
@@ -59,15 +58,14 @@ class SafenexusStep102MasterNavigationIntegrationHub extends StatelessWidget {
               subtitle: const Padding(
                 padding: EdgeInsets.only(top: 4),
                 child: Text(
-                  'Access verified ADPHC Code of Practice & Gold Standard field references.',
+                  'Jurisdiction reference modules are being rebuilt from a clean baseline.',
                 ),
               ),
               trailing: const Icon(Icons.chevron_right_rounded),
               onTap: () {
-                // Navigates strictly to the new Abu Dhabi Gold Root Page
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const AbuDhabiGoldRootPage(),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('New HSE Reference modules will be added here.'),
                   ),
                 );
               },
