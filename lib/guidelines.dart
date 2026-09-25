@@ -15,9 +15,7 @@ import 'package:flutter/material.dart';
 class GuidelinesPage extends StatelessWidget {
   const GuidelinesPage({super.key});
 
-  static const Color _navy = Color(0xFF123047);
   static const Color _green = Color(0xFF138A5B);
-  static const Color _lightGreen = Color(0xFFEAF7F0);
   static const Color _pageBackground = Color(0xFFF5F8F7);
 
   @override
@@ -173,7 +171,6 @@ class GuidelinesPage extends StatelessWidget {
 class _ReferenceHeader extends StatelessWidget {
   const _ReferenceHeader();
 
-  static const Color _navy = Color(0xFF123047);
   static const Color _green = Color(0xFF138A5B);
 
   @override
@@ -195,7 +192,7 @@ class _ReferenceHeader extends StatelessWidget {
           BoxShadow(
             blurRadius: 16,
             offset: const Offset(0, 7),
-            color: Colors.black.withOpacity(0.10),
+            color: Colors.black.withValues(alpha: 0.10),
           ),
         ],
       ),
@@ -206,7 +203,7 @@ class _ReferenceHeader extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.14),
+              color: Colors.white.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Icon(
@@ -244,7 +241,7 @@ class _ReferenceHeader extends StatelessWidget {
           const SizedBox(width: 8),
           Icon(
             Icons.verified_rounded,
-            color: _green.withOpacity(0.95),
+            color: _green.withValues(alpha: 0.95),
             size: 25,
           ),
         ],
@@ -280,7 +277,7 @@ class _ReferenceCard extends StatelessWidget {
               BoxShadow(
                 blurRadius: 8,
                 offset: const Offset(0, 3),
-                color: Colors.black.withOpacity(0.045),
+                color: Colors.black.withValues(alpha: 0.045),
               ),
             ],
           ),
@@ -290,7 +287,7 @@ class _ReferenceCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: section.color.withOpacity(0.10),
+                  color: section.color.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Icon(
@@ -310,7 +307,7 @@ class _ReferenceCard extends StatelessWidget {
                       style: const TextStyle(
                         color: Color(0xFF18313E),
                         fontSize: 16,
-                        fontWeight: FontWeight.w750,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -376,7 +373,7 @@ class _ReferencePlaceholderPage extends StatelessWidget {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
-                    color: section.color.withOpacity(0.10),
+                    color: section.color.withValues(alpha: 0.10),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
