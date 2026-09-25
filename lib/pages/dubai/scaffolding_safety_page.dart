@@ -458,7 +458,7 @@ class ScaffoldingAdvancedLearningPage extends StatelessWidget {
           ['Immediate danger.', 'Control not implemented.', 'Work resumes before verification.'],
           'A façade crew finds a missing tie. The correct response is STOP → EXCLUDE → ASSESS → CORRECT → RE-INSPECT → STATUS → RESUME.',
         );
-      case 13:
+      case 14:
         return _ScaffoldLearning.fromLists(
           [
             'Confirm whether the scaffold arrangement requires engineered design, calculation or a competent technical review under the applicable authority requirements, approved design and system instructions.',
