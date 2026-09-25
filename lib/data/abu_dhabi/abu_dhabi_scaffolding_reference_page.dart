@@ -61,7 +61,7 @@ class _AbuDhabiScaffoldingReferencePageState
       return;
     }
 
-    _transformationController.value = Matrix4.identity()..scale(1.8);
+    _transformationController.value = Matrix4.diagonal3Values(1.8, 1.8, 1.8);
     setState(() => _zoomed = true);
   }
 
