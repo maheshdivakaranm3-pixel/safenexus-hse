@@ -522,11 +522,18 @@ class AbuDhabiCop26Scaffolding {
           'Maximum vertical gap between screens or screen/framework: 25 mm.',
         ],
         requirements: [
-          'Calculate wind loading and structural reinforcement/additional tie requirements.',
-          'Prevent materials from falling outside containment.',
-          'Where screens redirect falling objects to catch platforms, install them appropriately at the catch-platform edge.',
-          'Where screens do not redirect objects to a catch platform, design them to prevent objects from falling onto persons.',
-          'Supporting framework shall carry the screen load.',
+          'Where perimeter containment screening is provided, the screening system shall be designed and installed to control falling materials and protect persons below or adjacent to the scaffold.',
+          'Plastic sheeting shall be adequately lapped so that materials cannot fall outside the perimeter of the scaffold.',
+          'Where the screen is intended to redirect falling objects onto a catch platform, the screen shall be positioned vertically to the top of, or flush with, the outer edge of the catch platform.',
+          'Where the screen does not redirect falling objects onto a catch platform, the screen shall be designed to prevent objects from falling onto persons.',
+          'Horizontal gaps in perimeter containment screening shall not exceed 25 mm.',
+          'Vertical gaps in perimeter containment screening shall not exceed 25 mm.',
+          'The supporting framework for the perimeter containment screen shall be capable of carrying the loads imposed by the screen.',
+          'The scaffold and supporting structure shall be assessed for additional loads imposed by the containment screening, including applicable environmental loads.',
+        ],
+        officialReferences: [
+          'ADPHC CoP 26.0 – Scaffolding V4.1, Section 3.4.10 – Perimeter Containment Screening.',
+          'Official document date: 16 February 2026.',
         ],
       ),
       Cop26Subsection(
@@ -547,19 +554,27 @@ class AbuDhabiCop26Scaffolding {
           'Minimum dismantling platform width where reasonably practicable: 450 mm.',
         ],
         requirements: [
-          'Dismantle progressively and reverse the erection sequence.',
-          'Do not remove guardrails from the whole elevation before lowering boards.',
+          'Dismantling shall be carried out progressively along the elevation of the scaffold.',
+          'Guardrails shall be removed progressively as the dismantling sequence reaches the relevant section.',
+          'Scaffold boards shall be removed from the section being dismantled and lowered to the lift below in a controlled manner.',
+          'The dismantling sequence shall maintain safe working platforms and fall protection for scaffolders.',
+          'Surplus scaffold boards and fittings shall be removed progressively as dismantling proceeds.',
+          'Surplus boards and fittings shall be removed particularly at the end of each working day.',
+          'Scaffold fittings shall be stacked at ground level unless the first lift has been specifically designed to support the additional loading.',
+          'Materials and components shall not be thrown or dropped from the scaffold during dismantling.',
+          'Dismantling shall be carried out by competent scaffolders in accordance with the planned safe system of work.',
+          'Required ties, bracing and stability controls shall remain in place until they can be safely removed as part of the planned dismantling sequence.',
           'Additional ties may be required during dismantling.',
-          'Do not remove ties or braces in advance of general dismantling.',
           'Check structural stability before dismantling.',
-          'Clear platforms of materials and debris.',
           'Block access to partly dismantled sections and display warning signs.',
-          'Lower materials carefully.',
           'Protect the public and install barriers where required.',
           'Remove edge protection and access systems as late as reasonably practicable.',
           'Keep a fully planked platform immediately below the worker level where required.',
           'Use controlled hand-to-hand passing or a gin wheel for lowering components.',
-          'Never throw or bomb scaffold materials to ground level.',
+        ],
+        officialReferences: [
+          'ADPHC CoP 26.0 – Scaffolding V4.1, Section 3.4.12 – Safe Dismantling.',
+          'Official document date: 16 February 2026.',
         ],
       ),
     ],
@@ -1046,6 +1061,7 @@ class Cop26Subsection {
   final List<String> requirements;
   final List<String> measurements;
   final List<String> controlHierarchy;
+  final List<String> officialReferences;
 
   const Cop26Subsection({
     required this.number,
@@ -1053,6 +1069,7 @@ class Cop26Subsection {
     this.requirements = const [],
     this.measurements = const [],
     this.controlHierarchy = const [],
+    this.officialReferences = const [],
   });
 }
 
