@@ -311,7 +311,8 @@ class AbuDhabiCop13To15 {
           'Check training records.',
         ],
       ),
-      AbuDhabiCopSection
+    ],
+      AbuDhabiCopSection(
         number: '8.0',
         title: 'Violence Risk Factors — Workplace and Work Organisation',
         requirements: [
@@ -414,7 +415,6 @@ class AbuDhabiCop13To15 {
           'Programme review.',
         ],
       ),
-    ],
     fieldChecklist: [
       'Workplace violence prevention programme exists.',
       'Workers were consulted during programme development/review.',
@@ -800,7 +800,8 @@ class AbuDhabiCop13To15 {
           'Defect reports.',
         ],
       ),
-      AbuDhabiCopSection
+    ],
+      AbuDhabiCopSection(
         number: '9.0',
         title: 'Force, Posture, Frequency and Duration',
         requirements: [
@@ -922,7 +923,6 @@ class AbuDhabiCop13To15 {
           'Effectiveness review.',
         ],
       ),
-    ],
     fieldChecklist: [
       'Manual-handling and ergonomic risk assessment completed.',
       'Hazardous manual handling is eliminated where reasonably practicable.',
@@ -1705,7 +1705,8 @@ class AbuDhabiCop13To15 {
           'Corrective-action records.',
         ],
       ),
-      AbuDhabiCopSection
+    ],
+      AbuDhabiCopSection(
         number: '13.0',
         title: 'Electrical Safety Rules and Switching Control',
         requirements: [
