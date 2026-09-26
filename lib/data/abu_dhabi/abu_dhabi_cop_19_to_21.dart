@@ -587,7 +587,7 @@ class AbuDhabiCop19To21 {
         'Record defects, assign responsible persons and track corrective actions to verified closure.',
       ],
       ),
-    ],
+
 
       AbuDhabiCopSection(
         number: '15.0',
@@ -666,6 +666,7 @@ class AbuDhabiCop19To21 {
           'Check that incident actions are closed and lessons are communicated.',
         ],
       ),
+    ],
     fieldChecklist: [
       'Risk assessment completed for food operations.',
       'Relevant food-sector registration/licensing verified.',
@@ -1117,7 +1118,7 @@ class AbuDhabiCop19To21 {
         'Record defects, assign responsible persons and track corrective actions to verified closure.',
       ],
       ),
-    ],
+
 
       AbuDhabiCopSection(
         number: '12.0',
@@ -1201,6 +1202,7 @@ class AbuDhabiCop19To21 {
           'Verify unresolved high-consequence design issues have an identified owner and resolution route.',
         ],
       ),
+    ],
     fieldChecklist: [
       'Designer/client responsibilities defined.',
       'Designer competency assessed for project complexity.',
@@ -1748,7 +1750,7 @@ class AbuDhabiCop19To21 {
         'Record defects, assign responsible persons and track corrective actions to verified closure.',
       ],
       ),
-    ],
+
 
       AbuDhabiCopSection(
         number: '15.0',
@@ -1909,6 +1911,7 @@ class AbuDhabiCop19To21 {
           'Verify changed conditions caused reassessment rather than informal permit alteration.',
         ],
       ),
+    ],
     fieldChecklist: [
       'PTW procedure approved and specific to the undertaking.',
       'Hazardous activities requiring PTW identified through risk assessment.',
