@@ -265,7 +265,6 @@ class AbuDhabiCop27To29 {
       controls: [],
       inspection: [],
     ),
-    ],
     _section(
       'F27.1', 'Confined Space — What Does It Mean?',
       requirements: [
@@ -511,7 +510,6 @@ class AbuDhabiCop27To29 {
       controls: [],
       inspection: [],
     ),
-    ],
     _section(
       'F28.1', 'Hot Work — What Is Hot Work?',
       requirements: [
@@ -1106,7 +1104,6 @@ class AbuDhabiCop27To29 {
         hazards: ['Collapse', 'Falling materials', 'Falls', 'Plant strike', 'Service strike', 'Fumes', 'Public exposure'],
         controls: ['Safe support/slope', 'Edge protection', 'Plant segregation', 'Service controls', 'Ventilation', 'Public protection', 'Competent inspection'],
       ),
-    ],
     _section(
       'F29.1', 'Excavation — What Is Excavation Work?',
       requirements: [
