@@ -384,18 +384,92 @@ class _AbuDhabiCop01To03ReferencePageState
   }
 }
 
-class _CopDocumentDetailPage extends StatelessWidget {
+class _CopDocumentDetailPage extends StatefulWidget {
   const _CopDocumentDetailPage({
     required this.doc,
   });
 
-  static const Color green = Color(0xFF159447);
-  static const Color navy = Color(0xFF082653);
-
   final AbuDhabiCopDocument doc;
 
   @override
+  State<_CopDocumentDetailPage> createState() => _CopDocumentDetailPageState();
+}
+
+class _CopDocumentDetailPageState extends State<_CopDocumentDetailPage> {
+  static const Color green = Color(0xFF159447);
+  static const Color navy = Color(0xFF082653);
+
+  final TextEditingController _search = TextEditingController();
+  final TransformationController _transform = TransformationController();
+
+  String _query = '';
+  bool _zoomed = false;
+
+  AbuDhabiCopDocument get doc => widget.doc;
+
+  @override
+  void dispose() {
+    _search.dispose();
+    _transform.dispose();
+    super.dispose();
+  }
+
+  List<AbuDhabiCopSection> get _filteredSections {
+    final q = _query.trim().toLowerCase();
+    if (q.isEmpty) return doc.sections;
+
+    return doc.sections.where((s) {
+      final haystack = [
+        s.number,
+        s.title,
+        ...s.requirements,
+        ...s.measurements,
+        ...s.documents,
+        ...s.hazards,
+        ...s.controls,
+        ...s.inspection,
+      ].join(' ').toLowerCase();
+      return haystack.contains(q);
+    }).toList();
+  }
+
+  bool get _headerMatches {
+    final q = _query.trim().toLowerCase();
+    if (q.isEmpty) return true;
+    final haystack = [
+      doc.code,
+      doc.title,
+      doc.version,
+      doc.effectiveDate,
+      doc.introduction,
+      ...doc.protectionItems,
+      ...doc.fieldChecklist,
+      ...doc.stopWorkIndicators,
+      ...doc.references,
+    ].join(' ').toLowerCase();
+    return haystack.contains(q);
+  }
+
+  void _toggleZoom() {
+    setState(() {
+      _zoomed = !_zoomed;
+      _transform.value = _zoomed
+          ? Matrix4.diagonal3Values(1.35, 1.35, 1.0)
+          : Matrix4.identity();
+    });
+  }
+
+  void _resetZoom() {
+    setState(() {
+      _zoomed = false;
+      _transform.value = Matrix4.identity();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final sections = _filteredSections;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F8FB),
       appBar: AppBar(
@@ -403,99 +477,189 @@ class _CopDocumentDetailPage extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: navy,
         elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: _zoomed ? 'Reset zoom' : 'Zoom',
+            onPressed: _toggleZoom,
+            icon: Icon(_zoomed ? Icons.zoom_out_map : Icons.zoom_in),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 54,
-                    height: 54,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE7F5EC),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      _detailIcon(doc.code),
-                      color: green,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          doc.title,
-                          style: const TextStyle(
-                            color: navy,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Version ${doc.version} • ${doc.effectiveDate}',
-                          style: const TextStyle(
-                            color: green,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: TextField(
+              controller: _search,
+              onChanged: (value) => setState(() => _query = value),
+              decoration: InputDecoration(
+                hintText: 'Search ${doc.code} – ${doc.title}...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _query.isEmpty
+                    ? null
+                    : IconButton(
+                        onPressed: () {
+                          _search.clear();
+                          setState(() => _query = '');
+                        },
+                        icon: const Icon(Icons.clear),
+                      ),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
-            const SizedBox(height: 12),
-            _textBlock(doc.title, doc.introduction),
-            if (doc.protectionItems.isNotEmpty)
-              _bulletBlock(
-                doc.code == 'CoP 2.0'
-                    ? 'PPE Types & Protection Provided'
-                    : 'Noise Protection Types & Protection Provided',
-                doc.code == 'CoP 2.0'
-                    ? Icons.health_and_safety
-                    : Icons.hearing,
-                green,
-                doc.protectionItems,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onDoubleTap: _toggleZoom,
+              child: InteractiveViewer(
+                transformationController: _transform,
+                minScale: 1,
+                maxScale: 3,
+                panEnabled: true,
+                scaleEnabled: true,
+                boundaryMargin: const EdgeInsets.all(80),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (_headerMatches) ...[
+                        _documentHeader(),
+                        const SizedBox(height: 12),
+                        _textBlock(doc.title, doc.introduction),
+                        if (doc.protectionItems.isNotEmpty)
+                          _bulletBlock(
+                            doc.code == 'CoP 2.0'
+                                ? 'PPE Types & Protection Provided'
+                                : 'Noise Protection Types & Protection Provided',
+                            doc.code == 'CoP 2.0'
+                                ? Icons.health_and_safety
+                                : Icons.hearing,
+                            green,
+                            doc.protectionItems,
+                          ),
+                      ],
+                      if (sections.isNotEmpty)
+                        for (final section in sections) _section(section),
+                      if (doc.fieldChecklist.isNotEmpty &&
+                          (_query.isEmpty ||
+                              doc.fieldChecklist.any(
+                                (x) => x.toLowerCase().contains(
+                                      _query.toLowerCase(),
+                                    ),
+                              )))
+                        _bulletBlock(
+                          'Field Checklist',
+                          Icons.checklist,
+                          green,
+                          doc.fieldChecklist,
+                        ),
+                      if (doc.stopWorkIndicators.isNotEmpty &&
+                          (_query.isEmpty ||
+                              doc.stopWorkIndicators.any(
+                                (x) => x.toLowerCase().contains(
+                                      _query.toLowerCase(),
+                                    ),
+                              )))
+                        _bulletBlock(
+                          'Stop-Work Indicators',
+                          Icons.stop_circle_outlined,
+                          const Color(0xFFC62828),
+                          doc.stopWorkIndicators,
+                        ),
+                      if (doc.references.isNotEmpty &&
+                          (_query.isEmpty ||
+                              doc.references.any(
+                                (x) => x.toLowerCase().contains(
+                                      _query.toLowerCase(),
+                                    ),
+                              )))
+                        _bulletBlock(
+                          'Official References',
+                          Icons.menu_book_outlined,
+                          navy,
+                          doc.references,
+                        ),
+                      if (doc.verificationNote.isNotEmpty &&
+                          (_query.isEmpty ||
+                              doc.verificationNote.toLowerCase().contains(
+                                    _query.toLowerCase(),
+                                  )))
+                        _warningBlock(doc.verificationNote),
+                      if (!_headerMatches && sections.isEmpty)
+                        _emptyDetailSearch(),
+                    ],
+                  ),
+                ),
               ),
-            for (final section in doc.sections) _section(section),
-            if (doc.fieldChecklist.isNotEmpty)
-              _bulletBlock(
-                'Field Checklist',
-                Icons.checklist,
-                green,
-                doc.fieldChecklist,
-              ),
-            if (doc.stopWorkIndicators.isNotEmpty)
-              _bulletBlock(
-                'Stop-Work Indicators',
-                Icons.stop_circle_outlined,
-                const Color(0xFFC62828),
-                doc.stopWorkIndicators,
-              ),
-            if (doc.references.isNotEmpty)
-              _bulletBlock(
-                'Official References',
-                Icons.menu_book_outlined,
-                navy,
-                doc.references,
-              ),
-            if (doc.verificationNote.isNotEmpty)
-              _warningBlock(doc.verificationNote),
-          ],
-        ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: _zoomed
+          ? FloatingActionButton.small(
+              onPressed: _resetZoom,
+              backgroundColor: green,
+              foregroundColor: Colors.white,
+              tooltip: 'Reset zoom',
+              child: const Icon(Icons.center_focus_strong),
+            )
+          : null,
+    );
+  }
+
+  Widget _documentHeader() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 54,
+            height: 54,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE7F5EC),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              _detailIcon(doc.code),
+              color: green,
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  doc.title,
+                  style: const TextStyle(
+                    color: navy,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Version ${doc.version} • ${doc.effectiveDate}',
+                  style: const TextStyle(
+                    color: green,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -607,7 +771,10 @@ class _CopDocumentDetailPage extends StatelessWidget {
                   Expanded(
                     child: Text(
                       item,
-                      style: const TextStyle(height: 1.35),
+                      style: const TextStyle(
+                        height: 1.35,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                 ],
@@ -625,11 +792,11 @@ class _CopDocumentDetailPage extends StatelessWidget {
     List<String> items,
   ) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: .07),
-        borderRadius: BorderRadius.circular(14),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -652,10 +819,24 @@ class _CopDocumentDetailPage extends StatelessWidget {
           const SizedBox(height: 8),
           for (final item in items)
             Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                '• $item',
-                style: const TextStyle(height: 1.35),
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '• ',
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(height: 1.35),
+                    ),
+                  ),
+                ],
               ),
             ),
         ],
@@ -665,24 +846,43 @@ class _CopDocumentDetailPage extends StatelessWidget {
 
   Widget _warningBlock(String text) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF4E5),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.info_outline,
-            color: Color(0xFFB26A00),
-          ),
-          const SizedBox(width: 8),
+          const Icon(Icons.info_outline, color: Color(0xFFB26A00)),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(height: 1.35),
+              style: const TextStyle(height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _emptyDetailSearch() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: const Column(
+        children: [
+          Icon(Icons.search_off, size: 42, color: Colors.black45),
+          SizedBox(height: 8),
+          Text(
+            'No matching content found.',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: navy,
             ),
           ),
         ],
