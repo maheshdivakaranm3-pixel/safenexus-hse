@@ -489,8 +489,7 @@ class AbuDhabiCop22To24 {
           'Verify the hazard is controlled before removal and verify safe conditions after removal.',
         ],
       ),
-    ],
-      AbuDhabiCopSection(
+    AbuDhabiCopSection(
         number: '16.0',
         title: 'CoP 22 Field Example — Overhead Work and Falling Objects',
         requirements: [
@@ -589,6 +588,7 @@ class AbuDhabiCop22To24 {
           'Sample the tag against the formal inspection record and verify incident-damaged items were assessed.',
         ],
       ),
+    ],
     fieldChecklist: [
       'Hazard risk assessment completed.',
       'Correct barricade type selected.',
@@ -1152,8 +1152,7 @@ class AbuDhabiCop22To24 {
           'Audit dates, serial numbers, inspector competency and corrective-action closure.',
         ],
       ),
-    ],
-      AbuDhabiCopSection(
+    AbuDhabiCopSection(
         number: '17.0',
         title: 'Working at Height — Falling-Object Controls in Detail',
         requirements: [
@@ -1428,6 +1427,7 @@ class AbuDhabiCop22To24 {
           'Pre-start roof inspection and post-weather/event inspection.',
         ],
       ),
+    ],
     fieldChecklist: [
       'Fall Prevention Plan approved and briefed.',
       'Competent workers assigned.',
@@ -2024,8 +2024,7 @@ class AbuDhabiCop22To24 {
           'Supervisor shall verify corrective action before work resumes.',
         ],
       ),
-    ],
-      AbuDhabiCopSection(
+    AbuDhabiCopSection(
         number: '19.0',
         title: 'LOTO Procedure — Required Step-by-Step Content',
         requirements: [
@@ -2223,6 +2222,7 @@ class AbuDhabiCop22To24 {
           'Supervisor verifies the condition is safe before work resumes.',
         ],
       ),
+    ],
     fieldChecklist: [
       'Energy sources identified.',
       'Machine-specific isolation procedure available.',
