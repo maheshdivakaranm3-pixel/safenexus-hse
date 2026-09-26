@@ -1,0 +1,1376 @@
+// lib/data/abu_dhabi/abu_dhabi_cop_27_28_29_MAXIMUM_DETAIL_FULL.dart
+// SafeNexus HSE — Abu Dhabi HSE Reference
+//
+// CoP 27.0 Confined Spaces — V4.0 — 15 July 2024
+// CoP 28.0 Hot Work Operations (e.g. Welding and Cutting) — V4.1 — 27 Feb 2026
+// CoP 29.0 Excavation Work — V4.1 — 27 Feb 2026
+//
+// UI / navigation / reference page are NOT changed.
+// Existing AbuDhabiCopDocument / AbuDhabiCopSection API is preserved.
+// CoP 26 Scaffolding CONTENT is NOT copied; each CoP follows its own
+// official subject structure and requirements.
+// Content is paraphrased/structured for field use; official ADPHC publications
+// remain the controlling regulatory source.
+
+import 'abu_dhabi_cop_01_to_03.dart';
+
+class AbuDhabiCop27To29 {
+  static const String registrySource =
+      'Abu Dhabi Public Health Centre (ADPHC) — Code of Practices registry';
+
+  static final List<AbuDhabiCopDocument> documents = [
+    cop27ConfinedSpaces,
+    cop28HotWork,
+    cop29Excavation,
+  ];
+
+  static final AbuDhabiCopDocument cop27ConfinedSpaces = _document(
+    code: 'CoP 27.0',
+    title: 'Confined Spaces',
+    version: '4.0',
+    effectiveDate: '15 July 2024',
+    introduction: 'Maximum-detail field reference for ADOSH-SF CoP 27.0. The official CoP is mandatory; this dataset is paraphrased and structured for field use.',
+    sections: [
+    _section(
+      '1.0', 'Introduction / Scope',
+      requirements: ['Applies to all employers in Abu Dhabi; assess confined-space risks and implement controls using the hierarchy of controls.', 'Use the ADOSH-SF Technical Guideline for additional non-mandatory good-practice information.', 'Control people entering, supervising, rescuing and anyone else affected by the work.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Fire/explosion', 'Oxygen deficiency/enrichment', 'Toxic gas/fume/vapour', 'Heat', 'Flooding', 'Free-flowing solids', 'Restricted rescue'],
+      controls: ['Avoid entry', 'Eliminate/isolate', 'Engineering controls', 'Monitoring', 'Permit/supervision', 'PPE/RPE'],
+      inspection: [],
+    ),
+    _section(
+      '2.1', 'General Training',
+      requirements: ['Train relevant employees on confined-space hazards and the need to prevent unauthorized entry.'],
+      measurements: [],
+      documents: ['Training matrix', 'Confined-space awareness record'],
+      hazards: ['Unauthorised entry'],
+      controls: ['Training', 'Signage', 'Supervision'],
+      inspection: [],
+    ),
+    _section(
+      '2.2', 'Specific Confined-Space Entry Training',
+      requirements: ['PRCS training covers hazard identification, equipment selection/testing, permits, safe procedures, hygiene, gas detection/monitoring, oxygen escape sets where risk assessment requires them, PPE/RPE and emergency procedures.', 'Train before first assignment, before duty changes, when operations introduce a new hazard, or when deviations/knowledge deficiencies are identified.', 'Training records include employee name and Emirates ID, subjects, provider, dates and trainer.'],
+      measurements: [],
+      documents: ['PRCS training record', 'Competency assessment', 'Retraining record'],
+      hazards: [],
+      controls: ['Competency-based training', 'Role-specific assessment', 'Retraining'],
+      inspection: [],
+    ),
+    _section(
+      '3.1', 'Roles and Responsibilities',
+      requirements: ['Identify and record activities requiring confined-space work.', 'Allow entry only when the purpose cannot reasonably be achieved without entry.', 'Ensure entrants are competent and aware of emergency procedures.', 'Employees shall not enter unless authorised and controls are implemented; hazards and defects must be reported immediately.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Unplanned entry', 'Inadequate competence'],
+      controls: ['Authorization', 'Competency', 'Supervision', 'Hazard reporting'],
+      inspection: [],
+    ),
+    _section(
+      '3.2', 'Planning and Assessment',
+      requirements: ['Assess risks and establish safe systems for all affected persons, including the public where applicable.', 'For construction, integrate confined-space requirements into applicable pre-tender and OSH-CMP arrangements.', 'Plan interfaces, isolation, monitoring, ventilation, access, communication and rescue before entry.'],
+      measurements: [],
+      documents: ['Risk assessment', 'RAMS/SWP', 'OSH-CMP where applicable', 'Emergency plan'],
+      hazards: ['SIMOPS', 'Changing conditions'],
+      controls: ['Plan', 'Assess', 'Coordinate', 'Brief', 'Monitor'],
+      inspection: [],
+    ),
+    _section(
+      '3.3', 'Definition and Specified Risks',
+      requirements: ['A confined space includes tanks, vessels, pipes, sewers, silos, storage bins, hoppers, vaults, pits, excavations, manholes and similar spaces where enclosure creates a reasonably foreseeable specified risk.', 'Specified risks include fire/explosion, loss of consciousness from increased body temperature, asphyxiation from gas/fume/vapour/lack of oxygen, drowning from rising liquid, and asphyxiation/entrapment by free-flowing solids.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Fire/explosion', 'Heat', 'Asphyxiation', 'Drowning', 'Engulfment'],
+      controls: ['Classify', 'Avoid entry', 'Control specified risks', 'Rescue plan'],
+      inspection: [],
+    ),
+    _section(
+      '3.4', 'Identification and Mandatory Signage',
+      requirements: ['Identify and record every activity requiring confined-space work.', 'Identify spaces with the required \'CONFINED SPACE — PERMIT REQUIRED — DO NOT ENTER\' sign.', 'Signs must comply with CoP 17.0 and be understandable to the exposed workforce; use Arabic and English and other appropriate languages where necessary.', 'Inform affected persons of hazards and safe entry procedures.'],
+      measurements: [],
+      documents: ['Confined-space register', 'Site plan', 'Sign inspection'],
+      hazards: ['Unauthorized entry', 'Communication failure'],
+      controls: ['Register', 'Signage', 'Multilingual communication'],
+      inspection: [],
+    ),
+    _section(
+      '3.5', 'Permit Required Confined Spaces Program',
+      requirements: ['Where entry is required, establish a PRCS Program.', 'The program contains identified PRCS, normal activities, competent entry persons, competent rescue persons, associated equipment and calibration requirements, entry records, and space-specific risk assessments/SWPs.', 'Keep the PRCS program available for inspection.'],
+      measurements: [],
+      documents: ['PRCS program', 'PRCS register', 'Competency list', 'Equipment/calibration register', 'Entry log'],
+      hazards: [],
+      controls: ['Document control', 'Competency register', 'Equipment control'],
+      inspection: [],
+    ),
+    _section(
+      '3.6', 'Entry-Specific Risk Assessment',
+      requirements: ['Complete a risk assessment for every entry.', 'Make it specific to the activity and time/date of entry.', 'Identify hazards to entrants and additional risks to others caused by the work.', 'Consider previous contents/residues and emergency situations.', 'Keep the assessment in the PRCS program.'],
+      measurements: [],
+      documents: ['Entry RA/JSA', 'Previous-content/residue information', 'Emergency assessment'],
+      hazards: ['Residues', 'Atmosphere', 'Energy', 'Task hazards'],
+      controls: ['Eliminate', 'Isolate', 'Engineer', 'Monitor', 'PPE/RPE'],
+      inspection: [],
+    ),
+    _section(
+      '3.7', 'Safe Working Procedure — Minimum Content',
+      requirements: ['Develop a SWP for each PRCS entry.', 'The SWP must cover safety-watch/supervision, competence, communication, emergency/rescue, atmospheric testing/monitoring, ventilation/residue removal, isolation from gases/materials/liquids, mechanical/electrical isolation, equipment, PPE/RPE, portable gas cylinders/internal-combustion engines, access/egress, fire prevention, lighting and exposure duration.'],
+      measurements: [],
+      documents: ['PRCS SWP/RAMS', 'Briefing record', 'Isolation certificate', 'Gas-test plan'],
+      hazards: [],
+      controls: ['Task-specific procedure', 'Briefing', 'Verification', 'Monitoring'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.1', 'Atmospheric Testing',
+      requirements: ['Test for oxygen and flammable gas/vapour before entry and as required by the risk assessment/SWP/permit.', 'The CoP entry precaution requires oxygen between 19.5% and 23.5%.', 'The CoP requires flammable gas/vapour below 5% of its LEL where the specified test criterion applies.'],
+      measurements: ['Oxygen: 19.5%–23.5%', 'Flammable gas/vapour: <5% LEL'],
+      documents: ['Gas-test sheet', 'Detector calibration/bump-test record'],
+      hazards: ['Oxygen deficiency', 'Flammable atmosphere', 'Toxic gases'],
+      controls: ['Source isolation', 'Ventilation', 'Pre-entry test', 'Monitoring', 'Alarm response'],
+      inspection: ['Instrument suitability', 'Calibration status', 'Sampling locations', 'Readings/time recorded'],
+    ),
+    _section(
+      '3.7.2', 'Ventilation and Residue Removal',
+      requirements: ['Provide appropriate ventilation and remove residues as required by the SWP.', 'Prevent contaminated air from being recirculated or introduced to workers.', 'Consider residues, cleaning agents, decomposition products and connected systems.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Toxic vapour', 'Flammable vapour', 'Oxygen depletion'],
+      controls: ['Residue removal', 'Forced ventilation', 'Source isolation', 'Atmospheric monitoring'],
+      inspection: ['Ventilation operating', 'Duct position', 'Airflow', 'No unsafe recirculation'],
+    ),
+    _section(
+      '3.7.3', 'Isolation from Gases, Materials and Liquids',
+      requirements: ['Isolate the space from gases and hazardous materials.', 'Control liquids and flowing materials so entrants cannot be drowned or engulfed.', 'Verify isolation before entry rather than relying only on a valve position.'],
+      measurements: [],
+      documents: ['Isolation certificate', 'LOTO record', 'Line/process isolation record'],
+      hazards: ['Gas ingress', 'Liquid ingress', 'Engulfment', 'Process release'],
+      controls: ['Positive isolation', 'LOTO', 'Drain/depressurise', 'Verification'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.4', 'Mechanical and Electrical Isolation',
+      requirements: ['Isolate mechanical/electrical equipment connected to the space and control stored energy.', 'Apply CoP 24.0 LOTO requirements where applicable.', 'Verify zero-energy state before entry.'],
+      measurements: [],
+      documents: ['LOTO certificate', 'Try/test record'],
+      hazards: ['Unexpected movement', 'Electrical shock', 'Stored energy'],
+      controls: ['De-energise', 'Lock/tag', 'Dissipate', 'Try/test'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.5', 'Equipment / PPE / RPE',
+      requirements: ['Select equipment suitable for the hazards and access geometry.', 'Select PPE/RPE from the risk assessment.', 'Where oxygen escape sets are required by risk assessment, personnel must be trained in their use.'],
+      measurements: [],
+      documents: ['Equipment register', 'PPE assessment', 'RPE program where applicable'],
+      hazards: ['Incompatible equipment', 'Respiratory exposure', 'Entrapment'],
+      controls: ['Correct selection', 'Inspection', 'Compatibility', 'Competency'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.6', 'Portable Gas Cylinders / Internal Combustion Engines',
+      requirements: ['Control portable cylinders and internal-combustion engines used in or near the space.', 'Prevent exhaust gases and oxygen depletion from becoming additional hazards.', 'Prefer alternatives where practicable and address residual risk in the SWP.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Exhaust gas', 'Fire', 'Oxygen depletion', 'Cylinder leak'],
+      controls: ['Avoid where practicable', 'Ventilation', 'Monitoring', 'Cylinder control'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.7', 'Access, Egress, Lighting and Exposure Duration',
+      requirements: ['Provide safe access/egress suitable for the geometry and rescue plan.', 'Provide suitable lighting.', 'Limit exposure duration where identified by the risk assessment.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Fall', 'Restricted escape', 'Heat', 'Fatigue'],
+      controls: ['Safe access', 'Lighting', 'Exposure planning', 'Supervision'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.8', 'Fire Prevention and Control',
+      requirements: ['Provide fire prevention/control where fire is foreseeable.', 'Locate firefighting equipment appropriately.', 'Integrate CoP 28.0 if hot work is performed.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Ignition', 'Fire', 'Explosion'],
+      controls: ['Remove combustibles', 'Isolation', 'Fire equipment', 'Fire watch where specified'],
+      inspection: [],
+    ),
+    _section(
+      '3.8', 'Emergency Procedures and Rescue',
+      requirements: ['No PRCS entry without specific rescue arrangements.', 'Emergency arrangements must be specific to the activity and time/date.', 'Rescue arrangements must reduce risk to rescuers and provide resuscitation equipment where a foreseeable specified risk requires it.'],
+      measurements: [],
+      documents: ['Rescue plan', 'Emergency contacts', 'Rescue equipment checklist', 'Drill records'],
+      hazards: ['Entrant collapse', 'Atmospheric emergency', 'Flooding', 'Fire', 'Secondary rescuer victim'],
+      controls: ['Planned rescue', 'Trained rescuers', 'Retrieval where suitable', 'Medical response'],
+      inspection: ['Rescue team identified', 'Equipment ready', 'Route verified', 'No improvised rescue'],
+    ),
+    _section(
+      '3.9', 'Communication',
+      requirements: ['Provide communication before PRCS entry.', 'Communication must work between entrants, entrants and outside personnel, for summoning help, raising alarms and initiating emergency procedures.', 'Communication systems must be intrinsically safe, reliable and frequently tested where required.'],
+      measurements: [],
+      documents: ['Communication test record', 'Radio allocation', 'Emergency signal plan'],
+      hazards: ['Communication loss', 'Delayed rescue'],
+      controls: ['Primary system', 'Backup', 'Pre-entry test', 'Emergency signals'],
+      inspection: [],
+    ),
+    _section(
+      '3.10', 'Confined-Space Entry Permit / PTW',
+      requirements: ['Complete the entry permit before entry; entry is prohibited until all conditions are satisfied and verified.', 'Follow CoP 21.0 PTW requirements and make each permit specific to activity and time/date.', 'Before work verify ventilation, O2 19.5%–23.5%, constant supervision/stand-by, emergency equipment, isolation, safe access/exit, flammable-gas testing and <5% LEL where applicable.', 'Secure the area overnight/at permit expiry; return equipment to secure storage and sign off the permit at completion.'],
+      measurements: ['O2 19.5%–23.5%', 'Flammable gas/vapour <5% LEL where applicable'],
+      documents: ['Entry permit', 'Gas-test sheet', 'Isolation certificate', 'Close-out'],
+      hazards: ['Unauthorized entry', 'Permit drift', 'Changing conditions'],
+      controls: ['Authorization', 'Pre-entry verification', 'Supervision', 'Close-out'],
+      inspection: [],
+    ),
+    _section(
+      'F1', 'Confined-Space Field Equipment Guide',
+      requirements: ['Gas detector suitable for expected contaminants; ventilation/blower and ducting; communication equipment; rescue/retrieval equipment; isolation/LOTO equipment; suitable lighting; access equipment; PPE/RPE; emergency/resuscitation equipment where required.'],
+      measurements: [],
+      documents: [],
+      hazards: [],
+      controls: ['Select equipment from risk assessment', 'Inspect before use', 'Maintain calibration/inspection records'],
+      inspection: [],
+    ),
+    _section(
+      'F2', 'Pre-Entry Field Checklist',
+      requirements: ['Space identified', 'Entry unavoidable/necessary', 'PRCS program available', 'RA/SWP complete', 'Entrants competent', 'Safety watch assigned', 'Rescue ready', 'Isolation verified', 'Ventilation operating', 'Atmosphere tested', 'Communication tested', 'Access/egress clear', 'Fire controls ready', 'Permit verified'],
+      measurements: [],
+      documents: [],
+      hazards: [],
+      controls: [],
+      inspection: ['Record date/time', 'Tester/instrument', 'Permit number', 'Responsible supervisor'],
+    ),
+    _section(
+      'F3', 'Emergency / Rescue Field Method',
+      requirements: ['Raise alarm; stop work; do not send an untrained person into the space; use the planned rescue method; protect rescuers from the same hazards; provide first aid/medical response; secure the area after the event.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Secondary victim', 'Atmospheric exposure', 'Restricted retrieval'],
+      controls: ['Alarm', 'Stand-by', 'Planned rescue', 'Medical response'],
+      inspection: [],
+    ),
+    _section(
+      'F4', 'Practical Confined-Space Examples',
+      requirements: ['Tank cleaning', 'Manhole entry', 'Sump maintenance', 'Silo inspection', 'Vessel inspection', 'Confined-space welding', 'Underground chamber work'],
+      measurements: [],
+      documents: [],
+      hazards: ['Atmosphere', 'Isolation', 'Fire', 'Flooding', 'Engulfment'],
+      controls: [],
+      inspection: [],
+    ),
+    _section(
+      'F5', 'Toolbox / Interview Questions',
+      requirements: ['When should confined-space entry be avoided?', 'What is a specified risk?', 'What must be checked before entry?', 'Why is a safety watch required?', 'What atmospheric limits are stated by CoP 27.0?', 'What makes a rescue plan adequate?', 'What would make you stop entry immediately?'],
+      measurements: [],
+      documents: [],
+      hazards: [],
+      controls: [],
+      inspection: [],
+    ),
+    _section(
+      'F27.1', 'Confined Space — What Does It Mean?',
+      requirements: [
+        'Explain to workers that a confined space is a space identified by the CoP where entry/work can create specified risks and where normal workplace conditions are not present; examples include tanks, vessels, pipes, sewers, silos, storage bins, hoppers, vaults, pits, excavations and manholes.',
+        'Do not decide that a space is safe merely because it is large enough for a person to enter. The hazards, access, atmosphere, isolation, rescue and task must be assessed.',
+        'For every proposed entry, confirm whether the work can be completed without entry; avoid entry where reasonably practicable.'
+      ],
+      documents: ['Confined-space register/identification record', 'Task risk assessment', 'Safe Work Procedure'],
+      hazards: ['Oxygen deficiency/enrichment', 'Toxic gases/vapours', 'Fire/explosion', 'Engulfment/free-flowing material', 'Flooding/liquid ingress', 'Heat stress', 'Difficult rescue'],
+      controls: ['Avoid entry', 'Isolation', 'Atmospheric testing', 'Ventilation', 'Permit', 'Stand-by/safety watch', 'Rescue arrangements']
+    ),
+    _section(
+      'F27.2', 'Confined Space — Pipe / Manhole / Tank Work: Minimum Planning Sequence',
+      requirements: [
+        'Before pipe entry, confirm the exact line, contents/residue, connected equipment, upstream/downstream flow paths and all possible energy/material sources.',
+        'Before manhole entry, check for sewage, water ingress, traffic/public exposure, toxic gases, oxygen deficiency, connected chambers and unexpected inflow.',
+        'Before tank entry, confirm previous contents, residues, cleaning status, connected lines, agitation/heating equipment, isolation, ventilation and rescue access.',
+        'Prepare the task-specific risk assessment and safe work procedure for the actual time/date and conditions; brief everyone before entry.',
+        'Verify mechanical/electrical/process isolation, atmospheric testing, ventilation, communication, access/egress, PPE/RPE and emergency/rescue arrangements before entry.',
+        'Do not rely on a single pre-entry gas test where conditions can change; monitoring frequency and locations shall be based on the risk assessment and CoP requirements.'
+      ],
+      documents: ['Entry-specific RA', 'SWP/RAMS', 'Isolation/LOTO records where applicable', 'Gas test/monitoring record', 'Entry permit/PTW', 'Rescue plan'],
+      hazards: ['Unexpected flow', 'Residual chemicals', 'Toxic atmosphere', 'Oxygen deficiency', 'Ignition', 'Entrapment', 'Flooding'],
+      controls: ['Positive isolation', 'Purge/clean', 'Ventilate', 'Test/monitor', 'Continuous supervision', 'Reliable communication', 'Rescue readiness']
+    ),
+    _section(
+      'F27.3', 'Confined Space — Permit: What Permit and Why?',
+      requirements: [
+        'Use the applicable ADOSH-SF CoP 21.0 Permit to Work system where a permit is required for the confined-space activity; the confined-space entry permit forms part of the controlled authorization for the specific activity, time and conditions.',
+        'The permit confirms that the required risk assessment, isolation, atmospheric controls, competent personnel, communication, emergency arrangements and other entry conditions have been checked before entry.',
+        'A permit is not a substitute for risk assessment, isolation, atmospheric testing, supervision or rescue planning.',
+        'The permit must be suspended/revalidated or closed in accordance with the site PTW system when conditions, personnel, scope or time limits change.'
+      ],
+      documents: ['CoP 21.0 PTW', 'Confined-space entry permit', 'Gas test record', 'Isolation certificate', 'Rescue arrangement'],
+      hazards: ['False sense of safety', 'Changed conditions', 'Uncontrolled entry'],
+      controls: ['Permit authorization', 'Pre-entry verification', 'Ongoing monitoring', 'Suspension/revalidation', 'Close-out']
+    ),
+    _section(
+      'F27.4', 'Confined Space — Who Must Be at the Work Area?',
+      requirements: [
+        'Entrants: only trained/competent and authorized persons who understand the hazards, controls, communication method and emergency procedure.',
+        'Safety watch/stand-by person: positioned outside the confined space as required by the safe system of work, maintains communication, monitors entrants/conditions and initiates the emergency response; the safety watch must not abandon the monitoring role to perform unrelated work.',
+        'Competent supervisor: controls implementation of the SWP/permit and verifies that conditions remain acceptable.',
+        'Rescue capability: competent rescue personnel and suitable rescue equipment/arrangements shall be available according to the risk assessment; rescue must not depend on an unplanned entrant rescue.',
+        'Permit issuer/authorizing personnel: involved according to the site PTW system; they do not replace the safety watch or supervisor.'
+      ],
+      documents: ['Competency records', 'Role assignment', 'Rescue plan', 'Permit'],
+      hazards: ['Unsupervised entry', 'Delayed rescue', 'Communication failure'],
+      controls: ['Named roles', 'Continuous communication', 'Stand-by', 'Competent rescue arrangement']
+    ),
+    _section(
+      'F27.5', 'Confined Space — Practical Stop-Work Triggers',
+      requirements: [
+        'Stop entry for loss of required isolation, abnormal atmospheric reading/alarm, ventilation failure, loss of communication, unexpected liquid/material/gas ingress, change in task or conditions not covered by the RA/SWP, missing safety watch, unavailable rescue arrangement, or any permit condition that is no longer valid.',
+        'Evacuate immediately when the emergency procedure or monitoring system indicates that remaining inside is unsafe.',
+        'Do not send an untrained person into the space to rescue another person.'
+      ],
+      hazards: ['Atmospheric emergency', 'Ingress', 'Isolation failure', 'Rescue escalation'],
+      controls: ['Stop work', 'Evacuate', 'Raise alarm', 'Implement rescue plan', 'Reassess before restart']
+    ),
+    ],
+    fieldChecklist: ['Space identified', 'Entry necessity confirmed', 'PRCS program available', 'Task RA complete', 'SWP briefed', 'Entrants competent', 'Safety watch assigned', 'Rescue ready', 'Isolation verified', 'Ventilation operating', 'Atmosphere tested', 'O2 19.5%–23.5%', 'Flammable gas/vapour <5% LEL where applicable', 'Communication tested', 'Access/egress clear', 'Fire controls ready', 'Permit verified', 'Conditions monitored', 'Permit closed', 'Area secured'],
+    stopWorkIndicators: ['Unauthorised entry', 'No valid permit', 'O2 outside 19.5%–23.5% criterion', 'Flammable gas/vapour at or above 5% LEL criterion', 'Ventilation failure', 'Isolation failure', 'Communication failure', 'Stand-by unavailable', 'Rescue unavailable', 'Unexpected gas/liquid/material ingress', 'Unknown residue', 'Detector invalid/unserviceable', 'Atmospheric alarm', 'Any deviation from approved PRCS SWP'],
+    references: ['ADPHC CoP 27.0 — Confined Spaces V4.0', 'ADOSH-SF Technical Guideline — Safe Work in Confined Spaces', 'CoP 21.0 — Permit to Work Systems', 'CoP 24.0 — Lock-out Tag-out (Isolation)', 'CoP 17.0 — Safety Signage and Signals', 'CoP 2.0 — Personal Protective Equipment', 'CoP 4.0 — First Aid and Medical Emergency Treatment', 'CoP 5.0 — Occupational Health Screening and Medical Surveillance', 'Element 2 — Risk Management', 'Element 5 — Training, Awareness and Competency'],
+    protectionItems: ['Gas detector', 'Ventilation/blower', 'Communication system', 'Rescue/retrieval equipment', 'LOTO/isolation equipment', 'Suitable PPE/RPE', 'Emergency/resuscitation equipment where required'],
+    verificationNote: 'Verified against the current ADPHC-hosted CoP 27.0 V4.0 publication. Numeric atmospheric criteria shown are those stated by the official CoP and must be applied with the current permit and risk assessment.',
+  );
+
+  static final AbuDhabiCopDocument cop28HotWork = _document(
+    code: 'CoP 28.0',
+    title: 'Hot Work Operations (e.g. Welding and Cutting)',
+    version: '4.1',
+    effectiveDate: '27 February 2026',
+    introduction: 'Maximum-detail field reference for ADOSH-SF CoP 28.0. The official CoP is mandatory; this dataset is paraphrased and structured for field use.',
+    sections: [
+    _section(
+      '1.0', 'Introduction / Scope',
+      requirements: ['Applies to employers in Abu Dhabi; establishes precautions before/during hot work to prevent fire/explosion and harm.', 'Hot work includes grinding, welding, thermal/oxygen cutting, heating and related heat/spark-producing operations.', 'Applies across manufacturing, construction, maintenance, repair, demolition and work involving plant/equipment containing flammable, combustible or explosive material.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Fire', 'Explosion', 'Burns', 'Fumes/gases', 'Electricity', 'Radiation'],
+      controls: ['Eliminate/substitute', 'Designated area', 'Permit', 'Engineering', 'Fire prevention', 'PPE'],
+      inspection: [],
+    ),
+    _section(
+      '2.0', 'Training and Competency',
+      requirements: ['Competency-based training covers safe systems, correct welding/cutting equipment, PPE and care/maintenance/inspection.', 'Retrain when inspection reveals deviations or inadequate knowledge.', 'Records include name/ID, Emirates ID, subjects, dates and trainer/provider.'],
+      measurements: [],
+      documents: ['Training matrix', 'Competency record', 'Retraining record'],
+      hazards: [],
+      controls: ['Competency', 'Assessment', 'Retraining'],
+      inspection: [],
+    ),
+    _section(
+      '3.1', 'Roles and Responsibilities',
+      requirements: ['Provide appropriate equipment in good condition; plan/organize/supervise hot work; ensure competence; inspect equipment daily by competent persons; provide medical surveillance and occupational air monitoring as required; provide PPE under CoP 2.0.', 'Employees inspect equipment before use, report defects and use safety devices as trained.'],
+      measurements: [],
+      documents: ['Daily inspection', 'Medical surveillance', 'Air monitoring', 'PPE assessment'],
+      hazards: ['Defective equipment', 'Fume exposure', 'Inadequate PPE'],
+      controls: ['Inspection', 'Maintenance', 'Health surveillance', 'Competency'],
+      inspection: [],
+    ),
+    _section(
+      '3.2', 'Planning and Assessment',
+      requirements: ['Outside a designated hot-work area, a specific Hot Work Permit is required.', 'Assess each operation under Element 2.', 'Consider fire/explosion, burns, fumes/gases/ventilation, electricity and radiation.', 'For construction, integrate controls into applicable pre-tender and OSH-CMP arrangements.'],
+      measurements: [],
+      documents: ['Hot Work Permit', 'RA/JSA', 'RAMS', 'OSH-CMP'],
+      hazards: [],
+      controls: ['Risk assessment', 'Permit', 'Segregation', 'Supervision'],
+      inspection: [],
+    ),
+    _section(
+      '3.3.1', 'Hot Work — General Requirements',
+      requirements: ['Provide SDS/MSDS for electrodes, fluxes and coatings.', 'Protect workers from sparks/hot metal and nearby personnel from radiation with screens.', 'Use welding booths where reasonably practicable.', 'Gas systems must be in good working order.', 'Place slag, shot crucibles and metal off-cuts in a hot-waste crate close to the work.', 'Provide competent first aiders with relevant experience for welding fumes/gases, burns and welding-flash injuries.'],
+      measurements: [],
+      documents: ['SDS/MSDS', 'Hot-waste arrangement', 'First-aid arrangement'],
+      hazards: ['Burns', 'Radiation', 'Hot waste', 'Fumes'],
+      controls: ['Screens', 'Booth', 'Housekeeping', 'First aid'],
+      inspection: [],
+    ),
+    _section(
+      '3.3.2', 'Designated Hot-Work Areas',
+      requirements: ['Where reasonably practicable, conduct hot work in a permanent designated area.', 'Restrict access to authorized persons.', 'Area should be non-combustible/fire-resistive, essentially free of combustibles/flammables, segregated, equipped with automatic fire protection or extinguishers, management-approved and ventilated.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Fire spread', 'Unauthorized exposure'],
+      controls: ['Segregation', 'Fire protection', 'Ventilation', 'Access control'],
+      inspection: ['Management approval', 'Fire equipment', 'Ventilation', 'Housekeeping'],
+    ),
+    _section(
+      '3.3.3', 'Fumes and Gases',
+      requirements: ['Reduce exposure to harmful fumes/gases as far as reasonably practicable.', 'Remove rust inhibitors, paints, degreasers and other coatings before welding where required; segregate degreasing from welding; position welders away from fumes.', 'Use general, dilution or LEV ventilation; the CoP notes general/dilution ventilation may not be sufficient in many cases.', 'LEV inlet should be as close as reasonably practicable to the welding source; refer to CoP 52.0.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Metal fumes', 'Coating decomposition', 'Solvent vapour'],
+      controls: ['Remove coatings', 'Segregate processes', 'LEV', 'Dilution/general ventilation', 'Air monitoring', 'Medical surveillance'],
+      inspection: [],
+    ),
+    _section(
+      '3.3.4', 'Electricity and Radiation',
+      requirements: ['Cord-connected welding machines tested to manufacturer specification.', 'Electrical welding machines connected to RCD-protected circuits and appropriately earthed.', 'Protect cables from sparks/hot metal.', 'Use screens and suitable filtered-lens protection.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Electric shock', 'Arc radiation', 'Eye injury', 'Cable damage'],
+      controls: ['RCD', 'Earthing', 'Cable protection', 'Screens', 'Filtered lens'],
+      inspection: [],
+    ),
+    _section(
+      '3.3.5', 'Preventing Fire',
+      requirements: ['Move workpiece to a safe location where practicable.', 'Remove combustible materials such as flammable liquids, wood, paper, textiles, packaging and plastics from within 10 m.', 'Ventilate pits/trenches where vapours can accumulate.', 'Protect combustibles that cannot be moved with suitable guards/covers.', 'Check hidden combustibles behind walls/partitions and protect openings against hot particles.', 'Maintain continuous fire watch during work and for at least one hour afterwards; keep extinguishers nearby.'],
+      measurements: ['Combustibles: within 10 m', 'Fire watch: during work and at least 1 hour afterwards'],
+      documents: [],
+      hazards: ['Ignition', 'Hidden fire', 'Falling hot particles'],
+      controls: ['10 m control', 'Shielding', 'Fire watch', 'Extinguishers'],
+      inspection: ['10 m zone', 'Hidden areas', 'Openings', 'Fire watch'],
+    ),
+    _section(
+      '3.4', 'Hazardous Areas',
+      requirements: ['Obtain a Hot-Work Permit before work where flammable/explosive gases or dusts may be present.', 'Control fire hazards within 10 m, ventilate, isolate the area, provide safe access/exit and firefighting equipment.', 'Test atmosphere in the area and in adjacent/involved pipes, drums, tanks, vessels and equipment.', 'Flammable gas/vapour concentration must be less than 5% LEL.', 'Use a firewatcher when specified by the permit; secure the area overnight/at permit expiry; restore equipment and sign off the permit.'],
+      measurements: ['Fire-hazard control within 10 m', 'Flammable gas/vapour <5% LEL'],
+      documents: ['Hot-Work Permit', 'Gas-test record', 'Isolation', 'Close-out'],
+      hazards: ['Explosion', 'Flammable vapour', 'Process release'],
+      controls: ['Permit', 'Isolation', 'Gas test', 'Ventilation', 'Fire watch'],
+      inspection: [],
+    ),
+    _section(
+      '3.5', 'Electric Arc Welding',
+      requirements: ['Use equipment per manufacturer specification and the lowest voltage consistent with efficient welding.', 'Leads/returns require hard-use insulation and at least daily examination.', 'Return section shall not be smaller than welding lead.', 'Use insulated/shrouded cable couplings, sound return clamp and fully insulated electrode holder.', 'For substantial interruptions, de-energize power, remove electrodes and position holders to prevent accidental contact/arcing.'],
+      measurements: ['Lead/return: return section not less than welding lead', 'Cable examination: at least daily'],
+      documents: [],
+      hazards: ['Shock', 'Arcing', 'Cable failure'],
+      controls: ['Insulation', 'RCD/earthing', 'Return clamp', 'Safe shutdown'],
+      inspection: [],
+    ),
+    _section(
+      '3.6', 'Gas Welding',
+      requirements: ['Keep oxy-acetylene fittings free from grease/oil.', 'Check regulators at least daily for creep/reverse flow; do not use a regulator with known creep.', 'Use correct manufacturer-specified hoses/fittings.', 'Do not use copper on acetylene lines.', 'Fit flashback arresters to oxy-acetylene equipment.', 'Protect hoses from hot equipment/metals and prohibit smoking near welding.'],
+      measurements: [],
+      documents: [],
+      hazards: ['Flashback', 'Leak', 'Fire', 'Explosion'],
+      controls: ['Daily regulator check', 'Correct hose/fitting', 'Flashback arresters', 'No oil/grease', 'No smoking'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.1', 'Gas Cylinder Storage',
+      requirements: ['Store cylinders vertically and secured; separate full and empty cylinders.', 'Protect from direct sunlight/heat.', 'Store oxygen cylinders at least 6 m from acetylene/LPG and do not store oxygen in the same storeroom as LPG/acetylene.', 'Apply CoP 1.0 and CoP 49.0 as applicable.'],
+      measurements: ['Oxygen to acetylene/LPG: at least 6 m'],
+      documents: [],
+      hazards: ['Cylinder fall', 'Heat/pressure', 'Oxygen-fuel mixing'],
+      controls: ['Vertical secure storage', 'Segregation', 'Heat protection'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.2', 'Gas Cylinder Handling',
+      requirements: ['Keep hands/clothing free from grit, grease and oil.', 'Do not use nozzles for handling; use purpose-built trolleys.', 'When moving without a trolley, detach regulators/hoses and verify valves shut.', 'Never roll cylinders.', 'Use a special carrier for crane lifting; never lift cylinders with chain/wire-rope slings.', 'Secure cylinders during vehicle transport and do not drop them during unloading.', 'Acetylene cylinders remain vertical; if accidentally horizontal after a fall, stand upright for 15 minutes before use.'],
+      measurements: ['Acetylene after accidental horizontal position: stand upright 15 minutes'],
+      documents: [],
+      hazards: ['Dropped cylinder', 'Valve damage', 'Gas release'],
+      controls: ['Trolley', 'Special carrier', 'Secure transport', 'Vertical handling'],
+      inspection: [],
+    ),
+    _section(
+      '3.7.3', 'Cylinder Attachments — Regulators, Hoses and Flashback',
+      requirements: ['Use regulators designed for the gas and rated for full cylinder pressure.', 'Release regulator adjusting screw before opening valve and open valve gradually.', 'Check leakage with detergent/water; bubbles indicate leakage.', 'Hoses are dedicated to one gas type and identified: red for acetylene/other fuel gases except LPG, orange for LPG, blue for oxygen.', 'Inspect hoses daily; protect from sharp edges, falling metal, traffic and sparks.', 'Fit non-return/flashback arresters at blowpipe inlets; high-risk examples include confined spaces, hot work near live plant, compressed-air workings, training and high-volume gas-line devices.', 'Clean/dismantle blowpipes at regular intervals.'],
+      measurements: [],
+      documents: ['Hose inspection', 'Regulator check', 'Gas-equipment maintenance'],
+      hazards: ['Leak', 'Flashback', 'Incorrect gas'],
+      controls: ['Correct regulator', 'Dedicated hose', 'Leak test', 'Flashback protection'],
+      inspection: [],
+    ),
+    _section(
+      '3.8', 'Inspection',
+      requirements: ['Users perform visual checks before use.', 'Competent-person formal inspections follow manufacturer requirements and at minimum include daily inspection/leak test at working pressure, weekly inspection if in constant use or before every use, six-month functional test by a competent person, and five-year refurbishment/replacement or manufacturer recommendation.', 'Equipment stored one year or more without use receives the applicable annual maintenance inspection.', 'Malfunctioning equipment is immediately removed from service.'],
+      measurements: ['Daily inspection/leak test', 'Weekly if constant use or before every use', '6-month functional test', '5-year refurbishment/replacement or manufacturer recommendation'],
+      documents: ['Inspection register', 'Leak test', 'Functional test', 'Maintenance record'],
+      hazards: [],
+      controls: ['Pre-use check', 'Formal inspection', 'Maintenance', 'Out-of-service control'],
+      inspection: [],
+    ),
+    _section(
+      'F1', 'Hot-Work Field Setup',
+      requirements: ['Confirm designated area or permit; review RA; inspect machine/leads/gas system; establish screens/ventilation/fire protection; control combustibles and hidden pathways; complete atmospheric testing in hazardous areas.'],
+      measurements: [],
+      documents: [],
+      hazards: [],
+      controls: ['Permit', 'Inspection', '10 m combustible control', 'Screens', 'Ventilation', 'Fire protection'],
+      inspection: [],
+    ),
+    _section(
+      'F2', 'Fire-Watch and Close-Out',
+      requirements: ['Maintain continuous fire watch during work and for at least one hour afterwards where the CoP requirement applies.', 'Inspect adjacent/hidden areas and openings, secure the area, restore firefighting equipment and sign off the permit where applicable.'],
+      measurements: ['Post-work fire watch: at least 1 hour'],
+      documents: [],
+      hazards: [],
+      controls: ['Fire watch', 'Post-work inspection', 'Permit close-out'],
+      inspection: [],
+    ),
+    _section(
+      'F3', 'Toolbox / Interview Questions',
+      requirements: ['What is hot work?', 'When is a Hot Work Permit required?', 'What is the 10 m combustible rule?', 'What is the hazardous-area LEL criterion?', 'What checks are required for welding leads?', 'How are oxygen/fuel cylinders separated?', 'What are the gas-hose colour identifications?', 'When must malfunctioning equipment be removed from service?'],
+      measurements: [],
+      documents: [],
+      hazards: [],
+      controls: [],
+      inspection: [],
+    ),
+    _section(
+      'F28.1', 'Hot Work — What Is Hot Work?',
+      requirements: [
+        'Treat welding, cutting, heating, grinding and other operations that produce flame, heat or sparks as hot work when they can create fire, explosion, burn, fume or related hazards.',
+        'Before starting, determine whether the task is inside an approved designated hot-work area or outside it; apply the applicable site controls and permit requirements.',
+        'Review the workpiece, coatings, residues, nearby equipment, openings, drains, ducts, combustible materials and adjacent/hidden spaces that can receive sparks or heat.'
+      ],
+      documents: ['Hot-work risk assessment', 'SWP', 'Hot Work Permit where required', 'SDS/MSDS where applicable'],
+      hazards: ['Fire', 'Explosion', 'Burns', 'Welding fumes', 'Radiation', 'Electric shock', 'Gas leak'],
+      controls: ['Eliminate combustibles', 'Isolation', 'Ventilation/LEV', 'Screens', 'Fire protection', 'Permit', 'Fire watch']
+    ),
+    _section(
+      'F28.2', 'Hot Work — Welding / Cutting / Grinding: Before Starting',
+      requirements: [
+        'Confirm competent operators and suitable, inspected equipment.',
+        'Remove or protect combustible/flammable materials and check hidden spaces, openings and opposite sides of partitions/floors for heat or sparks.',
+        'Provide suitable extinguishing equipment and a fire watch where required by the CoP/risk assessment.',
+        'Provide adequate ventilation or LEV for fumes and gases; use suitable respiratory protection when required by the risk assessment.',
+        'For hazardous areas, complete required gas testing and controls before and during the work as specified by the safe system of work.',
+        'For electrical welding, verify machine condition, leads, return connection, earthing/RCD arrangements and protection from mechanical damage.',
+        'For gas cutting/welding, verify cylinders, regulators, hoses, flashback protection where required, separation from ignition/heat and leak-free connections.'
+      ],
+      documents: ['Pre-use inspection', 'Gas test record where applicable', 'Hot-work permit', 'Fire-watch assignment'],
+      hazards: ['Ignition of hidden combustibles', 'Fumes', 'Gas leak', 'Electric shock', 'Radiation', 'Hot metal'],
+      controls: ['10 m combustible control criterion where applicable under CoP 28', 'Screens', 'Fire watch', 'Gas testing', 'Ventilation', 'Equipment inspection']
+    ),
+    _section(
+      'F28.3', 'Hot Work — Permit: What Permit and Why?',
+      requirements: [
+        'Where hot work is conducted outside an approved designated hot-work area, apply the specific Hot Work Permit requirements and the ADOSH-SF CoP 21.0 Permit to Work system.',
+        'The permit controls the exact task/location/time and verifies fire/explosion hazards, combustibles, ventilation, gas testing where required, equipment condition, fire protection and fire-watch arrangements.',
+        'A permit does not make unsafe conditions acceptable; work must stop when permit conditions change or controls fail.',
+        'Close the permit after the required post-work checks and fire-watch period have been completed.'
+      ],
+      documents: ['CoP 21.0 PTW', 'Hot Work Permit', 'Gas test record', 'Close-out record'],
+      hazards: ['Uncontrolled ignition', 'Changed conditions', 'Delayed fire detection'],
+      controls: ['Permit authorization', 'Pre-job verification', 'Fire watch', 'Post-work inspection', 'Close-out']
+    ),
+    _section(
+      'F28.4', 'Hot Work — Who Should Be at the Work Area?',
+      requirements: [
+        'Competent hot-work operator(s) performing the task.',
+        'Competent supervisor/person responsible for implementation of the safe system and permit conditions.',
+        'Fire watch when specified by the CoP, permit or risk assessment; the fire watch must be able to raise the alarm and use the provided firefighting equipment as trained.',
+        'Gas tester/authorized person where atmospheric testing is required.',
+        'Other affected workers shall be kept outside the hazard zone or protected by screens, barriers and the approved work arrangement.'
+      ],
+      documents: ['Competency records', 'Permit', 'Fire-watch assignment', 'Gas-test authorization where applicable'],
+      hazards: ['Uncontrolled exposure', 'Fire response delay', 'Gas exposure'],
+      controls: ['Role allocation', 'Exclusion zone', 'Communication', 'Fire protection']
+    ),
+    _section(
+      'F28.5', 'Hot Work — Practical Stop-Work Triggers',
+      requirements: [
+        'Stop hot work when the required permit is absent/expired, combustible control is inadequate, fire protection is unavailable, gas testing is outside the approved criterion, ventilation is inadequate, equipment is defective, a gas leak is detected, the fire watch is unavailable where required, or site conditions change.',
+        'Stop immediately if sparks/heat are reaching uncontrolled areas or if hidden combustible materials cannot be ruled out.',
+        'Reassess and reauthorize before restarting.'
+      ],
+      hazards: ['Fire', 'Explosion', 'Equipment failure', 'Fume exposure'],
+      controls: ['Stop work', 'Isolate', 'Make safe', 'Reassess', 'Reissue/revalidate permit']
+    ),
+    ],
+    fieldChecklist: ['Competent operator', 'Training verified', 'Pre-use check', 'Daily competent inspection', 'Designated area or permit', 'RA complete', 'Combustibles controlled within 10 m', 'Hidden combustibles checked', 'Openings protected', 'Screens', 'Ventilation/LEV', 'Fire extinguishers', 'Fire watch', 'Gas test where required', '<5% LEL hazardous-area criterion', 'RCD/earthing', 'Leads/holder/return', 'Cylinders secure', 'Hoses/regulators/flashback', 'Post-work fire watch', 'Permit close-out'],
+    stopWorkIndicators: ['Permit missing where required', 'Flammable atmosphere not <5% LEL in hazardous area', 'Combustibles not controlled within required 10 m', 'Fire protection unavailable', 'Fire watch unavailable where specified', 'Damaged welding lead/holder', 'Gas leak', 'Regulator creep', 'Damaged hose', 'Flashback protection missing where required', 'Cylinder unsecured', 'RCD/earthing defective', 'Ventilation/LEV inadequate', 'Uncontrolled radiation/sparks/hot metal', 'Malfunctioning equipment', 'Permit conditions changed'],
+    references: ['ADPHC CoP 28.0 — Hot Work Operations V4.1', 'CoP 21.0 — Permit to Work Systems', 'CoP 2.0 — Personal Protective Equipment', 'CoP 5.0 — Occupational Health Screening and Medical Surveillance', 'CoP 49.0 — Compressed Gases and Air', 'CoP 52.0 — Local Exhaust Ventilation', 'Element 2 — Risk Management', 'Element 7 — Monitoring, Investigation and Reporting'],
+    protectionItems: ['Welding helmet/filtered lens', 'Fire-resistant gloves', 'Leather apron where appropriate', 'Welding screens', 'Fire extinguishers', 'LEV/ventilation', 'Gas regulators/hoses', 'Flashback arresters', 'Hot-waste crate'],
+    verificationNote: 'Verified against the current ADPHC-hosted CoP 28.0 V4.1 publication. Numeric values are included only where stated by the official CoP.',
+  );
+
+  static final AbuDhabiCopDocument cop29Excavation = _document(
+    code: 'CoP 29.0',
+    title: 'Excavation Work',
+    version: '4.0',
+    effectiveDate: '15 July 2024',
+    introduction: 'ADOSH-SF CoP 29.0 — Excavation Work, Version 4.0 (July 2024). This field reference is structured from the official Abu Dhabi CoP and is paraphrased for SafeNexus HSE use. Mandatory requirements remain subject to the controlled ADPHC publication and applicable sector requirements.',
+    sections: [
+      _section(
+        '1', 'Introduction',
+        requirements: [
+          'Applies to employers within the Emirate of Abu Dhabi and establishes requirements for assessing excavation risks and implementing controls according to the hierarchy of controls.',
+          'Excavation includes moving or disturbing earth or rock, breaking ground, driving an object into the ground, and work that could strike, damage, undermine or leave underground services unsupported.',
+          'Excavation also includes work that may expose or damage protective covers, warning tapes or earthing conductors.',
+          'Covered activities include digging, ditches, shafts, wells, trenching and trench filling, grading, tunnelling, boring or drilling, post driving and work involving cofferdams or caissons.',
+          'For Building and Construction activities, Principal Contractor responsibilities are linked to CoP 53.0 — OSH Management During Construction Work.'
+        ],
+        documents: ['Excavation scope and method statement', 'Risk assessment', 'Site survey and service information', 'Applicable permits and authorisations'],
+        hazards: ['Ground collapse', 'Falling material', 'Falls into excavation', 'Underground service strike', 'Groundwater', 'Atmospheric hazards', 'Adjacent-structure instability', 'Plant interaction'],
+        controls: ['Eliminate or minimise excavation where practicable', 'Competent planning and supervision', 'Documented safe system of work', 'Service identification and validation', 'Appropriate support or safe slopes', 'Safe access and edge protection'],
+      ),
+      _section(
+        '2', 'Training and Competency',
+        requirements: [
+          'Training shall comply with ADOSH-SF Element 5 — Training, Awareness and Competency and applicable requirements of Mechanism 7.0.',
+          'Personnel implementing this CoP shall understand excavation hazards and the controls established by the employer.',
+          'Training shall be appropriate to the work and shall develop the knowledge and skills required for safe excavation activities.',
+          'Role-specific training is required for excavation workers, persons preparing documented safe systems of work, site managers, excavation supervisors, plant operators and personnel using excavation-related PPE.',
+          'General excavation training should cover the safe system of work, hazards and risk controls, emergency rescue, first aid, night excavation, debris removal, site security and personnel restrictions.',
+          'Training shall be provided before first assignment, before changed duties, when excavation operations introduce a previously untrained hazard, and when deviations or knowledge deficiencies are identified.'
+        ],
+        documents: ['Training matrix', 'Competency records', 'Plant/operator authorisation', 'Excavation-specific induction', 'Refresher/retraining records'],
+        hazards: ['Untrained workers', 'Incorrect excavation method', 'Incorrect plant operation', 'Failure to recognise changing ground conditions'],
+        controls: ['Competency verification', 'Role-specific training', 'Toolbox talks', 'Supervision', 'Retraining after procedural deviations'],
+        inspection: ['Verify competence before assignment and when work conditions or duties change.'],
+      ),
+      _section(
+        '3.1.1', 'Roles and Responsibilities — Employers',
+        requirements: [
+          'Conduct an appropriate risk assessment with relevant stakeholders and ensure services are identified, located and marked on the surface.',
+          'Ensure the site is correctly surveyed, with alignments and boundaries confirmed, and obtain available diagrams, maps, drawings, specifications and information on surrounding properties.',
+          'Initiate and validate service searches.',
+          'Develop documented safe systems of work with the Principal Contractor, including the excavation method and equipment to be used.',
+          'Inform the Principal Contractor and relevant parties of the selected excavation method and equipment.',
+          'Obtain required permits, authorisations and notifications.',
+          'Nominate a competent and experienced person to supervise the excavation work and implement the safe system of work.',
+          'Inspect adjacent properties when necessary and report changes in their condition.',
+          'Provide fencing and overhead protection as appropriate for workers and the public.',
+          'Provide information, instruction, training and supervision necessary for safe work.',
+          'Maintain site security, apply CoP 27.0 where applicable and arrange appropriate waste recycling/disposal.'
+        ],
+        documents: ['Employer RA', 'SWMS/Safe system of work', 'Permit/NOC/authorisation records', 'Service drawings and validation records', 'Adjacent-property inspection record'],
+        hazards: ['Uncontrolled excavation work', 'Unidentified services', 'Public exposure', 'Adjacent property damage', 'Poor waste management'],
+        controls: ['Competent supervisor', 'Stakeholder consultation', 'Approved work method', 'Site security', 'Public protection'],
+      ),
+      _section(
+        '3.1.2', 'Roles and Responsibilities — Principal Contractors',
+        requirements: [
+          'For Building and Construction, fulfil the applicable CoP 53.0 responsibilities.',
+          'Ensure the excavation employer has available site descriptions, drawings, surveys, service plans and information about hazardous materials.',
+          'Notify relevant authorities and utility providers and obtain required approvals and NOCs before work starts.',
+          'Notify adjoining property owners of proposed excavation work.',
+          'Verify underground tanks, vaults, wells, voids and structures and ensure hazardous chemicals, volatile fuels and gases are removed where applicable.',
+          'Ensure the workplace is secured, appropriate atmospheric monitoring is available and the documented safe system of work is in place.'
+        ],
+        documents: ['Site survey package', 'Utility/service plans', 'Authority approvals and NOCs', 'Adjacent-property notifications', 'SWMS', 'Atmospheric-monitoring arrangements'],
+        hazards: ['Unknown site conditions', 'Unidentified utility infrastructure', 'Hazardous contents', 'Public access', 'Atmospheric contamination'],
+        controls: ['Pre-start information review', 'Authority coordination', 'Utility-owner coordination', 'Site security', 'Atmospheric monitoring'],
+      ),
+      _section(
+        '3.1.3', 'Roles and Responsibilities — Employees',
+        requirements: [
+          'Carry out work in accordance with the documented safe system of work.',
+          'Report identified hazards and risks through the site induction and excavation-specific reporting process.',
+          'Use tools, plant and equipment in accordance with instruction and training.'
+        ],
+        documents: ['Induction record', 'Toolbox talk record', 'Hazard/near-miss reports'],
+        hazards: ['Deviation from safe system', 'Unreported ground change', 'Incorrect equipment use'],
+        controls: ['Follow SWMS', 'Stop and report unsafe conditions', 'Use equipment only within competency'],
+      ),
+      _section(
+        '3.2.1', 'Planning',
+        requirements: [
+          'Assess risks to workers, affected persons and the public and establish safe systems of work.',
+          'Implement effective procedures and control measures, including CoP 21.0 Permit to Work requirements where applicable.',
+          'Identify foreseeable emergencies and develop appropriate emergency procedures before work begins.',
+          'For Building and Construction, include excavation management in the Pre-Tender Safety and Health Plan and applicable OSH-CMP requirements under CoP 53.0.'
+        ],
+        documents: ['Risk assessment', 'SWMS/RAMS', 'PTW where applicable', 'Emergency plan', 'Pre-Tender Safety and Health Plan', 'OSH-CMP'],
+        hazards: ['Unplanned excavation sequence', 'Emergency without response arrangements', 'Public exposure', 'Service incident'],
+        controls: ['Pre-job planning', 'Hierarchy of controls', 'Permit controls', 'Emergency planning', 'Construction management planning'],
+      ),
+      _section(
+        '3.2.2', 'Assess the Site',
+        requirements: [
+          'Before excavation starts, a competent person shall assess the work requirements and site conditions.',
+          'The assessment may identify the need for a documented safe system of work and/or permit-to-work process.'
+        ],
+        documents: ['Site assessment', 'Excavation RA', 'Method statement'],
+        hazards: ['Unknown site constraints', 'Unexpected ground conditions', 'Uncontrolled interfaces'],
+        controls: ['Competent assessment', 'Pre-start verification', 'Defined work boundaries'],
+      ),
+      _section(
+        '3.2.3', 'Documented Safe Systems of Work',
+        requirements: [
+          'Complete the excavation risk assessment and applicable controls through documented safe systems of work.',
+          'Where required by the risk, implement a PTW system complying with CoP 21.0.',
+          'The documented system shall ensure excavation and earthworks are systematically planned and that appropriate methods and procedures are established.'
+        ],
+        documents: ['Excavation RA', 'SWMS/RAMS', 'PTW where applicable', 'Excavation sequence/method statement', 'Emergency procedure'],
+        hazards: ['Uncontrolled excavation sequence', 'Unsupported excavation', 'Service strike', 'Interface failures'],
+        controls: ['Approved SWMS', 'Permit conditions', 'Competent supervision', 'Hold points', 'Pre-start briefing'],
+      ),
+      _section(
+        '3.2.4', 'Site Survey and Plans',
+        requirements: [
+          'Confirm site markers, alignments and boundaries.',
+          'Obtain available site diagrams, maps, drawings and specifications and understand relationships with surrounding properties.',
+          'Safeguard or document historical, archaeological and geological items identified during planning.',
+          'Notify adjoining property owners of proposed excavation work.'
+        ],
+        documents: ['Topographical/site survey', 'Utility plans', 'Structural/foundation information', 'Adjacent-property notification'],
+        hazards: ['Boundary encroachment', 'Damage to heritage/geological features', 'Adjacent property instability'],
+        controls: ['Survey verification', 'Document review', 'Stakeholder notification', 'Physical marking'],
+      ),
+      _section(
+        '3.2.5', 'Services Search',
+        requirements: [
+          'All relevant underground service searches shall be conducted and validated before excavation.',
+          'Service information shall be translated into visible site controls and communicated to people involved in the excavation.'
+        ],
+        documents: ['Latest service drawings', 'Utility-owner information', 'Service search records', 'Marked-up excavation plan'],
+        hazards: ['Electrical strike', 'Gas release', 'Water main rupture', 'Telecommunication damage', 'Unsupported service'],
+        controls: ['Service locating', 'Surface marking', 'Asset-owner coordination', 'Controlled digging method', 'Emergency procedure'],
+      ),
+      _section(
+        '3.2.6', 'Validation Area Risk Assessment',
+        requirements: [
+          'The validation area is the area nominated by the service owner around the presumed service location; the service owner determines how the exact service location is established.',
+          'Conduct a validation-area risk assessment with the asset owner when services are identified, located and marked.',
+          'Where different authorities or services have overlapping or different nominated areas, consider the combined area.',
+          'Document the validation controls in the safe system of work.'
+        ],
+        documents: ['Asset-owner validation requirements', 'Validation-area RA', 'Service location records', 'Approved excavation method'],
+        hazards: ['Service location uncertainty', 'Unexpected service offset', 'Service damage during excavation'],
+        controls: ['Asset-owner consultation', 'Validation method', 'Restricted excavation zone', 'Competent supervision', 'Emergency response'],
+      ),
+      _section(
+        '3.3', 'Ground Conditions',
+        requirements: [
+          'Identify the ground type before excavation starts.',
+          'Use available site investigation information, including borehole or trial-pit logs, when determining excavation and support requirements.',
+          'Pay particular attention to the water table and its possible effect on side stability if exposed by excavation.',
+          'Check whether the ground has previously been contaminated and incorporate the findings into the risk assessment and controls.'
+        ],
+        documents: ['Geotechnical information', 'Borehole logs', 'Trial-pit logs', 'Contamination information', 'Ground assessment'],
+        hazards: ['Unexpected weak strata', 'Saturated soil', 'Contaminated ground', 'Collapse'],
+        controls: ['Ground investigation', 'Engineer input where required', 'Support/slope selection', 'Contamination controls'],
+      ),
+      _section(
+        '3.4', 'Ground Water',
+        requirements: [
+          'Where suitable, groundwater may be controlled by techniques such as shallow wells or well-pointing to lower the water table below excavation level.',
+          'Where appropriate, sheet piling may provide a relatively watertight cut-off where water-bearing strata overlie suitable impervious strata.',
+          'Dewatering shall be managed so that silty or dirty water does not contaminate nearby watercourses or drains.',
+          'Use suitable barriers or absorbent controls near drains and watercourses and do not discharge dirty/silty water directly into drains.',
+          'Water disposal shall comply with applicable CoP 54.0 Waste Management requirements and registered service-provider requirements.'
+        ],
+        documents: ['Dewatering plan', 'Water-discharge approval/records', 'Environmental controls', 'CoP 54.0 waste documentation'],
+        hazards: ['Side instability', 'Flooding', 'Water ingress', 'Silt pollution', 'Drain contamination'],
+        controls: ['Well-pointing/shallow wells', 'Sheet piling where suitable', 'Silt controls', 'Pump/sump system', 'Approved disposal'],
+        inspection: ['Check pumps, discharge route, water level and erosion/silt controls throughout excavation.'],
+      ),
+      _section(
+        '3.5', 'Temporary Safe Slopes',
+        requirements: [
+          'Battered sides or benches may provide temporary stability where the applicable ground conditions support the selected slope.',
+          'The official CoP 29.0 V4.0 Table 1 values are expressed as degrees from the horizontal and distinguish dry and wet site conditions.',
+          'The table is a controlled CoP reference; actual excavation design shall consider site conditions, ground investigation, water, surcharge, adjacent structures and other risk factors.'
+        ],
+        measurements: [
+          'Boulders: dry 35/45°, wet 30/40°.',
+          'Cobbles: dry 35/40°, wet 30/35°.',
+          'Gravel: dry 30/40°, wet 10/30°.',
+          'Sand: dry 30/35°, wet 10/30°.',
+          'Silt: dry 20/40°, wet 5/20°.',
+          'Soft clay: dry 20/30°, wet 10/20°.',
+          'Firm clay: dry 30/40°, wet 20/25°.',
+          'Stiff clay: dry 40/45°, wet 25/35°.'
+        ],
+        documents: ['Ground classification', 'Excavation design/slope assessment', 'Geotechnical information'],
+        hazards: ['Slope failure', 'Sliding', 'Water-related weakening', 'Surcharge-induced instability'],
+        controls: ['Safe battering/benching', 'Support system', 'Groundwater control', 'Load control at edge', 'Competent assessment'],
+      ),
+      _section(
+        '3.6', 'Choice of Support Method',
+        requirements: [
+          'Select the support method after considering plant availability, site conditions and the competence of the operatives.',
+          'Methods identified by the CoP include traditional sheeting/waling/strutting, hydraulic struts, proprietary support systems and soldier-pile support.',
+          'Where temporary unsupported standing is possible in a particular soil, use experienced and competent operatives and install support without delay.',
+          'Excavate to level over a short length and install support promptly, preferably without requiring personnel to enter the unsupported excavation.',
+          'If entry is unavoidable during installation, use suitable interim protection such as a protective cage or other quick-to-install temporary support.',
+          'Interim support is only for safe access during installation; full support shall follow without delay.',
+          'Buried services crossing or adjacent to the excavation shall not be left unsupported, even temporarily.',
+          'In unstable ground, progressive sheeting or proprietary boxes/slide-rail systems may be used as excavation proceeds.',
+          'Where a stop-end is required, provide suitable bracing and guidance for the support arrangement.'
+        ],
+        documents: ['Support design/method', 'Manufacturer instructions', 'Competent-person appointment', 'Installation sequence'],
+        hazards: ['Collapse during installation', 'Unsupported service', 'Improper support selection', 'Stop-end failure'],
+        controls: ['Progressive support', 'Protective cage/interim support', 'Competent installers', 'Manufacturer guidance', 'Short excavation lengths'],
+      ),
+      _section(
+        '3.7', 'Support Systems',
+        requirements: [
+          'Provide timbering or shoring for trenches or excavations greater than 1.2 m deep where there is danger of material falling or collapsing.',
+          'For larger excavations, obtain appropriate soil information from a trained and experienced person so that excavation and support methods can be determined by a competent engineer.',
+          'Support materials shall be sound, defect-free, appropriately strong, well constructed and maintained.',
+          'Supports shall be securely fixed against displacement and shall only be erected, altered or dismantled by competent employees under supervision.',
+          'The CoP identifies conventional timber shuttering, steel trench sheets, adjustable mechanical/hydraulic props and protective boxes/cages as possible support components.',
+          'Protect workers during installation of permanent support and use a protective box/cage where required.',
+          'A moving box/drag box may advance with timbering as appropriate.',
+          'Excavation work shall not compromise the stability of adjacent structures.'
+        ],
+        measurements: ['Support threshold: greater than 1.2 m where there is a danger of material falling or collapsing.'],
+        documents: ['Support design', 'Inspection records', 'Manufacturer data', 'Engineer approval where required', 'Support installation record'],
+        hazards: ['Collapse', 'Support displacement', 'Adjacent-structure failure', 'Defective support material'],
+        controls: ['Shoring/timbering', 'Hydraulic/mechanical props', 'Trench boxes', 'Competent installation', 'Progressive inspection'],
+        inspection: ['Check support condition, tightness, displacement, damage and relationship to changing ground/water conditions.'],
+      ),
+      _section(
+        '3.8', 'Access',
+        requirements: [
+          'Provide a safe means of entering and leaving the excavation.',
+          'Ladders shall be securely fixed and properly maintained and shall permit rapid escape where flooding or falling material may occur.',
+          'Waling members and struts shall not be used as access or egress routes.'
+        ],
+        measurements: ['Where the ladder arrangement is used, apply the CoP 29.0 4:1 height-to-base arrangement where reasonably practicable and provide the specified top projection/landing controls described under Section 3.11.'],
+        documents: ['Access plan', 'Ladder inspection record'],
+        hazards: ['Falls', 'Difficult evacuation', 'Ladder displacement'],
+        controls: ['Secured ladder', 'Stable landing', 'Alternative access system where appropriate', 'Clear escape route'],
+      ),
+      _section(
+        '3.9', 'Site Lighting',
+        requirements: [
+          'Provide appropriate lighting for the workplace, with particular attention to access points and openings.',
+          'Provide adequate lighting whenever lifting operations take place.'
+        ],
+        documents: ['Lighting plan where required', 'Inspection records'],
+        hazards: ['Poor visibility', 'Trips/falls', 'Plant interaction', 'Lifting incident'],
+        controls: ['Adequate task lighting', 'Access/opening illumination', 'Lighting protected from damage'],
+      ),
+      _section(
+        '3.10', 'Ventilation',
+        requirements: [
+          'Keep excavations free from suffocating, toxic or explosive gases.',
+          'Consider natural gases such as hydrogen sulphide, methane and sulphur dioxide, exhaust gases from nearby plant and leaks from nearby pipes or installations.',
+          'Consider LPG leakage, including propane and butane, where cylinders or systems are nearby.',
+          'Where necessary, provide clean-air ventilation in sufficient volume to disperse gas accumulation.',
+          'Apply ADOSH-SF CoP 27.0 Confined Spaces requirements where the excavation meets the confined-space conditions.'
+        ],
+        documents: ['Atmospheric monitoring plan', 'Gas-test records', 'Ventilation arrangement', 'CoP 27.0 assessment where applicable'],
+        hazards: ['Oxygen deficiency', 'Toxic gas', 'Explosive atmosphere', 'Plant exhaust', 'LPG leakage'],
+        controls: ['Natural/mechanical ventilation', 'Atmospheric monitoring', 'Engine location control', 'CoP 27 controls where applicable'],
+        inspection: ['Verify monitoring and ventilation remain suitable as excavation depth, configuration and nearby activities change.'],
+      ),
+      _section(
+        '3.11', 'Barriers Around Excavations',
+        requirements: [
+          'Provide safe entry and exit arrangements and protect the excavation edge against falls and unauthorised access.',
+          'Where a person may fall more than 2 m, provide appropriate rigid barriers; below 2 m, provide physical demarcation of the excavation edge.',
+          'Barriers shall be 950 mm high and can also help keep plant, equipment and materials away from the edge.',
+          'Barriers removed temporarily for access shall be replaced as soon as reasonably practicable.',
+          'During darkness, mark excavation edges with hazard warning lights, particularly near public thoroughfares.',
+          'Road excavation requires Traffic Police approval and applicable CoP 33.0 controls.',
+          'Use wheel stops or barriers to prevent vehicles falling or driving into excavations.',
+          'Traffic-facing barricades shall be red and white or have reflective strips, and CoP 22.0 shall be followed.'
+        ],
+        measurements: ['Rigid barrier where a person may fall more than 2 m.', 'Barrier height: 950 mm.', 'Ladder: 4:1 height-to-base ratio where reasonably practicable.', 'Ladder top projection: at least 1 m / 4 rungs above ground level.'],
+        documents: ['Barricading plan', 'Road-work approval where applicable', 'Public protection assessment'],
+        hazards: ['Person fall', 'Vehicle intrusion', 'Material fall', 'Public access', 'Night-time visibility failure'],
+        controls: ['Rigid barriers', 'Physical demarcation', 'Wheel stops', 'Reflective barricades', 'Warning lights', 'Secure access gates'],
+      ),
+      _section(
+        '3.12', 'Maintenance Inspections',
+        requirements: [
+          'Excavations require careful monitoring, particularly when first opened and when sides are unsupported; continued vigilance remains necessary after support installation.',
+          'Inspect timber for drying, shrinkage or rot and examine the soil face, wedges and telescopic struts for loss of tightness.',
+          'Check raking or angle struts for displacement.',
+          'After bad weather, check for slumping soil and loose boulders or masonry.',
+          'Do not allow heavy vehicles near the edge unless the support has been designed for the imposed loading.',
+          'Where plant must approach the edge, provide suitable baulk timbers or other effective stops to prevent overrun.'
+        ],
+        documents: ['Maintenance inspection record', 'Support inspection record', 'Weather-event inspection record'],
+        hazards: ['Support deterioration', 'Ground shrinkage', 'Vehicle overrun', 'Weather-related instability'],
+        controls: ['Frequent observation', 'Support tightening/repair', 'Edge-load control', 'Weather inspections', 'Plant stops'],
+        inspection: ['Check support, soil face, struts, timber condition, edge loading and weather effects.'],
+      ),
+      _section(
+        '3.13', 'Inspection and Examination',
+        requirements: [
+          'A competent and experienced person shall inspect the excavation before work starts, at least once each day and before each shift.',
+          'A thorough examination shall be completed by a competent person weekly, every seven days.',
+          'A further thorough examination is required after substantial collapse or damage.',
+          'Inspection and examination results shall be recorded as required by the CoP and site management system.',
+          'Work shall not continue when inspection identifies an unsafe condition until the condition is assessed and controlled.'
+        ],
+        measurements: ['Before work starts.', 'At least once each day and before each shift.', 'Thorough examination every 7 days.', 'Additional examination after substantial collapse or damage.'],
+        documents: ['Daily/before-shift excavation inspection', 'Weekly examination record', 'Post-collapse/damage examination', 'Corrective-action close-out'],
+        hazards: ['Unrecognised deterioration', 'Collapse', 'Support damage', 'Unsafe access', 'Changing water/ground conditions'],
+        controls: ['Competent inspection', 'Recorded findings', 'Corrective action', 'Stop-work authority'],
+        inspection: ['Start-of-work inspection', 'Before each shift', 'Daily inspection', 'Weekly examination', 'Post-collapse/damage examination'],
+      ),
+      _section(
+        '3.14.1', 'Cofferdams and Caissons — General Public',
+        requirements: [
+          'Protect members of the public from cofferdam and caisson activities.',
+          'Securely fence cofferdams and caissons and display clear warning signs.',
+          'Protect public footpaths and rights of way where reasonably practicable or provide alternative access.',
+          'The employer risk assessment shall specifically consider public safety and establish controls that prevent public exposure.'
+        ],
+        documents: ['Public protection RA', 'Fencing/signage plan', 'Traffic/public-access plan'],
+        hazards: ['Public fall', 'Vehicle intrusion', 'Restricted public access', 'Cofferdam incident'],
+        controls: ['Secure fencing', 'Warning signs', 'Alternative pedestrian route', 'Traffic controls'],
+      ),
+      _section(
+        '3.14.2', 'Cofferdams and Caissons — Site Supervision',
+        requirements: [
+          'Appoint a competent person to supervise cofferdam/caisson operations.',
+          'The supervisor shall be able to recognise and assess unexpected dangers, including unusual ground conditions that may require a changed construction method and unusual smells indicating possible dangerous gases.'
+        ],
+        documents: ['Competent supervisor appointment', 'Cofferdam/caisson SWMS', 'Emergency arrangements'],
+        hazards: ['Unexpected ground condition', 'Gas release', 'Structural instability'],
+        controls: ['Competent supervision', 'Continuous observation', 'Change-management process', 'Emergency response'],
+      ),
+      _section(
+        '3.14.3', 'Cofferdams and Caissons — Chemical Grouts',
+        requirements: [
+          'Provide and use suitable respiratory protection and goggles when changing grout or cleaning chemical spills.',
+          'Follow the manufacturer SDS and applicable OSH requirements for the grout product.'
+        ],
+        documents: ['SDS', 'Chemical risk assessment', 'PPE/RPE records', 'Spill response procedure'],
+        hazards: ['Chemical exposure', 'Splash', 'Inhalation', 'Spill'],
+        controls: ['SDS controls', 'Respiratory protection', 'Eye protection', 'Spill response', 'Competent handling'],
+      ),
+      _section(
+        '3.14.4', 'Cofferdams and Caissons — Air Testing',
+        requirements: [
+          'For deep and confined excavations, establish a continuous routine for testing noxious gases and oxygen deficiency in accordance with CoP 27.0 Confined Spaces requirements.'
+        ],
+        documents: ['Gas-test records', 'Calibration records', 'CoP 27 assessment/permit where applicable', 'Emergency plan'],
+        hazards: ['Toxic gas', 'Oxygen deficiency', 'Flammable atmosphere'],
+        controls: ['Suitable gas detector', 'Continuous/routine monitoring as required', 'Ventilation', 'Confined-space controls'],
+        inspection: ['Verify detector condition/calibration and monitoring arrangements before and during applicable work.'],
+      ),
+      _section(
+        '3.14.5', 'Cofferdams and Caissons — Excluding Water / Pump Sumps',
+        requirements: [
+          'Do not assume a sheet-piled cofferdam will be completely watertight; provide a suitable drainage/dewatering arrangement where water ingress is possible.',
+          'Consider routing water to a sump from which it can be safely pumped.',
+          'Position sumps as far as reasonably practicable from corners and walls because hydraulic gradients can be significant near corners.',
+          'A perforated drum may be used as a sump arrangement where suitable, with the pump hose secured to limit damage.',
+          'Consider the risk that pumps can remove soil as well as water; poorly positioned suction hoses can disturb the excavation base and affect wall stability.'
+        ],
+        documents: ['Dewatering plan', 'Pump/sump arrangement', 'Water-discharge controls', 'Inspection record'],
+        hazards: ['Flooding', 'Base disturbance', 'Wall movement', 'Silt discharge', 'Pump failure'],
+        controls: ['Sump', 'Pump redundancy where justified', 'Controlled hose placement', 'Water monitoring', 'Approved discharge'],
+      ),
+      _section(
+        '3.14.6', 'Cofferdams and Caissons — Land Cofferdams',
+        requirements: [
+          'Where cofferdam sheeting extends less than 1 m above ground level, provide guardrails and toe-boards as edge protection.',
+          'Where a land cofferdam is near a watercourse, check historical flood levels and confirm the cofferdam is suitable for exceptional flooding.'
+        ],
+        measurements: ['Cofferdam sheeting less than 1 m above ground: guardrails and toe-boards required.'],
+        documents: ['Flood assessment', 'Cofferdam design', 'Edge-protection inspection'],
+        hazards: ['Fall', 'Flooding', 'Watercourse exposure'],
+        controls: ['Guardrails', 'Toe-boards', 'Flood assessment', 'Emergency evacuation arrangements'],
+      ),
+      _section(
+        '3.14.7', 'Cofferdams and Caissons — Steel, Concrete and Steel Sheet Piling',
+        requirements: [
+          'Apply suitable safety precautions to handling steel piles and interlocking steel sheet piles, with relevant precautions also applying to precast concrete piles.',
+          'Where a pile topman guides a pile into an interlock, provide a fenced platform or suitable fall-protection arrangement such as a safety harness connected to an appropriate static line.',
+          'Where a man-riding skip is suspended from a crane, the hoisting mechanism shall have automatic braking facilities as specified by the CoP.',
+          'Use competent employees and appropriate safe equipment for interlocking steel sheet piles.',
+          'Extract sheet piles with an appropriately sized extractor so that the operation is not mainly dependent on crane pull and does not create crane overload or overturning risk.'
+        ],
+        documents: ['Lifting plan', 'Pile installation/extraction method', 'Competency records', 'Equipment inspection records', 'Fall-protection arrangement'],
+        hazards: ['Pile instability', 'Crush injury', 'Falling objects', 'Falls from platform', 'Crane overload/overturning'],
+        controls: ['Competent piling team', 'Fenced platform', 'Fall protection', 'Suitable extractor', 'Lifting controls', 'Equipment inspection'],
+      ),
+      _section(
+        '4', 'Document Amendment Record',
+        requirements: [
+          'Version 4.0 records the transition of the system acronym from OSHAD-SF to ADOSH-SF and updates the reference from OSHAD to ADPHC.',
+          'The amendment record also notes the updated title of Mechanism 7 and deletion of the former Mechanism 8 practitioner-registration reference, together with minor editorial changes.',
+          'The controlled ADPHC publication should be treated as the source of truth if a later revision is issued.'
+        ],
+        documents: ['Controlled CoP revision', 'Document register', 'Revision/change log'],
+      ),
+      _section(
+        'F1', 'Field Risk-Control Matrix',
+        requirements: [
+          'Before excavation: confirm drawings, service search, validation, ground information, method, support/slope, access, barriers, lighting, ventilation and emergency arrangements.',
+          'During excavation: maintain the approved sequence, protect services, control edge loading, monitor water and atmosphere where applicable and maintain support.',
+          'After change: reassess when ground, water, support, nearby construction, plant loading or service conditions change.'
+        ],
+        hazards: ['Collapse', 'Service strike', 'Fall', 'Water ingress', 'Atmospheric hazard', 'Plant interaction', 'Public exposure'],
+        controls: ['RA/SWMS', 'Competent supervision', 'Support/slope', 'Service controls', 'Edge protection', 'Monitoring', 'Emergency plan'],
+      ),
+      _section(
+        'F2', 'Field Stop-Work Conditions',
+        requirements: [
+          'Stop excavation and prevent entry when a service is unidentified or cannot be safely validated.',
+          'Stop when there is cracking, slumping, bulging, significant water ingress, support displacement/damage or other evidence of instability.',
+          'Stop when safe access/egress, required barriers, competent supervision or required inspection is unavailable.',
+          'Stop when an unsafe atmosphere is identified or required atmospheric monitoring cannot be maintained.',
+          'Stop when plant or vehicle loading is uncontrolled near the excavation edge or when adjacent structures show concerning movement.',
+          'Stop after substantial collapse or damage until the competent examination is completed and controls are restored.'
+        ],
+        hazards: ['Collapse', 'Service incident', 'Fall', 'Atmospheric emergency', 'Flooding', 'Adjacent-structure failure'],
+        controls: ['Stop-work authority', 'Exclusion zone', 'Reassessment', 'Competent examination', 'Corrective action'],
+      ),
+      _section(
+        'F3', 'Field Documentation Pack',
+        documents: [
+          'Current CoP 29.0 controlled copy',
+          'Excavation risk assessment',
+          'SWMS/RAMS',
+          'PTW where applicable',
+          'Site survey and excavation drawings',
+          'Utility/service plans and validation records',
+          'Ground investigation/borehole/trial-pit information',
+          'Support/slope design and manufacturer information',
+          'Dewatering/discharge arrangements',
+          'Inspection and examination records',
+          'Training and competency records',
+          'Emergency plan and contact list',
+          'Public/traffic protection arrangements where applicable'
+        ],
+        hazards: ['Missing critical information', 'Uncontrolled work', 'Poor emergency readiness'],
+        controls: ['Document control', 'Pre-start verification', 'Accessible field records'],
+      ),
+      _section(
+        'F4', 'Excavation Field Sequence',
+        requirements: [
+          '1. Review current CoP and project requirements.',
+          '2. Survey the site and confirm boundaries.',
+          '3. Obtain and review service information.',
+          '4. Validate services and complete the validation-area RA.',
+          '5. Review ground, groundwater and contamination information.',
+          '6. Select slope/support and excavation method.',
+          '7. Confirm equipment, support materials and competent personnel are available.',
+          '8. Establish access, barriers, lighting, ventilation and emergency arrangements.',
+          '9. Brief the workforce and implement the SWMS/PTW where applicable.',
+          '10. Excavate progressively while maintaining the selected protection system.',
+          '11. Inspect before work, before shifts and at required intervals; re-examine after substantial collapse/damage.',
+          '12. Backfill/close the excavation and remove temporary controls only under a planned safe sequence.'
+        ],
+        controls: ['Controlled sequence', 'Hold points', 'Competent supervision', 'Inspection and reassessment'],
+      ),
+      _section(
+        'F5', 'Excavation Field Checklist',
+        requirements: [
+          'Scope and CoP revision confirmed.',
+          'RA/SWMS/PTW completed where applicable.',
+          'Site survey and service plans available.',
+          'Services located, marked and validated.',
+          'Ground and groundwater assessed.',
+          'Slope/support method selected and materials available.',
+          'Adjacent structures/services protected.',
+          'Safe access/egress installed and maintained.',
+          'Barrier, vehicle and public protection installed.',
+          'Lighting and ventilation adequate.',
+          'Atmospheric monitoring arranged where required.',
+          'Competent supervision and inspections in place.',
+          'Emergency arrangements briefed.',
+          'Inspection records completed and defects closed before re-entry.'
+        ],
+        controls: ['Pre-start checklist', 'Shift inspection', 'Corrective-action tracking'],
+      ),
+      _section(
+        'F6', 'Excavation Field Examples',
+        requirements: [
+          'Utility trench: service search, validation-area controls, controlled excavation and service support.',
+          'Foundation excavation: adjacent-structure assessment, ground conditions, support/slope and edge loading.',
+          'Road trench: Traffic Police approval where applicable, CoP 33.0, barriers and public/traffic controls.',
+          'Deep excavation: support/slope design, access, atmosphere, emergency and inspection controls.',
+          'Excavation near live services: asset-owner coordination, validation, controlled digging and service emergency response.',
+          'Dewatering excavation: groundwater assessment, suitable pumping, silt control and approved discharge.',
+          'Cofferdam/caisson: public protection, supervision, air testing, water exclusion and piling controls.',
+          'Excavation becoming a confined space: reassess and apply CoP 27.0 requirements where applicable.'
+        ],
+        hazards: ['Service strike', 'Collapse', 'Traffic', 'Flooding', 'Atmospheric hazard', 'Public exposure'],
+        controls: ['Scenario-specific RA', 'Competent supervision', 'Approved method', 'Emergency response'],
+      ),
+      _section(
+        'F7', 'Interview and Toolbox Questions',
+        requirements: [
+          'What activities are included within the CoP 29.0 definition of excavation?',
+          'What information must be obtained before excavation starts?',
+          'How are underground services searched for and validated?',
+          'What is a validation area and who determines the method for locating the exact service?',
+          'What ground and groundwater information should be reviewed?',
+          'What support methods are identified by CoP 29.0?',
+          'When does the CoP specify timbering or shoring for trenches/excavations greater than 1.2 m where collapse/material-fall danger exists?',
+          'What are the official temporary safe slope values for the relevant ground condition?',
+          'What is the 4:1 ladder arrangement and the 1 m / 4-rung top projection?',
+          'When are rigid barriers required and what is the specified barrier height?',
+          'When must an excavation be inspected and when is the weekly examination required?',
+          'When should CoP 27.0 Confined Spaces controls be considered?',
+          'What controls are required around cofferdams and caissons?',
+          'What conditions would make you stop excavation work?'
+        ],
+        controls: ['Competency check', 'Toolbox discussion', 'Scenario-based questioning'],
+      ),
+      _section(
+        'F8', 'Supplementary Good-Practice — HSE Excavation Principles',
+        requirements: [
+          'Supplementary excavation good practice may be used to strengthen field awareness around collapse, falling materials, people/vehicle falls, plant separation, adjacent structures, underground services, access, fumes, public protection and competent inspection.',
+          'These supplementary points do not replace or alter Abu Dhabi ADOSH-SF requirements and shall not be used to substitute another jurisdiction’s numerical requirements for CoP 29.0.',
+          'Use the current ADPHC-controlled CoP 29.0 values whenever a numerical requirement is required for Abu Dhabi work.'
+        ],
+        documents: ['Supplementary field guidance', 'Project RA/SWMS'],
+        hazards: ['Collapse', 'Falling materials', 'Falls', 'Plant strike', 'Service strike', 'Fumes', 'Public exposure'],
+        controls: ['Safe support/slope', 'Edge protection', 'Plant segregation', 'Service controls', 'Ventilation', 'Public protection', 'Competent inspection'],
+      ),
+    _section(
+      'F29.1', 'Excavation — What Is Excavation Work?',
+      requirements: [
+        'CoP 29.0 covers processes that move earth or rock, disturb/break ground, drive objects into the ground, or create the likelihood of underground services being struck, damaged, undermined or unsupported, including exposure/damage to protective covers, warning tapes or earthing conductors.',
+        'Activities include digging, ditches, shafts, wells, trenching/trench filling, grading, tunnelling, boring/drilling, post driving and work using cofferdams or caissons.',
+        'Treat the work as excavation even when the activity is not a conventional open trench if it can create the defined ground/service risks.'
+      ],
+      documents: ['Excavation scope/plan', 'Risk assessment', 'SWMS/SWP'],
+      hazards: ['Collapse', 'Service strike', 'Ground movement', 'Water ingress', 'Falls', 'Plant interaction'],
+      controls: ['Plan', 'Survey', 'Service validation', 'Safe slope/support', 'Edge protection', 'Competent supervision']
+    ),
+    _section(
+      'F29.2', 'Excavation — Common Types / Activities and Specific Controls',
+      requirements: [
+        'Open excavation: control ground stability, edge loading, falls, plant and public exposure.',
+        'Trench: control sidewall collapse, support progression, access/egress and service interfaces.',
+        'Shaft/pit/manhole excavation: consider confined-space hazards, falling objects, access and rescue; apply CoP 27 where applicable.',
+        'Well excavation: assess groundwater, atmosphere, access and collapse; use engineered support.',
+        'Grading/cut-and-fill: control slope stability, plant movement and edge loading.',
+        'Boring/drilling/post driving: identify underground services and protect personnel from plant, stored energy and service strike.',
+        'Tunnelling/underground excavation: treat as higher-complexity work requiring project-specific engineering, ventilation, access, emergency and monitoring controls.',
+        'Cofferdam/caisson: add public protection, competent supervision, air testing where applicable, water exclusion and piling controls.'
+      ],
+      hazards: ['Collapse', 'Flooding', 'Atmosphere', 'Plant strike', 'Service damage', 'Falls'],
+      controls: ['Activity-specific RA', 'Engineered support', 'Monitoring', 'Access/egress', 'Emergency plan']
+    ),
+    _section(
+      'F29.3', 'Excavation — How to Prevent Collapse',
+      requirements: [
+        'Identify ground type, groundwater, previous contamination, nearby voids/old wells, adjacent services and adjacent structures before excavation.',
+        'Select a safe temporary slope or engineered support system based on actual ground conditions and the approved design/method.',
+        'Use the official CoP 29.0 temporary safe slope table where battered/benched sides are selected and the stated conditions apply; do not guess a slope from appearance alone.',
+        'Where CoP 29.0 specifies timbering or shoring for trenches/excavations greater than 1.2 m where there is danger of material falling or collapsing, provide the required protection.',
+        'Excavate only a short length where required and install support without delay; use systems that minimize the need for people to enter an unsupported excavation.',
+        'Do not allow workers to work ahead of required support or enter an unsupported excavation.',
+        'Protect adjacent services and structures from undermining; provide engineered temporary support where necessary.',
+        'Keep spoil, plant and heavy loads controlled so that edge loading does not destabilize the excavation.',
+        'Inspect before work, at least daily/before each shift, weekly as required, and after substantial collapse/damage or other events affecting stability.'
+      ],
+      measurements: [
+        'CoP 29.0 support criterion: trenches/excavations greater than 1.2 m where there is danger of material falling/collapsing.',
+        'Temporary safe slopes must follow the applicable official ground-condition table; dry/wet site values differ.'
+      ],
+      documents: ['Ground investigation', 'Excavation design/support design', 'SWMS', 'Inspection records'],
+      hazards: ['Sidewall collapse', 'Bottom instability', 'Edge overload', 'Adjacent structure failure'],
+      controls: ['Battering/benching', 'Shoring', 'Trench box/proprietary system', 'Soldier piles', 'Hydraulic struts', 'Monitoring']
+    ),
+    _section(
+      'F29.4', 'Excavation — Spoil / Soil / Materials: Where Should They Be Kept?',
+      requirements: [
+        'Do not use an unverified fixed distance from the excavation edge as a substitute for the approved engineering/design assessment. The separation required for spoil, plant, traffic and stored materials depends on ground conditions, excavation geometry, support system and edge-loading assessment.',
+        'Keep spoil heaps and materials sufficiently away from the edge so they do not overload the excavation or fall into it; follow the approved excavation SWMS/design and any project-specific exclusion distance.',
+        'Keep heavy vehicles and plant away from excavation edges unless the support system has been specifically designed for the imposed load.',
+        'Where plant must approach the edge, provide suitable wheel stops/baulks/barriers and maintain the approved exclusion/operating arrangement.',
+        'Never allow spoil or materials to obstruct ladders, access routes, emergency escape or inspection points.'
+      ],
+      documents: ['Excavation design/load assessment', 'SWMS', 'Traffic/plant plan'],
+      hazards: ['Edge surcharge', 'Collapse', 'Falling material', 'Vehicle overrun'],
+      controls: ['Engineered set-back', 'Wheel stops', 'Barriers', 'Exclusion zones', 'Housekeeping']
+    ),
+    _section(
+      'F29.5', 'Excavation — Ladder and Access Requirements',
+      requirements: [
+        'Provide a safe means of getting into and out of the excavation.',
+        'Ladders shall be securely fixed and maintained and positioned to permit quick/easy escape, including where flooding or falling material is possible.',
+        'Do not use walings or struts as access/egress routes.',
+        'Where the ladder arrangement is used under CoP 29.0, position it at a height-to-base ratio not flatter than 4:1 where reasonably practicable.',
+        'Secure the ladder at the upper end and provide a stable landing point.',
+        'The upper end shall project at least 1 m / 4 rungs above ground level for handhold/exit, and the ladder must be located away from plant/material-handling damage.'
+      ],
+      measurements: ['4:1 height-to-base ratio where reasonably practicable', 'At least 1 m / 4 rungs above ground level'],
+      documents: ['Access inspection record'],
+      hazards: ['Falls', 'Difficult escape', 'Ladder displacement'],
+      controls: ['Secured ladder', 'Stable landing', 'Clear access', 'Protection from plant/material handling']
+    ),
+    _section(
+      'F29.6', 'Excavation — Who Should Be at the Work Area?',
+      requirements: [
+        'Competent excavation supervisor: responsible for implementing the approved safe system and controlling the excavation operation.',
+        'Competent workers/operators: trained for their assigned excavation, plant, support and access tasks.',
+        'Service/utility representatives or authorized persons where required for service identification, validation or isolation.',
+        'Competent person for inspection/examination: performs required excavation inspections and records the findings.',
+        'Engineer/competent designer where support, slope, adjacent-structure or complex ground conditions require engineering judgement.',
+        'Banksman/spotter or traffic-control personnel where plant, vehicles or public traffic interfaces require them.',
+        'Workers not required for the excavation shall remain outside the controlled work zone.'
+      ],
+      documents: ['Competency records', 'Inspection appointment', 'Service-owner records', 'Permit/SWMS'],
+      hazards: ['Uncontrolled access', 'Plant strike', 'Inadequate supervision'],
+      controls: ['Defined roles', 'Exclusion zone', 'Supervision', 'Competency verification']
+    ),
+    _section(
+      'F29.7', 'Excavation — Safety Precautions Before Workers Enter',
+      requirements: [
+        'Confirm current risk assessment/SWMS, method and required permits/authorizations.',
+        'Confirm service search, validation and markings are complete and current.',
+        'Confirm ground/support/slope conditions are acceptable and inspection is complete.',
+        'Confirm safe access/egress, lighting and barriers.',
+        'Confirm spoil, materials, plant and vehicles are controlled at the edge.',
+        'Confirm water ingress/dewatering controls and emergency arrangements.',
+        'Assess atmosphere where gases may accumulate; apply CoP 27.0 where the excavation meets confined-space conditions.',
+        'Brief workers on hazards, exclusion zones, emergency arrangements and stop-work triggers.'
+      ],
+      documents: ['Pre-start checklist', 'Inspection record', 'SWMS briefing', 'Emergency plan'],
+      hazards: ['Collapse', 'Service strike', 'Atmosphere', 'Flooding', 'Falls'],
+      controls: ['Pre-start verification', 'Competent inspection', 'Briefing', 'Monitoring']
+    ),
+    _section(
+      'F29.8', 'Excavation — Practical Stop-Work Scenarios',
+      requirements: [
+        'Stop immediately if the excavation begins cracking, slumping, bulging, collapsing or showing unexpected ground movement.',
+        'Stop if support is missing, damaged, displaced or being altered without the required competent supervision.',
+        'Stop if an underground service is unidentified, struck, damaged, exposed unexpectedly or left unsupported.',
+        'Stop for rapid water ingress, flooding threat, unexpected contaminated ground or hazardous atmosphere.',
+        'Stop when required barriers, access, inspection, lighting, traffic controls or public protection are not in place.',
+        'Stop if an adjacent building, scaffold, road, utility or other structure shows unexpected movement or settlement.',
+        'Evacuate to a safe location, secure the area, notify the responsible supervisor and reassess before restart.'
+      ],
+      hazards: ['Collapse', 'Service strike', 'Flooding', 'Public exposure', 'Structural movement'],
+      controls: ['Stop work', 'Evacuate', 'Isolate area', 'Notify', 'Reassess', 'Reauthorize']
+    ),
+    _section(
+      'F29.9', 'Excavation — Field Example: Pipeline Trench',
+      requirements: [
+        'Before excavation: obtain drawings/service information, validate services, survey the alignment, assess soil and groundwater, select the support/slope method and brief the team.',
+        'During excavation: maintain controlled excavation length, install support progressively, keep personnel clear of unsupported ground and segregate excavator/worker movements.',
+        'Before pipe installation: inspect support, access, edge protection and service condition; control lifting and pipe placement interfaces.',
+        'After work: inspect support/edge conditions, remove materials safely and restore/secure the excavation according to the approved sequence.'
+      ],
+      documents: ['Method statement', 'Service plans/NOCs', 'SWMS', 'Inspection records'],
+      hazards: ['Collapse', 'Service strike', 'Plant strike', 'Pipe movement'],
+      controls: ['Support system', 'Exclusion zone', 'Banksman', 'Lifting controls', 'Inspection']
+    ),
+    _section(
+      'F29.10', 'Excavation — Field Example: Manhole / Deep Pit',
+      requirements: [
+        'Treat a manhole/deep pit as an excavation plus a potential confined-space interface; determine whether CoP 27.0 applies before entry.',
+        'Control atmospheric hazards, access/egress, rescue, falling objects, water ingress and public/traffic exposure.',
+        'Provide safe access and prevent unauthorized entry when unattended.'
+      ],
+      documents: ['Excavation SWMS', 'Confined-space assessment where applicable', 'Permit where applicable', 'Emergency/rescue plan'],
+      hazards: ['Atmosphere', 'Collapse', 'Flooding', 'Falls', 'Traffic'],
+      controls: ['CoP 27 interface', 'Support', 'Barriers', 'Monitoring', 'Rescue planning']
+    ),
+    ],
+    fieldChecklist: [
+      'Current CoP 29.0 V4.0 controlled copy',
+      'Risk assessment and SWMS',
+      'PTW where applicable',
+      'Site survey, drawings and boundaries',
+      'Services search and validation-area RA',
+      'Ground classification and investigation information',
+      'Water-table/dewatering assessment',
+      'Temporary slope/support selection',
+      'Support materials and competent installers',
+      'Adjacent-structure/service protection',
+      'Safe access and egress',
+      '4:1 ladder arrangement where reasonably practicable',
+      '1 m / 4-rung ladder projection',
+      '950 mm excavation barriers',
+      'Rigid barriers where fall may exceed 2 m',
+      'Vehicle wheel stops/barriers',
+      'Night hazard lights where required',
+      'Lighting',
+      'Ventilation and atmospheric monitoring where required',
+      'Edge-load/spoil/plant control',
+      'Daily and before-shift inspection',
+      'Weekly examination',
+      'Post-collapse/damage examination',
+      'Cofferdam/caisson controls where applicable',
+      'Emergency and rescue arrangements',
+      'Public/traffic protection',
+      'Waste and discharge controls'
+    ],
+    stopWorkIndicators: [
+      'Underground service unidentified or not validated',
+      'Service strike, damage or loss of support',
+      'Cracking, slumping, bulging or other instability',
+      'Support missing, displaced, damaged or being altered without control',
+      'Unsafe temporary slope or changed ground condition',
+      'Rapid water ingress or flooding threat',
+      'Unsafe atmosphere or required monitoring unavailable',
+      'No safe access/egress',
+      'Required barrier or public protection missing',
+      'Vehicle/plant uncontrolled near excavation edge',
+      'Adjacent structure or property showing concerning movement',
+      'Inspection or required examination overdue',
+      'Substantial collapse/damage not examined and controlled',
+      'Unexpected hazardous ground or contamination',
+      'Cofferdam/caisson instability or unsafe piling condition'
+    ],
+    references: [
+      'ADOSH-SF CoP 29.0 — Excavation Work, Version 4.0, 15 July 2024',
+      'ADOSH-SF CoP 21.0 — Permit to Work Systems',
+      'ADOSH-SF CoP 22.0 — Barricading of Hazards',
+      'ADOSH-SF CoP 27.0 — Confined Spaces',
+      'ADOSH-SF CoP 33.0 — Work On or Adjacent to a Road',
+      'ADOSH-SF CoP 53.0 — OSH Management During Construction Work',
+      'ADOSH-SF CoP 54.0 — Waste Management',
+      'ADOSH-SF Element 5 — Training, Awareness and Competency',
+      'ADOSH-SF Mechanism 7.0 — Occupational Safety and Health Practitioner and Service Provider Registration',
+      'Supplementary HSE excavation good-practice guidance — used only as additional field guidance'
+    ],
+    protectionItems: [
+      'Excavation support/shoring or approved proprietary system',
+      'Suitable ladders/access system',
+      'Rigid barriers/demarcation',
+      'Vehicle stops/barriers',
+      'Service locating equipment',
+      'Atmospheric monitor where required',
+      'Ventilation equipment where required',
+      'Dewatering/pumping equipment',
+      'Lighting',
+      'PPE appropriate to the RA',
+      'Emergency communication and rescue equipment as required'
+    ],
+    verificationNote: 'Structured from the official ADOSH-SF CoP 29.0 Excavation Work Version 4.0 dated 15 July 2024 supplied for this project. The current ADPHC registry now lists CoP 29.0 as Version 4.1 effective 27 February 2026; this dataset should be refreshed against that controlled version before final regulatory lock. Supplementary HSE guidance is clearly separated and does not replace Abu Dhabi regulatory requirements.'
+  );
+
+  static AbuDhabiCopSection _section(
+    String number,
+    String title, {
+    List<String> requirements = const [],
+    List<String> measurements = const [],
+    List<String> documents = const [],
+    List<String> hazards = const [],
+    List<String> controls = const [],
+    List<String> inspection = const [],
+  }) {
+    return AbuDhabiCopSection(
+      number: number,
+      title: title,
+      requirements: requirements,
+      measurements: measurements,
+      documents: documents,
+      hazards: hazards,
+      controls: controls,
+      inspection: inspection,
+    );
+  }
+
+  static AbuDhabiCopDocument _document({
+    required String code,
+    required String title,
+    required String version,
+    required String effectiveDate,
+    required String introduction,
+    required List<AbuDhabiCopSection> sections,
+    required List<String> fieldChecklist,
+    required List<String> stopWorkIndicators,
+    required List<String> references,
+    required List<String> protectionItems,
+    required String verificationNote,
+  }) {
+    return AbuDhabiCopDocument(
+      code: code,
+      title: title,
+      version: version,
+      effectiveDate: effectiveDate,
+      introduction: introduction,
+      sections: sections,
+      fieldChecklist: fieldChecklist,
+      stopWorkIndicators: stopWorkIndicators,
+      references: references,
+      protectionItems: protectionItems,
+      verificationNote: verificationNote,
+    );
+  }
+}
