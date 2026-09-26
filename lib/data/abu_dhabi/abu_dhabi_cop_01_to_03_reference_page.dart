@@ -6,6 +6,7 @@ import 'abu_dhabi_cop_01_to_03.dart';
 import 'abu_dhabi_cop_04_to_06.dart';
 import 'abu_dhabi_cop_08_to_09.dart';
 import 'abu_dhabi_cop_10_to_12.dart';
+import 'abu_dhabi_cop_13_to_15.dart';
 import 'abu_dhabi_scaffolding_reference_page.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
@@ -39,6 +40,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop04To06.documents,
         ...AbuDhabiCop08To09.documents,
         ...AbuDhabiCop10To12.documents,
+        ...AbuDhabiCop13To15.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
