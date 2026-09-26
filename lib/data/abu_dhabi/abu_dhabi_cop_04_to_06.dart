@@ -5,64 +5,16 @@
 // CoP 6.0 is presented as legacy/integrated Element 6 Emergency Management,
 // not as a current standalone CoP.
 
-class AbuDhabiCop04To06Section {
-  final String number;
-  final String title;
-  final List<String> requirements;
-  final List<String> measurements;
-  final List<String> documents;
-  final List<String> hazards;
-  final List<String> controls;
-  final List<String> inspection;
-
-  const AbuDhabiCop04To06Section({
-    required this.number,
-    required this.title,
-    this.requirements = const [],
-    this.measurements = const [],
-    this.documents = const [],
-    this.hazards = const [],
-    this.controls = const [],
-    this.inspection = const [],
-  });
-}
-
-class AbuDhabiCop04To06Document {
-  final String code;
-  final String title;
-  final String version;
-  final String effectiveDate;
-  final String introduction;
-  final List<AbuDhabiCop04To06Section> sections;
-  final List<String> fieldChecklist;
-  final List<String> stopWorkIndicators;
-  final List<String> references;
-  final String verificationNote;
-  final List<String> protectionItems;
-
-  const AbuDhabiCop04To06Document({
-    required this.code,
-    required this.title,
-    required this.version,
-    required this.effectiveDate,
-    required this.introduction,
-    required this.sections,
-    this.fieldChecklist = const [],
-    this.stopWorkIndicators = const [],
-    this.references = const [],
-    this.verificationNote = '',
-    this.protectionItems = const [],
-  });
-}
+import 'abu_dhabi_cop_01_to_03.dart';
 
 class AbuDhabiCop04To06 {
-  static const List<AbuDhabiCop04To06Document> documents = [
+  static const List<AbuDhabiCopDocument> documents = [
     cop40FirstAid,
     cop50OccupationalHealth,
     cop60EmergencyManagement,
   ];
 
-  static const cop40FirstAid = AbuDhabiCop04To06Document(
+  static const cop40FirstAid = AbuDhabiCopDocument(
     code: 'CoP 4.0',
     title: 'First Aid and Medical Emergency Treatment',
     version: '4.0',
@@ -70,7 +22,7 @@ class AbuDhabiCop04To06 {
     introduction:
         'This Code of Practice applies to employers within Abu Dhabi for provision of first aid and medical emergency treatment to employees, workers and other persons. First aid is immediate assistance intended to preserve life, prevent deterioration and promote recovery. A medical emergency is a condition with a high probability of disabling or immediately life-threatening consequences requiring first aid or other immediate medical intervention.',
     sections: [
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '1.0',
         title: 'Purpose, Scope and Emergency Principles',
         requirements: [
@@ -98,7 +50,7 @@ class AbuDhabiCop04To06 {
           'First-aid equipment inspection records.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '2.0',
         title: 'First-Aider Training and Competency',
         requirements: [
@@ -125,7 +77,7 @@ class AbuDhabiCop04To06 {
           'Verify emergency contact details and escalation arrangements.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '3.0',
         title: 'First-Aid Facilities and Equipment',
         requirements: [
@@ -159,7 +111,7 @@ class AbuDhabiCop04To06 {
           'AED inspection/service records where applicable.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '4.0',
         title: 'Medical Emergency Response',
         requirements: [
@@ -188,7 +140,7 @@ class AbuDhabiCop04To06 {
           'Medical handover information where applicable.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '5.0',
         title: 'Infection Prevention and Special Hazards',
         requirements: [
@@ -216,7 +168,7 @@ class AbuDhabiCop04To06 {
           'Check specialist emergency equipment identified by risk assessment.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '6.0',
         title: 'Worker Accommodation and Medical Facilities',
         requirements: [
@@ -265,7 +217,7 @@ class AbuDhabiCop04To06 {
         'Current official ADPHC CoP 4.0 source verified against the English document dated 15 July 2024.',
   );
 
-  static const cop50OccupationalHealth = AbuDhabiCop04To06Document(
+  static const cop50OccupationalHealth = AbuDhabiCopDocument(
     code: 'CoP 5.0',
     title: 'Occupational Health Screening and Medical Surveillance',
     version: '4.0',
@@ -273,7 +225,7 @@ class AbuDhabiCop04To06 {
     introduction:
         'This Code of Practice establishes occupational health screening and medical surveillance arrangements for workers whose work or exposure profile requires health assessment. The programme should identify relevant health risks, establish appropriate examinations and surveillance, protect medical confidentiality and provide the information needed to manage occupational health risks.',
     sections: [
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '1.0',
         title: 'Purpose and Occupational Health Programme',
         requirements: [
@@ -294,7 +246,7 @@ class AbuDhabiCop04To06 {
           'Health information used to improve workplace controls.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '2.0',
         title: 'Pre-Placement and Periodic Screening',
         requirements: [
@@ -320,7 +272,7 @@ class AbuDhabiCop04To06 {
           'Check follow-up actions from occupational-health findings.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '3.0',
         title: 'Exposure-Specific Medical Surveillance',
         requirements: [
@@ -351,7 +303,7 @@ class AbuDhabiCop04To06 {
           'Corrective-action records for identified occupational-health risks.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '4.0',
         title: 'Medical Records and Confidentiality',
         requirements: [
@@ -372,7 +324,7 @@ class AbuDhabiCop04To06 {
           'Clear separation between medical confidentiality and HSE risk-management needs.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '5.0',
         title: 'Medical Removal, Restrictions and Follow-Up',
         requirements: [
@@ -393,7 +345,7 @@ class AbuDhabiCop04To06 {
           'Documented follow-up.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '6.0',
         title: 'Worker Communication and Programme Review',
         requirements: [
@@ -442,7 +394,7 @@ class AbuDhabiCop04To06 {
         'Current official ADPHC CoP 5.0 English document verified as Version 4.0, July 2024.',
   );
 
-  static const cop60EmergencyManagement = AbuDhabiCop04To06Document(
+  static const cop60EmergencyManagement = AbuDhabiCopDocument(
     code: 'CoP 6.0',
     title: 'Emergency Management Requirements — Legacy / Integrated Reference',
     version: 'Integrated into ADOSH-SF Element 6',
@@ -450,7 +402,7 @@ class AbuDhabiCop04To06 {
     introduction:
         'CoP 6.0 is not presented here as a current standalone ADPHC Code of Practice. Emergency management requirements were incorporated into ADOSH-SF Element 6. This SafeNexus reference keeps the historical CoP 6 subject visible for field learning while directing users to the current integrated emergency-management framework.',
     sections: [
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '1.0',
         title: 'Status and Current Framework',
         requirements: [
@@ -464,7 +416,7 @@ class AbuDhabiCop04To06 {
           'Coordinate emergency arrangements with competent authorities and site-specific requirements.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '2.0',
         title: 'Emergency Risk Assessment and Planning',
         requirements: [
@@ -496,7 +448,7 @@ class AbuDhabiCop04To06 {
           'Emergency equipment inspection records.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '3.0',
         title: 'Emergency Response and Evacuation',
         requirements: [
@@ -522,7 +474,7 @@ class AbuDhabiCop04To06 {
           'Verify emergency contact information.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '4.0',
         title: 'Emergency Equipment and Resources',
         requirements: [
@@ -543,7 +495,7 @@ class AbuDhabiCop04To06 {
           'Clear identification and access.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '5.0',
         title: 'Drills, Training and Continual Improvement',
         requirements: [
@@ -565,7 +517,7 @@ class AbuDhabiCop04To06 {
           'Check lessons learned are incorporated into the plan.',
         ],
       ),
-      AbuDhabiCop04To06Section(
+      AbuDhabiCopSection(
         number: '6.0',
         title: 'External Emergency Services and Coordination',
         requirements: [
