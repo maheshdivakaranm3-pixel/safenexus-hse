@@ -12,7 +12,6 @@ class AbuDhabiCopSection {
   final List<String> hazards;
   final List<String> controls;
   final List<String> inspection;
-  final List<String> protectionItems;
 
   const AbuDhabiCopSection({
     required this.number,
@@ -23,7 +22,6 @@ class AbuDhabiCopSection {
     this.hazards = const [],
     this.controls = const [],
     this.inspection = const [],
-    this.protectionItems = const [],
   });
 }
 
@@ -38,6 +36,7 @@ class AbuDhabiCopDocument {
   final List<String> stopWorkIndicators;
   final List<String> references;
   final String verificationNote;
+  final List<String> protectionItems;
 
   const AbuDhabiCopDocument({
     required this.code,
@@ -50,6 +49,7 @@ class AbuDhabiCopDocument {
     this.stopWorkIndicators = const [],
     this.references = const [],
     this.verificationNote = '',
+    this.protectionItems = const [],
   });
 }
 
@@ -287,7 +287,7 @@ class AbuDhabiCop01To03 {
       'Earplugs — provide hearing attenuation by reducing the sound reaching the ear; select a suitable type and rating for the measured noise environment and ensure correct fit.',
       'Earmuffs / ear defenders — provide hearing attenuation by enclosing the ears; select a suitable rated device and ensure a proper seal around the ears.',
       'Double hearing protection (earplugs + earmuffs) — provides combined attenuation where a single device cannot reduce exposure sufficiently; the CoP provides a calculation method for combined protection.',
-      'Hearing protection selection — the protector must provide sufficient attenuation to reduce the employee's exposure to the applicable level; fit, compatibility and the specific noise environment must be considered.',
+      'Hearing protection selection — the protector must provide sufficient attenuation to reduce the employee\'s exposure to the applicable level; fit, compatibility and the specific noise environment must be considered.',
     ],
     sections: [
       AbuDhabiCopSection(number: '2.0', title: 'Training and Competency', requirements: ['Train affected workers on noise hazards, controls, hearing protection and the hearing conservation program where applicable.']),
