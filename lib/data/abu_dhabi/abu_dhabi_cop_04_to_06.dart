@@ -30,24 +30,41 @@ class AbuDhabiCop04To06 {
           'Identify foreseeable injuries and illnesses through risk assessment and establish proportionate first-aid and medical response arrangements.',
           'Emergency arrangements shall be communicated to workers and other relevant persons who may be affected.',
           'Where another competent regulatory authority has a more stringent applicable requirement, the more stringent requirement shall be followed.',
+          'First-aid arrangements shall be reviewed when workforce size, work location, shift pattern, hazards or emergency scenarios change.',
+          'Emergency equipment shall be available at locations that can be reached promptly from the relevant work areas.',
+          'First-aid arrangements shall include a clear escalation route from first aid to professional medical treatment.',
+          'Workers and relevant contractors shall be informed of how to summon first-aid and medical assistance.',
+
         ],
         hazards: [
           'Delayed treatment after injury or sudden illness.',
           'Inadequate first-aid coverage for workforce size, work activities or remote locations.',
           'Uncontrolled escalation from a minor injury to a medical emergency.',
           'Failure to communicate emergency arrangements.',
+          'First-aid equipment unavailable at the time of an emergency.',
+          'Poor access or communication delaying professional medical assistance.',
+          'Secondary injury caused by uncontrolled hazards during casualty assistance.',
+
         ],
         controls: [
           'Elimination or reduction of foreseeable injury and exposure risks.',
           'Engineering and workplace controls that reduce the likelihood or severity of injury.',
           'Emergency response procedures and competent first-aid personnel.',
           'Accessible first-aid equipment and suitable medical escalation arrangements.',
+          'Defined emergency communication and escalation route.',
+          'Regular readiness checks of first-aid facilities and emergency equipment.',
+          'Site-specific arrangements for remote, isolated or high-risk work.',
+
         ],
         documents: [
           'First-aid needs assessment.',
           'Emergency response arrangements.',
           'First-aider competency records.',
           'First-aid equipment inspection records.',
+          'First-aid needs assessment.',
+          'First-aid equipment inspection and replenishment records.',
+          'Emergency contact and escalation procedure.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -75,6 +92,10 @@ class AbuDhabiCop04To06 {
           'Check current first-aider list and competency status.',
           'Verify coverage for shifts, remote work areas and higher-risk activities.',
           'Verify emergency contact details and escalation arrangements.',
+          'Check accessibility and signage of first-aid facilities.',
+          'Check emergency communication arrangements and contact information.',
+          'Check readiness of specialist emergency equipment where required.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -189,73 +210,6 @@ class AbuDhabiCop04To06 {
         ],
       ),
     ],
-
-      AbuDhabiCopSection(
-        number: '7.0',
-        title: 'First-Aid Kit Management, Inspection and Readiness',
-        requirements: [
-          'First-aid equipment shall be appropriate to the hazards, activities and foreseeable injuries identified by risk assessment.',
-          'First-aid kits and facilities shall be readily accessible, clearly identified and protected from obstruction.',
-          'Contents shall be checked at a defined frequency and after use so that used, damaged, expired or contaminated items are replaced.',
-          'Emergency equipment shall be kept clean, serviceable and ready for immediate use.',
-          'The inspection process shall identify the location, condition, completeness and required corrective actions for each first-aid facility or kit.',
-          'Where specialist hazards are present, additional first-aid or emergency equipment shall be provided where identified by the risk assessment and applicable requirements.',
-        ],
-        hazards: [
-          'Missing or expired first-aid supplies.',
-          'Blocked or inaccessible first-aid equipment.',
-          'Contaminated or damaged equipment.',
-          'Workers unable to locate emergency equipment quickly.',
-        ],
-        controls: [
-          'Clearly marked and accessible locations.',
-          'Routine inspection and replenishment.',
-          'Defined responsibility for first-aid equipment checks.',
-          'Location maps or emergency information where needed.',
-        ],
-        inspection: [
-          'Check kit/facility identification and accessibility.',
-          'Check completeness and condition of contents.',
-          'Check expiry dates where applicable.',
-          'Check specialist emergency equipment required by the risk assessment.',
-          'Record deficiencies and close corrective actions.',
-        ],
-        documents: [
-          'First-aid equipment inspection checklist.',
-          'Replenishment records.',
-          'Corrective-action records.',
-          'First-aid facility location list.',
-        ],
-      ),
-      AbuDhabiCopSection(
-        number: '8.0',
-        title: 'Casualty Assessment, Handover and Emergency Communication',
-        requirements: [
-          'First-aiders shall work within their level of training and competence and obtain professional medical assistance when required.',
-          'Emergency communication shall provide a clear route for requesting medical assistance and communicating the location and nature of the emergency.',
-          'The casualty shall be protected from further harm while immediate care and escalation are arranged.',
-          'Relevant information shall be handed over to professional medical responders where practicable, including known hazards, injury mechanism, exposure information and care already provided.',
-          'Emergency arrangements shall account for access, remote work areas, restricted locations and site-specific hazards.',
-        ],
-        hazards: [
-          'Delayed ambulance or medical response.',
-          'Incorrect information during emergency handover.',
-          'Secondary exposure to the casualty or responder.',
-          'Uncontrolled movement of a seriously injured casualty.',
-        ],
-        controls: [
-          'Emergency contact and escalation procedure.',
-          'Trained first-aiders and designated emergency roles.',
-          'Clear site access and location information.',
-          'Isolation of ongoing hazards before or during casualty care where safe to do so.',
-        ],
-        documents: [
-          'Emergency contact list.',
-          'Site emergency response plan.',
-          'First-aid treatment/incident records as applicable.',
-          'Medical handover information where required.',
-        ],
-      ),
     fieldChecklist: [
       'First-aid needs assessment completed and current.',
       'Competent first-aiders available for the work arrangement.',
@@ -300,17 +254,30 @@ class AbuDhabiCop04To06 {
           'Use health screening and surveillance to identify health effects associated with occupational hazards and to support preventive action.',
           'Coordinate occupational health arrangements with risk assessments and exposure-control programmes.',
           'Use competent occupational-health professionals for medical assessment and interpretation.',
+          'Screening and surveillance arrangements shall be linked to identified occupational hazards and applicable exposure requirements.',
+          'Workers shall be included in the appropriate health programme when their work or exposure profile requires it.',
+          'The programme shall be reviewed when processes, substances, equipment, work patterns or exposure conditions change.',
+          'Follow-up arrangements shall address occupational-health findings while maintaining appropriate medical confidentiality.',
+
         ],
         hazards: [
           'Unidentified occupational disease or adverse health effects.',
           'Workers continuing exposure without appropriate health surveillance.',
           'Failure to identify changes in health that may be related to work.',
+          'Failure to identify workers requiring exposure-specific surveillance.',
+          'Failure to review surveillance after changes in work or exposure.',
+          'Unauthorised disclosure of confidential health information.',
+
         ],
         controls: [
           'Hazard identification and exposure assessment.',
           'Engineering and administrative exposure controls.',
           'Appropriate screening and medical surveillance.',
           'Health information used to improve workplace controls.',
+          'Hazard and exposure register linked to the occupational-health programme.',
+          'Competent occupational-health provider and defined referral process.',
+          'Controlled access to medical information.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -337,6 +304,11 @@ class AbuDhabiCop04To06 {
           'Verify the surveillance programme is current.',
           'Check that required worker groups are included.',
           'Check follow-up actions from occupational-health findings.',
+          'Check that relevant exposure groups are identified.',
+          'Check surveillance schedules and completion status.',
+          'Check that required follow-up actions are tracked.',
+          'Check that changes in workplace exposure are reflected in the programme.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -368,6 +340,11 @@ class AbuDhabiCop04To06 {
           'Medical examination records under appropriate confidentiality controls.',
           'Relevant physician/occupational-health reports.',
           'Corrective-action records for identified occupational-health risks.',
+          'Exposure register.',
+          'Occupational-health surveillance programme.',
+          'Surveillance schedule and completion records.',
+          'Programme review and corrective-action records.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -434,77 +411,6 @@ class AbuDhabiCop04To06 {
         ],
       ),
     ],
-
-      AbuDhabiCopSection(
-        number: '7.0',
-        title: 'Exposure-Based Surveillance Programme Management',
-        requirements: [
-          'The occupational health programme shall be linked to identified workplace hazards and exposure risks.',
-          'The employer shall identify workers or groups who require health screening or medical surveillance based on applicable requirements and exposure conditions.',
-          'Surveillance arrangements shall be reviewed when processes, substances, equipment, work patterns or exposure conditions change.',
-          'Medical surveillance shall be performed by appropriately qualified healthcare professionals within their scope of practice.',
-          'Results requiring occupational-health follow-up shall be managed through appropriate medical and workplace controls while protecting medical confidentiality.',
-        ],
-        hazards: [
-          'Workers exposed to health hazards without appropriate surveillance.',
-          'Failure to reassess surveillance after a process or exposure change.',
-          'Inadequate follow-up of abnormal health findings.',
-          'Confidential medical information being improperly disclosed.',
-        ],
-        controls: [
-          'Hazard and exposure register.',
-          'Defined surveillance population and schedule.',
-          'Competent occupational-health provider.',
-          'Documented referral and follow-up process.',
-          'Confidential handling of medical information.',
-        ],
-        inspection: [
-          'Check that relevant exposure groups are identified.',
-          'Check that required surveillance is scheduled and completed.',
-          'Check follow-up arrangements for findings requiring action.',
-          'Check that changes in work or exposure are reflected in the programme.',
-        ],
-        documents: [
-          'Exposure register.',
-          'Occupational-health surveillance programme.',
-          'Appointment/referral records as applicable.',
-          'Aggregate programme review records.',
-        ],
-      ),
-      AbuDhabiCopSection(
-        number: '8.0',
-        title: 'Health Surveillance Records, Confidentiality and Fitness Controls',
-        requirements: [
-          'Occupational-health information shall be handled confidentially and accessed only by authorised persons for legitimate purposes.',
-          'Employers shall retain the occupational-health records required by applicable law and the relevant Code of Practice.',
-          'Where a healthcare professional identifies work restrictions or additional controls, the employer shall implement the workplace controls communicated within the appropriate confidentiality boundaries.',
-          'Health surveillance records shall be traceable to the relevant worker, hazard or exposure programme while maintaining appropriate confidentiality.',
-          'Trends and programme effectiveness may be reviewed using appropriate aggregated information without unnecessary disclosure of individual medical details.',
-        ],
-        hazards: [
-          'Loss or unauthorised disclosure of medical information.',
-          'Workers continuing hazardous work without required restrictions or follow-up.',
-          'Incomplete records preventing effective occupational-health management.',
-        ],
-        controls: [
-          'Controlled access to medical records.',
-          'Clear interface between occupational-health provider and employer.',
-          'Documented workplace restrictions and control actions.',
-          'Periodic programme review using appropriate aggregate information.',
-        ],
-        inspection: [
-          'Verify record-control arrangements.',
-          'Verify that required surveillance records are available to authorised personnel.',
-          'Verify that workplace restrictions or recommendations are implemented where applicable.',
-          'Verify that programme reviews identify recurring occupational-health risks.',
-        ],
-        documents: [
-          'Confidential medical records.',
-          'Occupational-health programme review.',
-          'Workplace restriction/control records where applicable.',
-          'Exposure and surveillance tracking records.',
-        ],
-      ),
     fieldChecklist: [
       'Occupational-health risk assessment is available.',
       'Worker groups requiring screening or surveillance are identified.',
@@ -547,11 +453,23 @@ class AbuDhabiCop04To06 {
           'Treat emergency management as a mandatory OSH management requirement under the current ADOSH-SF framework.',
           'Use the current ADOSH-SF Element 6 requirements and applicable competent-authority requirements when developing the emergency management system.',
           'Do not treat this legacy reference as a replacement for the current ADOSH-SF framework.',
+          'Emergency plans shall be based on credible emergency scenarios identified through risk assessment.',
+          'Emergency roles shall define alarm raising, incident command, evacuation, accountability, communication and liaison with external responders.',
+          'Emergency routes, assembly points and alternative arrangements shall be kept suitable for actual site conditions.',
+          'Emergency arrangements shall consider workers, contractors, visitors and other affected persons.',
+          'Emergency plans shall be reviewed after incidents, drills, significant changes and lessons learned.',
+
         ],
         controls: [
           'Maintain a documented emergency management process.',
           'Link emergency planning to risk assessment and credible emergency scenarios.',
           'Coordinate emergency arrangements with competent authorities and site-specific requirements.',
+          'Scenario-based emergency response planning.',
+          'Defined command and communication structure.',
+          'Personnel accountability at assembly points.',
+          'Regular inspection of routes, alarms and emergency equipment.',
+          'Controlled re-entry and restart after an emergency.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -570,6 +488,11 @@ class AbuDhabiCop04To06 {
           'Electrical or energy-related emergency.',
           'Structural or work-at-height emergency.',
           'Severe weather or other site-specific emergency.',
+          'Emergency plan not reflecting current site conditions.',
+          'Unclear emergency responsibilities or communication.',
+          'Blocked evacuation routes or unsuitable assembly areas.',
+          'Failure to account for contractors or visitors during an evacuation.',
+
         ],
         controls: [
           'Emergency response plan.',
@@ -584,6 +507,12 @@ class AbuDhabiCop04To06 {
           'Emergency scenario procedures.',
           'Site evacuation plan.',
           'Emergency equipment inspection records.',
+          'Emergency Response Plan.',
+          'Site emergency map.',
+          'Emergency contact list.',
+          'Drill/exercise reports.',
+          'Corrective-action and lessons-learned records.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -610,6 +539,12 @@ class AbuDhabiCop04To06 {
           'Check assembly-point signage.',
           'Check emergency equipment status.',
           'Verify emergency contact information.',
+          'Walk and verify emergency evacuation routes.',
+          'Check assembly-point suitability and identification.',
+          'Check alarm and communication readiness.',
+          'Verify emergency contacts and site information are current.',
+          'Review drill findings and corrective-action close-out.',
+
         ],
       ),
       AbuDhabiCopSection(
@@ -672,85 +607,6 @@ class AbuDhabiCop04To06 {
         ],
       ),
     ],
-
-      AbuDhabiCopSection(
-        number: '7.0',
-        title: 'Emergency Response Plan Content and Site Readiness',
-        requirements: [
-          'Emergency response plans shall be based on risk assessment and the credible emergency scenarios that could affect persons, property or operations.',
-          'The plan shall define who raises the alarm, who leads the response, who controls the area, who accounts for personnel and who communicates with external responders.',
-          'Emergency procedures shall be simple, accessible and practical for the people expected to use them.',
-          'Evacuation routes, alternative routes and assembly arrangements shall reflect actual site conditions and foreseeable changes.',
-          'Emergency plans shall consider the needs of workers, contractors, visitors and other persons who may be affected.',
-          'Where relevant, separate on-site and off-site arrangements shall be considered in accordance with the applicable emergency-management requirements.',
-        ],
-        hazards: [
-          'Emergency plan does not match actual site conditions.',
-          'Unclear emergency roles or conflicting instructions.',
-          'Blocked evacuation routes or unsuitable assembly areas.',
-          'Failure to account for contractors, visitors or remote work groups.',
-        ],
-        controls: [
-          'Scenario-based emergency planning.',
-          'Defined command and communication structure.',
-          'Clearly marked evacuation routes and assembly points.',
-          'Personnel accountability arrangements.',
-          'Regular review of site information and emergency contacts.',
-        ],
-        inspection: [
-          'Walk the evacuation routes and check for obstruction.',
-          'Verify assembly points remain suitable.',
-          'Verify emergency contacts and site maps are current.',
-          'Verify emergency roles are known by designated personnel.',
-          'Check that changes to the site are reflected in the emergency plan.',
-        ],
-        documents: [
-          'Emergency Management Procedure.',
-          'Emergency Response Plan.',
-          'Site emergency map.',
-          'Emergency contact list.',
-          'Personnel accountability arrangements.',
-        ],
-      ),
-      AbuDhabiCopSection(
-        number: '8.0',
-        title: 'Alarm, Communication, Accountability and Recovery',
-        requirements: [
-          'Emergency alarm and communication methods shall be suitable for the site and the identified emergency scenarios.',
-          'Personnel shall know how an emergency is raised and what immediate actions are expected of them.',
-          'Arrangements shall be established for accounting for workers, contractors and visitors at the assembly point or other designated location.',
-          'Emergency communications shall remain effective for isolated or noisy work areas where applicable.',
-          'After an emergency, the affected area shall not be returned to normal operation until the responsible persons determine that the relevant hazards are controlled and applicable requirements for restart are satisfied.',
-          'Lessons learned from incidents and exercises shall be incorporated into the emergency-management system.',
-        ],
-        hazards: [
-          'Alarm not heard or understood.',
-          'Missing persons not identified during evacuation.',
-          'Conflicting or incomplete emergency information.',
-          'Premature restart following an emergency.',
-        ],
-        controls: [
-          'Tested alarm and communication arrangements.',
-          'Muster/accountability system.',
-          'Emergency communication hierarchy.',
-          'Controlled re-entry and restart process.',
-          'Post-event investigation and corrective action.',
-        ],
-        inspection: [
-          'Test alarm/communication arrangements according to the site programme.',
-          'Verify accountability arrangements.',
-          'Check emergency contact information.',
-          'Review drill and incident corrective actions.',
-          'Check that emergency equipment and routes remain ready after site changes.',
-        ],
-        documents: [
-          'Alarm/test records.',
-          'Muster/accountability records.',
-          'Drill and exercise reports.',
-          'Emergency incident records.',
-          'Corrective-action and lessons-learned records.',
-        ],
-      ),
     fieldChecklist: [
       'Current emergency management plan is available.',
       'Credible emergency scenarios are identified.',
