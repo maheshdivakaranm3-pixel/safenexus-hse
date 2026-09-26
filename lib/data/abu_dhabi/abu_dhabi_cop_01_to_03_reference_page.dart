@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'abu_dhabi_cop_01_to_03.dart';
 import 'abu_dhabi_cop_04_to_06.dart';
 import 'abu_dhabi_cop_08_to_09.dart';
+import 'abu_dhabi_cop_10_to_12.dart';
 import 'abu_dhabi_scaffolding_reference_page.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
@@ -37,6 +38,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop01To03.documents,
         ...AbuDhabiCop04To06.documents,
         ...AbuDhabiCop08To09.documents,
+        ...AbuDhabiCop10To12.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
@@ -363,6 +365,12 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.hearing;
       case 'CoP 3.1':
         return Icons.vibration;
+      case 'CoP 10.0':
+        return Icons.assignment_return_outlined;
+      case 'CoP 11.0':
+        return Icons.wb_sunny_outlined;
+      case 'CoP 12.0':
+        return Icons.water_drop_outlined;
       default:
         return Icons.shield_outlined;
     }
@@ -522,6 +530,12 @@ class _CopDocumentDetailPage extends StatelessWidget {
         return Icons.hearing;
       case 'CoP 3.1':
         return Icons.vibration;
+      case 'CoP 10.0':
+        return Icons.assignment_return_outlined;
+      case 'CoP 11.0':
+        return Icons.wb_sunny_outlined;
+      case 'CoP 12.0':
+        return Icons.water_drop_outlined;
       default:
         return Icons.shield_outlined;
     }
