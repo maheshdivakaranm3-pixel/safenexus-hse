@@ -12,6 +12,7 @@ class AbuDhabiCopSection {
   final List<String> hazards;
   final List<String> controls;
   final List<String> inspection;
+  final List<String> protectionItems;
 
   const AbuDhabiCopSection({
     required this.number,
@@ -22,6 +23,7 @@ class AbuDhabiCopSection {
     this.hazards = const [],
     this.controls = const [],
     this.inspection = const [],
+    this.protectionItems = const [],
   });
 }
 
@@ -250,6 +252,17 @@ class AbuDhabiCop01To03 {
     effectiveDate: '15 July 2024',
     introduction:
         'Sets minimum requirements for selection, provision, use, maintenance, storage and management of PPE where workers may be exposed to health or safety risks.',
+    protectionItems: [
+      'Head protection — protects the head from falling objects, impact and other identified head hazards; use a suitable safety helmet where required by the risk assessment.',
+      'Eye protection — protects the eyes from flying particles, dust, chemical splashes and other identified eye hazards; select safety spectacles, goggles or equivalent protection for the task.',
+      'Face protection — protects the face from splash, impact, heat or other identified hazards; use a suitable face shield together with required eye protection where applicable.',
+      'Hearing protection — protects hearing from excessive occupational noise; use suitable earplugs, earmuffs or other approved hearing protection based on the noise assessment.',
+      'Respiratory protection — protects the respiratory system from hazardous airborne contaminants when other controls do not adequately control exposure; select the correct respirator for the contaminant and task.',
+      'Hand protection — protects hands from cuts, abrasion, chemicals, heat, cold, puncture and other identified hazards; select gloves for the actual hazard and ensure compatibility with other PPE.',
+      'Foot protection — protects feet from impact, crushing, puncture, slips and other identified hazards; select suitable safety footwear for the workplace risk.',
+      'Body / protective clothing — protects the body and clothing from chemical contact, contamination, heat, flame, weather or other task-specific hazards where required.',
+      'Fall protection — protects workers from falls when work-at-height risks require personal fall protection; use compatible harnesses, lanyards, lifelines or other approved systems as specified by the applicable risk assessment and work system.',
+    ],
     sections: [
       AbuDhabiCopSection(number: '2.0', title: 'Training and Competency', requirements: ['Provide practical and theoretical PPE training.', 'Cover hazards, correct selection/use, limitations, defects, reporting, storage, inspection and issue records.', 'Use a language and method appropriate to the workforce.', 'Verify competency; retrain personnel who cannot demonstrate adequate understanding.'], documents: ['Training records', 'PPE issue records']),
       AbuDhabiCopSection(number: '3.1', title: 'Roles and Responsibilities', requirements: ['Provide appropriate PPE to employees exposed to workplace risks.', 'PPE supplied by the employer is generally provided at no cost to employees.', 'Employees must use PPE correctly and report hazards/defects.']),
@@ -270,6 +283,12 @@ class AbuDhabiCop01To03 {
     effectiveDate: '15 July 2024',
     introduction:
         'Controls occupational noise exposure through risk assessment, engineering/administrative controls, hearing conservation, signage, audiometry, exposure calculations and records.',
+    protectionItems: [
+      'Earplugs — provide hearing attenuation by reducing the sound reaching the ear; select a suitable type and rating for the measured noise environment and ensure correct fit.',
+      'Earmuffs / ear defenders — provide hearing attenuation by enclosing the ears; select a suitable rated device and ensure a proper seal around the ears.',
+      'Double hearing protection (earplugs + earmuffs) — provides combined attenuation where a single device cannot reduce exposure sufficiently; the CoP provides a calculation method for combined protection.',
+      'Hearing protection selection — the protector must provide sufficient attenuation to reduce the employee's exposure to the applicable level; fit, compatibility and the specific noise environment must be considered.',
+    ],
     sections: [
       AbuDhabiCopSection(number: '2.0', title: 'Training and Competency', requirements: ['Train affected workers on noise hazards, controls, hearing protection and the hearing conservation program where applicable.']),
       AbuDhabiCopSection(number: '3.1', title: 'Roles and Responsibilities', hazards: ['Hearing damage', 'Communication failure', 'Impact/continuous/intermittent noise exposure'], requirements: ['Eliminate/reduce noise where reasonably practicable using lower-noise equipment, maintenance, barriers and other controls.', 'Protect workers, contractors and visitors when exposure exceeds the applicable schedule.', 'Provide hearing protection when controls do not reduce exposure sufficiently.', 'A hearing conservation program is required when noise hazards exceed 85 dB(A).'], measurements: ['Action level: 85 dB(A).', 'Noise at or above 100 dB(A) requires appropriate hearing protection under the CoP.']),

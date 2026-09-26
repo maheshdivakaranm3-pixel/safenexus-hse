@@ -199,7 +199,16 @@ class _AbuDhabiCop01To03ReferencePageState extends State<AbuDhabiCop01To03Refere
           title: Text('${doc.code} – ${doc.title}', style: const TextStyle(color: navy, fontWeight: FontWeight.w900, fontSize: 17)),
           subtitle: Text('Version ${doc.version} • ${doc.effectiveDate}', style: const TextStyle(color: green, fontWeight: FontWeight.w700)),
           children: [
-            _textBlock('What is this subject?', doc.introduction),
+            _textBlock(doc.title, doc.introduction),
+            if (doc.protectionItems.isNotEmpty)
+              _bulletBlock(
+                doc.code == 'CoP 2.0'
+                    ? 'PPE Types & Protection Provided'
+                    : 'Noise Protection Types & Protection Provided',
+                doc.code == 'CoP 2.0' ? Icons.health_and_safety : Icons.hearing,
+                green,
+                doc.protectionItems,
+              ),
             for (final section in doc.sections) _section(section),
             if (doc.fieldChecklist.isNotEmpty) _bulletBlock('Field Checklist', Icons.checklist, green, doc.fieldChecklist),
             if (doc.stopWorkIndicators.isNotEmpty) _bulletBlock('Stop-Work Indicators', Icons.stop_circle_outlined, const Color(0xFFC62828), doc.stopWorkIndicators),
