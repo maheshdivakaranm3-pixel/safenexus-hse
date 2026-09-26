@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'abu_dhabi_cop_01_to_03.dart';
 import 'abu_dhabi_cop_04_to_06.dart';
+import 'abu_dhabi_cop_08_to_09.dart';
 import 'abu_dhabi_scaffolding_reference_page.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _AbuDhabiCop01To03ReferencePageState
   List<AbuDhabiCopDocument> get _allDocuments => [
         ...AbuDhabiCop01To03.documents,
         ...AbuDhabiCop04To06.documents,
+        ...AbuDhabiCop08To09.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
