@@ -325,6 +325,7 @@ class AbuDhabiCop27To29 {
       hazards: ['Atmospheric emergency', 'Ingress', 'Isolation failure', 'Rescue escalation'],
       controls: ['Stop work', 'Evacuate', 'Raise alarm', 'Implement rescue plan', 'Reassess before restart']
     ),
+    ],
     fieldChecklist: ['Space identified', 'Entry necessity confirmed', 'PRCS program available', 'Task RA complete', 'SWP briefed', 'Entrants competent', 'Safety watch assigned', 'Rescue ready', 'Isolation verified', 'Ventilation operating', 'Atmosphere tested', 'O2 19.5%–23.5%', 'Flammable gas/vapour <5% LEL where applicable', 'Communication tested', 'Access/egress clear', 'Fire controls ready', 'Permit verified', 'Conditions monitored', 'Permit closed', 'Area secured'],
     stopWorkIndicators: ['Unauthorised entry', 'No valid permit', 'O2 outside 19.5%–23.5% criterion', 'Flammable gas/vapour at or above 5% LEL criterion', 'Ventilation failure', 'Isolation failure', 'Communication failure', 'Stand-by unavailable', 'Rescue unavailable', 'Unexpected gas/liquid/material ingress', 'Unknown residue', 'Detector invalid/unserviceable', 'Atmospheric alarm', 'Any deviation from approved PRCS SWP'],
     references: ['ADPHC CoP 27.0 — Confined Spaces V4.0', 'ADOSH-SF Technical Guideline — Safe Work in Confined Spaces', 'CoP 21.0 — Permit to Work Systems', 'CoP 24.0 — Lock-out Tag-out (Isolation)', 'CoP 17.0 — Safety Signage and Signals', 'CoP 2.0 — Personal Protective Equipment', 'CoP 4.0 — First Aid and Medical Emergency Treatment', 'CoP 5.0 — Occupational Health Screening and Medical Surveillance', 'Element 2 — Risk Management', 'Element 5 — Training, Awareness and Competency'],
@@ -571,6 +572,7 @@ class AbuDhabiCop27To29 {
       hazards: ['Fire', 'Explosion', 'Equipment failure', 'Fume exposure'],
       controls: ['Stop work', 'Isolate', 'Make safe', 'Reassess', 'Reissue/revalidate permit']
     ),
+    ],
     fieldChecklist: ['Competent operator', 'Training verified', 'Pre-use check', 'Daily competent inspection', 'Designated area or permit', 'RA complete', 'Combustibles controlled within 10 m', 'Hidden combustibles checked', 'Openings protected', 'Screens', 'Ventilation/LEV', 'Fire extinguishers', 'Fire watch', 'Gas test where required', '<5% LEL hazardous-area criterion', 'RCD/earthing', 'Leads/holder/return', 'Cylinders secure', 'Hoses/regulators/flashback', 'Post-work fire watch', 'Permit close-out'],
     stopWorkIndicators: ['Permit missing where required', 'Flammable atmosphere not <5% LEL in hazardous area', 'Combustibles not controlled within required 10 m', 'Fire protection unavailable', 'Fire watch unavailable where specified', 'Damaged welding lead/holder', 'Gas leak', 'Regulator creep', 'Damaged hose', 'Flashback protection missing where required', 'Cylinder unsecured', 'RCD/earthing defective', 'Ventilation/LEV inadequate', 'Uncontrolled radiation/sparks/hot metal', 'Malfunctioning equipment', 'Permit conditions changed'],
     references: ['ADPHC CoP 28.0 — Hot Work Operations V4.1', 'CoP 21.0 — Permit to Work Systems', 'CoP 2.0 — Personal Protective Equipment', 'CoP 5.0 — Occupational Health Screening and Medical Surveillance', 'CoP 49.0 — Compressed Gases and Air', 'CoP 52.0 — Local Exhaust Ventilation', 'Element 2 — Risk Management', 'Element 7 — Monitoring, Investigation and Reporting'],
@@ -1247,6 +1249,7 @@ class AbuDhabiCop27To29 {
       hazards: ['Atmosphere', 'Collapse', 'Flooding', 'Falls', 'Traffic'],
       controls: ['CoP 27 interface', 'Support', 'Barriers', 'Monitoring', 'Rescue planning']
     ),
+    ],
     fieldChecklist: [
       'Current CoP 29.0 V4.0 controlled copy',
       'Risk assessment and SWMS',
