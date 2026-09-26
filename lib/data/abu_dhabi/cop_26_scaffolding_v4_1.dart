@@ -21,6 +21,7 @@ class AbuDhabiCop26Scaffolding {
   static const String documentDate = '16 February 2026';
   static const String framework = 'ADOSH-SF';
   static const String authority = 'Abu Dhabi Public Health Centre (ADPHC)';
+  static const String registryEffectiveDate = '27 February 2026';
 
   static const String applicability =
       'This Code of Practice applies to all employers within the Emirate of Abu Dhabi.';
@@ -126,6 +127,13 @@ class AbuDhabiCop26Scaffolding {
     '3.12 Ladders used in Scaffolds',
     '3.13 Mobile and Static Tower Scaffolds',
     '3.14 Inspection of Scaffolding',
+    'F1. Scaffold Identification and Component Field Guide',
+    'F2. Pre-Erection Field Checklist',
+    'F3. Erection and Dismantling Sequence – Field Method',
+    'F4. Scaffold User Pre-Use Check',
+    'F5. Emergency, Rescue and Incident Response',
+    'F6. Practical Field Examples',
+    'F7. Scaffolding Interview and Toolbox Questions',
     '4. References',
     '5. Document Amendment Record',
   ];
@@ -147,6 +155,13 @@ class AbuDhabiCop26Scaffolding {
     _ladders,
     _mobileAndStaticTowers,
     _inspection,
+    _fieldIdentification,
+    _preErectionChecklist,
+    _erectionAndDismantlingSequence,
+    _userPreUseChecks,
+    _emergencyAndRescue,
+    _practicalFieldExamples,
+    _interviewQuestions,
     _references,
     _amendmentRecord,
   ];
@@ -940,6 +955,183 @@ class AbuDhabiCop26Scaffolding {
     ],
   );
 
+
+  // ---------------------------------------------------------------------------
+  // SafeNexus Field Reference Supplements
+  // These sections are practical field-use guidance derived from the CoP
+  // requirements above. They are not additional ADPHC legal requirements.
+  // ---------------------------------------------------------------------------
+
+  static const Cop26Section _fieldIdentification = Cop26Section(
+    number: 'F1',
+    title: 'Scaffold Identification and Component Field Guide',
+    summary:
+        'Practical field identification guide to help HSE personnel, supervisors and scaffold users verify the main scaffold elements before use.',
+    requirements: [
+      'Identify the scaffold type before inspection: tube-and-coupler, modular/system, suspended, swinging stage, freestanding, mobile tower or other special arrangement.',
+      'Confirm the intended use and loading before allowing work to start.',
+      'Identify standards/uprights, ledgers, transoms, baseplates, sole boards, braces, ties, platforms, guardrails, mid-rails, toe boards and access systems.',
+      'Confirm that components belong to the approved scaffold system or have documented compatibility approval where different components are used.',
+      'Check that the scaffold identification and inspection status can be clearly seen by users.',
+      'Confirm that the scaffold has not been altered by other trades after handover.',
+    ],
+    hazards: [
+      'Missing structural member',
+      'Incorrect component',
+      'Unauthorised alteration',
+      'Damaged board or fitting',
+      'Missing tie or brace',
+      'Inadequate edge protection',
+      'Unsafe access',
+      'Overloading',
+    ],
+  );
+
+  static const Cop26Section _preErectionChecklist = Cop26Section(
+    number: 'F2',
+    title: 'Pre-Erection Field Checklist',
+    summary:
+        'SafeNexus practical checklist to be completed before scaffold erection starts.',
+    requirements: [
+      'Confirm the risk assessment and safe system of work are approved and understood.',
+      'Confirm the intended scaffold use, height, duty/loading requirement and access arrangement.',
+      'Confirm whether engineer design is required, including scaffolds over 10 m and the specified special arrangements.',
+      'Review the supporting ground or structure, including excavations, trenches, soft ground, water and possible settlement.',
+      'Confirm overhead electrical services and other utilities have been identified and controlled.',
+      'Identify vehicle and mobile-plant interfaces and establish protection before erection.',
+      'Confirm required components are available, inspected and compatible.',
+      'Segregate defective or suspect components from service.',
+      'Confirm competent scaffolders and supervision are available.',
+      'Confirm rescue and work-at-height arrangements are available where required.',
+      'Establish an exclusion zone below and around the erection area.',
+      'Prevent unauthorised access by workers or members of the public.',
+      'Confirm weather and environmental conditions are suitable for the planned activity.',
+      'Confirm materials can be safely delivered, lifted, stored and lowered without overloading the scaffold.',
+    ],
+  );
+
+  static const Cop26Section _erectionAndDismantlingSequence = Cop26Section(
+    number: 'F3',
+    title: 'Erection and Dismantling Sequence – Field Method',
+    summary:
+        'A practical sequence for maintaining stability and fall protection during scaffold erection and dismantling.',
+    requirements: [
+      'Establish the controlled work area and prevent unauthorised access.',
+      'Prepare the supporting surface and install baseplates and sole boards as required by the design.',
+      'Start the first lift using the planned dimensions and alignment.',
+      'Install required ledgers, transoms and bracing progressively.',
+      'Install ties progressively in accordance with the design or manufacturer arrangement.',
+      'Provide the required erection platform and safe access before advancing to the next level.',
+      'Maintain edge protection as the scaffold rises.',
+      'Install working platforms, toe boards, guardrails, access systems and containment controls progressively.',
+      'Verify each stage before advancing the erection sequence.',
+      'Do not remove stability members merely to make access easier.',
+      'Before handover, remove temporary erection controls only when the permanent safe arrangement is complete.',
+      'For dismantling, reverse the planned erection sequence while maintaining a safe working platform and stability.',
+      'Keep required ties and bracing in place until they can safely be removed in the dismantling sequence.',
+      'Lower components in a controlled manner using suitable methods; never throw components from height.',
+      'Barricade and clearly identify sections that are partly dismantled.',
+      'Complete the required inspection and handover process before returning a modified scaffold to use.',
+    ],
+  );
+
+  static const Cop26Section _userPreUseChecks = Cop26Section(
+    number: 'F4',
+    title: 'Scaffold User Pre-Use Check',
+    summary:
+        'A short user-level check to identify obvious changes or defects before accessing a scaffold. This does not replace the formal competent-person inspection.',
+    requirements: [
+      'Check that the scaffold identification/status indicates it is authorised for the intended use.',
+      'Check that access is clear and safe.',
+      'Check that the platform is complete, stable and free from obvious damage.',
+      'Check that guardrails, mid-rails and toe boards are present where required.',
+      'Check for obvious missing or displaced ties, braces or structural members.',
+      'Check for obvious unauthorised modifications by other trades.',
+      'Check that materials have not been stacked beyond the approved loading arrangement.',
+      'Check that openings, ladder gates and access points are protected.',
+      'Check for loose boards, fittings, debris or trip hazards.',
+      'Check that weather or site conditions have not obviously changed the scaffold condition.',
+      'If anything appears unsafe, do not use the scaffold and report it to the responsible supervisor/competent person.',
+      'A user check never replaces the required seven-day competent-person inspection or inspection after alteration, repair or a stability-affecting event.',
+    ],
+  );
+
+  static const Cop26Section _emergencyAndRescue = Cop26Section(
+    number: 'F5',
+    title: 'Emergency, Rescue and Incident Response',
+    summary:
+        'Practical response guidance for scaffold-related incidents. Site emergency arrangements remain controlling.',
+    requirements: [
+      'Stop work and prevent further access to an affected scaffold following a collapse, partial collapse, major impact or suspected instability.',
+      'Establish an exclusion zone and keep workers and the public away from the danger area.',
+      'Raise the site emergency alarm and contact the designated emergency response team as required.',
+      'Do not send untrained persons onto an unstable scaffold to rescue a casualty.',
+      'Where a person is suspended in a fall-arrest system, implement the site rescue plan immediately and obtain trained rescue support.',
+      'Control electrical hazards before approaching a casualty where overhead or adjacent electrical services may be involved.',
+      'Provide first aid and emergency medical support according to the site emergency plan.',
+      'Preserve the incident area where reasonably practicable for investigation, except where actions are necessary to protect life or prevent further harm.',
+      'Do not return the scaffold to service until the required competent-person inspection and, where necessary, engineer assessment and certification are completed.',
+      'Record the event, inspection findings, damage, corrective actions and authorisation to return to service.',
+    ],
+    stopWorkExamples: [
+      'Scaffold collapse or partial collapse',
+      'Major vehicle or mobile-plant impact',
+      'Missing critical ties or braces',
+      'Sudden foundation settlement',
+      'Severe weather with suspected structural effect',
+      'Uncontrolled falling-object event',
+      'Major unauthorised alteration',
+    ],
+  );
+
+  static const Cop26Section _practicalFieldExamples = Cop26Section(
+    number: 'F6',
+    title: 'Practical Field Examples',
+    summary:
+        'Scenario-based examples for toolbox talks, HSE inspections and supervisor training.',
+    requirements: [
+      'Example 1 – 12 m façade scaffold: because the scaffold exceeds 10 m, confirm the required engineer design, competent erection team, design-based ties/bracing, loading and inspection/handover documentation before use.',
+      'Example 2 – Shade cloth added after handover: treat the addition as a change that can increase wind loading. Do not allow the modification to proceed casually; obtain the required design/control review and re-inspection.',
+      'Example 3 – Excavation beside scaffold base: reassess ground stability and the potential for settlement or collapse before erection or continued use.',
+      'Example 4 – Painter removes a scaffold tie: stop the affected work, prevent unsafe use and have the scaffold assessed and the tie restored/alteration controlled by competent personnel.',
+      'Example 5 – Mobile tower moved with a worker on the platform: stop the activity. The tower must be cleared of people before movement and moved only under the applicable safe system.',
+      'Example 6 – Partly dismantled scaffold left accessible: prevent access and display a prominent incomplete-scaffold warning until the scaffold is safe and released for use.',
+      'Example 7 – Board is cracked or visibly split: remove it from service and replace it with a suitable sound board. Do not conceal defects with paint or treatment.',
+      'Example 8 – Strong wind after scaffold handover: suspend use where conditions may affect stability and complete the required post-event inspection before return to service.',
+      'Example 9 – Telehandler operating beside scaffold: establish physical/traffic controls to prevent impact and coordinate plant movement with scaffold protection.',
+      'Example 10 – Internal gap greater than 225 mm: implement the required additional fall-protection/control arrangement rather than treating the gap as normal platform clearance.',
+    ],
+  );
+
+  static const Cop26Section _interviewQuestions = Cop26Section(
+    number: 'F7',
+    title: 'Scaffolding Interview and Toolbox Questions',
+    summary:
+        'Training and interview prompts for HSE officers, scaffold supervisors and competent persons.',
+    requirements: [
+      'What is the purpose of a scaffold inspection before first use?',
+      'When is an engineer design required for a scaffold under CoP 26.0?',
+      'What is the minimum sole-board size specified by CoP 26.0?',
+      'What are the key controls for a scaffold erected near an excavation?',
+      'What is the required guardrail height?',
+      'What is the minimum toe-board height?',
+      'What are the board-gap limits?',
+      'When is a scaffold required to be inspected after the initial inspection?',
+      'What events require an additional inspection?',
+      'Who is permitted to alter scaffold ties and braces?',
+      'Why can adding shade cloth or screening change scaffold risk?',
+      'What must happen to a partly erected or dismantled scaffold?',
+      'What are the key safety checks before moving a mobile tower?',
+      'Why must incompatible scaffold components not be mixed?',
+      'What should a worker do if a scaffold appears damaged or altered?',
+      'What records should be available for scaffold inspection and handover?',
+      'What is the difference between a user pre-use check and a formal competent-person inspection?',
+      'What controls are required to prevent falling objects from scaffold work?',
+      'What should be done after a vehicle strikes a scaffold?',
+      'Why must scaffold components never be thrown from height?',
+    ],
+  );
+
   static const Cop26Section _references = Cop26Section(
     number: '4',
     title: 'References',
@@ -1078,6 +1270,13 @@ class AbuDhabiCop26Scaffolding {
     'Post-storm/stability-event inspection completed.',
     'Inspection and handover records retained.',
     'Scaffold identification information displayed.',
+    'No unauthorised alteration by other trades.',
+    'No critical tie, brace or stability member removed.',
+    'No defective board, tube, fitting or castor in service.',
+    'No unsafe change to ground/support conditions.',
+    'No new screen, shade cloth, hoist, chute or other additional load without required review.',
+    'Post-impact/post-storm inspection completed where applicable.',
+    'Emergency access and exclusion arrangements remain effective.',
   ];
 
   static const List<String> stopWorkIndicators = [
@@ -1095,6 +1294,12 @@ class AbuDhabiCop26Scaffolding {
     'Materials are being thrown or dropped from scaffold.',
     'Mobile tower is being moved with a person on it.',
     'Mobile tower is being moved in unsafe wind or ground conditions.',
+    'A scaffold has been struck by a vehicle or mobile plant and has not been assessed.',
+    'A new screen, shade cloth or other load has been added without the required design/control review.',
+    'The scaffold support has settled, washed out or become undermined.',
+    'A worker is using an incomplete scaffold because access controls are ineffective.',
+    'A scaffold component is visibly cracked, split, bent, badly corroded or otherwise unsuitable.',
+    'The scaffold loading is visibly beyond the approved arrangement.',
   ];
 }
 
@@ -1116,6 +1321,7 @@ class Cop26Section {
   final List<Cop26Amendment> amendments;
   final String? fieldWarning;
   final List<String> controlHierarchy;
+  final List<String> stopWorkExamples;
 
   const Cop26Section({
     required this.number,
@@ -1135,6 +1341,7 @@ class Cop26Section {
     this.amendments = const [],
     this.fieldWarning,
     this.controlHierarchy = const [],
+    this.stopWorkExamples = const [],
   });
 }
 
