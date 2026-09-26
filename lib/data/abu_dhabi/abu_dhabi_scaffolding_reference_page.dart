@@ -132,11 +132,26 @@ class _AbuDhabiScaffoldingReferencePageState
         _matchingItems(AbuDhabiCop26Scaffolding.fieldChecklist);
     final matchingStopWork =
         _matchingItems(AbuDhabiCop26Scaffolding.stopWorkIndicators);
+    final matchingPrecautions =
+        _matchingItems(AbuDhabiCop26Scaffolding.safetyPrecautions);
+    final matchingTypes =
+        _matchingItems(AbuDhabiCop26Scaffolding.scaffoldTypes);
+    final matchingComponents =
+        _matchingItems(AbuDhabiCop26Scaffolding.scaffoldComponents);
+    final matchingGreenTag =
+        _matchingItems(AbuDhabiCop26Scaffolding.greenTagProcedure);
+    final matchingRedTag =
+        _matchingItems(AbuDhabiCop26Scaffolding.redTagConditions);
     final hasResults =
         _query.isEmpty ||
         sections.isNotEmpty ||
         matchingChecklist.isNotEmpty ||
-        matchingStopWork.isNotEmpty;
+        matchingStopWork.isNotEmpty ||
+        matchingPrecautions.isNotEmpty ||
+        matchingTypes.isNotEmpty ||
+        matchingComponents.isNotEmpty ||
+        matchingGreenTag.isNotEmpty ||
+        matchingRedTag.isNotEmpty;
 
     return Scaffold(
       backgroundColor: pageBackground,
@@ -186,6 +201,53 @@ class _AbuDhabiScaffoldingReferencePageState
                     _headerCard(),
                     const SizedBox(height: 14),
                     _whatIsScaffoldingCard(),
+                    if (matchingPrecautions.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _bulletCard(
+                        title: 'Scaffolding Safety Precautions',
+                        icon: Icons.security_rounded,
+                        color: green,
+                        items: matchingPrecautions,
+                      ),
+                    ],
+                    if (matchingTypes.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _bulletCard(
+                        title: 'Types of Scaffolding',
+                        icon: Icons.account_tree_rounded,
+                        color: green,
+                        items: matchingTypes,
+                      ),
+                    ],
+                    if (matchingComponents.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _bulletCard(
+                        title: 'Important Scaffold Components',
+                        icon: Icons.construction_rounded,
+                        color: green,
+                        items: matchingComponents,
+                      ),
+                    ],
+                    if (matchingGreenTag.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _bulletCard(
+                        title: 'Green Scafftag — Inspection & Release for Use',
+                        icon: Icons.verified_rounded,
+                        color: green,
+                        items: matchingGreenTag,
+                      ),
+                    ],
+                    if (matchingRedTag.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _bulletCard(
+                        title: 'Red Scafftag — Do Not Use Conditions',
+                        icon: Icons.dangerous_rounded,
+                        color: const Color(0xFFC62828),
+                        items: matchingRedTag,
+                      ),
+                    ],
+                    const SizedBox(height: 14),
+                    _tagStatusNoteCard(),
                     const SizedBox(height: 14),
                     _quickReferenceCard(),
                     if (_query.isNotEmpty && !hasResults) ...[
@@ -367,7 +429,7 @@ class _AbuDhabiScaffoldingReferencePageState
           ),
           const SizedBox(height: 10),
           const Text(
-            'Scaffolding is a temporary access and working structure used to provide safe working platforms and access for people carrying out work at height. It must be properly planned, designed where required, erected, inspected, maintained, altered and dismantled by competent persons.',
+            'Scaffolding is a temporary access and working structure assembled from scaffold components to provide safe working platforms and access for people carrying out work at height. CoP 26.0 covers planning, assessment, design where required, erection, use, alteration, maintenance, dismantling and inspection.',
             style: TextStyle(
               color: Color(0xFF455A64),
               fontSize: 13.5,
@@ -381,6 +443,10 @@ class _AbuDhabiScaffoldingReferencePageState
               'Construction, maintenance, inspection, repair, finishing and other temporary work activities.'),
           _introPoint('Main risks',
               'Falls from height, falling objects, scaffold instability, overloading, unsafe access and unsafe alteration or dismantling.'),
+          _introPoint('Core precautions',
+              'Use competent persons, suitable design/manufacturer instructions, stable foundations, effective ties and bracing, secured platforms, edge protection, safe access, load control and planned inspection.'),
+          _introPoint('Types covered',
+              'Modular/system, tube-and-coupler, suspended, swinging-stage, hanging-bracket, freestanding, static-tower and mobile-access-tower arrangements, plus specified special-purpose configurations.'),
           _introPoint('Abu Dhabi basis',
               'ADPHC / ADOSH-SF Code of Practice CoP 26.0 – Scaffolding, Version 4.1, dated 16 February 2026.'),
         ],
@@ -424,6 +490,51 @@ class _AbuDhabiScaffoldingReferencePageState
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tagStatusNoteCard() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: green.withValues(alpha: 0.16)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.local_offer_rounded, color: green, size: 24),
+              SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  'Scafftag Status — Field Meaning',
+                  style: TextStyle(
+                    color: navy,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _introPoint(
+            'Green',
+            'Scaffold has been inspected and accepted for the stated intended use, subject to its marked loading and restrictions.',
+          ),
+          _introPoint(
+            'Red',
+            'Do Not Use. Scaffold is incomplete, unsafe, failed inspection, awaiting required re-inspection, or otherwise not released for use.',
+          ),
+          _introPoint(
+            'Important',
+            AbuDhabiCop26Scaffolding.tagStatusNote,
           ),
         ],
       ),

@@ -25,6 +25,89 @@ class AbuDhabiCop26Scaffolding {
   static const String applicability =
       'This Code of Practice applies to all employers within the Emirate of Abu Dhabi.';
 
+  static const String whatIsScaffolding =
+      'Scaffolding is a temporary access and working structure assembled from scaffold components to provide safe working platforms and access for people carrying out work at height. Under CoP 26.0, the scope includes modular scaffolding, tube-and-coupler scaffolding, suspended scaffolds, swinging stages, and planks placed across structures that have not been engineered to accept them. Prefabricated mobile access towers are also covered, subject to their applicable product conformity requirements.';
+
+  static const List<String> safetyPrecautions = [
+    'Plan the scaffold before erection: complete the risk assessment, identify the intended use and loading, review ground/support conditions, nearby excavations, overhead services, traffic, falling-object risks and environmental conditions.',
+    'Use competent and appropriately trained scaffolders, supervisors and inspectors. Personnel working with scaffolds must understand loading restrictions, inspection requirements, common hazards and the site safe system of work.',
+    'Use an engineer design where required, including scaffolds over 10 m high and specified arrangements such as ladder beams, mesh or shade cloth, freestanding scaffolds, suspended scaffolds and non-standard ties or bracing.',
+    'Use suitable baseplates and sole boards. The minimum sole board size specified by CoP 26.0 is 225 mm × 450 mm, with the final arrangement determined by the supporting surface and design.',
+    'Install ties, bracing, guy ropes or buttresses as the scaffold is erected. Do not remove, loosen, relocate or alter critical ties or braces without the required design/control process.',
+    'Keep working platforms properly boarded, secured and protected. Control board gaps, board condition, overhang, platform loading and edge protection.',
+    'Provide safe access and egress. Ladders used for access must be properly supported and positioned; ladder access requirements include a 75° working angle and at least 1.05 m / 5 rungs above the platform at stepping-off points.',
+    'Prevent falls of people and materials. Provide guardrails, mid-rails, toe boards, internal edge protection where required, exclusion zones, containment screening, fans, hoardings or gantries as appropriate.',
+    'Never overload a scaffold. The permitted loading and duty classification must match the design, manufacturer information and scaffold identification.',
+    'Do not mix incompatible scaffold components or components from different manufacturers unless compatibility and structural suitability have been confirmed by a competent engineer.',
+    'Protect the scaffold from vehicle and mobile-plant impact using suitable barricades, signs, buffer rails, guards or other controls.',
+    'Do not use defective, damaged, corroded or visibly unsound scaffold components. Inspect boards, tubes, couplers, fittings, castors and other components before use.',
+    'Do not erect, alter or dismantle scaffolding during unsafe environmental conditions. Reassess the scaffold after strong winds, storms or any other event that could affect stability.',
+    'During erection and dismantling, maintain the planned sequence, keep incomplete areas controlled and never allow unauthorised persons to use a partly erected or dismantled scaffold.',
+    'Do not throw scaffold boards, fittings or materials from height. Lower components in a controlled manner and keep work areas below protected.',
+  ];
+
+  static const List<String> scaffoldTypes = [
+    'Tube-and-coupler scaffold — built from standards, ledgers, transoms, braces, couplers and platforms. It is flexible and can be configured for irregular structures, but tie, bracing, component compatibility and design requirements must be controlled.',
+    'Modular / system scaffold — prefabricated components connect through a proprietary modular connection system. The manufacturer system, components and instructions must be followed; different modular systems must not be mixed unless compatibility has been confirmed by a competent engineer.',
+    'Suspended scaffold — a working platform suspended from an overhead structure by ropes, suspension equipment or other designed means. CoP 26.0 specifically identifies suspended scaffolds as a design category requiring competent engineering design and enhanced competency requirements.',
+    'Swinging stage — a suspended access platform used for controlled access and work at height. Suspension, ropes, supporting structure, access, loading and emergency arrangements must be addressed by the design and safe system of work.',
+    'Hanging-bracket scaffold — a scaffold supported by brackets connected to a structure rather than by a conventional ground-supported arrangement. Internal gaps, support capacity, attachment points and fall protection require specific control.',
+    'Freestanding scaffold — a scaffold that is not tied to a permanent supporting structure in the conventional manner. Stability, base dimensions, counterweights, stabilizers or other engineered controls must be addressed; CoP 26.0 identifies freestanding scaffolds as a design category requiring engineer design.',
+    'Mobile access tower — a prefabricated tower fitted with castors for movement. It must have appropriate product conformity certification to BS EN 1004, secure internal access, suitable castors, locked castors while in use, stability controls and a level firm supporting surface.',
+    'Static tower scaffold — a tower arrangement that remains stationary during use. Manufacturer instructions, stability, internal access, bracing, base dimensions and loading must be controlled; the same CoP 26.0 tower requirements apply where applicable.',
+    'Special-purpose scaffold arrangements — arrangements such as loading platforms, ladder beams, sheeted or screened scaffolds and scaffolds carrying additional equipment or attachments. These can impose additional structural or environmental loads and may require specific engineering design.',
+  ];
+
+  static const List<String> scaffoldComponents = [
+    'Standards / uprights — vertical load-carrying members transferring scaffold loads to the supporting surface.',
+    'Ledgers — longitudinal horizontal members connecting standards and helping provide the scaffold framework.',
+    'Transoms — cross members supporting boards/platforms and tying the scaffold frame together.',
+    'Baseplates — distribute the load from standards to the supporting surface.',
+    'Sole boards — distribute loads over less stable supporting surfaces where required by the design.',
+    'Bracing — provides structural stability and resistance to movement; must be installed as part of the planned erection sequence.',
+    'Ties — connect the scaffold to the supporting structure where required for stability; their location and effectiveness must be maintained.',
+    'Guardrails and mid-rails — provide edge protection to prevent falls from working platforms.',
+    'Toe boards — help prevent people, tools and materials from falling from platform edges.',
+    'Scaffold boards / platform units — provide the working surface and must be suitable, secured, sound and capable of the intended loading.',
+    'Access ladders / stairs — provide controlled access and egress to working levels.',
+    'Castors and stabilizers — used on mobile towers; castors must have suitable capacity and be locked during erection and use.',
+  ];
+
+  static const List<String> greenTagProcedure = [
+    '1. Complete erection or the planned alteration and remove temporary erection controls only when the scaffold is ready for inspection.',
+    '2. Confirm the scaffold matches the approved design drawing or manufacturer instructions. Where an engineer design exists, obtain the required engineer sign-off certification.',
+    '3. Check the supporting ground/structure, baseplates and sole boards, standards, ledgers, transoms, bracing, ties, stabilizers and other stability components.',
+    '4. Check working platforms: boards/platform units are sound, secured, adequately supported, correctly positioned and within the permitted gaps and overhang limits.',
+    '5. Check edge protection: guardrails, mid-rails, toe boards and internal edge protection are provided where required.',
+    '6. Check access and egress, ladder/stair arrangements, trap doors, landings and protection of access openings.',
+    '7. Check loading information and confirm that the intended work and materials are within the permitted design/loading arrangement.',
+    '8. Check falling-object controls, exclusion zones, containment screening, fans/hoardings and traffic/mobile-plant protection where required.',
+    '9. Check there are no defective components, unauthorised modifications, missing ties/braces, loose fittings, unsafe gaps or other critical defects.',
+    '10. Record the inspection with location, comments, date/time, design/specification reference and inspector details. Keep required certification and the handover certificate on site.',
+    '11. When the scaffold has been accepted as safe for its intended use, apply the project-approved green Scafftag/status marking at a prominent access point and record the required identification information.',
+    '12. Continue inspections at least every 7 days, and repeat inspection after alteration/repair or after an event that could affect stability, such as strong winds or storms.',
+  ];
+
+  static const List<String> redTagConditions = [
+    'Scaffold is incomplete, partly erected or partly dismantled and has not been released for use.',
+    'Scaffold has failed inspection or has a defect that could affect stability, fall protection, access or safe use.',
+    'Required design drawing, manufacturer instruction, engineer sign-off or handover documentation is unavailable where required.',
+    'Critical ties, braces, guy ropes, buttresses, base supports or stabilizers are missing, loose, damaged or unauthorisedly altered.',
+    'Working platforms are incomplete, unsecured, overloaded, damaged or otherwise unsafe.',
+    'Guardrails, mid-rails, toe boards or other required fall protection are missing or defective.',
+    'Access/egress is unsafe, blocked or does not comply with the planned arrangement.',
+    'The scaffold has been altered, repaired, impacted or moved and the required re-inspection has not yet been completed.',
+    'A strong wind, storm or other event may have affected scaffold stability and the required inspection has not yet confirmed safe use.',
+    'The supporting ground or structure has become unstable, undermined, flooded, excavated or otherwise unsuitable.',
+    'Defective, corroded, cracked, split, bent or otherwise unsuitable scaffold components are identified.',
+    'The scaffold is being used outside its approved purpose, loading or design conditions.',
+    'Unauthorised persons are modifying, removing or relocating scaffold components, ties or edge protection.',
+    'Where a red / Do Not Use tag is applied, access shall be prevented or effectively controlled until the competent person confirms the scaffold is safe and the project tagging procedure authorises return to use.',
+  ];
+
+  static const String tagStatusNote =
+      'CoP 26.0 requires prominent scaffold identification and warning controls and defines the inspection, handover and marking information to be maintained. The green/red colour convention is presented here as a practical project Scafftag status system: green = accepted for the intended use; red = Do Not Use / incomplete / unsafe. The project-approved tagging procedure remains the controlling document for tag colours and any additional status colours.';
+
   static const List<String> tableOfContents = [
     '1. Introduction',
     '2. Training and Competency',
