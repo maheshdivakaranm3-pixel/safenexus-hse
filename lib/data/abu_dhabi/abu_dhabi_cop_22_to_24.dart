@@ -490,6 +490,105 @@ class AbuDhabiCop22To24 {
         ],
       ),
     ],
+      AbuDhabiCopSection(
+        number: '16.0',
+        title: 'CoP 22 Field Example — Overhead Work and Falling Objects',
+        requirements: [
+          'Where overhead work can expose people below to falling objects, define the entire potentially affected area rather than only the point immediately below the worker.',
+          'Consider reasonably practicable deflection of an object from structures below when defining the barricade footprint.',
+          'Use suitable physical barriers and signs where people could enter the falling-object zone.',
+          'Where the general public may be exposed, use physical barriers and/or a safety observer where appropriate.',
+        ],
+        measurements: [
+          'For the specified trip/unprotected-edge condition with fall potential less than 2 m, barricade tape is installed at least 2 m back from the edge or hazard.',
+        ],
+        documents: [
+          'Dropped-object assessment',
+          'Barricade layout',
+          'Public protection plan',
+        ],
+        hazards: [
+          'Falling tools',
+          'Falling materials',
+          'Deflected objects',
+          'Public exposure',
+        ],
+        controls: [
+          'Full affected-area barricade',
+          'Physical barrier',
+          'Warning signs',
+          'Safety observer where appropriate',
+        ],
+        inspection: [
+          'Walk the complete drop/deflection area and verify the barricade is not undersized.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '17.0',
+        title: 'CoP 22 Field Example — Low-Risk Soft Barricade vs Hard Barricade',
+        requirements: [
+          'Soft barricading is an immediate and short-term control where risk assessment indicates low risk.',
+          'Examples include scissor/expanding barricades, post and chain, plastic cone and plank, flag bunting and plastic mesh.',
+          'Hard barricading is required where the risk assessment indicates a solid physical barrier is necessary.',
+          'Examples include mesh/hoarding fence panels, scaffold tube and fittings, road traffic barricades and free-standing rigid A-frame barricades.',
+          'Solid barricades are to be erected by a competent person and accompanied by hazard signs.',
+        ],
+        measurements: [
+          'Mesh/tape top edge: 900–1200 mm.',
+        ],
+        documents: [
+          'Risk assessment',
+          'Barricade selection record',
+          'Competency record',
+        ],
+        hazards: [
+          'Inadequate barrier strength',
+          'Wrong barrier type',
+          'Uncontrolled access',
+        ],
+        controls: [
+          'Risk-based selection',
+          'Competent installation',
+          'Physical separation',
+        ],
+        inspection: [
+          'Challenge the barrier selection if the hazard has changed or the barrier is easily displaced.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '18.0',
+        title: 'CoP 22 Inspection Tag and Incident-Damage Example',
+        requirements: [
+          'Barricades shall remain signed, visible, effective against accidental contact and visible during darkness where required.',
+          'Components are to be inspected frequently; defective components are withdrawn from service for repair or disposal and marked \'Dangerous, Do Not Use\'.',
+          'At minimum, a weekly formal inspection is documented for barricading covered by this CoP.',
+          'Inspection tags may record barricade identification, first erection date, last inspection, result and inspector name.',
+          'If a barricade is damaged or involved in an incident, inspect it before further use and remove unrepairable components from service.',
+        ],
+        measurements: [
+          'Formal barricade inspection: minimum weekly.',
+        ],
+        documents: [
+          'Inspection tag',
+          'Weekly inspection record',
+          'Incident inspection record',
+          'Repair/disposal record',
+        ],
+        hazards: [
+          'False assurance',
+          'Impact damage',
+          'Expired inspection',
+        ],
+        controls: [
+          'Competent inspection',
+          'Tagging',
+          'Defect isolation',
+          'Documented close-out',
+        ],
+        inspection: [
+          'Sample the tag against the formal inspection record and verify incident-damaged items were assessed.',
+        ],
+      ),
     fieldChecklist: [
       'Hazard risk assessment completed.',
       'Correct barricade type selected.',
@@ -1054,6 +1153,281 @@ class AbuDhabiCop22To24 {
         ],
       ),
     ],
+      AbuDhabiCopSection(
+        number: '17.0',
+        title: 'Working at Height — Falling-Object Controls in Detail',
+        requirements: [
+          'Where people can be exposed to falling objects, protect them using suitable engineering and access controls.',
+          'Use toe boards, screens or guardrails, canopies, barricading/exclusion zones or other suitable controls as applicable.',
+          'Work shall stop while people traverse an exclusion zone where the work creates an uncontrolled falling-object exposure.',
+          'Provide warning signs in accordance with CoP 17.',
+          'Use bolt bags/tool carriers for small tools and secure tools and equipment used at height with lanyards where required.',
+          'People required to enter the exclusion zone, including persons holding ladders and banksmen, shall wear hard hats.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Dropped-object assessment',
+          'Exclusion-zone plan',
+          'Tool-lanyard inspection',
+        ],
+        hazards: [
+          'Falling tools',
+          'Falling materials',
+          'People entering exclusion zone',
+        ],
+        controls: [
+          'Toe boards',
+          'Screens',
+          'Canopies',
+          'Exclusion zone',
+          'Tool lanyards',
+        ],
+        inspection: [
+          'Observe the actual work below and around the elevated activity.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '18.0',
+        title: 'Guardrail Systems — Detailed Field Requirements',
+        requirements: [
+          'Provide guardrails to all edges where there is a risk of falling 2 m or more.',
+          'Provide guardrails around building perimeters, skylights/fragile roof materials, floor or roof openings, shaft/excavation edges and other applicable exposed edges.',
+          'Proprietary systems shall be configured, installed, used and dismantled according to manufacturer instructions.',
+          'Use gates, chains or removable sections at hoisting areas when hoisting is not taking place.',
+          'Protect holes on all unprotected sides; where material-passage openings exist, control removable sections and close/protect the opening when not in use.',
+          'At access holes such as ladder ways, use a gate or offset arrangement so a person cannot walk directly into the hole.',
+          'Guardrails on ramps and runways shall be provided along each unprotected side or edge.',
+        ],
+        measurements: [
+          'Top rail minimum: 950 mm above walking/working platform.',
+          'Toe board minimum: 150 mm high where required.',
+          'Gap between guardrail/midrail/toe board: not more than 470 mm.',
+          'Guardrail point-load capacity: at least 1.25 kN in any outward or downward direction at any point along the top edge.',
+          'Under the specified downward 1.25 kN test, top edge shall not deflect below 900 mm.',
+          'Top and mid rails: at least 60 mm nominal diameter or thickness.',
+          'Wire-rope top rails: high-visibility flags at not more than 2 m intervals.',
+        ],
+        documents: [
+          'Guardrail design/certification',
+          'Inspection record',
+          'Manufacturer instructions',
+        ],
+        hazards: [
+          'Guardrail failure',
+          'Open hole',
+          'Sharp edges',
+          'Clothing snagging',
+        ],
+        controls: [
+          'Adequate strength',
+          'Smooth surfaces',
+          'Correct gaps',
+          'Controlled gates',
+        ],
+        inspection: [
+          'Measure/verify critical dimensions and load evidence where applicable.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '19.0',
+        title: 'Safety Nets — Installation, Mesh, Certification and Testing',
+        requirements: [
+          'Use safety nets only where measures preventing a fall of people or objects are not reasonably practicable.',
+          'Erect nets as close as reasonably practicable to the working level and slightly higher at the outer edge when installed outside a structure.',
+          'Personnel nets are intended to catch a person; material/debris nets reduce risk from falling objects.',
+          'Competent persons shall erect nets and ensure the supporting framework can withstand impact/shock loading.',
+          'Consult the appropriate authority before erecting nets near electricity lines or overhead power cables.',
+          'Do not use defective nets; inspect after events affecting integrity.',
+        ],
+        measurements: [
+          'Maximum fall distance before encountering a safety net: 2 m.',
+          'Personnel net mesh: 100 mm type.',
+          'Material/debris protection mesh: 12–19 mm type.',
+          'Maximum mesh opening: 230 cm² and no side longer than 150 mm; center-to-center mesh opening not longer than 150 mm.',
+          'Border rope minimum breaking strength: 22.2 kN.',
+          'Connections between net panels: not more than 150 mm apart and at least as strong as integral components.',
+          'Safety-net inspection: immediately after erection and at least weekly; test cord testing at intervals not exceeding 3 months.',
+          'After two years of use or where deterioration exists, seek manufacturer advice.',
+        ],
+        documents: [
+          'Net certificate',
+          'Installation/certification record',
+          'Weekly inspection record',
+          'Test-cord test record',
+          'Manufacturer data',
+        ],
+        hazards: [
+          'Net tear',
+          'Excessive fall distance',
+          'Weak anchorage',
+          'Damaged mesh',
+          'Heat/chemical damage',
+        ],
+        controls: [
+          'Competent installation',
+          'Correct mesh',
+          'Certified framework',
+          'Periodic test',
+          'Controlled storage',
+        ],
+        inspection: [
+          'Check net label, certificate, mesh, border rope, connections, test-cord status and framework.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '20.0',
+        title: 'Safety Net Care, Damage Prevention and Storage',
+        requirements: [
+          'Remove tools, scrap, equipment and other materials that fall into a safety net as soon as reasonably practicable and at least before the next shift.',
+          'Do not stack materials on a net or deliberately jump onto or drop objects into it.',
+          'Avoid dragging nets over rough surfaces, contact with sharp edges, debris accumulation, welding/burning sparks, hot gases, hot ash and chemical spills/leaks.',
+          'Wash nets when required and before storage to remove grit/soot; if contaminated with acids/alkalis, wash appropriately and dry naturally away from heat.',
+          'Dry wet nets naturally; ventilate storage; hang nets where reasonably practicable and allow air circulation.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Net cleaning record',
+          'Storage inspection',
+          'Contamination record',
+        ],
+        hazards: [
+          'Abrasion',
+          'Ignition damage',
+          'Chemical contamination',
+          'Poor storage',
+        ],
+        controls: [
+          'Controlled handling',
+          'Cleaning',
+          'Ventilated storage',
+          'Manufacturer advice',
+        ],
+        inspection: [
+          'Inspect after storage and after contamination or suspected damage.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '21.0',
+        title: 'Fall-Arrest Equipment — Detailed Inspection Frequencies',
+        requirements: [
+          'Remove defective equipment from service, tag it \'Out of Service\' and do not use until repaired and tested or replaced.',
+          'After a fall arrest, inspect and test every item involved before reuse; replace stretched or damaged items.',
+          'Users inspect harnesses, lanyards, connectors, fall-arrest devices, ropes, slings and mobile attachment devices before and after each use.',
+          'Inspection shall include touch as well as sight, accessible internal components, rope/line protectors, locking mechanisms and running ropes through the hands where applicable.',
+          'Maintain hardware and mechanical devices according to manufacturer instructions; clean synthetic textile materials using mild soap and water unless the manufacturer requires otherwise.',
+          'Store and transport equipment to avoid dampness, heat and stress.',
+        ],
+        measurements: [
+          'Belts, harnesses and lanyards: competent inspection every 6 months.',
+          'Anchorages: inspect/certify before first use after installation and every 12 months thereafter by qualified personnel.',
+          'Fall-arrest devices: competent inspection every 3 months.',
+          'Horizontal/vertical lifelines and rails: inspection every 12 months.',
+          'Slings: inspect every 3 months and test every 12 months by a competent testing organization.',
+          'Ropes used to suspend a person: before/after each use and every 3 months; ropes are not pull tested.',
+          'Fall-arrest devices stored longer than 12 months: full service before use.',
+        ],
+        documents: [
+          'Inspection register',
+          'Out-of-service tags',
+          'Test certificates',
+          'Service records',
+        ],
+        hazards: [
+          'Hidden damage',
+          'Expired inspection',
+          'Post-fall reuse',
+          'Corrosion',
+        ],
+        controls: [
+          'Pre-use inspection',
+          'Periodic competent inspection',
+          'Segregation',
+          'Manufacturer maintenance',
+        ],
+        inspection: [
+          'Audit serial/ID, inspection date, inspector competency and corrective action.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '22.0',
+        title: 'Working Platforms, Stairs and Fixed Access',
+        requirements: [
+          'Every open-sided floor or platform 1.2 m or more above adjacent floor/ground shall have standard railing on open sides except at entrances to ramps, stairways or fixed ladders.',
+          'Provide toe boards where employees can pass, moving machinery is present, or falling materials could create a hazard.',
+          'Every runway 1.2 m or more above floor/ground shall have standard railing on all open sides; toe boards are required where tools, machine parts or materials may be used.',
+          'Regardless of height, guard open-sided floors, walkways, platforms or runways above/adjacent to dangerous equipment, open tanks and similar hazards.',
+          'Stairs with four or more risers require standard stair railings/handrails as specified.',
+          'Provide fixed stairs where regular travel between levels or routine access to operating platforms is required, including daily/shift access.',
+        ],
+        measurements: [
+          'Open-sided platform threshold: 1.2 m.',
+          'Standard railing nominal height: 950 mm.',
+          'Top-rail load: at least 90 kg in any direction at any point.',
+          'Standard stair railing: 760–860 mm.',
+          'Stair overhead clearance: minimum 2.1 m.',
+          'Specified open runway with one side omitted: minimum 45 cm width plus appropriate fall protection.',
+        ],
+        documents: [
+          'Platform inspection',
+          'Stair inspection',
+          'Fixed-access design',
+        ],
+        hazards: [
+          'Falls',
+          'Falling materials',
+          'Dangerous equipment exposure',
+          'Head strike',
+        ],
+        controls: [
+          'Guardrails',
+          'Toe boards',
+          'Handrails',
+          'Fixed stairs',
+        ],
+        inspection: [
+          'Verify dimensions and conditions after alteration or relocation.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '23.0',
+        title: 'Fragile Surfaces, Unprotected Edges and Roof Protection',
+        requirements: [
+          'Provide appropriate platforms, coverings, guardrails and other measures when work is performed on or near fragile surfaces.',
+          'Where residual fall risk remains, minimize the distance and effect of the fall as far as reasonably practicable.',
+          'Make people aware of fragile-surface danger, preferably using prominent warning notices at approaches.',
+          'Employees on unprotected sides/edges 2 m or more above a lower level shall use the specified fall-protection systems.',
+          'Protect people above dangerous equipment regardless of height using guardrails or equipment guards.',
+          'Low-slope roof protection may use specified combinations of guardrail, safety net, personal fall arrest, warning-line and safety-monitoring systems; for roofs 15.25 m or less in width, safety monitoring alone is permitted in the stated circumstances.',
+          'Steep roofs 2 m or more above lower levels require guardrails with toe boards, safety nets or personal fall arrest.',
+        ],
+        measurements: [
+          'Unprotected edge threshold: 2 m.',
+          'Low-slope roof width exception: 15.25 m or less for the specified safety-monitoring-only arrangement.',
+        ],
+        documents: [
+          'Roof risk assessment',
+          'Fragile-surface register',
+          'Warning signage',
+          'Fall Prevention Plan',
+        ],
+        hazards: [
+          'Fragile roof',
+          'Skylights',
+          'Open edges',
+          'Dangerous equipment',
+        ],
+        controls: [
+          'Collective protection',
+          'Warning systems',
+          'Fall arrest',
+          'Exclusion zones',
+        ],
+        inspection: [
+          'Pre-start roof inspection and post-weather/event inspection.',
+        ],
+      ),
     fieldChecklist: [
       'Fall Prevention Plan approved and briefed.',
       'Competent workers assigned.',
@@ -1651,6 +2025,204 @@ class AbuDhabiCop22To24 {
         ],
       ),
     ],
+      AbuDhabiCopSection(
+        number: '19.0',
+        title: 'LOTO Procedure — Required Step-by-Step Content',
+        requirements: [
+          'Each hazardous-energy procedure shall state its intended use, scope, purpose, authorization, rules and techniques.',
+          'Specify exact steps for shutting down, isolating, blocking and securing the machine/equipment.',
+          'Specify placement, removal and transfer of lockout/tagout devices and who is responsible.',
+          'Specify the test method used to verify effectiveness of isolation controls.',
+          'Address multiple lockout/tagout devices where multiple tasks are undertaken.',
+          'Specify how devices are removed and equipment is restored to normal operation.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Machine-specific LOTO procedure',
+          'Isolation certificate',
+          'Test/verification record',
+          'Restoration checklist',
+        ],
+        hazards: [
+          'Wrong sequence',
+          'Missing isolation point',
+          'Premature restoration',
+        ],
+        controls: [
+          'Written procedure',
+          'Machine-specific isolation',
+          'Verification',
+          'Controlled restoration',
+        ],
+        inspection: [
+          'Compare procedure step-by-step with actual field practice.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '20.0',
+        title: 'LOTO Hardware, Tag Construction and Environmental Suitability',
+        requirements: [
+          'Provide appropriate locks, tags, chains and other hardware for isolating, securing or blocking equipment.',
+          'Locks/devices shall be standardized and durable for the workplace environment.',
+          'Tags are warning devices and do not provide the physical restraint of a lock.',
+          'Tags shall not be removed without authorization and shall never be bypassed, ignored or defeated.',
+          'Tags shall be securely attached so they cannot be accidentally detached.',
+        ],
+        measurements: [
+          'Tags shall be legible and printed in Arabic and English plus other languages necessary for workforce understanding.',
+          'Tags shall resist weather, wet/damp conditions and corrosive environments.',
+          'Lockout/tagout devices shall be robust enough to withstand adverse/forceful conditions.',
+        ],
+        documents: [
+          'Lock/tag specification',
+          'Lock register',
+          'Tag inspection record',
+        ],
+        hazards: [
+          'Illegible tag',
+          'Corrosion',
+          'Accidental detachment',
+          'False physical security',
+        ],
+        controls: [
+          'Durable devices',
+          'Correct language',
+          'Secure attachment',
+          'Personal control',
+        ],
+        inspection: [
+          'Inspect devices in the actual environmental conditions where they are used.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '21.0',
+        title: 'LOTO — New Equipment, Modification and Design',
+        requirements: [
+          'When new machines/equipment are installed, or major repair, renovation or modification occurs, energy-isolating devices shall be designed to accept a lockout device.',
+          'Update energy-control procedures after modifications or new energy sources.',
+          'Do not rely on obsolete drawings or procedures after equipment change.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Design drawings',
+          'Energy-isolation points',
+          'Updated procedure',
+          'Change record',
+        ],
+        hazards: [
+          'New energy source',
+          'Inaccessible isolator',
+          'Obsolete isolation plan',
+        ],
+        controls: [
+          'Design for lockability',
+          'Change management',
+          'Updated energy survey',
+        ],
+        inspection: [
+          'Physically verify new/modified isolation points before return to service.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '22.0',
+        title: 'LOTO Planning for Construction and Contractors',
+        requirements: [
+          'Assess risks to employees, contractors and the public.',
+          'For Building and Construction Sector, include LOTO requirements in the Pre-Tender Health and Safety Plan.',
+          'Include associated safe systems of work and site rules in the OSH-CMP.',
+          'Coordinate contractor isolation responsibilities and verify competence before work.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Pre-Tender H&S Plan',
+          'OSH-CMP',
+          'Contractor RAMS',
+          'Isolation responsibility matrix',
+        ],
+        hazards: [
+          'Interface failure',
+          'Conflicting isolations',
+          'Unauthorized reenergization',
+        ],
+        controls: [
+          'Coordination',
+          'Written responsibility',
+          'Joint verification',
+        ],
+        inspection: [
+          'Audit contractor isolations against the site energy-control program.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '23.0',
+        title: 'LOTO Annual Inspection and Record-Keeping',
+        requirements: [
+          'Conduct a periodic inspection of energy-control measures/procedures annually.',
+          'The inspection shall be performed by a competent employee other than the employee(s) using the procedure being inspected.',
+          'Maintain records showing training, authorized persons, machine/equipment covered, inspection date, employees included, inspector and manufacturer catalogue information.',
+          'Use findings to correct procedure, training or hardware deficiencies.',
+        ],
+        measurements: [
+          'Periodic inspection: annually.',
+        ],
+        documents: [
+          'Annual inspection record',
+          'Training records',
+          'Authorized-person list',
+          'Machine/equipment identification',
+          'Manufacturer catalogue',
+        ],
+        hazards: [
+          'Independent review failure',
+          'Repeated deviation',
+          'Missing records',
+        ],
+        controls: [
+          'Competent independent inspection',
+          'Corrective action',
+          'Document control',
+        ],
+        inspection: [
+          'Verify the annual inspection record contains all required elements.',
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: '24.0',
+        title: 'LOTO Field Examples and Stop-Work Conditions',
+        requirements: [
+          'Example — conveyor: stop normally, isolate all drive energy, lock the isolator, control stored motion and verify the conveyor cannot start before entry.',
+          'Example — hydraulic press: isolate hydraulic supply, secure moving parts, control stored accumulator pressure and verify before maintenance.',
+          'Example — electrical maintenance: identify all supplies/backfeeds, isolate, lock/tag and perform the required test to verify the energy-control measures.',
+          'Example — cleaning with automatic start: isolate the machine before entering the danger area; an emergency stop is not treated as the energy isolation unless the applicable procedure specifically establishes the required isolation.',
+          'Stop work if an energy source is unidentified, isolation cannot be verified, a lock/tag is missing or defective, energy reappears, or personnel cannot be accounted for.',
+        ],
+        measurements: [
+        ],
+        documents: [
+          'Machine-specific LOTO checklist',
+          'Isolation certificate',
+          'Test record',
+          'Return-to-service record',
+        ],
+        hazards: [
+          'Unexpected startup',
+          'Backfeed',
+          'Stored energy',
+          'Unauthorized restoration',
+        ],
+        controls: [
+          'Stop work',
+          'Reassessment',
+          'Re-isolation',
+          'Formal authorization',
+        ],
+        inspection: [
+          'Supervisor verifies the condition is safe before work resumes.',
+        ],
+      ),
     fieldChecklist: [
       'Energy sources identified.',
       'Machine-specific isolation procedure available.',
