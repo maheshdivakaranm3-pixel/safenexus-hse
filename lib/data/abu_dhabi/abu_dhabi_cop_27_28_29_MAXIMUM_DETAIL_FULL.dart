@@ -1,4 +1,6 @@
 // lib/data/abu_dhabi/abu_dhabi_cop_27_28_29.dart
+
+import 'abu_dhabi_cop_01_to_03.dart';
 //
 // SafeNexus HSE – Abu Dhabi HSE Reference
 //
@@ -12,9 +14,9 @@
 
 class AbuDhabiCop27To29 {
   static const List<AbuDhabiCopDocument> documents = [
-    AbuDhabiCopDocument('27.0', 'Confined Spaces', '4.0', '15 July 2024'),
-    AbuDhabiCopDocument('28.0', 'Hot Work Operations', '4.1', '27 February 2026'),
-    AbuDhabiCopDocument('29.0', 'Excavation Work', '4.1', '27 February 2026'),
+    AbuDhabiCop27.document,
+    AbuDhabiCop28.document,
+    AbuDhabiCop29.document,
   ];
 }
 
@@ -31,7 +33,6 @@ class AbuDhabiCop27 {
       requirements: ['The CoP applies to all employers within Abu Dhabi.', 'Assess confined-space risks and implement controls according to the hierarchy of controls.', 'Use the ADOSH-SF Technical Guideline on Safe Work in Confined Spaces as additional non-mandatory guidance.'],
       hazards: ['Fire or explosion', 'Oxygen deficiency or unsafe atmosphere', 'Toxic gas, fume or vapour', 'Heat', 'Flooding/liquid ingress', 'Free-flowing solids/engulfment', 'Restricted rescue'],
       measurements: [],
-      examples: ['Tank', 'Vessel', 'Sewer', 'Manhole', 'Silo', 'Hopper', 'Pit', 'Large pipe'],
     ),
     AbuDhabiCopSection(
       number: '2.1',
@@ -39,7 +40,6 @@ class AbuDhabiCop27 {
       requirements: ['Train relevant employees on confined-space hazards.', 'Train employees on the need to prevent unauthorised entry.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '2.2',
@@ -47,7 +47,6 @@ class AbuDhabiCop27 {
       requirements: ['Training shall comply with ADOSH-SF Element 5 and Mechanism 7.0.', 'Cover hazard identification, equipment selection/testing, permits, safe procedures, hygiene, gas detection, PPE/RPE and emergency procedures.', 'Retrain before first assignment, after duty/operational changes creating new hazards, or when procedural/knowledge deficiencies are identified.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.1',
@@ -55,7 +54,6 @@ class AbuDhabiCop27 {
       requirements: ['Identify and record confined-space activities.', 'Allow entry only when the purpose cannot reasonably be achieved without entry.', 'Ensure entrants are competent and aware of emergency procedures.', 'Employees shall follow authorised procedures and immediately report hazards or defects.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2',
@@ -63,7 +61,6 @@ class AbuDhabiCop27 {
       requirements: ['Assess risks and establish safe systems for affected persons and the public where applicable.', 'For construction, include confined-space controls in the applicable Pre-Tender Safety and Health Plan and OSH-CMP.', 'Identify isolation, atmosphere, ventilation, access, egress, communication and rescue requirements.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3',
@@ -71,7 +68,6 @@ class AbuDhabiCop27 {
       requirements: ['Apply the official confined-space definition to enclosed places where a reasonably foreseeable specified risk exists.', 'Do not assume a space is safe merely because a person can physically enter.'],
       hazards: ['Serious injury from fire/explosion', 'Loss of consciousness from excessive body temperature', 'Loss of consciousness/asphyxiation from gas, vapour or lack of oxygen', 'Drowning from rising liquid', 'Asphyxiation/entrapment from free-flowing solids'],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.4',
@@ -79,7 +75,6 @@ class AbuDhabiCop27 {
       requirements: ['Identify and record confined spaces.', 'Control unauthorised entry.', 'Use appropriate confined-space warning signage and communicate hazards and safe entry procedures.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.5',
@@ -87,7 +82,6 @@ class AbuDhabiCop27 {
       requirements: ['Develop a Permit Required Confined Spaces Program where required.', 'Maintain a PRCS list, competent entry personnel, competent rescue personnel and equipment/calibration information.', 'Maintain entry and supervision records.', 'Maintain a specific risk assessment and safe working procedure for each PRCS.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.6',
@@ -95,7 +89,6 @@ class AbuDhabiCop27 {
       requirements: ['Conduct an entry-specific risk assessment.', 'Consider space hazards, task hazards, connected systems, atmosphere, residues, energy, liquids, gases, heat, fire, access, rescue and communication.', 'Apply the hierarchy of controls and avoid entry where reasonably practicable.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.7',
@@ -103,7 +96,6 @@ class AbuDhabiCop27 {
       requirements: ['Make the procedure specific to the activity, time and date.', 'Provide supervision/safety watch and reliable communication.', 'Test/monitor atmosphere, ventilate, isolate hazardous materials and energy, provide safe access/egress, PPE/RPE, fire controls and suitable lighting.', 'Control portable gas cylinders and internal-combustion engines.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.8',
@@ -111,7 +103,6 @@ class AbuDhabiCop27 {
       requirements: ['Prepare specific rescue arrangements before PRCS entry.', 'Rescue arrangements shall be suitable for the space, hazards and access limitations.', 'Rescue personnel and equipment shall be competent/appropriate.', 'Do not create additional casualties by sending unprotected persons into the space.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.9',
@@ -119,7 +110,6 @@ class AbuDhabiCop27 {
       requirements: ['Provide reliable communication between entrants and persons outside.', 'Communication shall allow help to be summoned and emergency procedures initiated.', 'Use intrinsically safe equipment where required and test communication before/throughout work.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.10',
@@ -127,7 +117,6 @@ class AbuDhabiCop27 {
       requirements: ['Complete the confined-space entry permit before entry.', 'All permit conditions must be satisfied and verified before entry.', 'Follow CoP 21.0 PTW requirements.', 'Entry permits shall be specific to the activity, time and date.', 'Test atmosphere, maintain required ventilation, supervision, standby, isolation, access/egress and fire controls.', 'Secure the area when the permit expires and close/sign off the permit after completion.'],
       hazards: [],
       measurements: ['Oxygen: 19.5%–23.5% where specified by the CoP', 'Flammable gas/vapour: below 5% LEL where specified by the CoP'],
-      examples: [],
     ),
   ];
 
@@ -166,6 +155,19 @@ class AbuDhabiCop27 {
     'ADOSH-SF Technical Guideline – Safe Work in Confined Spaces',
     'CoP 21.0 – Permit to Work Systems',
   ];
+
+  static const AbuDhabiCopDocument document = AbuDhabiCopDocument(
+    code: 'CoP 27.0',
+    title: 'Confined Spaces',
+    version: '4.0',
+    effectiveDate: '15 July 2024',
+    introduction: 'Official ADPHC / ADOSH-SF field-reference dataset for CoP 27.0 – Confined Spaces. This is a paraphrased operational reference; the current official CoP remains the controlling source.',
+    sections: sections,
+    fieldChecklist: fieldChecklist,
+    stopWorkIndicators: stopWorkIndicators,
+    references: references,
+    verificationNote: 'Verify the current official ADPHC publication and project-specific legal requirements before making a compliance determination.',
+  );
 }
 
 class AbuDhabiCop28 {
@@ -181,7 +183,6 @@ class AbuDhabiCop28 {
       requirements: ['The CoP applies to all employers within Abu Dhabi.', 'Hot work includes welding, cutting, grinding, heating and other heat/spark-producing operations.', 'Apply controls during construction, maintenance, repair and demolition and where plant/equipment may contain flammable, combustible or explosive material.'],
       hazards: ['Fire', 'Explosion', 'Burns', 'Fumes/gases', 'Electric shock', 'Radiation', 'Cylinder/pressure hazards', 'Flashback'],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '2',
@@ -189,7 +190,6 @@ class AbuDhabiCop28 {
       requirements: ['Training shall comply with Element 5 and Mechanism 7.0.', 'Cover safe systems, equipment selection, PPE, care, maintenance and inspection.', 'Retrain where inspections identify deviations or inadequate knowledge.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.1',
@@ -197,7 +197,6 @@ class AbuDhabiCop28 {
       requirements: ['Employers shall provide suitable, maintained equipment and plan, organise and supervise hot work.', 'Ensure users are trained and competent.', 'Employees shall inspect equipment before use and report defects.', 'Apply occupational health/medical surveillance and air monitoring where required.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2',
@@ -205,7 +204,6 @@ class AbuDhabiCop28 {
       requirements: ['Outside a designated hot-work area, use a specific Hot Work Permit to Work.', 'Apply CoP 21.0 PTW requirements.', 'Assess fire, explosion, fumes, electrical and radiation hazards.', 'Construction activities shall integrate controls into the applicable construction OSH plans.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3',
@@ -213,7 +211,6 @@ class AbuDhabiCop28 {
       requirements: ['Make SDS information for electrodes, fluxes and coatings available.', 'Protect welders and nearby persons from sparks, hot metal and harmful radiation.', 'Use screens and welding booths where reasonably practicable.', 'Keep gas systems, cylinders, regulators and hoses in good condition.', 'Provide suitable first-aid capability for burns, fumes/gases and welding-flash injuries.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3.2',
@@ -221,7 +218,6 @@ class AbuDhabiCop28 {
       requirements: ['Use designated permanent hot-work areas where reasonably practicable.', 'Construct from non-combustible/fire-resistive materials.', 'Keep essentially free of combustibles and flammables.', 'Provide suitable segregation, fire protection, ventilation and management approval.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3.3',
@@ -229,7 +225,6 @@ class AbuDhabiCop28 {
       requirements: ['Reduce exposure to harmful fumes and gases.', 'Remove hazardous coatings where appropriate.', 'Use suitable general/dilution ventilation or local exhaust ventilation.', 'Position LEV close to the welding source where required.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3.4',
@@ -237,7 +232,6 @@ class AbuDhabiCop28 {
       requirements: ['Use welding equipment to manufacturer requirements.', 'Use suitable RCD and earthing arrangements.', 'Protect welding cables from sparks/hot metal.', 'Use suitable radiation screens.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3.5',
@@ -245,7 +239,6 @@ class AbuDhabiCop28 {
       requirements: ['Move the workpiece to a safe location where practicable.', 'Remove or protect combustibles.', 'Check concealed spaces behind walls/partitions.', 'Prevent sparks/hot particles passing through openings.', 'Maintain fire watch during work and for the specified post-work period.', 'Keep fire extinguishers nearby.'],
       hazards: [],
       measurements: ['Remove combustible materials within 10 m where specified', 'Fire watch for at least 1 hour after work where specified'],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.4',
@@ -253,7 +246,6 @@ class AbuDhabiCop28 {
       requirements: ['Obtain a Hot Work Permit.', 'Verify ventilation and isolation.', 'Test for flammable gas/vapour.', 'Maintain flammable gas/vapour below 5% LEL where specified by the CoP.', 'Provide fire-fighting equipment, safe access/exit and required supervision.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.5',
@@ -261,7 +253,6 @@ class AbuDhabiCop28 {
       requirements: ['Use equipment to manufacturer requirements.', 'Use suitable insulated leads and return cables.', 'Inspect leads and return cables at least daily.', 'Secure welding return to the workpiece.', 'Use fully insulated electrode holders.', 'De-energise during substantial breaks and prevent accidental arcing.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.6',
@@ -269,7 +260,6 @@ class AbuDhabiCop28 {
       requirements: ['Keep oxy-fuel fittings free from grease/oil.', 'Check regulators at least daily.', 'Do not use regulators showing creep.', 'Use correct hose colours/fittings.', 'Do not use copper in acetylene lines.', 'Fit flashback arresters.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.7',
@@ -277,7 +267,6 @@ class AbuDhabiCop28 {
       requirements: ['Store cylinders vertically and secure against falling.', 'Separate full and empty cylinders.', 'Protect cylinders from sunlight and excessive heat.', 'Separate oxygen from acetylene/LPG as specified.', 'Use purpose-built trolleys and safe lifting carriers.', 'Do not roll or drop cylinders.', 'Use appropriate regulators, leak checks, dedicated hoses and flashback/non-return protection.'],
       hazards: [],
       measurements: ['Oxygen separation from acetylene/LPG: 6 m where specified', 'Acetylene cylinder after accidental horizontal position: stand upright 15 minutes before use'],
-      examples: ['Cylinder storage', 'Cylinder trolley movement', 'Gas hose inspection', 'Flashback prevention'],
     ),
     AbuDhabiCopSection(
       number: '3.8',
@@ -285,7 +274,6 @@ class AbuDhabiCop28 {
       requirements: ['Users shall visually check equipment before use.', 'Competent persons shall perform formal inspections.', 'Leak-test joints at working pressure at the required frequency.', 'Remove malfunctioning equipment from service immediately.'],
       hazards: [],
       measurements: ['Daily visual/leak check', 'Weekly where in constant use or before every use as applicable', 'Six-monthly functional test', 'Five-year refurbishment/replacement or manufacturer requirement'],
-      examples: [],
     ),
   ];
 
@@ -326,6 +314,19 @@ class AbuDhabiCop28 {
     'CoP 21.0 – Permit to Work Systems',
     'CoP 2.0 – PPE',
   ];
+
+  static const AbuDhabiCopDocument document = AbuDhabiCopDocument(
+    code: 'CoP 28.0',
+    title: 'Hot Work Operations',
+    version: '4.1',
+    effectiveDate: '27 February 2026',
+    introduction: 'Official ADPHC / ADOSH-SF field-reference dataset for CoP 28.0 – Hot Work Operations. This is a paraphrased operational reference; the current official CoP remains the controlling source.',
+    sections: sections,
+    fieldChecklist: fieldChecklist,
+    stopWorkIndicators: stopWorkIndicators,
+    references: references,
+    verificationNote: 'Verify the current official ADPHC publication and project-specific legal requirements before making a compliance determination.',
+  );
 }
 
 class AbuDhabiCop29 {
@@ -341,7 +342,6 @@ class AbuDhabiCop29 {
       requirements: ['The CoP applies to all employers within Abu Dhabi.', 'Assess excavation risks and implement controls according to the hierarchy of controls.', 'Address excavation planning, ground conditions, water, slopes, support, access, lighting, ventilation, barriers, inspections and cofferdams/caissons.'],
       hazards: ['Collapse', 'Underground services', 'Groundwater', 'Flooding', 'Adjacent-structure instability', 'Plant/traffic', 'Falls', 'Hazardous atmosphere', 'Poor access'],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '2',
@@ -349,7 +349,6 @@ class AbuDhabiCop29 {
       requirements: ['Training shall comply with Element 5 and Mechanism 7.0.', 'Train excavation workers, safe-system authors, site managers, supervisors, plant operators and PPE users.', 'Cover hazards, risk assessment, control measures, emergency rescue, first aid, night work, debris removal, security and personnel restriction.', 'Retrain when duties or hazards change or deficiencies are identified.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.1',
@@ -357,7 +356,6 @@ class AbuDhabiCop29 {
       requirements: ['Conduct risk assessment with relevant stakeholders.', 'Identify, locate and mark underground services.', 'Survey the site and confirm alignments/boundaries.', 'Obtain drawings and surrounding-property information.', 'Validate service searches.', 'Develop documented safe systems of work.', 'Obtain permits/authorisations and nominate competent excavation supervision.', 'Provide public protection, site security, information, training and supervision.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2',
@@ -365,7 +363,6 @@ class AbuDhabiCop29 {
       requirements: ['Complete risk assessment before excavation.', 'Identify services, boundaries, adjacent structures and public/traffic risks.', 'Obtain and validate drawings and service information.', 'Define excavation method, support method, access, lighting, ventilation, barriers and emergency controls.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2.4',
@@ -373,7 +370,6 @@ class AbuDhabiCop29 {
       requirements: ['Survey alignments and boundaries correctly.', 'Obtain available diagrams, maps, drawings and specifications.', 'Assess surrounding properties.', 'Safeguard relevant historical, archaeological or geological features.', 'Notify adjoining property owners where required.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2.5',
@@ -381,7 +377,6 @@ class AbuDhabiCop29 {
       requirements: ['Conduct all applicable underground-service searches.', 'Validate the search information.', 'Follow service-owner requirements for locating exact service positions.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.2.6',
@@ -389,7 +384,6 @@ class AbuDhabiCop29 {
       requirements: ['Use the service-owner validation area around presumed service locations.', 'Conduct the validation-area risk assessment with the asset owner.', 'Consider overlapping service validation areas.', 'Include controls in the documented safe system of work.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.3',
@@ -397,7 +391,6 @@ class AbuDhabiCop29 {
       requirements: ['Identify ground type before excavation.', 'Review borehole/trial-pit information where available.', 'Consider water table effects.', 'Consider contaminated ground.', 'Consider weather, vibration, adjacent excavation and loading changes.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.4',
@@ -405,7 +398,6 @@ class AbuDhabiCop29 {
       requirements: ['Use suitable dewatering methods such as shallow-well pumping or well-pointing.', 'Use sheet piling where suitable for the geological condition.', 'Prevent silty water discharge to drains/watercourses.', 'Use suitable barriers and approved disposal routes.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.5',
@@ -413,7 +405,6 @@ class AbuDhabiCop29 {
       requirements: ['Use competent assessment of actual ground conditions.', 'Indicative temporary slope values must be considered with site-specific conditions and engineering judgment.'],
       hazards: [],
       measurements: ['Boulders: dry 35–45°, wet 30–40°', 'Cobbles: dry 35–40°, wet 30–35°', 'Gravel: dry 30–40°, wet 10–30°', 'Sand: dry 30–35°, wet 10–30°', 'Silt: dry 20–40°, wet 5–20°', 'Soft clay: dry 20–30°, wet 10–20°', 'Firm clay: dry 30–40°, wet 20–25°', 'Stiff clay: dry 40–45°, wet 25–35°'],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.6',
@@ -421,7 +412,6 @@ class AbuDhabiCop29 {
       requirements: ['Select support based on plant, site conditions and competent operator availability.', 'Methods may include sheeting/waling/strutting, hydraulic struts, proprietary systems and soldier piles.', 'Install support progressively and without unnecessary exposure.', 'Do not leave adjacent buried services unsupported.', 'Provide suitable stop-end bracing.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.7',
@@ -429,7 +419,6 @@ class AbuDhabiCop29 {
       requirements: ['Provide timbering/shoring for trenches/excavations greater than 1.2 m deep where material could fall or collapse.', 'Use trained persons and competent engineering for larger excavations.', 'Provide support materials before excavation.', 'Use sound, defect-free, secure supports.', 'Only competent persons under supervision shall erect, alter or dismantle supports.', 'Use protective boxes/cages where required during installation.'],
       hazards: [],
       measurements: ['Support trigger: greater than 1.2 m where material could fall/collapse'],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.8',
@@ -437,7 +426,6 @@ class AbuDhabiCop29 {
       requirements: ['Provide safe entry and exit.', 'Secure and maintain ladders.', 'Provide escape capability during flooding or falling materials.', 'Do not use walings or struts as access/egress.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.9',
@@ -445,7 +433,6 @@ class AbuDhabiCop29 {
       requirements: ['Provide appropriate lighting.', 'Pay particular attention to openings, access points and lifting operations.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.10',
@@ -453,7 +440,6 @@ class AbuDhabiCop29 {
       requirements: ['Keep excavations clear of suffocating, toxic or explosive gases.', 'Consider hydrogen sulphide, methane, sulphur dioxide, plant exhaust, pipe leaks and LPG leakage.', 'Use clean-air ventilation where appropriate.', 'Apply CoP 27.0 where excavation conditions also create confined-space risks.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.11',
@@ -461,7 +447,6 @@ class AbuDhabiCop29 {
       requirements: ['Provide rigid barriers where a person may fall more than 2 m.', 'Below 2 m, physically demarcate excavation edges.', 'Use barriers to prevent materials, plant and vehicles approaching the edge.', 'Replace temporarily removed barriers promptly.', 'Use warning lights during darkness near public routes.', 'Apply road-work and barricading requirements where applicable.'],
       hazards: [],
       measurements: ['Rigid barrier where fall may exceed 2 m', 'Barrier height: 950 mm', 'Ladder set-up: not flatter than 4:1 where reasonably practicable', 'Ladder projection above ground: at least 1 m / 4 rungs'],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.12',
@@ -469,7 +454,6 @@ class AbuDhabiCop29 {
       requirements: ['Maintain vigilance when excavations are newly opened or unsupported.', 'Inspect timber and support components.', 'Control shrinkage, loosened timbering and displaced struts.', 'Control slumping soil and loose material during bad weather.', 'Keep heavy vehicles and plant away from edges unless support is designed for the loading.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
     AbuDhabiCopSection(
       number: '3.13',
@@ -477,7 +461,6 @@ class AbuDhabiCop29 {
       requirements: ['Inspect excavation/support before entry and after events that may affect stability.', 'Check ground movement, supports, water, barriers, access, services, adjacent structures and plant controls.', 'Record defects and correct unsafe conditions before work continues.'],
       hazards: [],
       measurements: [],
-      examples: ['After heavy rain', 'After flooding', 'After support alteration', 'After ground cracking', 'After nearby excavation or vibration'],
     ),
     AbuDhabiCopSection(
       number: '3.14',
@@ -485,7 +468,6 @@ class AbuDhabiCop29 {
       requirements: ['Use appropriate engineering design.', 'Control water ingress and stability.', 'Provide safe access/egress.', 'Provide dewatering and emergency arrangements.', 'Assess atmospheric hazards where the structure can become a confined space.'],
       hazards: [],
       measurements: [],
-      examples: [],
     ),
   ];
 
@@ -533,30 +515,18 @@ class AbuDhabiCop29 {
     'CoP 27.0 – Confined Spaces',
     'CoP 33.0 – Working On or Adjacent to a Road',
   ];
+
+  static const AbuDhabiCopDocument document = AbuDhabiCopDocument(
+    code: 'CoP 29.0',
+    title: 'Excavation Work',
+    version: '4.1',
+    effectiveDate: '27 February 2026',
+    introduction: 'Official ADPHC / ADOSH-SF field-reference dataset for CoP 29.0 – Excavation Work. This is a paraphrased operational reference; the current official CoP remains the controlling source.',
+    sections: sections,
+    fieldChecklist: fieldChecklist,
+    stopWorkIndicators: stopWorkIndicators,
+    references: references,
+    verificationNote: 'Verify the current official ADPHC publication and project-specific legal requirements before making a compliance determination.',
+  );
 }
 
-class AbuDhabiCopDocument {
-  final String code;
-  final String title;
-  final String version;
-  final String effectiveDate;
-  const AbuDhabiCopDocument(this.code, this.title, this.version, this.effectiveDate);
-}
-
-class AbuDhabiCopSection {
-  final String number;
-  final String title;
-  final List<String> requirements;
-  final List<String> hazards;
-  final List<String> measurements;
-  final List<String> examples;
-
-  const AbuDhabiCopSection({
-    required this.number,
-    required this.title,
-    this.requirements = const [],
-    this.hazards = const [],
-    this.measurements = const [],
-    this.examples = const [],
-  });
-}
