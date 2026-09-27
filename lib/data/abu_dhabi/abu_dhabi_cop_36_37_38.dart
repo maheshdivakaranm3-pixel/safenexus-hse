@@ -1,7 +1,7 @@
 // lib/data/abu_dhabi/abu_dhabi_cop_36_37_38.dart
 //
 // SafeNexus HSE — Abu Dhabi HSE Reference
-// CoP 36.0 / 37.0 / 38.0 — Gold Standard Complete Study Material
+// CoP 36.0 / 37.0 / 38.0 — Gold Standard Complete Study Material V2
 //
 // Official basis:
 // - CoP 36.0 Plant and Equipment, V4.1, effective 16 February 2026
@@ -10,7 +10,7 @@
 //
 // Content is original SafeNexus explanatory wording. Official requirements are
 // paraphrased and organized for study, field verification and interview use.
-// Exact numerical limits are included only where verified from the official CoP.
+// Numerical values are included only where verified from the applicable CoP.
 //
 // Existing AbuDhabiCopDocument / AbuDhabiCopSection API is preserved.
 
@@ -33,43 +33,44 @@ class AbuDhabiCop36To38 {
     version: "4.1",
     effectiveDate: "16 February 2026",
     introduction:
-        "CoP 36.0 covers the safe selection, planning, use, positioning, operation, "
+        "CoP 36.0 addresses the safe selection, planning, positioning, operation, "
         "inspection, maintenance, repair and control of plant and equipment. "
-        "The purpose is to prevent injury from moving machinery, overturning, "
-        "struck-by incidents, uncontrolled movement, equipment failure, poor "
-        "visibility, unsafe attachments, services and inadequate competency. "
-        "This SafeNexus material explains the requirements as practical field "
-        "study material for HSE officers, supervisors, operators and workers.",
+        "Plant hazards can change as the machine moves, changes attachment, "
+        "interacts with pedestrians or works near excavations, structures and "
+        "services. SafeNexus presents the requirements as practical study material "
+        "for HSE officers, supervisors, operators and workers.",
     sections: [
       AbuDhabiCopSection(
         number: "1",
-        title: "Plant and Equipment — What This Topic Covers",
+        title: "Plant and Equipment — Fundamentals, Scope and Applications",
         requirements: [
-          "Plant and equipment means machinery or equipment used to perform, support or control work activities.",
-          "Typical construction plant includes excavators, loaders, dozers, graders, rollers, dumpers, telehandlers, drilling equipment, generators, compressors and other powered equipment.",
-          "The safety approach starts with selecting suitable equipment, assessing the task and environment, confirming competence, inspecting the machine and controlling interaction with people.",
-          "Mobile plant creates changing hazards because the machine, attachments, work radius and travel path can change during the task.",
-          "The same machine may have different risks when travelling, digging, loading, lifting, compacting or working near structures and services.",
+          "Plant and equipment includes machinery and powered equipment used to perform, support or control work activities.",
+          "Typical construction plant includes excavators, loaders, bulldozers, graders, rollers, dumpers, telehandlers, forklifts, drilling equipment, generators, compressors and specialist equipment.",
+          "The correct safety approach begins with identifying the task, selecting suitable equipment, assessing the work environment and confirming competent operation.",
+          "The same machine can present different hazards during travel, excavation, loading, lifting, compaction, attachment change and maintenance.",
+          "The operating envelope includes the machine body, attachments, boom, counterweight, load, turning radius and travel path.",
+          "Plant must be used in accordance with its intended purpose, manufacturer limitations and the site's approved safe system of work.",
         ],
         hazards: [
-          "Struck by moving plant",
-          "Crushing between plant and structures",
-          "Reversing incidents",
-          "Machine overturn",
-          "Attachment failure",
-          "Hydraulic or mechanical failure",
+          "Struck-by moving plant",
+          "Crushing between plant and fixed objects",
+          "Reversing collision",
+          "Overturning",
+          "Falling or detached attachments",
+          "Mechanical or hydraulic failure",
           "Poor visibility and blind spots",
           "Contact with overhead or underground services",
-          "Unauthorised or incompetent operation",
+          "Unauthorised operation",
+          "Noise, vibration, dust and other occupational exposures",
         ],
         controls: [
-          "Select the correct machine for the actual task",
+          "Select equipment suitable for the task and environment",
           "Use competent and authorised operators",
-          "Separate pedestrians from plant",
+          "Separate pedestrians and plant physically where reasonably practicable",
           "Complete pre-start inspection",
-          "Use banksman/signaller where required by the risk assessment",
-          "Control travel routes and reversing",
-          "Maintain safe clearances from hazards and services",
+          "Control reversing and blind spots",
+          "Maintain safe working boundaries around hazards",
+          "Follow manufacturer instructions and site procedures",
         ],
         documents: [
           "Risk assessment",
@@ -81,26 +82,58 @@ class AbuDhabiCop36To38 {
       ),
       AbuDhabiCopSection(
         number: "2",
+        title: "Plant Categories and Typical Hazards",
+        requirements: [
+          "Excavators require controls for digging, slewing, travel, attachments, underground services and excavation edges.",
+          "Loaders and bulldozers require controls for visibility, bucket/blade movement, slopes, reversing and material stability.",
+          "Forklifts require controls for load stability, rated capacity, travel routes, pedestrians and elevated loads.",
+          "Telehandlers require controls for attachment selection, load charts, reach, stability and exclusion zones.",
+          "Dumpers require controls for loading, tipping, travel, reversing, edges, gradients and pedestrian interface.",
+          "Rollers and compactors require controls for vibration, reversing, visibility, slopes and people near the compaction zone.",
+          "Generators and compressors require controls for electrical/mechanical hazards, exhaust, fuel, noise, maintenance and isolation.",
+          "The plant-specific risk assessment must consider the actual machine rather than relying only on the generic category.",
+        ],
+        hazards: [
+          "Machine-specific operating limitations not understood",
+          "Incorrect attachment",
+          "Unstable loads",
+          "Poor visibility",
+          "Travel collision",
+          "Tip-over",
+        ],
+        controls: [
+          "Equipment-specific induction",
+          "Manufacturer manual",
+          "Load/capacity information where applicable",
+          "Task-specific risk assessment",
+          "Competent supervision",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "3",
         title: "Training, Competency and Authorization",
         requirements: [
-          "Operators must be competent for the plant and task they are assigned to perform.",
-          "Competency must cover the actual equipment type, controls, limitations, attachments and site hazards.",
-          "Site induction must explain traffic routes, exclusion areas, emergency arrangements and local rules.",
+          "Operators must be competent for the equipment and task they are assigned to perform.",
+          "Competence should cover controls, limitations, attachments, safe operating practices and site-specific hazards.",
+          "Site induction must cover traffic routes, exclusion areas, emergency arrangements and local rules.",
           "Only authorised personnel should operate plant.",
-          "Where a signaller or banksman is required, the person must be competent for the assigned signalling and pedestrian-control duties.",
-          "Training and competency records should be available for verification.",
+          "Where a banksman/signaller is required, the person must be competent for the assigned signalling and pedestrian-control duties.",
+          "Refresher or additional training should be provided when equipment, task, site condition or operator competence changes.",
+          "Training and competency evidence should be available for inspection.",
         ],
         hazards: [
           "Incorrect operation",
-          "Unsafe attachment use",
           "Failure to understand machine limitations",
+          "Incorrect attachment use",
           "Poor communication",
+          "Unauthorised operation",
         ],
         controls: [
           "Verify competency before assignment",
           "Provide equipment-specific familiarisation",
           "Use site induction and task briefing",
-          "Stop operation when an operator is not competent for the machine/task",
+          "Control authorisation",
+          "Stop operation when competency is not adequate",
         ],
         documents: [
           "Operator licence/competency evidence",
@@ -110,33 +143,36 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "3",
+        number: "4",
         title: "Roles and Responsibilities",
         requirements: [
-          "The employer must provide suitable equipment, competent people, safe systems and appropriate supervision.",
-          "The supervisor must confirm the work area, controls, operator competence and interface arrangements before work starts.",
-          "The operator must carry out required checks, operate within the manufacturer's limitations and report defects.",
-          "The HSE team verifies that the planned controls are implemented and that unsafe plant is not used.",
-          "The banksman/signaller controls people and vehicle interaction where assigned and must maintain effective communication.",
-          "Maintenance personnel must isolate equipment before work and follow the manufacturer's maintenance requirements.",
+          "The employer provides suitable equipment, competent people, safe systems, resources and appropriate supervision.",
+          "The supervisor verifies work-area controls, plant condition, operator competence and interface arrangements before work starts.",
+          "The operator performs required checks, operates within manufacturer limitations and reports defects or changed conditions.",
+          "The HSE team verifies implementation of planned controls and prevents unsafe equipment from being used.",
+          "The banksman/signaller controls people and vehicle interaction where assigned and maintains effective communication.",
+          "Maintenance personnel isolate hazardous energy and follow competent maintenance procedures.",
+          "Workers must stay outside plant exclusion zones and follow site traffic and access rules.",
         ],
         documents: [
-          "Organisation/responsibility matrix",
+          "Responsibility matrix",
           "Risk assessment",
           "Inspection records",
           "Maintenance records",
+          "Training records",
         ],
       ),
       AbuDhabiCopSection(
-        number: "4",
+        number: "5",
         title: "Planning and Risk Assessment Before Plant Enters the Work Area",
         requirements: [
           "Define the task, machine, attachment, work area, travel route and expected operating cycle.",
           "Assess ground conditions, gradients, edges, excavations, structures, overhead services, underground services and traffic.",
           "Identify pedestrians, other plant, delivery vehicles and public interfaces.",
-          "Consider machine dimensions, operating radius, turning radius, working height and attachment movement.",
-          "Define exclusion zones, communication arrangements and emergency access before starting.",
-          "Reassess when the work area, weather, plant, attachment or work sequence changes.",
+          "Consider machine dimensions, turning radius, working height, swing radius and attachment movement.",
+          "Define exclusion zones, communication arrangements, emergency access and rescue considerations before starting.",
+          "Reassess when the work area, weather, plant, attachment or sequence changes.",
+          "The risk assessment must consider foreseeable interaction between plant and people, structures, services and other equipment.",
         ],
         hazards: [
           "Unstable ground",
@@ -145,13 +181,14 @@ class AbuDhabiCop36To38 {
           "Service strike",
           "Public intrusion",
           "Unexpected machine movement",
+          "Restricted emergency access",
         ],
         controls: [
           "Task-specific risk assessment",
           "Defined plant route",
           "Segregated pedestrian route",
           "Exclusion zone",
-          "Service identification and permit/NOC controls where applicable",
+          "Service identification and applicable permit/NOC controls",
           "Competent supervision",
         ],
         documents: [
@@ -159,25 +196,27 @@ class AbuDhabiCop36To38 {
           "Method statement",
           "Site logistics/traffic plan",
           "Service drawings and approvals",
+          "Emergency arrangements",
         ],
       ),
       AbuDhabiCopSection(
-        number: "5",
-        title: "Selecting the Right Plant and Attachment",
+        number: "6",
+        title: "Selecting the Right Plant, Machine Capacity and Attachment",
         requirements: [
-          "Select plant that is suitable for the material, load, reach, ground condition and work environment.",
-          "Check manufacturer limitations before fitting an attachment.",
-          "Do not assume that an attachment is safe simply because it fits physically.",
-          "Confirm that hydraulic, mechanical and electrical connections are compatible.",
-          "Use lifting attachments only where the machine and attachment are specifically designed, certified and controlled for that activity.",
-          "A machine selected for excavation must not automatically be treated as a crane without the applicable lifting controls.",
+          "Select plant suitable for material, load, reach, ground condition, access and environment.",
+          "Check manufacturer limitations before fitting or using an attachment.",
+          "An attachment must be compatible with the machine and designed for the intended task.",
+          "Confirm hydraulic, mechanical and electrical connections are compatible.",
+          "Use lifting attachments only where the machine and attachment are designed, certified and controlled for that activity.",
+          "A machine selected for excavation must not automatically be treated as a crane without applicable lifting controls.",
+          "The operator must understand capacity limitations and the effect of reach, load position and attachment on stability.",
         ],
         hazards: [
           "Overloading",
           "Attachment detachment",
           "Uncontrolled movement",
           "Loss of stability",
-          "Improper use of machine as lifting equipment",
+          "Improper lifting use",
         ],
         controls: [
           "Manufacturer compatibility check",
@@ -188,23 +227,25 @@ class AbuDhabiCop36To38 {
         ],
         documents: [
           "Manufacturer manual",
-          "Attachment certification",
+          "Attachment certification where applicable",
           "Plant inspection records",
           "Lifting documentation where applicable",
         ],
       ),
       AbuDhabiCopSection(
-        number: "6",
-        title: "Pre-Start Inspection — Before Operating the Machine",
+        number: "7",
+        title: "Pre-Start Inspection — Detailed Field Check",
         requirements: [
           "Carry out a visual walk-around before operation.",
           "Check tyres/tracks, bodywork, guards, steps, handrails, mirrors, windows and access points.",
           "Check brakes, steering, controls, lights, alarms, horn and emergency systems as applicable.",
           "Check hydraulic hoses, connections, leaks, fuel/oil/coolant condition and visible damage.",
           "Check attachments, pins, locking devices, cutting edges and connection points.",
-          "Confirm that safety devices and warning systems are functioning.",
-          "Record and report defects according to the site's plant-control procedure.",
-          "Defective plant must not be returned to service until the defect is assessed and the equipment is confirmed safe.",
+          "Confirm safety devices and warning systems are functioning.",
+          "Check seat belt or operator restraint where provided.",
+          "Check housekeeping around the cab and access points.",
+          "Record and report defects according to the plant-control procedure.",
+          "Safety-critical defects require the machine to be removed from service until properly assessed and repaired.",
         ],
         hazards: [
           "Brake failure",
@@ -212,6 +253,7 @@ class AbuDhabiCop36To38 {
           "Attachment release",
           "Visibility failure",
           "Warning-system failure",
+          "Operator fall during access",
         ],
         controls: [
           "Documented pre-start inspection",
@@ -227,32 +269,39 @@ class AbuDhabiCop36To38 {
         inspection: [
           "Walk-around inspection before use",
           "Functional checks appropriate to the machine",
-          "Defects recorded and controlled",
+          "Safety devices",
+          "Attachments",
+          "Fluid leaks",
+          "Tyres/tracks",
+          "Access systems",
         ],
       ),
       AbuDhabiCopSection(
-        number: "7",
-        title: "Plant-Pedestrian Interface, Blind Spots and Banksman",
+        number: "8",
+        title: "Plant-Pedestrian Interface, Blind Spots and Exclusion Zones",
         requirements: [
           "Plan physical separation between pedestrians and operating plant wherever reasonably practicable.",
           "Use barriers, dedicated routes and controlled crossing points instead of relying only on verbal warnings.",
-          "Identify blind spots and machine swing/reversing zones before operation.",
+          "Identify blind spots, swing zones, reversing zones and attachment movement before operation.",
+          "The exclusion zone must cover the actual machine danger envelope and be adjusted when the machine or task changes.",
           "Where a banksman/signaller is used, the communication method must be agreed and understood before movement.",
-          "The operator must stop when the required signal is lost or the working area is no longer visible/safe.",
-          "Never allow a person to stand in a crushing zone between moving plant and a fixed object.",
+          "The operator must stop when the required signal is lost or the working area is no longer visible or safe.",
+          "Never allow a person to stand between moving plant and a fixed object.",
         ],
         hazards: [
           "Pedestrian struck by plant",
           "Crushing",
           "Reversing collision",
           "Swing-radius impact",
+          "Dropped attachment/material",
         ],
         controls: [
           "Physical segregation",
           "Banksman/signaller",
           "Reversing controls",
-          "High-visibility PPE",
+          "High-visibility clothing",
           "Cameras/mirrors/sensors where suitable",
+          "Controlled crossings",
         ],
         documents: [
           "Traffic management plan",
@@ -261,16 +310,17 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "8",
-        title: "Safe Operation, Travel and Reversing",
+        number: "9",
+        title: "Safe Operation, Travel, Reversing and Parking During Work",
         requirements: [
-          "Operate only within the manufacturer's operating limits.",
+          "Operate only within manufacturer operating limits.",
           "Keep loads, buckets and attachments in a stable position during travel.",
-          "Use designated routes and maintain controlled speed appropriate to site conditions.",
+          "Use designated routes and controlled speed appropriate to site conditions.",
           "Reduce speed near pedestrians, intersections, slopes, structures and restricted visibility areas.",
-          "Reversing must be avoided where practicable; where necessary, use engineered controls and competent signalling.",
+          "Avoid reversing where practicable; where necessary, use engineered controls and competent signalling.",
           "Seat belts and operator restraints must be used where provided.",
           "Do not carry passengers unless the machine is designed and authorised for passengers.",
+          "Stop and reassess when visibility, ground condition or traffic changes.",
         ],
         hazards: [
           "Run-over",
@@ -288,20 +338,22 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "9",
-        title: "Working Near Excavations, Edges and Structures",
+        number: "10",
+        title: "Working Near Excavations, Edges, Structures and Temporary Works",
         requirements: [
-          "Assess the stability of the ground before positioning plant near an excavation or unsupported edge.",
-          "Keep plant outside the influence zone of excavations unless the excavation design specifically accounts for the plant loading.",
+          "Assess ground stability before positioning plant near an excavation or unsupported edge.",
+          "Keep plant outside the influence zone of excavations unless the excavation design specifically accounts for plant loading.",
           "Do not park or slew plant where movement could destabilise an excavation, wall, temporary structure or edge.",
           "Maintain controlled clearance from structures and protect workers from swing and crush zones.",
-          "Use a competent person to verify the setup where ground stability is uncertain.",
+          "Use competent engineering or supervision input where ground stability is uncertain.",
+          "Monitor changing conditions caused by rain, water ingress, vibration or excavation progress.",
         ],
         hazards: [
           "Edge collapse",
           "Plant overturn",
           "Excavation collapse",
           "Structural impact",
+          "Temporary works failure",
         ],
         controls: [
           "Engineering assessment",
@@ -309,6 +361,7 @@ class AbuDhabiCop36To38 {
           "Ground verification",
           "Barricading",
           "Competent supervision",
+          "Ongoing monitoring",
         ],
         documents: [
           "Excavation risk assessment",
@@ -317,21 +370,22 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "10",
+        number: "11",
         title: "Overhead and Underground Services",
         requirements: [
           "Identify services before plant work that could affect overhead or underground utilities.",
-          "Plan safe operating boundaries and controls before excavation, drilling, lifting or high-reach operations.",
-          "Use the applicable permit, service-owner information and isolation process where required.",
-          "Maintain the required clearance specified by the applicable authority, service owner, risk assessment and safe system.",
+          "Plan safe operating boundaries before excavation, drilling, lifting or high-reach operations.",
+          "Use applicable permit, service-owner information and isolation process where required.",
+          "Maintain clearances specified by the applicable authority, service owner, risk assessment and safe system.",
           "Use a dedicated spotter/signaller where visibility and service proximity require it.",
+          "Treat unexpected service discovery as a stop-and-reassess condition.",
         ],
         hazards: [
           "Electrical contact",
           "Gas release",
           "Water-main rupture",
           "Telecommunication damage",
-          "Service explosion or fire",
+          "Fire or explosion",
         ],
         controls: [
           "Service identification",
@@ -348,28 +402,31 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "11",
-        title: "Maintenance, Repair, Cleaning and Isolation",
+        number: "12",
+        title: "Maintenance, Repair, Cleaning and Energy Isolation",
         requirements: [
-          "Follow the manufacturer's planned maintenance requirements.",
+          "Follow manufacturer planned-maintenance requirements.",
           "Before maintenance, stop the machine, isolate energy sources and prevent unexpected movement.",
-          "Lower or mechanically support raised attachments before working underneath or inside danger zones.",
+          "Lower or mechanically support raised attachments before entering danger zones.",
           "Do not rely on hydraulic pressure alone to support suspended components.",
+          "Control electrical, hydraulic, pneumatic, mechanical, thermal and gravity energy as applicable.",
           "Only competent personnel should perform maintenance, repair or modification.",
-          "After repair, verify guards, safety devices and operating condition before returning equipment to service.",
+          "After repair, verify guards, safety devices and operating condition before return to service.",
         ],
         hazards: [
           "Unexpected start-up",
           "Stored hydraulic energy",
           "Gravity movement",
           "Electrical energy",
-          "Burns and chemical exposure",
+          "Burns",
+          "Chemical exposure",
         ],
         controls: [
           "Isolation/LOTO",
           "Mechanical support",
           "Competent maintenance",
           "Post-maintenance inspection",
+          "Controlled restart",
         ],
         documents: [
           "Maintenance schedule",
@@ -379,13 +436,14 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "12",
+        number: "13",
         title: "Damaged, Defective or Unsafe Plant",
         requirements: [
           "Stop using plant when a defect could affect safe operation.",
           "Tag or otherwise identify defective equipment to prevent unintended use.",
           "Report the defect to the responsible person and arrange competent assessment.",
           "Do not bypass safety devices to keep production moving.",
+          "Do not improvise safety-critical repairs.",
           "Return equipment to service only after required repair and verification.",
         ],
         hazards: [
@@ -407,21 +465,23 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "13",
-        title: "Plant Shutdown, Parking and Storage",
+        number: "14",
+        title: "Plant Shutdown, Parking, Storage and Housekeeping",
         requirements: [
           "Park plant in a designated safe location away from traffic and unstable edges.",
           "Lower attachments to a safe position before leaving the machine.",
-          "Apply parking brake and follow manufacturer shutdown requirements.",
+          "Apply the parking brake and follow manufacturer shutdown requirements.",
           "Remove keys or otherwise prevent unauthorised operation where required.",
           "Secure mobile plant and attachments against unintended movement.",
-          "Keep access steps, controls and working areas free from mud, oil and loose materials.",
+          "Keep steps, controls and access areas free from mud, oil and loose materials.",
+          "Store attachments so they cannot roll, fall or become unstable.",
         ],
         hazards: [
           "Uncontrolled movement",
           "Unauthorised operation",
           "Collision",
           "Slip/trip during access",
+          "Falling stored attachment",
         ],
         controls: [
           "Designated parking",
@@ -429,17 +489,47 @@ class AbuDhabiCop36To38 {
           "Parking brake",
           "Key/security control",
           "Housekeeping",
+          "Safe storage",
         ],
       ),
       AbuDhabiCopSection(
-        number: "14",
+        number: "15",
+        title: "Environmental, Occupational Health and Welfare Controls",
+        requirements: [
+          "Control dust, noise, vibration, exhaust and other exposures generated by plant.",
+          "Maintain plant to prevent excessive smoke, leaks and unnecessary emissions.",
+          "Consider operator fatigue, heat exposure and welfare during long-duration plant operation.",
+          "Provide suitable cab condition, visibility and ventilation as required by the equipment and task.",
+          "Control fuel, oil, hydraulic-fluid and other spill risks.",
+          "Use environmental spill response arrangements where required.",
+        ],
+        hazards: [
+          "Heat stress",
+          "Noise-induced hearing risk",
+          "Hand-arm or whole-body vibration",
+          "Dust exposure",
+          "Exhaust exposure",
+          "Chemical exposure",
+          "Environmental contamination",
+        ],
+        controls: [
+          "Preventive maintenance",
+          "Exposure assessment",
+          "Suitable PPE",
+          "Welfare controls",
+          "Spill prevention",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "16",
         title: "Field Example — Excavator Working Beside a Live Work Area",
         requirements: [
           "Define the excavator working envelope and swing radius before starting.",
           "Install pedestrian segregation and keep non-essential workers outside the swing zone.",
           "Confirm underground services before excavation.",
           "Check ground stability and excavation edge conditions.",
-          "Assign a competent banksman where the operator's visibility is restricted.",
+          "Assign a competent banksman where operator visibility is restricted.",
+          "Keep the bucket/attachment under control when workers are nearby.",
           "Stop work if people enter the exclusion zone, ground conditions deteriorate or a service is unexpectedly encountered.",
         ],
         controls: [
@@ -452,8 +542,20 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "15",
-        title: "HSE Field Verification and Quick Checklist",
+        number: "17",
+        title: "Wrong Practice vs Safe Practice",
+        requirements: [
+          "Wrong: allowing pedestrians to walk through an operating excavator swing zone. Safe: establish a controlled exclusion zone and designated pedestrian route.",
+          "Wrong: operating with a known hydraulic leak. Safe: stop, isolate and repair before use.",
+          "Wrong: using an attachment because it physically fits. Safe: verify compatibility and intended use.",
+          "Wrong: reversing with no visibility or control. Safe: avoid reversing where practicable and use suitable controls when necessary.",
+          "Wrong: parking at an unsupported excavation edge. Safe: verify ground stability and maintain an appropriate safe position.",
+          "Wrong: bypassing an alarm or interlock. Safe: remove equipment from service and rectify the defect.",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "18",
+        title: "HSE Field Verification and Supervisor Checklist",
         requirements: [
           "Is the plant suitable for the task?",
           "Is the operator competent and authorised?",
@@ -464,6 +566,7 @@ class AbuDhabiCop36To38 {
           "Are excavation edges and ground conditions safe?",
           "Are overhead/underground services identified?",
           "Are attachments correctly installed?",
+          "Are emergency arrangements understood?",
           "Are maintenance and inspection records available?",
         ],
         inspection: [
@@ -476,13 +579,17 @@ class AbuDhabiCop36To38 {
           "Attachments",
           "Records",
         ],
-        documents: [
-          "Risk assessment",
-          "Method statement",
-          "Pre-start checklist",
-          "Plant register",
-          "Training/competency records",
-          "Maintenance records",
+      ),
+      AbuDhabiCopSection(
+        number: "19",
+        title: "Interview Questions and Answers — CoP 36",
+        requirements: [
+          "Q: What is the first control before using plant? A: Select suitable equipment and plan the task using a task-specific risk assessment and safe system.",
+          "Q: Why is pedestrian segregation important? A: Plant has blind spots, moving components and crush zones that can cause serious injury even at low speed.",
+          "Q: What should happen to defective plant? A: Stop use, identify/quarantine the equipment, report the defect and return it only after competent repair and verification.",
+          "Q: Can an excavator automatically be used as a crane? A: No. Lifting must use equipment, attachments and controls appropriate to the lifting activity and applicable requirements.",
+          "Q: What should an operator do if a person enters the exclusion zone? A: Stop movement and do not resume until the area is safe and the agreed control arrangement is restored.",
+          "Q: Why is ground condition important? A: Ground failure can cause plant instability, overturning, edge collapse or structural damage.",
         ],
       ),
     ],
@@ -516,7 +623,7 @@ class AbuDhabiCop36To38 {
       "Applicable Abu Dhabi OSH regulatory requirements",
     ],
     verificationNote:
-        "Verify current revision, equipment-specific manufacturer instructions and applicable authority requirements before field use.",
+        "Verify the current official revision, equipment-specific manufacturer instructions and applicable authority requirements before field use.",
     protectionItems: [
       "Safety helmet",
       "High-visibility clothing",
@@ -538,22 +645,22 @@ class AbuDhabiCop36To38 {
     version: "4.1",
     effectiveDate: "16 February 2026",
     introduction:
-        "CoP 37.0 establishes requirements for selecting, setting up, securing, "
-        "using, inspecting and maintaining ladders. Ladders are access equipment "
-        "and should be selected only when the task and risk assessment justify "
-        "their use. Safer work-at-height systems should be considered where "
-        "reasonably practicable. This section turns the official requirements "
-        "into complete study and field-verification material.",
+        "CoP 37.0 addresses the selection, planning, setup, securing, use, "
+        "inspection, care and maintenance of ladders. A ladder should be selected "
+        "only where the task and risk assessment justify its use. Safer access "
+        "systems should be considered where reasonably practicable. This section "
+        "provides detailed study, field verification and interview material.",
     sections: [
       AbuDhabiCopSection(
         number: "1",
-        title: "Ladder Selection — What This Topic Covers",
+        title: "Ladder Safety Fundamentals, Scope and Limitations",
         requirements: [
-          "A ladder is a portable or fixed access device used to reach a higher or lower level or perform limited work where appropriate.",
-          "Ladder selection starts by considering whether a safer platform, scaffold, podium or MEWP is reasonably practicable.",
-          "The selected ladder must be suitable for the task, environment, expected load and duration.",
+          "A ladder is access equipment used to reach a higher or lower level or perform suitable limited work.",
+          "Ladder selection begins by considering whether a safer platform, scaffold, podium or MEWP is reasonably practicable.",
+          "The selected ladder must be suitable for the task, environment, expected load, height and duration.",
           "Portable ladders must be industrial-rated and appropriate to the intended work.",
-          "Self-made or improvised ladders are not acceptable as a normal work solution.",
+          "Ladders are not a general substitute for a stable work platform when the task requires prolonged work, significant force, frequent access or difficult posture.",
+          "Self-made or improvised ladders are not an acceptable normal work solution.",
         ],
         hazards: [
           "Falls from height",
@@ -570,7 +677,7 @@ class AbuDhabiCop36To38 {
           "Inspect before use",
           "Set up on firm and level support",
           "Secure against slipping or movement",
-          "Maintain three-point contact where appropriate",
+          "Maintain stable climbing technique",
         ],
         documents: [
           "Risk assessment",
@@ -580,29 +687,58 @@ class AbuDhabiCop36To38 {
       ),
       AbuDhabiCopSection(
         number: "2",
+        title: "Ladder Types and Correct Application",
+        requirements: [
+          "Portable leaning ladders are used for suitable access and limited tasks where the setup can be made stable.",
+          "Extension ladders are used where additional height is required and must be assembled and secured correctly.",
+          "Stepladders are self-supporting and must be used in their designed configuration.",
+          "Step platforms may provide a more stable work position for suitable short-duration tasks.",
+          "Do not select a ladder simply because it reaches the required height; stability, posture, environment and task forces must also be considered.",
+          "Use the manufacturer's instructions for configuration, load limitations and prohibited positions.",
+        ],
+        hazards: [
+          "Wrong ladder type",
+          "Insufficient height",
+          "Unstable setup",
+          "Unsafe working posture",
+          "Incorrect configuration",
+        ],
+        controls: [
+          "Task-specific selection",
+          "Manufacturer instructions",
+          "Industrial-rated equipment",
+          "Correct configuration",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "3",
         title: "Roles, Responsibilities and Competency",
         requirements: [
           "Employers must provide suitable access equipment and a safe system for its use.",
           "Supervisors must ensure the ladder selected is suitable and correctly positioned.",
-          "Workers must use the ladder according to training and report defects.",
+          "Workers must use ladders according to training and report defects.",
           "Persons inspecting ladders must understand the inspection criteria and identify unsafe conditions.",
           "Training should cover selection, setup, securing, safe use, electrical hazards and emergency actions.",
+          "Users should understand when to stop using a ladder and request a safer access method.",
         ],
         documents: [
           "Training records",
           "Inspection records",
           "Risk assessment",
+          "Authorisation/competency evidence where applicable",
         ],
       ),
       AbuDhabiCopSection(
-        number: "3",
-        title: "Planning and Assessment Before Using a Ladder",
+        number: "4",
+        title: "Planning and Risk Assessment Before Using a Ladder",
         requirements: [
           "Assess the task, duration, height, load, posture, reach and need for both hands.",
           "Consider weather, wind, wet surfaces, contamination, nearby traffic, doors, openings and electrical hazards.",
-          "Determine whether the user must carry tools or materials and whether this creates an unsafe climbing condition.",
+          "Determine whether the user must carry tools or materials and whether this creates unsafe climbing conditions.",
           "Provide a safe landing and access arrangement at the upper level.",
           "Do not use a ladder where the task requires excessive force, side loading or prolonged awkward posture.",
+          "Control people and traffic around the ladder.",
+          "Reassess when the task changes or the ladder must be repositioned.",
         ],
         hazards: [
           "Loss of balance",
@@ -620,43 +756,45 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "4",
-        title: "Types of Ladders and Correct Application",
+        number: "5",
+        title: "Selecting the Correct Ladder — Height, Duty and Condition",
         requirements: [
-          "Single ladders are generally used for access and short-duration suitable tasks.",
-          "Extension ladders are used where additional height is required and must be assembled and secured correctly.",
-          "Stepladders provide a self-supporting access arrangement but must be used within their designed configuration.",
-          "Platform step ladders may provide a more stable work position for appropriate short-duration tasks.",
-          "Do not select a ladder simply because it reaches the required height; stability, task posture and surrounding hazards must also be considered.",
+          "Select a ladder that provides the required access without unsafe stretching or standing beyond its designed working position.",
+          "Use an industrial-rated ladder suitable for the intended duty.",
+          "Check load requirements including the worker, tools and materials within the manufacturer's limitations.",
+          "Inspect the ladder before selection and reject equipment with structural or safety-critical defects.",
+          "Never increase ladder height by placing it on boxes, drums, pallets, scaffolds or other improvised supports.",
+          "Use a ladder material and configuration suitable for the surrounding hazards.",
         ],
         hazards: [
-          "Wrong ladder type",
-          "Insufficient height",
-          "Unstable setup",
-          "Unsafe working posture",
+          "Overloading",
+          "Insufficient reach",
+          "Improvised height",
+          "Structural failure",
         ],
         controls: [
-          "Task-specific selection",
-          "Manufacturer instructions",
-          "Industrial-rated equipment",
-          "Correct configuration",
+          "Correct duty rating",
+          "Correct length",
+          "Manufacturer limits",
+          "Pre-use inspection",
         ],
       ),
       AbuDhabiCopSection(
-        number: "5",
-        title: "Setting Up Portable Ladders — Angle, Base and Access",
+        number: "6",
+        title: "Setting Up Portable Ladders — Angle, Base and Landing",
         requirements: [
           "Set the ladder on firm, level and stable ground.",
-          "Do not place ladders on loose materials, boxes, drums, scaffolds or other improvised supports to gain height.",
-          "For a leaning portable ladder, the official guidance uses a slope of approximately 70°–80°; the commonly used setup rule is about 1 unit horizontal for every 4 units vertical.",
-          "The ladder should extend at least 1 m above the landing level where it is being used for access, unless an equivalent safe handhold/access arrangement is provided.",
+          "Do not place ladders on loose materials, boxes, drums, scaffolds or other improvised supports.",
+          "For a leaning portable ladder, the official guidance uses a slope of approximately 70°–80°.",
+          "The commonly used setup relationship is approximately 1 horizontal unit for every 4 vertical units.",
+          "For access to a landing, the ladder should extend at least 1 m above the landing where this is required to provide a safe handhold/access arrangement.",
           "Keep the base clear of traffic, doors and other sources of movement.",
-          "Where the surface or environment creates a slip risk, provide suitable securing and additional controls.",
+          "Provide suitable securing and additional controls where the environment creates a slip or movement risk.",
         ],
         measurements: [
           "Portable leaning ladder setup: approximately 70°–80°.",
           "Common setup relationship: approximately 1 horizontal unit for 4 vertical units.",
-          "For access to a landing, the ladder should extend at least 1 m above the landing where the design requires this handhold.",
+          "Landing access: at least 1 m above the landing where required by the access arrangement.",
         ],
         hazards: [
           "Base slip",
@@ -674,14 +812,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "6",
+        number: "7",
         title: "Securing Ladders Against Movement",
         requirements: [
           "Prevent the ladder from slipping, sliding or overturning before climbing.",
           "Secure the top where practicable and control the base where necessary.",
           "Use suitable securing methods that do not damage the ladder.",
-          "Where securing is not practicable, provide a competent person to hold the ladder only as a temporary control while a safer arrangement is established.",
+          "Where securing is temporarily impracticable, a competent person may assist with control while a safer arrangement is established.",
           "Do not rely on a person holding the ladder as the normal solution for a significant work activity.",
+          "Recheck securing after repositioning or environmental change.",
         ],
         hazards: [
           "Ladder movement",
@@ -697,39 +836,42 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "7",
-        title: "Safe Ladder Use — Climbing, Working and Tools",
+        number: "8",
+        title: "Safe Ladder Use — Climbing, Working, Tools and Housekeeping",
         requirements: [
           "Face the ladder while climbing and maintain secure contact.",
           "Do not overreach; reposition the ladder instead.",
           "Do not carry loads that prevent safe climbing or maintaining secure contact.",
-          "Keep steps/rungs clean and free of oil, mud, concrete and other contamination.",
-          "Do not allow unauthorised people to climb a ladder.",
-          "Keep the work area below controlled where falling objects could injure people.",
+          "Keep steps and rungs clean and free of oil, mud, concrete and contamination.",
+          "Do not move a ladder while a person is on it.",
+          "Keep the area below controlled where falling objects could injure people.",
+          "Use suitable tool pouches or controlled methods for small tools where appropriate.",
         ],
         hazards: [
           "Fall",
           "Overreaching",
           "Dropped tools",
           "Slip on contaminated rungs",
+          "Ladder movement",
         ],
         controls: [
-          "Three-point contact where applicable",
-          "Tool pouch/controlled carrying method",
+          "Stable climbing technique",
+          "Tool control",
           "Reposition ladder",
           "Housekeeping",
           "Exclusion zone below where needed",
         ],
       ),
       AbuDhabiCopSection(
-        number: "8",
-        title: "Stepladders and Platform Steps",
+        number: "9",
+        title: "Stepladders and Step Platforms",
         requirements: [
           "Use stepladders fully opened and locked in the designed configuration.",
           "Do not stand on prohibited top steps or caps where the manufacturer does not permit it.",
-          "Keep all four feet stable and maintain a level working base.",
+          "Keep all feet stable and maintain a level working base.",
           "Do not move a stepladder while a person is on it.",
-          "Do not use a stepladder as a substitute for a leaning ladder unless the design permits the configuration.",
+          "Do not use a stepladder outside its intended configuration.",
+          "Step platforms should be inspected for platform integrity, steps, feet, locking devices and stability.",
         ],
         hazards: [
           "Overturn",
@@ -742,17 +884,19 @@ class AbuDhabiCop36To38 {
           "Level surface",
           "No moving while occupied",
           "Manufacturer limits",
+          "Pre-use inspection",
         ],
       ),
       AbuDhabiCopSection(
-        number: "9",
+        number: "10",
         title: "Ladders Near Electrical Equipment",
         requirements: [
           "Treat nearby electrical equipment and conductors as a specific hazard during ladder selection and setup.",
           "Use suitable non-conductive equipment where the risk assessment requires it.",
           "Maintain the applicable safe clearance from electrical equipment and services.",
-          "Do not use a ladder in a position where loss of balance could cause contact with live electrical parts.",
+          "Do not use a ladder where loss of balance could cause contact with live electrical parts.",
           "Where electrical isolation is required, follow the approved isolation process before starting work.",
+          "Do not assume a non-conductive ladder eliminates all electrical risk; position and surrounding conditions remain critical.",
         ],
         hazards: [
           "Electric shock",
@@ -772,12 +916,12 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "10",
-        title: "Fall Protection and Work at Height Interface",
+        number: "11",
+        title: "Fall Protection and Work-at-Height Interface",
         requirements: [
           "Ladder use must be assessed under the site's work-at-height control system.",
-          "Where fall-arrest or restraint equipment is required, it must be suitable for the location and have an appropriate anchorage.",
-          "Do not create a second hazard by attaching fall-arrest equipment to an unsuitable ladder.",
+          "Where fall-arrest or restraint equipment is required, it must be suitable for the location and connected to an appropriate anchorage.",
+          "Do not attach fall-arrest equipment to an unsuitable ladder or improvised anchor.",
           "Consider rescue arrangements before using fall-protection equipment.",
           "For tasks requiring extended work, high force, frequent access or significant exposure, use a more suitable platform-based system where practicable.",
         ],
@@ -785,6 +929,7 @@ class AbuDhabiCop36To38 {
           "Fall from ladder",
           "Suspension after a fall",
           "Unsuitable anchorage",
+          "Pendulum/swing fall",
         ],
         controls: [
           "Hierarchy of control",
@@ -794,15 +939,16 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "11",
-        title: "Inspection, Defects, Care and Maintenance",
+        number: "12",
+        title: "Inspection, Defects, Care, Maintenance and Storage",
         requirements: [
           "Inspect ladders before use and at the site's required inspection frequency.",
           "Look for bent rails, cracked or missing rungs, loose fasteners, damaged feet, corrosion, contamination and defective locking mechanisms.",
           "Do not use a ladder with a safety-critical defect.",
-          "Tag/quarantine defective ladders so they cannot be accidentally returned to service.",
-          "Store ladders to prevent damage, distortion and unauthorised use.",
+          "Tag or quarantine defective ladders so they cannot be accidentally returned to service.",
+          "Store ladders to prevent damage, distortion, contamination and unauthorised use.",
           "Do not make unauthorised modifications or repairs.",
+          "Maintain identification and inspection status so users can determine whether the ladder is approved for use.",
         ],
         hazards: [
           "Structural failure",
@@ -828,7 +974,7 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "12",
+        number: "13",
         title: "Field Example — Short-Duration Ceiling Maintenance",
         requirements: [
           "First determine whether a podium, scaffold or MEWP is reasonably practicable.",
@@ -848,8 +994,20 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "13",
-        title: "HSE Field Verification and Quick Checklist",
+        number: "14",
+        title: "Wrong Practice vs Safe Practice",
+        requirements: [
+          "Wrong: placing a ladder on a box to gain height. Safe: select a ladder of suitable length or a safer access system.",
+          "Wrong: climbing an unsecured leaning ladder. Safe: establish stable setup and secure against movement.",
+          "Wrong: overreaching sideways. Safe: climb down and reposition the ladder.",
+          "Wrong: using a damaged ladder because the task is short. Safe: quarantine the ladder and use safe equipment.",
+          "Wrong: carrying a large object that prevents secure climbing. Safe: use a controlled lifting method or suitable access arrangement.",
+          "Wrong: positioning a ladder close to live electrical parts without assessment. Safe: isolate/control the electrical hazard and establish suitable clearance.",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "15",
+        title: "HSE Field Verification and Supervisor Checklist",
         requirements: [
           "Is a ladder actually the right access method?",
           "Is the ladder industrial-rated and suitable?",
@@ -861,6 +1019,7 @@ class AbuDhabiCop36To38 {
           "Is the landing safe?",
           "Are electrical hazards controlled?",
           "Can the worker perform the task without overreaching or unsafe force?",
+          "Are people below protected from falling objects?",
         ],
         inspection: [
           "Condition",
@@ -871,6 +1030,18 @@ class AbuDhabiCop36To38 {
           "Setup",
           "Securing",
           "Surrounding hazards",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "16",
+        title: "Interview Questions and Answers — CoP 37",
+        requirements: [
+          "Q: What should be considered before selecting a ladder? A: The task, duration, height, load, environment, hazards and whether a safer access system is reasonably practicable.",
+          "Q: What is the commonly used setup relationship for a leaning ladder? A: Approximately 1 horizontal unit for every 4 vertical units, with the applicable setup angle approximately 70°–80°.",
+          "Q: How far should a ladder extend above a landing for access where required? A: At least 1 m above the landing.",
+          "Q: Can a damaged ladder be used for a short task? A: No. A safety-critical defect requires the ladder to be removed from use.",
+          "Q: Why should a worker avoid overreaching? A: It moves the centre of balance outside the stable working position and can cause a sideways fall or ladder movement.",
+          "Q: Is a ladder always suitable for work at height? A: No. The risk assessment and hierarchy of control must determine whether a safer access system is required.",
         ],
       ),
     ],
@@ -926,21 +1097,20 @@ class AbuDhabiCop36To38 {
     version: "4.1",
     effectiveDate: "16 February 2026",
     introduction:
-        "CoP 38.0 covers concrete placing equipment used for pumping or spraying "
-        "concrete. Typical equipment includes truck-mounted boom pumps, line pumps, "
-        "placing booms, delivery pipelines and flexible hoses. The major risks are "
-        "equipment instability, boom movement, high-pressure concrete release, "
-        "hose recoil, blocked pipelines, coupling failure, vehicle interaction, "
-        "overhead services, poor setup and exposure to wet concrete. This material "
-        "provides a complete field-oriented study structure.",
+        "CoP 38.0 addresses concrete placing equipment and associated work "
+        "activities, including pump setup, boom operation, pipelines, hoses, "
+        "couplings, concrete truck interface, inspection, maintenance and safe "
+        "response to blockages or pressure hazards. Major risks include equipment "
+        "instability, boom movement, high-pressure release, hose recoil, coupling "
+        "failure, vehicle interaction, overhead services and wet concrete exposure.",
     sections: [
       AbuDhabiCopSection(
         number: "1",
-        title: "Concrete Placing Equipment — What This Topic Covers",
+        title: "Concrete Placing Equipment — Fundamentals and Scope",
         requirements: [
           "Concrete placing equipment includes equipment and associated systems used to pump, convey or place concrete.",
           "Common systems include truck-mounted boom pumps, line pumps, placing booms, delivery pipelines, bends, couplings and flexible end hoses.",
-          "The work sequence begins before the pump arrives: access, ground, location, boom envelope, pipeline route, power lines, traffic and emergency arrangements must be planned.",
+          "The work sequence begins before the pump arrives: access, ground, location, boom envelope, pipeline route, services, traffic and emergency arrangements must be planned.",
           "Concrete pumping is a high-pressure operation; a blocked line or failed coupling can release stored energy suddenly.",
           "Safe operation requires competent personnel, suitable equipment, inspection, communication and a documented safe system of work.",
         ],
@@ -958,13 +1128,40 @@ class AbuDhabiCop36To38 {
       ),
       AbuDhabiCopSection(
         number: "2",
+        title: "Equipment Types and Their Typical Applications",
+        requirements: [
+          "Truck-mounted boom pumps provide mobile pumping with a powered placing boom and require careful vehicle, ground and boom-envelope control.",
+          "Line pumps use delivery pipelines and flexible hoses to transfer concrete to the placing point and require strong pipeline and pressure controls.",
+          "Placing booms may be separately installed and require suitable support, anchorage and structural coordination.",
+          "Delivery pipelines include straight sections, bends, couplings and supports; every component must be suitable for the system.",
+          "Flexible end hoses require special control because movement and recoil can create struck-by hazards.",
+          "The equipment selection must match concrete type, pour location, required reach, access and work environment.",
+        ],
+        hazards: [
+          "Wrong pump selection",
+          "Unsupported equipment",
+          "Incompatible pipeline components",
+          "Excessive reach",
+          "Hose movement",
+        ],
+        controls: [
+          "Manufacturer information",
+          "Task-specific selection",
+          "Competent setup",
+          "Component compatibility",
+          "Approved pour plan",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "3",
         title: "Training, Competency and Roles",
         requirements: [
           "Pump operators must be trained and competent for the equipment they operate.",
           "Workers connecting pipelines and handling hoses must understand coupling security, pressure hazards and safe positioning.",
-          "Supervisors must verify the planned setup and safe system before pumping begins.",
+          "Supervisors verify planned setup and safe system before pumping begins.",
           "The workforce must understand communication signals and emergency stop arrangements.",
-          "Competence must be appropriate to the pump type, work environment and task complexity.",
+          "Competence must be appropriate to pump type, work environment and task complexity.",
+          "Only authorised persons should operate or make safety-critical adjustments to the equipment.",
         ],
         documents: [
           "Training/competency records",
@@ -974,15 +1171,16 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "3",
+        number: "4",
         title: "Planning and Risk Assessment Before the Pump Arrives",
         requirements: [
           "Confirm concrete quantity, pour sequence, access route and required pump type.",
-          "Assess ground bearing capacity, slope, excavation edges and the location of outriggers.",
+          "Assess ground bearing condition, slope, excavation edges and the location of outriggers.",
           "Plan boom movement and identify structures, scaffolds, temporary works, overhead lines and other obstructions.",
           "Plan the pipeline route and support points before installation.",
           "Identify vehicle and pedestrian interaction around the pump and concrete trucks.",
           "Plan blockage response, emergency stop, first aid and communication before pumping.",
+          "Coordinate the concrete pour with formwork, falsework, reinforcement, edge protection and other trades.",
         ],
         hazards: [
           "Overturning",
@@ -998,6 +1196,7 @@ class AbuDhabiCop36To38 {
           "Competent supervision",
           "Traffic control",
           "Emergency plan",
+          "Pre-pour coordination",
         ],
         documents: [
           "Risk assessment",
@@ -1008,18 +1207,20 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "4",
-        title: "Site Preparation and Pump Position",
+        number: "5",
+        title: "Site Preparation, Ground Condition and Outrigger Setup",
         requirements: [
-          "Prepare a firm and stable location suitable for the pump and its outrigger loads.",
-          "Keep the pump away from excavation edges, unsupported ground and other conditions that could affect stability unless engineered controls are provided.",
+          "Prepare a firm and stable location suitable for pump and outrigger loads.",
+          "Keep the pump away from excavation edges, unsupported ground and other conditions that could affect stability unless suitable engineered controls are provided.",
           "Provide adequate space for safe deployment of outriggers and access around the equipment.",
+          "Use suitable support arrangements under outriggers where required by equipment design, ground condition and the safe system.",
           "Control public, vehicle and worker movement around the pump.",
           "Confirm overhead clearances and identify power lines before boom deployment.",
         ],
         hazards: [
           "Pump overturn",
           "Ground collapse",
+          "Outrigger settlement",
           "Boom collision",
           "Vehicle strike",
         ],
@@ -1032,14 +1233,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "5",
-        title: "Boom Setup and Operating Envelope",
+        number: "6",
+        title: "Boom Setup, Movement and Operating Envelope",
         requirements: [
-          "Deploy the boom according to the manufacturer's operating instructions and site plan.",
+          "Deploy the boom according to manufacturer instructions and the site plan.",
           "Keep people outside the boom movement and potential falling-object zones.",
           "Do not operate the boom where it can contact electrical services or structures.",
-          "Maintain visibility and reliable communication between the operator and placing crew.",
+          "Maintain visibility and reliable communication between operator and placing crew.",
           "Where the operator cannot see the placing area, establish a clear communication system before pumping.",
+          "Stop boom movement when communication is lost or an unexpected obstruction enters the operating envelope.",
         ],
         hazards: [
           "Boom strike",
@@ -1055,15 +1257,16 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "6",
-        title: "Pipeline, Couplings and Flexible Hoses",
+        number: "7",
+        title: "Pipeline, Bends, Couplings, Clamps and Flexible Hoses",
         requirements: [
-          "Use pipeline components, clamps, gaskets and hoses suitable for the concrete pumping pressure and system.",
+          "Use pipeline components, clamps, gaskets and hoses suitable for the concrete pumping system and pressure.",
           "Inspect pipes, bends, couplings, clamps and flexible hoses before use.",
           "Secure and support pipelines so movement cannot create an uncontrolled hazard.",
           "Keep personnel out of positions where a failed coupling or hose could discharge material toward them.",
           "Do not improvise repairs using unsuitable wire, rope or makeshift restraints.",
-          "Protect pipelines from vehicle impact and other mechanical damage.",
+          "Protect pipelines from vehicle impact and mechanical damage.",
+          "Control hose movement and keep personnel away from the recoil zone.",
         ],
         hazards: [
           "Coupling failure",
@@ -1089,8 +1292,8 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "7",
-        title: "Blockage — Safe Response",
+        number: "8",
+        title: "Blockage, Stored Pressure and Safe Clearing",
         requirements: [
           "Treat a blocked concrete line as a stored-energy hazard.",
           "Stop pumping and follow the manufacturer's blockage-clearing procedure.",
@@ -1098,11 +1301,12 @@ class AbuDhabiCop36To38 {
           "Never loosen a coupling on a pressurised line.",
           "Do not stand directly in front of the hose end while pressure may remain.",
           "Only competent personnel should dismantle or clear a blocked system.",
+          "After clearing, inspect the system and identify the cause before restarting.",
         ],
         hazards: [
           "Sudden pressure release",
           "Hose whip",
-          "Concrete injection/impact",
+          "Concrete impact",
           "Coupling ejection",
           "Serious struck-by injury",
         ],
@@ -1112,17 +1316,19 @@ class AbuDhabiCop36To38 {
           "Isolate energy",
           "Maintain exclusion zone",
           "Competent blockage response",
+          "Controlled restart",
         ],
       ),
       AbuDhabiCopSection(
-        number: "8",
-        title: "Concrete Truck Interface and Traffic Control",
+        number: "9",
+        title: "Concrete Truck Interface, Reversing and Traffic Control",
         requirements: [
           "Provide a planned route for concrete delivery vehicles.",
           "Control reversing and positioning of concrete trucks using competent signalling where visibility requires it.",
           "Keep pedestrians away from vehicle movement and chute areas.",
           "Prevent concrete trucks from contacting pump equipment, pipelines or workers.",
           "Maintain emergency access and avoid blocking site routes.",
+          "Control spilled concrete and washout materials to prevent slip hazards.",
         ],
         hazards: [
           "Vehicle strike",
@@ -1139,15 +1345,16 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "9",
-        title: "Concrete Placing on Decks, Slabs and Elevated Areas",
+        number: "10",
+        title: "Deck, Slab, Formwork and Falsework Interface",
         requirements: [
-          "Confirm the receiving structure and temporary works are designed for the concrete placement loads and construction sequence.",
+          "Confirm the receiving structure and temporary works are suitable for concrete placement loads and construction sequence.",
           "Coordinate concrete placement with formwork, falsework, reinforcement and edge-protection requirements.",
           "Keep workers away from hose recoil and uncontrolled movement.",
           "Maintain safe access and egress throughout the pour.",
           "Do not overload a slab or formwork system by uncontrolled stockpiling of fresh concrete.",
-          "Stop the pour if movement, deflection, instability or other structural concern is observed.",
+          "Stop the pour if movement, deflection, instability or another structural concern is observed.",
+          "Ensure openings and edges remain protected throughout the operation.",
         ],
         hazards: [
           "Formwork/falsework failure",
@@ -1171,14 +1378,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "10",
+        number: "11",
         title: "Overhead Power Lines and Other Services",
         requirements: [
           "Identify overhead electrical lines and other services before pump setup.",
-          "Define the maximum boom operating envelope and required safe clearances under the applicable electrical/service controls.",
+          "Define the maximum boom operating envelope and applicable safe clearances under the electrical/service controls.",
           "Use a competent spotter where the risk assessment requires one.",
-          "Do not rely on the operator's judgement alone when service proximity creates a serious contact risk.",
+          "Do not rely on operator judgement alone when service proximity creates a serious contact risk.",
           "Where isolation is required, complete and verify the approved isolation process before operation.",
+          "Treat changing boom position, wind and vehicle relocation as conditions that can change the service risk.",
         ],
         hazards: [
           "Electric shock",
@@ -1200,14 +1408,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "11",
-        title: "Wet Concrete, Chemical Exposure and PPE",
+        number: "12",
+        title: "Wet Concrete, Cement Exposure, PPE and Hygiene",
         requirements: [
           "Fresh concrete can cause skin and eye irritation or chemical burns with prolonged exposure.",
           "Provide suitable gloves, eye/face protection, protective footwear and clothing appropriate to the task.",
           "Prevent wet concrete from remaining against skin or inside contaminated clothing.",
           "Provide washing facilities and clean water for prompt decontamination.",
-          "Workers must understand the hazards of cementitious materials and report symptoms promptly.",
+          "Workers must understand cementitious-material hazards and report symptoms promptly.",
+          "Maintain clean access routes because wet concrete creates slip hazards.",
         ],
         hazards: [
           "Skin irritation",
@@ -1216,7 +1425,7 @@ class AbuDhabiCop36To38 {
           "Slips from wet concrete",
         ],
         controls: [
-          "Chemical-resistant/task-suitable gloves",
+          "Task-suitable gloves",
           "Eye/face protection",
           "Protective clothing",
           "Washing/decontamination",
@@ -1224,14 +1433,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "12",
-        title: "Inspection, Maintenance and Cleaning",
+        number: "13",
+        title: "Inspection, Maintenance, Cleaning and Washout",
         requirements: [
-          "Inspect the pump, boom, pipeline, hoses, couplings and safety devices according to manufacturer requirements and site procedures.",
+          "Inspect pump, boom, pipeline, hoses, couplings and safety devices according to manufacturer requirements and site procedures.",
           "Do not operate equipment with safety-critical defects.",
           "Carry out planned maintenance by competent personnel.",
           "Isolate and depressurise the system before maintenance or cleaning activities that expose workers to stored energy.",
           "Control concrete washout and prevent uncontrolled discharge to the environment.",
+          "Record defects and maintenance actions and verify safe return to service.",
         ],
         hazards: [
           "Stored pressure",
@@ -1244,6 +1454,7 @@ class AbuDhabiCop36To38 {
           "Preventive maintenance",
           "Isolation/depressurisation",
           "Controlled washout",
+          "Return-to-service verification",
         ],
         documents: [
           "Inspection records",
@@ -1253,14 +1464,15 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "13",
+        number: "14",
         title: "Preparation for Road Travel and Relocation",
         requirements: [
-          "Retract and secure the boom and equipment according to the manufacturer's travel configuration.",
+          "Retract and secure the boom and equipment according to manufacturer travel configuration.",
           "Secure pipelines, hoses, accessories and loose components before movement.",
           "Confirm dimensions, clearances and route restrictions before relocation.",
-          "Use the required vehicle and road-travel controls.",
+          "Use required vehicle and road-travel controls.",
           "Ensure the pump is not moved with personnel or equipment in an unsafe configuration.",
+          "Reassess the setup after relocation before recommencing pumping.",
         ],
         hazards: [
           "Collision",
@@ -1273,17 +1485,19 @@ class AbuDhabiCop36To38 {
           "Route assessment",
           "Secure loose equipment",
           "Competent driver/operator",
+          "Post-relocation check",
         ],
       ),
       AbuDhabiCopSection(
-        number: "14",
-        title: "Emergency Response — Pump Failure, Hose Failure or Blockage",
+        number: "15",
+        title: "Emergency Response — Pump Failure, Hose Failure, Blockage and Electrical Contact",
         requirements: [
           "Stop pumping immediately when an unsafe condition develops.",
           "Keep personnel away from pressurised lines and failed components.",
           "Use the planned emergency stop and isolation procedure.",
           "Provide first aid and emergency response for concrete impact, crush injuries, electrical contact or chemical exposure.",
-          "Do not restart until the cause is identified, the equipment is made safe and the responsible competent person authorises restart.",
+          "Do not restart until the cause is identified, equipment is made safe and the responsible competent person authorises restart.",
+          "Where electrical contact occurs, keep people away from the equipment until the electrical hazard is controlled by the responsible authority/person.",
         ],
         hazards: [
           "Pressure release",
@@ -1301,13 +1515,13 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "15",
+        number: "16",
         title: "Field Example — High-Rise Slab Concrete Pour",
         requirements: [
           "Confirm approved pour sequence and temporary works readiness before the pump arrives.",
           "Position the pump on stable ground and verify outrigger support.",
           "Check boom envelope, overhead services and nearby structures.",
-          "Install and inspect the delivery pipeline and hose arrangement.",
+          "Install and inspect delivery pipeline and hose arrangement.",
           "Brief pump operator, placing crew, concrete truck drivers and supervisors on communication and emergency actions.",
           "Maintain edge protection and prevent workers from standing in the hose recoil zone.",
           "Stop the operation if abnormal movement, leakage, blockage, unsafe structural behaviour or loss of communication occurs.",
@@ -1323,8 +1537,40 @@ class AbuDhabiCop36To38 {
         ],
       ),
       AbuDhabiCopSection(
-        number: "16",
-        title: "HSE Field Verification and Quick Checklist",
+        number: "17",
+        title: "Field Example — Roadside Concrete Pumping",
+        requirements: [
+          "Complete traffic and public-protection planning before the pump is positioned.",
+          "Establish a safe vehicle position and protect the work area from live traffic.",
+          "Provide controlled pedestrian movement and prevent public access to the pump and hose danger zones.",
+          "Check overhead services and boom operating envelope.",
+          "Use suitable lighting and visibility controls for work in low-light conditions.",
+          "Maintain emergency access and safe relocation arrangements.",
+        ],
+        controls: [
+          "Traffic management",
+          "Barriers and controlled access",
+          "Banksman",
+          "Visibility/lighting",
+          "Boom envelope control",
+          "Emergency access",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "18",
+        title: "Wrong Practice vs Safe Practice",
+        requirements: [
+          "Wrong: opening a coupling while pressure may remain. Safe: stop, isolate and safely depressurise before opening.",
+          "Wrong: standing in front of a pressurised hose end. Safe: establish an exclusion zone and remain outside the potential discharge path.",
+          "Wrong: setting outriggers on uncertain ground without assessment. Safe: verify ground condition and suitable support.",
+          "Wrong: allowing workers beneath uncontrolled boom movement. Safe: control the boom envelope and exclude non-essential persons.",
+          "Wrong: pumping against an unresolved blockage. Safe: stop and follow the competent blockage-clearing procedure.",
+          "Wrong: placing fresh concrete without considering formwork/falsework capacity. Safe: coordinate the approved pour sequence and temporary works controls.",
+        ],
+      ),
+      AbuDhabiCopSection(
+        number: "19",
+        title: "HSE Field Verification and Supervisor Checklist",
         requirements: [
           "Is the pump suitable and in safe condition?",
           "Is the operator competent?",
@@ -1351,6 +1597,18 @@ class AbuDhabiCop36To38 {
           "Work area",
         ],
       ),
+      AbuDhabiCopSection(
+        number: "20",
+        title: "Interview Questions and Answers — CoP 38",
+        requirements: [
+          "Q: What is a major hazard of concrete pumping? A: Stored pressure can cause sudden release through blocked lines, failed couplings or hose movement.",
+          "Q: What should happen before opening a concrete pipeline connection? A: Pumping must stop and the system must be safely isolated/depressurised according to the manufacturer's procedure.",
+          "Q: Why are outriggers important? A: They provide the designed support for pump stability; inadequate ground or support can contribute to overturning.",
+          "Q: Why is the hose recoil zone controlled? A: A flexible hose can move violently if pressure is released or the flow changes unexpectedly.",
+          "Q: What must be checked before boom operation near electrical services? A: The services, applicable clearances, boom envelope and required isolation/spotter controls must be assessed.",
+          "Q: What should happen if structural movement is observed during a pour? A: Stop the operation and have the condition assessed before continuing.",
+        ],
+      ),
     ],
     fieldChecklist: [
       "Approved risk assessment and method statement",
@@ -1364,7 +1622,7 @@ class AbuDhabiCop36To38 {
       "Hose recoil zone controlled",
       "Concrete truck traffic controlled",
       "Blockage response understood",
-      "Emergency stop arrangements tested/understood",
+      "Emergency stop arrangements understood",
       "Wet-concrete PPE provided",
       "Pour sequence coordinated",
       "Inspection and maintenance records available",
