@@ -27,8 +27,33 @@ class AbuDhabiCop30To31 {
     version: '4.1',
     effectiveDate: '27 February 2026',
     introduction:
-        'Applies to employers in Abu Dhabi and addresses workers who work by themselves without close or direct supervision, including isolated, mobile, out-of-hours and remote activities. SafeNexus expands the official structure into practical field planning, communication, emergency and verification guidance.',
+        'CoP 30.0 — Lone Working and/or in Remote Locations applies to Abu Dhabi employers where a person works alone without close or direct supervision. It covers fixed, mobile, isolated, out-of-hours and remote work situations. The purpose is to identify when lone working is acceptable, assess the additional risk created by delayed assistance, and establish suitable supervision, communication, welfare, emergency and rescue arrangements before work begins. SafeNexus presents the requirements as a practical field reference while retaining the complete detailed content that follows.',
     sections: [
+      AbuDhabiCopSection(
+        number: 'BEFORE WORK STARTS',
+        title: 'SAFETY PREPARATION',
+        requirements: [
+          '1. CONFIRM THE LONE-WORKING TASK — Define exactly what the worker will do, where the work will take place, the expected duration, the access and exit route, the equipment involved and the point at which assistance could be required.',
+          '2. COMPLETE THE TASK-SPECIFIC RISK ASSESSMENT — Assess hazards from the task, location, environment, travel, communication, security, health, fatigue, weather, plant, electrical systems, chemicals and any foreseeable emergency. Consider the consequence of delayed assistance.',
+          '3. DECIDE WHETHER LONE WORKING IS ACCEPTABLE — Do not treat lone working as automatically acceptable. Where the risk cannot be adequately controlled by communication, supervision, equipment or emergency arrangements, provide another worker, direct supervision or an alternative method.',
+          '4. CONFIRM COMMUNICATION AND CHECK-IN — Establish the primary communication method, backup method, contact person, check-in frequency, missed-check-in escalation and emergency contact route before the worker starts.',
+          '5. CHECK ACCESS, TRAVEL AND LOCATION — Confirm safe access/egress, route condition, vehicle arrangements, remote-location hazards, nearest assistance point, emergency-service access and the exact location information that must be provided during an emergency.',
+          '6. CONFIRM WELFARE AND ENVIRONMENTAL CONTROLS — Consider heat, weather, lighting, drinking water, rest, fatigue, sanitation and other welfare needs for the expected duration of the task.',
+          '7. VERIFY EMERGENCY AND RESCUE ARRANGEMENTS — Confirm what will happen after an injury, illness, security event, vehicle breakdown, communication failure or missed check-in. Ensure the worker knows how to raise an alarm and how assistance will reach the location.',
+          '8. AUTHORIZE THE WORK — Confirm that the risk assessment, safe work procedure, communication arrangements, required competence, equipment and emergency controls are available before lone work begins.',
+        ],
+        documents: [
+          'Task-specific risk assessment',
+          'Lone-worker safe work procedure',
+          'Communication/check-in plan',
+          'Emergency and rescue plan',
+        ],
+        inspection: [
+          'Verify the worker, task, location, communication method and emergency contact before starting.',
+          'Re-check controls when the location, weather, task, equipment or working hours change.',
+        ],
+      ),
+
       AbuDhabiCopSection(
         number: '1.0',
         title: 'Lone Work Identification and Scope',
@@ -480,8 +505,35 @@ class AbuDhabiCop30To31 {
     version: '4.0',
     effectiveDate: '15 July 2024',
     introduction:
-        'Provides a planning and risk-control framework for Abu Dhabi employers sending employees, volunteers or temporary workers to international locations where living conditions, infrastructure, culture, political conditions, legal requirements and health risks may differ from Abu Dhabi.',
+        'CoP 30.1 — Working in International Locations provides a structured framework for Abu Dhabi employers whose employees, volunteers or temporary workers are assigned outside their normal country of work. The first priority is to understand the destination, applicable law, security, health, travel, accommodation, emergency and host-organization conditions before deployment. SafeNexus presents this as a practical field reference and keeps the detailed controls, planning requirements and examples that follow.',
     sections: [
+      AbuDhabiCopSection(
+        number: 'BEFORE INTERNATIONAL DEPLOYMENT',
+        title: 'SAFETY PREPARATION',
+        requirements: [
+          '1. CONFIRM THE ASSIGNMENT — Define destination, worksite, host/client, travel route, accommodation, work duration, work activities and the responsibilities of the employer and host organization.',
+          '2. COMPLETE THE DESTINATION RISK ASSESSMENT — Assess legal and OSH requirements, security conditions, health risks, infectious disease, natural hazards, infrastructure, transport, climate, language, culture and emergency-service capability.',
+          '3. VERIFY CURRENT TRAVEL AND SECURITY INFORMATION — Review authoritative destination information and travel advisories before deployment and reassess them when conditions change.',
+          '4. CONFIRM MEDICAL AND HEALTH PREPARATION — Identify relevant health requirements, medical support, medication needs, emergency medical arrangements and any destination-specific health precautions before travel.',
+          '5. CONFIRM HOST-COUNTRY REQUIREMENTS — Verify applicable local law, permits, site induction, competency requirements, PPE, equipment standards, emergency procedures and reporting arrangements with the host organization.',
+          '6. PLAN TRAVEL AND JOURNEY MANAGEMENT — Establish safe transport, route information, communication, emergency contacts, arrival arrangements and controls for remote or high-risk travel.',
+          '7. CONFIRM ACCOMMODATION AND WELFARE — Assess accommodation security, fire safety, emergency access, welfare arrangements and the ability to obtain assistance when away from the worksite.',
+          '8. CONFIRM EMERGENCY, INCIDENT AND EVACUATION ARRANGEMENTS — Establish local emergency numbers, medical support, security contacts, employer contacts, incident reporting and evacuation/repatriation arrangements before deployment.',
+          '9. AUTHORIZE DEPLOYMENT — Do not deploy until the destination risk assessment, required training, documentation, insurance/assistance arrangements and host interface have been reviewed and accepted.',
+        ],
+        documents: [
+          'International assignment risk assessment',
+          'Travel/security review',
+          'Host/client HSE requirements',
+          'Medical and emergency arrangements',
+          'Assignment authorization',
+        ],
+        inspection: [
+          'Verify travel documents, emergency contacts, host arrangements and communication before departure.',
+          'Reassess the assignment when the destination, route, security, health or work conditions change.',
+        ],
+      ),
+
       AbuDhabiCopSection(
         number: '1.0',
         title: 'International Assignment Scope and Pre-Travel Planning',
@@ -873,8 +925,36 @@ class AbuDhabiCop30To31 {
     version: '4.1',
     effectiveDate: '27 February 2026',
     introduction:
-        'Establishes Abu Dhabi OSH requirements for work on, over or adjacent to water. The SafeNexus field reference expands the official 3.1–3.21 structure into practical planning, equipment, rescue, inspection and field-example guidance without changing the existing document API.',
+        'CoP 31.0 — Working On, Over or Adjacent to Water establishes Abu Dhabi OSH requirements for activities where a person may fall into water, be swept away by moving water, be struck by water traffic, or be exposed to electrical hazards involving water. The purpose is to control the water interface through planning, safe access, edge protection, suitable flotation/rescue equipment, competent supervision, emergency response and changing-weather/current controls. SafeNexus presents the requirements as a practical field reference and retains the full detailed content that follows.',
     sections: [
+      AbuDhabiCopSection(
+        number: 'BEFORE WORK STARTS',
+        title: 'WATER-WORK SAFETY PREPARATION',
+        requirements: [
+          '1. CONFIRM THE WATER-WORK SCOPE — Define whether the task is on, over or adjacent to water and identify the work position, platform, edge, access route, water depth and likely rescue route.',
+          '2. COMPLETE THE WATER HAZARD RISK ASSESSMENT — Assess drowning, falling, fast current, waves, changing water level, water traffic, submerged objects, contamination, slips, weather and electrical hazards.',
+          '3. CHECK THE WORK PLATFORM AND EDGE — Confirm that the platform, jetty, pontoon, gangway, ladder or other working position is suitable, stable, accessible, adequately protected and capable of supporting the intended load.',
+          '4. CONTROL FALL AND WATER-ENTRY RISK — Provide appropriate barriers, guardrails, safe access and task-specific fall protection or buoyancy arrangements according to the risk assessment and work system.',
+          '5. CONFIRM RESCUE EQUIPMENT — Position suitable lifebuoys, rescue lines, throw/reach equipment and other required rescue resources so they can be used immediately. Provide rescue boats or additional arrangements where the assessment requires them.',
+          '6. CONTROL WATER TRAFFIC — Establish exclusion zones, communication, warning systems, lighting, lookout or marine-traffic controls where vessels or other water movements could strike the work area.',
+          '7. CONTROL ELECTRICAL HAZARDS — Prevent electrical equipment and cables from creating additional risk around water. Use suitable protection, inspection, isolation and residual-current protection arrangements where required.',
+          '8. CHECK WEATHER AND WATER CONDITIONS — Review wind, rain, lightning, visibility, waves, current and water level before starting and continuously reassess conditions that may make the work unsafe.',
+          '9. CONFIRM EMERGENCY RESPONSE — Ensure workers know the alarm method, rescue method, emergency contacts, first-aid arrangements and route to emergency assistance before exposure begins.',
+          '10. AUTHORIZE THE WORK — Start only after the risk assessment, work method, access, barriers, PPE/buoyancy equipment, rescue equipment, communication and supervision arrangements have been verified.',
+        ],
+        documents: [
+          'Water-work risk assessment',
+          'Safe work method statement',
+          'Emergency/rescue plan',
+          'Equipment inspection records',
+          'Marine/water interface controls where applicable',
+        ],
+        inspection: [
+          'Inspect access, platforms, edge protection, flotation/rescue equipment and communication before work.',
+          'Re-inspect after weather changes, water-level/current changes, damage, impact or any event affecting stability or rescue capability.',
+        ],
+      ),
+
       AbuDhabiCopSection(
         number: '1.0',
         title: 'Scope, Water Hazards and Work Interface',
