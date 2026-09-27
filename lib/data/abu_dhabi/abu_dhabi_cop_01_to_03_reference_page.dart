@@ -14,6 +14,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_22_to_24.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_scaffolding_reference_page.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_27_28_29_MAXIMUM_DETAIL_FULL.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_30_31.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_33_34_35.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -53,6 +54,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop25.documents,
         ...AbuDhabiCop27To29.documents,
         ...AbuDhabiCop30To31.documents,
+        ...AbuDhabiCop33To35.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
