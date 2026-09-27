@@ -29,31 +29,54 @@ class AbuDhabiCop27To29 {
     title: 'Confined Spaces',
     version: '4.0',
     effectiveDate: '15 July 2024',
-    introduction: '''FIELD QUESTIONS & ANSWERS — CoP 27.0 CONFINED SPACES
+    introduction: '''BEFORE WORK STARTS — CONFINED SPACE SAFETY PREPARATION
 
-1. WHAT IS CONFINED-SPACE WORK?
-A confined space is an enclosed or substantially enclosed place where a foreseeable specified risk may arise. Examples include tanks, vessels, pipes, sewers, silos, storage bins, hoppers, pits, excavations and manholes. The important point is not simply the size of the space; it is the risk created by the enclosed nature of the space.
+1. CONFIRM THE WORK AND THE SPACE
+Confirm why entry is necessary and whether the task can be completed from outside. Identify the space, entry points, contents, previous service/process, internal configuration, likely hazards and the people who may be affected. Classify the space and determine whether it is a permit-required confined space (PRCS).
 
-2. WHAT PERMIT IS REQUIRED?
-Before entry, a Confined Space Entry Permit / Permit to Work must be completed. Entry is not allowed until all permit conditions are satisfied and verified. The permit must be specific to the activity, date and time of entry and follow ADOSH-SF CoP 21.0.
+2. COMPLETE THE RISK ASSESSMENT AND SAFE WORK METHOD
+Prepare an activity-specific risk assessment and documented safe work procedure. Cover entry, work inside, simultaneous activities, changes in conditions, communication, emergency response and rescue. Define who is the entrant, entry supervisor/competent person, standby/safety watch and rescue personnel.
 
-3. WHO MUST BE AT THE WORK LOCATION?
-Competent entrants must be identified. A competent safety watch / standby person is required for PRCS work, with continuous supervision. Rescue arrangements and competent rescue capability must be prepared before entry. A firewatcher is additionally required when specified by the permit or when the risk assessment requires it.
+3. ISSUE AND VERIFY THE PERMIT
+Complete the required confined-space entry / Permit to Work controls before entry. The permit should identify the space, work, hazards, isolations, atmospheric limits, test results, ventilation, PPE, communication, rescue arrangements, responsible persons and validity. Entry starts only after the required authorization and field verification are complete.
 
-4. MUST GAS TESTING BE DONE?
-Yes. Atmospheric testing is a key pre-entry control. Before entry, test the atmosphere using suitable, calibrated equipment and confirm the conditions required by the permit. CoP 27.0 specifies oxygen between 19.5% and 23.5% and flammable gas/vapour below 5% LEL. Monitoring/testing must continue as required by the permit, risk assessment and changing conditions.
+4. ISOLATE ALL HAZARDOUS ENERGY AND MATERIALS
+Identify every possible source that can enter or affect the space: process lines, steam, gas, chemicals, liquids, electricity, mechanical movement, pressure, stored energy and connected equipment. Apply the site's isolation/LOTO system and verify isolation. For tanks, vessels and pipes, consider blanking/blinding or other positive isolation where required by the risk assessment and isolation standard.
 
-5. WHEN SHOULD THE ATMOSPHERE BE TESTED AGAIN?
-Re-test whenever the permit/RA requires, and immediately after a ventilation failure, isolation change, process change, interruption or break, alarm, suspected contamination, or any change in conditions. Never rely on an old gas-test reading when the atmosphere may have changed.
+5. TEST THE ATMOSPHERE BEFORE ENTRY
+Use a suitable, calibrated and bump-tested gas detector. Test from a safe position and assess oxygen, flammable atmosphere and relevant toxic contaminants. For CoP 27.0, oxygen must be within the required safe range of 19.5%–23.5% and flammable gas/vapour must remain below 5% LEL. Test at representative levels/locations because gases may stratify.
 
-6. WHAT MUST BE PREPARED BEFORE ENTRY?
-Entry necessity confirmed; PRCS register/program available; activity-specific RA and SWP; isolation/LOTO; ventilation; gas detector; communication system; safe access/egress; lighting; PPE/RPE as required; rescue/retrieval equipment; first-aid/emergency arrangements; competent entrants; standby/safety watch; permit verification; and a clear rescue plan.
+6. ESTABLISH VENTILATION
+Provide effective mechanical ventilation where required by the risk assessment. The ventilation arrangement must actually remove or control contaminants and must not introduce a new hazard. Do not use oxygen as a substitute for ventilation. Protect the ventilation source from contamination and keep the system operating as required.
 
-7. TANK / MANHOLE / PIPE WORK — WHAT CHANGES?
-Previous contents and residues must be considered. Tanks and vessels may contain toxic, flammable or oxygen-deficient atmospheres. Pipes must be positively isolated from hazardous flow/energy before entry. Manholes require secure access, atmospheric testing and rescue arrangements. Do not enter merely because a space has been opened or ventilated; the entry permit and controls must still be satisfied.
+7. PROVIDE SAFE ACCESS AND EGRESS
+Provide a suitable entry/exit route, stable access equipment, adequate lighting and enough space for the task. Keep the access route clear. Consider how an injured person will be removed, not only how a fit worker will enter.
 
-FIELD RULE: NO ENTRY + NO VALID PERMIT + NO VERIFIED CONTROLS = NO WORK.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
+8. SET UP THE STANDBY / SAFETY WATCH
+A competent standby/safety watch must remain outside the space as required for PRCS work. The person must know the permit, entrants, communication method, alarm arrangements and emergency actions. The standby person must not enter the space to attempt an unplanned rescue.
+
+9. PREPARE THE RESCUE SYSTEM BEFORE ENTRY
+Rescue is planned before the first person enters. Provide suitable retrieval/rescue equipment, harness/retrieval arrangements where applicable, communication, first aid and emergency contacts. Rescue personnel must be competent and the method must match the space; never rely only on the emergency services arriving after an incident.
+
+10. CONTROL COMMUNICATION
+Establish a reliable communication method between entrant and standby person. Confirm signals, check-in frequency and emergency alarm method before entry. Communication must remain usable despite noise, poor visibility, equipment limitations or loss of normal power.
+
+11. PREPARE PPE/RPE AND WORK EQUIPMENT
+Select PPE from the risk assessment: head, eye/face, hand, foot, body and fall protection as applicable. RPE is used only where the assessment requires it and the respiratory protection programme/competency requirements are satisfied. Inspect all tools, electrical equipment, lighting, leads and retrieval equipment before use and use suitably rated equipment for the environment.
+
+12. TANK, MANHOLE AND PIPE ENTRY — ADDITIONAL PREPARATION
+For tanks/vessels, identify previous contents, residues, cleaning chemicals, coatings and possible sludge. For pipes, identify connected systems and prove isolation before entry. For manholes and pits, control traffic, falling objects, water ingress and atmospheric hazards. Opening a cover or ventilating the space does not by itself make entry safe.
+
+13. CONTINUOUS MONITORING AND RE-TESTING
+Continue atmospheric monitoring whenever required by the permit, risk assessment or conditions. Re-test after ventilation failure, isolation change, process change, interruption/break, alarm, suspected contamination or any change that could affect the atmosphere. Stop entry if readings exceed the permit limits or the atmosphere becomes uncertain.
+
+14. FINAL PRE-ENTRY CHECK
+Before the first entrant goes in, verify: permit valid; RA/SWMS available; isolation complete; gas test acceptable; ventilation working; access/egress ready; communication working; standby present; rescue equipment ready; competent persons identified; PPE correct; lighting adequate; and exclusion/unauthorised-entry controls in place.
+
+STOP WORK / NO ENTRY
+Stop immediately if the permit is absent or expired, isolation is lost, gas readings are outside limits, ventilation fails, communication is lost, the standby/rescue arrangement is unavailable, water/process material enters the space, or conditions differ materially from the approved risk assessment.
+
+SafeNexus field note: this is an original field-use safety summary based on the applicable ADOSH-SF requirements. The controlled ADPHC publication and applicable site procedures remain the governing source.''',
     sections: [
     _section(
       '1.0', 'Introduction / Scope',
@@ -362,34 +385,54 @@ This SafeNexus section is an original field-learning summary; the controlled ADP
     title: 'Hot Work Operations (e.g. Welding and Cutting)',
     version: '4.1',
     effectiveDate: '27 February 2026',
-    introduction: '''FIELD QUESTIONS & ANSWERS — CoP 28.0 HOT WORK
+    introduction: '''BEFORE HOT WORK STARTS — SAFETY PREPARATION
 
-1. WHAT IS HOT WORK?
-Hot work includes operations that produce heat, flame, sparks or hot particles, such as welding, thermal/oxygen cutting, grinding, heating and related spark-producing work.
+1. DEFINE THE HOT WORK AND THE WORK AREA
+Identify the exact task: welding, cutting, brazing, heating, grinding or other spark/heat-producing work. Confirm whether the task is inside a designated hot-work area or elsewhere. Identify combustible construction, nearby processes, hidden voids and people who may be exposed to sparks, heat, fumes, radiation or molten metal.
 
-2. WHAT PERMIT IS REQUIRED?
-Outside a designated hot-work area, hot work requires a specific Hot Work Permit to Work in accordance with ADOSH-SF CoP 21.0. In a hazardous area, the Hot-Work Permit is required before work starts. A designated permanent hot-work area normally does not require a permit, provided it meets the CoP conditions and site authorization requirements.
+2. COMPLETE RA/JSA AND SAFE WORK METHOD
+Assess fire, explosion, fumes, electrical, compressed-gas, burns, radiation, falling hot material and simultaneous-work hazards. Define controls, competent persons, equipment, fire protection, ventilation, exclusion zones and emergency arrangements before work starts.
 
-3. WHAT MUST BE CHECKED BEFORE STARTING?
-Complete the RA/JSA and permit; inspect the welding/cutting equipment; confirm competent workers; isolate the work area; remove or protect combustibles; check hidden combustibles behind walls/partitions and through openings; provide ventilation; position firefighting equipment; establish safe access/egress; protect nearby persons from sparks, hot metal and radiation; and confirm cylinders, regulators, hoses and flashback arresters are suitable.
+3. COMPLETE THE REQUIRED PERMIT CONTROL
+Where the work requires a Hot Work Permit under the site's PTW system, issue and verify it before ignition, arc striking or other hot work begins. Confirm the permit boundaries, validity, atmospheric-test requirements, fire-watch requirements and any additional isolation conditions.
 
-4. HOW FAR SHOULD COMBUSTIBLES BE CONTROLLED?
-CoP 28.0 requires combustible materials to be removed from within 10 m of the work where applicable. Hazards including flammable liquids, gases, vapours, dusts, fibres and combustible substances within 10 m must be identified and controlled.
+4. REMOVE OR PROTECT COMBUSTIBLES
+Clear combustible and flammable materials from the hot-work area. CoP 28.0 requires control of combustible materials within 10 m where applicable. Inspect behind walls, partitions, floors, ceilings and openings because sparks and heat can travel to concealed combustible materials. Cover or shield materials that cannot reasonably be removed.
 
-5. WHEN IS GAS TESTING REQUIRED?
-For hot work in hazardous areas, atmospheric testing is required before commencement for flammable gas/vapour in the work area and in relevant adjacent/involved pipes, drums, tanks, vessels and equipment. The measured flammable gas/vapour concentration must be below 5% LEL. Continue monitoring when required by the permit, risk assessment or changing conditions.
+5. CONTROL FLAMMABLE ATMOSPHERES
+Determine whether flammable gases, vapours, liquids, dusts or residues may be present. In hazardous areas, test the atmosphere with suitable calibrated equipment before starting. Maintain the permit-required safe atmosphere; CoP 28.0 uses less than 5% LEL for flammable gas/vapour where specified. Continue monitoring when required by the permit, RA or changing conditions.
 
-6. IS A FIRE WATCH REQUIRED?
-CoP 28.0 requires continuous fire watch during the work and for at least one hour afterwards as part of the fire-prevention requirements. In hazardous areas, the permit specifies when a firewatcher must be stationed near the work. The firewatcher must be able to raise the alarm and act on developing fire hazards.
+6. ISOLATE CONNECTED SYSTEMS
+Identify tanks, vessels, lines, drains, ducts and equipment that can contain flammable or toxic material. Isolate, depressurize, drain, purge and make safe as required by the approved procedure. Do not hot-work on a container or line merely because it appears empty; confirm its condition and isolation.
 
-7. WELDING / CUTTING EQUIPMENT — WHAT SHOULD THE HSE OFFICER CHECK?
-Daily competent inspection; correct leads and return cable; intact insulation; RCD protection and proper earthing for electrical welding machines; sound electrode holder; suitable regulators and hoses; flashback arresters for oxy-acetylene equipment; cylinders secured upright; oxygen cylinders separated from acetylene/LPG storage by the required 6 m; no oil/grease contamination on oxy-acetylene fittings; suitable PPE; ventilation/LEV; welding screens; extinguishers; and hot-waste control.
+7. INSPECT WELDING AND CUTTING EQUIPMENT
+Check welding machines, leads, electrode holders, return/earth connections, plugs, RCD protection where required, regulators, hoses, torches, flashback arresters and connections. Remove defective equipment from service. Keep oxy-fuel cylinders upright, secured and protected from damage/heat, with suitable separation and storage controls.
 
-8. WHEN MUST WORK STOP?
-Stop and reassess if the permit is missing/expired, gas readings are outside the permit limit, ventilation fails, combustibles cannot be controlled, firefighting protection is unavailable, equipment is defective, isolation is lost, weather/site conditions create a new hazard, or the fire-watch arrangement required by the permit is not in place.
+8. PROVIDE FIRE PROTECTION
+Place suitable fire extinguishers/firefighting equipment immediately available at the work area. Establish a clear access route for emergency response. Use non-combustible screens, fire blankets, spark containment or other barriers where needed to protect adjacent areas and people.
 
-FIELD RULE: CONTROL THE FIRE PATH, THE ATMOSPHERE, THE ENERGY AND THE PEOPLE AROUND THE HOT WORK.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
+9. CONTROL WELDING FUMES AND VENTILATION
+Provide effective natural or mechanical ventilation and local exhaust ventilation where required. Do not allow fumes to accumulate or expose nearby workers unnecessarily. Confirm that ventilation does not spread sparks, contaminants or fire to another area.
+
+10. ESTABLISH THE EXCLUSION ZONE
+Prevent unauthorized persons from entering the hot-work area. Protect nearby workers from arc flash and harmful radiation using suitable screens. Control falling sparks, hot slag, hot metal and grinding particles, including work above or below the hot-work location.
+
+11. ASSIGN THE FIRE WATCH
+Provide the fire-watch arrangement required by the permit and risk assessment. The fire watcher must be competent, have no conflicting duties, know how to raise the alarm and have access to appropriate firefighting equipment. Maintain the required post-work fire watch; CoP 28.0 specifies at least one hour after the hot work in the relevant controls.
+
+12. PPE AND WORKER READINESS
+Use task-appropriate welding helmet/filter, eye and face protection, fire-resistant clothing, gloves, safety footwear and hearing/RPE protection where required by the assessment. Check that workers are competent for the equipment and task and understand the permit and emergency arrangements.
+
+13. CONTROL CYLINDERS, HOSES AND ELECTRICAL SOURCES
+Keep cylinders secured and away from ignition/impact hazards, protect hoses from hot metal and traffic, and check connections for leaks. Keep oxygen equipment free from oil/grease contamination. Route electrical leads safely, protect them from damage and keep connections away from wet or hazardous conditions.
+
+14. FINAL PRE-WORK CHECK
+Before starting, verify: permit valid; RA/JSA complete; combustibles controlled; hidden spaces checked; isolation complete; gas test acceptable where required; ventilation working; extinguishers ready; screens/barriers installed; equipment inspected; cylinders secured; PPE correct; fire watch present; emergency communication available; and surrounding work coordinated.
+
+STOP WORK
+Stop if the permit is missing/expired, gas readings are outside the approved limit, combustibles cannot be controlled, isolation is uncertain, ventilation fails, firefighting protection is unavailable, equipment is defective, fire watch is absent, or sparks/heat are reaching an uncontrolled area.
+
+SafeNexus field note: this is an original field-use safety summary based on the applicable ADOSH-SF requirements. The controlled ADPHC publication and applicable site procedures remain the governing source.''',
     sections: [
     _section(
       '1.0', 'Introduction / Scope',
@@ -636,50 +679,54 @@ This SafeNexus section is an original field-learning summary; the controlled ADP
     title: 'Excavation Work',
     version: '4.1',
     effectiveDate: '27 February 2026',
-    introduction: '''FIELD QUESTIONS & ANSWERS — CoP 29.0 EXCAVATION WORK
+    introduction: '''BEFORE EXCAVATION STARTS — SAFETY PREPARATION
 
-1. WHAT IS EXCAVATION WORK?
-Excavation includes moving earth or rock, disturbing or breaking ground, driving objects into the ground, digging trenches/ditches/shafts/wells, grading, tunnelling, boring or drilling, post driving, and work involving cofferdams or caissons.
+1. CONFIRM THE EXCAVATION SCOPE
+Define the excavation limits, depth, width, length, purpose, method and sequence. Identify nearby buildings, roads, structures, plant, water sources, overhead services and underground services. Consider whether the excavation may also create confined-space, fall, traffic or atmospheric hazards.
 
-2. WHAT PERMIT IS REQUIRED?
-The excavation must have the work permits, authorizations, notifications and utility/service approvals required by the project and relevant authorities. Use the site's Excavation / Ground-Disturbance Permit or equivalent PTW control where the site PTW system requires it. Utility NOCs/approvals must be obtained where applicable. Road excavation also requires the applicable road/Traffic Police approval and traffic controls.
+2. COMPLETE THE GROUND AND EXCAVATION RISK ASSESSMENT
+Assess soil/rock conditions, ground stability, groundwater, weather, surcharge loads, vibration, nearby structures and the consequences of collapse. Select a safe excavation method, support system or engineered slope/benching arrangement before workers enter.
 
-3. WHAT MUST BE DONE BEFORE DIGGING?
-Survey the site; confirm boundaries and levels; obtain drawings and service plans; search and validate underground services; mark services on the surface; complete RA/SWMS; select the excavation method and support system; assess ground and groundwater conditions; obtain permits/NOCs; appoint competent supervision; arrange barriers, access/egress, lighting, emergency arrangements and plant controls.
+3. COMPLETE PERMITS, SERVICE APPROVALS AND SITE AUTHORIZATION
+Obtain the excavation/ground-disturbance permit or equivalent project PTW control where required. Obtain applicable utility information, NOCs/approvals and road/traffic approvals. Do not start mechanical excavation until the service information has been checked and the work area is authorized.
 
-4. WHAT TYPES OF EXCAVATION ARE COMMON?
-• Trench — narrow excavation for services, drainage, pipelines or foundations.
-• Pit — localized excavation such as a foundation or chamber.
-• Shaft / well — deeper vertical excavation.
-• Ditch — elongated excavation, commonly for drainage or services.
-• Grading / bulk excavation — removal or redistribution of larger quantities of soil.
-• Tunnelling / boring / drilling — ground penetration with limited open access.
-• Cofferdam / caisson — temporary structure used to create a work space where water is excluded.
-The required support and controls depend on depth, ground, water, adjacent structures, services and the work method.
+4. LOCATE AND PROTECT UNDERGROUND SERVICES
+Collect current service drawings and plans, survey the excavation area, scan/locate services using appropriate equipment and mark confirmed services clearly on the ground. Use controlled hand-digging or other approved methods near known services. Treat an unidentified service as live until verified.
 
-5. WHEN IS SHORING / TIMBERING REQUIRED?
-CoP 29.0 requires timbering or shoring for trenches/excavations greater than 1.2 m deep where there is a danger of material falling or collapse. Other suitable systems include proprietary support systems, hydraulic struts and soldier-pile support. For larger excavations, soil information and competent-engineer decisions are required.
+5. SELECT THE PROTECTION SYSTEM
+Decide before digging whether the excavation will use safe sloping/battering, benching, shoring, sheet piles, hydraulic support, proprietary trench support, trench box or another engineered system. Support must match the soil, depth, loads and surrounding conditions. Do not allow workers into an unsupported excavation where collapse is possible.
 
-6. HOW DO WE PREVENT SOIL COLLAPSE?
-Identify the ground type; assess groundwater; use safe battered/benched slopes where suitable; or install a designed support system such as sheeting/waling/strutting, hydraulic struts, proprietary trench boxes/slide rails or soldier piles. Install support without delay as excavation progresses. Do not leave buried services unsupported. Do not allow personnel into an inadequately protected excavation.
+6. CONTROL SPOIL, MATERIALS AND PLANT LOADS
+Keep excavated material, materials and plant far enough from the edge to prevent surcharge and edge collapse, as defined by the engineered design, RA/SWMS and ground conditions. Do not assume one universal setback distance applies to every excavation. Prevent vehicles and mobile plant from approaching unsupported edges; use physical stops/controls where required.
 
-7. HOW FAR SHOULD EXCAVATED SOIL BE PLACED FROM THE EDGE?
-Do not use an invented universal metre value as an ADOSH-SF CoP 29.0 requirement. The CoP requires the excavation and support system to be assessed for ground stability and surcharge, and it specifically restricts heavy vehicles near the edge unless the support is designed for them; where plant must approach the edge, suitable baulk timbers/vehicle controls are required. The project engineer/RA/SWMS should define the safe spoil, material and plant setback for the actual excavation.
+7. PROVIDE SAFE ACCESS AND EGRESS
+Provide safe stairs, ramps or secured ladders appropriate to the excavation. Where ladders are used, secure them and provide a safe handhold/landing arrangement; where reasonably practicable, use a 4:1 height-to-base arrangement and extend the ladder at least 1 m above the landing/ground. Position access so workers do not climb over unsupported ground or cross moving plant routes.
 
-8. IS A STANDBY / COMPETENT PERSON REQUIRED OUTSIDE?
-A competent person must supervise excavation work, and the employer must nominate a person to supervise the work at all times. This is not the same as the confined-space standby-man rule. If the excavation is also a confined space or has confined-space risks, CoP 27.0 controls apply, including the required confined-space supervision/rescue arrangements.
+8. BARRICADE AND PREVENT FALLS
+Barricade open edges and provide suitable warning signs and lighting. Prevent workers, tools, materials and vehicles from falling into the excavation. Maintain safe pedestrian routes and separate people from excavation plant and traffic.
 
-9. HOW SHOULD A LADDER BE POSITIONED?
-Provide a safe access/egress system. Ladders must be securely fixed and maintained. Where reasonably practicable, the ladder should have a height-to-base ratio no flatter than 4:1 and be secured at the upper end. The upper end must project at least 1 m (4 rungs) above ground level and lead to a stable, secure landing point. Position it so plant and material handling cannot damage it.
+9. CONTROL WATER AND WEATHER
+Plan for groundwater, rain, flooding, leaking services and sudden water entry. Provide dewatering where required and ensure pumps/discharge arrangements do not undermine the excavation. Reassess after heavy rain, flooding, ground movement or other events that may affect stability.
 
-10. WHEN IS GAS TESTING REQUIRED IN AN EXCAVATION?
-Deep and confined excavations require a continuous routine for testing for noxious gases and oxygen deficiency in accordance with CoP 27.0. Consider H2S, methane, SO2, exhaust gases and LPG leakage where relevant. If the excavation meets the confined-space definition, treat it under the confined-space entry requirements rather than as an ordinary open excavation.
+10. CONTROL PLANT AND TRAFFIC
+Establish plant routes, exclusion zones, banksman/spotter arrangements where required and vehicle stopping controls. Keep plant away from unsupported edges. Prevent exhaust gases from accumulating in deep or poorly ventilated excavations.
 
-11. HOW OFTEN MUST AN EXCAVATION BE INSPECTED?
-A competent person should inspect before work starts, at least daily and before each shift. A thorough competent-person examination is also required weekly (every seven days) and after substantial collapse or damage, with records maintained.
+11. CHECK FOR ATMOSPHERIC HAZARDS
+Consider oxygen deficiency and gases such as H2S, methane, LPG or exhaust fumes where the excavation is deep, enclosed, near services, contaminated ground, tanks/pipelines or other sources. If the excavation meets confined-space conditions, apply the applicable confined-space entry controls, including atmospheric testing and rescue arrangements.
 
-FIELD RULE: NO SERVICE VALIDATION + NO SAFE SUPPORT/SLOPE + NO SAFE ACCESS + NO COMPETENT SUPERVISION = NO EXCAVATION ENTRY.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
+12. PROVIDE COMPETENT SUPERVISION AND INSPECTION
+A competent person must supervise excavation work. Inspect the excavation, supports, access, barriers, water conditions, nearby structures and edge stability before work and as conditions change. Re-inspect after collapse, damage, heavy rain, flooding, vibration, movement or other events that may affect stability. Keep required inspection records.
+
+13. PLAN EMERGENCY RESPONSE
+Prepare for collapse, trapped workers, service strike, flooding, fire, plant incident and hazardous-atmosphere events. Ensure communication, first aid, emergency contacts and rescue arrangements are available. Rescue planning must match the excavation depth, access and likely incident.
+
+14. FINAL PRE-ENTRY CHECK
+Before personnel enter, verify: approved method; permits/NOCs; services identified; support/slopes safe; spoil and plant controlled; access/egress ready; barriers installed; water controlled; atmosphere assessed where required; competent supervision present; emergency arrangements ready; lighting adequate; and the excavation is safe for the planned task.
+
+STOP WORK
+Stop immediately if ground movement/cracking is observed, support is damaged or displaced, water enters unexpectedly, an unidentified service is exposed, a permit/control is invalid, plant approaches an unsafe edge, access becomes unsafe, atmospheric conditions become hazardous, or site conditions differ materially from the approved assessment.
+
+SafeNexus field note: this is an original field-use safety summary based on the applicable ADOSH-SF requirements. The controlled ADPHC publication and applicable site procedures remain the governing source.''',
     sections: [
       _section(
         '1', 'Introduction',
