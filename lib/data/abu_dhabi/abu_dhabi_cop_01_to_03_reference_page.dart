@@ -48,8 +48,8 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop13To15.documents,
         ...AbuDhabiCop16To18.documents,
         ...AbuDhabiCop19To21.documents,
-        ...AbuDhabiCop25.documents,
         ...AbuDhabiCop22To24.documents,
+        ...AbuDhabiCop25.documents,
         ...AbuDhabiCop27To29.documents,
       ];
 
@@ -174,11 +174,19 @@ class _AbuDhabiCop01To03ReferencePageState
                         for (final doc in docs) ...[
                           _documentCard(context, doc),
                           const SizedBox(height: 12),
+                          if (doc.code == 'CoP 25.0' &&
+                              (_query.trim().isEmpty ||
+                                  'scaffolding'.contains(
+                                    _query.trim().toLowerCase(),
+                                  ) ||
+                                  'cop 26.0'.contains(
+                                    _query.trim().toLowerCase(),
+                                  )))
+                            ...[
+                              _scaffoldingCard(context),
+                              const SizedBox(height: 12),
+                            ],
                         ],
-                      if (_query.trim().isEmpty ||
-                          'scaffolding'.contains(_query.trim().toLowerCase()) ||
-                          'cop 26.0'.contains(_query.trim().toLowerCase()))
-                        _scaffoldingCard(context),
                       const SizedBox(height: 8),
                       _noteCard(),
                     ],
