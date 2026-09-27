@@ -9,13 +9,14 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_10_to_12.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_13_to_15.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_16_to_18.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_19_to_21.dart';
-import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_25.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_22_to_24.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_25.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_scaffolding_reference_page.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_27_28_29_MAXIMUM_DETAIL_FULL.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_30_31.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_33_34_35.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_36_37_38.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_39_40_41.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -57,6 +58,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop30To31.documents,
         ...AbuDhabiCop33To35.documents,
         ...AbuDhabiCop36To38.documents,
+        ...AbuDhabiCop39To41.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
@@ -397,6 +399,34 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.wb_sunny_outlined;
       case 'CoP 12.0':
         return Icons.water_drop_outlined;
+      case 'CoP 27.0':
+        return Icons.meeting_room_outlined;
+      case 'CoP 28.0':
+        return Icons.local_fire_department_outlined;
+      case 'CoP 29.0':
+        return Icons.foundation_outlined;
+      case 'CoP 30.0':
+        return Icons.person_off_outlined;
+      case 'CoP 31.0':
+        return Icons.water_outlined;
+      case 'CoP 33.0':
+        return Icons.traffic_outlined;
+      case 'CoP 34.0':
+        return Icons.precision_manufacturing_outlined;
+      case 'CoP 35.0':
+        return Icons.handyman_outlined;
+      case 'CoP 36.0':
+        return Icons.agriculture_outlined;
+      case 'CoP 37.0':
+        return Icons.stairs_outlined;
+      case 'CoP 38.0':
+        return Icons.local_shipping_outlined;
+      case 'CoP 39.0':
+        return Icons.electrical_services_outlined;
+      case 'CoP 40.0':
+        return Icons.view_in_ar_outlined;
+      case 'CoP 41.0':
+        return Icons.architecture_outlined;
       default:
         return Icons.shield_outlined;
     }
@@ -562,6 +592,34 @@ class _CopDocumentDetailPage extends StatelessWidget {
         return Icons.wb_sunny_outlined;
       case 'CoP 12.0':
         return Icons.water_drop_outlined;
+      case 'CoP 27.0':
+        return Icons.meeting_room_outlined;
+      case 'CoP 28.0':
+        return Icons.local_fire_department_outlined;
+      case 'CoP 29.0':
+        return Icons.foundation_outlined;
+      case 'CoP 30.0':
+        return Icons.person_off_outlined;
+      case 'CoP 31.0':
+        return Icons.water_outlined;
+      case 'CoP 33.0':
+        return Icons.traffic_outlined;
+      case 'CoP 34.0':
+        return Icons.precision_manufacturing_outlined;
+      case 'CoP 35.0':
+        return Icons.handyman_outlined;
+      case 'CoP 36.0':
+        return Icons.agriculture_outlined;
+      case 'CoP 37.0':
+        return Icons.stairs_outlined;
+      case 'CoP 38.0':
+        return Icons.local_shipping_outlined;
+      case 'CoP 39.0':
+        return Icons.electrical_services_outlined;
+      case 'CoP 40.0':
+        return Icons.view_in_ar_outlined;
+      case 'CoP 41.0':
+        return Icons.architecture_outlined;
       default:
         return Icons.shield_outlined;
     }
