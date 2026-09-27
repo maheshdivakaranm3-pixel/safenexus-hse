@@ -38,14 +38,14 @@ class AbuDhabiCop30To31 {
       'Exposure to task hazards without immediate support.',
       'Security, assault or unauthorized-access risk.',
       'Communication failure.',
-    ]
+    ],
         requirements: [
       'Identify all activities in which a person may work without close or direct supervision, including fixed locations, isolated areas, out-of-hours work and mobile/remote tasks.',
       'Assess whether other people are actually close enough to provide effective assistance; the mere presence of people elsewhere on a site does not automatically remove lone-working risk.',
       'Consider construction, installation, maintenance, cleaning, electrical repair, lift work, painting, vehicle recovery, service visits, inspection and similar mobile activities.',
       'Identify the work location, duration, travel route, access/egress, environmental conditions, communications, nearest assistance and foreseeable emergencies before authorisation.',
       'Where lone working creates unacceptable residual risk, arrange additional personnel, direct supervision or another work method instead.',
-    ]
+    ],
         documents: [
       'Lone-worker task/register',
       'Task-specific risk assessment',
@@ -62,7 +62,7 @@ class AbuDhabiCop30To31 {
       'Ensure employees follow the lone-working procedure and promptly report hazards or information that may adversely affect the work.',
       'For construction work, integrate relevant lone-working requirements into the pre-tender safety and health plan and the OSH Construction Management Plan as applicable.',
       'Management must determine the level of supervision; the decision should not be left solely to the lone worker.',
-    ]
+    ],
         documents: [
       'OSH policy/procedure',
       'Pre-tender safety and health plan where applicable',
@@ -79,7 +79,7 @@ class AbuDhabiCop30To31 {
       'Do not assign the relevant task to a worker who cannot demonstrate adequate understanding until retraining is completed.',
       'Refresh training when appropriate and when task, equipment, hazard or procedure changes require it.',
       'Verify competency for specialist equipment, permits, isolation, first aid or other task-specific requirements before lone assignment.',
-    ]
+    ],
         documents: [
       'Training record',
       'Competency assessment',
@@ -93,7 +93,7 @@ class AbuDhabiCop30To31 {
         requirements: [
       'Maintain records identifying the employee, Emirates ID where required by the CoP, training subject, training date(s) and training provider/person delivering the training.',
       'Link training evidence to the actual task and authorization rather than relying only on general induction.',
-    ]
+    ],
         documents: [
       'Training matrix',
       'Competency records',
@@ -109,13 +109,13 @@ class AbuDhabiCop30To31 {
       'Establish safe systems of work and controls for workers, affected persons and the public.',
       'Review the assessment whenever location, task, equipment, working hours, weather, communication or emergency arrangements change.',
       'Use the hierarchy of controls and first consider whether the need to work alone can be eliminated.',
-    ]
+    ],
         documents: [
       'Risk assessment',
       'Safe system of work',
       'Permit where required',
       'Change/review record',
-    ]
+    ],
         controls: [
       'Eliminate lone work where practicable',
       'Add personnel or supervision for higher-risk work',
@@ -131,13 +131,13 @@ class AbuDhabiCop30To31 {
       'Extended isolation',
       'Night or out-of-hours exposure',
       'High-risk task performed without immediate support',
-    ]
+    ],
         requirements: [
       'Determine whether the proposed period alone is reasonable for the task and worker.',
       'Consider whether the task should be performed alone at all, how long the person will actually be isolated, and the time of day.',
       'Check whether legislation, another CoP, a permit or the task risk assessment prohibits or restricts lone work for the activity.',
       'Short duration does not automatically make a high-consequence activity suitable for lone work.',
-    ]
+    ],
         documents: [
       'Work plan',
       'Risk assessment',
@@ -152,14 +152,14 @@ class AbuDhabiCop30To31 {
       'Vehicle breakdown',
       'Worker becomes stranded',
       'Delayed medical response',
-    ]
+    ],
         requirements: [
       'Assess whether emergency services can approach sufficiently close to the work location.',
       'Confirm the expected work duration and a clear route for emergency responders.',
       'Provide first-aid access or appropriate portable first-aid equipment for mobile/remote workers.',
       'Confirm transport arrangements to and from the work location.',
       'Treat rarely occupied rooms, storage areas or isolated plant areas as potentially remote even when they are physically inside a main facility.',
-    ]
+    ],
         documents: [
       'Location plan',
       'Journey plan',
@@ -176,14 +176,14 @@ class AbuDhabiCop30To31 {
       'Heat exposure',
       'Insufficient water',
       'Unsafe terrain',
-    ]
+    ],
         requirements: [
       'Plan the route, access point, expected arrival and expected completion time.',
       'Check whether transport is required and whether the vehicle is appropriate for the route and terrain.',
       'Where the worker leaves a vehicle, determine which emergency supplies must be carried.',
       'Consider food, drinking water, first-aid equipment and other emergency supplies appropriate to the remote location and duration.',
       'Define the response to vehicle breakdown, immobilisation or loss of communication.',
-    ]
+    ],
         documents: [
       'Journey management plan',
       'Vehicle inspection',
@@ -199,13 +199,13 @@ class AbuDhabiCop30To31 {
       'Fatigue',
       'Poor lighting',
       'Environmental exposure',
-    ]
+    ],
         requirements: [
       'Provide safe means of entry and exit.',
       'Provide workplace amenities appropriate to the location, including lighting, drinking water, washing and welfare arrangements as required.',
       'Consider heat, cold, rain, wind, poor visibility, terrain, insects/animals and other environmental conditions.',
       'Do not continue when environmental conditions make safe completion or emergency response impracticable.',
-    ]
+    ],
         documents: [
       'Environmental assessment',
       'Welfare arrangements',
@@ -221,11 +221,11 @@ class AbuDhabiCop30To31 {
       'Test the communication method before work starts and consider battery life, coverage and failure modes.',
       'Provide an alternative method when the primary system may fail.',
       'Use positive contact: the responsible person should know the worker is safe rather than treating silence as confirmation.',
-    ]
+    ],
         measurements: [
       'The check-in interval should be risk-based and task-specific; the CoP does not prescribe one universal interval.',
       'Confirm actual communication coverage and battery capacity for the expected work period.',
-    ]
+    ],
         documents: [
       'Communication test record',
       'Check-in schedule',
@@ -240,14 +240,14 @@ class AbuDhabiCop30To31 {
       'Alarm not monitored',
       'No escalation owner',
       'False assumption that silence means safety',
-    ]
+    ],
         requirements: [
       'Where justified by the risk, provide a personal alarm or monitoring system capable of raising an immediate alert or supporting accurate worker location.',
       'Define the contact person, backup contact and escalation sequence before work starts.',
       'Specify what happens after a missed check-in: attempt contact, escalate to the nominated responsible person/security and arrange a physical welfare check or emergency response as required.',
       'Keep the procedure individual to the worker/task and review it periodically.',
       'Where CCTV or remote plant monitoring is used, confirm who monitors it and how an alarm becomes an active response.',
-    ]
+    ],
         documents: [
       'Lone-worker procedure',
       'Escalation matrix',
@@ -262,13 +262,13 @@ class AbuDhabiCop30To31 {
       'Assault',
       'Threatening public interaction',
       'Unauthorized access',
-    ]
+    ],
         requirements: [
       'Assess whether the worker carries cash, valuables, medicines, tools, devices or other items that could attract robbery or assault.',
       'Consider exposure to members of the public, isolated premises, unknown visitors, home addresses and other security threats.',
       'Use suitable access control, communication, security support, work-location controls and emergency procedures.',
       'Do not require a lone worker to confront a violent or threatening person; the safe system must provide a means to withdraw and summon assistance.',
-    ]
+    ],
         controls: [
       'Avoid unnecessary exposure',
       'Security/access controls',
@@ -286,7 +286,7 @@ class AbuDhabiCop30To31 {
       'Where the workplace may be left unattended, define how it is made safe and secure.',
       'Ensure emergency responders can gain access when the worker is inside a locked building or restricted area.',
       'Do not design the emergency plan around an assumption that the worker will always remain conscious or able to make a call.',
-    ]
+    ],
         documents: [
       'Emergency response plan',
       'Emergency contact list',
@@ -302,7 +302,7 @@ class AbuDhabiCop30To31 {
       'New workers, trainees, people performing special-risk work or workers facing unfamiliar situations may require accompaniment initially.',
       'Use planned site visits, progress checks and safety discussions where direct supervision is not possible.',
       'Management must set the required supervision level based on risk rather than allowing the worker to decide alone that assistance is unnecessary.',
-    ]
+    ],
         documents: [
       'Supervision plan',
       'Site visit records',
@@ -317,7 +317,7 @@ class AbuDhabiCop30To31 {
       'Consider whether a known medical restriction could make the lone-working arrangement unsuitable.',
       "Use the employer's occupational-health process and applicable medical-fitness requirements when a task has special demands.",
       'Do not use medical information beyond what is necessary for lawful work suitability and emergency planning.',
-    ]
+    ],
         documents: [
       'Fitness/occupational-health arrangements where applicable',
       'Task suitability assessment',
@@ -332,14 +332,14 @@ class AbuDhabiCop30To31 {
       'Chemical exposure',
       'Fire',
       'Uncontrolled lifting',
-    ]
+    ],
         requirements: [
       'Assess machinery and power tools for electrical safety, guarding and fire risks before assigning lone work.',
       'Apply relevant controls under CoP 15.0, CoP 35.0 and CoP 36.0 as applicable.',
       'Fully assess flammable, explosive or toxic chemicals under the hazardous-material requirements; consider special hazards from automatic extinguishing systems.',
       'Use access equipment that can be safely handled by one person where appropriate and plan lifting so that lone workers are not exposed to uncontrolled manual or mechanical loads.',
       'Consider whether the task itself should prohibit lone working because of the consequence of an equipment failure or exposure.',
-    ]
+    ],
         documents: [
       'Equipment inspection',
       'Permit/isolation documents',
@@ -356,13 +356,13 @@ class AbuDhabiCop30To31 {
       'Hazardous substances',
       'High-pressure systems',
       'Chainsaws/other hazardous equipment',
-    ]
+    ],
         requirements: [
       'Specifically screen for work at height, confined spaces, electricity, hazardous substances, high-pressure systems, hazardous equipment and tasks with potential violence.',
       'Do not treat a phone or personal alarm as a substitute for physical assistance where the consequence of failure is severe.',
       'Where a task requires rescue, immediate intervention, continuous observation or a second competent person, change the work arrangement rather than simply increasing check-in frequency.',
       'Coordinate with the specific CoP, permit and rescue requirements applicable to the activity.',
-    ]
+    ],
         controls: [
       'Eliminate lone work',
       'Two-person/team working',
@@ -380,7 +380,7 @@ class AbuDhabiCop30To31 {
       'At the location: test communication, confirm the check-in plan, inspect access, establish the work boundary and verify that the inspection remains within the assessed scope.',
       'If communication is lost, access deteriorates, an unexpected electrical/height/confined-space hazard appears, or the task changes, stop and obtain assistance.',
       'On completion: confirm safe exit and close the check-in record.',
-    ]
+    ],
         documents: [
       'Journey plan',
       'Task RA',
@@ -411,7 +411,7 @@ class AbuDhabiCop30To31 {
       'Confirm permits and isolation requirements where applicable.',
       'Confirm environmental and security conditions are acceptable.',
       'Confirm the worker knows stop-work conditions and how to request assistance.',
-    ]
+    ],
         inspection: [
       'Location/access verified',
       'Communication tested',
@@ -492,14 +492,14 @@ class AbuDhabiCop30To31 {
       'Natural disasters',
       'Poor infrastructure',
       'Travel risks',
-    ]
+    ],
         requirements: [
       'Identify the destination, route, worksite, host organization, client requirements and the legal/OSH framework that will apply.',
       'Assess conditions likely to be encountered during travel and at the destination before deployment.',
       'Include security threats, emerging diseases, natural hazards, infrastructure, culture, political conditions and other location-specific risks.',
       'Treat volunteers and temporary workers travelling on behalf of the employer within the assignment scope.',
       'Use current UAE Ministry of Foreign Affairs travel advisories and other authoritative destination information as inputs to the risk assessment.',
-    ]
+    ],
         documents: [
       'International assignment plan',
       'Destination risk assessment',
@@ -515,7 +515,7 @@ class AbuDhabiCop30To31 {
       "Employees must follow the employer's international-work procedure and host-site rules that do not conflict with the employer's safety requirements.",
       'Establish a clear point of contact in the overseas entity with responsibility for the travelling employee while on the host premises.',
       'Define the interface between home-company controls, host-company controls and local legal requirements before work starts.',
-    ]
+    ],
         documents: [
       'Responsibility matrix',
       'Host contact details',
@@ -531,7 +531,7 @@ class AbuDhabiCop30To31 {
       'Brief workers on climate, local dress requirements, driving and transport, food arrangements and restrictions relating to alcohol, tobacco and drugs.',
       'Ensure workers understand the host induction and local emergency arrangements.',
       'Keep training records identifying the employee, Emirates ID where required, subjects, provider and dates.',
-    ]
+    ],
         documents: [
       'International-work training record',
       'Destination briefing',
@@ -547,13 +547,13 @@ class AbuDhabiCop30To31 {
       'Assess the risks associated with the actual journey, destination, accommodation, worksite and task.',
       'Establish safe systems of work and controls for employees and affected persons.',
       'Review and update the assessment when destination conditions, work scope, security, health or travel arrangements change.',
-    ]
+    ],
         documents: [
       'International RA',
       'Travel risk assessment',
       'Task RA',
       'Review record',
-    ]
+    ],
         controls: [
       'Eliminate unnecessary travel/work exposure',
       'Use competent local support',
@@ -571,13 +571,13 @@ class AbuDhabiCop30To31 {
       'Kidnapping/assault risk',
       'Unsafe transport',
       'Restricted movement',
-    ]
+    ],
         requirements: [
       'Obtain current information about safety and security at the intended location, including law-and-order conditions and conflicts.',
       'Consider the route to and from the workplace, local transport, isolated travel and out-of-hours movement.',
       'Define what conditions trigger postponement, route change, relocation or suspension of the assignment.',
       'Provide employees with emergency contacts and clear instructions for security incidents.',
-    ]
+    ],
         documents: [
       'Security brief',
       'Travel advisory record',
@@ -593,14 +593,14 @@ class AbuDhabiCop30To31 {
       'Heat/cold/altitude',
       'Food/water hazards',
       'Travel fatigue',
-    ]
+    ],
         requirements: [
       'Obtain current information on health hazards and disease conditions at the destination.',
       'Determine applicable preventive health measures and immunization requirements through appropriate medical/occupational-health advice.',
       'Identify medical facilities and emergency treatment arrangements before travel.',
       'Ensure employees know how to obtain medical help and how medical insurance/assistance operates.',
       'Consider long travel, fatigue, environmental exposure and the health demands of the actual work.',
-    ]
+    ],
         documents: [
       'Medical plan',
       'Emergency medical contacts',
@@ -616,7 +616,7 @@ class AbuDhabiCop30To31 {
       'Determine which home-company safe systems apply and how they interface with host procedures.',
       'Do not assume an Abu Dhabi permit, certificate or procedure automatically satisfies host-country law.',
       'Record gaps and define the controls needed before work begins.',
-    ]
+    ],
         documents: [
       'Legal/OSH register',
       'Permit matrix',
@@ -632,7 +632,7 @@ class AbuDhabiCop30To31 {
       'Where the host does not provide a suitable induction, the employer should establish a practical induction checklist covering reporting lines, first-aid locations, emergency evacuation points, alarms and incident contacts.',
       'Confirm how incidents are reported during working and out-of-hours periods.',
       'Ensure employees know the local emergency signals and evacuation arrangements.',
-    ]
+    ],
         documents: [
       'Host induction checklist',
       'Emergency map',
@@ -648,13 +648,13 @@ class AbuDhabiCop30To31 {
       'Security',
       'Unsafe transport',
       'Fatigue',
-    ]
+    ],
         requirements: [
       'Assess the accommodation as part of the international assignment risk assessment.',
       'Consider fire safety, access/egress, security, sanitation, food and water, transport, location and emergency arrangements.',
       'Where employer-supplied accommodation is involved, consider applicable Abu Dhabi accommodation requirements together with host-country legal/technical requirements.',
       'Provide welfare arrangements suitable for the assignment and working pattern.',
-    ]
+    ],
         documents: [
       'Accommodation assessment',
       'Welfare plan',
@@ -668,13 +668,13 @@ class AbuDhabiCop30To31 {
       'High-risk work without competent supervision',
       'Host/home procedure conflict',
       'Inadequate emergency response',
-    ]
+    ],
         requirements: [
       'Provide adequate OSH supervision for construction and other high-risk activities at international locations.',
       'Verify that competent supervision is available during the actual work period, including out-of-hours arrangements where needed.',
       'Do not allow unfamiliar local conditions to reduce the level of control required for high-risk activities.',
       'Use task-specific permits, method statements, isolation and rescue arrangements where applicable.',
-    ]
+    ],
         documents: [
       'Supervision plan',
       'Method statement',
@@ -689,7 +689,7 @@ class AbuDhabiCop30To31 {
       'Confirm that specialist equipment, tools, electrical systems, communication equipment and spares are suitable for the destination.',
       'Check transport/storage requirements and local restrictions for equipment brought across borders.',
       'Inspect equipment before deployment and after arrival where transport could affect condition.',
-    ]
+    ],
         documents: [
       'PPE matrix',
       'Equipment inspection',
@@ -706,7 +706,7 @@ class AbuDhabiCop30To31 {
       'Consider time-zone differences and ensure the employee can reach an accountable person when the home office is closed.',
       'Provide backup communication when local network availability is uncertain.',
       'Include emergency contacts for security, medical, transport and project support.',
-    ]
+    ],
         documents: [
       'Communication plan',
       'Contact list',
@@ -721,7 +721,7 @@ class AbuDhabiCop30To31 {
       'Brief employees on local customs, dress, movement, transport and workplace expectations relevant to the assignment.',
       'Do not rely on assumptions about local practice; verify requirements for the actual destination.',
       "Ensure the employer's safety arrangements remain applicable and employees know how to report concerns.",
-    ]
+    ],
         documents: [
       'Cultural briefing',
       'Personal-safety briefing',
@@ -736,7 +736,7 @@ class AbuDhabiCop30To31 {
       'Consider insurance requirements for vehicles and equipment used during international work.',
       'Inform field and off-site employees of the extent and limitations of insurance before work begins.',
       'Verify any exclusions or special authorisations that could affect the assignment.',
-    ]
+    ],
         documents: [
       'Insurance confirmation',
       'Liability/vehicle cover',
@@ -751,7 +751,7 @@ class AbuDhabiCop30To31 {
       'Ensure local emergency response is compatible with the home-company emergency plan.',
       'Identify who has authority to suspend work, relocate personnel or activate emergency assistance.',
       'Maintain communication during an incident and document lessons learned after the event.',
-    ]
+    ],
         documents: [
       'Incident-reporting process',
       'Emergency response plan',
@@ -766,7 +766,7 @@ class AbuDhabiCop30To31 {
       'Debrief employees after the assignment to identify hazards, control gaps and lessons learned.',
       'Update the international-work procedure and destination risk information when lessons indicate a recurring gap.',
       'Record significant changes in host requirements, security, medical or travel conditions for future assignments.',
-    ]
+    ],
         documents: [
       'Post-assignment debrief',
       'Lessons-learned record',
@@ -809,7 +809,7 @@ class AbuDhabiCop30To31 {
       'PPE, equipment and documentation ready.',
       'Insurance and liability cover confirmed.',
       'Host induction and emergency arrangements confirmed.',
-    ]
+    ],
         inspection: [
       'Document check',
       'Host contact verification',
@@ -885,13 +885,13 @@ class AbuDhabiCop30To31 {
       'Electrical contact with water',
       'Slips/trips',
       'Difficult rescue',
-    ]
+    ],
         requirements: [
       'Identify all work on, over or adjacent to water and assess the interaction with work at height, temporary works, plant, lifting, electrical systems and access.',
       'Consider falling into water and drowning, being swept away by moving water, being struck by water traffic and electrical shock following contact with water.',
       'Assess the actual water environment, work boundary, rescue access and conditions that could change during the shift.',
       'Plan, organize and supervise the work so water hazards are controlled before people are exposed.',
-    ]
+    ],
         documents: [
       'Task risk assessment',
       'Safe work method statement',
@@ -908,7 +908,7 @@ class AbuDhabiCop30To31 {
       'Ensure a competent first aider trained in CPR and drowning response is readily available on contracts involving work on, over or adjacent to water.',
       'Train all employees to raise alarms, respond to emergencies and understand the rescue procedure.',
       'Retrain when job assignment, equipment or known hazards change, or when inspection identifies deviations from the required procedure.',
-    ]
+    ],
         documents: [
       'Training records',
       'Practical competency records',
@@ -924,7 +924,7 @@ class AbuDhabiCop30To31 {
       'Ensure work is planned, organized and supervised; drowning risks are managed; rescue controls are available; emergency equipment is inspected; and workers are trained and competent.',
       'Employees must follow safe work procedures, use provided PPE/equipment, keep supervisors informed of their location and know how to raise an alarm.',
       'Workers must report defects or activities that could reasonably endanger themselves or others.',
-    ]
+    ],
         documents: [
       'Supervision plan',
       'Inspection records',
@@ -938,7 +938,7 @@ class AbuDhabiCop30To31 {
       'Include water-work controls in the construction pre-tender safety and health plan and OSH-CMP where applicable.',
       'Assess falls from structures/scaffolds, poor visibility, electrical equipment contacting water, rescue difficulty, current/environment and workers who cannot swim.',
       'Define controls before work begins and review them when water level, weather, plant, access or work location changes.',
-    ]
+    ],
         documents: [
       'Pre-tender safety and health plan where applicable',
       'OSH-CMP where applicable',
@@ -953,10 +953,10 @@ class AbuDhabiCop30To31 {
       'Provide slip-resistant footwear and appropriate fall-protection controls.',
       'Workers should inspect PPE before, during and after use and remove defective equipment from service.',
       'Select equipment that permits necessary movement and is suitable for the task and water conditions.',
-    ]
+    ],
         measurements: [
       'The CoP specifies Type I or Type II rated PFD/buoyancy aid where there is a risk of drowning.',
-    ]
+    ],
         documents: [
       'PPE inspection record',
       'PFD inspection record',
@@ -971,12 +971,12 @@ class AbuDhabiCop30To31 {
       'Contaminated water',
       'Poor hygiene',
       'Infection',
-    ]
+    ],
         requirements: [
       'Apply the ADOSH-SF heat requirements for hot-weather work.',
       'Provide suitable workplace amenities where toilet or welfare facilities are remote or not within walking distance.',
       'Consider contaminated water, hygiene, wounds, biological exposure and decontamination where relevant to the site.',
-    ]
+    ],
         documents: [
       'Heat controls',
       'Welfare arrangement',
@@ -990,13 +990,13 @@ class AbuDhabiCop30To31 {
       'Provide a fence, barrier or other suitable physical control wherever people could fall into water.',
       'Use appropriate walkways, handrails, stairways, ladders, scaffold barriers or tube-and-fitting guardrails according to the work arrangement.',
       'Maintain barriers at all times while the fall exposure exists and control openings or temporary removal.',
-    ]
+    ],
         controls: [
       'Eliminate exposure',
       'Physical barriers/guardrails',
       'Safe access systems',
       'Fall protection as secondary control',
-    ]
+    ],
         inspection: [
       'Barrier continuity',
       'Edge condition',
@@ -1011,7 +1011,7 @@ class AbuDhabiCop30To31 {
       'Display warning signs/notices to identify water hazards and restricted areas.',
       'Position signs so they are visible before a person reaches the danger point.',
       'Maintain signage when work boundaries or water hazards change.',
-    ]
+    ],
         documents: [
       'Signage plan',
       'Daily inspection',
@@ -1025,14 +1025,14 @@ class AbuDhabiCop30To31 {
       'Glare',
       'Unseen water edge',
       'Delayed rescue',
-    ]
+    ],
         requirements: [
       'Provide lighting adequate for the duration and nature of the work.',
       'Provide lighting for night work near water, including shafts, dark corners and stairways.',
       'Use an even spread of light to reduce deceptive shadows and glare.',
       'Ensure the immediate water surface is included in the illuminated area.',
       'Use strategically positioned spotlights where needed to help locate a person in the water and navigation lights for floating/shore work when required.',
-    ]
+    ],
         documents: [
       'Lighting inspection',
       'Night-work plan',
@@ -1047,10 +1047,10 @@ class AbuDhabiCop30To31 {
       'Use 30 mA RCD protection for portable electrical tools as specified by the CoP.',
       'Inspect plant and equipment and keep equipment positioned to prevent unintended movement toward the water edge.',
       'Coordinate lifting and material handling so loads do not create an uncontrolled water or fall hazard.',
-    ]
+    ],
         measurements: [
       'Portable electrical tools: 30 mA RCD protection specified by CoP 31.0.',
-    ]
+    ],
         documents: [
       'Electrical inspection',
       'RCD test/verification',
@@ -1067,11 +1067,11 @@ class AbuDhabiCop30To31 {
       'Where a thrown lifebuoy can reach a person in the water, provide a lifebuoy with a rope at the worksite.',
       'Where the worksite is too far from the water for a thrown lifebuoy to reach a person, provide the rescue-boat and communication arrangements required by the CoP.',
       'Where work is more than 400 m from land or occurs at more than one location on a bridge, provide the required power-boat/boat-operator arrangement on both banks.',
-    ]
+    ],
         measurements: [
       'Communication systems on bridge/land: not more than 400 m apart where that option is used.',
       'Communication systems must be tested at the start of every shift and after work resumes following a break.',
-    ]
+    ],
         documents: [
       'Water-rescue assessment',
       'Rescue boat plan',
@@ -1087,11 +1087,11 @@ class AbuDhabiCop30To31 {
       'Secure decking above tidal water against displacement from rising water or high winds.',
       'Provide additional handholds where high winds may affect stability.',
       'Ensure barges, pontoons and similar floating work platforms are appropriately constructed and stable.',
-    ]
+    ],
         measurements: [
       'Minimum platform/gangway width specified: 4 boards / 800 mm.',
       'Guardrails and toe boards are required at edges from which a person could fall into water.',
-    ]
+    ],
         documents: [
       'Temporary platform inspection',
       'Marine platform stability assessment',
@@ -1104,7 +1104,7 @@ class AbuDhabiCop30To31 {
       'Apply the applicable ladder requirements and ensure ladders are sound and suitable for the task.',
       'Use ladders of appropriate length and strength and secure them against slipping.',
       'Where ladders are permanently fitted to plant over water, provide safety hoops as required.',
-    ]
+    ],
         documents: [
       'Ladder inspection',
       'Access inspection',
@@ -1118,7 +1118,7 @@ class AbuDhabiCop30To31 {
       'Select the net type with reference to manufacturer guidance and the actual work/environment.',
       'Use harnesses as a last resort where collective physical controls and fall prevention cannot adequately control the fall risk.',
       'Coordinate fall-protection selection with CoP 23.0 and the task-specific rescue arrangement.',
-    ]
+    ],
         documents: [
       'Fall-protection plan',
       'Equipment inspection',
@@ -1135,10 +1135,10 @@ class AbuDhabiCop30To31 {
       'Treat oily or greasy surfaces with suitable absorbent material.',
       'Use drip trays under machinery to reduce oily surfaces and fire risk, especially on pontoons.',
       'Clean spillages promptly and maintain spill kits with booms that can be deployed on water.',
-    ]
+    ],
         measurements: [
       'Pontoons: materials awaiting use should not be piled more than two pallets high.',
-    ]
+    ],
         documents: [
       'Housekeeping checklist',
       'Spill response plan',
@@ -1154,14 +1154,14 @@ class AbuDhabiCop30To31 {
       'Heat',
       'Reduced visibility',
       'Wave/current change',
-    ]
+    ],
         requirements: [
       'Obtain and communicate local weather conditions at the start of each workday/shift.',
       'Monitor weather throughout the work for deterioration.',
       'Consider hot weather, rain, rising winds, fog and sea mist as potential hazards.',
       'Define operating limits in the task risk assessment, manufacturer instructions and competent-authority/project requirements.',
       'Suspend work when weather conditions create a risk to safe execution.',
-    ]
+    ],
         documents: [
       'Daily weather briefing',
       'Weather monitoring record',
@@ -1176,7 +1176,7 @@ class AbuDhabiCop30To31 {
       'Locate first-aid equipment so it can reach the work area quickly.',
       'Plan for post-rescue medical assessment and treatment even when the casualty appears to recover.',
       'Brief workers on alarm raising and initial safe response.',
-    ]
+    ],
         documents: [
       'First-aid arrangements',
       'CPR/drowning competency',
@@ -1190,14 +1190,14 @@ class AbuDhabiCop30To31 {
       'Secondary rescuer drowning',
       'Current carrying casualty away',
       'Delayed retrieval',
-    ]
+    ],
         requirements: [
       'Select the safest practical rescue method.',
       'For a conscious person who can respond, prefer reach/throw methods from a safe position where practicable rather than entering the water.',
       'Prevent untrained persons from making uncontrolled water entries.',
       'After retrieval, provide drowning/medical response and arrange appropriate medical assessment.',
       'Keep the rescue method compatible with the current, tide, platform height and access to the casualty.',
-    ]
+    ],
         documents: [
       'Rescue plan',
       'Rescue drill record',
@@ -1212,10 +1212,10 @@ class AbuDhabiCop30To31 {
       'Equipment should provide sufficient buoyancy to keep the wearer afloat face-up, be secure, visible and resistant to the working environment.',
       'Prevent snagging and maintain inflatable equipment according to its inspection requirements.',
       'Where specified by the CoP, provide clip-on self-igniting lights for the buoyancy aid.',
-    ]
+    ],
         measurements: [
       'PFD type specified by CoP 31.0: Type I or Type II.',
-    ]
+    ],
         inspection: [
       'Fit and condition',
       'Buoyancy system',
@@ -1233,10 +1233,10 @@ class AbuDhabiCop30To31 {
       'Use registered craft, maintain required registration, and operate within the permitted passenger capacity for the craft.',
       'Provide appropriate life-saving and firefighting equipment specified by the relevant authority.',
       'Ensure operators are appropriately licensed and the craft is maintained and inspected.',
-    ]
+    ],
         measurements: [
       'The CoP notes VHF radio where a craft is longer than 10.7 m, subject to applicable authority requirements.',
-    ]
+    ],
         documents: [
       'Boat registration',
       'Passenger capacity information',
@@ -1252,11 +1252,11 @@ class AbuDhabiCop30To31 {
       'Use a buoyant lifeline long enough for the height of the work position, tide range and possible downstream movement.',
       'Provide approved self-ignition lights for night work where required.',
       'Check lifebuoys and rescue lines daily for location and serviceable condition.',
-    ]
+    ],
         measurements: [
       'Lifebuoy normally specified: approximately 765 mm outside diameter.',
       'Buoyant lifeline specified: 30 m, with knots at 3 m intervals for handhold.',
-    ]
+    ],
         documents: [
       'Daily rescue-equipment inspection',
     ]
@@ -1270,7 +1270,7 @@ class AbuDhabiCop30To31 {
       'Use buoyant lines with a marker float at the free end.',
       'Avoid trailing line ends that could foul boats.',
       'Inspect the lines daily and confirm they remain in position and serviceable.',
-    ]
+    ],
         documents: [
       'Daily grab-line inspection',
       'Rescue equipment layout',
@@ -1284,7 +1284,7 @@ class AbuDhabiCop30To31 {
       'Ensure boat and watercraft operators hold the required licences.',
       'After a lifebuoy or rescue boat is used for a person in the water, stop work until the rescue equipment is reset and ready for the next emergency.',
       'Ensure water-safety personnel hold the required first-aid certification.',
-    ]
+    ],
         documents: [
       'Rescue-drill records',
       'Boat operator licence',
@@ -1303,7 +1303,7 @@ class AbuDhabiCop30To31 {
       'Test powered craft periodically when not on patrol to ensure operational readiness.',
       'Provide the required oars/paddles, retaining arrangements, grab lines, rescue PFD and reliable two-way communication with shore.',
       'Keep rescue equipment ready for immediate deployment and ensure crew understand the rescue method.',
-    ]
+    ],
         documents: [
       'Boat pre-use inspection',
       'Operator licence',
@@ -1361,7 +1361,7 @@ class AbuDhabiCop30To31 {
       'First aider trained in CPR and drowning response available.',
       'Weather conditions checked and operating limits understood.',
       'Housekeeping, spill control and water-traffic interface verified.',
-    ]
+    ],
         inspection: [
       'Pre-start water-safety inspection',
       'PFD inspection',
