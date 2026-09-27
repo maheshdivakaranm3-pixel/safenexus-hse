@@ -29,7 +29,15 @@ class AbuDhabiCop27To29 {
     title: 'Confined Spaces',
     version: '4.0',
     effectiveDate: '15 July 2024',
-    introduction: '''BEFORE WORK STARTS — CONFINED SPACE SAFETY PREPARATION
+    introduction: '''WHAT IS CoP 27.0 — CONFINED SPACES?
+
+A confined space is an enclosed or substantially enclosed space where serious risks may arise because of the space, its contents, the work being performed or the surrounding conditions. Examples include tanks, vessels, manholes, pits, silos, ducts, shafts and similar spaces. Typical specified risks include fire or explosion, oxygen deficiency or unsafe atmosphere, toxic gases/fumes, flooding, engulfment or entrapment.
+
+WHAT IS THE PURPOSE OF CoP 27.0?
+
+CoP 27.0 establishes the Abu Dhabi requirements for identifying confined spaces, avoiding unnecessary entry, assessing entry-specific risks, controlling hazards, using safe systems of work and permits where required, providing competent personnel, atmospheric testing, isolation, communication and emergency rescue arrangements.
+
+BEFORE WORK STARTS — CONFINED SPACE SAFETY PREPARATION
 
 1. CONFIRM THE WORK AND THE SPACE
 Confirm why entry is necessary and whether the task can be completed from outside. Identify the space, entry points, contents, previous service/process, internal configuration, likely hazards and the people who may be affected. Classify the space and determine whether it is a permit-required confined space (PRCS).
@@ -385,7 +393,15 @@ SafeNexus field note: this is an original field-use safety summary based on the 
     title: 'Hot Work Operations (e.g. Welding and Cutting)',
     version: '4.1',
     effectiveDate: '27 February 2026',
-    introduction: '''BEFORE HOT WORK STARTS — SAFETY PREPARATION
+    introduction: '''WHAT IS CoP 28.0 — HOT WORK OPERATIONS?
+
+Hot work means work that produces heat, flame, sparks or hot particles. It includes welding, thermal or oxygen cutting, grinding, heating and similar spark- or heat-producing activities. Hot work can create fire, explosion, burn, fume, electrical, radiation and other hazards, particularly where combustible or flammable materials are present.
+
+WHAT IS THE PURPOSE OF CoP 28.0?
+
+CoP 28.0 establishes Abu Dhabi requirements for planning and controlling hot work so that fire, explosion, burns, harmful fumes, electrical hazards and radiation risks are controlled before and during the work.
+
+BEFORE HOT WORK STARTS — SAFETY PREPARATION
 
 1. DEFINE THE HOT WORK AND THE WORK AREA
 Identify the exact task: welding, cutting, brazing, heating, grinding or other spark/heat-producing work. Confirm whether the task is inside a designated hot-work area or elsewhere. Identify combustible construction, nearby processes, hidden voids and people who may be exposed to sparks, heat, fumes, radiation or molten metal.
@@ -679,7 +695,15 @@ SafeNexus field note: this is an original field-use safety summary based on the 
     title: 'Excavation Work',
     version: '4.1',
     effectiveDate: '27 February 2026',
-    introduction: '''BEFORE EXCAVATION STARTS — SAFETY PREPARATION
+    introduction: '''WHAT IS CoP 29.0 — EXCAVATION WORK?
+
+Excavation work is any activity that digs, moves, breaks or disturbs soil or rock, or otherwise creates a ground-disturbance risk. It includes trenches, pits, ditches, shafts, wells, grading, tunnelling, boring, drilling, post driving and work involving cofferdams or caissons. Excavation can expose people to collapse, falling material, underground services, falls, plant and vehicle hazards, water ingress and hazardous atmospheres.
+
+WHAT IS THE PURPOSE OF CoP 29.0?
+
+CoP 29.0 establishes Abu Dhabi requirements for assessing excavation risks and implementing controls such as service identification, permits and approvals, ground assessment, safe slopes or engineered support, access and egress, edge protection, plant control, inspections and emergency arrangements.
+
+BEFORE EXCAVATION STARTS — SAFETY PREPARATION
 
 1. CONFIRM THE EXCAVATION SCOPE
 Define the excavation limits, depth, width, length, purpose, method and sequence. Identify nearby buildings, roads, structures, plant, water sources, overhead services and underground services. Consider whether the excavation may also create confined-space, fall, traffic or atmospheric hazards.
