@@ -53,7 +53,7 @@ Entry necessity confirmed; PRCS register/program available; activity-specific RA
 Previous contents and residues must be considered. Tanks and vessels may contain toxic, flammable or oxygen-deficient atmospheres. Pipes must be positively isolated from hazardous flow/energy before entry. Manholes require secure access, atmospheric testing and rescue arrangements. Do not enter merely because a space has been opened or ventilated; the entry permit and controls must still be satisfied.
 
 FIELD RULE: NO ENTRY + NO VALID PERMIT + NO VERIFIED CONTROLS = NO WORK.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.'''',
+This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
     sections: [
     _section(
       '1.0', 'Introduction / Scope',
@@ -389,7 +389,7 @@ Daily competent inspection; correct leads and return cable; intact insulation; R
 Stop and reassess if the permit is missing/expired, gas readings are outside the permit limit, ventilation fails, combustibles cannot be controlled, firefighting protection is unavailable, equipment is defective, isolation is lost, weather/site conditions create a new hazard, or the fire-watch arrangement required by the permit is not in place.
 
 FIELD RULE: CONTROL THE FIRE PATH, THE ATMOSPHERE, THE ENERGY AND THE PEOPLE AROUND THE HOT WORK.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.'''',
+This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
     sections: [
     _section(
       '1.0', 'Introduction / Scope',
@@ -679,7 +679,7 @@ Deep and confined excavations require a continuous routine for testing for noxio
 A competent person should inspect before work starts, at least daily and before each shift. A thorough competent-person examination is also required weekly (every seven days) and after substantial collapse or damage, with records maintained.
 
 FIELD RULE: NO SERVICE VALIDATION + NO SAFE SUPPORT/SLOPE + NO SAFE ACCESS + NO COMPETENT SUPERVISION = NO EXCAVATION ENTRY.
-This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.'''',
+This SafeNexus section is an original field-learning summary; the controlled ADPHC publication remains the mandatory regulatory source.''',
     sections: [
       _section(
         '1', 'Introduction',
