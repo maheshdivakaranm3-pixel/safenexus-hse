@@ -2,18 +2,18 @@
 // SafeNexus HSE — Abu Dhabi HSE CoP list + field-reference hub
 
 import 'package:flutter/material.dart';
-import 'abu_dhabi_cop_01_to_03.dart';
-import 'abu_dhabi_cop_04_to_06.dart';
-import 'abu_dhabi_cop_08_to_09.dart';
-import 'abu_dhabi_cop_10_to_12.dart';
-import 'abu_dhabi_cop_13_to_15.dart';
-import 'abu_dhabi_cop_16_to_18.dart';
-import 'abu_dhabi_cop_19_to_21.dart';
-import 'abu_dhabi_cop_25.dart';
-import 'abu_dhabi_cop_22_to_24.dart';
-import 'abu_dhabi_scaffolding_reference_page.dart';
-import 'abu_dhabi_cop_27_28_29_MAXIMUM_DETAIL_FULL.dart';
-import 'abu_dhabi_cop_30_31.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_01_to_03.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_04_to_06.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_08_to_09.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_10_to_12.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_13_to_15.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_16_to_18.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_19_to_21.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_25.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_22_to_24.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_scaffolding_reference_page.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_27_28_29_MAXIMUM_DETAIL_FULL.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_30_31.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
