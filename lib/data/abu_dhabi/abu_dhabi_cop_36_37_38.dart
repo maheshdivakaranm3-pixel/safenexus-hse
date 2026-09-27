@@ -4,9 +4,9 @@
 // CoP 36.0 / 37.0 / 38.0 — Gold Standard Complete Study Material
 //
 // Official basis:
-// - CoP 36.0 Plant and Equipment, V4.1, effective 27 February 2026
-// - CoP 37.0 Ladders, V4.1, effective 27 February 2026
-// - CoP 38.0 Concrete Placing Equipment, V4.1, effective 27 February 2026
+// - CoP 36.0 Plant and Equipment, V4.1, effective 16 February 2026
+// - CoP 37.0 Ladders, V4.1, effective 16 February 2026
+// - CoP 38.0 Concrete Placing Equipment, V4.1, effective 16 February 2026
 //
 // Content is original SafeNexus explanatory wording. Official requirements are
 // paraphrased and organized for study, field verification and interview use.
@@ -31,7 +31,7 @@ class AbuDhabiCop36To38 {
     code: "CoP 36.0",
     title: "Plant and Equipment",
     version: "4.1",
-    effectiveDate: "27 February 2026",
+    effectiveDate: "16 February 2026",
     introduction:
         "CoP 36.0 covers the safe selection, planning, use, positioning, operation, "
         "inspection, maintenance, repair and control of plant and equipment. "
@@ -536,7 +536,7 @@ class AbuDhabiCop36To38 {
     code: "CoP 37.0",
     title: "Ladders",
     version: "4.1",
-    effectiveDate: "27 February 2026",
+    effectiveDate: "16 February 2026",
     introduction:
         "CoP 37.0 establishes requirements for selecting, setting up, securing, "
         "using, inspecting and maintaining ladders. Ladders are access equipment "
@@ -924,7 +924,7 @@ class AbuDhabiCop36To38 {
     code: "CoP 38.0",
     title: "Concrete Placing Equipment",
     version: "4.1",
-    effectiveDate: "27 February 2026",
+    effectiveDate: "16 February 2026",
     introduction:
         "CoP 38.0 covers concrete placing equipment used for pumping or spraying "
         "concrete. Typical equipment includes truck-mounted boom pumps, line pumps, "
