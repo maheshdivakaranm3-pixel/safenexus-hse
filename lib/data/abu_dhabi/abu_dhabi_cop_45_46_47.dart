@@ -14,7 +14,7 @@ class AbuDhabiCop45To47 {
   static final List<AbuDhabiCopDocument> documents = [cop45, cop46, cop47];
 
   static final AbuDhabiCopDocument cop45 = AbuDhabiCopDocument(
-    code: 'CoP 45',
+    code: 'CoP 45.0',
     title: 'Underwater Activities',
     version: '4.1',
     effectiveDate: '27 February 2026',
@@ -26,56 +26,49 @@ class AbuDhabiCop45To47 {
         requirements: ['Treat underwater work as a specialist operation requiring a planned diving system, competent personnel, suitable diving equipment and a dedicated emergency strategy.', 'CoP 45.0 applies to diving and related support operations in Abu Dhabi waters, including construction, general industry, recreational diving, commercial diving, ship repair, shipbuilding, shipbreaking and long-shoring.', 'Separate recreational diving/training arrangements from commercial diving controls. The work being performed and the depth/technique determine the competence and equipment needed.', 'Before mobilization identify whether the task is inspection, survey, construction, repair, welding/cutting, pipeline work, evidence/sample collection, photography, recovery or another specialist activity.'],
         hazards: ['Drowning', 'Decompression illness', 'Arterial gas embolism', 'Entrapment', 'Entanglement', 'Loss of breathing gas', 'Pressure injury', 'Cold/thermal stress', 'Poor visibility', 'Vessel movement', 'Dropped objects', 'Electrical or hydraulic energy'],
         documents: ['ADOSH-SF CoP 45.0 V4.1', 'Occupational Diving Program', 'Dive project plan', 'Task-specific risk assessment'],
-        controls: ['Hierarchy of controls first; engineering and operational controls before relying on PPE.', 'Use a dedicated diving supervisor/competent person and defined communications.', 'Control interfaces with lifting, vessels, discharge, pressure testing, firefighting systems and other simultaneous operations.'],
-        fieldNotes: ['HSE/Supervisor check: confirm dive type, depth, personnel, certification, medical fitness, equipment status, weather/tide/current, vessel interface and emergency arrangements before the first diver enters the water.'],
+        controls: ['Hierarchy of controls first; engineering and operational controls before relying on PPE.', 'Use a dedicated diving supervisor/competent person and defined communications.', 'Control interfaces with lifting, vessels, discharge, pressure testing, firefighting systems and other simultaneous operations.']
       ),
       AbuDhabiCopSection(
         number: "'45.2'",
         title: 'Training, Certification, Medical Fitness and Competency',
         requirements: ['All personnel must receive training appropriate to their duties, hazards, controls and emergency procedures.', 'Commercial diving work requires valid commercial diving certification appropriate to the work. Recreational diving services require recognised diving qualification/certification or an equivalent recognised qualification.', 'Competence must match the depth and actual operation; a diver qualified for one type of diving activity should not automatically be treated as competent for a different specialist operation.', 'Managers and supervisors must have the appropriate diving certification/qualification for the operation they supervise and appropriate first-aid capability.', 'Employers must arrange medical evaluation for divers before starting work and annually thereafter, by a physician familiar with diving hazards. Re-assessment is required where an obvious change in medical fitness occurs.', 'Maintain individual dive records/logbooks; the CoP requires employee daily dive records to be retained for a minimum of five years.'],
         hazards: ['Expired certification', 'Unverified medical fitness', 'Inadequate depth qualification', 'Inexperienced supervisor', 'Fatigue'],
-        documents: ['Diving certificates', 'Medical fitness certificate', 'Training records', 'Daily dive log', 'Refresher training records'],
-        fieldNotes: ['Never treat a normal HSE induction as a substitute for diving competency.', 'Verify actual scope, depth and equipment competence before mobilisation.'],
+        documents: ['Diving certificates', 'Medical fitness certificate', 'Training records', 'Daily dive log', 'Refresher training records']
       ),
       AbuDhabiCopSection(
         number: "'45.3'",
         title: 'Occupational Diving Program and Dive Project Plan',
         requirements: ['The employer shall establish an Occupational Diving Program covering competency, training, communication, pre-work assessment, emergency arrangements, incident reporting, medical surveillance, dive logging and equipment maintenance/testing.', 'Before commercial diving begins, prepare a diving project plan and update it when conditions change or new hazards are identified.', 'The project plan should identify the appointed competent diving supervisor, risk controls, diving technique, emergency contacts, medical facilities, Coast Guard interface, compressed-air quality testing and diver/surface communication arrangements.', 'Ensure all personnel understand the current plan and that changes are briefed before work continues.'],
         hazards: ['Uncontrolled change', 'Missing emergency contacts', 'Conflicting simultaneous operations', 'Inadequate communication'],
-        documents: ['Diving project plan', 'Occupational Diving Program', 'Pre-dive briefing', 'Emergency response plan'],
-        fieldNotes: ['Site/day-of-dive verification is essential; conditions can change even when the written plan is unchanged.'],
+        documents: ['Diving project plan', 'Occupational Diving Program', 'Pre-dive briefing', 'Emergency response plan']
       ),
       AbuDhabiCopSection(
         number: "'45.4'",
         title: 'Diving Supervisor, Team Structure and Surface Support',
         requirements: ['Diving operations shall not proceed without a competent appointed diving supervisor.', 'Define who controls the dive, who tends/supports the diver, who monitors communications, who controls the worksite and who activates emergency response.', 'Do not plan diving as lone work. Ensure medical assistance is available when required.', 'Maintain clear command and communication between diver, surface team, vessel/site management and emergency services.', 'Stop the dive if the supervisor loses effective control of the operation or reliable communication.'],
         hazards: ['Diver separation', 'Communication loss', 'Uncontrolled vessel movement', 'Inadequate surface support'],
-        documents: ['Dive team list', 'Duty roster', 'Communication test record', 'Emergency contact sheet'],
-        fieldNotes: ['A practical pre-dive check is: Who is diving? Who is supervising? Who is tending? Who is watching the surface? Who calls emergency services?'],
+        documents: ['Dive team list', 'Duty roster', 'Communication test record', 'Emergency contact sheet']
       ),
       AbuDhabiCopSection(
         number: "'45.5'",
         title: 'Risk Assessment — Water, Environment, Plant and Interface Hazards',
         requirements: ['Assess tides, currents, visibility, water temperature, weather, sea state, marine traffic, seabed condition, entanglement hazards and access/egress.', 'Identify all energy sources and interfaces: lifting operations, scaffolding, pumps, valves, subsea pressure testing, electrical systems, hydraulic systems, propellers, thrusters, intakes and discharges.', 'Identify dropped-object potential from over-side work and prevent personnel or equipment from entering the dive zone unless controlled.', 'Where simultaneous operations cannot be avoided, apply formal interface controls and PTW controls as required by the worksite system.'],
         hazards: ['Current/sweep', 'Vessel collision', 'Propeller/jet hazard', 'Suction/intake', 'Dropped object', 'Subsea pressure release', 'Electrical energy', 'Contaminated water'],
-        documents: ['Dive RA/JSA', 'SIMOPS/interface register', 'PTW', 'Marine exclusion plan'],
-        fieldNotes: ['Map the dive zone on the worksite plan; do not rely on verbal assumptions about nearby operations.'],
+        documents: ['Dive RA/JSA', 'SIMOPS/interface register', 'PTW', 'Marine exclusion plan']
       ),
       AbuDhabiCopSection(
         number: "'45.6'",
         title: 'Breathing Gas, Cylinders, Compressors and Equipment Integrity',
         requirements: ["Maintain all diving equipment according to manufacturer requirements and the diving organisation's applicable standards.", 'Verify cylinders, breathing-gas supply, hoses, regulators, masks/helmets, communications, bailout/emergency equipment and other life-support equipment before use.', "For operations deeper than 35 m, the CoP requires appropriate equipment and tested breathing gases meeting the applicable professional organisation's specifications.", 'Keep gas cylinders protected from damage and contamination and ensure identification and supply arrangements prevent incorrect gas use.', 'Do not use equipment with an unknown inspection, service or certification status.'],
         hazards: ['Gas contamination', 'Cylinder failure', 'Wrong gas', 'Hose failure', 'Loss of communications'],
-        documents: ['Equipment inspection/service records', 'Gas test certificate', 'Cylinder records', 'Manufacturer maintenance instructions'],
-        fieldNotes: ['For any specialist gas, depth or mixed-gas operation, the dive plan must state the gas-management and emergency strategy.'],
+        documents: ['Equipment inspection/service records', 'Gas test certificate', 'Cylinder records', 'Manufacturer maintenance instructions']
       ),
       AbuDhabiCopSection(
         number: "'45.7'",
         title: 'Depth, Decompression and Medical Emergency Controls',
         requirements: ['For diving operations deeper than 35 m, the CoP requires appropriate certification, equipment, tested breathing gases and access to a decompression chamber or bell with qualified medical staff within one hour, subject to the more stringent on-site requirements specified by the CoP for certain operations.', 'Recreational diving is limited to 40 m under the CoP; deeper recreational activities must follow commercial diving requirements.', 'Commercial operations must have emergency arrangements for decompression illness and identify a physician/medical facility capable of treating diving-related illness.', 'Include emergency evacuation route, communications, transport arrangements and hyperbaric treatment interface in the plan.'],
         hazards: ['Decompression illness', 'Barotrauma', 'Delayed medical treatment', 'Evacuation delay'],
-        documents: ['Dive/decompression plan', 'Emergency medical agreement', 'Hyperbaric facility details', 'Emergency contact list'],
-        fieldNotes: ['Depth alone is not the only risk factor: breathing gas, dive profile, task, workload, equipment and environmental conditions must be considered.'],
+        documents: ['Dive/decompression plan', 'Emergency medical agreement', 'Hyperbaric facility details', 'Emergency contact list']
       ),
       AbuDhabiCopSection(
         number: "'45.8'",
@@ -89,14 +82,12 @@ class AbuDhabiCop45To47 {
         title: 'Emergency Response, Diver Recovery and Rescue',
         requirements: ['Pre-plan lost diver, unconscious diver, entanglement, gas-supply failure, decompression illness, vessel movement, fire and medical evacuation scenarios.', 'Provide arrangements for rapid recovery of an injured diver, first aid and medical treatment.', 'Emergency contacts should include relevant emergency services, medical facilities, Coast Guard and diving-competent medical support as applicable.', 'Conduct drills appropriate to the operation and equipment so the team can execute the plan under pressure.'],
         hazards: ['Delayed rescue', 'Unconscious diver', 'Entrapment', 'Gas failure', 'Fire/abandonment', 'Decompression emergency'],
-        documents: ['Emergency response plan', 'Rescue drill records', 'First-aid arrangements', 'Medical evacuation route'],
-        fieldNotes: ['Never improvise a rescue technique that creates a second casualty; follow the approved diving emergency procedure.'],
+        documents: ['Emergency response plan', 'Rescue drill records', 'First-aid arrangements', 'Medical evacuation route']
       ),
       AbuDhabiCopSection(
         number: "'45.10'",
         title: 'Pre-Dive Field Checklist and Stop-Work Verification',
-        requirements: ['Confirm permits/licences, competent supervisor, diver certifications, medical fitness, equipment inspection, gas testing, weather/tide/current, communications, exclusion zone, SIMOPS controls and emergency arrangements.', 'Reconfirm the risk assessment at the worksite on the day of the dive and whenever conditions change.', 'Record the dive and report defects or incidents according to the occupational diving programme.'],
-        fieldNotes: ['Supervisor should physically verify the work area, not merely sign the paperwork.', 'Check that no over-side lifting, discharge, pressure testing, thruster/propeller operation or other incompatible activity can affect the diver.'],
+        requirements: ['Confirm permits/licences, competent supervisor, diver certifications, medical fitness, equipment inspection, gas testing, weather/tide/current, communications, exclusion zone, SIMOPS controls and emergency arrangements.', 'Reconfirm the risk assessment at the worksite on the day of the dive and whenever conditions change.', 'Record the dive and report defects or incidents according to the occupational diving programme.']
       ),
     ],
     fieldChecklist: ['Competent diving supervisor appointed', 'Diver certification and depth/task competency verified', 'Medical fitness current', 'Dive project plan and task RA approved', 'Equipment/cylinders/gas checks complete', 'Weather/tide/current/visibility checked', 'Marine exclusion zone established', 'Communications tested', 'SIMOPS/PTW controls confirmed', 'Emergency/hyperbaric medical arrangements confirmed'],
@@ -107,7 +98,7 @@ class AbuDhabiCop45To47 {
   );
 
   static final AbuDhabiCopDocument cop46 = AbuDhabiCopDocument(
-    code: 'CoP 46',
+    code: 'CoP 46.0',
     title: 'Underground Construction',
     version: '4.1',
     effectiveDate: '27 February 2026',
@@ -139,16 +130,14 @@ class AbuDhabiCop45To47 {
         title: 'Planning, Site Survey, Services Search and Validation Area',
         requirements: ['Validate all known and suspected underground services before excavation or underground construction.', 'Where service-owner validation areas overlap, treat the combined area as the controlled validation area.', 'Complete a validation-area risk assessment with the client/asset owner and incorporate the controls into the documented safe system of work.', 'Consider adjacent properties and the effect of underground works on neighbouring structures.'],
         hazards: ['Utility strike', 'Electric shock', 'Gas release', 'Water ingress', 'Structural damage'],
-        documents: ['Service drawings', 'Service-owner information', 'Detection/locating records', 'Validation-area RA'],
-        fieldNotes: ["Use the service owner's information and site detection/validation process together; drawings alone are not proof of exact service position."],
+        documents: ['Service drawings', 'Service-owner information', 'Detection/locating records', 'Validation-area RA']
       ),
       AbuDhabiCopSection(
         number: "'46.5'",
         title: 'Communication, Above-Ground Controller and Check-In/Check-Out',
         requirements: ['Whenever personnel are underground, maintain at least one designated person above ground.', 'The designated person maintains an accurate count of personnel underground and prevents unauthorised access.', 'The designated person must be capable of summoning emergency assistance immediately.', 'Where voice communication is ineffective, use a power-assisted communication system between the work face, shaft bottom and surface.', 'Use agreed audible/visual signals for shaft lifting and machine operations; signals to machine operators must be given by competent banksmen.'],
         hazards: ['Lost person', 'Communication loss', 'Unauthorised entry', 'Incorrect lifting signal'],
-        documents: ['Check-in/out register', 'Radio/communication test', 'Signal code', 'Emergency call procedure'],
-        fieldNotes: ['Recommended shaft signals in the CoP include distinct stop/lower/hoist/personnel-hoist/emergency signals; train everyone before use.'],
+        documents: ['Check-in/out register', 'Radio/communication test', 'Signal code', 'Emergency call procedure']
       ),
       AbuDhabiCopSection(
         number: "'46.6'",
@@ -190,8 +179,7 @@ class AbuDhabiCop45To47 {
         title: 'Dust, Noise and Occupational Health',
         requirements: ['Suppress tunnel dust at source using suitable methods such as wet drilling, water spraying, water infusion or extraction ventilation.', 'Maintain ventilation and extraction systems and control dust migration.', 'For dusty conditions, the CoP specifies a minimum air velocity of 0.5 m/s in relevant tunnel sections when using extraction ventilation to prevent back-migration; verify the engineering calculation for the actual system.', 'Assess noise exposure from drilling, excavation, ventilation and mechanical plant and apply hearing controls.'],
         hazards: ['Respirable dust', 'Silica exposure', 'Noise-induced hearing loss', 'Vibration'],
-        documents: ['Dust-control plan', 'Air monitoring', 'Noise assessment', 'PPE/RPE records'],
-        fieldNotes: ['Do not treat water spraying as the only control when the process still creates significant airborne dust.'],
+        documents: ['Dust-control plan', 'Air monitoring', 'Noise assessment', 'PPE/RPE records']
       ),
       AbuDhabiCopSection(
         number: "'46.12'",
@@ -237,7 +225,7 @@ class AbuDhabiCop45To47 {
   );
 
   static final AbuDhabiCopDocument cop47 = AbuDhabiCopDocument(
-    code: 'CoP 47',
+    code: 'CoP 47.0',
     title: 'Machine Guarding',
     version: '4.1',
     effectiveDate: '27 February 2026',
@@ -290,8 +278,7 @@ class AbuDhabiCop45To47 {
         title: 'Guard Placement, Reach and Minimum Clearances',
         requirements: ['Guard positioning must prevent a person from reaching the danger point through or around the guard.', 'The CoP table gives minimum assumed reach distances: arm reach at least 850 mm; elbow reach at least 550 mm; wrist reach at least 230 mm; finger reach at least 130 mm; vertical reach up to 2500 mm when standing on toes.', "For mesh/openings up to and including 9 mm, the guard can be very close to the danger point; openings over 9 mm and less than 40 mm require the CoP's specified separation, including at least 200 mm in the stated range.", 'The bottom opening between the guard and floor must not exceed 250 mm.', 'Use the complete CoP tables for barrier geometry rather than applying one generic clearance to every machine.'],
         hazards: ['Reach-through', 'Reach-over', 'Reach-under', 'Mesh opening access'],
-        documents: ['Guarding measurement record', 'CoP Table 1/2/3/4', 'Engineering verification'],
-        fieldNotes: ['The clearance values above are CoP-specific; verify the exact machine geometry against the official tables before finalising a guard.'],
+        documents: ['Guarding measurement record', 'CoP Table 1/2/3/4', 'Engineering verification']
       ),
       AbuDhabiCopSection(
         number: "'47.8'",
@@ -305,8 +292,7 @@ class AbuDhabiCop45To47 {
         title: 'Servicing, Cleaning, Jam Clearing and Safe Stop',
         requirements: ['Design guards so they can be safely removed and replaced for maintenance, cleaning and adjustment.', 'Guard removal must be controlled by a safe procedure and the machine must not be operating when guards are opened/removed.', 'Apply isolation/lockout provisions before clearing jams or accessing dangerous parts.', 'Consider hot/sharp parts, cool-down periods, working space, solvents, work at height and testing with guards removed.', 'After maintenance, reinstall guards and verify safety devices before return to service.'],
         hazards: ['Unexpected start-up', 'Stored energy', 'Sharp/hot parts', 'Restart with guard removed'],
-        documents: ['LOTO/isolation procedure', 'Maintenance permit', 'Guard reinstatement check', 'Servicing record'],
-        fieldNotes: ['HSE field rule: if a blockage cannot be cleared without entering the danger zone, stop, isolate and make the machine safe before intervention.'],
+        documents: ['LOTO/isolation procedure', 'Maintenance permit', 'Guard reinstatement check', 'Servicing record']
       ),
       AbuDhabiCopSection(
         number: "'47.10'",
@@ -334,8 +320,7 @@ class AbuDhabiCop45To47 {
         title: 'Wrong vs Safe Practice, Stop-Work and Quick Revision',
         requirements: ['Wrong: guard removed because it slows production. Safe: stop the machine and correct the guarding before operation.', 'Wrong: interlock taped or defeated. Safe: repair the safety system and investigate why it was being bypassed.', 'Wrong: worker reaches through a mesh opening to adjust a running machine. Safe: stop, isolate and use the approved adjustment method.', 'Wrong: defective machine remains available. Safe: isolate, identify as out of service, repair and verify before restart.', 'Stop work for missing/defeated guards, uncontrolled access to dangerous parts, failed interlocks, unexpected movement, exposed stored energy or unsafe maintenance.'],
         hazards: ['Missing guard', 'Defeated interlock', 'Unexpected movement', 'Unsafe jam clearing'],
-        documents: ['Stop-work record', 'Corrective action', 'Restart authorisation'],
-        fieldNotes: ['Interview point: guarding is an engineering control; PPE does not make an unguarded dangerous machine acceptable when guarding is reasonably practicable.'],
+        documents: ['Stop-work record', 'Corrective action', 'Restart authorisation']
       ),
     ],
     fieldChecklist: ['Machine-specific risk assessment current', 'Danger points identified', 'Fixed/other guards correctly installed', 'Interlocks/trip devices tested where applicable', 'Guard openings/clearances checked', 'No bypassed safety devices', 'Emergency stop functional', 'Maintenance isolation procedure available', 'Defects tagged/out of service', 'Guard reinstatement verified before restart'],
