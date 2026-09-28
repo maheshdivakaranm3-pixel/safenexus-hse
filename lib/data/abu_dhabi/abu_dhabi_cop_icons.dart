@@ -230,8 +230,8 @@ class _AbuDhabiCopIconsPageState extends State<AbuDhabiCopIconsPage> {
                 height: 42,
                 decoration: BoxDecoration(
                   color: item.pending
-                      ? Colors.orange.withOpacity(0.12)
-                      : _green.withOpacity(0.10),
+                      ? Colors.orange.withValues(alpha: 0.12)
+                      : _green.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
