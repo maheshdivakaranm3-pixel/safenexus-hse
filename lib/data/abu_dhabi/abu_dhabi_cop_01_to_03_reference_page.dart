@@ -17,6 +17,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_30_31.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_33_34_35.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_36_37_38.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_39_40_41.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_42_43_44.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -59,6 +60,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop33To35.documents,
         ...AbuDhabiCop36To38.documents,
         ...AbuDhabiCop39To41.documents,
+        ...AbuDhabiCop42To44.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
@@ -427,6 +429,18 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.view_in_ar_outlined;
       case 'CoP 41.0':
         return Icons.architecture_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
       default:
         return Icons.shield_outlined;
     }
@@ -620,6 +634,18 @@ class _CopDocumentDetailPage extends StatelessWidget {
         return Icons.view_in_ar_outlined;
       case 'CoP 41.0':
         return Icons.architecture_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
       default:
         return Icons.shield_outlined;
     }
