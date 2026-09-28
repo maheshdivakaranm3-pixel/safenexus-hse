@@ -12,11 +12,6 @@ class EmergencyRescuePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topics = <EmergencyRescueTopic>[
-      ...emergencyRescuePart1,
-      ...emergencyRescuePart2,
-    ];
-
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
