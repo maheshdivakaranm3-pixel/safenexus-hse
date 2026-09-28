@@ -184,7 +184,7 @@ class _AbuDhabiCopIconsPageState extends State<AbuDhabiCopIconsPage> {
                 transformationController: _transformController,
                 minScale: 1,
                 maxScale: 3,
-                panEnabled: true,
+                panEnabled: _zoomed,
                 scaleEnabled: true,
                 boundaryMargin: const EdgeInsets.all(80),
                 onInteractionUpdate: _onInteractionUpdate,
@@ -236,6 +236,7 @@ class _AbuDhabiCopIconsPageState extends State<AbuDhabiCopIconsPage> {
                 ),
                 child: Icon(
                   item.icon,
+                  size: 25,
                   color: item.pending ? Colors.orange.shade800 : _green,
                 ),
               ),
