@@ -1,5 +1,5 @@
 // SafeNexus HSE — Emergency & Rescue Part 3 Advanced
-// File: lib/data/emergency_rescue/emergency_rescue_part3_advanced.dart
+// File: lib/data/emergency_rescue/emergency_rescue_part3.dart
 //
 // ADDITIVE EXTRA CONTENT ONLY.
 // Does not modify Part 1, Part 2, Part 3, navigation, or shared model.
@@ -13,7 +13,7 @@
 
 import 'emergency_rescue_part1.dart';
 
-const List<EmergencyRescueTopic> emergencyRescuePart3Advanced =
+const List<EmergencyRescueTopic> emergencyRescuePart3 =
     <EmergencyRescueTopic>[
   EmergencyRescueTopic(
     id: 'ER-09A',
