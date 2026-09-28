@@ -435,12 +435,6 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.home_work_outlined;
       case 'CoP 44.0':
         return Icons.alt_route_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
       default:
         return Icons.shield_outlined;
     }
@@ -634,18 +628,6 @@ class _CopDocumentDetailPage extends StatelessWidget {
         return Icons.view_in_ar_outlined;
       case 'CoP 41.0':
         return Icons.architecture_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
       default:
         return Icons.shield_outlined;
     }
