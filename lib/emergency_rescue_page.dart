@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/emergency_rescue/emergency_rescue_part1.dart';
+import 'data/emergency_rescue/emergency_rescue_part2.dart';
 import 'emergency_management.dart';
 
 class EmergencyRescuePage extends StatelessWidget {
@@ -11,6 +12,11 @@ class EmergencyRescuePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topics = <EmergencyRescueTopic>[
+      ...emergencyRescuePart1,
+      ...emergencyRescuePart2,
+    ];
+
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
@@ -59,7 +65,7 @@ class EmergencyRescuePage extends StatelessWidget {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  'Practical guidance for emergency preparedness, response, evacuation and rescue. Select a topic to study the explanation, site actions, examples and interview answers.',
+                  'Emergency preparedness, response, evacuation and rescue guidance for HSE Officers, Supervisors and Emergency Team members.',
                   style: TextStyle(color: Colors.white, height: 1.45),
                 ),
               ],
@@ -75,60 +81,21 @@ class EmergencyRescuePage extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          const SizedBox(height: 5),
-          const Text(
-            'Four detailed topics for HSE Officers, Supervisors and Emergency Team members.',
-            style: TextStyle(color: Colors.black54, height: 1.4),
-          ),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart1.map((topic) => _topicTile(context, topic)),
           const SizedBox(height: 12),
-          ...emergencyRescuePart1.map(
-            (topic) => Card(
-              elevation: 0,
-              margin: const EdgeInsets.only(bottom: 11),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Color(0xFFE1EAE6)),
-              ),
-              child: ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                leading: CircleAvatar(
-                  radius: 23,
-                  backgroundColor: const Color(0xFFE1F2E9),
-                  foregroundColor: _green,
-                  child: Text(
-                    topic.id.replaceFirst('ER-', ''),
-                    style: const TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                ),
-                title: Text(
-                  topic.title,
-                  style: const TextStyle(
-                    color: Color(0xFF17324D),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Text(
-                    topic.purpose,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(height: 1.35),
-                  ),
-                ),
-                trailing: const Icon(Icons.chevron_right, color: _green),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => EmergencyRescueTopicPage(topic: topic),
-                    ),
-                  );
-                },
-              ),
+          const Text(
+            'PART 2 — EVACUATION, FIRE, MEDICAL & RESCUE',
+            style: TextStyle(
+              color: _green,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+              fontSize: 13,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart2.map((topic) => _topicTile(context, topic)),
+          const SizedBox(height: 10),
           OutlinedButton.icon(
             onPressed: () {
               Navigator.of(context).push(
@@ -142,10 +109,58 @@ class EmergencyRescuePage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           const Text(
-            'Regulatory note: This is general learning material. Follow the current site Emergency Response Plan, applicable authority requirements, approved procedures and emergency-service instructions. Confirm legal limits and drill intervals from current official requirements before treating them as mandatory.',
+            'Training reference only. Follow the current site Emergency Response Plan, approved rescue arrangements, applicable authority requirements and emergency-service instructions. Verify legal limits and mandatory intervals from current official sources.',
             style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.45),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _topicTile(BuildContext context, EmergencyRescueTopic topic) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: Color(0xFFE1EAE6)),
+      ),
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        leading: CircleAvatar(
+          radius: 23,
+          backgroundColor: const Color(0xFFE1F2E9),
+          foregroundColor: _green,
+          child: Text(
+            topic.id.replaceFirst('ER-', ''),
+            style: const TextStyle(fontWeight: FontWeight.w800),
+          ),
+        ),
+        title: Text(
+          topic.title,
+          style: const TextStyle(
+            color: Color(0xFF17324D),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 7),
+          child: Text(
+            topic.purpose,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(height: 1.35),
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: _green),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => EmergencyRescueTopicPage(topic: topic),
+            ),
+          );
+        },
       ),
     );
   }
@@ -183,7 +198,7 @@ class EmergencyRescueTopicPage extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    '${topic.id}  •  Field Handbook Explanation',
+                    '${topic.id} • Field Handbook Explanation',
                     style: const TextStyle(
                       color: _green,
                       fontWeight: FontWeight.w800,
@@ -197,8 +212,8 @@ class EmergencyRescueTopicPage extends StatelessWidget {
           const SizedBox(height: 12),
           _section('1. Purpose — Why this topic matters', <String>[topic.purpose]),
           _section('2. Scope & Applicability', <String>[topic.scope]),
-          _section('3. Knowledge — Understand the requirements', topic.keyKnowledge),
-          _section('4. Site Implementation — What the team should do', topic.siteImplementation),
+          _section('3. Knowledge — Detailed Explanation', topic.keyKnowledge),
+          _section('4. Site Implementation — Practical Actions', topic.siteImplementation),
           _section('5. Practical Site Example', topic.practicalExample),
           _section('6. Stop-Work / Escalation Conditions', topic.stopWorkConditions),
           _section('7. Interview Preparation — Questions & Answers', topic.interviewQuestions),
