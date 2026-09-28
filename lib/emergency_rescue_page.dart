@@ -1,4 +1,11 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:share_plus/share_plus.dart';
 
 import 'data/emergency_rescue/emergency_rescue_part1.dart';
 import 'data/emergency_rescue/emergency_rescue_part2.dart';
@@ -6,6 +13,7 @@ import 'data/emergency_rescue/emergency_rescue_part3.dart';
 import 'data/emergency_rescue/emergency_rescue_part4.dart';
 import 'data/emergency_rescue/emergency_rescue_part5.dart';
 import 'emergency_management.dart';
+import 'emergency_topic_documents.dart';
 
 class EmergencyRescuePage extends StatelessWidget {
   const EmergencyRescuePage({super.key});
@@ -252,6 +260,26 @@ class EmergencyRescueTopicPage extends StatelessWidget {
           _section('5. Practical Site Example', topic.practicalExample),
           _section('6. Stop-Work / Escalation Conditions', topic.stopWorkConditions),
           _section('7. Interview Preparation — Questions & Answers', topic.interviewQuestions),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            icon: const Icon(Icons.assignment_outlined),
+            label: const Text('Open Topic-specific Documents Checklist'),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => EmergencyTopicDocumentsPage(
+                  topicId: topic.id,
+                  topicTitle: topic.title,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          FilledButton.icon(
+            icon: const Icon(Icons.file_download_outlined),
+            label: const Text('Save / Export This Document'),
+            onPressed: () => _showExportOptions(context),
+          ),
+          const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
@@ -274,6 +302,125 @@ class EmergencyRescueTopicPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  List<MapEntry<String, List<String>>> _documentSections() => [
+        MapEntry('Purpose', [topic.purpose]),
+        MapEntry('Scope & Applicability', [topic.scope]),
+        MapEntry('Detailed Explanation', topic.keyKnowledge),
+        MapEntry('Site Implementation', topic.siteImplementation),
+        MapEntry('Practical Site Example', topic.practicalExample),
+        MapEntry('Stop-Work / Escalation Conditions', topic.stopWorkConditions),
+        MapEntry('Interview Preparation', topic.interviewQuestions),
+      ];
+
+  String _plainText() {
+    final out = StringBuffer('SafeNexus HSE — Emergency & Rescue\n${topic.id}: ${topic.title}\n\n');
+    for (final section in _documentSections()) {
+      out.writeln('${section.key}\n');
+      for (final item in section.value) {
+        out.writeln('• $item');
+      }
+      out.writeln();
+    }
+    out.writeln('Field reminder: Protect life first. Raise the alarm early. Do not attempt an unplanned rescue or enter an uncontrolled hazard. Follow the approved site ERP and competent responder instructions.');
+    return out.toString();
+  }
+
+  Future<Directory> _exportDirectory() async =>
+      await getTemporaryDirectory();
+
+  Future<void> _shareExport(String extension, List<int> bytes, String mime) async {
+    final dir = await _exportDirectory();
+    final safeTitle = topic.title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_').replaceAll(RegExp(r'^_|_$'), '');
+    final file = File('${dir.path}/${topic.id.toLowerCase()}_$safeTitle.$extension');
+    await file.writeAsBytes(bytes, flush: true);
+    await Share.shareXFiles([XFile(file.path, mimeType: mime)], text: '${topic.id} — ${topic.title}');
+  }
+
+  Future<void> _exportPdf() async {
+    final doc = pw.Document();
+    doc.addPage(pw.MultiPage(build: (_) => [
+      pw.Text('SafeNexus HSE — Emergency & Rescue', style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+      pw.SizedBox(height: 8),
+      pw.Text('${topic.id}: ${topic.title}', style: pw.TextStyle(fontSize: 15, fontWeight: pw.FontWeight.bold)),
+      pw.SizedBox(height: 12),
+      ..._documentSections().expand((section) => [
+        pw.Text(section.key, style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
+        ...section.value.map((item) => pw.Padding(padding: const pw.EdgeInsets.only(bottom: 6), child: pw.Text('• $item'))),
+        pw.SizedBox(height: 8),
+      ]),
+      pw.Text('Field reminder: Protect life first. Raise the alarm early. Do not attempt an unplanned rescue or enter an uncontrolled hazard. Follow the approved site ERP and competent responder instructions.'),
+    ]));
+    await _shareExport('pdf', await doc.save(), 'application/pdf');
+  }
+
+  Future<void> _exportExcel() async {
+    final book = Excel.createExcel();
+    final sheet = book['Emergency Topic'];
+    sheet.appendRow([TextCellValue('SafeNexus HSE — Emergency & Rescue')]);
+    sheet.appendRow([TextCellValue('${topic.id}: ${topic.title}')]);
+    sheet.appendRow([TextCellValue('Section'), TextCellValue('Content')]);
+    for (final section in _documentSections()) {
+      for (final item in section.value) {
+        sheet.appendRow([TextCellValue(section.key), TextCellValue(item)]);
+      }
+    }
+    final bytes = book.encode();
+    if (bytes == null) throw StateError('Could not create Excel workbook');
+    await _shareExport('xlsx', bytes, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  }
+
+  String _rtfEscape(String value) {
+    final out = StringBuffer();
+    for (final rune in value.runes) {
+      if (rune == 92 || rune == 123 || rune == 125) {
+        out.write('\\${String.fromCharCode(rune)}');
+      } else if (rune == 10) {
+        out.write(r'\par ');
+      } else if (rune <= 127) {
+        out.writeCharCode(rune);
+      } else {
+        final units = String.fromCharCodes([rune]).codeUnits;
+        for (final unit in units) {
+          final signed = unit > 32767 ? unit - 65536 : unit;
+          out.write('\\u${signed}?');
+        }
+      }
+    }
+    return out.toString();
+  }
+
+  Future<void> _exportWord() async {
+    final content = StringBuffer(r'{\rtf1\ansi\deff0{\fonttbl{\f0 Arial;}}\f0\fs24 ');
+    content.write(_rtfEscape('SafeNexus HSE — Emergency & Rescue\n${topic.id}: ${topic.title}\n\n'));
+    for (final section in _documentSections()) {
+      content.write(r'\b ');
+      content.write(_rtfEscape('${section.key}\n'));
+      content.write(r'\b0 ');
+      for (final item in section.value) {
+        content.write(_rtfEscape('• $item\n'));
+      }
+      content.write(r'\par ');
+    }
+    content.write(r'}');
+    await _shareExport('rtf', utf8.encode(content.toString()), 'application/rtf');
+  }
+
+  Future<void> _showExportOptions(BuildContext context) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          const ListTile(title: Text('Save / Share Document', style: TextStyle(fontWeight: FontWeight.w800))),
+          ListTile(leading: const Icon(Icons.picture_as_pdf), title: const Text('PDF'), subtitle: const Text('Portable document'), onTap: () { Navigator.pop(sheetContext); _exportPdf(); }),
+          ListTile(leading: const Icon(Icons.description_outlined), title: const Text('Word document (RTF)'), subtitle: const Text('Opens in Microsoft Word; save as DOCX if needed'), onTap: () { Navigator.pop(sheetContext); _exportWord(); }),
+          ListTile(leading: const Icon(Icons.table_chart_outlined), title: const Text('Excel (XLSX)'), subtitle: const Text('Sections and content in rows'), onTap: () { Navigator.pop(sheetContext); _exportExcel(); }),
+          const SizedBox(height: 10),
+        ]),
       ),
     );
   }
