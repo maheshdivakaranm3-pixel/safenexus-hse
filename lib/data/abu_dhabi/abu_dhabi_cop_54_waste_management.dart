@@ -310,7 +310,7 @@ class AbuDhabiCop54Page extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: _deepGreen.withOpacity(.18),
+              color: _deepGreen.withValues(alpha: .18),
               blurRadius: 18,
               offset: const Offset(0, 8),
             )
@@ -379,7 +379,7 @@ class AbuDhabiCop54Page extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-                color: color.withOpacity(.13),
+                color: color.withValues(alpha: .13),
                 blurRadius: 8,
                 offset: const Offset(0, 4))
           ],
@@ -554,7 +554,7 @@ class _StatusPill extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.18),
+          color: Colors.white.withValues(alpha: .18),
           borderRadius: BorderRadius.circular(30),
           border: Border.all(color: Colors.white54),
         ),
