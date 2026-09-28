@@ -405,82 +405,7 @@ class _AbuDhabiCop01To03ReferencePageState
     );
   }
 
-  IconData _iconFor(String code) {
-    switch (code) {
-      case 'CoP 1.0':
-        return Icons.science_outlined;
-      case 'CoP 1.1':
-        return Icons.warning_amber_rounded;
-      case 'CoP 1.2':
-        return Icons.health_and_safety;
-      case 'CoP 2.0':
-        return Icons.engineering;
-      case 'CoP 3.0':
-        return Icons.hearing;
-      case 'CoP 3.1':
-        return Icons.vibration;
-      case 'CoP 10.0':
-        return Icons.assignment_return_outlined;
-      case 'CoP 11.0':
-        return Icons.wb_sunny_outlined;
-      case 'CoP 12.0':
-        return Icons.water_drop_outlined;
-      case 'CoP 27.0':
-        return Icons.meeting_room_outlined;
-      case 'CoP 28.0':
-        return Icons.local_fire_department_outlined;
-      case 'CoP 29.0':
-        return Icons.foundation_outlined;
-      case 'CoP 30.0':
-        return Icons.person_off_outlined;
-      case 'CoP 31.0':
-        return Icons.water_outlined;
-      case 'CoP 33.0':
-        return Icons.traffic_outlined;
-      case 'CoP 34.0':
-        return Icons.precision_manufacturing_outlined;
-      case 'CoP 35.0':
-        return Icons.handyman_outlined;
-      case 'CoP 36.0':
-        return Icons.agriculture_outlined;
-      case 'CoP 37.0':
-        return Icons.stairs_outlined;
-      case 'CoP 38.0':
-        return Icons.local_shipping_outlined;
-      case 'CoP 39.0':
-        return Icons.electrical_services_outlined;
-      case 'CoP 40.0':
-        return Icons.view_in_ar_outlined;
-      case 'CoP 41.0':
-        return Icons.architecture_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
-      case 'CoP 45.0':
-        return Icons.water_outlined;
-      case 'CoP 46.0':
-        return Icons.construction_outlined;
-      case 'CoP 47.0':
-        return Icons.precision_manufacturing_outlined;
-      case 'CoP 48.0':
-        return Icons.format_paint_outlined;
-      case 'CoP 49.0':
-        return Icons.air_outlined;
-      case 'CoP 50.0':
-        return Icons.blur_on_outlined;
-      case 'CoP 51.0':
-        return Icons.local_shipping_outlined;
-      case 'CoP 52.0':
-        return Icons.air_outlined;
-      case 'CoP 53.0':
-        return Icons.business_outlined;
-      default:
-        return Icons.shield_outlined;
-    }
-  }
+  IconData _iconFor(String code) => _abuDhabiCopIcon(code);
 
   bool _showCop54ForQuery(String query) {
     final q = query.trim().toLowerCase();
@@ -576,16 +501,79 @@ class _AbuDhabiCop01To03ReferencePageState
   }
 }
 
-class _CopDocumentDetailPage extends StatelessWidget {
+class _CopDocumentDetailPage extends StatefulWidget {
   const _CopDocumentDetailPage({required this.doc});
-
-  static const Color green = Color(0xFF159447);
-  static const Color navy = Color(0xFF082653);
 
   final AbuDhabiCopDocument doc;
 
   @override
+  State<_CopDocumentDetailPage> createState() => _CopDocumentDetailPageState();
+}
+
+class _CopDocumentDetailPageState extends State<_CopDocumentDetailPage> {
+  static const Color green = Color(0xFF159447);
+  static const Color navy = Color(0xFF082653);
+
+  final TextEditingController _search = TextEditingController();
+  final TransformationController _transform = TransformationController();
+  String _query = '';
+  bool _zoomed = false;
+
+  AbuDhabiCopDocument get doc => widget.doc;
+
+  @override
+  void dispose() {
+    _search.dispose();
+    _transform.dispose();
+    super.dispose();
+  }
+
+  bool _contains(String value) => value.toLowerCase().contains(_query.trim().toLowerCase());
+
+  bool _sectionMatches(AbuDhabiCopSection s) {
+    if (_query.trim().isEmpty) return true;
+    return [
+      s.number, s.title, ...s.hazards, ...s.requirements, ...s.measurements,
+      ...s.controls, ...s.documents, ...s.inspection,
+    ].any(_contains);
+  }
+
+  List<String> _matchingItems(List<String> items) =>
+      _query.trim().isEmpty ? items : items.where(_contains).toList();
+
+  void _toggleZoom() {
+    final scale = _zoomed ? 1.0 : 1.5;
+    setState(() {
+      _zoomed = !_zoomed;
+      _transform.value = Matrix4.diagonal3Values(scale, scale, 1.0);
+    });
+  }
+
+  void _resetZoom() {
+    setState(() {
+      _zoomed = false;
+      _transform.value = Matrix4.identity();
+    });
+  }
+
+  void _updateZoomState() {
+    final scale = _transform.value.getMaxScaleOnAxis();
+    final next = scale > 1.01;
+    if (next != _zoomed && mounted) setState(() => _zoomed = next);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final sections = doc.sections.where(_sectionMatches).toList();
+    final protection = _matchingItems(doc.protectionItems);
+    final checklist = _matchingItems(doc.fieldChecklist);
+    final stopWork = _matchingItems(doc.stopWorkIndicators);
+    final references = _matchingItems(doc.references);
+    final introMatches = _query.trim().isEmpty || _contains(doc.title) || _contains(doc.introduction);
+    final hasMatches = introMatches || protection.isNotEmpty || sections.isNotEmpty ||
+        checklist.isNotEmpty || stopWork.isNotEmpty || references.isNotEmpty ||
+        _contains(doc.verificationNote);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F8FB),
       appBar: AppBar(
@@ -593,348 +581,291 @@ class _CopDocumentDetailPage extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: navy,
         elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: _zoomed ? 'Reset zoom' : 'Zoom in',
+            onPressed: _toggleZoom,
+            icon: Icon(_zoomed ? Icons.zoom_out_map : Icons.zoom_in),
+          ),
+          IconButton(
+            tooltip: 'Reset zoom',
+            onPressed: _resetZoom,
+            icon: const Icon(Icons.center_focus_strong),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 54,
-                    height: 54,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE7F5EC),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      _detailIcon(doc.code),
-                      color: green,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          doc.title,
-                          style: const TextStyle(
-                            color: navy,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Version ${doc.version} • ${doc.effectiveDate}',
-                          style: const TextStyle(
-                            color: green,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
+            child: TextField(
+              controller: _search,
+              onChanged: (value) => setState(() => _query = value),
+              decoration: InputDecoration(
+                hintText: 'Search inside ${doc.code}...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _query.isEmpty ? null : IconButton(
+                  tooltip: 'Clear search',
+                  onPressed: () { _search.clear(); setState(() => _query = ''); },
+                  icon: const Icon(Icons.clear),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
-            const SizedBox(height: 12),
-            _textBlock(doc.title, doc.introduction),
-            if (doc.protectionItems.isNotEmpty)
-              _bulletBlock(
-                doc.code == 'CoP 2.0'
-                    ? 'PPE Types & Protection Provided'
-                    : 'Noise Protection Types & Protection Provided',
-                doc.code == 'CoP 2.0'
-                    ? Icons.health_and_safety
-                    : Icons.hearing,
-                green,
-                doc.protectionItems,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+            child: Row(
+              children: [
+                const Icon(Icons.touch_app_outlined, size: 17, color: Colors.black54),
+                const SizedBox(width: 6),
+                const Expanded(child: Text(
+                  'Pinch to zoom • Double-tap to zoom • Drag when zoomed • Scroll normally',
+                  style: TextStyle(color: Colors.black54, fontSize: 11.5),
+                )),
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  tooltip: 'Reset zoom',
+                  onPressed: _resetZoom,
+                  icon: const Icon(Icons.refresh),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onDoubleTap: _toggleZoom,
+              child: InteractiveViewer(
+                transformationController: _transform,
+                minScale: 1,
+                maxScale: 3,
+                scaleEnabled: true,
+                panEnabled: _zoomed,
+                boundaryMargin: const EdgeInsets.all(80),
+                onInteractionUpdate: (_) => _updateZoomState(),
+                onInteractionEnd: (_) => _updateZoomState(),
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _headerCard(),
+                      const SizedBox(height: 12),
+                      if (!hasMatches)
+                        const Padding(
+                          padding: EdgeInsets.all(28),
+                          child: Center(child: Text('No matching content in this CoP.')),
+                        ),
+                      if (introMatches) _textBlock(doc.title, doc.introduction),
+                      if (protection.isNotEmpty)
+                        _bulletBlock(
+                          doc.code == 'CoP 2.0'
+                              ? 'PPE Types & Protection Provided'
+                              : 'Noise Protection Types & Protection Provided',
+                          doc.code == 'CoP 2.0' ? Icons.health_and_safety : Icons.hearing,
+                          green,
+                          protection,
+                        ),
+                      for (final section in sections) _section(section),
+                      if (checklist.isNotEmpty)
+                        _bulletBlock('Field Checklist', Icons.checklist, green, checklist),
+                      if (stopWork.isNotEmpty)
+                        _bulletBlock('Stop-Work Indicators', Icons.stop_circle_outlined,
+                            const Color(0xFFC62828), stopWork),
+                      if (references.isNotEmpty)
+                        _bulletBlock('Official References', Icons.menu_book_outlined,
+                            navy, references),
+                      if (doc.verificationNote.isNotEmpty &&
+                          (_query.trim().isEmpty || _contains(doc.verificationNote)))
+                        _warningBlock(doc.verificationNote),
+                    ],
+                  ),
+                ),
               ),
-            for (final section in doc.sections) _section(section),
-            if (doc.fieldChecklist.isNotEmpty)
-              _bulletBlock(
-                'Field Checklist',
-                Icons.checklist,
-                green,
-                doc.fieldChecklist,
-              ),
-            if (doc.stopWorkIndicators.isNotEmpty)
-              _bulletBlock(
-                'Stop-Work Indicators',
-                Icons.stop_circle_outlined,
-                const Color(0xFFC62828),
-                doc.stopWorkIndicators,
-              ),
-            if (doc.references.isNotEmpty)
-              _bulletBlock(
-                'Official References',
-                Icons.menu_book_outlined,
-                navy,
-                doc.references,
-              ),
-            if (doc.verificationNote.isNotEmpty)
-              _warningBlock(doc.verificationNote),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
+      floatingActionButton: _zoomed
+          ? FloatingActionButton.small(
+              onPressed: _resetZoom,
+              backgroundColor: green,
+              foregroundColor: Colors.white,
+              tooltip: 'Reset zoom',
+              child: const Icon(Icons.center_focus_strong),
+            )
+          : null,
     );
   }
 
-  IconData _detailIcon(String code) {
-    switch (code) {
-      case 'CoP 1.0':
-        return Icons.science_outlined;
-      case 'CoP 1.1':
-        return Icons.warning_amber_rounded;
-      case 'CoP 1.2':
-        return Icons.health_and_safety;
-      case 'CoP 2.0':
-        return Icons.engineering;
-      case 'CoP 3.0':
-        return Icons.hearing;
-      case 'CoP 3.1':
-        return Icons.vibration;
-      case 'CoP 10.0':
-        return Icons.assignment_return_outlined;
-      case 'CoP 11.0':
-        return Icons.wb_sunny_outlined;
-      case 'CoP 12.0':
-        return Icons.water_drop_outlined;
-      case 'CoP 27.0':
-        return Icons.meeting_room_outlined;
-      case 'CoP 28.0':
-        return Icons.local_fire_department_outlined;
-      case 'CoP 29.0':
-        return Icons.foundation_outlined;
-      case 'CoP 30.0':
-        return Icons.person_off_outlined;
-      case 'CoP 31.0':
-        return Icons.water_outlined;
-      case 'CoP 33.0':
-        return Icons.traffic_outlined;
-      case 'CoP 34.0':
-        return Icons.precision_manufacturing_outlined;
-      case 'CoP 35.0':
-        return Icons.handyman_outlined;
-      case 'CoP 36.0':
-        return Icons.agriculture_outlined;
-      case 'CoP 37.0':
-        return Icons.stairs_outlined;
-      case 'CoP 38.0':
-        return Icons.local_shipping_outlined;
-      case 'CoP 39.0':
-        return Icons.electrical_services_outlined;
-      case 'CoP 40.0':
-        return Icons.view_in_ar_outlined;
-      case 'CoP 41.0':
-        return Icons.architecture_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
-      case 'CoP 45.0':
-        return Icons.water_outlined;
-      case 'CoP 46.0':
-        return Icons.construction_outlined;
-      case 'CoP 47.0':
-        return Icons.precision_manufacturing_outlined;
-      case 'CoP 48.0':
-        return Icons.format_paint_outlined;
-      case 'CoP 49.0':
-        return Icons.air_outlined;
-      case 'CoP 50.0':
-        return Icons.blur_on_outlined;
-      case 'CoP 51.0':
-        return Icons.local_shipping_outlined;
-      case 'CoP 52.0':
-        return Icons.air_outlined;
-      case 'CoP 53.0':
-        return Icons.business_outlined;
-      default:
-        return Icons.shield_outlined;
-    }
+  Widget _headerCard() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        children: [
+          Container(
+            width: 54, height: 54,
+            decoration: const BoxDecoration(color: Color(0xFFE7F5EC), shape: BoxShape.circle),
+            child: Icon(_abuDhabiCopIcon(doc.code), color: green, size: 28),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(doc.title, style: const TextStyle(color: navy, fontSize: 20,
+                  fontWeight: FontWeight.w900)),
+              const SizedBox(height: 4),
+              Text('Version ${doc.version} • ${doc.effectiveDate}',
+                  style: const TextStyle(color: green, fontWeight: FontWeight.w800)),
+            ]),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _section(AbuDhabiCopSection s) {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF7FAFC),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${s.number}  ${s.title}',
-            style: const TextStyle(
-              color: navy,
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          if (s.hazards.isNotEmpty) _miniList('Hazards', s.hazards),
-          if (s.requirements.isNotEmpty)
-            _miniList('Requirements', s.requirements),
-          if (s.measurements.isNotEmpty)
-            _miniList('Measurements / Limits', s.measurements),
-          if (s.controls.isNotEmpty)
-            _miniList('Hierarchy / Controls', s.controls),
-          if (s.documents.isNotEmpty)
-            _miniList('Documents / Records', s.documents),
-          if (s.inspection.isNotEmpty)
-            _miniList('Inspection', s.inspection),
-        ],
-      ),
+      decoration: BoxDecoration(color: const Color(0xFFF7FAFC),
+          borderRadius: BorderRadius.circular(14)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('${s.number}  ${s.title}', style: const TextStyle(color: navy,
+            fontSize: 15, fontWeight: FontWeight.w900)),
+        if (s.hazards.isNotEmpty) _miniList('Hazards', s.hazards),
+        if (s.requirements.isNotEmpty) _miniList('Requirements', s.requirements),
+        if (s.measurements.isNotEmpty) _miniList('Measurements / Limits', s.measurements),
+        if (s.controls.isNotEmpty) _miniList('Hierarchy / Controls', s.controls),
+        if (s.documents.isNotEmpty) _miniList('Documents / Records', s.documents),
+        if (s.inspection.isNotEmpty) _miniList('Inspection', s.inspection),
+      ]),
     );
   }
 
   Widget _textBlock(String title, String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4, 4, 4, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: green,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            text,
-            style: const TextStyle(height: 1.45),
-          ),
-        ],
-      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, style: const TextStyle(color: green, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 5),
+        Text(text, style: const TextStyle(height: 1.45)),
+      ]),
     );
   }
 
   Widget _miniList(String title, List<String> items) {
+    final matches = _matchingItems(items);
+    if (matches.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 9),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              color: navy,
-            ),
-          ),
-          const SizedBox(height: 4),
-          for (final item in items)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '• ',
-                    style: TextStyle(
-                      color: green,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: const TextStyle(height: 1.35),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w800, color: navy)),
+        const SizedBox(height: 4),
+        for (final item in matches)
+          Padding(padding: const EdgeInsets.only(bottom: 4),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text('• ', style: TextStyle(color: green, fontWeight: FontWeight.w900)),
+              Expanded(child: Text(item, style: const TextStyle(height: 1.35))),
+            ])),
+      ]),
     );
   }
 
-  Widget _bulletBlock(
-    String title,
-    IconData icon,
-    Color color,
-    List<String> items,
-  ) {
+  Widget _bulletBlock(String title, IconData icon, Color color, List<String> items) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: .07),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: color),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          for (final item in items)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                '• $item',
-                style: const TextStyle(height: 1.35),
-              ),
-            ),
-        ],
-      ),
+      margin: const EdgeInsets.only(top: 10), padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: color.withValues(alpha: .07),
+          borderRadius: BorderRadius.circular(14)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [Icon(icon, color: color), const SizedBox(width: 8),
+          Expanded(child: Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w900)))]),
+        const SizedBox(height: 8),
+        for (final item in items)
+          Padding(padding: const EdgeInsets.only(bottom: 4),
+              child: Text('• $item', style: const TextStyle(height: 1.35))),
+      ]),
     );
   }
 
   Widget _warningBlock(String text) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF4E5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.info_outline,
-            color: Color(0xFFB26A00),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(height: 1.35),
-            ),
-          ),
-        ],
-      ),
+      margin: const EdgeInsets.only(top: 10), padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFFFF4E5),
+          borderRadius: BorderRadius.circular(12)),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Icon(Icons.info_outline, color: Color(0xFFB26A00)),
+        const SizedBox(width: 8),
+        Expanded(child: Text(text, style: const TextStyle(height: 1.35))),
+      ]),
     );
+  }
+}
+
+IconData _abuDhabiCopIcon(String code) {
+  switch (code) {
+    case 'CoP 1.0': return Icons.science_outlined;
+    case 'CoP 1.1': return Icons.warning_amber_rounded;
+    case 'CoP 1.2': return Icons.medical_services_outlined;
+    case 'CoP 2.0': return Icons.engineering;
+    case 'CoP 3.0': return Icons.hearing;
+    case 'CoP 3.1': return Icons.vibration;
+    case 'CoP 4.0': return Icons.medical_services_outlined;
+    case 'CoP 5.0': return Icons.monitor_heart_outlined;
+    case 'CoP 6.0': return Icons.emergency_outlined;
+    case 'CoP 8.0': return Icons.wc_outlined;
+    case 'CoP 9.0': return Icons.spa_outlined;
+    case 'CoP 10.0': return Icons.assignment_return_outlined;
+    case 'CoP 11.0': return Icons.wb_sunny_outlined;
+    case 'CoP 12.0': return Icons.water_drop_outlined;
+    case 'CoP 13.0': return Icons.report_problem_outlined;
+    case 'CoP 14.0': return Icons.back_hand_outlined;
+    case 'CoP 15.0': return Icons.electrical_services_outlined;
+    case 'CoP 16.0': return Icons.accessibility_new_outlined;
+    case 'CoP 17.0': return Icons.signpost_outlined;
+    case 'CoP 18.0': return Icons.apartment_outlined;
+    case 'CoP 19.0': return Icons.restaurant_menu_outlined;
+    case 'CoP 20.0': return Icons.architecture_outlined;
+    case 'CoP 21.0': return Icons.assignment_turned_in_outlined;
+    case 'CoP 22.0': return Icons.fence_outlined;
+    case 'CoP 23.0': return Icons.height_outlined;
+    case 'CoP 24.0': return Icons.lock_outline;
+    case 'CoP 25.0': return Icons.drive_eta_outlined;
+    case 'CoP 26.0': return Icons.construction;
+    case 'CoP 27.0': return Icons.meeting_room_outlined;
+    case 'CoP 28.0': return Icons.local_fire_department_outlined;
+    case 'CoP 29.0': return Icons.foundation_outlined;
+    case 'CoP 30.0': return Icons.person_off_outlined;
+    case 'CoP 31.0': return Icons.water_outlined;
+    case 'CoP 33.0': return Icons.traffic_outlined;
+    case 'CoP 34.0': return Icons.precision_manufacturing_outlined;
+    case 'CoP 35.0': return Icons.handyman_outlined;
+    case 'CoP 36.0': return Icons.agriculture_outlined;
+    case 'CoP 37.0': return Icons.stairs_outlined;
+    case 'CoP 38.0': return Icons.local_shipping_outlined;
+    case 'CoP 39.0': return Icons.electrical_services_outlined;
+    case 'CoP 40.0': return Icons.view_in_ar_outlined;
+    case 'CoP 41.0': return Icons.architecture_outlined;
+    case 'CoP 42.0': return Icons.account_tree_outlined;
+    case 'CoP 43.0': return Icons.home_work_outlined;
+    case 'CoP 44.0': return Icons.alt_route_outlined;
+    case 'CoP 45.0': return Icons.scuba_diving_outlined;
+    case 'CoP 46.0': return Icons.construction_outlined;
+    case 'CoP 47.0': return Icons.precision_manufacturing_outlined;
+    case 'CoP 48.0': return Icons.format_paint_outlined;
+    case 'CoP 49.0': return Icons.air_outlined;
+    case 'CoP 50.0': return Icons.blur_on_outlined;
+    case 'CoP 51.0': return Icons.local_shipping_outlined;
+    case 'CoP 52.0': return Icons.air_outlined;
+    case 'CoP 53.0': return Icons.business_outlined;
+    case 'CoP 54.0': return Icons.recycling;
+    default: return Icons.shield_outlined;
   }
 }
