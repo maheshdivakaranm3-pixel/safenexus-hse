@@ -143,6 +143,7 @@ class _AbuDhabiScaffoldingReferencePageState
                   ],
                 ),
             ),
+          ),
         ],
       ),
     );
@@ -500,12 +501,10 @@ class _AbuDhabiScaffoldingReferencePageState
           if (section.amendments.isNotEmpty) ...[
             _label('Amendment Record'),
             for (final item in section.amendments)
-              if (true) // Search filtering removed
-                '${item.version} ${item.date} ${item.description} ${item.pagesAffected}',
-              ))
-                _bullet(
-                  '${item.version} • ${item.date} • ${item.description} • ${item.pagesAffected}',
-                ),
+              _bullet(
+                '${item.version} • ${item.date} • ${item.description} • ${item.pagesAffected}',
+              ),
+            const SizedBox(height: 8),
           ],
         ],
       ),
@@ -593,40 +592,6 @@ class _AbuDhabiScaffoldingReferencePageState
           ),
           const SizedBox(height: 10),
           for (final item in items) _bullet(item),
-        ],
-      ),
-    );
-  }
-
-  Widget _noSearchResultsCard() {
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Column(
-        children: [
-          Icon(Icons.search_off_rounded, color: green, size: 38),
-          SizedBox(height: 8),
-          Text(
-            'No matching content found',
-            style: TextStyle(
-              color: navy,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            'Try another keyword such as guardrail, inspection, ladder, platform or dismantling.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF607D8B),
-              fontSize: 12.5,
-              height: 1.4,
-            ),
-          ),
         ],
       ),
     );
