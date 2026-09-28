@@ -437,12 +437,6 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.home_work_outlined;
       case 'CoP 44.0':
         return Icons.alt_route_outlined;
-      case 'CoP 42.0':
-        return Icons.account_tree_outlined;
-      case 'CoP 43.0':
-        return Icons.home_work_outlined;
-      case 'CoP 44.0':
-        return Icons.alt_route_outlined;
       case 'CoP 45.0':
         return Icons.water_outlined;
       case 'CoP 46.0':
