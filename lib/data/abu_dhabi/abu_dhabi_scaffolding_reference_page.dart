@@ -2,7 +2,7 @@
 //
 // SafeNexus HSE - Abu Dhabi HSE Reference
 // CoP 26.0 – Scaffolding V4.1 field-reference UI
-// Includes subject introduction, full-page search and touch zoom/pan.
+// Includes subject introduction, standard scrollable field-reference UI.
 
 import 'package:flutter/material.dart';
 
@@ -22,144 +22,22 @@ class _AbuDhabiScaffoldingReferencePageState
   static const Color navy = Color(0xFF082653);
   static const Color pageBackground = Color(0xFFF4F8FB);
 
-  final TextEditingController _searchController = TextEditingController();
-  final TransformationController _transformationController =
-      TransformationController();
-
-  String _query = '';
-  bool _zoomed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(_onSearchChanged);
-  }
-
   @override
   void dispose() {
-    _searchController
-      ..removeListener(_onSearchChanged)
-      ..dispose();
-    _transformationController.dispose();
     super.dispose();
-  }
-
-  void _onSearchChanged() {
-    final value = _searchController.text.trim().toLowerCase();
-    if (value == _query) return;
-    setState(() => _query = value);
-  }
-
-  void _resetZoom() {
-    _transformationController.value = Matrix4.identity();
-    setState(() => _zoomed = false);
-  }
-
-  void _toggleDoubleTapZoom() {
-    if (_zoomed) {
-      _resetZoom();
-      return;
-    }
-
-    _transformationController.value = Matrix4.diagonal3Values(1.8, 1.8, 1.8);
-    setState(() => _zoomed = true);
-  }
-
-  bool _matches(String text) {
-    if (_query.isEmpty) return true;
-    return text.toLowerCase().contains(_query);
-  }
-
-  bool _sectionMatches(Cop26Section section) {
-    if (_query.isEmpty) return true;
-
-    final values = <String?>[
-      section.number,
-      section.title,
-      section.summary,
-      section.fieldWarning,
-      ...section.requirements,
-      ...section.hazards,
-      ...section.measurements,
-      ...section.documents,
-      ...section.trainingRecordFields,
-      ...section.inspectionFrequency,
-      ...section.inspectionPoints,
-      ...section.inspectionRecordFields,
-      ...section.scaffoldTagFields,
-      ...section.references,
-      ...section.controlHierarchy,
-      ...section.stopWorkExamples,
-      ...section.amendments.map(
-        (item) =>
-            '${item.version} ${item.date} ${item.description} ${item.pagesAffected}',
-      ),
-    ];
-
-    if (values.any((value) => value != null && _matches(value))) {
-      return true;
-    }
-
-    return section.subsections.any(_subsectionMatches);
-  }
-
-  bool _subsectionMatches(Cop26Subsection subsection) {
-    if (_query.isEmpty) return true;
-
-    final values = <String>[
-      subsection.number,
-      subsection.title,
-      ...subsection.requirements,
-      ...subsection.measurements,
-      ...subsection.controlHierarchy,
-      ...subsection.officialReferences,
-    ];
-
-    return values.any(_matches);
-  }
-
-  List<Cop26Section> get _visibleSections =>
-      AbuDhabiCop26Scaffolding.sections.where(_sectionMatches).toList();
-
-  List<String> _matchingItems(List<String> items) {
-    if (_query.isEmpty) return items;
-    return items.where(_matches).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final sections = _visibleSections;
-    final matchingChecklist =
-        _matchingItems(AbuDhabiCop26Scaffolding.fieldChecklist);
-    final matchingStopWork =
-        _matchingItems(AbuDhabiCop26Scaffolding.stopWorkIndicators);
-    final matchingPrecautions =
-        _matchingItems(AbuDhabiCop26Scaffolding.safetyPrecautions);
-    final matchingTypes =
-        _matchingItems(AbuDhabiCop26Scaffolding.scaffoldTypes);
-    final matchingComponents =
-        _matchingItems(AbuDhabiCop26Scaffolding.scaffoldComponents);
-    final matchingGreenTag =
-        _matchingItems(AbuDhabiCop26Scaffolding.greenTagProcedure);
-    final matchingRedTag =
-        _matchingItems(AbuDhabiCop26Scaffolding.redTagConditions);
-    final matchingMeasurements = _query.isEmpty
-        ? AbuDhabiCop26Scaffolding.keyMeasurements
-        : AbuDhabiCop26Scaffolding.keyMeasurements
-            .where((item) => _matches('${item.item} ${item.requirement}'))
-            .toList();
-    final hasResults =
-        _query.isEmpty ||
-        sections.isNotEmpty ||
-        matchingChecklist.isNotEmpty ||
-        matchingStopWork.isNotEmpty ||
-        matchingPrecautions.isNotEmpty ||
-        matchingTypes.isNotEmpty ||
-        matchingComponents.isNotEmpty ||
-        matchingGreenTag.isNotEmpty ||
-        matchingRedTag.isNotEmpty ||
-        matchingMeasurements.isNotEmpty ||
-        _matches(AbuDhabiCop26Scaffolding.tagStatusNote);
+    final sections = AbuDhabiCop26Scaffolding.sections;
+    final matchingChecklist = AbuDhabiCop26Scaffolding.fieldChecklist;
+    final matchingStopWork = AbuDhabiCop26Scaffolding.stopWorkIndicators;
+    final matchingPrecautions = AbuDhabiCop26Scaffolding.safetyPrecautions;
+    final matchingTypes = AbuDhabiCop26Scaffolding.scaffoldTypes;
+    final matchingComponents = AbuDhabiCop26Scaffolding.scaffoldComponents;
+    final matchingGreenTag = AbuDhabiCop26Scaffolding.greenTagProcedure;
+    final matchingRedTag = AbuDhabiCop26Scaffolding.redTagConditions;
+    final matchingMeasurements = AbuDhabiCop26Scaffolding.keyMeasurements;
 
     return Scaffold(
       backgroundColor: pageBackground,
@@ -168,46 +46,18 @@ class _AbuDhabiScaffoldingReferencePageState
         backgroundColor: Colors.white,
         foregroundColor: navy,
         elevation: 0,
-        actions: [
-          if (_zoomed)
-            IconButton(
-              tooltip: 'Reset zoom',
-              onPressed: _resetZoom,
-              icon: const Icon(Icons.zoom_out_map_rounded),
-            ),
-        ],
       ),
       body: Column(
         children: [
-          _searchBar(),
-          _zoomHint(),
           Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onDoubleTap: _toggleDoubleTapZoom,
-              child: InteractiveViewer(
-              transformationController: _transformationController,
-              minScale: 1.0,
-              maxScale: 3.0,
-              boundaryMargin: const EdgeInsets.all(80),
-              panEnabled: true,
-              scaleEnabled: true,
-              onInteractionUpdate: (details) {
-                final scale = _transformationController.value.getMaxScaleOnAxis();
-                if ((scale > 1.01) != _zoomed) {
-                  setState(() => _zoomed = scale > 1.01);
-                }
-              },
-              child: SingleChildScrollView(
-                physics: _zoomed
-                    ? const NeverScrollableScrollPhysics()
-                    : const ClampingScrollPhysics(),
+            child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _headerCard(),
-                    if (_query.isEmpty) ...[
+                    ...[
                       const SizedBox(height: 14),
                       _whatIsScaffoldingCard(),
                     ],
@@ -256,18 +106,13 @@ class _AbuDhabiScaffoldingReferencePageState
                         items: matchingRedTag,
                       ),
                     ],
-                    if (_query.isEmpty ||
-                        _matches(AbuDhabiCop26Scaffolding.tagStatusNote)) ...[
+                    ...[
                       const SizedBox(height: 14),
                       _tagStatusNoteCard(),
                     ],
                     if (matchingMeasurements.isNotEmpty) ...[
                       const SizedBox(height: 14),
                       _quickReferenceCard(matchingMeasurements),
-                    ],
-                    if (_query.isNotEmpty && !hasResults) ...[
-                      const SizedBox(height: 14),
-                      _noSearchResultsCard(),
                     ],
                     if (sections.isNotEmpty) ...[
                       const SizedBox(height: 14),
@@ -297,77 +142,6 @@ class _AbuDhabiScaffoldingReferencePageState
                     ],
                   ],
                 ),
-              ),
-            ),
-          ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _searchBar() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
-      child: TextField(
-        controller: _searchController,
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: 'Search Scaffolding content...',
-          prefixIcon: const Icon(Icons.search_rounded, color: green),
-          suffixIcon: _query.isEmpty
-              ? null
-              : IconButton(
-                  tooltip: 'Clear search',
-                  onPressed: _searchController.clear,
-                  icon: const Icon(Icons.clear_rounded),
-                ),
-          filled: true,
-          fillColor: pageBackground,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 13),
-        ),
-      ),
-    );
-  }
-
-  Widget _zoomHint() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 9),
-      child: Row(
-        children: [
-          Icon(
-            _zoomed ? Icons.pan_tool_alt_rounded : Icons.touch_app_rounded,
-            size: 16,
-            color: green,
-          ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Text(
-              _zoomed
-                  ? 'Zoomed: drag with one finger to move • double-tap to reset'
-                  : 'Double-tap to zoom • drag with one finger to move the page',
-              style: const TextStyle(
-                color: Color(0xFF607D8B),
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          if (_zoomed)
-            TextButton(
-              onPressed: _resetZoom,
-              style: TextButton.styleFrom(
-                foregroundColor: green,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                minimumSize: const Size(0, 32),
-              ),
-              child: const Text('Reset'),
             ),
         ],
       ),
@@ -619,9 +393,7 @@ class _AbuDhabiScaffoldingReferencePageState
   }
 
   Widget _sectionCard(Cop26Section section) {
-    final filteredSubsections = _query.isEmpty
-        ? section.subsections
-        : section.subsections.where(_subsectionMatches).toList();
+    final filteredSubsections = section.subsections;
 
     return Container(
       decoration: BoxDecoration(
@@ -715,8 +487,7 @@ class _AbuDhabiScaffoldingReferencePageState
               _bullet(item),
             const SizedBox(height: 8),
           ],
-          if (section.fieldWarning != null &&
-              _matches(section.fieldWarning!)) ...[
+          if (section.fieldWarning != null) ...[
             _label('Field Warning'),
             _bullet(section.fieldWarning!),
             const SizedBox(height: 8),
@@ -729,7 +500,7 @@ class _AbuDhabiScaffoldingReferencePageState
           if (section.amendments.isNotEmpty) ...[
             _label('Amendment Record'),
             for (final item in section.amendments)
-              if (_matches(
+              if (true) // Search filtering removed
                 '${item.version} ${item.date} ${item.description} ${item.pagesAffected}',
               ))
                 _bullet(
@@ -741,10 +512,7 @@ class _AbuDhabiScaffoldingReferencePageState
     );
   }
 
-  List<String> _visibleList(List<String> items) {
-    if (_query.isEmpty) return items;
-    return items.where(_matches).toList();
-  }
+  List<String> _visibleList(List<String> items) => items;
 
   Widget _subsectionCard(Cop26Subsection subsection) {
     return Container(
