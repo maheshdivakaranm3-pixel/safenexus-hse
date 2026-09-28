@@ -22,6 +22,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_42_43_44.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_45_46_47.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_48_49_50.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_51_52_53.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_54_waste_management.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -215,6 +216,11 @@ class _AbuDhabiCop01To03ReferencePageState
                               const SizedBox(height: 12),
                             ],
                         ],
+                      if (_showCop54ForQuery(_query)) ...[
+                        const SizedBox(height: 8),
+                        _cop54Card(context),
+                        const SizedBox(height: 12),
+                      ],
                       const SizedBox(height: 8),
                       _noteCard(),
                     ],
@@ -474,6 +480,76 @@ class _AbuDhabiCop01To03ReferencePageState
       default:
         return Icons.shield_outlined;
     }
+  }
+
+  bool _showCop54ForQuery(String query) {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return true;
+    return q.contains('54') || q.contains('waste') ||
+        q.contains('management') || 'cop 54.0 waste management'.contains(q);
+  }
+
+  Widget _cop54Card(BuildContext context) {
+    return Card(
+      elevation: 2,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+        side: const BorderSide(color: Color(0xFFD5EBDD)),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => const AbuDhabiCop54Page(),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8F5EC),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(Icons.recycling, color: Color(0xFF159447)),
+              ),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('CoP 54.0', style: TextStyle(
+                      color: Color(0xFF159447),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    )),
+                    SizedBox(height: 4),
+                    Text('Waste Management', style: TextStyle(
+                      color: Color(0xFF082653),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                    )),
+                    SizedBox(height: 4),
+                    Text('Open field handbook', style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 12,
+                    )),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xFF159447)),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _noteCard() {
