@@ -136,15 +136,6 @@ class _AbuDhabiCop01To03ReferencePageState
         backgroundColor: Colors.white,
         foregroundColor: navy,
         elevation: 0,
-        actions: [
-          IconButton(
-            tooltip: _zoomed ? 'Reset zoom' : 'Zoom',
-            onPressed: _toggleZoom,
-            icon: Icon(
-              _zoomed ? Icons.zoom_out_map : Icons.zoom_in,
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
