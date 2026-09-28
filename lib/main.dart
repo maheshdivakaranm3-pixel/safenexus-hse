@@ -16,6 +16,8 @@ import 'hse_access_control.dart';
 import 'hse_backup_recovery.dart';
 import 'safenexus_unified_data_center.dart';
 import 'data/abu_dhabi/abu_dhabi_cop_01_to_03_reference_page.dart';
+import 'emergency_management.dart';
+import 'emergency_fire_readiness.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1326,6 +1328,16 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   ) async {
     if (title == 'Abu Dhabi HSE') {
       await _openPage(const AbuDhabiCop01To03ReferencePage());
+      return;
+    }
+
+    if (title == 'Emergency & Rescue') {
+      await _openPage(const EmergencyManagementPage());
+      return;
+    }
+
+    if (title == 'Fire & Life Safety') {
+      await _openPage(const EmergencyFireReadinessPage());
       return;
     }
 
