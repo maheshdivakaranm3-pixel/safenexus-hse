@@ -55,7 +55,7 @@ const Map<String, List<EmergencyTopicDocument>> emergencyTopicDocuments = {
   'ER-07': [
     EmergencyTopicDocument('Medical Emergency Response Procedure', 'Required'),
     EmergencyTopicDocument('First Aider & First Aid Coverage Register', 'Required'),
-    Emergency EquipmentDocumentPlaceholder(),
+    EmergencyTopicDocument('First Aid Kit / AED Inspection & Restocking Register', 'Required'),
     EmergencyTopicDocument('Ambulance / Clinic Contact & Access Details', 'Required'),
     EmergencyTopicDocument('First Aid / Medical Treatment Incident Record', 'Required'),
   ],

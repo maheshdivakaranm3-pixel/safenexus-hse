@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:excel/excel.dart';
+import 'package:excel/excel.dart' hide Border;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
@@ -315,19 +315,6 @@ class EmergencyRescueTopicPage extends StatelessWidget {
         MapEntry('Stop-Work / Escalation Conditions', topic.stopWorkConditions),
         MapEntry('Interview Preparation', topic.interviewQuestions),
       ];
-
-  String _plainText() {
-    final out = StringBuffer('SafeNexus HSE — Emergency & Rescue\n${topic.id}: ${topic.title}\n\n');
-    for (final section in _documentSections()) {
-      out.writeln('${section.key}\n');
-      for (final item in section.value) {
-        out.writeln('• $item');
-      }
-      out.writeln();
-    }
-    out.writeln('Field reminder: Protect life first. Raise the alarm early. Do not attempt an unplanned rescue or enter an uncontrolled hazard. Follow the approved site ERP and competent responder instructions.');
-    return out.toString();
-  }
 
   Future<Directory> _exportDirectory() async =>
       await getTemporaryDirectory();
