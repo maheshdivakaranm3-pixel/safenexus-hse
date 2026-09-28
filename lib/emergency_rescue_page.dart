@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'data/emergency_rescue/emergency_rescue_part1.dart';
 import 'data/emergency_rescue/emergency_rescue_part2.dart';
+import 'data/emergency_rescue/emergency_rescue_part3.dart';
 import 'emergency_management.dart';
 
 class EmergencyRescuePage extends StatelessWidget {
@@ -90,6 +91,18 @@ class EmergencyRescuePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ...emergencyRescuePart2.map((topic) => _topicTile(context, topic)),
+          const SizedBox(height: 12),
+          const Text(
+            'PART 3 — WORK AT HEIGHT, LIFTING, ELECTRICAL & CHEMICAL RESPONSE',
+            style: TextStyle(
+              color: _green,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart3.map((topic) => _topicTile(context, topic)),
           const SizedBox(height: 10),
           OutlinedButton.icon(
             onPressed: () {
