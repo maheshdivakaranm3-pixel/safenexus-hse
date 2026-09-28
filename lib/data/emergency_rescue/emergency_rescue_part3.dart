@@ -16,7 +16,7 @@ import 'emergency_rescue_part1.dart';
 const List<EmergencyRescueTopic> emergencyRescuePart3 =
     <EmergencyRescueTopic>[
   EmergencyRescueTopic(
-    id: 'ER-09A',
+    id: 'ER-09',
     title: 'Work at Height Rescue — Advanced Field Guide',
     purpose:
         'This advanced guide expands planning and response for a person who has fallen into a fall-arrest system, is stranded at height, or cannot descend safely. Rescue is a separate planned activity: fall protection may arrest a fall but does not guarantee recovery. The response must protect the casualty, rescuers and people below, and arrange prompt medical assessment.',
@@ -76,7 +76,7 @@ const List<EmergencyRescueTopic> emergencyRescuePart3 =
     ],
   ),
   EmergencyRescueTopic(
-    id: 'ER-10A',
+    id: 'ER-10',
     title: 'Crane & Lifting Emergency — Advanced Field Guide',
     purpose:
         'This guide expands response to abnormal lifting events that may cause a dropped or swinging load, crane instability, equipment damage, entrapment or electrical contact. The response is life-safety led: stop or avoid worsening movement where safe, isolate the hazard envelope, activate the emergency organization and obtain competent lifting/engineering support. Recovery of damaged or unstable equipment is not an improvised field task.',
@@ -133,7 +133,7 @@ const List<EmergencyRescueTopic> emergencyRescuePart3 =
     ],
   ),
   EmergencyRescueTopic(
-    id: 'ER-11A',
+    id: 'ER-11',
     title: 'Electrical Shock Rescue — Advanced Field Guide',
     purpose:
         'Electrical rescue addresses shock, burns, arc flash, electrical fire and secondary injury. The rescuer must not become a second casualty. Alarm, isolation by authorized personnel, verification of safe conditions, trained first aid and medical escalation form the response sequence. Electrical hazards may remain after a visible switch is opened because of alternate supplies, stored energy or automatic re-energization.',
@@ -190,7 +190,7 @@ const List<EmergencyRescueTopic> emergencyRescuePart3 =
     ],
   ),
   EmergencyRescueTopic(
-    id: 'ER-12A',
+    id: 'ER-12',
     title: 'Chemical Spill Response — Advanced Field Guide',
     purpose:
         'Chemical spill response is a structured process to protect people, environment and property from an uncontrolled release. The discoverer should warn, withdraw and report; trained responders assess and control only within their defined capability. Unknown, escalating, toxic, reactive, flammable or otherwise high-consequence releases require isolation, evacuation and specialist response rather than an improvised cleanup.',
