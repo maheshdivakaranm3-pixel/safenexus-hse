@@ -18,6 +18,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_33_34_35.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_36_37_38.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_39_40_41.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_42_43_44.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_45_46_47.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -61,6 +62,7 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop36To38.documents,
         ...AbuDhabiCop39To41.documents,
         ...AbuDhabiCop42To44.documents,
+        ...AbuDhabiCop45To47.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
@@ -435,6 +437,18 @@ class _AbuDhabiCop01To03ReferencePageState
         return Icons.home_work_outlined;
       case 'CoP 44.0':
         return Icons.alt_route_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+      case 'CoP 45.0':
+        return Icons.water_outlined;
+      case 'CoP 46.0':
+        return Icons.construction_outlined;
+      case 'CoP 47.0':
+        return Icons.precision_manufacturing_outlined;
       default:
         return Icons.shield_outlined;
     }
@@ -628,6 +642,24 @@ class _CopDocumentDetailPage extends StatelessWidget {
         return Icons.view_in_ar_outlined;
       case 'CoP 41.0':
         return Icons.architecture_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+      case 'CoP 45.0':
+        return Icons.water_outlined;
+      case 'CoP 46.0':
+        return Icons.construction_outlined;
+      case 'CoP 47.0':
+        return Icons.precision_manufacturing_outlined;
       default:
         return Icons.shield_outlined;
     }
