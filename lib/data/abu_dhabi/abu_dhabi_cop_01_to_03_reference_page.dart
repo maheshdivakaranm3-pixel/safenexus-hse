@@ -2,6 +2,7 @@
 // SafeNexus HSE — Abu Dhabi HSE CoP list + field-reference hub
 
 import 'package:flutter/material.dart';
+
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_01_to_03.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_04_to_06.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_08_to_09.dart';
@@ -19,6 +20,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_36_37_38.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_39_40_41.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_42_43_44.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_45_46_47.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_48_49_50.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -63,10 +65,14 @@ class _AbuDhabiCop01To03ReferencePageState
         ...AbuDhabiCop39To41.documents,
         ...AbuDhabiCop42To44.documents,
         ...AbuDhabiCop45To47.documents,
+
+        // CoP 48 / 49 / 50
+        ...AbuDhabiCop48To50.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
     final q = _query.trim().toLowerCase();
+
     if (q.isEmpty) {
       return _allDocuments;
     }
@@ -103,8 +109,13 @@ class _AbuDhabiCop01To03ReferencePageState
   void _toggleZoom() {
     setState(() {
       _zoomed = !_zoomed;
+
       _transform.value = _zoomed
-          ? Matrix4.diagonal3Values(1.35, 1.35, 1.0)
+          ? Matrix4.diagonal3Values(
+              1.35,
+              1.35,
+              1.0,
+            )
           : Matrix4.identity();
     });
   }
@@ -131,17 +142,28 @@ class _AbuDhabiCop01To03ReferencePageState
           IconButton(
             tooltip: _zoomed ? 'Reset zoom' : 'Zoom',
             onPressed: _toggleZoom,
-            icon: Icon(_zoomed ? Icons.zoom_out_map : Icons.zoom_in),
+            icon: Icon(
+              _zoomed ? Icons.zoom_out_map : Icons.zoom_in,
+            ),
           ),
         ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              12,
+              16,
+              8,
+            ),
             child: TextField(
               controller: _search,
-              onChanged: (value) => setState(() => _query = value),
+              onChanged: (value) {
+                setState(() {
+                  _query = value;
+                });
+              },
               decoration: InputDecoration(
                 hintText: 'Search Abu Dhabi HSE CoP content...',
                 prefixIcon: const Icon(Icons.search),
@@ -150,7 +172,10 @@ class _AbuDhabiCop01To03ReferencePageState
                     : IconButton(
                         onPressed: () {
                           _search.clear();
-                          setState(() => _query = '');
+
+                          setState(() {
+                            _query = '';
+                          });
                         },
                         icon: const Icon(Icons.clear),
                       ),
@@ -174,18 +199,28 @@ class _AbuDhabiCop01To03ReferencePageState
                 scaleEnabled: true,
                 boundaryMargin: const EdgeInsets.all(80),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+                  padding: const EdgeInsets.fromLTRB(
+                    16,
+                    8,
+                    16,
+                    28,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _safetyReferenceCard(),
                       const SizedBox(height: 12),
+
                       if (docs.isEmpty)
                         _emptySearch()
                       else
                         for (final doc in docs) ...[
-                          _documentCard(context, doc),
+                          _documentCard(
+                            context,
+                            doc,
+                          ),
                           const SizedBox(height: 12),
+
                           if (doc.code == 'CoP 25.0' &&
                               (_query.trim().isEmpty ||
                                   'scaffolding'.contains(
@@ -199,6 +234,7 @@ class _AbuDhabiCop01To03ReferencePageState
                               const SizedBox(height: 12),
                             ],
                         ],
+
                       const SizedBox(height: 8),
                       _noteCard(),
                     ],
@@ -215,7 +251,9 @@ class _AbuDhabiCop01To03ReferencePageState
               backgroundColor: green,
               foregroundColor: Colors.white,
               tooltip: 'Reset zoom',
-              child: const Icon(Icons.center_focus_strong),
+              child: const Icon(
+                Icons.center_focus_strong,
+              ),
             )
           : null,
     );
@@ -223,7 +261,10 @@ class _AbuDhabiCop01To03ReferencePageState
 
   Widget _safetyReferenceCard() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 14,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -285,7 +326,9 @@ class _AbuDhabiCop01To03ReferencePageState
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => _CopDocumentDetailPage(doc: doc),
+            builder: (_) => _CopDocumentDetailPage(
+              doc: doc,
+            ),
           ),
         );
       },
@@ -301,7 +344,8 @@ class _AbuDhabiCop01To03ReferencePageState
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => const AbuDhabiScaffoldingReferencePage(),
+            builder: (_) =>
+                const AbuDhabiScaffoldingReferencePage(),
           ),
         );
       },
@@ -347,7 +391,8 @@ class _AbuDhabiCop01To03ReferencePageState
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
@@ -387,62 +432,101 @@ class _AbuDhabiCop01To03ReferencePageState
     switch (code) {
       case 'CoP 1.0':
         return Icons.science_outlined;
+
       case 'CoP 1.1':
         return Icons.warning_amber_rounded;
+
       case 'CoP 1.2':
         return Icons.health_and_safety;
+
       case 'CoP 2.0':
         return Icons.engineering;
+
       case 'CoP 3.0':
         return Icons.hearing;
+
       case 'CoP 3.1':
         return Icons.vibration;
+
       case 'CoP 10.0':
         return Icons.assignment_return_outlined;
+
       case 'CoP 11.0':
         return Icons.wb_sunny_outlined;
+
       case 'CoP 12.0':
         return Icons.water_drop_outlined;
+
       case 'CoP 27.0':
         return Icons.meeting_room_outlined;
+
       case 'CoP 28.0':
         return Icons.local_fire_department_outlined;
+
       case 'CoP 29.0':
         return Icons.foundation_outlined;
+
       case 'CoP 30.0':
         return Icons.person_off_outlined;
+
       case 'CoP 31.0':
         return Icons.water_outlined;
+
       case 'CoP 33.0':
         return Icons.traffic_outlined;
+
       case 'CoP 34.0':
         return Icons.precision_manufacturing_outlined;
+
       case 'CoP 35.0':
         return Icons.handyman_outlined;
+
       case 'CoP 36.0':
         return Icons.agriculture_outlined;
+
       case 'CoP 37.0':
         return Icons.stairs_outlined;
+
       case 'CoP 38.0':
         return Icons.local_shipping_outlined;
+
       case 'CoP 39.0':
         return Icons.electrical_services_outlined;
+
       case 'CoP 40.0':
         return Icons.view_in_ar_outlined;
+
       case 'CoP 41.0':
         return Icons.architecture_outlined;
+
       case 'CoP 42.0':
         return Icons.account_tree_outlined;
+
       case 'CoP 43.0':
         return Icons.home_work_outlined;
+
       case 'CoP 44.0':
         return Icons.alt_route_outlined;
+
       case 'CoP 45.0':
         return Icons.water_outlined;
+
       case 'CoP 46.0':
         return Icons.construction_outlined;
+
       case 'CoP 47.0':
         return Icons.precision_manufacturing_outlined;
+
+      // CoP 48 / 49 / 50
+      case 'CoP 48.0':
+        return Icons.format_paint_outlined;
+
+      case 'CoP 49.0':
+        return Icons.air_outlined;
+
+      case 'CoP 50.0':
+        return Icons.blur_on_outlined;
+
       default:
         return Icons.shield_outlined;
     }
@@ -466,7 +550,9 @@ class _AbuDhabiCop01To03ReferencePageState
     return const Padding(
       padding: EdgeInsets.all(30),
       child: Center(
-        child: Text('No matching Abu Dhabi CoP content found.'),
+        child: Text(
+          'No matching Abu Dhabi CoP content found.',
+        ),
       ),
     );
   }
@@ -493,22 +579,30 @@ class _CopDocumentDetailPage extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          14,
+          16,
+          30,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch,
           children: [
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius:
+                    BorderRadius.circular(20),
               ),
               child: Row(
                 children: [
                   Container(
                     width: 54,
                     height: 54,
-                    decoration: const BoxDecoration(
+                    decoration:
+                        const BoxDecoration(
                       color: Color(0xFFE7F5EC),
                       shape: BoxShape.circle,
                     ),
@@ -521,14 +615,16 @@ class _CopDocumentDetailPage extends StatelessWidget {
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           doc.title,
                           style: const TextStyle(
                             color: navy,
                             fontSize: 20,
-                            fontWeight: FontWeight.w900,
+                            fontWeight:
+                                FontWeight.w900,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -536,7 +632,8 @@ class _CopDocumentDetailPage extends StatelessWidget {
                           'Version ${doc.version} • ${doc.effectiveDate}',
                           style: const TextStyle(
                             color: green,
-                            fontWeight: FontWeight.w800,
+                            fontWeight:
+                                FontWeight.w800,
                           ),
                         ),
                       ],
@@ -546,7 +643,12 @@ class _CopDocumentDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _textBlock(doc.title, doc.introduction),
+
+            _textBlock(
+              doc.title,
+              doc.introduction,
+            ),
+
             if (doc.protectionItems.isNotEmpty)
               _bulletBlock(
                 doc.code == 'CoP 2.0'
@@ -558,7 +660,10 @@ class _CopDocumentDetailPage extends StatelessWidget {
                 green,
                 doc.protectionItems,
               ),
-            for (final section in doc.sections) _section(section),
+
+            for (final section in doc.sections)
+              _section(section),
+
             if (doc.fieldChecklist.isNotEmpty)
               _bulletBlock(
                 'Field Checklist',
@@ -566,6 +671,7 @@ class _CopDocumentDetailPage extends StatelessWidget {
                 green,
                 doc.fieldChecklist,
               ),
+
             if (doc.stopWorkIndicators.isNotEmpty)
               _bulletBlock(
                 'Stop-Work Indicators',
@@ -573,6 +679,7 @@ class _CopDocumentDetailPage extends StatelessWidget {
                 const Color(0xFFC62828),
                 doc.stopWorkIndicators,
               ),
+
             if (doc.references.isNotEmpty)
               _bulletBlock(
                 'Official References',
@@ -580,8 +687,11 @@ class _CopDocumentDetailPage extends StatelessWidget {
                 navy,
                 doc.references,
               ),
+
             if (doc.verificationNote.isNotEmpty)
-              _warningBlock(doc.verificationNote),
+              _warningBlock(
+                doc.verificationNote,
+              ),
           ],
         ),
       ),
@@ -592,56 +702,101 @@ class _CopDocumentDetailPage extends StatelessWidget {
     switch (code) {
       case 'CoP 1.0':
         return Icons.science_outlined;
+
       case 'CoP 1.1':
         return Icons.warning_amber_rounded;
+
       case 'CoP 1.2':
         return Icons.health_and_safety;
+
       case 'CoP 2.0':
         return Icons.engineering;
+
       case 'CoP 3.0':
         return Icons.hearing;
+
       case 'CoP 3.1':
         return Icons.vibration;
+
       case 'CoP 10.0':
         return Icons.assignment_return_outlined;
+
       case 'CoP 11.0':
         return Icons.wb_sunny_outlined;
+
       case 'CoP 12.0':
         return Icons.water_drop_outlined;
+
       case 'CoP 27.0':
         return Icons.meeting_room_outlined;
+
       case 'CoP 28.0':
         return Icons.local_fire_department_outlined;
+
       case 'CoP 29.0':
         return Icons.foundation_outlined;
+
       case 'CoP 30.0':
         return Icons.person_off_outlined;
+
       case 'CoP 31.0':
         return Icons.water_outlined;
+
       case 'CoP 33.0':
         return Icons.traffic_outlined;
+
       case 'CoP 34.0':
         return Icons.precision_manufacturing_outlined;
+
       case 'CoP 35.0':
         return Icons.handyman_outlined;
+
       case 'CoP 36.0':
         return Icons.agriculture_outlined;
+
       case 'CoP 37.0':
         return Icons.stairs_outlined;
+
       case 'CoP 38.0':
         return Icons.local_shipping_outlined;
+
       case 'CoP 39.0':
         return Icons.electrical_services_outlined;
+
       case 'CoP 40.0':
         return Icons.view_in_ar_outlined;
+
       case 'CoP 41.0':
         return Icons.architecture_outlined;
+
+      case 'CoP 42.0':
+        return Icons.account_tree_outlined;
+
+      case 'CoP 43.0':
+        return Icons.home_work_outlined;
+
+      case 'CoP 44.0':
+        return Icons.alt_route_outlined;
+
       case 'CoP 45.0':
         return Icons.water_outlined;
+
       case 'CoP 46.0':
         return Icons.construction_outlined;
+
       case 'CoP 47.0':
         return Icons.precision_manufacturing_outlined;
+
+      // CoP 48 / 49 / 50
+      case 'CoP 48.0':
+        return Icons.format_paint_outlined;
+
+      case 'CoP 49.0':
+        return Icons.air_outlined;
+
+      case 'CoP 50.0':
+        return Icons.blur_on_outlined;
+
       default:
         return Icons.shield_outlined;
     }
@@ -653,10 +808,12 @@ class _CopDocumentDetailPage extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: const Color(0xFFF7FAFC),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(14),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             '${s.number}  ${s.title}',
@@ -666,27 +823,61 @@ class _CopDocumentDetailPage extends StatelessWidget {
               fontWeight: FontWeight.w900,
             ),
           ),
-          if (s.hazards.isNotEmpty) _miniList('Hazards', s.hazards),
+
+          if (s.hazards.isNotEmpty)
+            _miniList(
+              'Hazards',
+              s.hazards,
+            ),
+
           if (s.requirements.isNotEmpty)
-            _miniList('Requirements', s.requirements),
+            _miniList(
+              'Requirements',
+              s.requirements,
+            ),
+
           if (s.measurements.isNotEmpty)
-            _miniList('Measurements / Limits', s.measurements),
+            _miniList(
+              'Measurements / Limits',
+              s.measurements,
+            ),
+
           if (s.controls.isNotEmpty)
-            _miniList('Hierarchy / Controls', s.controls),
+            _miniList(
+              'Hierarchy / Controls',
+              s.controls,
+            ),
+
           if (s.documents.isNotEmpty)
-            _miniList('Documents / Records', s.documents),
+            _miniList(
+              'Documents / Records',
+              s.documents,
+            ),
+
           if (s.inspection.isNotEmpty)
-            _miniList('Inspection', s.inspection),
+            _miniList(
+              'Inspection',
+              s.inspection,
+            ),
         ],
       ),
     );
   }
 
-  Widget _textBlock(String title, String text) {
+  Widget _textBlock(
+    String title,
+    String text,
+  ) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 4, 4, 10),
+      padding: const EdgeInsets.fromLTRB(
+        4,
+        4,
+        4,
+        10,
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -698,18 +889,24 @@ class _CopDocumentDetailPage extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             text,
-            style: const TextStyle(height: 1.45),
+            style: const TextStyle(
+              height: 1.45,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _miniList(String title, List<String> items) {
+  Widget _miniList(
+    String title,
+    List<String> items,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(top: 9),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -719,23 +916,30 @@ class _CopDocumentDetailPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
+
           for (final item in items)
             Padding(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(
+                bottom: 4,
+              ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   const Text(
                     '• ',
                     style: TextStyle(
                       color: green,
-                      fontWeight: FontWeight.w900,
+                      fontWeight:
+                          FontWeight.w900,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       item,
-                      style: const TextStyle(height: 1.35),
+                      style: const TextStyle(
+                        height: 1.35,
+                      ),
                     ),
                   ),
                 ],
@@ -756,34 +960,47 @@ class _CopDocumentDetailPage extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: .07),
-        borderRadius: BorderRadius.circular(14),
+        color: color.withValues(
+          alpha: .07,
+        ),
+        borderRadius:
+            BorderRadius.circular(14),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: color),
+              Icon(
+                icon,
+                color: color,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   title,
                   style: TextStyle(
                     color: color,
-                    fontWeight: FontWeight.w900,
+                    fontWeight:
+                        FontWeight.w900,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
+
           for (final item in items)
             Padding(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(
+                bottom: 4,
+              ),
               child: Text(
                 '• $item',
-                style: const TextStyle(height: 1.35),
+                style: const TextStyle(
+                  height: 1.35,
+                ),
               ),
             ),
         ],
@@ -797,10 +1014,12 @@ class _CopDocumentDetailPage extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF4E5),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius:
+            BorderRadius.circular(12),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.info_outline,
@@ -810,7 +1029,9 @@ class _CopDocumentDetailPage extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(height: 1.35),
+              style: const TextStyle(
+                height: 1.35,
+              ),
             ),
           ),
         ],
