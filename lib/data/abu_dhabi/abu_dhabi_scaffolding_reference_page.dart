@@ -89,6 +89,7 @@ class _AbuDhabiScaffoldingReferencePageState
       ...section.scaffoldTagFields,
       ...section.references,
       ...section.controlHierarchy,
+      ...section.stopWorkExamples,
       ...section.amendments.map(
         (item) =>
             '${item.version} ${item.date} ${item.description} ${item.pagesAffected}',
@@ -142,6 +143,11 @@ class _AbuDhabiScaffoldingReferencePageState
         _matchingItems(AbuDhabiCop26Scaffolding.greenTagProcedure);
     final matchingRedTag =
         _matchingItems(AbuDhabiCop26Scaffolding.redTagConditions);
+    final matchingMeasurements = _query.isEmpty
+        ? AbuDhabiCop26Scaffolding.keyMeasurements
+        : AbuDhabiCop26Scaffolding.keyMeasurements
+            .where((item) => _matches('${item.item} ${item.requirement}'))
+            .toList();
     final hasResults =
         _query.isEmpty ||
         sections.isNotEmpty ||
@@ -151,7 +157,9 @@ class _AbuDhabiScaffoldingReferencePageState
         matchingTypes.isNotEmpty ||
         matchingComponents.isNotEmpty ||
         matchingGreenTag.isNotEmpty ||
-        matchingRedTag.isNotEmpty;
+        matchingRedTag.isNotEmpty ||
+        matchingMeasurements.isNotEmpty ||
+        _matches(AbuDhabiCop26Scaffolding.tagStatusNote);
 
     return Scaffold(
       backgroundColor: pageBackground,
@@ -199,8 +207,10 @@ class _AbuDhabiScaffoldingReferencePageState
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _headerCard(),
-                    const SizedBox(height: 14),
-                    _whatIsScaffoldingCard(),
+                    if (_query.isEmpty) ...[
+                      const SizedBox(height: 14),
+                      _whatIsScaffoldingCard(),
+                    ],
                     if (matchingPrecautions.isNotEmpty) ...[
                       const SizedBox(height: 14),
                       _bulletCard(
@@ -246,10 +256,15 @@ class _AbuDhabiScaffoldingReferencePageState
                         items: matchingRedTag,
                       ),
                     ],
-                    const SizedBox(height: 14),
-                    _tagStatusNoteCard(),
-                    const SizedBox(height: 14),
-                    _quickReferenceCard(),
+                    if (_query.isEmpty ||
+                        _matches(AbuDhabiCop26Scaffolding.tagStatusNote)) ...[
+                      const SizedBox(height: 14),
+                      _tagStatusNoteCard(),
+                    ],
+                    if (matchingMeasurements.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      _quickReferenceCard(matchingMeasurements),
+                    ],
                     if (_query.isNotEmpty && !hasResults) ...[
                       const SizedBox(height: 14),
                       _noSearchResultsCard(),
@@ -541,15 +556,7 @@ class _AbuDhabiScaffoldingReferencePageState
     );
   }
 
-  Widget _quickReferenceCard() {
-    final items = _query.isEmpty
-        ? AbuDhabiCop26Scaffolding.keyMeasurements
-        : AbuDhabiCop26Scaffolding.keyMeasurements
-            .where((item) => _matches('${item.item} ${item.requirement}'))
-            .toList();
-
-    if (_query.isNotEmpty && items.isEmpty) return const SizedBox.shrink();
-
+  Widget _quickReferenceCard(List<Cop26QuickReference> items) {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
       decoration: BoxDecoration(
@@ -702,6 +709,12 @@ class _AbuDhabiScaffoldingReferencePageState
               _bullet(item),
             const SizedBox(height: 8),
           ],
+          if (section.stopWorkExamples.isNotEmpty) ...[
+            _label('Stop-Work Examples'),
+            for (final item in _visibleList(section.stopWorkExamples))
+              _bullet(item),
+            const SizedBox(height: 8),
+          ],
           if (section.fieldWarning != null &&
               _matches(section.fieldWarning!)) ...[
             _label('Field Warning'),
@@ -798,12 +811,14 @@ class _AbuDhabiScaffoldingReferencePageState
             children: [
               Icon(icon, color: color, size: 25),
               const SizedBox(width: 9),
-              Text(
-                title,
-                style: const TextStyle(
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
                   color: navy,
                   fontSize: 17,
-                  fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
             ],
