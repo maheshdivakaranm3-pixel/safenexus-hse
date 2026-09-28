@@ -21,6 +21,7 @@ import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_39_40_41.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_42_43_44.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_45_46_47.dart';
 import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_48_49_50.dart';
+import 'package:safenexus_hse/data/abu_dhabi/abu_dhabi_cop_51_52_53.dart';
 
 class AbuDhabiCop01To03ReferencePage extends StatefulWidget {
   const AbuDhabiCop01To03ReferencePage({super.key});
@@ -68,6 +69,9 @@ class _AbuDhabiCop01To03ReferencePageState
 
         // CoP 48 / 49 / 50
         ...AbuDhabiCop48To50.documents,
+
+        // CoP 51 / 52 / 53
+        ...AbuDhabiCop51To53.documents,
       ];
 
   List<AbuDhabiCopDocument> get _filtered {
@@ -326,7 +330,7 @@ class _AbuDhabiCop01To03ReferencePageState
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => _CopDocumentDetailPage(
+            builder: () => _CopDocumentDetailPage(
               doc: doc,
             ),
           ),
@@ -344,7 +348,7 @@ class _AbuDhabiCop01To03ReferencePageState
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) =>
+            builder: () =>
                 const AbuDhabiScaffoldingReferencePage(),
           ),
         );
@@ -526,6 +530,16 @@ class _AbuDhabiCop01To03ReferencePageState
 
       case 'CoP 50.0':
         return Icons.blur_on_outlined;
+
+      // CoP 51 / 52 / 53
+      case 'CoP 51.0':
+        return Icons.local_shipping_outlined;
+
+      case 'CoP 52.0':
+        return Icons.air_outlined;
+
+      case 'CoP 53.0':
+        return Icons.business_outlined;
 
       default:
         return Icons.shield_outlined;
@@ -796,6 +810,16 @@ class _CopDocumentDetailPage extends StatelessWidget {
 
       case 'CoP 50.0':
         return Icons.blur_on_outlined;
+
+      // CoP 51 / 52 / 53
+      case 'CoP 51.0':
+        return Icons.local_shipping_outlined;
+
+      case 'CoP 52.0':
+        return Icons.air_outlined;
+
+      case 'CoP 53.0':
+        return Icons.business_outlined;
 
       default:
         return Icons.shield_outlined;
