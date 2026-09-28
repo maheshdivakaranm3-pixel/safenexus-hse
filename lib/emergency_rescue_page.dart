@@ -57,15 +57,15 @@ class EmergencyRescuePage extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 6),
+                SizedBox(height: 7),
                 Text(
-                  'Emergency preparedness, response, evacuation and rescue learning.',
-                  style: TextStyle(color: Colors.white70, height: 1.35),
+                  'Practical guidance for emergency preparedness, response, evacuation and rescue. Select a topic to study the explanation, site actions, examples and interview answers.',
+                  style: TextStyle(color: Colors.white, height: 1.45),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
           const Text(
             'PART 1 — EMERGENCY FUNDAMENTALS',
             style: TextStyle(
@@ -75,19 +75,25 @@ class EmergencyRescuePage extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
+          const Text(
+            'Four detailed topics for HSE Officers, Supervisors and Emergency Team members.',
+            style: TextStyle(color: Colors.black54, height: 1.4),
+          ),
+          const SizedBox(height: 12),
           ...emergencyRescuePart1.map(
             (topic) => Card(
               elevation: 0,
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 11),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: const BorderSide(color: Color(0xFFE1EAE6)),
               ),
               child: ListTile(
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 leading: CircleAvatar(
+                  radius: 23,
                   backgroundColor: const Color(0xFFE1F2E9),
                   foregroundColor: _green,
                   child: Text(
@@ -103,11 +109,12 @@ class EmergencyRescuePage extends StatelessWidget {
                   ),
                 ),
                 subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 7),
                   child: Text(
                     topic.purpose,
-                    maxLines: 2,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(height: 1.35),
                   ),
                 ),
                 trailing: const Icon(Icons.chevron_right, color: _green),
@@ -135,8 +142,8 @@ class EmergencyRescuePage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           const Text(
-            'Training reference only. Follow the current site Emergency Response Plan, applicable authority requirements, and emergency-service instructions.',
-            style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.4),
+            'Regulatory note: This is general learning material. Follow the current site Emergency Response Plan, applicable authority requirements, approved procedures and emergency-service instructions. Confirm legal limits and drill intervals from current official requirements before treating them as mandatory.',
+            style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.45),
           ),
         ],
       ),
@@ -161,19 +168,60 @@ class EmergencyRescueTopicPage extends StatelessWidget {
         title: Text(topic.title, maxLines: 1, overflow: TextOverflow.ellipsis),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
         children: [
-          _section('Purpose', <String>[topic.purpose]),
-          _section('Scope & Applicability', <String>[topic.scope]),
-          _section('Knowledge', topic.keyKnowledge),
-          _section('Site Implementation', topic.siteImplementation),
-          _section('Practical Example', topic.practicalExample),
-          _section('Stop-Work Conditions', topic.stopWorkConditions),
-          _section('Interview Preparation — Q&A', topic.interviewQuestions),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE4F2EC),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.menu_book, color: _green, size: 24),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    '${topic.id}  •  Field Handbook Explanation',
+                    style: const TextStyle(
+                      color: _green,
+                      fontWeight: FontWeight.w800,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 12),
-          const Text(
-            'Use the approved site ERP and verified local requirements. This handbook does not replace site-specific training or competent emergency response.',
-            style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.4),
+          _section('1. Purpose — Why this topic matters', <String>[topic.purpose]),
+          _section('2. Scope & Applicability', <String>[topic.scope]),
+          _section('3. Knowledge — Understand the requirements', topic.keyKnowledge),
+          _section('4. Site Implementation — What the team should do', topic.siteImplementation),
+          _section('5. Practical Site Example', topic.practicalExample),
+          _section('6. Stop-Work / Escalation Conditions', topic.stopWorkConditions),
+          _section('7. Interview Preparation — Questions & Answers', topic.interviewQuestions),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF4DB),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: const Color(0xFFEBD9A8)),
+            ),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.info_outline, color: Color(0xFF8A5A00)),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Field reminder: Protect life first. Raise the alarm early. Do not attempt an unplanned rescue or enter an uncontrolled hazard. Follow the approved site ERP and competent responder instructions.',
+                    style: TextStyle(height: 1.4, color: Color(0xFF654A16)),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -199,24 +247,35 @@ class EmergencyRescueTopicPage extends StatelessWidget {
                 color: _green,
                 fontWeight: FontWeight.w800,
                 fontSize: 16,
+                height: 1.3,
               ),
             ),
-            const SizedBox(height: 10),
-            ...items.map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 9),
+            const SizedBox(height: 12),
+            ...items.asMap().entries.map(
+              (entry) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 7),
-                      child: Icon(Icons.circle, size: 6, color: _green),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 7),
+                      child: Icon(
+                        entry.key == 0 && title.startsWith('5.')
+                            ? Icons.lightbulb_outline
+                            : Icons.circle,
+                        size: entry.key == 0 && title.startsWith('5.') ? 17 : 6,
+                        color: _green,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        item,
-                        style: const TextStyle(height: 1.42, fontSize: 14),
+                        entry.value,
+                        style: const TextStyle(
+                          height: 1.5,
+                          fontSize: 14,
+                          color: Color(0xFF263238),
+                        ),
                       ),
                     ),
                   ],
