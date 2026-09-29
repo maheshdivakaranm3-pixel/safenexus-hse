@@ -28,6 +28,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Walk each designated floor with building management: confirm stair identification, door self-closing/latching, lobby integrity, exit signs, emergency lighting and clear discharge to a safe place.',
+          'Confirm alarm audibility/voice messages and floor warden coverage for normal occupancy, contractors, visitors and people needing assistance; maintain a current assistance plan without blocking exits.',
+          'For renovation, protect every fire-rated wall/floor penetration with an approved tested fire-stop system; record location, product, installer and inspection before concealment.',
+          'If a stair, smoke-control zone, fire pump, alarm loop or sprinkler zone is impaired, notify the responsible person, assess occupancy/work impact, apply formally approved interim measures and escalate any need to restrict occupancy.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -42,9 +48,9 @@ class FireSciencePreventionTopics21To30 {
         'Fire drill, warden training and occupant communication records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('How does compartmentation limit vertical fire spread?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What should a floor warden do when an alarm activates?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Why must fire doors not be wedged open?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('How does compartmentation limit vertical fire spread?', 'Fire-resisting floors, walls, doors and sealed service penetrations delay fire and smoke moving between compartments and storeys. Verify the approved fire strategy, inspect for holes or wedged doors, and ensure any penetration is sealed with a compatible tested system. A breach is reported and repaired before concealment; do not substitute foam or unapproved materials.'),
+        FireSafetyQuestion('What should a floor warden do when an alarm activates?', 'Follow the building emergency plan: raise/confirm alarm through designated procedure, direct occupants to the assigned protected route, avoid lifts unless the approved evacuation system specifically provides them, assist people according to their pre-agreed plan, report floor/zone status and missing persons to the incident lead, and never re-enter or conduct unsafe search.'),
+        FireSafetyQuestion('Why must fire doors not be wedged open?', 'A fire door is part of the compartment boundary. Wedging it open can allow smoke and heat to enter escape stairs or adjacent floors, undermining tenability and evacuation. Keep closers, latches, seals and hold-open devices functional; only approved alarm-linked hold-open devices may be used and must release as designed.'),
       ],
       references: [
         'Applicable UAE Fire and Life Safety Code and local Civil Defence requirements',
@@ -74,6 +80,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Before entry, review basement layout, ventilation mode, vehicle/fuel sources, electrical rooms, drainage/sumps, access points and rescue route; brief workers on alarm, evacuation and communication.',
+          'For vehicle or plant work, control engine idling, hot surfaces, battery charging, fuel handling and parking; maintain separation from combustibles and keep fire equipment accessible.',
+          'Verify smoke extraction and make-up air status through authorized personnel; do not manually override fans or dampers unless the emergency procedure directs trained operators.',
+          'On smoke, fire, gas alarm or loss of safe egress, raise alarm, evacuate by the designated route and report exact level/zone; do not re-enter to retrieve tools or vehicles.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -88,9 +100,9 @@ class FireSciencePreventionTopics21To30 {
         'Emergency plan, drill reports and contractor induction records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('Why can smoke be especially hazardous in a basement?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What checks are needed before hot work in a basement?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Who authorizes re-entry after a basement fire?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('Why can smoke be especially hazardous in a basement?', 'Basements may have limited openings and depend on mechanical ventilation or smoke extraction. Smoke can obscure routes, expose occupants to toxic products and compromise firefighter access. Evacuate on alarm, use designated stairs, report exact level and never assume a fan or vehicle exhaust has made the area safe.'),
+        FireSafetyQuestion('What checks are needed before hot work in a basement?', 'Use the site permit-to-work and task risk assessment; identify combustible stores, vehicle fuel, drains, hidden voids and ventilation limits; isolate nearby services as required; remove/protect combustibles; verify gas testing where the hazard assessment requires it; provide trained fire watch and suitable extinguishing equipment; confirm escape and emergency communication.'),
+        FireSafetyQuestion('Who authorizes re-entry after a basement fire?', 'Re-entry is controlled by the incident commander and building/site responsible person after fire service release where applicable and competent assessment of structure, atmosphere, electrical/process hazards, smoke control and fire-system status. Workers must not self-authorize entry or retrieve property.'),
       ],
       references: [
         'Applicable UAE Fire and Life Safety Code / local authority requirements',
@@ -120,6 +132,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Map process hazards and area classification from approved drawings; control ignition sources, hot surfaces, static discharge, temporary equipment and vehicle access according to site procedures.',
+          'Coordinate operations, maintenance and contractors through permit-to-work, isolation certificates, gas testing where required, simultaneous-operations review and toolbox briefing.',
+          'Keep emergency shutdowns, access ways, hydrants, monitors, extinguishers and escape routes identifiable and unobstructed; never store materials against equipment or escape doors.',
+          'After a fire or abnormal release, preserve isolation boundaries, account for personnel, communicate process inventory and hazards to responders, and restart only after formal technical and HSE authorization.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -134,9 +152,9 @@ class FireSciencePreventionTopics21To30 {
         'Permit, contractor competency and incident investigation records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('How do you control ignition sources in a classified area?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What is the purpose of emergency isolation?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What conditions must be met before process restart?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('How do you control ignition sources in a classified area?', 'Use the approved hazardous-area classification drawings and equipment register. Permit and assess the task, verify equipment certification/suitability, isolate process hazards, control static and hot surfaces, test atmosphere when required, manage vehicle/tools access, and stop if classification, gas conditions or equipment integrity is uncertain.'),
+        FireSafetyQuestion('What is the purpose of emergency isolation?', 'Emergency isolation limits fuel or energy feeding an incident and can reduce escalation. Only trained, authorized personnel operate designated ESD/isolation systems under the facility procedure, considering downstream effects and personnel safety. Communicate isolation status to incident command and verify before restart.'),
+        FireSafetyQuestion('What conditions must be met before process restart?', 'Restart requires incident cause and damage assessment, safe isolation removal, inspection/testing of affected equipment and fire protection, closure of actions, updated risk assessment/operating limits, permit closeout and documented approval by operations, engineering and HSE roles defined by the site.'),
       ],
       references: [
         'Applicable UAE legal and authority requirements',
@@ -166,6 +184,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Treat hydrocarbon release response as an emergency: raise alarm, move crosswind/upwind as directed, avoid ignition sources, and do not approach a leak to operate a valve unless trained and assigned.',
+          'Use the facility emergency response plan for ESD, depressurization, deluge, firewater and evacuation; only authorized control-room/response personnel operate process controls.',
+          'Communicate product, location, pressure/inventory if known, wind direction, casualties, isolation status and access hazards to the incident commander without delaying evacuation.',
+          'Distinguish pool, jet and flash fire for training: fuel form and release dynamics differ; response tactics and safe approach must be set by trained responders using site-specific plans.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -180,9 +204,9 @@ class FireSciencePreventionTopics21To30 {
         'PTW, isolation, gas test and competency records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('Differentiate pool fire, jet fire and flash fire.', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Why is remote isolation important?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What information should be communicated during a hydrocarbon release?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('Differentiate pool fire, jet fire and flash fire.', 'A pool fire burns a liquid pool; a jet fire is a pressurized release igniting as a directed flame; a flash fire is rapid flame spread through a flammable vapour cloud. Each has different exposure and escalation behavior. Personnel evacuate and responders use facility-specific tactics; do not approach or attempt improvised firefighting.'),
+        FireSafetyQuestion('Why is remote isolation important?', 'Remote isolation can stop or reduce fuel flow without sending personnel into a hazardous area. Its location, function, access, testing and operating authority must be understood in drills. Never delay alarm or evacuation to operate it; communicate whether it was activated and any uncertainty.'),
+        FireSafetyQuestion('What information should be communicated during a hydrocarbon release?', 'Give incident command the exact location/equipment, substance if known, release/fire status, wind direction, casualties, alarms/ESD status, nearby exposures, access route and safe muster information. Do not guess pressure or inventory; identify unknowns clearly and avoid entering the hazard zone to collect details.'),
       ],
       references: [
         'Applicable UAE authority and facility requirements',
@@ -212,6 +236,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'For suspected gas leak: do not operate electrical switches, start vehicles or use open flames; warn others, evacuate to a safe location and contact the site emergency number from a safe area.',
+          'Close cylinder valves only if immediately safe and the person is trained; never search for a leak with a flame. Use approved leak-detection method by competent personnel.',
+          'Secure cylinders upright with suitable restraints, protect valves, segregate incompatible gases and keep away from heat, impact, exits and ignition sources; follow supplier and site storage rules.',
+          'Recommission gas systems only after competent leak testing, ventilation, removal of ignition sources, inspection and written authorization; record defects and replaced components.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -226,9 +256,9 @@ class FireSciencePreventionTopics21To30 {
         'Emergency procedure, training and contractor records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('What actions should be avoided during a suspected gas leak?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Why must gas cylinders be secured and protected?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Who may authorize gas-system reinstatement?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('What actions should be avoided during a suspected gas leak?', 'Do not ignite flames, smoke, operate switches, start engines, use non-approved phones in the suspected area, or search for the leak with a flame. Warn and evacuate, avoid creating sparks, call emergency support from a safe location, and let competent responders isolate and test.'),
+        FireSafetyQuestion('Why must gas cylinders be secured and protected?', 'A falling cylinder can damage its valve and release high-pressure gas; heat can increase pressure and create severe escalation. Secure upright with suitable restraints, protect valve caps during movement, separate incompatible gases, keep away from heat and exits, and follow supplier/site handling rules.'),
+        FireSafetyQuestion('Who may authorize gas-system reinstatement?', 'A competent authorized gas technician or responsible engineer, under site management controls, after leak testing, ventilation, inspection and correction of the defect. Reinstatement must be recorded and communicated; never reopen a system simply because the smell has gone.'),
       ],
       references: [
         'Applicable UAE / local authority gas and fire requirements',
@@ -258,6 +288,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Classify products using current safety data sheets and site inventory; determine storage compatibility, ventilation, ignition controls, quantity limits and approved cabinet/room requirements.',
+          'Bond/earth containers and transfer equipment where required by risk assessment and design; use compatible closed transfer systems and control static, spills and overfilling.',
+          'Keep containers closed and labelled; segregate oxidizers and incompatible chemicals; protect drains with suitable spill controls and maintain secondary containment appropriate to the approved design.',
+          'For a spill, isolate area, eliminate ignition only when safe, prevent entry to drains if trained and safe, use compatible spill kit and escalate unknown/large releases to emergency response.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -272,9 +308,9 @@ class FireSciencePreventionTopics21To30 {
         'Fire protection and emergency training records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('Why is flash point important for storage decisions?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What is the purpose of secondary containment?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('How should a flammable liquid spill be controlled?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('Why is flash point important for storage decisions?', 'Flash point indicates the temperature at which a liquid can produce enough vapour to ignite under a specified test. It helps determine classification and controls, but storage must also consider quantity, vapour density, ventilation, compatibility, ignition sources, container and local approved requirements.'),
+        FireSafetyQuestion('What is the purpose of secondary containment?', 'Secondary containment limits spread of leakage or spills and helps prevent entry to soil, drains or adjacent areas. It must be compatible with the chemical, maintained, inspected and sized/configured to the applicable approved design and rules; rainwater or incompatible materials must not defeat its capacity.'),
+        FireSafetyQuestion('How should a flammable liquid spill be controlled?', 'Raise alarm and isolate the area; remove ignition sources only if safe; avoid contact and vapour exposure; prevent drain entry only when trained and safe; use compatible spill materials for small releases under the site plan. Unknown, large or vapour-forming spills require emergency response and SDS-led specialist control.'),
       ],
       references: [
         'Applicable UAE authority and environmental requirements',
@@ -304,6 +340,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Look for discoloration, hot-plastic smell, buzzing, repeated breaker trips, damaged insulation, loose plugs, overloaded adaptors, moisture ingress and temporary cable damage; isolate and report, do not touch exposed conductors.',
+          'Only authorized electricians select, install, test or modify protective devices and circuits; never bypass fuses, breakers, RCDs, interlocks or thermal protection to keep equipment running.',
+          'Apply isolation/LOTO and prove dead using approved test equipment before electrical work; control stored energy and prevent unauthorized re-energization.',
+          'Before energization, verify inspection/testing, enclosure integrity, earthing/bonding, protective device suitability, load, cable routing and permit closeout; energize under an approved controlled procedure.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -318,9 +360,9 @@ class FireSciencePreventionTopics21To30 {
         'Defect, trip and corrective-action register',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('What are common signs of electrical overheating?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('Why must protective devices never be bypassed?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What checks are required before re-energization?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('What are common signs of electrical overheating?', 'Warning signs include hot or discoloured plugs, burning odour, crackling/buzzing, flickering, repeated protective-device trips, damaged insulation and warm enclosures. Keep clear, isolate only if authorized and safe, report promptly, and have a qualified electrician investigate; never reset repeatedly or touch exposed parts.'),
+        FireSafetyQuestion('Why must protective devices never be bypassed?', 'Fuses, breakers, RCDs and thermal protection limit fault current or disconnect unsafe conditions. Bypassing can allow overheating, electric shock and fire. Repeated trips indicate a fault: isolate, investigate and repair through an authorized electrician, then verify protective-device operation before service.'),
+        FireSafetyQuestion('What checks are required before re-energization?', 'Confirm work is complete, tools/personnel are clear, covers and barriers restored, earthing and protective devices verified, insulation/functional tests completed as required, permits closed, affected users notified and authorization obtained. Follow the approved switching/LOTO procedure and monitor for abnormal signs.'),
       ],
       references: [
         'Applicable UAE electrical and fire requirements',
@@ -350,6 +392,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Confirm stored commodities, packaging, rack configuration, storage height and aisle arrangement match the approved fire protection design; reassess before introducing aerosols, plastics, lithium batteries or changed commodities.',
+          'Keep sprinkler heads, detection, hose stations, exits, electrical panels and fire doors unobstructed; maintain approved clearances from sprinklers as specified by the design and authority.',
+          'Control charging/maintenance areas, damaged battery quarantine, waste packaging, smoking, hot work and forklift charging; designate safe battery incident response and notify emergency services for thermal runaway.',
+          'Maintain housekeeping, rack damage reporting, load notices, aisle access, inventory and fire-system impairment controls; prohibit unapproved stacking or layout changes.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -364,9 +412,9 @@ class FireSciencePreventionTopics21To30 {
         'Housekeeping, hot work and management-of-change records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('Why can changing commodity or storage height affect sprinkler adequacy?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What must remain clear in warehouse aisles?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('When should a layout change trigger a fire risk review?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('Why can changing commodity or storage height affect sprinkler adequacy?', 'Commodity combustibility, packaging, arrangement and storage height affect fire growth and water reaching the burning materials. A layout change can exceed the assumptions of the approved sprinkler/rack design. Obtain competent design review and approval before changing storage type, height or configuration.'),
+        FireSafetyQuestion('What must remain clear in warehouse aisles?', 'Keep marked escape aisles, exits, fire doors, sprinkler control valves, hydrants, hose reels, extinguishers, electrical panels and emergency access clear. Maintain the approved sprinkler clearance and rack aisle widths; do not use these spaces for temporary staging or waste.'),
+        FireSafetyQuestion('When should a layout change trigger a fire risk review?', 'Before changing commodity, rack height, aisle width, charging location, partition, occupancy, process or fire-system arrangement. Review whether detection/suppression design, egress, fire load, access and emergency plan remain valid; record approval and update drawings and training.'),
       ],
       references: [
         'Applicable UAE Fire and Life Safety Code and authority approvals',
@@ -396,6 +444,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'Before occupancy, verify cabin location/spacing and construction approval, safe access/egress, smoke detection/alarm, suitable extinguishers, emergency lighting where required and clear muster route.',
+          'Inspect temporary power distribution, earthing, RCD protection, cable condition, weather protection and load suitability; avoid daisy-chained adaptors and unattended heaters/cooking appliances.',
+          'Control smoking, cooking, heaters, flammable storage, waste and charging devices; provide occupant induction, emergency contacts, evacuation map and after-hours arrangements.',
+          'Any relocation, added cabin, change of use, increased occupancy, altered exit, or new high-load equipment triggers review by the responsible competent person before use.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -410,9 +464,9 @@ class FireSciencePreventionTopics21To30 {
         'Occupancy, induction, inspection and corrective action logs',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('What changes require reassessment of a site cabin?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('How do you control temporary electrical fire risk?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What should be checked before occupancy?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('What changes require reassessment of a site cabin?', 'Relocation, added/removed cabins, occupancy or use change, new cooking/heating equipment, high electrical loads, altered exit, nearby fuel/chemical storage or changed access can alter fire risk. Reassess before the change, obtain required approval and brief occupants.'),
+        FireSafetyQuestion('How do you control temporary electrical fire risk?', 'Use approved distribution boards and competent installation, suitable overload/RCD protection, earthing, weather-rated enclosures and inspected cables. Avoid damaged leads, overloaded adaptors and daisy chains; route cables away from heat, traffic and sharp edges, and isolate defective equipment.'),
+        FireSafetyQuestion('What should be checked before occupancy?', 'Confirm approved siting and access, suitable exits, alarm/detection and emergency equipment required by the risk assessment, safe temporary power, housekeeping, occupant capacity, emergency contacts, evacuation route and muster point. Record inspection and induction before people move in.'),
       ],
       references: [
         'Applicable UAE / local authority temporary structure and fire requirements',
@@ -442,6 +496,12 @@ class FireSciencePreventionTopics21To30 {
           'Stop the affected activity and notify the responsible supervisor if approved fire protection is unavailable, escape routes are compromised, an uncontrolled release or ignition source is found, or the actual condition differs from the approved risk assessment.',
           'Resume only after the hazard is controlled, required systems are restored or approved compensatory measures are in place, and the authorized person confirms readiness.',
         ]),
+        FireSafetySection('Detailed field implementation', [
+          'At planning, identify which alarm, detector, sprinkler, hydrant, fire door, smoke control or exit systems may be affected; define boundaries, duration, responsible person and approved compensatory controls.',
+          'Sequence work to keep safe escape and fire response available; use temporary detection, patrol/fire watch, suitable extinguishers and restrictions only as determined by competent risk assessment and authority/site procedure.',
+          'For hot work, verify permit, area inspection, combustible removal/protection, gas testing where relevant, correct equipment, trained fire watch and post-work monitoring duration set by permit/site rules.',
+          'At handover, remove temporary materials, reinstate and function-test affected systems, close permits, update drawings/impairment log, brief occupants and obtain documented acceptance before normal operation.',
+        ]),
       ],
       checklist: [
         'Current risk assessment and approved drawings/procedure are available.',
@@ -456,9 +516,9 @@ class FireSciencePreventionTopics21To30 {
         'Inspection, commissioning, as-built and handover records',
       ],
       interviewQuestions: [
-        FireSafetyQuestion('What compensatory measures are needed during a fire alarm impairment?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What must be verified before hot work permit closure?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
-        FireSafetyQuestion('What fire safety evidence is required at handover?', 'Answer using the approved site fire strategy, task risk assessment, responsible-person roles, and current authority/project requirements. Explain the hazard, controls, verification evidence, escalation and conditions for safe restart.'),
+        FireSafetyQuestion('What compensatory measures are needed during a fire alarm impairment?', 'A competent responsible person assesses the affected area, duration, occupancy and risk, then authorizes proportionate interim controls under site/authority procedure—such as fire watch, temporary detection, restricted hot work, reduced occupancy or evacuation. Notify affected occupants, log impairment, set restoration deadline and verify reinstatement.'),
+        FireSafetyQuestion('What must be verified before hot work permit closure?', 'Confirm work and equipment are safe, fire watch and post-work monitoring completed for the permit-defined period, no smouldering or heat transfer remains, combustibles and screens are addressed, fire systems are restored, area inspected, permit signed closed and any defects/actions recorded.'),
+        FireSafetyQuestion('What fire safety evidence is required at handover?', 'Provide approved and as-built drawings, system commissioning and test certificates, fire-stopping records, equipment/asset registers, maintenance plans, impairment and defect closure records, evacuation and training information, permits, outstanding actions and formal acceptance by designated operations/building representatives.'),
       ],
       references: [
         'Applicable UAE authority and project fire safety requirements',
