@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'environmental_emp_page.dart';
+import 'environmental_editable_document_page.dart';
 
 /// Environmental office-document library. Applicability, authority, approval,
 /// validity and retention must be confirmed against the live project requirements.
@@ -90,7 +91,7 @@ class EnvironmentalOfficeDocumentsPage extends StatelessWidget {
             MaterialPageRoute<void>(
               builder: (_) => name == 'Environmental Management Plan (EMP)'
                   ? const EnvironmentalEmpPage()
-                  : _DocumentDetailPage(name: name, group: group.title),
+                  : EnvironmentalEditableDocumentPage(name: name, group: group.title),
             ),
           ),
         )).toList(),

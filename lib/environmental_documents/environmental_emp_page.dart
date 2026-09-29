@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'environmental_emp_professional_content.dart';
+import 'environmental_editable_document_page.dart';
 
 /// Readable EMP field guide using the existing content framework.
 /// This is a reference/template view; editing and file export are not yet wired.
@@ -20,6 +21,18 @@ class EnvironmentalEmpPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(14),
         children: [
+          FilledButton.icon(
+            style: FilledButton.styleFrom(backgroundColor: green),
+            onPressed: () => Navigator.push(context, MaterialPageRoute<void>(
+              builder: (_) => const EnvironmentalEditableDocumentPage(
+                name: 'Environmental Management Plan (EMP)',
+                group: 'Governance & document control',
+              ),
+            )),
+            icon: const Icon(Icons.edit_document),
+            label: const Text('Open Editable EMP Project Form'),
+          ),
+          const SizedBox(height: 12),
           _intro(),
           const SizedBox(height: 12),
           const Text('PROJECT INFORMATION',
