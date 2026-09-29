@@ -384,32 +384,14 @@ class _TopicTile extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        leading: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircleAvatar(
-              radius: 17,
-              backgroundColor: green,
-              foregroundColor: Colors.white,
-              child: Text(
-                topic.number.toString().padLeft(2, '0'),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 11,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE5F3EC),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(_topicIcon, color: green, size: 25),
-            ),
-          ],
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE5F3EC),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(_topicIcon, color: green, size: 27),
         ),
         title: Text(
           topic.title,
