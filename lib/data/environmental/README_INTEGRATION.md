@@ -10,3 +10,5 @@ Import the relevant part file and render each EnvironmentalTopicDocument. Both l
 Before navigation integration, review the app's current routing and build a dedicated handbook page. Run dart format, flutter analyze and flutter build apk in a Flutter-enabled environment.
 
 Regulatory caution: applicability, legal limits, permit timelines and retention periods must be verified against current official authority instruments, project permits and approved plans. This content does not replace project-specific approvals.
+
+Navigation integration added: Environmental category opens EnvironmentalReferencePage, displaying topics 01–22 and each topic's full fields.
