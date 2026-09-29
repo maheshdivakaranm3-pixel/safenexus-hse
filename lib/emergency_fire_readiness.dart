@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'fire_life_safety_topics_page.dart';
+
 class EmergencyFireReadinessPage extends StatefulWidget {
   const EmergencyFireReadinessPage({super.key});
 
@@ -256,6 +258,7 @@ class _EmergencyFireReadinessPageState
       ),
       body: Column(
         children: [
+          _buildLearningEntry(context),
           _buildSummary(),
           _buildFilters(),
           Expanded(
@@ -268,6 +271,44 @@ class _EmergencyFireReadinessPageState
                   ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLearningEntry(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+      child: Material(
+        color: const Color(0xFFE8F5EE),
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const FireLifeSafetyTopicsPage(),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                const Icon(Icons.menu_book_rounded, color: darkGreen, size: 26),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Fire & Life Safety — Learning Topics', style: TextStyle(fontWeight: FontWeight.w700, color: darkGreen)),
+                      SizedBox(height: 3),
+                      Text('Open topic cards and detailed study content', style: TextStyle(fontSize: 12, color: darkGreen)),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: darkGreen),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
