@@ -29,7 +29,7 @@ class FireSciencePreventionTopics11To20 {
     FireSafetyTopic(
       id: 'FLS-12', title: 'Fire Hydrants, Hose Reels & Fire Hoses',
       subtitle: 'First-aid firefighting water outlets, access and safe use',
-      icon: Icons.fire_hydrant_rounded, accent: Color(0xFF1565C0),
+      icon: Icons.water_drop_rounded, accent: Color(0xFF1565C0),
       overview: 'Hydrants, hose reels and fire hoses provide water for trained responders or occupants where the approved fire strategy permits. Their location, pressure, flow, hose type and use must match the installed system and local authority approval. Occupants should prioritize alarm and evacuation; firefighting is only for trained persons, a small incipient fire and a safe escape route.',
       sections: [
         FireSafetySection('Equipment & application', ['Hydrants may be external or internal and connect to the approved fire main; hose reels are intended for the specific class of fire and user capability stated by the site plan.', 'Hoses, couplings, branch/nozzles, cabinets, landing valves and signage must be compatible and approved.', 'Identify outlet type, operating instructions, pressure limitations and access restrictions before use.', 'Do not use water on energized electrical equipment, flammable-liquid fires or reactive materials unless the approved agent and procedure specifically permit it.']),
