@@ -615,6 +615,14 @@ class FireSciencePreventionTopics {
           'Stop or restrict affected work when a critical alarm zone is disabled without authorization, alarm audibility is inadequate, a call point is inaccessible or a fault leaves people without the approved warning arrangement.',
           'Example: ceiling contractors plan dusty drilling near smoke detectors. Coordinate with the authorized fire-system owner; use approved protection/isolation controls only when authorized, apply compensatory measures, control dust, then ensure detectors are uncovered, inspected and restored before handover.',
         ]),
+        FireSafetySection('Detailed field workflow, testing and failure scenarios', [
+          'Before occupancy or handover, the competent fire-alarm specialist verifies approved device locations, loop/zone mapping, cause-and-effect actions, interfaces, audibility/visibility design, standby power and monitoring against approved drawings and acceptance criteria.',
+          'For a reported alarm: announce the location and indication to the incident controller, initiate the site emergency plan, protect evacuation, and allow the authorized response team to investigate. Do not assume a detector activation is false merely because no flame is visible.',
+          'For a fault: record panel text/device/zone, time, affected function and reported symptoms; notify the designated system owner immediately. Apply the approved impairment process, including risk review, notifications, temporary warning/fire watch or activity restriction where required.',
+          'For planned detector protection during dusty work, obtain written authorization, identify exact devices and time window, control dust at source, provide compensatory measures, and maintain a named person responsible for restoration. Do not use bags, tape or covers unless the approved procedure specifically permits them.',
+          'After maintenance, the authorized technician removes temporary protection, restores all isolations, confirms normal panel status, tests affected devices/interfaces as required, informs stakeholders and signs the restoration record. HSE verifies evidence; HSE does not reprogram the panel.',
+          'Common failure modes include detector obstruction, wrong device type for environment, water ingress, damaged cabling, battery degradation, disabled interfaces, poor alarm audibility and uncommunicated isolation. Each requires documented defect control and closure verification.',
+        ]),
       ],
       checklist: [
         'Fire alarm panel shows normal status or all faults are formally assessed and controlled.',
@@ -685,6 +693,14 @@ class FireSciencePreventionTopics {
         FireSafetySection('Site example', [
           'A construction hoarding blocks the usual corridor to a stair. Do not simply redirect workers verbally and continue. The responsible competent team must approve and communicate a safe alternate route, update drawings/signage and brief all shifts before work resumes.',
         ]),
+        FireSafetySection('Detailed evacuation planning and field execution', [
+          'The evacuation plan must identify alarm meanings, primary and alternative routes, final exits, assembly points, emergency contacts, roles, visitor/contractor accountability, assistance arrangements and re-entry authority. Brief the plan in languages and formats workers understand.',
+          'Before each shift, check that routes and exits are open, illuminated as designed, signed, free of stored materials and not compromised by scaffolds, temporary cables, deliveries or vehicle parking. Report any changed route and update signs/briefings before work proceeds.',
+          'On alarm: stop equipment only when safe and without delaying escape; leave tools and belongings; use the nearest safe designated route; assist others only within training and without entering smoke; proceed to the assigned assembly point and remain available for headcount.',
+          'Wardens or supervisors report headcount status, missing persons, last known location, injuries, blocked routes and hazards to the incident controller. Never dispatch untrained workers back inside to search; give information to emergency responders.',
+          'For persons needing assistance, establish a confidential individual plan, assigned helpers/deputies, communication method and approved refuge/evacuation arrangement. Do not improvise an evacuation lift or carry method outside the approved plan and training.',
+          'Re-entry is prohibited until the incident controller or competent authority gives formal clearance. After drills or real events, record route delays, congestion, alarm audibility, assistance issues and corrective actions with owners and effectiveness checks.',
+        ]),
       ],
       checklist: [
         'Evacuation alarm and instructions are known to workers and visitors.',
@@ -753,6 +769,14 @@ class FireSciencePreventionTopics {
           'Restrict occupancy or affected work if the approved escape route lacks required emergency illumination/signage and no authorized compensatory arrangement exists.',
           'Example: temporary corridor rerouting changes the exit direction. Obtain competent approval, relocate/add approved signs and lighting as designed, brief workers and document verification before using the route.',
         ]),
+        FireSafetySection('Detailed emergency-lighting and signage field checks', [
+          'Emergency lighting supports safe movement when normal lighting fails; exit signs identify the approved escape direction and final exits. Confirm that installed type, location, coverage and performance match approved drawings and authority-approved design rather than selecting values by guesswork.',
+          'Visual inspection: check signs are visible from the intended approach, arrows point along the approved route, luminaires are not obscured or damaged, lenses are clean, fittings are secure, and no temporary partition or stored item blocks visibility.',
+          'Functional testing and duration testing must follow the adopted code, approved maintenance plan and manufacturer procedure, performed by competent authorized personnel. Do not invent a universal lux value or test interval; record the governing criterion and test method.',
+          'During a test, coordinate occupants and operations, maintain safe alternative arrangements if required, identify affected areas, record start/end time and ensure normal supply and charging are restored afterward.',
+          'If a fitting fails, mark the exact location, assess whether the escape route remains adequately protected, notify facilities/fire-system owner, provide approved interim controls or restrict occupancy/activity as directed, then retest and document closure.',
+          'Keep asset IDs, location plans, inspection/test results, battery or fitting replacement records, defect reports, approvals and restoration evidence available for audit and Civil Defence/authority inspection.',
+        ]),
       ],
       checklist: [
         'Emergency luminaires and exit signs are present where shown on approved drawings.',
@@ -819,6 +843,14 @@ class FireSciencePreventionTopics {
         ]),
         FireSafetySection('Site example', [
           'A subcontractor routes a new cable through a rated riser wall and leaves the annular gap open. Stop further work, protect the area, notify the responsible supervisor, install the approved compatible fire-stop system through a competent installer, inspect and record evidence before closure.',
+        ]),
+        FireSafetySection('Detailed fire-door and compartment integrity controls', [
+          'A fire compartment limits fire and smoke spread for the period and purpose defined by the approved fire strategy. Doors, walls, floors, ceilings, shafts, dampers, joints and service penetrations operate as a system; a single unapproved opening can compromise the boundary.',
+          'Inspect each door for correct identification/label where specified, compatible frame and hardware, secure hinges, functioning closer, positive latching, intact seals, no damage or distortion, and unobstructed swing. Confirm it closes fully from its normal open position without being pulled shut by a person.',
+          'Never wedge, tie or prop a fire door open. Where hold-open devices are approved, they must be part of the designed fire-alarm interface and release correctly on the specified signal; report any failure immediately.',
+          'Before drilling, coring, cable pulling or pipe installation through a rated barrier, obtain approval, confirm the barrier type and required system, use a tested compatible fire-stop system, and have installation inspected before concealment. Ordinary foam or generic sealant is not an acceptable substitute unless specifically approved for that tested application.',
+          'Maintain a penetration register showing location, barrier, service, approved product/system, installer, inspection, photographs and closure. Temporary openings require authorization, interim protection, a responsible owner and a firm restoration deadline.',
+          'If a door will not latch, a seal is missing, or a barrier is breached, report and assess the affected compartment/escape route promptly; apply approved interim measures, restrict affected work/occupancy as required, and verify reinstatement before closing the defect.',
         ]),
       ],
       checklist: [
@@ -889,6 +921,15 @@ class FireSciencePreventionTopics {
         FireSafetySection('Stop-work & site example', [
           'If the designated warden is absent and no deputy/coverage is available for a high-occupancy activity, escalate and apply the approved contingency before starting or continuing.',
           'Example: a drill shows workers at a remote work front cannot hear the alarm. Record the location and conditions, notify the responsible fire-system/management team, assess interim warning controls and verify corrective action through a controlled retest.',
+        ]),
+        FireSafetySection('Detailed emergency-team duties and drill evaluation', [
+          'The emergency organization chart should name the incident controller, deputies, fire wardens by area/shift, first-aid responders, security, facilities/system contacts and communication channels. Define who can order evacuation, contact emergency services, authorize re-entry and declare restoration.',
+          'Before a shift or event, confirm role coverage, current contact lists, warden identification, radio/phone function, assembly-point assignments, visitor/contractor sign-in and arrangements for workers who need assistance. Brief changes and absent-role cover.',
+          'Wardens guide evacuation only along safe routes, check assigned areas only where the plan permits and conditions remain safe, close doors if safe without delaying exit, report route obstructions and support assembly accountability. They do not enter smoke, conduct rescue beyond competence or fight a developing fire.',
+          'A drill plan defines objective, scenario, scope, participants, observers, notification level, safety controls, emergency-service/building coordination, stop criteria and debrief method. Never block exits, create uncontrolled smoke, trigger unapproved alarm isolation or expose participants to real danger.',
+          'Observers assess alarm recognition, time to initiate movement, route choice, congestion, assistance, warden communications, headcount accuracy, responder access and whether workers understand re-entry restrictions. Use the approved project criteria; do not present one universal evacuation-time target as law.',
+          'Debrief promptly and record strengths, gaps, responsible owner, due date, interim risk control and evidence required. Verify corrective-action effectiveness by inspection, briefing or a repeat exercise; retain attendance, scenario, observer sheets and final report.',
+          'At an actual emergency, report missing-person identity and last known location to the incident controller/emergency services. Do not send staff back into the building. Resume work only after formal clearance, system restoration and management authorization.',
         ]),
       ],
       checklist: [
