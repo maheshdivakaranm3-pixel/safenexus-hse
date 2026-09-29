@@ -18,12 +18,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Map vulnerable persons, remote work fronts, night shifts, language needs, simultaneous operations and changing site phases.',
       'Keep controlled copies accessible at control points and work fronts; brief revisions and withdraw obsolete versions.',
       'Do not assume one generic ERP fits every worksite. Link task-specific rescue plans and specialist procedures to the master plan.',
-    ],
       'ERP structure should include document owner, approval authority, revision number, issue date, distribution list, purpose, site description, emergency organization, scenario actions, contact method, maps, resource list, recovery and appendices.',
       'Each scenario action card should state how to recognize the event, who raises alarm, immediate safe action, isolation boundary, evacuation/shelter decision, response lead, external assistance and conditions for stand-down.',
       'Use a clear document hierarchy: master ERP, site map, emergency contact sheet, role cards, task-specific rescue plans and specialist hazardous-material procedures. Ensure these documents do not contradict one another.',
       'During mobilization, verify the ERP against actual site conditions rather than copying a generic template. Confirm gate names, GPS/grid references, access restrictions, muster locations and nearest responder approach.',
       'Control changes: review the affected sections, approve the revision, brief impacted personnel, record acknowledgement and remove superseded hard copies.',
+    ],
+
     siteImplementation: <String>[
       'Appoint an accountable plan owner and multidisciplinary review team.',
       'Walk the site to verify routes, gates, assembly areas, responder access and equipment locations.',
@@ -56,12 +57,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Assess rescue feasibility: casualty access, retrieval path, equipment, trained responders, communication and time-critical limitations.',
       'Use credible site information and competent specialist input. Do not invent numerical response times or risk thresholds.',
       'Reassess when equipment, process, workforce, layout, simultaneous operations or environmental conditions change.',
-    ],
       'Scenario assessment should examine initiating event, escalation factors, exposure groups, credible worst consequence, warning time, safe refuge, escape route, rescue access and potential impact beyond the site boundary.',
       'Include human-factor and operational conditions such as fatigue, language barriers, lone work, shift handover, contractor interfaces, simultaneous operations and reduced staffing.',
       'Evaluate capability realistically: a listed rescue kit is not a rescue capability unless it is suitable, inspected, accessible, and supported by trained available personnel and a practiced method.',
       'Use scenario tables or bow-tie analysis where helpful: threats, preventive barriers, top event, mitigating barriers, recovery actions and barrier owner.',
       'Document assumptions and residual gaps. Where external specialist support is needed, confirm the call-out route and communicate that site personnel must not exceed their training.',
+    ],
+
     siteImplementation: <String>[
       'Conduct a multi-discipline workshop with operations, HSE, supervisors, first aiders and relevant specialists.',
       'Create a scenario register linking each hazard to an ERP section, responsible role, equipment and drill.',
@@ -93,12 +95,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Test coverage at actual work fronts and shifts; maintain devices, batteries, repeaters and contact lists.',
       'Avoid transmitting unverified casualty names or sensitive details over open channels.',
       'Establish a method to acknowledge, relay and close emergency messages so warnings are not assumed received.',
-    ],
       'An effective emergency message follows a repeatable sequence: identify yourself, state emergency type, exact location, immediate danger, people affected, action already taken, assistance needed and safe callback channel.',
       'Use closed-loop communication: receiver repeats critical location/instruction, sender confirms or corrects, and the control point logs the time and status.',
       'Differentiate evacuation, shelter-in-place, all-clear and test signals in induction and signage. Never use a drill signal without prior coordination and an unmistakable test announcement.',
       'Where radio channels are shared, reserve an emergency channel or priority protocol and keep messages short. Avoid unnecessary radio traffic that blocks urgent calls.',
       'After alarm-system failure, define a temporary compensating method, responsible person, affected zones and a clear decision on whether work may continue.',
+    ],
+
     siteImplementation: <String>[
       'Map alarm audibility/visibility and radio coverage through representative site conditions.',
       'Train workers to raise the alarm and state the location using site landmarks or grid references.',
@@ -130,12 +133,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Provide backup location and communications if the control room is affected by the incident.',
       'Control access to the coordination point and protect confidential personal or medical information.',
       'The control room supports command; it does not replace the incident commander or external emergency-service command structure.',
-    ],
       'Prepare a site status board with incident type, exact location, known hazards, weather/wind if relevant, affected zones, casualty/accountability status, isolations, responder ETA/status and decisions awaiting approval.',
       'Separate verified facts from unconfirmed reports. Label uncertain information and assign someone to verify it before it is broadcast as fact.',
       'Maintain a decision log: time, decision, decision-maker, information available, action owner and follow-up. This supports continuity during shift or command handover.',
       'Provide an orderly handover when external emergency services assume command: known hazards, missing persons, actions taken, isolation status, site plan, access route and specialist contacts.',
       'Protect the control point from becoming congested; route media, family enquiries and nonessential requests through the designated liaison.',
+    ],
+
     siteImplementation: <String>[
       'Identify primary and alternate control points and test their power, communications and accessibility.',
       'Use a simple incident board showing event, location, hazards, people accounted for, actions, resources and outstanding decisions.',
@@ -167,12 +171,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Confirm fitness, PPE, equipment familiarity and safe access before assigning response duties.',
       'Responders must not enter an atmosphere, energized area, unstable excavation or other uncontrolled hazard beyond their training and authorization.',
       'Coordinate with external responders and avoid self-deployment into an incident scene.',
-    ],
       'Competency should be role-specific and evidence-based: training record, practical demonstration, familiarization with site hazards, equipment authorization and participation in relevant drills.',
       'Define responder activation and accountability: who calls the team, where members report, how the team leader confirms attendance, and who releases members from duty.',
       'Establish a capability boundary for each team, such as first aid only, fire response only, non-entry retrieval or specialist technical rescue. The ERP must state when to withdraw and wait for public responders.',
       'Provide relief and welfare arrangements for prolonged incidents, including hydration, rest, medical monitoring where appropriate and post-event support.',
       'Review team composition when shifts, workforce numbers, site geography or risk profile change; maintain alternate coverage for absence.',
+    ],
+
     siteImplementation: <String>[
       'Maintain a current roster with primary and alternate personnel for all operating shifts.',
       'Keep training and competency evidence current and accessible.',
@@ -204,12 +209,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Report missing persons and last known location to the incident commander; do not send untrained people back to search.',
       'Keep muster areas clear of emergency vehicle access and avoid blocking gates or roads.',
       'A headcount is not complete until discrepancies are investigated through the approved process.',
-    ],
       'Select muster points so evacuees are not exposed to smoke plume, chemical vapor, traffic, falling objects, unstable structures or emergency vehicle movements; consider wind and changing site phases where relevant.',
       'Route marshals should sweep only areas they can enter and leave safely. They must not delay their own evacuation or search hazardous rooms without authorization and training.',
       'Headcount reconciliation should compare the live attendance/visitor/contractor record with zone reports. Record unknown status separately from confirmed missing persons.',
       'Provide a controlled method for workers arriving at a muster point from a different route to report to the marshal, preventing duplicate or missed counts.',
       'Keep people at muster until the all-clear or relocation instruction; prohibit self-directed return to collect belongings or tools.',
+    ],
+
     siteImplementation: <String>[
       'Show primary and alternate muster points on current maps and induction materials.',
       'Assign marshals and headcount responsibilities by zone and shift.',
@@ -241,12 +247,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Train assigned assistants and alternates; ensure they are present on the relevant shift.',
       'Consider visitors, temporary injuries, pregnancy-related mobility needs and language comprehension through the site process.',
       'Keep personal information restricted to those who need it for emergency support.',
-    ],
       "Plan assistance with the individual in advance: preferred communication, safe route, designated helper and alternate, refuge/transfer arrangements if designed, and how responders will be informed of the person's location.",
       'Keep escape routes, door widths, ramps, handrails, emergency lighting and accessible alarm signals suitable for the people expected to use them.',
       'Do not assume a helper can safely carry someone down stairs. Any evacuation chair or specialist device requires suitability checks, trained operators, maintenance and a practiced plan.',
       'Account for temporary limitations, visitors unfamiliar with the building, hearing/vision needs and people who may not understand the alarm language.',
       'Review the plan when work location, mobility, route, shift, helper availability or building layout changes.',
+    ],
+
     siteImplementation: <String>[
       'Include accessibility in route inspections, induction, drill planning and change reviews.',
       'Agree arrangements with the individual and relevant competent personnel before an emergency.',
@@ -278,12 +285,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Share relevant hazard information, site plans, isolation status and known exposure details with responders.',
       'Keep a trained first aider with the casualty when safe and within competence; do not delay an emergency call while seeking management approval.',
       'Record notification and handover times and follow the external incident commander’s directions within the applicable command arrangement.',
-    ],
       'Before calling, obtain the exact project name, gate identifier, work-front/grid location, best approach route, event and known hazards. If details are uncertain, say so and keep the caller available.',
       'Assign one person to meet responders at the agreed gate and another to keep the route clear; do not send multiple people to different gates without coordination.',
       'At handover, provide observed facts: event mechanism if known, time found, symptoms/signs observed, first aid given, known exposure, relevant safety data and any change in condition. Avoid diagnosis beyond competence.',
       'Protect casualty privacy and maintain a record of call time, arrival, handover and transport details according to site procedure.',
       "Do not delay emergency-service activation for internal reporting, paperwork, insurance approval or a manager's arrival.",
+    ],
+
     siteImplementation: <String>[
       'Verify contact details and site access instructions during mobilization and periodically thereafter.',
       'Provide responders with clear gate signage, coordinates or a reliable site grid reference.',
@@ -315,12 +323,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Use approved lockout/tagout and verification procedures before intervention; emergency isolation does not remove the need to control other energy sources.',
       'Provide safe backup arrangements and communicate the affected areas and restrictions.',
       'Restore utilities in a controlled sequence after the cause is understood and the responsible authority approves restart.',
-    ],
       'Map essential and nonessential loads and identify what fails to a safe state. Include automatic generators, UPS, battery systems, stored hydraulic/pneumatic energy and automatic restart hazards.',
       "Emergency lighting and alarm backup should be tested under the site's approved maintenance procedure; defective systems require prompt reporting and documented interim controls.",
       'Before restoration, authorized personnel should identify the fault, confirm affected equipment condition, remove temporary connections safely, verify guards/interlocks and communicate restart sequence.',
       "Never assume a stopped motor or dark panel is isolated. Apply the site's energy-control procedure, verify absence of energy using approved methods and control stored energy.",
       'Where loss of ventilation affects a confined space or hazardous process, evacuate or place the system in its approved safe state; atmospheric re-testing and permit reauthorization are required before re-entry.',
+    ],
+
     siteImplementation: <String>[
       'Maintain utility and isolation diagrams, authorized-person lists and emergency contact details.',
       'Test backup systems as required by the maintenance plan and manufacturer instructions.',
@@ -352,12 +361,13 @@ const List<EmergencyRescueTopic> emergencyRescuePart6 = <EmergencyRescueTopic>[
       'Provide medical follow-up, welfare support and factual communication to affected personnel.',
       'Preserve scene evidence and records when required; do not disturb evidence except for life safety or hazard control.',
       'Use formal change control, risk assessment and permit revalidation before restarting affected work.',
-    ],
       'Recovery phases may include immediate stabilization, hazard assessment, cleanup, damage inspection, welfare support, controlled re-entry, restart approval and longer-term corrective action.',
       'Identify who is authorized to release each area and what evidence is needed: inspection record, atmospheric test where relevant, electrical verification, structural assessment, fire-system readiness or environmental clearance.',
       'Keep a live restriction register showing barricades, isolated equipment, prohibited access, temporary controls, responsible owner and review date.',
       'Restart should use management of change where the incident or repair alters equipment, process, layout, staffing, method statement or risk controls; revalidate permits and brief affected workers.',
       'Capture lessons without blame: what happened, which barriers worked or failed, how the response performed, what must change and how effectiveness will be checked.',
+    ],
+
     siteImplementation: <String>[
       'Conduct a documented post-event inspection with operations, HSE and relevant competent persons.',
       'Record damage, isolations, tests, cleanup, waste disposition and outstanding restrictions.',
