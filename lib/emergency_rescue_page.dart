@@ -12,6 +12,7 @@ import 'data/emergency_rescue/emergency_rescue_part2.dart';
 import 'data/emergency_rescue/emergency_rescue_part3.dart';
 import 'data/emergency_rescue/emergency_rescue_part4.dart';
 import 'data/emergency_rescue/emergency_rescue_part5.dart';
+import 'data/emergency_rescue/emergency_rescue_part6.dart';
 import 'emergency_management.dart';
 import 'emergency_topic_documents.dart';
 
@@ -137,6 +138,20 @@ class EmergencyRescuePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ...emergencyRescuePart5.map((topic) => _topicTile(context, topic)),
+
+          const SizedBox(height: 12),
+          const Text(
+            'PART 6 — EMERGENCY PREPAREDNESS & RESPONSE (TOPICS 21–30)',
+            style: TextStyle(
+              color: _green,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart6.map((topic) => _topicTile(context, topic)),
+
 
           const SizedBox(height: 10),
           OutlinedButton.icon(
