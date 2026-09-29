@@ -21,6 +21,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Maintain positive communication between rescue lead, edge attendant, lowering/raising operator and receiving team; use agreed commands and repeat-back.',
       'Consider casualty suspension, trauma, medical monitoring, packaging, orientation and transfer to medical responders; technical extraction is not the end of care.',
       'After use, quarantine equipment exposed to shock loading, damage or contamination pending competent inspection and disposition.',
+    
+      "Planning sequence: define the rescue objective, casualty access, primary and backup systems, edge protection, team positions, communications, lowering or raising route, casualty packaging and handover point before deployment.",
+      "Conduct a documented anchor and system review by the designated competent rope-rescue lead. Check compatibility of connectors, rope path, edge protection, system direction, redundancy and exclusion zones; follow equipment ratings and approved procedures rather than estimating loads.",
+      "Brief the team on command words, radio channel, stop signal, lost-communication response, change-of-plan authority and the method for keeping rescuers clear of suspended loads and fall lines.",
+      "After use, quarantine equipment exposed to shock loading, chemical contamination, sharp edges or uncertain damage. Record inspection, cleaning, retirement decision and traceability according to manufacturer and site rules.",
     ],
     siteImplementation: <String>[
       'Confirm specialist team and authorization; brief roles and command words.',
@@ -28,9 +33,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Inspect equipment, anchors, connectors and edge protection before use.',
       'Test communication and rehearse the intended sequence without exposing personnel.',
       'Coordinate casualty handover and record equipment use, defects and lessons.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A worker is stranded on a steep embankment. The supervisor raises alarm, prevents untrained entry, isolates nearby plant and calls the site rope-rescue team with access and casualty details.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'No competent rescue team; uncertain anchor; damaged/contaminated equipment; changing weather or visibility; uncontrolled edge or plant exposure; loss of communications.',
@@ -57,6 +69,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Clearly quarantine defective, expired, contaminated or shock-loaded items. Prevent accidental return to service until formally released.',
       'Train users in inspection, fitting, operation, limitations and emergency care. Equipment alone does not establish competence.',
       'Record issue, inspection, maintenance, deployment, damage, quarantine and replacement; audit readiness at work fronts and shifts.',
+    
+      "Create an equipment register showing unique ID, type, manufacturer, serial or batch number, rated use, issue location, inspection status, service history and retirement criteria.",
+      "Pre-use checks should look for cuts, abrasion, deformation, corrosion, damaged stitching, illegible labels, contamination, malfunctioning gates, incompatible components and missing parts. A visual check does not replace required competent-person inspection.",
+      "Store rescue equipment clean, dry and protected from sunlight, heat, chemicals, oils, sharp objects and unauthorized use. Separate serviceable, awaiting inspection and quarantined items physically and label them clearly.",
+      "Confirm the equipment is suitable for the intended rescue configuration and environment; never mix components solely because they physically connect. Follow manufacturer compatibility and user instructions.",
     ],
     siteImplementation: <String>[
       'Match each credible scenario to a defined equipment list and competent user group.',
@@ -64,9 +81,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Check seals, access, condition and readiness during routine site inspections.',
       'Conduct practical familiarization and scenario drills using the actual kit.',
       'Replace missing/defective items promptly and document closure.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A confined-space retrieval kit is found with an unreadable inspection label. It is quarantined and replaced with a verified kit before entry is authorized.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Missing inspection status; damaged or contaminated equipment; incompatible components; expired service life; unavailable trained users; kit inaccessible or incomplete.',
@@ -93,6 +117,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Rescue entrants require task-specific training, fit-for-purpose PPE and a controlled entry/rescue method approved by the competent rescue lead.',
       'Plan casualty packaging and extraction through restricted openings, including the possibility that a stretcher or retrieval line may not pass freely.',
       'After rescue, arrange prompt medical assessment, preserve the scene where required and review permit, atmosphere, isolation and rescue performance.',
+    
+      "The rescue plan must identify the space configuration, access opening, atmosphere hazards, engulfment or mechanical hazards, isolation points, casualty retrieval method, attendant duties and emergency-service interface before entry begins.",
+      "Do not send an unprotected colleague into a confined space to rescue someone. Raise the alarm, prevent additional entry, account for entrants and activate the trained rescue team using the approved plan.",
+      "Where atmospheric monitoring is required, use a suitable calibrated instrument and competent tester; consider oxygen, flammable and toxic hazards, sampling locations, changing conditions and continuous monitoring requirements in the permit/assessment.",
+      "Prepare retrieval and rescue equipment outside the space, verify that it is compatible with the opening and casualty, and keep access clear. Rescue entry requires authorization, suitable protection, trained personnel and atmospheric controls.",
     ],
     siteImplementation: <String>[
       'Review rescue feasibility during permit planning, not after entry starts.',
@@ -100,9 +129,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Confirm rescue personnel and external support arrangements for the actual shift.',
       'Brief attendant on alarm triggers, no-entry rule and responder access.',
       'Suspend entry if rescue capability, isolation or atmosphere controls are lost.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A worker collapses in a vessel. The attendant raises the alarm, does not enter, initiates the approved retrieval/rescue plan and directs responders to the vessel access point.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'No viable rescue plan; untrained entrant/rescuer; unavailable rescue resources; failed communications; uncertain isolation; unsafe atmosphere or changing conditions.',
@@ -129,6 +165,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Once recovered, provide first aid within competence and arrange prompt medical evaluation according to the casualty condition and site protocol.',
       'Inspect and quarantine fall-protection equipment involved in a fall or suspected shock load. Do not return it to service without competent disposition.',
       'Investigate the fall protection failure or event, preserve relevant evidence and revise the task risk assessment and rescue plan.',
+    
+      "Before work at height, define the rescue method for the exact work position, access equipment, fall-arrest arrangement, casualty condition and available rescuers; do not rely only on calling public emergency services.",
+      "Identify safe access for rescuers, edge protection, dropped-object exposure, anchor arrangements, casualty lowering route and a clear area for first aid and ambulance handover.",
+      "Rescue team members must be trained for the selected system and equipment. Rehearse the plan in a controlled drill without exposing workers to a real fall or unplanned suspension.",
+      "After rescue, prevent re-use of involved fall-protection equipment until competent inspection and disposition are completed; preserve relevant records for incident review.",
     ],
     siteImplementation: <String>[
       'Verify rescue access and equipment at the actual work location and shift.',
@@ -136,9 +177,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Ensure rescuers are trained and equipment is inspected and compatible.',
       'Conduct drills for likely access constraints and communication failures.',
       'Review every fall-arrest deployment and restore readiness before work resumes.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A worker is suspended from a lifeline beside a façade. The team raises alarm, secures the drop zone and deploys the preplanned trained rescue method while medical support is called.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'No rescue capability; anchor or structure instability; untrained rescue attempt; uncontrolled drop zone; defective equipment; wind or conditions beyond plan limits.',
@@ -165,6 +213,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Ensure ambulance access and a clear handover of suspension duration if known, fall mechanism, symptoms, rescue actions and observed changes.',
       'Inspect and quarantine involved harnesses, connectors, lanyards and anchors pending competent review.',
       'Use the incident to review rescue response time, alarm reliability, equipment access, team competence and prevention measures.',
+    
+      "A suspended worker may deteriorate; activate the site rescue plan promptly and communicate the time of suspension, worker responsiveness, injury concerns and exact location to the rescue lead and medical responder.",
+      "Do not climb the same structure or use an improvised ladder, lifting device or cutting method. The rescue approach must be selected by competent personnel for the structure, access, anchor and casualty condition.",
+      "Once safely recovered, place the casualty in a safe position, assess responsiveness and breathing, provide first aid within competence, keep the person under medical assessment and arrange emergency medical transfer as indicated.",
+      "Review why the fall occurred, the rescue delay, equipment arrangement, supervision, access and worker training; do not restart work until the system and risk assessment are reviewed and authorized.",
     ],
     siteImplementation: <String>[
       'Activate alarm and rescue lead immediately; note casualty location and condition.',
@@ -172,9 +225,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Use only trained personnel and approved rescue equipment.',
       'Provide continuous observation and clear handover after recovery.',
       'Debrief and restore rescue readiness before restarting similar work.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A conscious worker hangs in a harness after a fall. A coworker keeps verbal contact from a safe position, activates the alarm and guides responders to the access point.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Delayed alarm; unsafe improvised climbing; casualty becoming unresponsive; rescue equipment defect; unsafe weather/access; no medical handover.',
@@ -201,6 +261,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Maintain a reliable headcount and account for workers, visitors and subcontractors who may have been in the excavation.',
       'Provide medical access and safe casualty transfer; preserve the scene and relevant permits, inspections and excavation records.',
       'Before restart, reassess ground conditions, protective systems, services, access, competent-person inspection and authorization.',
+    
+      "Treat an excavation collapse as an unstable ground emergency. Stop nearby plant and vibration, isolate the edge, raise the alarm and keep untrained personnel out of the excavation.",
+      "Never enter a collapsed trench or attempt to pull a buried person from unstable soil without specialist rescue direction; secondary collapse can trap rescuers and worsen casualties.",
+      "Provide responders with excavation depth and layout, soil and support information, utility locations, plant movements, water ingress, last known casualty position and any shoring or protective-system details.",
+      "Only competent excavation-rescue specialists should determine stabilization, shoring, access and casualty removal. Maintain exclusion zones and monitor changing ground, water and plant hazards.",
     ],
     siteImplementation: <String>[
       'Stop excavation and isolate plant; establish safe perimeter.',
@@ -208,9 +273,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Provide drawings, service information, soil/support details and last-known casualty position.',
       'Keep untrained persons out; follow rescue commander instructions.',
       'Do not restart until the excavation is reassessed and formally released.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A trench wall slumps and a worker is missing. The supervisor stops machinery, clears the edge, raises alarm and provides utility drawings and excavation inspection records to responders.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Any movement/cracking; unstable edge; unknown utilities; water ingress; uncontrolled plant; untrained entry; removal of supports without authorization.',
@@ -237,6 +309,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Account for contractors, visitors and persons needing assistance using the site muster system and assigned support arrangements.',
       'Re-entry is prohibited until the authorized incident controller or emergency services declare the area safe and required checks are completed.',
       'After the event, preserve relevant alarm, maintenance, hot-work permit and inspection records for investigation and corrective action.',
+    
+      "Coordinate with the incident commander and fire service; provide site access, building plans, hazardous-material information, isolation points, occupant count and known persons unaccounted for.",
+      "Do not enter smoke, a fire compartment or a potentially oxygen-deficient area without authorization, training, suitable respiratory protection and a controlled rescue system.",
+      "Account for workers at assembly points and relay last-known locations, mobility needs, hot-work activities, cylinders, flammable stores and process hazards to responders.",
+      "After the incident, restrict re-entry until the authorized fire/emergency lead confirms hazards are controlled and the area is released under the site procedure.",
     ],
     siteImplementation: <String>[
       'Activate alarm, call emergency services and initiate planned evacuation.',
@@ -244,9 +321,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Account for people and report missing-person details to incident command.',
       'Keep responder routes and access gates clear.',
       'Control re-entry and conduct post-event review.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'Smoke is reported in a workshop. Workers evacuate by the designated route; a warden reports a missing contractor’s last known work area to the fire-service liaison.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Smoke/heat spreading; blocked exits; alarm failure; unknown fire load; untrained entry; missing accountability; attempted re-entry before release.',
@@ -273,6 +357,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Protect rescuers from cold, contamination, sharp objects and unstable banks or platforms; avoid crowding the edge.',
       'Provide medical handover with estimated submersion time if known, observed condition, environmental exposure and first-aid actions.',
       'Preserve relevant work permits, weather/tide information, equipment and witness details for review.',
+    
+      "For a person overboard or water emergency, raise the alarm, maintain visual contact, point continuously to the casualty and deploy approved flotation or recovery equipment only if trained and safe.",
+      "Do not jump into water as an impulsive rescue. Consider current, tide, temperature, contamination, vessel movement, entanglement and secondary rescuer exposure; activate trained water-rescue capability.",
+      "Prepare a clear recovery landing area and medical handover. A recovered casualty needs prompt assessment for breathing, injury and cold exposure by competent first aiders and medical professionals.",
+      "For marine or waterfront sites, pre-brief alarm signals, rescue craft readiness, communications, access gates, emergency coordinates and interface with coastguard or local emergency services as applicable.",
     ],
     siteImplementation: <String>[
       'Confirm rescue equipment and trained responders before water-adjacent work.',
@@ -280,9 +369,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Assign a lookout where risk assessment requires continuous observation.',
       'Practice alarm, throw/reach equipment use and responder access.',
       'Review barriers, lifejackets, lighting and rescue readiness after any event.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A worker falls from a quay. A colleague raises the alarm, throws a lifebuoy from a safe position, keeps the person in sight and directs the trained rescue team to the access ladder.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Unprotected edge; absent flotation/rescue kit; unsafe water conditions; untrained water entry; poor visibility; vessel/propeller hazards; no medical response.',
@@ -309,6 +405,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Provide first aid within competence, monitor casualty condition and avoid unnecessary movement where spinal or crush injury is possible.',
       'Preserve vehicle position, telematics/CCTV, inspection records, operator authorization, traffic plan and witness information as appropriate.',
       'Restart requires investigation, plant inspection, route review, authorization and closure of corrective actions.',
+    
+      "Stop and secure the involved vehicle or plant only where this can be done without exposing others; isolate traffic, prevent movement, lower attachments if safe and control ignition or energy hazards through competent operators.",
+      "Do not move a trapped casualty or cut structural components unless directed by trained rescue personnel, except immediate action required to prevent imminent greater harm within the responder’s competence.",
+      "Give responders machine type, power source, load or attachment position, stability concerns, hydraulic/electrical energy, fuel or battery hazards and safe access routes.",
+      "Separate recovery operations from rescue: do not restart, tow or lift the machine until casualty care, scene release, isolation and competent investigation requirements are satisfied.",
     ],
     siteImplementation: <String>[
       'Stop traffic and plant; secure a wide exclusion zone.',
@@ -316,9 +417,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Identify energy sources, load stability, fuel and battery hazards.',
       'Keep untrained persons away from extrication activity.',
       'Preserve evidence and verify corrective actions before restart.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'A forklift tips near a loading bay. The supervisor isolates the lane, prevents other vehicles entering, calls emergency services and shares the forklift type and load details.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Unstable load/vehicle; leaking fuel; energized system; uncontrolled traffic; untrained lifting/cutting; poor responder access; attempted restart before inspection.',
@@ -345,6 +453,11 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Only competent structural engineers and rescue specialists should assess stability, shoring, lifting or controlled debris removal.',
       'Provide casualty care and medical access when a safe rescue corridor is established; keep communication and incident command centralized.',
       'Re-entry and reconstruction require formal engineering assessment, authority/site approvals as applicable, investigation and documented release.',
+    
+      "Following structural failure, establish a perimeter and prevent entry because debris, suspended elements, utilities, fire and progressive collapse may remain active hazards.",
+      "Call specialist urban-search-and-rescue or civil-defence resources through the site emergency command. Share drawings, building use, occupancy, last-known casualty locations and hazardous process information.",
+      "Do not move debris, operate plant near the collapse or enter voids without a coordinated technical assessment and authorization; protect rescuers from secondary collapse and utility releases.",
+      "Preserve scene information where practicable, record decisions and handovers, and allow re-entry only after competent structural assessment and formal release.",
     ],
     siteImplementation: <String>[
       'Evacuate, alarm and establish exclusion perimeter.',
@@ -352,9 +465,16 @@ const List<EmergencyRescueTopic> emergencyRescuePart7 = <EmergencyRescueTopic>[
       'Identify and isolate services through authorized persons.',
       'Maintain personnel accounting and control all access.',
       'Do not permit re-entry until competent formal release.',
+    
+      "Before the task, brief the team on roles, communication, exclusion boundaries, emergency call route, equipment readiness and who can stop or abort the operation.",
+      "During response, maintain scene control, protect bystanders, provide concise updates to the incident lead and record important times, decisions and handovers.",
+      "Afterward, secure the area, account for personnel, report equipment defects and participate in debriefing; do not resume work until formal authorization.",
     ],
     practicalExample: <String>[
       'Formwork shows sudden movement and part of a slab collapses. The team evacuates adjacent zones, stops concrete placement and lifting, raises alarm and provides temporary-works drawings to responders.',
+    
+      "Example: A worker reports this emergency during a live shift. The supervisor stops affected work, raises the site alarm, gives the exact location and known hazards, keeps others clear and activates the approved response plan.",
+      "Example review: At the debrief, compare the actual response with the plan, identify delays or missing resources, assign corrective actions and verify completion before the next similar task.",
     ],
     stopWorkConditions: <String>[
       'Ongoing movement; cracking/noise; unstable debris; unknown utilities; uncontrolled plant; untrained entry; missing accountability; no engineering release.',
