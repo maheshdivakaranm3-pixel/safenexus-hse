@@ -17,7 +17,7 @@ import 'hse_backup_recovery.dart';
 import 'safenexus_unified_data_center.dart';
 import 'data/abu_dhabi/abu_dhabi_cop_01_to_03_reference_page.dart';
 import 'emergency_rescue_page.dart';
-import 'emergency_fire_readiness.dart';
+import 'fire_life_safety_topics_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1337,7 +1337,7 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     }
 
     if (title == 'Fire & Life Safety') {
-      await _openPage(const EmergencyFireReadinessPage());
+      await _openPage(const FireLifeSafetyTopicsPage());
       return;
     }
 
