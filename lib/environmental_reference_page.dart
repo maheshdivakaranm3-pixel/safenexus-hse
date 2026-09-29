@@ -8,7 +8,6 @@ class EnvironmentalReferencePage extends StatelessWidget {
   static const green = Color(0xFF0B5D4B);
   @override
   Widget build(BuildContext context) {
-    final topics = <EnvironmentalTopicDocument>[...environmentalPart1, ...environmentalPart2];
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8F7),
       appBar: AppBar(title: const Text('Environmental HSE Reference'), backgroundColor: green, foregroundColor: Colors.white),
@@ -27,7 +26,47 @@ class EnvironmentalReferencePage extends StatelessWidget {
       ]),
     );
   }
-  Widget _tile(BuildContext context, EnvironmentalTopicDocument t) => Card(elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14), side: const BorderSide(color: Color(0xFFE1EAE6))), child: ListTile(leading: CircleAvatar(backgroundColor: const Color(0xFFE1F2E9), foregroundColor: green, child: Text(t.number.toString().padLeft(2, '0'), style: const TextStyle(fontWeight: FontWeight.bold))), title: Text(t.title, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF17324D))), subtitle: Padding(padding: const EdgeInsets.only(top: 5), child: Text(t.purpose, maxLines: 2, overflow: TextOverflow.ellipsis)), trailing: const Icon(Icons.chevron_right, color: green), onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => EnvironmentalTopicPage(topic: t))));
+  Widget _tile(BuildContext context, EnvironmentalTopicDocument t) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: const BorderSide(color: Color(0xFFE1EAE6)),
+      ),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: const Color(0xFFE1F2E9),
+          foregroundColor: green,
+          child: Text(
+            t.number.toString().padLeft(2, '0'),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        title: Text(
+          t.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF17324D),
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text(
+            t.purpose,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: green),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => EnvironmentalTopicPage(topic: t),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class EnvironmentalTopicPage extends StatelessWidget {
