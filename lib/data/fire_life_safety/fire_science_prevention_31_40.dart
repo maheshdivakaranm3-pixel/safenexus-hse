@@ -51,7 +51,7 @@ class FireSciencePreventionTopics31To40 {
       interviewQuestions: [
         FireSafetyQuestion("How is evacuation different in a hospital?", "Many patients cannot self-evacuate; follow the approved clinical-led strategy, often using protected compartments and staged movement, with trained staff and receiving-area capacity."),
         FireSafetyQuestion("Why is oxygen a major fire concern?", "Oxygen is an oxidizer: it can intensify combustion. Control leaks, ignition sources, cylinder handling and contamination; follow medical gas procedures."),
-        FireSafetyQuestion("Can a fire door be wedged open for patient movement?", "Not with an unauthorized wedge. Use approved alarm-linked hold-open systems or the facility"s controlled procedure.'),
+        FireSafetyQuestion("Can a fire door be wedged open for patient movement?", "Not with an unauthorized wedge. Use approved alarm-linked hold-open systems or the facility's controlled procedure."),
         FireSafetyQuestion("What is the first priority on alarm?", "Raise/confirm alarm, follow incident command and protect life using the facility plan; clinical staff coordinate safe patient movement."),
         FireSafetyQuestion("What records should an HSE officer review?", "Fire risk assessment, approved strategy, system maintenance, medical-gas controls, staff competence, drills, permits and closed corrective actions."),
       ],
@@ -373,7 +373,7 @@ class FireSciencePreventionTopics31To40 {
         "Pre/post-work inspection, permit close-out and incident/near-miss records",
       ],
       interviewQuestions: [
-        FireSafetyQuestion("What is the fire watch"s role?", "Continuously observe ignition exposures, maintain communication and suitable equipment, stop work and raise alarm; do not assign conflicting duties.'),
+        FireSafetyQuestion("What is the fire watch's role?", "Continuously observe ignition exposures, maintain communication and suitable equipment, stop work and raise alarm; do not assign conflicting duties."),
         FireSafetyQuestion("When is a hot-work permit required?", "As defined by site rules and risk assessment for hot work outside designated controlled areas; permit must be authorized before starting."),
         FireSafetyQuestion("Why inspect the opposite side of a wall?", "Heat or sparks can pass through penetrations and ignite concealed combustibles away from the visible work face."),
         FireSafetyQuestion("Can work continue if the fire watch leaves?", "No. Suspend hot work until required fire-watch coverage is restored and permit conditions are revalidated."),
