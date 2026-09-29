@@ -11,11 +11,17 @@ import 'data/environmental/environmental_part7.dart';
 import 'data/environmental/environmental_part8.dart';
 import 'data/environmental/environmental_part9.dart';
 import 'data/environmental/environmental_part10.dart';
+import 'environmental_documents/environmental_office_documents_page.dart';
+import 'environmental_documents/environmental_checklist_page.dart';
 
 class EnvironmentalReferencePage extends StatelessWidget {
   const EnvironmentalReferencePage({super.key});
 
   static const Color green = Color(0xFF0B5D4B);
+  // Replace these editable labels with the approved project names.
+  static const String companyName = 'Your Company Name';
+  static const String clientName = 'Client Name';
+  static const String consultantName = 'Consultant Name';
 
   static const List<EnvironmentalTopicDocument> allTopics = [
     ...environmentalPart1,
@@ -33,91 +39,382 @@ class EnvironmentalReferencePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F8F7),
+      backgroundColor: const Color(0xFFF4F8F6),
       appBar: AppBar(
         title: const Text('Environmental HSE Reference'),
         backgroundColor: green,
         foregroundColor: Colors.white,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 24),
         children: [
+          _BrandingPanel(
+            company: companyName,
+            client: clientName,
+            consultant: consultantName,
+          ),
+          const SizedBox(height: 14),
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [green, Color(0xFF16865F)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: const Row(
               children: [
-                Icon(Icons.eco, color: Colors.white, size: 32),
-                SizedBox(height: 10),
-                Text(
-                  'Environmental Protection & Compliance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
+                Icon(Icons.eco_rounded, color: Colors.white, size: 42),
+                SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Environmental HSE Reference',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        '120-topic field handbook • UAE reference • Environment, compliance and records',
+                        style: TextStyle(color: Colors.white, height: 1.4),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  'Field handbook for environmental planning, pollution prevention, waste control, monitoring and records.',
-                  style: TextStyle(color: Colors.white, height: 1.4),
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _QuickAction(
+                  icon: Icons.folder_copy_outlined,
+                  label: 'Office Documents',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const EnvironmentalOfficeDocumentsPage(),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _QuickAction(
+                  icon: Icons.fact_check_outlined,
+                  label: 'Checklists',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const EnvironmentalChecklistPage(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
-          Text(
-            'ALL ENVIRONMENTAL TOPICS (${allTopics.length})',
-            style: const TextStyle(
-              color: green,
-              fontWeight: FontWeight.w800,
-            ),
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'ALL TOPICS',
+                  style: TextStyle(
+                    color: green,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              Text(
+                '${allTopics.length} topics',
+                style: const TextStyle(
+                  color: green,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
-          ...allTopics.map((topic) => _tile(context, topic)),
+          ...allTopics.map((topic) => _TopicTile(topic: topic)),
           const SizedBox(height: 12),
           const Text(
-            'Training reference only. Confirm applicable UAE/emirate authority '
-            'requirements, permits, project EMP and approved plans. Legal limits '
-            'and retention periods require current official verification.',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.black54,
-              height: 1.4,
+            'Reference use: verify current UAE federal and emirate requirements, '
+            'permit/NOC conditions, approved EMP and project procedures. Do not '
+            'treat generic guidance as a site-specific legal limit.',
+            style: TextStyle(fontSize: 12, color: Colors.black54, height: 1.45),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BrandingPanel extends StatelessWidget {
+  const _BrandingPanel({
+    required this.company,
+    required this.client,
+    required this.consultant,
+  });
+
+  final String company;
+  final String client;
+  final String consultant;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: Color(0xFFE0EAE5)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        child: Row(
+          children: [
+            _BrandCell(
+              icon: Icons.apartment_rounded,
+              role: 'COMPANY',
+              name: company,
+              logoAsset: 'assets/images/safenexus_logo.png',
+            ),
+            const _BrandDivider(),
+            _BrandCell(
+              icon: Icons.business_rounded,
+              role: 'CLIENT',
+              name: client,
+            ),
+            const _BrandDivider(),
+            _BrandCell(
+              icon: Icons.engineering_rounded,
+              role: 'CONSULTANT',
+              name: consultant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BrandCell extends StatelessWidget {
+  const _BrandCell({
+    required this.icon,
+    required this.role,
+    required this.name,
+    this.logoAsset,
+  });
+
+  final IconData icon;
+  final String role;
+  final String name;
+  final String? logoAsset;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            width: 44,
+            height: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE5F3EC),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: logoAsset == null
+                ? Icon(icon, color: const Color(0xFF0B5D4B), size: 25)
+                : Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Image.asset(
+                      logoAsset!,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => Icon(
+                        icon,
+                        color: const Color(0xFF0B5D4B),
+                        size: 25,
+                      ),
+                    ),
+                  ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            role,
+            style: const TextStyle(
+              fontSize: 10,
+              color: Color(0xFF0B5D4B),
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            name,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 11,
+              color: Color(0xFF243B35),
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _tile(BuildContext context, EnvironmentalTopicDocument topic) {
+class _BrandDivider extends StatelessWidget {
+  const _BrandDivider();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 1,
+        height: 74,
+        color: const Color(0xFFE5ECE8),
+      );
+}
+
+class _QuickAction extends StatelessWidget {
+  const _QuickAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFFDCE8E2)),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: const Color(0xFF0B5D4B), size: 26),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF173B31),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TopicTile extends StatelessWidget {
+  const _TopicTile({required this.topic});
+
+  final EnvironmentalTopicDocument topic;
+
+  static const Color green = Color(0xFF0B5D4B);
+
+  IconData get _topicIcon {
+    final text = '${topic.title} ${topic.purpose}'.toLowerCase();
+    if (text.contains('waste') || text.contains('recycl')) {
+      return Icons.recycling_rounded;
+    }
+    if (text.contains('water') || text.contains('groundwater')) {
+      return Icons.water_drop_rounded;
+    }
+    if (text.contains('air') || text.contains('emission') || text.contains('dust')) {
+      return Icons.air_rounded;
+    }
+    if (text.contains('noise') || text.contains('vibration')) {
+      return Icons.volume_up_rounded;
+    }
+    if (text.contains('spill') || text.contains('chemical') || text.contains('fuel')) {
+      return Icons.science_rounded;
+    }
+    if (text.contains('emergency') || text.contains('incident')) {
+      return Icons.emergency_rounded;
+    }
+    if (text.contains('audit') || text.contains('document') || text.contains('record')) {
+      return Icons.folder_open_rounded;
+    }
+    if (text.contains('training') || text.contains('competence')) {
+      return Icons.school_rounded;
+    }
+    if (text.contains('wildlife') || text.contains('biodiversity') || text.contains('habitat')) {
+      return Icons.nature_rounded;
+    }
+    if (text.contains('soil') || text.contains('land') || text.contains('excavat')) {
+      return Icons.terrain_rounded;
+    }
+    return Icons.eco_rounded;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 0,
       margin: const EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-        side: const BorderSide(color: Color(0xFFE1EAE6)),
+        borderRadius: BorderRadius.circular(15),
+        side: const BorderSide(color: Color(0xFFE0EAE5)),
       ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: const Color(0xFFE1F2E9),
-          foregroundColor: green,
-          child: Text(
-            topic.number.toString().padLeft(2, '0'),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircleAvatar(
+              radius: 17,
+              backgroundColor: green,
+              foregroundColor: Colors.white,
+              child: Text(
+                topic.number.toString().padLeft(2, '0'),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE5F3EC),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(_topicIcon, color: green, size: 25),
+            ),
+          ],
         ),
         title: Text(
           topic.title,
           style: const TextStyle(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             color: Color(0xFF17324D),
           ),
         ),
@@ -149,21 +446,21 @@ class EnvironmentalTopicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sections = <MapEntry<String, String>>[
-      MapEntry('What is this topic?', topic.definition),
-      MapEntry('Purpose & Objectives', topic.purpose),
-      MapEntry('UAE / Emirate Regulatory Basis', topic.regulatoryBasis),
-      MapEntry('Step-by-Step Procedure / Field Method', topic.procedure),
-      MapEntry('Office Documents & Records', topic.documents),
-      MapEntry('Document Ownership & Control', topic.documentOwnership),
-      MapEntry('Site Verification', topic.verification),
-      MapEntry('Common Errors', topic.commonErrors),
-      MapEntry('Practical Field Example', topic.fieldExample),
-      MapEntry('Field Checklist', topic.checklist),
-      MapEntry('Supervisor Interview Preparation', topic.interview),
+      MapEntry('01 • What is this topic?', topic.definition),
+      MapEntry('02 • Purpose & Objectives', topic.purpose),
+      MapEntry('03 • UAE / Emirate Regulatory Basis', topic.regulatoryBasis),
+      MapEntry('04 • Procedure / Field Method', topic.procedure),
+      MapEntry('05 • Office Documents & Records', topic.documents),
+      MapEntry('06 • Document Ownership & Control', topic.documentOwnership),
+      MapEntry('07 • Site Verification', topic.verification),
+      MapEntry('08 • Common Errors', topic.commonErrors),
+      MapEntry('09 • Practical Field Example', topic.fieldExample),
+      MapEntry('10 • Field Checklist', topic.checklist),
+      MapEntry('11 • Interview Preparation', topic.interview),
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F8F7),
+      backgroundColor: const Color(0xFFF4F8F6),
       appBar: AppBar(
         title: Text('ENV-${topic.number.toString().padLeft(2, '0')}'),
         backgroundColor: green,
@@ -172,25 +469,43 @@ class EnvironmentalTopicPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(14),
         children: [
-          Text(
-            topic.title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF17324D),
-            ),
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 23,
+                backgroundColor: green,
+                foregroundColor: Colors.white,
+                child: Text(
+                  topic.number.toString().padLeft(2, '0'),
+                  style: const TextStyle(fontWeight: FontWeight.w900),
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Icon(Icons.eco_rounded, color: green, size: 32),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  topic.title,
+                  style: const TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF17324D),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
           ...sections.map(
             (section) => Card(
               elevation: 0,
               margin: const EdgeInsets.only(bottom: 10),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-                side: const BorderSide(color: Color(0xFFE1EAE6)),
+                borderRadius: BorderRadius.circular(15),
+                side: const BorderSide(color: Color(0xFFE0EAE5)),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -199,13 +514,17 @@ class EnvironmentalTopicPage extends StatelessWidget {
                       style: const TextStyle(
                         color: green,
                         fontSize: 15,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 9),
+                    SelectableText(
                       section.value,
-                      style: const TextStyle(height: 1.5, fontSize: 14),
+                      style: const TextStyle(
+                        height: 1.55,
+                        fontSize: 14,
+                        color: Color(0xFF263B35),
+                      ),
                     ),
                   ],
                 ),
