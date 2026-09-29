@@ -550,6 +550,10 @@ class _EmergencyFormSheetState extends State<EmergencyFormSheet> {
   void initState() {
     super.initState();
     const keys = [
+      'companyName',
+      'clientName',
+      'consultantName',
+      'contractorName',
       'recordNo',
       'date',
       'time',
@@ -714,6 +718,10 @@ class _EmergencyFormSheetState extends State<EmergencyFormSheet> {
     final now = DateTime.now().toIso8601String();
     final record = <String, dynamic>{
       'id': widget.existing?['id']?.toString() ?? now,
+      'companyName': controllers['companyName']!.text.trim(),
+      'clientName': controllers['clientName']!.text.trim(),
+      'consultantName': controllers['consultantName']!.text.trim(),
+      'contractorName': controllers['contractorName']!.text.trim(),
       'recordNo': controllers['recordNo']!.text.trim(),
       'emergencyType': emergencyType,
       'status': status,
@@ -939,6 +947,11 @@ class _EmergencyFormSheetState extends State<EmergencyFormSheet> {
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                   children: [
+                    section('Company / Project Header'),
+                    field('companyName', 'Company Name'),
+                    field('clientName', 'Client Name'),
+                    field('consultantName', 'Consultant Name'),
+                    field('contractorName', 'Employer / Contractor Name'),
                     section('10A • Emergency Management Master'),
                     field('recordNo', 'Record No', required: true),
                     dropdown(
@@ -1197,6 +1210,10 @@ class EmergencyDetailsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final details = <MapEntry<String, String>>[
+      MapEntry('Company Name', text(record['companyName'])),
+      MapEntry('Client Name', text(record['clientName'])),
+      MapEntry('Consultant Name', text(record['consultantName'])),
+      MapEntry('Employer / Contractor Name', text(record['contractorName'])),
       MapEntry('Record No', text(record['recordNo'])),
       MapEntry('Emergency Type', text(record['emergencyType'])),
       MapEntry('Date / Time', '${text(record['date'])} ${text(record['time'])}'),
