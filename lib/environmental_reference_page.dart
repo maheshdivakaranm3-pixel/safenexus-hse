@@ -18,10 +18,6 @@ class EnvironmentalReferencePage extends StatelessWidget {
   const EnvironmentalReferencePage({super.key});
 
   static const Color green = Color(0xFF0B5D4B);
-  // Replace these editable labels with the approved project names.
-  static const String companyName = 'Your Company Name';
-  static const String clientName = 'Client Name';
-  static const String consultantName = 'Consultant Name';
 
   static const List<EnvironmentalTopicDocument> allTopics = [
     ...environmentalPart1,
@@ -48,12 +44,6 @@ class EnvironmentalReferencePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 24),
         children: [
-          _BrandingPanel(
-            company: companyName,
-            client: clientName,
-            consultant: consultantName,
-          ),
-          const SizedBox(height: 14),
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
@@ -158,133 +148,6 @@ class EnvironmentalReferencePage extends StatelessWidget {
   }
 }
 
-class _BrandingPanel extends StatelessWidget {
-  const _BrandingPanel({
-    required this.company,
-    required this.client,
-    required this.consultant,
-  });
-
-  final String company;
-  final String client;
-  final String consultant;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE0EAE5)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        child: Row(
-          children: [
-            _BrandCell(
-              icon: Icons.apartment_rounded,
-              role: 'COMPANY',
-              name: company,
-              logoAsset: 'assets/images/safenexus_logo.png',
-            ),
-            const _BrandDivider(),
-            _BrandCell(
-              icon: Icons.business_rounded,
-              role: 'CLIENT',
-              name: client,
-            ),
-            const _BrandDivider(),
-            _BrandCell(
-              icon: Icons.engineering_rounded,
-              role: 'CONSULTANT',
-              name: consultant,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BrandCell extends StatelessWidget {
-  const _BrandCell({
-    required this.icon,
-    required this.role,
-    required this.name,
-    this.logoAsset,
-  });
-
-  final IconData icon;
-  final String role;
-  final String name;
-  final String? logoAsset;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            width: 44,
-            height: 40,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE5F3EC),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: logoAsset == null
-                ? Icon(icon, color: const Color(0xFF0B5D4B), size: 25)
-                : Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Image.asset(
-                      logoAsset!,
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) => Icon(
-                        icon,
-                        color: const Color(0xFF0B5D4B),
-                        size: 25,
-                      ),
-                    ),
-                  ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            role,
-            style: const TextStyle(
-              fontSize: 10,
-              color: Color(0xFF0B5D4B),
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          const SizedBox(height: 3),
-          Text(
-            name,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 11,
-              color: Color(0xFF243B35),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BrandDivider extends StatelessWidget {
-  const _BrandDivider();
-
-  @override
-  Widget build(BuildContext context) => Container(
-        width: 1,
-        height: 74,
-        color: const Color(0xFFE5ECE8),
-      );
-}
-
 class _QuickAction extends StatelessWidget {
   const _QuickAction({
     required this.icon,
@@ -385,13 +248,13 @@ class _TopicTile extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         leading: Container(
-          width: 48,
-          height: 48,
+          width: 52,
+          height: 52,
           decoration: BoxDecoration(
             color: const Color(0xFFE5F3EC),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(_topicIcon, color: green, size: 27),
+          child: Icon(_topicIcon, color: green, size: 25),
         ),
         title: Text(
           topic.title,
