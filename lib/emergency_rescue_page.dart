@@ -13,6 +13,8 @@ import 'data/emergency_rescue/emergency_rescue_part3.dart';
 import 'data/emergency_rescue/emergency_rescue_part4.dart';
 import 'data/emergency_rescue/emergency_rescue_part5.dart';
 import 'data/emergency_rescue/emergency_rescue_part6.dart';
+import 'data/emergency_rescue/emergency_rescue_part7.dart';
+import 'data/emergency_rescue/emergency_rescue_part8.dart';
 import 'emergency_management.dart';
 import 'emergency_topic_documents.dart';
 
@@ -151,6 +153,21 @@ class EmergencyRescuePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ...emergencyRescuePart6.map((topic) => _topicTile(context, topic)),
+
+          const SizedBox(height: 12),
+          const Text(
+            'PART 7 — SPECIALIST RESCUE OPERATIONS (TOPICS 31–40)',
+            style: TextStyle(color: _green, fontWeight: FontWeight.w800, letterSpacing: 0.5, fontSize: 13),
+          ),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart7.map((topic) => _topicTile(context, topic)),
+          const SizedBox(height: 12),
+          const Text(
+            'PART 8 — SPECIALIST RESPONSE, MEDICAL CARE & RECOVERY (TOPICS 41–50)',
+            style: TextStyle(color: _green, fontWeight: FontWeight.w800, letterSpacing: 0.5, fontSize: 13),
+          ),
+          const SizedBox(height: 10),
+          ...emergencyRescuePart8.map((topic) => _topicTile(context, topic)),
 
 
           const SizedBox(height: 10),
