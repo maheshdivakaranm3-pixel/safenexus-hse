@@ -177,6 +177,19 @@ class EmergencyTopicDocumentsPage extends StatefulWidget {
 class _EmergencyTopicDocumentsPageState extends State<EmergencyTopicDocumentsPage> {
   static const Color _green = Color(0xFF0B5D4B);
   final Set<int> _checked = <int>{};
+  final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _clientController = TextEditingController();
+  final TextEditingController _consultantController = TextEditingController();
+  final TextEditingController _employerController = TextEditingController();
+
+  @override
+  void dispose() {
+    _companyController.dispose();
+    _clientController.dispose();
+    _consultantController.dispose();
+    _employerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +202,21 @@ class _EmergencyTopicDocumentsPageState extends State<EmergencyTopicDocumentsPag
         Text('${widget.topicId} — ${widget.topicTitle}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF17324D))),
         const SizedBox(height: 8),
         const Text('Select and track the office documents applicable to this topic. Confirm final requirements against the current approved site ERP, risk assessment, client rules and competent-person review.'),
+        const SizedBox(height: 14),
+        Card(elevation: 0, child: Padding(padding: const EdgeInsets.all(14), child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Project / Document Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _green)),
+            const SizedBox(height: 10),
+            TextField(controller: _companyController, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Company Name', hintText: 'Enter company name', border: OutlineInputBorder(), prefixIcon: Icon(Icons.business))),
+            const SizedBox(height: 10),
+            TextField(controller: _clientController, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Client Name', hintText: 'Enter client name', border: OutlineInputBorder(), prefixIcon: Icon(Icons.apartment))),
+            const SizedBox(height: 10),
+            TextField(controller: _consultantController, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Consultant Name', hintText: 'Enter consultant name', border: OutlineInputBorder(), prefixIcon: Icon(Icons.engineering))),
+            const SizedBox(height: 10),
+            TextField(controller: _employerController, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Employer / Contractor Name', hintText: 'Enter employer or contractor name', border: OutlineInputBorder(), prefixIcon: Icon(Icons.badge_outlined))),
+          ],
+        ))),
         const SizedBox(height: 14),
         Card(elevation: 0, child: Padding(padding: const EdgeInsets.all(12), child: Row(children: [
           const Icon(Icons.checklist, color: _green), const SizedBox(width: 10),
@@ -211,7 +239,7 @@ class _EmergencyTopicDocumentsPageState extends State<EmergencyTopicDocumentsPag
         }),
         const SizedBox(height: 10),
         OutlinedButton.icon(onPressed: () {
-          final text = StringBuffer('${widget.topicId} — ${widget.topicTitle}\nTopic-specific HSE Documents Checklist\n\n');
+          final text = StringBuffer('SafeNexus HSE — Topic-specific HSE Documents Checklist\n${widget.topicId} — ${widget.topicTitle}\n\nCompany: ${_companyController.text.trim()}\nClient: ${_clientController.text.trim()}\nConsultant: ${_consultantController.text.trim()}\nEmployer / Contractor: ${_employerController.text.trim()}\n\n');
           for (var i = 0; i < docs.length; i++) { text.writeln('${_checked.contains(i) ? '[x]' : '[ ]'} ${docs[i].title} — ${docs[i].status}'); if (docs[i].note.isNotEmpty) text.writeln('    ${docs[i].note}'); }
           text.writeln('\nVerify applicability against approved site arrangements and current authority/client requirements.');
           // Clipboard-free share via the platform share sheet is not needed here; show copyable checklist dialog.

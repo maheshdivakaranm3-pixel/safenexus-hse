@@ -259,7 +259,6 @@ class EmergencyRescueTopicPage extends StatelessWidget {
           _section('4. Site Implementation — Practical Actions', topic.siteImplementation),
           _section('5. Practical Site Example', topic.practicalExample),
           _section('6. Stop-Work / Escalation Conditions', topic.stopWorkConditions),
-          _section('7. Interview Preparation — Questions & Answers', topic.interviewQuestions),
           const SizedBox(height: 8),
           OutlinedButton.icon(
             icon: const Icon(Icons.assignment_outlined),
@@ -313,7 +312,6 @@ class EmergencyRescueTopicPage extends StatelessWidget {
         MapEntry('Site Implementation', topic.siteImplementation),
         MapEntry('Practical Site Example', topic.practicalExample),
         MapEntry('Stop-Work / Escalation Conditions', topic.stopWorkConditions),
-        MapEntry('Interview Preparation', topic.interviewQuestions),
       ];
 
   Future<Directory> _exportDirectory() async =>
