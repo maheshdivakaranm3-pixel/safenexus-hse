@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/fire_life_safety/fire_science_prevention.dart';
+import 'data/fire_life_safety/fire_science_prevention_11_20.dart';
 
 class FireLifeSafetyTopicsPage extends StatelessWidget {
   const FireLifeSafetyTopicsPage({super.key});
@@ -9,7 +10,10 @@ class FireLifeSafetyTopicsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topics = FireSciencePreventionTopics.topics;
+    final topics = <FireSafetyTopic>[
+      ...FireSciencePreventionTopics.topics,
+      ...FireSciencePreventionTopics11To20.topics,
+    ];
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8F7),
       appBar: AppBar(
