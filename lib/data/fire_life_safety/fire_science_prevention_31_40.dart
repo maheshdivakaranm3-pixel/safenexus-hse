@@ -128,7 +128,7 @@ class FireSciencePreventionTopics31To40 {
           "Maintain current tenant/unit plans, occupancy/event approvals, assembly areas, accessible evacuation provisions and contact lists for duty managers.",
           "Keep exit doors, mall corridors, stairs, discharge routes and fire-service access clear. Do not allow promotional stands, queues, displays or event barriers to reduce approved egress capacity.",
           "Coordinate tenant fire controls: cooking extraction, grease filters, LPG/gas where approved, electrical loads, storage, waste, hot work and after-hours works.",
-          "Control crowd communication through approved alarm/voice messages and trained incident command. Avoid conflicting announcements; direct occupants away from smoke and keep responders" access clear.',
+          "Control crowd communication through approved alarm/voice messages and trained incident command. Avoid conflicting announcements; direct occupants away from smoke and keep responders' access clear.",
           "For events, temporary stages, decorations and electrical installations, require approved layout, material/fire performance evidence where required, load review, emergency access and pre-opening inspection.",
           "Account for children, elderly people, people with disabilities and visitors unfamiliar with the building; assign trained assistance and avoid unsafe counter-flow.",
         ]),
