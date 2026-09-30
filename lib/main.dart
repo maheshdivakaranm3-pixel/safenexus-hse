@@ -19,6 +19,7 @@ import 'data/abu_dhabi/abu_dhabi_cop_01_to_03_reference_page.dart';
 import 'emergency_rescue_page.dart';
 import 'fire_life_safety_topics_page.dart';
 import 'environmental_reference_page.dart';
+import 'oil_gas_interview_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1327,6 +1328,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     String title,
     String subtitle,
   ) async {
+    if (title == 'Learning + Interview') {
+      await _openPage(const LearningInterviewPage());
+      return;
+    }
     if (title == 'Abu Dhabi HSE') {
       await _openPage(const AbuDhabiCop01To03ReferencePage());
       return;
