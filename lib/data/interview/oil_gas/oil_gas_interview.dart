@@ -382,6 +382,14 @@ const List<Map<String, String>> oilGasLevel2Questions = [
   {'question':'How do you manage chemical storage?','answer':'Maintain an approved inventory and current SDS access; segregate incompatible materials; use suitable labelled containers, containment, ventilation and ignition controls; restrict access; provide appropriate spill response materials; inspect storage and dispose of waste under site rules.','technicalExplanation':'Compatibility and storage limits depend on chemical properties and facility requirements. Never use an unlabelled container or rely on appearance.','siteExample':'Inspect chemical cabinets and bunds, confirm labels and closed lids, segregate incompatibles and ensure spill kits match the stored substances.'},
   {'question':'How do you perform an effective HSE inspection?','answer':'Plan around risk and active work, observe field conditions, speak with workers, inspect equipment and records, record objective findings with location and risk, assign owners and due dates, and verify closeout in the field.','technicalExplanation':'Prioritise actual exposure and critical-control failures. Repeated findings may indicate systemic weaknesses in planning, procurement, supervision or training.','siteExample':'Identify a hose crossing an access route, arrange safe rerouting or protection, assign an owner and verify the route is clear.'},
   {'question':'Distinguish process safety from personal safety.','answer':'Personal safety prevents individual harm such as slips, trips and hand injuries. Process safety prevents loss of containment of hazardous substances or energy that could cause fire, explosion, toxic release or major accident. Both require leadership, engineering, operating discipline and learning.','technicalExplanation':'Process safety depends on design integrity, operating limits, alarms, safeguards, inspection, maintenance, competence and emergency preparedness. Low injury rates alone do not demonstrate healthy process safety.','siteExample':'A worker may wear PPE yet remain exposed to a major release from a degraded pressure boundary. Reporting leaks, corrosion, abnormal vibration and impaired safeguards supports process safety.'}
+,
+  {'question':'What is Process Safety Management (PSM), and why is it important in Oil & Gas?','answer':'Process Safety Management is a structured system for preventing major accidents involving loss of containment, fire, explosion or toxic release. It combines process safety information, hazard analysis, operating procedures, competence, mechanical integrity, management of change, contractor control, emergency planning, incident learning and assurance.','technicalExplanation':'PSM addresses low-frequency, high-consequence events and the integrity of multiple prevention and mitigation barriers. Personal safety indicators alone cannot demonstrate process safety health. Apply the operator’s PSM framework and applicable legal and technical requirements.','siteExample':'Before modifying a hydrocarbon pump seal arrangement, the team reviews process hazards, engineering changes, isolation needs, safeguards, procedures, training and commissioning checks through formal management of change.'},
+  {'question':'How is gas testing and atmospheric monitoring performed before and during hazardous work?','answer':'A competent authorised gas tester uses an approved, calibrated instrument, verifies its status and performs tests at the locations and elevations specified by the permit or procedure. Test oxygen, flammable gas and relevant toxic contaminants as required. Record results, time, location, tester and instrument details; repeat or continuously monitor when conditions or permit requirements demand it.','technicalExplanation':'Sampling strategy must account for gas density, ventilation, confined geometry, process sources and possible stratification. Acceptance limits, test intervals and stop-work triggers come from the current permit, facility procedure and applicable requirements—not a generic value.','siteExample':'For vessel entry, test remotely before opening or entry, sample representative levels and dead spaces as specified, confirm ventilation and isolation, and maintain the required attendant and monitoring arrangements.'},
+  {'question':'What is an Emergency Shutdown (ESD) system?','answer':'An ESD system brings a process or facility, or a defined part of it, to a predetermined safe state when specified abnormal or emergency conditions occur. Depending on design, it may close shutdown valves, stop equipment, isolate inventory or initiate other protective actions.','technicalExplanation':'ESD functions are engineered safeguards with defined cause-and-effect logic, integrity requirements, proof testing, bypass control and management of impairment. Personnel must not operate, inhibit or reset systems outside their authority and approved procedure.','siteExample':'A confirmed high-high pressure or emergency pushbutton signal may initiate a defined shutdown sequence. Operators follow the control-room response and verify field status without bypassing safeguards.'},
+  {'question':'How do Fire and Gas (F&G) detection systems support facility safety?','answer':'F&G systems detect selected fire, flammable gas or toxic gas conditions and alert personnel or initiate configured protective actions. Devices may include flame, heat, smoke, combustible-gas and toxic-gas detectors, linked to alarms, ventilation actions or shutdown logic where designed.','technicalExplanation':'Detector type, placement, voting logic, alarm setpoints, coverage, testing and impairment management are determined by the approved safety design and facility procedures. Detection does not replace prevention, evacuation readiness or manual reporting.','siteExample':'If a fixed gas detector alarms near a compressor, the operator follows the alarm response, avoids entering the suspected release area, informs the control room and initiates the required evacuation or isolation actions.'},
+  {'question':'What precautions are required for pressure testing or hydrotesting?','answer':'Use an approved test pack and procedure; confirm test boundaries, rated components, calibrated gauges, relief arrangements, exclusion zones, communications and competent supervision. Prefer water where technically suitable, fill and vent safely, raise pressure in controlled stages, inspect from safe positions, depressurise fully before adjustment, and document results.','technicalExplanation':'Stored energy can cause catastrophic failure even during liquid testing. Pneumatic testing generally presents greater stored-energy risk and requires specific engineering justification and controls. Test pressure, hold time, acceptance criteria and boundaries must come from approved engineering documents and applicable codes.','siteExample':'Before hydrotesting a spool, verify blinds and supports against the test pack, barricade the line of fire, establish controlled pressurisation, monitor remotely where practicable and prove zero pressure before dismantling.'},
+  {'question':'What is hazardous area classification, and how does it affect equipment selection?','answer':'Hazardous area classification identifies locations where flammable gas, vapour, mist or dust may be present in quantities requiring special precautions. The classification defines zones or divisions and gas or dust groups and temperature requirements used to select suitable electrical and instrumentation equipment.','technicalExplanation':'Use the approved facility hazardous-area drawings and applicable design standard. Equipment certification, protection concept, gas group, temperature class, ingress protection, installation and maintenance must match the area and service. Do not assume ordinary equipment is acceptable because a release is not currently visible.','siteExample':'Before using a portable light near a hydrocarbon process unit, verify the area classification, equipment certification and permit conditions; use only approved equipment and inspect it before use.'},
+  {'question':'How do you assess initial and residual risk for an Oil & Gas task?','answer':'Define the task and credible hazards, identify exposed people and assets, evaluate likelihood and consequence using the approved site matrix, and select controls using the hierarchy of controls. Reassess after controls are implemented to determine residual risk, confirm required approvals and communicate remaining risks to the work party.','technicalExplanation':'Residual risk is not automatically acceptable because a score is reduced. Mandatory safeguards, legal duties, simultaneous operations, uncertainty and change conditions must be considered. Escalate risk beyond delegated authority and stop if controls are absent or ineffective.','siteExample':'For flange breaking, the team reviews stored pressure and hazardous fluid, verifies isolation and depressurisation, defines exclusion and PPE, confirms the permit and gas testing, then checks whether residual risk meets site authorisation criteria before starting.'},
 ];
 
 
@@ -401,6 +409,42 @@ const List<Map<String, String>> oilGasLevel3Questions = [
   {'question':'How do you embed process safety culture?','answer':'Make major accident hazards visible in leadership decisions, encourage reporting of weak signals, maintain operating discipline, verify critical controls, involve frontline workers, learn from normal work and failures, and resource asset integrity and competence.','technicalExplanation':'Culture is demonstrated by everyday decisions, reporting trust, investigation quality, barrier health and follow-through—not slogans alone.','siteExample':'Review overdue safety-critical maintenance, alarm impairments, abnormal process conditions and worker concerns in operations meetings with owners and escalation dates.'},
   {'question':'How do you prepare for an HSE or regulatory audit?','answer':'Confirm scope and criteria, map requirements to controlled evidence, review prior findings, brief process owners, arrange safe access and ensure records are accurate. Answer transparently, record findings and manage actions through verified closure.','technicalExplanation':'Do not create retrospective or misleading records. Readiness should reflect actual implementation and the applicable authority and operator requirements.','siteExample':'For a PTW audit, compare sampled permits with field conditions, authorisations and isolations; interview workers and trace findings through effectiveness review.'},
   {'question':'How do you prioritise HSE work when resources are limited?','answer':'Prioritise credible consequence, exposure, control reliability, legal obligations and urgency. Address imminent danger and uncontrolled major-accident hazards first, then use a transparent risk-based plan. Escalate resource gaps and document authorised interim safeguards.','technicalExplanation':'A risk score must not override mandatory requirements or critical-control failures. Decisions should involve operational and technical owners.','siteExample':'Prioritise overdue safety-critical equipment and high-risk interfaces, escalate staffing constraints and arrange approved interim controls.'}
+  {
+    'question': 'How do you verify safety-critical element performance?',
+    'answer': 'Identify each safety-critical element, its performance standard, owner, inspection or proof-test interval, impairment process and evidence. Confirm overdue or failed tests are escalated and risk is controlled.',
+    'technicalExplanation': 'A safety-critical element is a barrier whose failure can contribute to or worsen a major accident. Assurance must test availability, functionality and reliability against approved performance standards.',
+    'practicalExample': 'A firewater pump test fails its required performance criterion. Record the impairment, notify operations, apply approved compensating measures and restore and retest before closing the action.',
+  },
+  {
+    'question': 'How do you manage simultaneous operations (SIMOPS)?',
+    'answer': 'Identify concurrent activities, map interactions, assess combined risks, agree area authority and communication, sequence or separate incompatible work, and brief all affected teams. Reassess whenever scope or conditions change.',
+    'technicalExplanation': 'SIMOPS risk may arise from overlapping permits, energy sources, lifting paths, ignition sources, process operations or emergency access. Use the facility SIMOPS matrix and coordination process.',
+    'practicalExample': 'Hot work near a hydrocarbon transfer operation is held until the area authority confirms separation, controls, gas monitoring and approved coordination.',
+  },
+  {
+    'question': 'What is a bow-tie analysis?',
+    'answer': 'Define the top event, identify credible threats and consequences, then map preventive barriers before the event and mitigative barriers after it. Assign owners and verify barrier health.',
+    'technicalExplanation': 'Bow-tie analysis communicates how controls prevent loss of control and limit consequences. It should connect to risk assessments, performance standards and assurance activities.',
+    'practicalExample': 'For loss of containment, prevention may include corrosion control and maintenance; mitigation may include detection, isolation, emergency response and fire protection.',
+  },
+  {
+    'question': 'How do you investigate a high-potential near miss?',
+    'answer': 'Make the scene safe, preserve evidence, notify required parties, gather records and witness accounts, establish a timeline, analyse failed and missing barriers, assign corrective actions and verify effectiveness.',
+    'technicalExplanation': 'Focus on system and barrier causes rather than stopping at individual actions. Protect evidence integrity and follow operator reporting and investigation requirements.',
+    'practicalExample': 'A dropped object is stopped by a secondary barrier. The team examines lifting plan, tool tethering, exclusion zone, supervision and inspection, then verifies actions in the field.',
+  },
+  {
+    'question': 'How do you control management of change (MOC)?',
+    'answer': 'Screen proposed temporary or permanent changes, assess technical and HSE impacts, obtain competent review and approval, update drawings and procedures, train affected personnel, and verify readiness before startup.',
+    'technicalExplanation': 'MOC prevents unassessed changes from weakening process safety barriers. Define expiry and restoration for temporary changes and complete a pre-startup safety review where required.',
+    'practicalExample': 'A pump is replaced with a different model. Engineering checks capacity, materials, hazardous-area suitability, safeguards, documentation and operator training before commissioning.',
+  },
+  {
+    'question': 'How do you manage safety-critical maintenance deferrals?',
+    'answer': 'Identify the affected function and risk, obtain engineering and operations assessment, document authorisation and expiry, implement approved compensating controls, track the deferral and restore integrity promptly.',
+    'technicalExplanation': 'A deferral must not become an informal extension. Apply site impairment and risk acceptance rules, including escalation when protection is degraded beyond permitted limits.',
+    'practicalExample': 'A gas detector is unavailable. Operations assess coverage, restrict affected work, arrange approved temporary monitoring and track repair and functional test to closure.',
+  },
 ];
 
 
@@ -497,6 +541,36 @@ const List<Map<String, String>> oilGasLevel4Questions = [
     'technicalExplanation': 'A fair reporting culture encourages early reporting while preserving accurate investigation and statutory or company reporting obligations.',
     'practicalExample': 'Record the location, task, equipment, and event sequence, then investigate the failed barrier and communicate lessons without unnecessary personal details.'
   }
+  {
+    'question': 'A gas detector alarms during hot work. What do you do?',
+    'answer': 'Stop work, make tools safe if this can be done without exposure, withdraw to the designated safe area, warn others and notify the control room or permit authority. Do not re-enter until authorised and conditions are reassessed.',
+    'technicalExplanation': 'An alarm may indicate a release or changing atmosphere. Follow site alarm response and emergency procedures; never silence or bypass the detector to continue work.',
+    'practicalExample': 'During welding, a combustible-gas alarm activates. The crew evacuates upwind or to the muster point as instructed, and the permit is suspended pending investigation and revalidation.',
+  },
+  {
+    'question': 'A contractor begins work outside the permit boundary. How do you respond?',
+    'answer': 'Stop the unauthorised activity, prevent exposure, inform the supervisor and permit issuer, confirm the approved scope and boundaries, and restart only after permit and risk documents are corrected and briefed.',
+    'technicalExplanation': 'Permit validity applies only to the defined scope, location, period and precautions. Work outside those limits is not authorised.',
+    'practicalExample': 'A crew moves to an adjacent line not shown on the permit. The HSE officer stops the task and requires updated isolation verification and permit approval.',
+  },
+  {
+    'question': 'You find a damaged sling before a lift. What action is required?',
+    'answer': 'Do not use it. Isolate and identify it as defective, report it to the lifting supervisor, arrange replacement with certified suitable gear, and verify the lift plan and inspection status before proceeding.',
+    'technicalExplanation': 'Defects can reduce rated capacity or cause sudden failure. Quarantine prevents accidental reuse; do not attempt an unauthorised repair.',
+    'practicalExample': 'A web sling has a cut edge. It is removed from service and replaced; the lifting team rechecks capacity, configuration and rigging before the lift.',
+  },
+  {
+    'question': 'A worker collapses in a suspected H2S area. What is your response?',
+    'answer': 'Raise the alarm, keep others out, approach only under the site emergency plan with trained responders and suitable respiratory protection, and activate rescue and medical response. Never make an unprotected rescue entry.',
+    'technicalExplanation': 'H2S can rapidly incapacitate rescuers. Rescue requires command, atmospheric assessment, appropriate breathing apparatus, backup and casualty handover.',
+    'practicalExample': 'A worker is down near a process drain. The team isolates access and calls the trained rescue team rather than rushing in with ordinary masks.',
+  },
+  {
+    'question': 'Heavy rain affects an excavation. What must happen?',
+    'answer': 'Stop entry, keep people and equipment away from the edge, arrange competent inspection and reassess water accumulation, soil stability, support, access and nearby loads. Resume only after authorised confirmation.',
+    'technicalExplanation': 'Rain can weaken ground, increase surcharge and undermine protective systems. Pumping water alone does not establish stability.',
+    'practicalExample': 'After overnight rain, the excavation supervisor blocks access until a competent person inspects shoring, edge protection, water and adjacent structures.',
+  },
 ];
 
 
@@ -593,6 +667,36 @@ const List<Map<String, String>> oilGasLevel5Questions = [
     'technicalExplanation': 'Dashboard data should be accurate, comparable, and disaggregated where useful by work type, contractor, phase, or exposure. Avoid presenting raw counts without context.',
     'practicalExample': 'A dashboard shows recurring isolation verification gaps by workstream, the affected tasks, action owners, due dates, and whether field rechecks confirm improvement.'
   }
+  {
+    'question': 'How do you ensure contractor HSE performance?',
+    'answer': 'Prequalify competence and resources, communicate requirements, review plans, verify induction and task training, monitor field execution, address deviations, review trends and close corrective actions with evidence.',
+    'technicalExplanation': 'Contractor oversight should be risk-based and shared with the contract owner and operations. Leading indicators and critical-control verification complement injury statistics.',
+    'practicalExample': 'A contractor repeatedly misses gas-test records. The supervisor pauses affected work, investigates system causes, retrains and audits subsequent permits before lifting the restriction.',
+  },
+  {
+    'question': 'How do you lead a toolbox talk that changes behaviour?',
+    'answer': 'Use the actual task and worksite conditions, explain top hazards and controls, invite worker input, confirm understanding, assign responsibilities and check controls at the job site.',
+    'technicalExplanation': 'A toolbox talk is effective when it is interactive and linked to verified controls, not merely a signature sheet. Rebrief after meaningful change.',
+    'practicalExample': 'Before flange breaking, the supervisor demonstrates the exclusion zone, confirms isolation points and asks each worker to explain their role and stop-work trigger.',
+  },
+  {
+    'question': 'What do you do when production pressure conflicts with a safety control?',
+    'answer': 'Pause the affected work, explain the specific risk and required control, escalate through operations and HSE authority, and resume only when approved safeguards are effective.',
+    'technicalExplanation': 'Production targets do not replace permit conditions, legal duties or risk acceptance authority. Document decisions and use formal escalation rather than informal compromise.',
+    'practicalExample': 'A supervisor requests work with an overdue critical inspection. The engineer escalates the impairment and obtains an authorised risk decision before work proceeds.',
+  },
+  {
+    'question': 'How do you verify corrective actions are effective?',
+    'answer': 'Define the intended risk reduction, assign an accountable owner and due date, review objective evidence, and perform a field recheck or trend review. Reopen actions that are incomplete or ineffective.',
+    'technicalExplanation': 'Closure should demonstrate that the underlying cause or failed barrier has been addressed, not merely that a document was submitted.',
+    'practicalExample': 'After a housekeeping action, the supervisor checks the work area during later shifts and reviews repeat findings before confirming effectiveness.',
+  },
+  {
+    'question': 'How do you manage fatigue in shift operations?',
+    'answer': 'Assess shift length, overtime, rest opportunity, travel, workload and task criticality. Apply the site fatigue-management process, report unfit-for-duty concerns, adjust assignments and ensure adequate handover.',
+    'technicalExplanation': 'Fatigue can impair attention, judgement and reaction time. Supervisors should manage organisational factors and not rely only on individual self-reporting.',
+    'practicalExample': 'A technician reports severe fatigue before a critical operation. The supervisor arranges a fit-for-duty review and suitable reassignment under company procedure.',
+  },
 ];
 
 
@@ -690,4 +794,34 @@ const List<Map<String, String>> oilGasLevel6Questions = [
     'technicalExplanation': 'Do not resolve a legal conflict informally at the workface or select the less demanding interpretation without authority. Document the assessment and approval trail.',
     'practicalExample': 'A work instruction references an outdated requirement. The supervisor holds the affected work, compliance verifies the current source, and the controlled instruction is revised and re-briefed.'
   }
+  {
+    'question': 'How do you confirm ADOSH or other UAE requirements apply to a site?',
+    'answer': 'Identify emirate, sector, asset owner, activity and contractual requirements; consult current official regulations, codes and operator procedures; confirm applicability with the responsible compliance or HSE function; maintain a controlled legal register.',
+    'technicalExplanation': 'Requirements can differ by emirate, sector and facility. Do not assume an ADOSH instrument applies identically to every UAE site or substitutes for operator standards.',
+    'practicalExample': 'For an Abu Dhabi project, the HSE team checks current ADPHC/ADOSH instruments and project obligations, records applicable clauses and communicates them in procedures and audits.',
+  },
+  {
+    'question': 'How do you manage a conflict between a company procedure and a legal requirement?',
+    'answer': 'Stop and clarify the conflict with the compliance owner, legal or competent authority. Apply the legally required minimum and any stricter applicable approved control; do not independently waive either requirement.',
+    'technicalExplanation': 'Resolve conflicts through documented interpretation and controlled revision. Confirm jurisdiction, scope, effective date and any regulator or client direction.',
+    'practicalExample': 'A corporate procedure appears less stringent than an applicable local requirement. The team escalates, applies the compliant control and updates the controlled procedure and briefing.',
+  },
+  {
+    'question': 'What evidence would you prepare for an HSE authority inspection?',
+    'answer': 'Provide controlled applicable permits and approvals, risk assessments, training and competency records, inspection and maintenance evidence, incident and corrective-action records, emergency arrangements and site verification, as requested.',
+    'technicalExplanation': 'Evidence must be current, traceable, consistent with field conditions and shared through authorised channels. Protect personal and commercially sensitive information.',
+    'practicalExample': 'During an inspection, the HSE representative retrieves the current permit, gas-test log, equipment certificate and action closure evidence, then accompanies the inspector for field verification.',
+  },
+  {
+    'question': 'How do you keep an UAE HSE legal register current?',
+    'answer': 'Assign an owner, identify applicable jurisdictions and instruments, monitor official updates, assess applicability and impact, update controlled documents, brief affected personnel and retain review evidence.',
+    'technicalExplanation': 'A legal register is useful only when obligations are translated into operational controls, owners, records and assurance checks. Verify effective dates and superseded editions.',
+    'practicalExample': 'A new applicable code is identified. Compliance reviews affected procedures and training, assigns actions and verifies implementation during site inspection.',
+  },
+  {
+    'question': 'How do you respond to an authority-issued nonconformance?',
+    'answer': 'Understand the cited requirement and evidence, make the immediate condition safe, notify management, investigate causes, prepare a corrective-action plan with owners and dates, submit through authorised channels and verify closure.',
+    'technicalExplanation': 'Do not conceal or alter records. Escalate deadlines and communicate transparently while ensuring corrective actions address systemic causes and prevent recurrence.',
+    'practicalExample': 'An inspection identifies incomplete equipment inspection records. The team secures affected equipment as needed, reconstructs only verifiable records, corrects the control process and provides evidence of completion.',
+  },
 ];
