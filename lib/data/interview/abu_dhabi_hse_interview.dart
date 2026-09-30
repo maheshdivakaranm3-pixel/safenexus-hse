@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// SafeNexus HSE — Abu Dhabi Interview Questionnaire
 /// Source-based set: 40 questions from the user's HSE written questionnaire.
 /// Each item contains Model Answer, Technical Explanation and Practical Site Example.
@@ -302,3 +304,79 @@ const List<InterviewQuestion> abuDhabiQuestionnaire40 = [
     practicalSiteExample: 'A supervisor observes a pedestrian entering a plant route, intervenes respectfully, reviews the segregation layout with workers and tracks whether the physical control prevents recurrence.',
   ),
 ];
+
+
+/// Screen used by LearningInterviewPage navigation.
+class AbuDhabiHseInterviewPage extends StatelessWidget {
+  const AbuDhabiHseInterviewPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Abu Dhabi HSE Interview')),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(12),
+        itemCount: abuDhabiQuestionnaire40.length,
+        itemBuilder: (context, index) {
+          final item = abuDhabiQuestionnaire40[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            child: ExpansionTile(
+              key: PageStorageKey<String>('abu-dhabi-q-${item.number}'),
+              title: Text(
+                'Q${item.number}. ${item.question}',
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+              childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              children: [
+                _AbuDhabiAnswerBlock(
+                  label: 'Model Answer',
+                  text: item.modelAnswer,
+                ),
+                _AbuDhabiAnswerBlock(
+                  label: 'Technical Explanation',
+                  text: item.technicalExplanation,
+                ),
+                _AbuDhabiAnswerBlock(
+                  label: 'Practical Site Example',
+                  text: item.practicalSiteExample,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _AbuDhabiAnswerBlock extends StatelessWidget {
+  final String label;
+  final String text;
+
+  const _AbuDhabiAnswerBlock({
+    required this.label,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF159447),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(text),
+        ],
+      ),
+    );
+  }
+}
