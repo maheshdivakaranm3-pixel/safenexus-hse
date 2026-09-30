@@ -271,7 +271,7 @@ const List<AbuDhabiInterviewMcq> abuDhabiObjectiveQuestions = [
   AbuDhabiInterviewMcq(id: 48, question: 'What is a suitable approach to HSE interview answers?', options: ['Memorize unsupported legal numbers','Explain principle, site application, verification, and official-source caveat where needed','Use only acronyms','Claim every rule is universal'], correctIndex: 1, explanation: 'Strong answers connect knowledge to practical controls and avoid unsupported statutory claims.', practicalExample: 'Explain how you would verify the current authority CoP before quoting a requirement.'),
   AbuDhabiInterviewMcq(id: 49, question: 'Which is a strong corrective action for recurring dropped objects?', options: ['Send another email only','Improve tool tethering, storage, exclusion, supervision, and verification based on cause','Close as worker mistake','Count more toolbox talks'], correctIndex: 1, explanation: 'Actions should address the causal mechanism and verify sustained performance.', practicalExample: 'Install suitable retention, control access below, and inspect during subsequent shifts.'),
   AbuDhabiInterviewMcq(id: 50, question: 'What does ALARP not permit?', options: ['Considering control options','Documenting residual risk','Ignoring mandatory legal requirements','Using risk evidence'], correctIndex: 2, explanation: 'ALARP does not waive law or mandatory controls.', practicalExample: 'Meet applicable legal requirements first, then assess further reasonably practicable risk reduction.'),
-
+];
 
 class AbuDhabiHseInterviewPage extends StatelessWidget {
   const AbuDhabiHseInterviewPage({super.key});
