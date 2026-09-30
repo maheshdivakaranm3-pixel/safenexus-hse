@@ -1,1673 +1,416 @@
+// SafeNexus HSE — Abu Dhabi HSE Interview Master Module
+// Single-file data + UI. 240 questions: Level 1 (65), Levels 2–6 (25 each), Objective (50).
+// Regulatory values, CoP numbering, deadlines and statutory percentages must be checked against current official sources before use.
 import 'package:flutter/material.dart';
+import 'abu_dhabi_hse_safety_quiz.dart';
 
-class AbuDhabiHseQuestion {
-  final int id; final String topic; final String question; final List<String> options;
-  final int correctAnswer; final String explanation; final String siteExample;
-  const AbuDhabiHseQuestion({required this.id, required this.topic, required this.question,
-    required this.options, required this.correctAnswer, required this.explanation, required this.siteExample});
+class AbuDhabiInterviewQuestion {
+  final int id; final String question, modelAnswer, technicalExplanation, practicalExample;
+  const AbuDhabiInterviewQuestion({required this.id, required this.question, required this.modelAnswer, required this.technicalExplanation, required this.practicalExample});
+}
+class AbuDhabiInterviewMcq {
+  final int id; final String question; final List<String> options; final int correctIndex; final String explanation, practicalExample;
+  const AbuDhabiInterviewMcq({required this.id, required this.question, required this.options, required this.correctIndex, required this.explanation, required this.practicalExample});
 }
 
-const List<AbuDhabiHseQuestion> abuDhabiHse150Questions = [
-  AbuDhabiHseQuestion(
-    id: 1, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What is the purpose of an HSE management system?',
-    options: ['To document attendance only', 'To systematically manage hazards, risks and continual improvement', 'To replace supervision', 'To guarantee zero incidents'],
-    correctAnswer: 1,
-    explanation: 'An HSE management system establishes policy, responsibilities, planning, implementation, monitoring and improvement. It supports legal and project compliance but cannot guarantee that incidents never occur.',
-    siteExample: 'At an Abu Dhabi project, the HSE plan assigns responsibilities, sets inspection and training processes, tracks corrective actions and reviews performance.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 2, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What should a site team do when a project rule conflicts with a legal requirement?',
-    options: ['Follow whichever is easier', 'Follow the less restrictive rule', 'Escalate and comply with applicable legal requirements', 'Ignore both'],
-    correctAnswer: 2,
-    explanation: 'Project procedures must not reduce applicable legal duties. Resolve conflicts through the responsible HSE and management channels before work proceeds.',
-    siteExample: 'A supervisor finds a project checklist omits a legally required control and escalates it for correction before authorizing the task.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 3, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What is the purpose of a Code of Practice (CoP)?',
-    options: ['A method for recording payroll', 'A technical framework describing recognized safety requirements and controls', 'A substitute for competent workers', 'A permit to start any job'],
-    correctAnswer: 1,
-    explanation: 'A CoP provides structured requirements or guidance for managing a defined risk. Applicability and current official versions must be checked.',
-    siteExample: 'Before scaffolding work, the HSE team checks the applicable current authority and project requirements rather than relying on an old copied checklist.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 4, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'Who should verify that a worker is competent for a high-risk task?',
-    options: ['Any coworker', 'A responsible employer or authorized person using suitable evidence', 'Only the worker', 'A visitor'],
-    correctAnswer: 1,
-    explanation: 'Competence is task-specific and should be supported by suitable training, knowledge, experience, assessment and authorization where required.',
-    siteExample: 'Before assigning a MEWP operator, the supervisor verifies training, practical competence, familiarization and site authorization.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 5, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What is the main purpose of an HSE inspection?',
-    options: ['Find someone to blame', 'Identify unsafe conditions and verify controls are effective', 'Replace risk assessment', 'Approve all work automatically'],
-    correctAnswer: 1,
-    explanation: 'Inspections provide a planned check of workplace conditions, equipment and control implementation. Findings need owners, deadlines and follow-up.',
-    siteExample: 'A weekly site inspection identifies an unprotected opening; the team barricades it immediately and tracks permanent guarding to closure.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 6, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What should happen after a serious change in work conditions?',
-    options: ['Continue under the old assessment', 'Stop or pause affected work and review risk controls', 'Wait until the end of shift', 'Remove the permit'],
-    correctAnswer: 1,
-    explanation: 'Changes in method, equipment, personnel, weather or surrounding work can invalidate assumptions. Reassess and reauthorize as required.',
-    siteExample: 'A lifting route becomes obstructed by another contractor; the lift is paused and the plan, exclusion zone and communications are reviewed.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 7, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'Why are toolbox talks conducted?',
-    options: ['To replace formal training and permits', 'To communicate task hazards, controls and changes before work', 'To record production targets only', 'To transfer all responsibility to workers'],
-    correctAnswer: 1,
-    explanation: 'Toolbox talks reinforce task-specific understanding and invite workers to raise concerns. They supplement, not replace, risk assessments, permits and competency.',
-    siteExample: 'Before a concrete pour, the supervisor briefs the crew on hose movement, access, communication, PPE and emergency arrangements.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 8, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What is the correct approach to an unsafe condition?',
-    options: ['Walk past if it is not your task', 'Report it and take safe immediate action within your authority', 'Hide it until inspection', 'Wait for an accident'],
-    correctAnswer: 1,
-    explanation: 'Prompt reporting and safe intervention help prevent harm. Do not take actions beyond competence or expose yourself to additional danger.',
-    siteExample: 'A worker sees a damaged extension lead, stops its use, warns others and reports it for isolation and replacement.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 9, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What is the purpose of HSE records?',
-    options: ['Create paperwork without use', 'Provide evidence of planning, implementation, monitoring and learning', 'Replace field controls', 'Guarantee legal immunity'],
-    correctAnswer: 1,
-    explanation: 'Accurate, controlled records help demonstrate what was planned and done, support audits and enable trend analysis. Records do not replace actual safe conditions.',
-    siteExample: 'A site retains inspection, training, permit and corrective-action records so an audit can trace control implementation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 10, topic: 'Abu Dhabi CoP / ADPHC / OSHAD-SF',
-    question: 'What should an HSE officer do when unsure of an authority requirement?',
-    options: ['Invent a limit', 'Check current official guidance and consult the competent responsible party', 'Use a social media post as final authority', 'Proceed without checking'],
-    correctAnswer: 1,
-    explanation: 'Regulatory and authority requirements can change and may be project-specific. Verify current official sources and obtain competent interpretation where needed.',
-    siteExample: 'Before approving a specialized activity, the HSE officer checks the current authority requirement and project specification with the responsible manager.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 11, topic: 'Excavation',
-    question: 'What must be checked before excavation starts?',
-    options: ['Only the excavator fuel', 'Underground services, ground conditions, authorization and protective controls', 'Only worker attendance', 'The paint color of barriers'],
-    correctAnswer: 1,
-    explanation: 'Pre-start planning identifies buried utilities, soil and water conditions, adjacent loads, access, protection and emergency arrangements.',
-    siteExample: 'The team reviews utility drawings, scans the area, marks services and uses controlled trial holes before machine digging.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 12, topic: 'Excavation',
-    question: 'What is a key control against excavation collapse?',
-    options: ['Allowing spoil at the edge', 'A suitable protective system such as shoring, shielding or safe battering based on assessment', 'Using warning tape alone', 'Standing workers below an unsupported face'],
-    correctAnswer: 1,
-    explanation: 'Excavation protection must be selected by competent assessment of depth, soil, water, vibration, surcharge and applicable requirements.',
-    siteExample: 'A competent person selects and verifies a trench support system before workers enter the excavation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 13, topic: 'Excavation',
-    question: 'Where should excavated spoil generally be placed?',
-    options: ['At the edge to save space', 'Far enough from the edge to avoid surcharge and falling material, as determined by the assessment', 'Inside the access ladder route', 'On top of protective supports'],
-    correctAnswer: 1,
-    explanation: 'Spoil and equipment loads near an excavation can increase collapse risk or fall into the trench. Follow engineered and site-specific setback requirements.',
-    siteExample: 'The excavator operator places spoil in the designated area outside the assessed exclusion distance.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 14, topic: 'Excavation',
-    question: 'What is required for safe access into a trench?',
-    options: ['Climb on bracing', 'Provide suitable secured access such as a ladder or designed stairway', 'Jump into the trench', 'Use an excavator bucket'],
-    correctAnswer: 1,
-    explanation: 'Safe access and egress must be provided, maintained and positioned so workers can exit promptly.',
-    siteExample: 'A secured ladder is installed at the planned location and kept clear of stored materials.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 15, topic: 'Excavation',
-    question: 'When should an excavation be re-inspected?',
-    options: ['Only once at project start', 'At required intervals and after events such as rain, vibration, ground change or alteration', 'Only after an injury', 'Never if barricaded'],
-    correctAnswer: 1,
-    explanation: 'Ground and support conditions can change. Competent inspections are needed at prescribed stages and after conditions that may affect stability.',
-    siteExample: 'After heavy rain, the competent person checks water accumulation, wall condition, support and access before re-entry.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 16, topic: 'Excavation',
-    question: 'What should be done if an underground cable is exposed unexpectedly?',
-    options: ['Pull it clear', 'Stop work, keep people clear, protect the area and notify the responsible utility/site authority', 'Cut it if in the way', 'Cover it and continue'],
-    correctAnswer: 1,
-    explanation: 'Unexpected services may be live or damaged. Stop, isolate the area and follow the approved utility emergency and verification process.',
-    siteExample: 'The excavation crew stops machinery, establishes a safe exclusion area and contacts the utility coordinator.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 17, topic: 'Excavation',
-    question: 'Why is water accumulation hazardous in an excavation?',
-    options: ['It always strengthens soil', 'It can destabilize ground, conceal hazards and create drowning or access risks', 'It removes the need for support', 'It makes ladders unnecessary'],
-    correctAnswer: 1,
-    explanation: 'Water can weaken soil, undermine support and obscure conditions. Pumping and discharge must be planned and monitored.',
-    siteExample: 'After seepage is observed, workers leave the trench while the team reassesses stability and implements controlled dewatering.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 18, topic: 'Excavation',
-    question: 'What is the safest response to signs of excavation movement?',
-    options: ['Continue quickly', 'Evacuate the affected area and have a competent person reassess before re-entry', 'Add workers to hold the wall', 'Remove supports'],
-    correctAnswer: 1,
-    explanation: 'Cracking, bulging, falling soil or support movement may indicate imminent failure. Keep people clear and obtain competent assessment.',
-    siteExample: 'Workers withdraw after noticing cracking near the trench edge; the area is isolated pending engineering review.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 19, topic: 'Scaffolding',
-    question: 'Who should erect, alter or dismantle scaffolding?',
-    options: ['Any available worker', 'Trained and competent scaffold personnel under appropriate supervision', 'Visitors', 'A worker who has watched once'],
-    correctAnswer: 1,
-    explanation: 'Scaffold work requires task-appropriate competence, planning, supervision and compliance with the scaffold design and site system.',
-    siteExample: 'A competent scaffold team erects the access tower and records inspection before release for use.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 20, topic: 'Scaffolding',
-    question: 'What does a scaffold handover or inspection tag indicate?',
-    options: ['A guarantee against every hazard', 'The status of inspection/release under the site system; users still check conditions', 'Permission to overload', 'That weather cannot affect it'],
-    correctAnswer: 1,
-    explanation: 'Tags communicate inspection status but do not replace user awareness or required inspections after changes or adverse events.',
-    siteExample: 'A worker checks the tag and reports a missing toe board rather than assuming the tag overrides visible defects.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 21, topic: 'Scaffolding',
-    question: 'Why are guardrails and toe boards installed?',
-    options: ['For decoration', 'To reduce fall and falling-object risks at exposed edges', 'To increase scaffold load', 'To replace access ladders'],
-    correctAnswer: 1,
-    explanation: 'Edge protection helps prevent people and materials falling from working platforms. Requirements depend on design and applicable rules.',
-    siteExample: 'A platform is fitted with complete edge protection before workers carry out façade work.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 22, topic: 'Scaffolding',
-    question: 'What should be done if a scaffold is visibly damaged?',
-    options: ['Use it carefully', 'Prevent use, report it and have a competent person assess and repair/reinspect it', 'Hide the damage', 'Remove one brace'],
-    correctAnswer: 1,
-    explanation: 'Damage, unauthorized alteration or instability means the scaffold may no longer be safe. It must be controlled and reassessed.',
-    siteExample: 'A bent standard is found; the scaffold is isolated until the competent scaffold team repairs and releases it.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 23, topic: 'Scaffolding',
-    question: 'How should scaffold loading be managed?',
-    options: ['Store unlimited blocks', 'Keep within the designed duty/load class and distribute materials as planned', 'Load only one side heavily', 'Use guardrails as storage racks'],
-    correctAnswer: 1,
-    explanation: 'Excess loading or uneven distribution can cause failure. Follow design capacity, platform rating and material-stacking controls.',
-    siteExample: 'The supervisor limits masonry units on the platform to the approved load and keeps access routes clear.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 24, topic: 'Scaffolding',
-    question: 'What is the safe way to access a scaffold platform?',
-    options: ['Climb cross-braces', 'Use the designed ladder, stair tower or approved access system', 'Climb outside standards', 'Use a crane hook'],
-    correctAnswer: 1,
-    explanation: 'Designed access prevents falls and avoids damaging scaffold components.',
-    siteExample: 'Workers use the internal stair tower instead of climbing the frame.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 25, topic: 'Scaffolding',
-    question: 'When is a scaffold inspection especially important?',
-    options: ['After alteration or an event that may affect stability', 'Only at lunch', 'Only when a client visits', 'Never after handover'],
-    correctAnswer: 0,
-    explanation: 'Alteration, impact, severe weather or other potentially damaging events can change scaffold condition and require competent reinspection before use.',
-    siteExample: 'After a vehicle strikes a scaffold standard, the area is isolated and the scaffold is assessed before release.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 26, topic: 'Scaffolding',
-    question: 'Why must scaffold ties and bracing not be removed casually?',
-    options: ['They are optional', 'They provide stability and are part of the designed load path', 'They only improve appearance', 'They are replaced by workers standing nearby'],
-    correctAnswer: 1,
-    explanation: 'Ties and bracing resist movement and instability. Any change must be approved and controlled by a competent person/design process.',
-    siteExample: 'A subcontractor requests removal of a tie; work is paused until an approved alternative support arrangement is verified.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 27, topic: 'Working at Height',
-    question: 'What should be considered first when planning work at height?',
-    options: ['Use a harness in every case', 'Avoid work at height where reasonably practicable, then prevent or minimize falls', 'Work faster', 'Rely on warning signs'],
-    correctAnswer: 1,
-    explanation: 'The hierarchy prioritizes avoiding height work, then collective prevention such as guarded platforms, followed by suitable personal systems and rescue planning.',
-    siteExample: 'A light fitting is assembled at ground level before being lifted into position, reducing time spent at height.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 28, topic: 'Working at Height',
-    question: 'What is the main purpose of a fall-arrest harness system?',
-    options: ['Prevent all falls from occurring', 'Arrest a fall when prevention has failed, with compatible components and rescue planning', 'Replace guardrails', 'Allow unlimited free movement'],
-    correctAnswer: 1,
-    explanation: 'A fall-arrest system must be correctly selected, fitted, connected to suitable anchorage and supported by clearance and prompt rescue arrangements.',
-    siteExample: 'A trained worker uses an inspected harness and approved connection while working where collective protection is not practicable.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 29, topic: 'Working at Height',
-    question: 'Why is a dropped-object exclusion zone needed?',
-    options: ['To improve parking', 'To keep people away from the potential fall path of tools or materials', 'To replace tool lanyards', 'To permit overhead work above crowds'],
-    correctAnswer: 1,
-    explanation: 'Tools and materials can injure people below. Use barriers, controlled access, securing methods and coordinated work planning.',
-    siteExample: 'The ground below façade maintenance is barricaded and access is controlled while tools are secured.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 30, topic: 'Working at Height',
-    question: 'What should be checked before using a ladder?',
-    options: ['Only its color', 'Condition, suitability, secure placement and task risk', 'Whether it can be used as a bridge', 'Whether the user can carry heavy loads'],
-    correctAnswer: 1,
-    explanation: 'Ladders are suitable only for appropriate tasks and must be inspected, stable and positioned safely. Safer work platforms should be considered for prolonged or demanding work.',
-    siteExample: 'A damaged ladder is tagged out; a proper work platform is arranged for extended overhead installation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 31, topic: 'Working at Height',
-    question: 'What is a key requirement for an open floor edge?',
-    options: ['A verbal warning only', 'Suitable physical edge protection or an approved fall-prevention system', 'A painted line only in all cases', 'A worker standing nearby'],
-    correctAnswer: 1,
-    explanation: 'Open edges require effective fall prevention appropriate to the work and site requirements. Openings also need secure covers or guarding.',
-    siteExample: 'A floor opening is covered with a secured, load-suitable cover and marked, with access controlled.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 32, topic: 'Working at Height',
-    question: 'What should a rescue plan address for a suspended worker?',
-    options: ['Only who calls the office', 'Prompt retrieval method, trained rescuers, equipment, communications and emergency response', 'Waiting until shift end', 'Cutting the harness immediately'],
-    correctAnswer: 1,
-    explanation: 'Suspension after a fall can be life-threatening. Rescue arrangements must be planned, available and practiced for the actual worksite.',
-    siteExample: 'Before roof work, the team identifies rescue equipment, access route, trained responders and emergency communication.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 33, topic: 'Working at Height',
-    question: 'When should work at height stop?',
-    options: ['When weather or conditions make controls ineffective or unsafe', 'Only at scheduled breaks', 'Never if a permit exists', 'When the supervisor leaves but workers continue'],
-    correctAnswer: 0,
-    explanation: 'Wind, lightning, poor visibility, unstable access or changing conditions can invalidate controls. Pause and reassess before resuming.',
-    siteExample: 'A gusting wind affects a roof-edge task; the supervisor stops work and reassesses the method and weather limits.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 34, topic: 'Working at Height',
-    question: 'Why is a ladder not normally suitable for heavy two-handed work?',
-    options: ['It is always illegal', 'The task can compromise balance and safe contact; a suitable platform should be used', 'Ladders are only for painting', 'It improves stability'],
-    correctAnswer: 1,
-    explanation: 'A ladder provides limited support and is unsuitable where force, duration, reach or materials make safe positioning difficult.',
-    siteExample: 'Workers move a heavy valve installation from a ladder to a properly guarded platform.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 35, topic: 'Power Tools',
-    question: 'What should be done before using a portable power tool?',
-    options: ['Check only the switch', 'Inspect condition, guards, cable/plug, suitability and required controls', 'Remove the guard', 'Use it while wet'],
-    correctAnswer: 1,
-    explanation: 'Pre-use checks identify damage and missing safety devices. Defective equipment must be removed from service.',
-    siteExample: 'A worker finds a split cable on a grinder, labels it defective and obtains a safe replacement.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 36, topic: 'Power Tools',
-    question: 'Why must a grinder guard remain fitted?',
-    options: ['It slows work', 'It helps protect against contact and fragments if a disc fails', 'It is only for noise', 'It replaces eye protection'],
-    correctAnswer: 1,
-    explanation: 'The correct guard must be installed and positioned according to the tool and task. Never defeat safety features.',
-    siteExample: 'A cutting disc is installed with the specified guard and the operator uses suitable eye/face protection.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 37, topic: 'Power Tools',
-    question: 'What is the purpose of an RCD on a temporary electrical supply?',
-    options: ['Increase voltage', 'Provide additional protection by disconnecting supply when residual current is detected', 'Replace earthing and inspection', 'Make damaged cables safe'],
-    correctAnswer: 1,
-    explanation: 'An RCD is an additional protective measure; it does not make unsafe equipment acceptable or replace other required protections.',
-    siteExample: 'A temporary site board uses tested RCD protection, and workers still inspect tools and cables before use.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 38, topic: 'Power Tools',
-    question: 'What should happen if a tool vibrates unusually or makes abnormal noise?',
-    options: ['Continue until it fails', 'Stop, isolate and report for competent inspection', 'Hold it tighter', 'Remove its guard'],
-    correctAnswer: 1,
-    explanation: 'Abnormal vibration/noise can indicate damage, incorrect accessories or unsafe operation. Stop and assess.',
-    siteExample: 'A drill begins vibrating; the operator disconnects it and sends it for inspection rather than continuing.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 39, topic: 'Power Tools',
-    question: 'How should tool accessories be selected?',
-    options: ['Any accessory that fits', 'Compatible rating, type, size and condition for the tool and task', 'Use a cracked disc if short duration', 'Modify the accessory to fit'],
-    correctAnswer: 1,
-    explanation: 'Accessories must match manufacturer specifications and be inspected. Incorrect speed ratings or damaged discs can fail dangerously.',
-    siteExample: 'The operator checks the disc rating against the grinder speed and rejects a chipped disc.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 40, topic: 'Power Tools',
-    question: 'What is a safe approach to portable tools in wet conditions?',
-    options: ['Use any tool with bare hands', 'Use equipment and electrical protection suitable for the environment; keep connections dry and reassess', 'Place joints in puddles', 'Bypass the RCD'],
-    correctAnswer: 1,
-    explanation: 'Wet conditions increase shock risk. Select suitable equipment, protect connections, use required RCDs and stop if conditions cannot be controlled.',
-    siteExample: 'After rain, the supervisor relocates temporary connections to a dry protected area and checks equipment before reuse.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 41, topic: 'Formwork',
-    question: 'Who should approve formwork design for a critical pour?',
-    options: ['Any carpenter', 'A competent designer/engineer or authorized person under the project system', 'The concrete truck driver', 'A visitor'],
-    correctAnswer: 1,
-    explanation: 'Formwork and falsework must be designed for expected loads, sequence, stability and supporting conditions by competent personnel.',
-    siteExample: 'Before a large slab pour, the engineer reviews the approved formwork drawings and release documentation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 42, topic: 'Formwork',
-    question: 'What is a major risk during concrete placement?',
-    options: ['Only noise', 'Formwork failure due to pressure, overloading or inadequate support', 'Too much lighting', 'Clean walkways'],
-    correctAnswer: 1,
-    explanation: 'Fresh concrete imposes loads and lateral pressure. Pour rate, sequence, supports and monitoring must follow design.',
-    siteExample: 'The pour supervisor follows the approved sequence and watches for movement or distress in the formwork.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 43, topic: 'Formwork',
-    question: 'What should be checked before a pour?',
-    options: ['Only concrete color', 'Formwork condition, supports, access, reinforcement, embedded items and required release', 'Only truck arrival time', 'Whether workers are wearing matching uniforms'],
-    correctAnswer: 1,
-    explanation: 'A pre-pour check confirms design compliance, stability, access and readiness, with defects corrected before placement.',
-    siteExample: 'The competent team checks props, bracing, ties, access and approved inspection records before authorizing the pour.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 44, topic: 'Formwork',
-    question: 'When may formwork be removed?',
-    options: ['Whenever workers need timber', 'Only when strength and stability criteria and approved striking sequence are met', 'Immediately after finishing', 'When a shift ends'],
-    correctAnswer: 1,
-    explanation: 'Premature striking can cause collapse or structural damage. Follow engineer-approved criteria, sequence and authorization.',
-    siteExample: 'The team waits for the specified strength evidence and written release before removing slab supports.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 45, topic: 'Formwork',
-    question: 'Why must props not be adjusted or removed during a pour without authorization?',
-    options: ['They are decorative', 'They carry designed loads; alteration can cause instability or collapse', 'It improves finish', 'They are spare materials'],
-    correctAnswer: 1,
-    explanation: 'Props and bracing are structural temporary works. Unauthorized changes alter load paths and can trigger failure.',
-    siteExample: 'A worker notices a leaning prop and alerts the pour supervisor; the area is controlled and engineer assesses it.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 46, topic: 'Formwork',
-    question: 'What should be done if formwork bulges or leaks heavily during a pour?',
-    options: ['Stand beneath it', 'Stop/pause placement, clear the danger area and follow emergency engineering response', 'Add more workers to push it', 'Ignore it until curing'],
-    correctAnswer: 1,
-    explanation: 'Movement, bulging or unusual leakage can indicate failure. Protect people, stop loading where safe and obtain competent assessment.',
-    siteExample: 'Concrete placement is paused after movement is seen; workers withdraw from the affected zone and the engineer directs next steps.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 47, topic: 'Permit to Work',
-    question: 'What is a PTW primarily used for?',
-    options: ['Attendance tracking', 'Formal authorization and coordination of specified hazardous work', 'Replacing risk assessment', 'Guaranteeing no incident'],
-    correctAnswer: 1,
-    explanation: 'A PTW confirms defined work, hazards, precautions, isolations, roles, validity and authorization. It is one part of a wider control system.',
-    siteExample: 'A hot-work permit is checked with the JSA, fire controls and area coordination before welding starts.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 48, topic: 'Permit to Work',
-    question: 'Who should issue or authorize a permit?',
-    options: ['Any worker', 'A designated authorized person under the site PTW procedure', 'A visitor', 'The newest team member'],
-    correctAnswer: 1,
-    explanation: 'Permit authority must be assigned, trained and competent under the employer/project system.',
-    siteExample: 'The authorized issuer reviews site conditions and required certificates before signing the permit.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 49, topic: 'Permit to Work',
-    question: 'What should happen when permit conditions change?',
-    options: ['Continue using the original permit without review', 'Stop affected work and review, amend or reissue authorization as required', 'Erase the change', 'Let each worker decide'],
-    correctAnswer: 1,
-    explanation: 'Permits rely on specific conditions and controls. Changed scope, location, hazards or isolations require formal review.',
-    siteExample: 'A nearby operation introduces a new ignition source; the permit is paused and area coordination is repeated.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 50, topic: 'Permit to Work',
-    question: 'Why is isolation verification important before work on equipment?',
-    options: ['It reduces paperwork', 'It confirms hazardous energy is controlled and cannot unexpectedly re-energize', 'A switch label is enough', 'It replaces communication'],
-    correctAnswer: 1,
-    explanation: 'Isolation, lockout and verification prevent unexpected release of electrical, mechanical, pressure or other energy.',
-    siteExample: 'Before maintenance, the team applies locks, proves the equipment is de-energized using the approved method and records the isolation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 51, topic: 'Permit to Work',
-    question: 'What is a permit handback/closeout for?',
-    options: ['To avoid inspection', 'Confirm work completion, people/tools cleared, safeguards restored as authorized and permit closed', 'To increase permit duration', 'To transfer responsibility to security'],
-    correctAnswer: 1,
-    explanation: 'Closeout confirms the job is finished and the plant/work area is safely returned under the procedure.',
-    siteExample: 'After maintenance, the supervisor verifies tools are removed, guards restored and personnel accounted for before formal handback.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 52, topic: 'Permit to Work',
-    question: 'Can a PTW replace a JSA or risk assessment?',
-    options: ['Yes, always', 'No; it authorizes and coordinates work while risk assessment identifies hazards and controls', 'Only at night', 'Only for contractors'],
-    correctAnswer: 1,
-    explanation: 'PTW and risk assessment serve related but different purposes and should be integrated where required.',
-    siteExample: 'The permit references the approved JSA and confirms the listed controls are in place at the worksite.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 53, topic: 'Permit to Work',
-    question: 'What should workers do if they do not understand permit controls?',
-    options: ['Sign anyway', 'Ask the supervisor/issuer for clarification before starting', 'Copy another worker', 'Proceed slowly'],
-    correctAnswer: 1,
-    explanation: 'Workers need to understand the scope, hazards, precautions and stop-work conditions before undertaking the task.',
-    siteExample: 'A new worker asks for clarification about an isolation boundary during the briefing; work waits until the boundary is understood.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 54, topic: 'Permit to Work',
-    question: 'Why is simultaneous operations (SIMOPS) coordination important?',
-    options: ['It increases paperwork only', 'Nearby tasks can create interacting hazards and invalidate controls', 'It removes the need for permits', 'It applies only offshore'],
-    correctAnswer: 1,
-    explanation: 'Concurrent work can introduce ignition, dropped objects, traffic conflicts or energy interactions. Coordination aligns schedules, boundaries and controls.',
-    siteExample: 'A lift above a work area is rescheduled or the lower area evacuated and barricaded after SIMOPS review.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 55, topic: 'Hot & Humid Climate',
-    question: 'What is a common early sign of heat stress?',
-    options: ['Improved concentration', 'Heavy sweating, weakness, headache or dizziness', 'Cold fingers only', 'No change in behavior'],
-    correctAnswer: 1,
-    explanation: 'Heat illness may progress rapidly. Recognize symptoms early, stop exposure, move to a cooler place and seek appropriate response.',
-    siteExample: 'A worker reports dizziness during outdoor work; the supervisor moves them to a cool area and activates the site heat response.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 56, topic: 'Hot & Humid Climate',
-    question: 'What is the purpose of acclimatization?',
-    options: ['Make workers immune to heat', 'Allow gradual adaptation to hot conditions with monitored work exposure', 'Remove need for water', 'Permit unlimited overtime'],
-    correctAnswer: 1,
-    explanation: 'Gradual acclimatization can improve heat tolerance, but workers still need hydration, rest, monitoring and controls.',
-    siteExample: 'A newly assigned outdoor worker follows a planned gradual exposure schedule with supervisor monitoring.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 57, topic: 'Hot & Humid Climate',
-    question: 'What should be available during hot-weather work?',
-    options: ['Only energy drinks', 'Accessible drinking water, suitable rest/shade or cooling and planned work-rest controls', 'No breaks', 'Only a first-aid box'],
-    correctAnswer: 1,
-    explanation: 'Heat controls combine hydration, shade/cooling, scheduling, monitoring and emergency arrangements based on conditions and applicable requirements.',
-    siteExample: 'The site provides drinking water and shaded recovery areas and adjusts strenuous tasks during high heat.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 58, topic: 'Hot & Humid Climate',
-    question: 'What should a coworker do if someone shows confusion or collapses from heat?',
-    options: ['Tell them to finish the task', 'Treat as an emergency, call trained responders, cool the person and follow first-aid protocol', 'Give them a hot drink', 'Leave them alone'],
-    correctAnswer: 1,
-    explanation: 'Confusion or collapse can indicate severe heat illness. Prompt emergency response and active cooling are essential; do not delay for routine reporting.',
-    siteExample: 'A worker collapses; the team raises the alarm, moves them from heat if safe, begins appropriate cooling and arranges emergency medical care.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 59, topic: 'Hot & Humid Climate',
-    question: 'Why is workload monitoring important in hot conditions?',
-    options: ['Heat affects only new workers', 'Physical effort increases heat strain and individual tolerance varies', 'PPE prevents all heat illness', 'Water alone controls every risk'],
-    correctAnswer: 1,
-    explanation: 'Work intensity, clothing, acclimatization, health and environment influence heat strain. Supervisors must monitor and adapt controls.',
-    siteExample: 'A crew performing heavy manual handling is rotated, given recovery breaks and monitored for symptoms.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 60, topic: 'Hot & Humid Climate',
-    question: 'What should be done if required heat controls cannot be maintained?',
-    options: ['Continue because the schedule is fixed', 'Pause or reschedule exposed work and consult the responsible site team', 'Remove shade', 'Ask workers to sign a waiver'],
-    correctAnswer: 1,
-    explanation: 'Work must not proceed when risk controls are inadequate. Apply project and current UAE authority requirements for heat exposure.',
-    siteExample: 'Cooling equipment fails in a work zone; the supervisor suspends exposed tasks until suitable controls are restored.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 61, topic: 'Confined Space',
-    question: 'What defines a confined space for safety planning?',
-    options: ['Any small room', 'A space with restricted entry/exit and potential hazardous atmosphere or other serious hazards, as defined by applicable system', 'Any outdoor area', 'Only a tank'],
-    correctAnswer: 1,
-    explanation: 'Confined-space classification depends on access, configuration and hazards, not size alone. Apply the site definition and entry procedure.',
-    siteExample: 'A tank is assessed for restricted access, residues, oxygen deficiency and rescue challenges before entry is considered.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 62, topic: 'Confined Space',
-    question: 'What must be completed before authorized entry?',
-    options: ['Only a toolbox talk', 'Risk assessment, permit where required, isolation, atmospheric testing and rescue arrangements', 'Start ventilation after entry', 'Send one worker alone'],
-    correctAnswer: 1,
-    explanation: 'Entry controls must be established before entry and maintained during the work, including communication and monitoring as required.',
-    siteExample: 'The entry supervisor verifies isolation, test results, ventilation, attendant, communications and rescue readiness before authorizing entry.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 63, topic: 'Confined Space',
-    question: 'Why is atmospheric testing performed?',
-    options: ['To check paint color', 'To assess oxygen, flammable and toxic atmosphere hazards using suitable instruments', 'To replace isolation', 'Only after entry'],
-    correctAnswer: 1,
-    explanation: 'Atmospheric hazards may be invisible and can change. Testing is performed by competent personnel using calibrated/verified instruments and a defined sequence.',
-    siteExample: 'A trained gas tester checks the tank atmosphere at appropriate levels before entry and monitors as specified.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 64, topic: 'Confined Space',
-    question: 'What is the role of a confined-space attendant?',
-    options: ['Enter whenever someone calls', 'Remain outside, monitor entrants, communicate, raise alarm and prevent unauthorized entry', 'Leave to collect tools', 'Issue medical diagnoses'],
-    correctAnswer: 1,
-    explanation: 'The attendant maintains awareness and communication and initiates the rescue plan without making an unsafe unplanned entry.',
-    siteExample: 'When communication is lost, the attendant raises the alarm and activates the planned rescue response rather than entering alone.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 65, topic: 'Confined Space',
-    question: 'What should happen if gas readings exceed permitted entry criteria?',
-    options: ['Continue with a mask only', 'Do not enter or evacuate as required; investigate and restore safe conditions before reauthorization', 'Ignore one reading', 'Turn off the detector'],
-    correctAnswer: 1,
-    explanation: 'Unsafe or uncertain atmosphere requires entry prevention/evacuation, control of the source, ventilation where appropriate and retesting.',
-    siteExample: 'An alarm occurs during tank cleaning; entrants exit and the entry supervisor suspends the permit pending reassessment.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 66, topic: 'Confined Space',
-    question: 'Why must rescue arrangements be ready before entry?',
-    options: ['Rescue is never needed', 'A casualty may be unable to self-rescue and improvised entry can create multiple victims', 'It is only for paperwork', 'It replaces atmospheric monitoring'],
-    correctAnswer: 1,
-    explanation: 'Confined-space rescue can be complex and time-critical. Equipment, trained responders, communications and retrieval methods must be planned.',
-    siteExample: 'A worker becomes unresponsive; the team uses the planned non-entry retrieval method where suitable and activates trained rescue services.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 67, topic: 'Confined Space',
-    question: 'What is a safe approach to ventilation?',
-    options: ['Use any fan without assessment', 'Select suitable ventilation and monitor atmosphere; prevent introducing new hazards', 'Ventilate only after a casualty', 'Use oxygen to ventilate'],
-    correctAnswer: 1,
-    explanation: 'Ventilation must be appropriate for contaminants, flow paths and equipment classification. Oxygen enrichment is dangerous and not a ventilation method.',
-    siteExample: 'The team uses approved ventilation equipment and verifies atmosphere remains within entry criteria.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 68, topic: 'Confined Space',
-    question: 'Who may authorize confined-space entry?',
-    options: ['Any entrant', 'The designated competent/authorized entry supervisor under the permit system', 'A delivery driver', 'No one if the space looks clean'],
-    correctAnswer: 1,
-    explanation: 'Entry authorization follows the formal procedure and confirms controls, personnel, monitoring and rescue readiness.',
-    siteExample: 'The entry supervisor checks the permit and signs authorization only after all required controls are verified.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 69, topic: 'Working Near Live Road',
-    question: 'What is a key first step before roadside work?',
-    options: ['Start unloading in the traffic lane', 'Approve a traffic management plan and establish controls for the work zone', 'Rely only on workers waving', 'Remove warning signs'],
-    correctAnswer: 1,
-    explanation: 'Roadside work needs planned traffic separation, signs, barriers, visibility, access and coordination with relevant authorities.',
-    siteExample: 'Before utility work beside a live road, the contractor implements the approved traffic plan and checks barriers and taper arrangements.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 70, topic: 'Working Near Live Road',
-    question: 'Why should workers wear high-visibility clothing near traffic?',
-    options: ['For company branding', 'To improve conspicuity to drivers and equipment operators', 'It replaces barriers', 'It prevents vehicle impact'],
-    correctAnswer: 1,
-    explanation: 'High-visibility PPE is a supporting control; it does not replace physical separation, traffic management or safe positioning.',
-    siteExample: 'A survey crew wears suitable high-visibility clothing while working behind approved traffic protection.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 71, topic: 'Working Near Live Road',
-    question: 'What is the purpose of a banksman/traffic marshal?',
-    options: ['Stand in the blind spot', 'Guide movements from a safe visible position using agreed signals and communication', 'Direct traffic without training', 'Use a phone while walking'],
-    correctAnswer: 1,
-    explanation: 'A trained marshal helps manage vehicle movements but must remain outside danger zones and follow the approved plan.',
-    siteExample: 'A delivery vehicle reverses into a controlled site entrance under a trained banksman\'s guidance.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 72, topic: 'Working Near Live Road',
-    question: 'What should be done if traffic barriers are displaced?',
-    options: ['Continue until lunch', 'Stop affected work, protect people and restore the approved traffic arrangement', 'Ask workers to stand in the road', 'Remove remaining signs'],
-    correctAnswer: 1,
-    explanation: 'Displaced barriers may expose workers or road users. Work pauses until the safe work zone is re-established.',
-    siteExample: 'A vehicle hits a barrier; the supervisor suspends roadside activity and arranges safe reinstatement.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 73, topic: 'Working Near Live Road',
-    question: 'How should plant and pedestrians be managed in a roadside work zone?',
-    options: ['Share the same route', 'Provide separation, controlled crossings and clear movement arrangements', 'Use verbal warnings only', 'Allow pedestrians behind reversing trucks'],
-    correctAnswer: 1,
-    explanation: 'Segregation reduces struck-by risk. Routes, reversing controls, visibility and spotters should be planned.',
-    siteExample: 'Pedestrians use a protected walkway while dump trucks follow a one-way route controlled at crossing points.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 74, topic: 'Working Near Live Road',
-    question: 'What should be considered for night roadside work?',
-    options: ['Only brighter phones', 'Lighting, visibility, reflective devices, driver approach, fatigue and approved traffic controls', 'Remove warning lights', 'Wear dark clothing'],
-    correctAnswer: 1,
-    explanation: 'Night work increases visibility and perception challenges. Lighting must illuminate the work without dazzling drivers.',
-    siteExample: 'A night maintenance crew checks that work lights illuminate the task but do not glare into approaching traffic.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 75, topic: 'Concreting',
-    question: 'What is a major hazard from a concrete pump hose?',
-    options: ['Low noise', 'Hose whip, pressure release and struck-by injuries', 'Paper cuts only', 'Sunlight'],
-    correctAnswer: 1,
-    explanation: 'Concrete delivery systems contain pressure and moving hoses. Secure connections, controlled positioning, communication and exclusion zones are essential.',
-    siteExample: 'During a pour, workers stay clear of hose movement and the operator stops pumping before clearing a blockage under procedure.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 76, topic: 'Concreting',
-    question: 'What PPE is important when handling wet concrete?',
-    options: ['Only cloth gloves', 'Suitable waterproof gloves, eye/skin protection, boots and task-specific PPE', 'No PPE if brief', 'Only hearing protection'],
-    correctAnswer: 1,
-    explanation: 'Wet cement can cause chemical burns and eye injury. Prevent contact, wash contamination promptly and follow SDS and site first aid.',
-    siteExample: 'A worker wears suitable gloves and boots and washes cement splashes promptly at the designated washing point.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 77, topic: 'Concreting',
-    question: 'What should be done before clearing a concrete blockage?',
-    options: ['Strike the hose while pressurized', 'Stop and isolate/depressurize using the approved procedure and competent personnel', 'Ask someone to hold the hose', 'Disconnect any coupling immediately'],
-    correctAnswer: 1,
-    explanation: 'Stored pressure can cause sudden release and serious injury. Follow manufacturer and site safe-clearing procedures.',
-    siteExample: 'The pump operator stops the system and the trained team follows the approved pressure-release method before intervention.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 78, topic: 'Concreting',
-    question: 'Why should concrete truck movements be controlled?',
-    options: ['To improve paint quality', 'Vehicles create reversing, collision and pedestrian-strike hazards', 'Drivers always see workers', 'No controls are needed on site'],
-    correctAnswer: 1,
-    explanation: 'Concrete deliveries require designated routes, banksman where needed, pedestrian segregation and safe discharge positioning.',
-    siteExample: 'A banksman guides the truck to the pour location while pedestrians remain outside the vehicle movement zone.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 79, topic: 'Concreting',
-    question: 'What should workers do after wet concrete contacts skin or eyes?',
-    options: ['Wait until shift ends', 'Use immediate washing/eyewash and seek medical assessment according to exposure and site procedure', 'Rub the area', 'Cover it with dry cement'],
-    correctAnswer: 1,
-    explanation: 'Wet cement is alkaline and can cause burns. Prompt decontamination and medical evaluation reduce injury severity.',
-    siteExample: 'A splash to the eye is flushed immediately at the eyewash station and reported for urgent medical assessment.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 80, topic: 'Barricading',
-    question: 'What is the purpose of a physical barricade?',
-    options: ['Decorate the site', 'Prevent or control access to a hazardous area', 'Replace every other control', 'Mark a storage preference only'],
-    correctAnswer: 1,
-    explanation: 'Barricades establish boundaries and keep people away from hazards; type and strength must suit the risk.',
-    siteExample: 'An excavation is protected with suitable rigid barriers and warning signs to prevent pedestrian entry.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 81, topic: 'Barricading',
-    question: 'When is a barricade required around a floor opening?',
-    options: ['Only after someone falls', 'Before exposure, with a secured cover or suitable guard and clear identification', 'Only during audits', 'Never if the opening is small'],
-    correctAnswer: 1,
-    explanation: 'Openings can cause falls and dropped objects. Effective covers/guardrails and access control are required before work exposes people.',
-    siteExample: 'A temporary service opening is covered with a secured load-rated cover and marked before the area is released.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 82, topic: 'Barricading',
-    question: 'What should be done if a barricade must be temporarily removed?',
-    options: ['Remove it and forget it', 'Authorize, control the exposure, provide alternative protection and promptly reinstate it', 'Leave the area open', 'Ask passersby to be careful'],
-    correctAnswer: 1,
-    explanation: 'Temporary removal creates an exposure and needs controlled access, supervision and restoration.',
-    siteExample: 'A delivery requires barrier access; a spotter controls entry and the barrier is reinstated immediately after the lift.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 83, topic: 'Barricading',
-    question: 'Why are warning signs used with barricades?',
-    options: ['They replace barriers', 'They communicate hazard and restriction, supplementing physical access control', 'They guarantee compliance', 'They are only for visitors'],
-    correctAnswer: 1,
-    explanation: 'Signs help people understand the hazard and required action, but cannot physically prevent entry by themselves.',
-    siteExample: 'A restricted lifting zone uses barriers plus signs stating suspended-load exclusion and authorized access only.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 84, topic: 'Barricading',
-    question: 'Who may enter a restricted hazardous area?',
-    options: ['Anyone who is curious', 'Only authorized persons who understand and follow required controls', 'Visitors without escort', 'Workers taking shortcuts'],
-    correctAnswer: 1,
-    explanation: 'Access should be limited to people with a work need, authorization and suitable briefing/PPE.',
-    siteExample: 'Only the assigned crew enters the energized testing boundary under the controlled procedure.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 85, topic: 'Worker Welfare',
-    question: 'What is an essential drinking-water provision for workers?',
-    options: ['Water kept far from work and inaccessible', 'Potable water that is accessible and protected from contamination', 'Unlabelled industrial water', 'No water during hot work'],
-    correctAnswer: 1,
-    explanation: 'Workers need safe drinking water available in suitable locations. Water quality and containers should be maintained.',
-    siteExample: 'Outdoor crews have accessible potable water points and supervisors check replenishment during hot weather.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 86, topic: 'Worker Welfare',
-    question: 'Why must sanitary facilities be maintained?',
-    options: ['For appearance only', 'To protect hygiene, dignity and health through clean, serviced facilities', 'To replace handwashing', 'Only for office staff'],
-    correctAnswer: 1,
-    explanation: 'Suitable toilets, handwashing and cleaning arrangements support worker health and welfare; provision must meet applicable requirements.',
-    siteExample: 'The welfare inspection finds a facility out of service; it is repaired or an adequate alternative is provided promptly.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 87, topic: 'Worker Welfare',
-    question: 'Where should workers take meals and rest?',
-    options: ['Beside chemicals', 'In a safe designated clean area away from operational hazards', 'Inside a confined space', 'Under suspended loads'],
-    correctAnswer: 1,
-    explanation: 'Rest and eating areas should be hygienic and separated from dust, chemicals, traffic and active work hazards.',
-    siteExample: 'The contractor provides shaded clean break areas away from vehicle routes and material storage.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 88, topic: 'Worker Welfare',
-    question: 'What should be ensured in worker accommodation?',
-    options: ['Blocked exits to control access', 'Clear emergency exits, safe services, hygiene and emergency arrangements', 'Overloaded electrical sockets', 'Locked exits during occupancy'],
-    correctAnswer: 1,
-    explanation: 'Accommodation safety includes fire precautions, unobstructed escape, electrical safety, sanitation and emergency readiness.',
-    siteExample: 'A welfare inspection identifies an obstructed exit and requires immediate clearance and follow-up.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 89, topic: 'Worker Welfare',
-    question: 'What if drinking water is suspected to be contaminated?',
-    options: ['Continue using it', 'Stop use, provide safe alternative water and report for investigation', 'Add chemicals without authorization', 'Tell workers not to complain'],
-    correctAnswer: 1,
-    explanation: 'Potentially unsafe water must be removed from use while quality is investigated and safe supply maintained.',
-    siteExample: 'Workers report unusual water odor; the supply is isolated, bottled potable water is provided and responsible personnel investigate.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 90, topic: 'MEWP',
-    question: 'What should be checked before operating a MEWP?',
-    options: ['Only fuel level', 'Pre-use inspection, emergency lowering, controls, alarms, tires and safety devices', 'Only platform paint', 'Whether the operator can reach the controls'],
-    correctAnswer: 1,
-    explanation: 'Pre-use checks confirm the machine is serviceable and emergency functions work. Defects must be reported and equipment not used until safe.',
-    siteExample: 'The operator tests ground controls and emergency lowering during the documented pre-use check.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 91, topic: 'MEWP',
-    question: 'Who may operate a MEWP?',
-    options: ['Any worker who has driven a car', 'A trained, competent, authorized operator familiarized with the specific machine', 'A visitor', 'A worker standing on the ground without training'],
-    correctAnswer: 1,
-    explanation: 'Operators need appropriate training, practical competence, authorization and familiarization with the model and site conditions.',
-    siteExample: 'The supervisor verifies the operator\'s credentials and machine-specific familiarization before assigning the task.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 92, topic: 'MEWP',
-    question: 'What ground conditions must be assessed?',
-    options: ['Only color of soil', 'Bearing capacity, slope, voids, trenches, covers and travel route', 'Only weather forecast', 'Nothing if outriggers exist'],
-    correctAnswer: 1,
-    explanation: 'MEWP stability depends on ground strength and geometry. Outriggers or wheels must be supported as specified.',
-    siteExample: 'Before positioning near an excavation, the team checks ground capacity and maintains the required safe separation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 93, topic: 'MEWP',
-    question: 'How should workers behave on a boom-type MEWP platform?',
-    options: ['Climb guardrails for extra reach', 'Stay within platform limits and use required fall protection as specified; never climb rails', 'Stand on boxes', 'Exceed rated capacity briefly'],
-    correctAnswer: 1,
-    explanation: 'Platform capacity and manufacturer instructions must be followed. Fall protection requirements depend on equipment type and site rules.',
-    siteExample: 'The operator keeps both feet on the platform floor, uses the designated anchor point where required and does not lean outside rails.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 94, topic: 'MEWP',
-    question: 'What must be planned for MEWP emergency?',
-    options: ['Wait for the battery to die', 'A practical ground/emergency lowering and rescue method with trained people', 'Call the operator only', 'Use a crane hook improvised onsite'],
-    correctAnswer: 1,
-    explanation: 'A person at ground level must know how to operate emergency controls and activate the response plan.',
-    siteExample: 'A ground worker is briefed on emergency lowering before the MEWP raises personnel.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 95, topic: 'MEWP',
-    question: 'What is the safe approach near overhead power lines?',
-    options: ['Assume rubber tires make it safe', 'Identify lines, consult the responsible authority and establish required clearances/exclusion controls', 'Touch the line to test voltage', 'Use a metal pole to move it'],
-    correctAnswer: 1,
-    explanation: 'Overhead lines can cause fatal electric shock or arcing. Work planning must establish voltage, clearance, barriers and authorized controls.',
-    siteExample: 'The MEWP route is changed and an exclusion zone is set after the utility owner confirms line conditions.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 96, topic: 'Electrical Safety',
-    question: 'What is required before working on electrical equipment?',
-    options: ['Switch off and assume safe', 'Isolate, lock/tag as required and verify absence of voltage using an approved method', 'Ask a coworker to watch', 'Wear gloves only'],
-    correctAnswer: 1,
-    explanation: 'Lockout/tagout and test-before-touch controls prevent unexpected energization. Verification must be performed by competent authorized personnel.',
-    siteExample: 'An electrician isolates the circuit, applies personal locks and proves dead with an approved tester before work.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 97, topic: 'Electrical Safety',
-    question: 'What does an RCD do?',
-    options: ['Guarantees equipment is safe', 'Detects residual current imbalance and disconnects supply as additional protection', 'Replaces protective earthing', 'Repairs damaged insulation'],
-    correctAnswer: 1,
-    explanation: 'An RCD is supplementary protection and does not replace proper equipment condition, earthing, isolation or safe work practices.',
-    siteExample: 'A site distribution board includes tested RCD protection; damaged tools are still removed from service.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 98, topic: 'Electrical Safety',
-    question: 'What should be done with a damaged electrical cable?',
-    options: ['Wrap it with tape and continue', 'Remove it from service, isolate if safe and report for repair/replacement by competent personnel', 'Put it under a mat', 'Use it only in daylight'],
-    correctAnswer: 1,
-    explanation: 'Damaged insulation creates shock, fire and short-circuit risks. Temporary improvised repairs are not an acceptable substitute for approved repair.',
-    siteExample: 'A worker finds exposed conductors, stops use and tags the lead out for replacement.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 99, topic: 'Electrical Safety',
-    question: 'What is the purpose of protective earthing?',
-    options: ['Increase appliance speed', 'Provide a fault-current path to help protective devices disconnect supply', 'Prevent all electrical hazards', 'Replace insulation'],
-    correctAnswer: 1,
-    explanation: 'Protective earthing supports fault protection by providing a low-impedance path, used with correctly designed protective devices.',
-    siteExample: 'A portable tool\'s protective conductor and plug are inspected as part of the site electrical safety system.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 100, topic: 'Electrical Safety',
-    question: 'Who should perform electrical installation or repair work?',
-    options: ['Any experienced laborer', 'Competent authorized electrical personnel within their scope', 'A cleaner', 'A visitor'],
-    correctAnswer: 1,
-    explanation: 'Electrical tasks require suitable competence, authorization, isolation and compliance with applicable procedures.',
-    siteExample: 'A site supervisor assigns distribution-board repair to an authorized electrician, not an unqualified helper.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 101, topic: 'Electrical Safety',
-    question: 'What is important for temporary distribution boards?',
-    options: ['Leave them open in rain', 'Suitable enclosure, protection, secure positioning, inspection and controlled access', 'Allow exposed live parts', 'Stack materials against them'],
-    correctAnswer: 1,
-    explanation: 'Temporary boards must be protected from weather, impact and unauthorized access, with circuits and protective devices maintained.',
-    siteExample: 'The site electrician secures a weather-suitable board on a stable stand and keeps access clear for inspection.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 102, topic: 'Electrical Safety',
-    question: 'What is the safe first response to electric shock?',
-    options: ['Touch the casualty immediately', 'Do not touch until electrical source is made safe; raise alarm and provide trained first aid/CPR as appropriate', 'Pour water on the equipment', 'Move the cable with bare hands'],
-    correctAnswer: 1,
-    explanation: 'Rescuers must avoid becoming victims. Isolate power safely, call emergency response and provide first aid only when the scene is safe.',
-    siteExample: 'A worker receives a shock; the team isolates supply, calls emergency services and trained responders begin care after confirming safety.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 103, topic: 'Temporary Works',
-    question: 'Who should be responsible for temporary works design?',
-    options: ['Anyone available', 'A competent designer with defined review and approval responsibilities', 'The material supplier alone', 'A worker selected randomly'],
-    correctAnswer: 1,
-    explanation: 'Temporary works must be designed and managed for loads, sequence, stability, interfaces and site conditions by competent personnel.',
-    siteExample: 'An engineer reviews the temporary access platform design and confirms the required loading and support conditions.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 104, topic: 'Temporary Works',
-    question: 'When should temporary works be inspected?',
-    options: ['Only after dismantling', 'At required hold points and after alteration, impact or conditions affecting safety', 'Only once at delivery', 'Never if painted'],
-    correctAnswer: 1,
-    explanation: 'Inspection stages are defined by the temporary works procedure and risk; changes and events may require reassessment.',
-    siteExample: 'After a storm, the responsible person inspects the temporary support before work resumes.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 105, topic: 'Temporary Works',
-    question: 'What should happen if a brace is removed without approval?',
-    options: ['Continue if it looks stable', 'Stop affected work, secure the area and obtain competent review before any change or re-entry', 'Remove more braces', 'Hide the change'],
-    correctAnswer: 1,
-    explanation: 'Bracing is part of the designed stability system. Unauthorized removal can cause progressive failure.',
-    siteExample: 'The supervisor finds a missing brace, isolates the area and asks the temporary works coordinator to assess and restore the approved arrangement.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 106, topic: 'Temporary Works',
-    question: 'How should temporary works loading be controlled?',
-    options: ['Allow any stored materials', 'Keep loads, sequence and use within approved design limits', 'Use as a general storage area', 'Ignore dynamic loads'],
-    correctAnswer: 1,
-    explanation: 'Loads from people, materials, equipment, impact and construction sequence must be considered and controlled.',
-    siteExample: 'The site limits material stacks on a temporary platform to the approved loading plan.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 107, topic: 'Temporary Works',
-    question: 'Why is a temporary works register useful?',
-    options: ['It replaces design', 'It tracks temporary works, status, responsible persons, inspections and release points', 'It is only for finance', 'It permits undocumented changes'],
-    correctAnswer: 1,
-    explanation: 'A register supports visibility and coordination of temporary structures from design through use and dismantling.',
-    siteExample: 'The coordinator updates the register with design reference, inspection status and release date for a support system.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 108, topic: 'Temporary Works',
-    question: 'When may temporary supports be dismantled?',
-    options: ['When convenient', 'After approved strength/stability criteria and sequence are confirmed and authorized', 'As soon as concrete looks dry', 'When a worker requests timber'],
-    correctAnswer: 1,
-    explanation: 'Premature removal can cause collapse or permanent-works damage. Follow engineer-approved striking criteria and sequence.',
-    siteExample: 'The team waits for specified strength evidence and formal release before removing slab props.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 109, topic: 'Manual Handling',
-    question: 'What should be assessed before manual lifting?',
-    options: ['Only the object\'s color', 'Load, task, individual capability and environment, including route and frequency', 'Only worker age', 'Nothing for short lifts'],
-    correctAnswer: 1,
-    explanation: 'Manual handling risk depends on load weight and shape, posture, repetition, distance, environment and worker capability.',
-    siteExample: 'A supervisor checks a heavy pump component, route and team capability before deciding on a mechanical aid.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 110, topic: 'Manual Handling',
-    question: 'What is a safer lifting technique?',
-    options: ['Twist while lifting', 'Plan the route, keep the load close, use a stable stance and avoid twisting', 'Lift with arms fully extended', 'Move quickly to reduce exposure'],
-    correctAnswer: 1,
-    explanation: 'Good technique reduces awkward posture but does not make an unsuitable load safe; redesign or mechanical assistance may be needed.',
-    siteExample: 'A worker positions close to a manageable box, faces the travel direction and turns with the feet rather than twisting the back.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 111, topic: 'Manual Handling',
-    question: 'When should mechanical handling aids be considered?',
-    options: ['Only after an injury', 'For heavy, bulky, repetitive or awkward loads where practicable', 'Never on construction sites', 'Only for office furniture'],
-    correctAnswer: 1,
-    explanation: 'Mechanical aids reduce physical strain and should be considered during task planning, with routes and operator competence checked.',
-    siteExample: 'A trolley or hoist is arranged to move repeated material deliveries instead of carrying each load manually.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 112, topic: 'Manual Handling',
-    question: 'What is important during a team lift?',
-    options: ['No coordination needed', 'Agree roles, route, commands and synchronized movement before lifting', 'One person changes direction without warning', 'Lift beyond individual capability'],
-    correctAnswer: 1,
-    explanation: 'Team lifts require communication and coordination; if load or route is unsuitable, use a mechanical aid or revise the plan.',
-    siteExample: 'Two workers agree a lift command and clear route before moving a long item through a site corridor.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 113, topic: 'Manual Handling',
-    question: 'What should a worker do after developing back pain during lifting?',
-    options: ['Continue to meet target', 'Stop or modify the task, report symptoms and seek appropriate assessment', 'Hide the pain', 'Take another heavy load'],
-    correctAnswer: 1,
-    explanation: 'Early reporting helps prevent worsening injury and supports review of task design and controls.',
-    siteExample: 'A worker reports pain; the supervisor arranges assessment and reviews the handling method before reassignment.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 114, topic: 'Hot Work',
-    question: 'What should be in place before hot work begins?',
-    options: ['Only welding machine', 'Authorized permit/risk controls, area check, fire precautions and required isolations', 'No inspection if outdoors', 'A verbal promise'],
-    correctAnswer: 1,
-    explanation: 'Hot work requires control of ignition sources, combustibles, atmosphere where relevant, fire protection and authorization.',
-    siteExample: 'Before cutting, the team checks the permit, removes or shields combustibles, confirms extinguishers and assigns a fire watch.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 115, topic: 'Hot Work',
-    question: 'What is the fire watch\'s role?',
-    options: ['Perform unrelated tasks', 'Monitor for ignition during and after work, maintain firefighting readiness and raise alarm', 'Leave when welding stops', 'Approve electrical design'],
-    correctAnswer: 1,
-    explanation: 'A fire watch remains attentive, understands alarm arrangements and observes the work area for smoldering or fire as required by the permit.',
-    siteExample: 'After welding near stored materials, the fire watch checks adjacent and concealed areas during the required post-work period.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 116, topic: 'Hot Work',
-    question: 'What should be done with combustible materials near hot work?',
-    options: ['Leave them in place', 'Remove them or protect them with suitable non-combustible shielding', 'Cover with paper', 'Move them under the welding table'],
-    correctAnswer: 1,
-    explanation: 'Sparks and heat can ignite materials at a distance or through openings. Protect nearby and opposite-side areas.',
-    siteExample: 'The crew removes packaging and shields nearby openings before grinding begins.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 117, topic: 'Hot Work',
-    question: 'How should oxygen cylinders and fittings be treated?',
-    options: ['Lubricate with oil', 'Keep clean and free of oil/grease, secure cylinders and use suitable equipment', 'Store loose near heat', 'Use damaged regulators'],
-    correctAnswer: 1,
-    explanation: 'Oxygen accelerates combustion; oil or grease can ignite violently. Cylinders must be secured and handled according to supplier and site rules.',
-    siteExample: 'The gas store rejects a contaminated regulator and secures cylinders upright in the designated ventilated area.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 118, topic: 'Hot Work',
-    question: 'What is required for hot work inside a confined space?',
-    options: ['Hot-work permit only', 'Coordinate hot-work controls with confined-space entry, atmosphere, ventilation, isolation and rescue requirements', 'Use oxygen for ventilation', 'Allow unmonitored entry'],
-    correctAnswer: 1,
-    explanation: 'Hot work adds ignition, fume and oxygen-consumption hazards to confined-space risks. Both control systems must be integrated.',
-    siteExample: 'A tank welding task is not released until entry authorization, gas testing, ventilation, fire controls and rescue readiness are verified.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 119, topic: 'Hot Work',
-    question: 'How should welding fumes be controlled?',
-    options: ['Ignore if outdoors', 'Use suitable local exhaust/ventilation and respiratory protection based on assessment', 'Stand in the plume', 'Use a fan that spreads fumes to others'],
-    correctAnswer: 1,
-    explanation: 'Welding fumes can contain hazardous metals and gases. Control at source where practicable and select PPE from the assessment.',
-    siteExample: 'A welder uses local extraction and the supervisor checks ventilation effectiveness and required respiratory protection.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 120, topic: 'Hot Work',
-    question: 'What is a proper hot-work closeout?',
-    options: ['Leave slag and cylinders', 'Stop equipment, inspect for fire, maintain required fire watch, remove hazards and close permit formally', 'Leave the permit open indefinitely', 'Allow others to enter immediately'],
-    correctAnswer: 1,
-    explanation: 'Closeout verifies the area is safe after work and any required fire watch/monitoring is completed before permit closure.',
-    siteExample: 'After cutting, the fire watch checks the work area and adjacent spaces, and the permit issuer completes handback.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 121, topic: 'Lifting & Rigging',
-    question: 'What should a lifting plan address?',
-    options: ['Only crane color', 'Load weight, radius, equipment capacity, rigging, ground, route, people and communication', 'Only operator name', 'No weather conditions'],
-    correctAnswer: 1,
-    explanation: 'A lift plan coordinates equipment selection, load characteristics, rigging, ground bearing, exclusion zones and task interfaces.',
-    siteExample: 'Before lifting a generator, the team verifies weight, crane chart at planned radius, sling arrangement and ground support.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 122, topic: 'Lifting & Rigging',
-    question: 'What does sling WLL/SWL indicate?',
-    options: ['Unlimited strength', 'Rated capacity under stated conditions and configuration', 'The weight of the sling only', 'Permission to use damaged slings'],
-    correctAnswer: 1,
-    explanation: 'Rigging capacity depends on rating, angle, hitch, condition and configuration. Follow manufacturer markings and the lift plan.',
-    siteExample: 'The rigger checks sling identification and capacity for the planned hitch and angle before attaching the load.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 123, topic: 'Lifting & Rigging',
-    question: 'What should be done with a damaged or unidentified sling?',
-    options: ['Use for a light load', 'Remove from service and report for competent inspection/disposal', 'Tie a knot in it', 'Paint over the tag'],
-    correctAnswer: 1,
-    explanation: 'Damage or missing identification prevents reliable capacity verification and may indicate failure risk.',
-    siteExample: 'A sling with cut fibers and unreadable tag is quarantined and replaced with a verified item.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 124, topic: 'Lifting & Rigging',
-    question: 'Where should a banksman stand during a lift?',
-    options: ['Under the load', 'In a safe position with clear view/communication, outside the danger zone', 'Between load and fixed object', 'On the crane hook'],
-    correctAnswer: 1,
-    explanation: 'The banksman must avoid crush zones and maintain agreed signals or radio communication with the operator.',
-    siteExample: 'The banksman guides the crane from a protected location and stops the lift if visibility or communication is lost.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 125, topic: 'Lifting & Rigging',
-    question: 'What is the rule for people beneath suspended loads?',
-    options: ['Allowed with hard hats', 'Keep people out of the suspended-load exclusion zone', 'Allowed for short periods', 'Only supervisors may stand there'],
-    correctAnswer: 1,
-    explanation: 'A dropped or shifting load can be fatal. Establish and enforce an exclusion zone and never pass loads over people where avoidable.',
-    siteExample: 'Barricades keep workers clear while a steel beam is hoisted into position.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 126, topic: 'Lifting & Rigging',
-    question: 'What must be assessed for crane outrigger placement?',
-    options: ['Only distance to office', 'Ground bearing capacity, underground voids/services, edge distance and matting requirements', 'Only paint markings', 'Whether the operator is confident'],
-    correctAnswer: 1,
-    explanation: 'Crane stability depends on ground support and outrigger reactions. Competent planning and suitable mats/spreaders are required as designed.',
-    siteExample: 'Before setup near a trench, the lift team checks ground capacity and positions outriggers per the approved plan.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 127, topic: 'Risk Assessment & JSA',
-    question: 'What is a hazard?',
-    options: ['The likelihood of harm', 'A source or situation with potential to cause injury, ill health or damage', 'A completed permit', 'A safety score'],
-    correctAnswer: 1,
-    explanation: 'A hazard is the potential source of harm; risk considers likelihood and consequence in the context of exposure and controls.',
-    siteExample: 'An unguarded rotating shaft is identified as a hazard; entanglement is a potential consequence.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 128, topic: 'Risk Assessment & JSA',
-    question: 'Which control is generally preferred in the hierarchy?',
-    options: ['PPE', 'Elimination of the hazard', 'Warning signs only', 'Administrative reminder'],
-    correctAnswer: 1,
-    explanation: 'Elimination removes the hazard and is preferred where reasonably practicable; lower-level controls are used when needed.',
-    siteExample: 'The team assembles a component at ground level to eliminate the need for repeated work at height.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 129, topic: 'Risk Assessment & JSA',
-    question: 'What does a Job Safety Analysis (JSA) typically contain?',
-    options: ['Only worker names', 'Job steps, hazards, consequences and task-specific controls', 'Only final score', 'A list of company holidays'],
-    correctAnswer: 1,
-    explanation: 'A JSA breaks work into steps and links each step to hazards and controls so the crew can understand the safe method.',
-    siteExample: 'A pipe installation JSA covers unloading, lifting, alignment, bolting and testing, with controls for each stage.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 130, topic: 'Risk Assessment & JSA',
-    question: 'What is residual risk?',
-    options: ['Risk before any controls', 'Risk remaining after selected controls are implemented', 'A risk that can be ignored', 'Only financial cost'],
-    correctAnswer: 1,
-    explanation: 'Residual risk is reassessed after controls. If unacceptable, add controls or change the method before proceeding.',
-    siteExample: 'After installing edge protection, the team reassesses remaining fall risk and confirms access and supervision controls.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 131, topic: 'Risk Assessment & JSA',
-    question: 'What should happen if wind causes a suspended load to swing?',
-    options: ['Continue faster', 'Stop the lift safely, clear people and reassess conditions and controls', 'Stand under the load to steady it', 'Increase load radius without review'],
-    correctAnswer: 1,
-    explanation: 'Dynamic conditions can make the lift unsafe. Pause and follow the lift plan\'s stop-work and recovery method.',
-    siteExample: 'The banksman signals stop when a panel swings; the crane operator stabilizes it and the lift supervisor reviews wind and control measures.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 132, topic: 'Risk Assessment & JSA',
-    question: 'When should a risk assessment be reviewed?',
-    options: ['Only once per year regardless of change', 'When tasks, conditions, equipment, personnel or incident findings change, and at planned review points', 'Only after a client asks', 'Never after a near miss'],
-    correctAnswer: 1,
-    explanation: 'Risk assessments must remain suitable and sufficient as conditions change; incidents and near misses can reveal control gaps.',
-    siteExample: 'A near miss during material unloading prompts review of the JSA, vehicle route and pedestrian segregation.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 133, topic: 'Fire & Emergency',
-    question: 'What are the three elements of the fire triangle?',
-    options: ['Water, smoke, ash', 'Heat, fuel and oxygen', 'Wind, dust and sound', 'Metal, glass and air'],
-    correctAnswer: 1,
-    explanation: 'Fire requires heat, fuel and oxygen; removing or controlling one element can prevent or extinguish combustion when appropriate.',
-    siteExample: 'The site removes combustible waste and controls ignition sources to reduce fire potential.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 134, topic: 'Fire & Emergency',
-    question: 'What is appropriate for an energized electrical fire?',
-    options: ['Water jet', 'Raise alarm, use a suitable rated extinguisher only if trained and safe, and isolate power if safe', 'Touch the panel', 'Ignore the alarm'],
-    correctAnswer: 1,
-    explanation: 'Electrical fires require suitable extinguishing media and safe isolation. Evacuate and call responders if the fire is not immediately controllable.',
-    siteExample: 'A small electrical panel fire triggers alarm; a trained person uses suitable equipment only if escape remains safe.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 135, topic: 'Fire & Emergency',
-    question: 'What should workers do when the site alarm sounds?',
-    options: ['Finish the task first', 'Stop safely, follow evacuation route and proceed to designated assembly point', 'Hide in a storage room', 'Return for personal belongings'],
-    correctAnswer: 1,
-    explanation: 'Emergency procedures require prompt evacuation by safe routes and following instructions from wardens/responders.',
-    siteExample: 'Workers leave the workface by the marked route and report to the assembly point.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 136, topic: 'Fire & Emergency',
-    question: 'Why is accountability at the assembly point important?',
-    options: ['To delay rescue', 'To identify missing persons and provide reliable information to responders', 'To record production', 'To permit early re-entry'],
-    correctAnswer: 1,
-    explanation: 'Roll call or other accountability helps responders locate potentially missing people. No one should re-enter without authorization.',
-    siteExample: 'The supervisor checks the crew list and reports a missing worker\'s last known location to incident command.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 137, topic: 'Fire & Emergency',
-    question: 'What should be done if smoke is detected in a confined space?',
-    options: ['Enter immediately without equipment', 'Raise alarm, prevent unauthorized entry and activate the planned emergency response', 'Send another worker to look', 'Switch off all communications'],
-    correctAnswer: 1,
-    explanation: 'Unplanned rescue entry can create multiple casualties. Use trained rescue teams and the established plan.',
-    siteExample: 'The attendant alarms responders and keeps others out while trained rescue personnel prepare the planned retrieval.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 138, topic: 'Fire & Emergency',
-    question: 'What supports effective emergency preparedness?',
-    options: ['A plan kept unknown to workers', 'Current plans, trained roles, communications, suitable equipment and drills', 'Only an emergency phone number', 'No practice'],
-    correctAnswer: 1,
-    explanation: 'Preparedness requires arrangements that are communicated, resourced, practiced and reviewed after changes or drills.',
-    siteExample: 'A site conducts an evacuation drill, records timing and observations, and closes corrective actions.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 139, topic: 'Incident Investigation',
-    question: 'What is the first priority after an incident?',
-    options: ['Collect blame statements', 'Protect people, provide emergency response and prevent further harm', 'Resume production', 'Delete records'],
-    correctAnswer: 1,
-    explanation: 'Immediate response prioritizes life safety, first aid/emergency services, scene control and preventing secondary incidents.',
-    siteExample: 'After a fall, the supervisor secures the area, activates emergency response and prevents others entering the hazard zone.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 140, topic: 'Incident Investigation',
-    question: 'Why should near misses be reported?',
-    options: ['They have no value', 'They reveal hazards and control weaknesses before injury occurs', 'Only to punish workers', 'Only if equipment is damaged'],
-    correctAnswer: 1,
-    explanation: 'Near-miss reporting enables learning and preventive action even when no injury occurred.',
-    siteExample: 'A dropped tool with no injury leads to review of tool tethering and exclusion-zone controls.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 141, topic: 'Incident Investigation',
-    question: 'What is useful evidence in an investigation?',
-    options: ['Rumors', 'Factual observations, records, photos where appropriate and witness accounts, collected safely', 'Edited messages only', 'Assumptions about intent'],
-    correctAnswer: 1,
-    explanation: 'Evidence should be factual, relevant, preserved appropriately and handled with respect for privacy and site procedures.',
-    siteExample: 'Investigators record equipment condition, permit/JSA versions and witness accounts without altering the scene unnecessarily.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 142, topic: 'Incident Investigation',
-    question: 'What is root cause analysis intended to identify?',
-    options: ['Only the person closest to event', 'Underlying task, equipment, system and management factors that allowed the event', 'A quick label', 'A way to avoid corrective action'],
-    correctAnswer: 1,
-    explanation: 'Root cause analysis looks beyond immediate acts to contributing conditions and system weaknesses so actions prevent recurrence.',
-    siteExample: 'A dropped load investigation examines rigging selection, planning, supervision and equipment inspection rather than stopping at \'operator error\'.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 143, topic: 'Incident Investigation',
-    question: 'What makes a corrective action effective?',
-    options: ['No owner or deadline', 'Defined owner, due date, risk-based action and verification of effectiveness', 'A verbal promise', 'Closing the report immediately'],
-    correctAnswer: 1,
-    explanation: 'Actions need accountability and follow-up to confirm the control works and recurrence risk is reduced.',
-    siteExample: 'The project assigns an engineer to install a physical barrier by a due date and verifies it during a follow-up inspection.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 144, topic: 'Incident Investigation',
-    question: 'How should lessons learned be shared?',
-    options: ['Publish personal details widely', 'Share verified relevant findings and controls while protecting personal information', 'Hide all findings', 'Blame a named worker'],
-    correctAnswer: 1,
-    explanation: 'Lessons should be accurate, practical and communicated to relevant teams without unnecessary personal data.',
-    siteExample: 'A site briefing shares the revised lifting-zone control after a near miss, without circulating private medical information.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 145, topic: 'PPE, Training & Competency',
-    question: 'How should PPE be selected?',
-    options: ['By color preference', 'Based on risk assessment, task, fit, compatibility and applicable requirements', 'Use the same PPE for every hazard', 'Choose the cheapest item only'],
-    correctAnswer: 1,
-    explanation: 'PPE is a last line of defense and must be suitable, compatible, maintained and correctly worn; higher-level controls remain necessary.',
-    siteExample: 'A worker handling wet concrete receives suitable gloves, eye protection and boots based on the task assessment.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 146, topic: 'PPE, Training & Competency',
-    question: 'What should be done with a damaged safety harness?',
-    options: ['Continue until next inspection', 'Remove it from service and replace or manage under competent inspection procedure', 'Tie a knot in the webbing', 'Share it with another worker'],
-    correctAnswer: 1,
-    explanation: 'Fall-protection equipment with damage or uncertain history must not be used; inspection and traceability follow manufacturer and site requirements.',
-    siteExample: 'A harness with damaged stitching is tagged out and replaced before the worker resumes the task.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 147, topic: 'PPE, Training & Competency',
-    question: 'What should site induction cover?',
-    options: ['Only payroll', 'Site hazards, emergency arrangements, rules, reporting and relevant access requirements', 'Only company history', 'No worker questions'],
-    correctAnswer: 1,
-    explanation: 'Induction gives workers essential site-specific information and should be understood, recorded and refreshed when needed.',
-    siteExample: 'A new subcontractor receives induction on traffic routes, emergency assembly point, PPE, permit rules and hazard reporting.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 148, topic: 'PPE, Training & Competency',
-    question: 'What is required for a MEWP operator?',
-    options: ['A general driving license alone', 'Task-specific training, competence, machine familiarization and site authorization', 'Only a toolbox talk', 'No verification'],
-    correctAnswer: 1,
-    explanation: 'MEWP operation requires evidence of competence for the equipment and conditions, plus familiarization and authorization under site rules.',
-    siteExample: 'Before use, the supervisor verifies the operator\'s training and checks familiarization with the particular model\'s emergency controls.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 149, topic: 'PPE, Training & Competency',
-    question: 'What is the purpose of a toolbox talk?',
-    options: ['Replace the JSA', 'Brief the crew on task hazards, controls, changes and stop-work expectations', 'Guarantee no incidents', 'Record attendance only'],
-    correctAnswer: 1,
-    explanation: 'Toolbox talks communicate the safe method and allow workers to raise concerns; they supplement formal assessments and permits.',
-    siteExample: 'Before a lift, the supervisor reviews load path, exclusion zone, signals, weather and stop-work triggers with the crew.',
-  ),
-  AbuDhabiHseQuestion(
-    id: 150, topic: 'PPE, Training & Competency',
-    question: 'How can training effectiveness be verified?',
-    options: ['Attendance signature only', 'Knowledge checks, practical observation and reassessment where appropriate', 'Assume everyone understood', 'Count posters'],
-    correctAnswer: 1,
-    explanation: 'Attendance records show participation but not necessarily competence. Verification should match the skill and risk.',
-    siteExample: 'After a practical fire-extinguisher session, the trainer observes each participant demonstrate safe use and corrects gaps.',
-  ),
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel1Questions = [
+  AbuDhabiInterviewQuestion(id: 1, question: 'What is the purpose of an HSE management system?', modelAnswer: 'It provides a structured way to identify hazards, assess risks, apply controls, monitor performance, and improve safety, health, and environmental outcomes.', technicalExplanation: 'A functioning system links policy, planning, implementation, checking, corrective action, and management review; paperwork alone is not proof of control.', practicalExample: 'Before excavation, the team reviews the risk assessment, permit, utility drawings, competency, barriers, inspections, and emergency arrangements.'),
+  AbuDhabiInterviewQuestion(id: 2, question: 'Explain the hierarchy of controls.', modelAnswer: 'Eliminate the hazard; substitute; use engineering controls; apply administrative controls; and use PPE for residual risk.', technicalExplanation: 'Controls higher in the hierarchy generally depend less on individual behaviour. Use multiple layers where one control may fail.', practicalExample: 'For silica dust, consider prefabrication or wet cutting, local extraction, restricted access, suitable respiratory protection, and exposure monitoring.'),
+  AbuDhabiInterviewQuestion(id: 3, question: 'What is a risk assessment?', modelAnswer: 'A systematic evaluation of hazards, who may be harmed, likelihood, consequence, existing controls, and additional actions needed.', technicalExplanation: 'A useful assessment is task-specific, communicated to the workforce, reviewed when conditions change, and verified in the field.', practicalExample: 'Before lifting a generator, assess load weight and centre of gravity, ground bearing, crane setup, exclusion zone, weather, and communication.'),
+  AbuDhabiInterviewQuestion(id: 4, question: 'What is a method statement?', modelAnswer: 'A task sequence describing how work will be carried out safely, including resources, responsibilities, equipment, controls, and emergency steps.', technicalExplanation: 'It should match the actual worksite and risk assessment. A generic document that workers do not understand is ineffective.', practicalExample: 'A scaffold method statement identifies erection sequence, competent crew, tie pattern from approved design, inspection, handover, and rescue response.'),
+  AbuDhabiInterviewQuestion(id: 5, question: 'What is a permit to work?', modelAnswer: 'A formal authorization and coordination process for specified higher-risk work, confirming precautions and interfaces before work starts.', technicalExplanation: 'A permit does not replace risk assessment, supervision, competence, or physical isolation. It must be valid for the defined scope, place, and time.', practicalExample: 'A hot-work permit confirms combustible removal, gas testing where required, fire watch, extinguishers, and post-work monitoring.'),
+  AbuDhabiInterviewQuestion(id: 6, question: 'What is a toolbox talk?', modelAnswer: 'A short, task-focused discussion before work to explain hazards, controls, changes, and worker responsibilities.', technicalExplanation: 'Use plain language, invite questions, check understanding, and record attendance without treating signatures as proof of comprehension.', practicalExample: 'Before a night shift, discuss lighting, reversing vehicles, fatigue, emergency contacts, and changed traffic routes.'),
+  AbuDhabiInterviewQuestion(id: 7, question: 'What is a site safety inspection?', modelAnswer: 'A planned field check of workplace conditions, equipment, behaviour, documents, and effectiveness of controls.', technicalExplanation: 'Record objective findings, risk priority, owner, due date, and closure evidence. Escalate imminent danger immediately.', practicalExample: 'An inspection finds an unprotected floor opening; stop access, install a secured cover or guardrail, then verify before reopening.'),
+  AbuDhabiInterviewQuestion(id: 8, question: 'Differentiate hazard and risk.', modelAnswer: 'A hazard is a source or situation with potential to cause harm; risk combines the likelihood and severity of that harm.', technicalExplanation: 'Do not confuse a hazard with an incident. Risk rating supports prioritization but does not make an unsafe condition acceptable.', practicalExample: 'An unguarded edge is a hazard; the risk includes a worker falling and suffering serious injury.'),
+  AbuDhabiInterviewQuestion(id: 9, question: 'What is near-miss reporting?', modelAnswer: 'Reporting an unplanned event that caused no injury or damage but had the potential to do so.', technicalExplanation: 'Near misses reveal weak controls. Encourage prompt, blame-free reporting and track corrective actions to completion.', practicalExample: 'A suspended load swings near a pedestrian route; stop lifting, secure the area, investigate the lift plan and exclusion-zone failure.'),
+  AbuDhabiInterviewQuestion(id: 10, question: 'What is stop-work authority?', modelAnswer: 'The responsibility and authority to pause work when an unsafe condition, uncontrolled change, or serious doubt exists.', technicalExplanation: 'Work resumes only after the concern is assessed, controls are restored, and affected workers are briefed. No retaliation should deter good-faith reporting.', practicalExample: 'A worker sees an excavator approaching an unmarked service; they signal stop, isolate the area, and request utility verification.'),
+  AbuDhabiInterviewQuestion(id: 11, question: 'What is a safety induction?', modelAnswer: 'An orientation covering site rules, hazards, emergency response, welfare, reporting, access, and role-specific requirements.', technicalExplanation: 'Induction should be language-appropriate, recorded, checked for understanding, and refreshed after material changes.', practicalExample: 'A new subcontractor learns muster points, alarm signals, PPE rules, permit boundaries, and how to report a hazard.'),
+  AbuDhabiInterviewQuestion(id: 12, question: 'What is a safety observation?', modelAnswer: 'A structured report of a safe act, unsafe act, or unsafe condition with context and a practical improvement action.', technicalExplanation: 'Focus on system factors and learning, not merely counting observations or blaming individuals.', practicalExample: 'An observer notes a worker cutting without a guard; stop the task, restore the guard, discuss tool inspection and supervision.'),
+  AbuDhabiInterviewQuestion(id: 13, question: 'What is an emergency response plan?', modelAnswer: 'A site-specific arrangement defining credible emergencies, alarms, roles, communication, evacuation, first response, and external support.', technicalExplanation: 'Plans must reflect site layout, shift patterns, language, access, and changing work phases; drills test whether arrangements work.', practicalExample: 'A night-shift drill tests alarm audibility, headcount, access for responders, and accountability for visitors.'),
+  AbuDhabiInterviewQuestion(id: 14, question: 'What is a safety data sheet?', modelAnswer: 'A supplier document describing chemical hazards, handling, storage, exposure controls, first aid, firefighting, spill response, and disposal.', technicalExplanation: 'Use the correct product-specific current SDS and make key information accessible to workers and responders.', practicalExample: 'Before using solvent, review ventilation, ignition control, gloves, eye protection, spill kit, and incompatibilities.'),
+  AbuDhabiInterviewQuestion(id: 15, question: 'What is environmental aspect and impact?', modelAnswer: 'An aspect is an activity or element that interacts with the environment; an impact is the resulting change, beneficial or adverse.', technicalExplanation: 'Assess routine and abnormal conditions, legal obligations, significance, controls, monitoring, and response readiness.', practicalExample: 'Diesel storage is an aspect; a leak may contaminate soil or drainage. Use bunding, inspection, spill response, and waste tracking.'),
+  AbuDhabiInterviewQuestion(id: 16, question: 'What is a corrective action?', modelAnswer: 'An action that removes the cause of a detected nonconformity or incident to prevent recurrence.', technicalExplanation: 'Separate immediate correction from root-cause action; assign owner and deadline, then verify effectiveness.', practicalExample: 'After repeated missing machine guards, improve procurement checks, pre-use inspection, supervisor verification, and closeout audit.'),
+  AbuDhabiInterviewQuestion(id: 17, question: 'What is an HSE KPI?', modelAnswer: 'A measurable indicator used to monitor HSE performance, control implementation, or outcomes.', technicalExplanation: 'Use leading and lagging measures together; define data source, denominator, owner, and reporting period to avoid misleading comparisons.', practicalExample: 'Track overdue high-risk actions and completed critical inspections alongside injury frequency trends.'),
+  AbuDhabiInterviewQuestion(id: 18, question: 'What is a leading indicator?', modelAnswer: 'A proactive measure of activities or conditions intended to prevent harm before an incident occurs.', technicalExplanation: 'A leading indicator is useful only when it measures quality and effectiveness, not activity volume alone.', practicalExample: 'Measure percentage of high-risk permits field-verified, not just number of permits issued.'),
+  AbuDhabiInterviewQuestion(id: 19, question: 'What is a lagging indicator?', modelAnswer: 'A measure of harm or loss that has already occurred, such as injuries, spills, or equipment damage.', technicalExplanation: 'Review trends with exposure hours and context; low incident counts do not prove hazards are controlled.', practicalExample: 'Review recordable injuries, lost workdays, and spill events while also checking preventive controls.'),
+  AbuDhabiInterviewQuestion(id: 20, question: 'What is an incident investigation?', modelAnswer: 'A fact-finding process to understand what happened, why barriers failed, and what will prevent recurrence.', technicalExplanation: 'Preserve evidence, interview respectfully, distinguish facts from assumptions, and examine organizational contributors.', practicalExample: 'After a dropped object, inspect tool tethering, access control, work sequencing, supervision, and dropped-object prevention.'),
+  AbuDhabiInterviewQuestion(id: 21, question: 'What is competency?', modelAnswer: 'A combination of knowledge, practical skill, experience, and authorization appropriate to the assigned task.', technicalExplanation: 'Verify competence against task risk and applicable requirements; a certificate alone may not prove current ability.', practicalExample: 'Before assigning a rigger, verify recognized training, practical assessment, site familiarization, and task-specific briefing.'),
+  AbuDhabiInterviewQuestion(id: 22, question: 'What is PPE and its limitation?', modelAnswer: 'Personal protective equipment is worn to reduce exposure to residual hazards; it is the last layer in the hierarchy.', technicalExplanation: 'PPE must be suitable, correctly fitted, maintained, compatible, and used with training; it does not remove the hazard.', practicalExample: 'A helmet protects against certain impacts but does not make work beneath an uncontrolled suspended load safe.'),
+  AbuDhabiInterviewQuestion(id: 23, question: 'What is housekeeping in HSE?', modelAnswer: 'Keeping access, work areas, storage, and waste orderly to prevent slips, trips, fire load, and blocked emergency routes.', technicalExplanation: 'Housekeeping is a continuous work control with assigned ownership, not a one-time cleaning campaign.', practicalExample: 'Remove trailing cables from a walkway, route them safely, and keep fire exits and extinguishers accessible.'),
+  AbuDhabiInterviewQuestion(id: 24, question: 'What is management of change?', modelAnswer: 'A controlled review of changes to people, equipment, materials, process, design, or conditions before implementation.', technicalExplanation: 'Assess new hazards, approvals, training, documents, interfaces, and emergency implications; communicate the approved change.', practicalExample: 'A change from day to night excavation requires lighting review, traffic controls, supervision, and revised emergency access.'),
+  AbuDhabiInterviewQuestion(id: 25, question: 'How do you communicate HSE requirements to a multilingual workforce?', modelAnswer: 'Use clear language, demonstrations, visual aids, translated key instructions, and teach-back checks.', technicalExplanation: 'Do not rely only on signatures or a language the worker cannot understand. Provide a route for questions and feedback.', practicalExample: 'Demonstrate a harness inspection, ask the worker to show the correct connection, and correct misunderstandings before access.'),
+  AbuDhabiInterviewQuestion(id: 26, question: 'What does ADOSH mean in an Abu Dhabi HSE context?', modelAnswer: 'ADOSH refers to the Abu Dhabi Occupational Safety and Health framework used to establish occupational safety and health requirements and guidance within its scope.', technicalExplanation: 'Confirm the current official framework, applicable standard or CoP, and project obligations before quoting a document number or legal duty.', practicalExample: 'Before an audit, the HSE officer checks the current authority publication and maps applicable requirements to site procedures.'),
+  AbuDhabiInterviewQuestion(id: 27, question: 'How should you verify a CoP number?', modelAnswer: 'Check the current official authority registry and the exact title, revision, scope, and applicability.', technicalExplanation: 'Do not rely on memory or an old interview sheet; registries and document versions can change.', practicalExample: 'For a confined-space question, open the current official register and verify the relevant code and revision.'),
+  AbuDhabiInterviewQuestion(id: 28, question: 'Which controls apply to a confined-space atmosphere?', modelAnswer: 'Identify likely contaminants, isolate sources, ventilate as designed, test with suitable calibrated equipment, monitor as required, and maintain rescue readiness.', technicalExplanation: 'Atmospheric criteria and test sequence must follow current approved procedure, instrument guidance, and authority requirements.', practicalExample: 'Before manhole entry, a competent gas tester checks the atmosphere from outside and confirms communication and retrieval arrangements.'),
+  AbuDhabiInterviewQuestion(id: 29, question: 'What are key lifting hazards?', modelAnswer: 'Dropped or swinging load, overload, crane instability, rigging failure, collision, power-line contact, and people entering the danger zone.', technicalExplanation: 'Controls include verified load data, approved configuration, competent team, ground assessment, exclusion, weather review, and communication.', practicalExample: 'A lift supervisor checks load weight, rigging, crane setup and pedestrian exclusion before authorizing the lift.'),
+  AbuDhabiInterviewQuestion(id: 30, question: 'How do you control excavation near existing utilities?', modelAnswer: 'Review current utility records, scan, mark, use controlled trial holes, brief operators, and establish stop-work response for unexpected services.', technicalExplanation: 'Drawings may be incomplete; use competent utility locating and approved excavation methods.', practicalExample: 'An excavator stops when an unidentified duct appears; the area is protected until its owner and status are confirmed.'),
+  AbuDhabiInterviewQuestion(id: 31, question: 'What is electrical earthing intended to do?', modelAnswer: 'Provide a designed fault-current path and support protective-device operation to reduce electric-shock risk.', technicalExplanation: 'Acceptable resistance or test values depend on system design, applicable standards, and competent testing; avoid one universal value.', practicalExample: 'A qualified electrician tests the temporary distribution system against its approved design and records results.'),
+  AbuDhabiInterviewQuestion(id: 32, question: 'What is an RCD and how is its rating selected?', modelAnswer: 'A residual-current device detects imbalance and disconnects supply; selection depends on circuit, equipment, environment, and applicable standards.', technicalExplanation: 'Do not assume one trip rating applies to every distribution board and tool. Confirm approved electrical design and test requirements.', practicalExample: 'A site electrician selects and tests protective devices for a temporary tool circuit per the project electrical procedure.'),
+  AbuDhabiInterviewQuestion(id: 33, question: 'What should be considered before deep excavation?', modelAnswer: 'Ground conditions, support design, access/egress, water, adjacent loads, utilities, atmosphere where relevant, plant separation, inspection, and rescue.', technicalExplanation: 'Depth alone does not determine the support method; competent design and changing conditions govern.', practicalExample: 'Before a deep trench shift, inspect support, ladder access, water ingress, spoil placement, and nearby vehicle loading.'),
+  AbuDhabiInterviewQuestion(id: 34, question: 'What oxygen range is commonly used as an entry screening reference?', modelAnswer: 'Many confined-space procedures use 19.5% to 23.5% by volume as a screening range, but the site must follow its current approved standard and authority requirements.', technicalExplanation: 'Treat any out-of-range or changing reading as unsafe until assessed; oxygen percentage alone does not establish a safe atmosphere.', practicalExample: 'A manhole entry is not authorized until the competent tester confirms acceptable readings and other gas hazards are controlled.'),
+  AbuDhabiInterviewQuestion(id: 35, question: 'What equipment may be needed for manhole rescue?', modelAnswer: 'Depending on geometry and risk: retrieval harness, tripod or davit and winch, suitable breathing apparatus, gas monitor, communications, and trained rescue team.', technicalExplanation: 'Equipment must be compatible with the entry and rescue plan; do not attempt untrained entry rescue.', practicalExample: 'A standby team rehearses non-entry retrieval and confirms the winch anchor and casualty route before entry.'),
+  AbuDhabiInterviewQuestion(id: 36, question: 'Give examples of leading HSE KPIs.', modelAnswer: 'Critical-control verification quality, timely closure of high-risk actions, competence verification, planned inspection completion, and worker hazard reporting quality.', technicalExplanation: 'Define numerator, denominator, owner, and evidence; do not reward underreporting or activity counts alone.', practicalExample: 'Track the proportion of high-risk permits field-verified against a defined sample and quality standard.'),
+  AbuDhabiInterviewQuestion(id: 37, question: 'Give examples of lagging HSE KPIs.', modelAnswer: 'Recordable injuries, lost workday cases, occupational illness, environmental spills, and equipment damage events.', technicalExplanation: 'Interpret with exposure and context; low counts do not prove adequate control.', practicalExample: 'Review injury and spill trends alongside hours worked and preventive-control assurance.'),
+  AbuDhabiInterviewQuestion(id: 38, question: 'What makes a lift critical?', modelAnswer: 'Project-defined factors may include high consequence, tandem cranes, restricted clearances, unusual load, proximity to live plant, or complex crane configuration.', technicalExplanation: 'Use the approved project lifting procedure for classification and approval triggers; do not invent a universal tonnage threshold.', practicalExample: 'A load passing over operating equipment receives enhanced planning, interface approval, and a defined abort plan.'),
+  AbuDhabiInterviewQuestion(id: 39, question: 'Who is an Appointed Person in lifting?', modelAnswer: 'A competent person formally appointed under the project’s lifting governance to plan or oversee lifting operations within defined authority.', technicalExplanation: 'Role, qualification, and certification criteria must be checked against current law, project procedure, and recognized scheme requirements.', practicalExample: 'Before a complex lift, verify the appointed person’s competence, scope of authority, and approved lift plan.'),
+  AbuDhabiInterviewQuestion(id: 40, question: 'What crane safety devices may be present?', modelAnswer: 'Depending on crane type: rated-capacity or load-moment indication, limit switches, anti-two-block device, alarms, level indication, and emergency stop.', technicalExplanation: 'Device requirements vary by crane and manufacturer; pre-use checks and defect escalation must follow the manual and approved procedure.', practicalExample: 'The operator reports a defective limit device; the crane is removed from affected service until repaired and function-tested.'),
+  AbuDhabiInterviewQuestion(id: 41, question: 'What is required before operating a MEWP?', modelAnswer: 'Verify operator competence and authorization, machine inspection, ground and overhead hazards, safe positioning, harness requirements where specified, and rescue plan.', technicalExplanation: 'Training, certification, harness and anchorage requirements depend on equipment type, manufacturer, and applicable procedure.', practicalExample: 'The operator performs pre-use checks and confirms ground capacity and overhead clearance before elevating.'),
+  AbuDhabiInterviewQuestion(id: 42, question: 'How should summer heat arrangements be planned?', modelAnswer: 'Use current UAE official seasonal requirements, site heat-risk assessment, work-rest planning, shade, hydration, acclimatization, monitoring, and emergency response.', technicalExplanation: 'Do not quote a current midday-break date, time, or thermal threshold without checking the official notice for the relevant year and scope.', practicalExample: 'The supervisor checks the current seasonal rule, adjusts heavy work, and monitors workers for heat illness.'),
+  AbuDhabiInterviewQuestion(id: 43, question: 'What is Thermal Work Limit (TWL)?', modelAnswer: 'TWL is a heat-stress assessment approach used in some workplaces to guide safe work intensity and environmental controls.', technicalExplanation: 'Use only where adopted by the competent occupational-health program, with calibrated measurements and trained interpretation; it is not a substitute for legal requirements.', practicalExample: 'A heat-stress specialist assesses work conditions and advises work/rest and hydration controls under the site program.'),
+  AbuDhabiInterviewQuestion(id: 44, question: 'What is COSHH?', modelAnswer: 'Control of Substances Hazardous to Health is a risk-assessment approach for hazardous substances, covering exposure routes, controls, training, and health considerations.', technicalExplanation: 'Apply the relevant UAE/site legal framework and product SDS; do not assume the UK regulation title itself is UAE law.', practicalExample: 'Before chemical cleaning, assess inhalation and skin exposure, ventilation, substitution, PPE, storage, and spill response.'),
+  AbuDhabiInterviewQuestion(id: 45, question: 'How should chemical stores be arranged?', modelAnswer: 'Segregate incompatible materials, label containers, provide suitable containment and ventilation, control ignition, protect drains, and keep SDS and spill equipment accessible.', technicalExplanation: 'Storage compatibility and fire/environmental requirements must be confirmed for the actual chemicals and local approvals.', practicalExample: 'Flammables are stored in designated compatible cabinets away from oxidizers, with inspected secondary containment.'),
+  AbuDhabiInterviewQuestion(id: 46, question: 'How do you plan a detour on a live road?', modelAnswer: 'Obtain required approval, use an approved traffic plan, provide advance warning, safe taper and buffer, barriers, lighting, pedestrian access, and inspections.', technicalExplanation: 'Road authority requirements vary by road and work type; ensure emergency and accessible routes remain functional.', practicalExample: 'Before a lane closure, the traffic supervisor walks the setup and confirms signs, barriers, visibility, and safe worker access.'),
+  AbuDhabiInterviewQuestion(id: 47, question: 'What are common safety-sign color conventions?', modelAnswer: 'Red commonly indicates prohibition or fire equipment, yellow warning, blue mandatory action, and green safe condition or emergency information, subject to the adopted standard.', technicalExplanation: 'Use the site’s approved sign standard and ensure symbols are understood by the workforce.', practicalExample: 'A site uses consistent mandatory PPE signs at access points and emergency-direction signs along evacuation routes.'),
+  AbuDhabiInterviewQuestion(id: 48, question: 'Name common scaffold components.', modelAnswer: 'Standards, ledgers, transoms, braces, base plates or jacks, ties, platforms, guardrails, toe boards, and safe access.', technicalExplanation: 'Components and configuration must match the approved system/design; damaged or incompatible parts must be rejected.', practicalExample: 'A competent inspector checks base support, ties, bracing, full platform, edge protection, and access before handover.'),
+  AbuDhabiInterviewQuestion(id: 49, question: 'Who should inspect a scaffold?', modelAnswer: 'A competent person authorized by the project scaffold procedure, with inspection scope and records appropriate to the scaffold and jurisdiction.', technicalExplanation: 'Competence and inspection frequency must follow current requirements and project rules, including after changes or events affecting stability.', practicalExample: 'After a scaffold is altered, the area remains closed until the authorized inspector checks and releases it.'),
+  AbuDhabiInterviewQuestion(id: 50, question: 'Differentiate a rigger and crane outrigger.', modelAnswer: 'A rigger selects and attaches suitable lifting gear and supports safe load handling; an outrigger is a crane support member used to stabilize the machine.', technicalExplanation: 'The rigger’s competence and the crane’s outrigger setup/ground bearing are separate safety checks.', practicalExample: 'The rigger verifies sling arrangement while the lift team verifies outrigger mats, level, and ground capacity.'),
+  AbuDhabiInterviewQuestion(id: 51, question: 'What does MMI mean in a site HSE questionnaire?', modelAnswer: 'The abbreviation is ambiguous without the source’s definition; if intended as manual material handling, assess load, posture, frequency, reach, and individual capability.', technicalExplanation: 'Confirm the intended acronym before answering or recording it as a formal requirement.', practicalExample: 'For manual handling, reduce load size, use mechanical aids, improve route, and train workers in task-specific methods.'),
+  AbuDhabiInterviewQuestion(id: 52, question: 'What are the core steps of accident investigation?', modelAnswer: 'Make safe and provide care; notify; preserve evidence; collect facts; analyze causes; define actions; communicate learning; verify effectiveness.', technicalExplanation: 'Follow applicable authority reporting requirements and timelines; do not invent forms or deadlines.', practicalExample: 'After a hand injury, inspect the tool and guarding, interview witnesses, review training and task design, and verify corrective controls.'),
+  AbuDhabiInterviewQuestion(id: 53, question: 'How should tower-crane operator medical or rescue issues be planned?', modelAnswer: 'Assess access and egress, operator fitness arrangements, communication, emergency descent/rescue method, trained responders, and coordination with emergency services.', technicalExplanation: 'Use crane manufacturer instructions and current project/authority requirements; never improvise rescue from height.', practicalExample: 'A site drills the approved tower-crane operator rescue method with trained personnel and confirmed access equipment.'),
+  AbuDhabiInterviewQuestion(id: 54, question: 'What worker welfare provisions should be checked?', modelAnswer: 'Potable water, toilets, washing, rest/shade, eating areas, first aid, accommodation/transport interfaces where applicable, and accessible complaint channels.', technicalExplanation: 'Specific legal provisions and ratios depend on current UAE and emirate requirements; verify official sources.', practicalExample: 'A welfare inspection checks cleanliness, water availability, shaded rest, and timely maintenance of facilities.'),
+  AbuDhabiInterviewQuestion(id: 55, question: 'How should lifting certificates and gear validity be verified?', modelAnswer: 'Check traceable identification, competent examination records, condition, capacity, scope, and applicable validity requirements.', technicalExplanation: 'Validity periods differ by equipment and governing standard; never apply a blanket expiry period without verification.', practicalExample: 'A sling with unclear ID or overdue examination is quarantined until its status is confirmed.'),
+  AbuDhabiInterviewQuestion(id: 56, question: 'How do you verify first-aid and firefighting staffing requirements?', modelAnswer: 'Check current applicable law, authority conditions, project risk assessment, shift coverage, site area, and emergency response plan.', technicalExplanation: 'Do not quote a universal percentage or headcount without official current evidence.', practicalExample: 'Before mobilization, compare trained responder coverage against all shifts and remote workfronts and document gaps.'),
+  AbuDhabiInterviewQuestion(id: 57, question: 'Differentiate task briefing and toolbox talk.', modelAnswer: 'A task briefing confirms the specific job, roles, sequence, hazards, controls, and changes; a toolbox talk is a short safety learning or communication session.', technicalExplanation: 'They can overlap, but neither automatically replaces permit authorization or formal competence assessment.', practicalExample: 'Before a lift, the crew reviews the lift sequence and signals at the workface, then asks questions to confirm understanding.'),
+  AbuDhabiInterviewQuestion(id: 58, question: 'What is a permit-to-work system?', modelAnswer: 'A coordinated authorization process for defined hazardous work, confirming scope, hazards, isolations, precautions, roles, validity, and handover.', technicalExplanation: 'Permit categories and legal status vary; a permit does not replace risk assessment or field verification.', practicalExample: 'A hot-work permit is checked against actual location, fire watch, combustible controls, and concurrent operations.'),
+  AbuDhabiInterviewQuestion(id: 59, question: 'What precautions apply to precast lifting eyes?', modelAnswer: 'Verify design and marked capacity, condition, correct rigging angle and connector, load balance, lifting sequence, and exclusion zone.', technicalExplanation: 'Never assume a lifting eye is sound or rated from appearance; use approved design and manufacturer data.', practicalExample: 'Before lifting a precast panel, check lifting-point documentation and inspect for damage or unauthorized modification.'),
+  AbuDhabiInterviewQuestion(id: 60, question: 'Which extinguisher is suitable for electrical equipment fire?', modelAnswer: 'Use an extinguisher approved for energized electrical equipment under the site fire plan, commonly CO2 or suitable dry chemical; isolate power if safe.', technicalExplanation: 'Select by fire class, environment, and current fire-risk assessment; do not use water on energized equipment.', practicalExample: 'Raise alarm, isolate power if safe, use the designated suitable extinguisher only if trained and safe, and evacuate if fire grows.'),
+  AbuDhabiInterviewQuestion(id: 61, question: 'What if a foreman ignores HSE advice?', modelAnswer: 'Stop imminent danger, explain the hazard and required control, notify the responsible supervisor/manager, document, and escalate through site governance.', technicalExplanation: 'Maintain professional, factual communication and use stop-work authority without retaliation for good-faith concerns.', practicalExample: 'If workers are directed under a suspended load, stop access and escalate to the lift supervisor and project manager.'),
+  AbuDhabiInterviewQuestion(id: 62, question: 'What are SRA incident reporting forms and timeframes?', modelAnswer: 'SRA may refer to a specific client or authority reporting arrangement; identify the exact form, trigger, channel, and deadline from current approved procedure.', technicalExplanation: 'Do not invent an SRA expansion, form number, or statutory deadline when the source does not define it.', practicalExample: 'Check the project incident matrix and current authority notice, then report through the designated channel within the verified timeframe.'),
+  AbuDhabiInterviewQuestion(id: 63, question: 'What is LTI and restricted work?', modelAnswer: 'LTI generally describes a work-related injury resulting in time away from work; restricted work describes modified duties or restrictions due to injury, subject to the adopted reporting definitions.', technicalExplanation: 'Use the current applicable reporting framework’s definitions and classification rules; do not substitute informal labels.', practicalExample: 'Record the case using the approved classification criteria and maintain privacy while tracking corrective actions.'),
+  AbuDhabiInterviewQuestion(id: 64, question: 'What are the main parts of a risk assessment?', modelAnswer: 'Task and hazard identification, exposed persons, consequence and likelihood, existing controls, residual risk, additional actions, owners, and review triggers.', technicalExplanation: 'Use the approved matrix consistently and involve workers; a score does not replace judgment or mandatory controls.', practicalExample: 'For excavation, assess collapse, services, falls, plant, water, access, and emergency response with named action owners.'),
+  AbuDhabiInterviewQuestion(id: 65, question: 'Name three common toxic gases considered in confined spaces.', modelAnswer: 'Examples include hydrogen sulfide, carbon monoxide, and toxic vapours specific to the process or material.', technicalExplanation: 'Gas selection must be based on the space history and task; test with suitable calibrated instruments and never rely on smell.', practicalExample: 'A sewer entry plan considers H2S and other credible gases, samples at multiple levels, and monitors during entry.'),
 ];
 
-class AbuDhabiHseSafetyQuizPage extends StatefulWidget {
-  const AbuDhabiHseSafetyQuizPage({super.key});
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel2Questions = [
+  AbuDhabiInterviewQuestion(id: 26, question: 'Explain the safe planning sequence for excavation.', modelAnswer: 'Review drawings and permits; locate services; assess ground and water; select protective system; plan access, spoil, plant separation, inspection, and rescue; brief the crew.', technicalExplanation: 'Excavation stability depends on soil, water, vibration, surcharge, depth, and adjacent structures. Protective design must suit actual conditions.', practicalExample: 'Before trenching near a road, scan and trial-hole services, install designed support, set plant stand-off, and inspect after rain.'),
+  AbuDhabiInterviewQuestion(id: 27, question: 'What controls are required for work at height?', modelAnswer: 'Avoid height work where possible; use collective protection such as guarded platforms; select suitable access; use fall restraint or arrest only with compatible systems and rescue planning.', technicalExplanation: 'A harness without a suitable anchor, clearance calculation, inspection, and rescue plan is not a complete system.', practicalExample: 'For roof-edge work, install edge protection first; where restraint is unavoidable, verify anchor and prevent reaching the edge.'),
+  AbuDhabiInterviewQuestion(id: 28, question: 'Describe scaffold handover and inspection.', modelAnswer: 'A competent person checks erection against design and instructions, foundations, ties, bracing, platforms, access, guardrails, toe boards, loading, and tags before release.', technicalExplanation: 'Inspect before first use, at required intervals, after alteration or events that may affect stability, and after severe weather as applicable.', practicalExample: 'A scaffold altered for material delivery is isolated until re-inspected and re-tagged by an authorized competent inspector.'),
+  AbuDhabiInterviewQuestion(id: 29, question: 'How do you control a confined-space entry?', modelAnswer: 'Identify the space and hazards; isolate; issue authorization; test atmosphere; ventilate; provide attendant, communications, entry log, suitable PPE, and rescue capability.', technicalExplanation: 'Never rely on smell or an untested atmosphere. Rescue must be planned and equipped; untrained entry rescue can create multiple casualties.', practicalExample: 'For a tank entry, verify isolation, test from outside at appropriate levels, maintain monitoring, and keep a trained rescue team ready.'),
+  AbuDhabiInterviewQuestion(id: 30, question: 'What are key lifting-plan elements?', modelAnswer: 'Define load and rigging, crane configuration, ground bearing, route, lift path, exclusion zone, weather limits, communication, roles, and contingency.', technicalExplanation: 'Complexity and risk determine planning and approval level. Never exceed equipment capacity or use unverified load data.', practicalExample: 'A tandem lift requires engineered coordination, load-share assessment, synchronized communication, and a rehearsed stop signal.'),
+  AbuDhabiInterviewQuestion(id: 31, question: 'Explain lockout/tagout.', modelAnswer: 'Identify all energy sources; shut down; isolate; lock and tag; release stored energy; prove zero energy; perform work; then controlled restoration.', technicalExplanation: 'Try-out/testing must be performed safely and by authorized personnel. Interlocks and push buttons are not energy isolation.', practicalExample: 'Before conveyor maintenance, isolate electrical and mechanical energy, block movement, test for zero energy, and verify group lock control.'),
+  AbuDhabiInterviewQuestion(id: 32, question: 'What is hot-work control?', modelAnswer: 'Use an approved permit where required, remove or shield combustibles, check atmosphere when relevant, provide suitable fire watch and extinguishers, and inspect after work.', technicalExplanation: 'Consider adjacent spaces, sparks travel, gas migration, ventilation, cylinders, and post-work smouldering.', practicalExample: 'Welding near a cable trench requires fire-resistant covering, gas checks if indicated, fire watch, and post-job inspection.'),
+  AbuDhabiInterviewQuestion(id: 33, question: 'How do you manage vehicle–pedestrian interface?', modelAnswer: 'Separate routes physically, minimize reversing, use one-way flow where practical, competent operators, banksmen where needed, speed controls, visibility, and exclusion zones.', technicalExplanation: 'A banksman cannot compensate for poor layout or blind reliance on hand signals. Reassess when traffic patterns change.', practicalExample: 'At a gate, install barriers and a pedestrian crossing, establish delivery slots, and prohibit reversing into an occupied walkway.'),
+  AbuDhabiInterviewQuestion(id: 34, question: 'What are the main electrical site controls?', modelAnswer: 'Use suitable equipment, inspection, protection devices, sound cables, safe distribution, isolation, competent work, and protection from water and mechanical damage.', technicalExplanation: 'Voltage, earthing, RCD selection, testing intervals, and temporary installation criteria must follow applicable approved standards and site design.', practicalExample: 'A damaged extension lead is removed from service, tagged, and replaced; workers do not tape over exposed conductors.'),
+  AbuDhabiInterviewQuestion(id: 35, question: 'How do you control heat stress?', modelAnswer: 'Plan acclimatization, work-rest and shade, hydration, monitoring, buddy checks, training, emergency response, and compliance with current UAE summer requirements.', technicalExplanation: 'Use current official seasonal rules and site heat-risk assessment; do not treat one universal threshold as suitable for every task or worker.', practicalExample: 'During a hot shift, supervisor adjusts work, provides cool rest, watches for confusion or collapse, and activates medical response promptly.'),
+  AbuDhabiInterviewQuestion(id: 36, question: 'What is a critical lift?', modelAnswer: 'A lift classified as higher risk under project criteria, such as complex configuration, high consequence, restricted clearance, multiple cranes, or sensitive load.', technicalExplanation: 'The project lifting procedure defines triggers, planning level, engineering review, authorization, and controls; labels alone do not make a lift safe.', practicalExample: 'A lift over operating equipment is planned with engineered exclusion, shutdown/interface coordination, and a clear abort plan.'),
+  AbuDhabiInterviewQuestion(id: 37, question: 'What should a chemical storage area provide?', modelAnswer: 'Compatible segregation, labels, containment, ventilation, access control, spill response, firefighting suitability, and current SDS availability.', technicalExplanation: 'Do not store incompatible chemicals together or allow spills to enter drains. Verify local environmental and fire requirements.', practicalExample: 'Separate oxidizers from flammables, use secondary containment, and inspect containers for leaks and labels.'),
+  AbuDhabiInterviewQuestion(id: 38, question: 'How do you inspect portable power tools?', modelAnswer: 'Check body, guard, switch, cable, plug, accessories, rating, protective devices, and condition before use; remove defective tools from service.', technicalExplanation: 'Inspection and test frequency depends on risk, environment, equipment, and applicable procedure; do not invent a universal interval.', practicalExample: 'A grinder with a cracked disc or missing guard is quarantined and replaced, not repaired informally at the workface.'),
+  AbuDhabiInterviewQuestion(id: 39, question: 'What is a Job Safety Analysis?', modelAnswer: 'A task is divided into steps; hazards and potential consequences are identified; controls and responsible persons are assigned for each step.', technicalExplanation: 'Involve workers who perform the job and revise the analysis when sequence, equipment, weather, or site conditions change.', practicalExample: 'For concrete pumping, assess setup, outrigger support, hose movement, pressure release, exclusion, and washout.'),
+  AbuDhabiInterviewQuestion(id: 40, question: 'What should an emergency drill evaluate?', modelAnswer: 'Alarm recognition, response time, route safety, headcount, communications, role clarity, responder access, and lessons learned.', technicalExplanation: 'A drill is not complete until findings are assigned, corrected, and retested where needed.', practicalExample: 'A muster drill reveals a blocked gate; site management assigns a responsible owner and verifies the access remains clear.'),
+  AbuDhabiInterviewQuestion(id: 41, question: 'What is an environmental spill response sequence?', modelAnswer: 'Stop the source if safe, protect people, prevent spread, protect drains, notify, contain and recover, segregate waste, and document cleanup.', technicalExplanation: 'Use trained responders and compatible spill materials; escalate beyond site capability and meet applicable notification duties.', practicalExample: 'A hydraulic hose leaks near a storm drain; isolate plant, cover the drain, deploy absorbents, notify environmental staff, and dispose of waste correctly.'),
+  AbuDhabiInterviewQuestion(id: 42, question: 'How do you manage lifting accessories?', modelAnswer: 'Verify identification, capacity, condition, inspection status, compatibility, storage, and use by trained personnel.', technicalExplanation: 'Reject damaged, unmarked, incompatible, or suspect accessories. Do not assume color coding alone proves validity.', practicalExample: 'A sling with damaged stitching is quarantined; the rigger selects a suitable inspected sling for the load geometry.'),
+  AbuDhabiInterviewQuestion(id: 43, question: 'What are scaffold red flags?', modelAnswer: 'Missing ties, unstable base, incomplete platform, absent edge protection, unauthorized alteration, overloading, damaged components, and unsafe access.', technicalExplanation: 'Stop use and isolate until a competent person assesses and restores the scaffold.', practicalExample: 'A worker removes a guardrail to pass a pipe; the platform is closed until protection is reinstated and inspected.'),
+  AbuDhabiInterviewQuestion(id: 44, question: 'What is a safety critical element?', modelAnswer: 'An item or control whose failure could cause or contribute to a major incident, requiring defined performance and assurance.', technicalExplanation: 'Identify critical elements, performance standards, inspection/testing, impairment controls, and accountable owners.', practicalExample: 'A crane limit device is found defective; lifting stops and the equipment is isolated until repaired and verified.'),
+  AbuDhabiInterviewQuestion(id: 45, question: 'How do you assess contractor HSE performance?', modelAnswer: 'Prequalify competence and resources, review plans, induct, monitor field implementation, manage interfaces, and close corrective actions.', technicalExplanation: 'Use evidence and risk-based assurance, not paperwork volume alone. Contract responsibilities do not remove the site controller’s duties.', practicalExample: 'A subcontractor repeatedly breaches exclusion zones; require a corrective plan, field verification, and escalation under contract controls.'),
+  AbuDhabiInterviewQuestion(id: 46, question: 'What is a permit issuer’s responsibility?', modelAnswer: 'Confirm scope, hazards, isolations, precautions, interfaces, validity, competent roles, and worksite readiness before authorization.', technicalExplanation: 'The issuer should not sign a permit remotely without verifying required conditions and should suspend it when conditions change.', practicalExample: 'Rain changes excavation stability; the permit is suspended pending reassessment and reauthorization.'),
+  AbuDhabiInterviewQuestion(id: 47, question: 'What is a first-aid arrangement?', modelAnswer: 'Provide trained first aiders, accessible kits, communication, emergency transport arrangements, and coverage appropriate to risk and shift.', technicalExplanation: 'Staffing and equipment requirements must be checked against current law, project risk, and authority conditions.', practicalExample: 'A remote workfront confirms radio coverage, first-aid kit location, responder access, and escalation route before starting.'),
+  AbuDhabiInterviewQuestion(id: 48, question: 'How do you investigate a dropped-object event?', modelAnswer: 'Secure area, provide care, preserve evidence, establish timeline, identify direct and underlying causes, review barriers, and assign verified actions.', technicalExplanation: 'Avoid stopping at “worker error”; assess design, tools, storage, supervision, work planning, and interface controls.', practicalExample: 'A socket falls from a platform; review tool tethering, toe boards, material storage, access below, and inspection quality.'),
+  AbuDhabiInterviewQuestion(id: 49, question: 'What is a training matrix?', modelAnswer: 'A role-based register of required competencies, training, assessment, expiry or refresher needs, and authorization status.', technicalExplanation: 'Use it to prevent assignment of people whose competence is unverified; protect personal data and keep records current.', practicalExample: 'Before assigning a MEWP operator, verify role-specific training, site authorization, familiarization, and rescue awareness.'),
+  AbuDhabiInterviewQuestion(id: 50, question: 'How do you manage fatigue?', modelAnswer: 'Assess shift length, night work, travel, workload, heat, rest opportunities, and signs of impairment; adjust work and provide reporting routes.', technicalExplanation: 'Fatigue is a foreseeable risk requiring system controls, not only an instruction to “be careful.”', practicalExample: 'A driver reports microsleep symptoms; stop driving, arrange safe rest/transport, and review roster and journey plan.'),
+];
 
-  @override
-  State<AbuDhabiHseSafetyQuizPage> createState() =>
-      _AbuDhabiHseSafetyQuizPageState();
-}
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel3Questions = [
+  AbuDhabiInterviewQuestion(id: 51, question: 'Explain excavation support selection.', modelAnswer: 'Use competent geotechnical or temporary-works assessment considering soil profile, depth, groundwater, surcharge, vibration, adjacent assets, and installation sequence.', technicalExplanation: 'Do not select shoring from depth alone. Approved design, inspection, and change control are essential.', practicalExample: 'A trench beside a live road uses a designed support system and monitored road edge; any movement triggers stop-work and review.'),
+  AbuDhabiInterviewQuestion(id: 52, question: 'How do you plan a confined-space rescue?', modelAnswer: 'Define credible casualty scenarios, non-entry retrieval where feasible, trained rescue roles, equipment, communications, access, medical support, and drill arrangements.', technicalExplanation: 'Rescue arrangements must match actual geometry, atmosphere, and entry method. Do not rely solely on public emergency services for immediate site rescue.', practicalExample: 'A vertical manhole entry has a tripod/winch where suitable, harness compatibility, standby team, atmospheric monitoring, and rehearsed retrieval.'),
+  AbuDhabiInterviewQuestion(id: 53, question: 'What is fall-arrest clearance?', modelAnswer: 'The total unobstructed distance needed below a worker, accounting for lanyard or device deployment, body movement, connector, and safety margin.', technicalExplanation: 'Use manufacturer data and a competent calculation; anchor location and swing-fall hazards also matter.', practicalExample: 'Before using a lanyard on a platform, verify there is no lower deck or pipework within the calculated fall distance.'),
+  AbuDhabiInterviewQuestion(id: 54, question: 'How do you control crane ground failure?', modelAnswer: 'Verify ground bearing capacity, underground voids/services, outrigger reactions, mat design, level, drainage, and edge distance through competent planning.', technicalExplanation: 'Manufacturer charts assume stated setup conditions. Stop if settlement, cracking, or unexpected movement appears.', practicalExample: 'A mobile crane near an excavation uses approved mats and stand-off; the lift is stopped if an outrigger begins to settle.'),
+  AbuDhabiInterviewQuestion(id: 55, question: 'What is a lifting study for tandem cranes?', modelAnswer: 'An engineered plan evaluating load sharing, crane capacities throughout movement, geometry, rigging, synchronization, ground support, communication, and contingency.', technicalExplanation: 'Dynamic effects and unequal load distribution can be significant; approval and rehearsal must follow project criteria.', practicalExample: 'Two cranes rotate a vessel section under one lift director, with defined communication and abort conditions.'),
+  AbuDhabiInterviewQuestion(id: 56, question: 'How do you verify isolation in complex systems?', modelAnswer: 'Review current drawings, identify all sources and cross-connections, isolate and lock, drain/vent/discharge stored energy, test, and independently verify where required.', technicalExplanation: 'Blind spots include backfeeds, gravity, pressure, thermal energy, and automatic starts. Isolation boundaries must be clear to the work party.', practicalExample: 'A pump has electrical and pressurized lines; electrical lockout alone is insufficient until process pressure is safely isolated and proven.'),
+  AbuDhabiInterviewQuestion(id: 57, question: 'What is simultaneous operations (SIMOPS) management?', modelAnswer: 'Identify concurrent activities and interactions, assess combined risk, assign coordination authority, establish zones and communication, and control schedule/interfaces.', technicalExplanation: 'A task safe in isolation may be unsafe beside lifting, hot work, vehicle movements, or commissioning.', practicalExample: 'Hot work near a fuel transfer is rescheduled or physically separated after SIMOPS review.'),
+  AbuDhabiInterviewQuestion(id: 58, question: 'How do you assess a temporary works design?', modelAnswer: 'Confirm design brief, loads, assumptions, interfaces, design checks, construction sequence, inspection, permit/hold points, and controlled changes.', technicalExplanation: 'Temporary works need defined design responsibility and independent checking proportionate to risk and project procedure.', practicalExample: 'A formwork falsework scheme is checked for pour rate, lateral loads, foundation capacity, access, and striking sequence.'),
+  AbuDhabiInterviewQuestion(id: 59, question: 'What are key demolition controls?', modelAnswer: 'Survey structure and services, assess stability, plan sequence, isolate utilities, establish exclusion zones, control dust/noise, manage debris, and prepare emergency response.', technicalExplanation: 'Unplanned collapse and hidden services are major concerns; changes require competent review.', practicalExample: 'Before removing a slab, engineer verifies load path and temporary support; workers follow a controlled top-down sequence.'),
+  AbuDhabiInterviewQuestion(id: 60, question: 'How do you manage live-road work?', modelAnswer: 'Obtain authority approvals, implement approved traffic management, protect workers and road users, provide safe access, lighting, barriers, and inspections.', technicalExplanation: 'Traffic layout must suit speed, visibility, road geometry, work duration, and emergency access; use current authority requirements.', practicalExample: 'A lane closure uses approved advance warning, taper, buffer, protected work zone, and trained traffic marshals.'),
+  AbuDhabiInterviewQuestion(id: 61, question: 'What is a lifting gear examination?', modelAnswer: 'A competent examination checks condition and suitability against applicable standards and the equipment’s use and history.', technicalExplanation: 'Intervals, certification, and statutory requirements depend on equipment type and jurisdiction; verify current rules and records.', practicalExample: 'A chain block with illegible identification is removed from service until traceability and suitability are established.'),
+  AbuDhabiInterviewQuestion(id: 62, question: 'Explain pressure testing safety.', modelAnswer: 'Use an approved test pack, defined boundary, calibrated instruments, relief arrangements, exclusion zone, controlled pressurization, and safe depressurization.', technicalExplanation: 'Stored energy can cause severe injury; pneumatic tests generally present different energy hazards than hydrostatic tests.', practicalExample: 'During a hydrotest, personnel stay outside the barricaded zone and pressure is raised in controlled stages per approved procedure.'),
+  AbuDhabiInterviewQuestion(id: 63, question: 'How do you manage work in extreme weather?', modelAnswer: 'Monitor official forecasts and site conditions; define thresholds for wind, lightning, rain, visibility, and heat; secure equipment and reassess tasks.', technicalExplanation: 'Use equipment manufacturer limits and project procedures. Do not rely on a generic wind number for every crane or access system.', practicalExample: 'A crane lift is suspended when wind exceeds the approved limit or load control becomes unreliable.'),
+  AbuDhabiInterviewQuestion(id: 64, question: 'What is a root-cause analysis?', modelAnswer: 'A structured method to identify immediate, contributing, and system causes and select actions that prevent recurrence.', technicalExplanation: 'Avoid simplistic blame. Validate causes against evidence and test whether actions address the causal mechanism.', practicalExample: 'Repeated slips lead to redesign of drainage and walkway materials, not only another reminder to wear suitable shoes.'),
+  AbuDhabiInterviewQuestion(id: 65, question: 'How do you manage hazardous waste?', modelAnswer: 'Identify, classify, label, segregate, store securely, use authorized transport/disposal routes, retain manifests, and prevent leaks.', technicalExplanation: 'Waste classification and transfer documentation are jurisdiction-specific; confirm applicable approvals and retention requirements.', practicalExample: 'Used solvent rags are placed in compatible closed containers and transferred through the approved waste contractor.'),
+  AbuDhabiInterviewQuestion(id: 66, question: 'What is occupational health surveillance?', modelAnswer: 'A risk-based process to detect work-related health effects and assess whether exposure controls are effective.', technicalExplanation: 'Medical confidentiality must be protected; the employer receives fitness or control recommendations, not unnecessary private details.', practicalExample: 'Workers exposed to noise receive required assessment under the occupational health program; results inform engineering controls.'),
+  AbuDhabiInterviewQuestion(id: 67, question: 'How do you manage noise exposure?', modelAnswer: 'Identify sources, measure exposure where needed, reduce at source, maintain equipment, limit duration, isolate areas, and provide suitable hearing protection.', technicalExplanation: 'Hearing protection is not a substitute for feasible engineering controls and exposure assessment.', practicalExample: 'A noisy generator is enclosed or relocated, maintained, and access controlled; hearing protection is provided for residual exposure.'),
+  AbuDhabiInterviewQuestion(id: 68, question: 'What is a confined-space gas test strategy?', modelAnswer: 'Select gases based on hazards, test from outside, sample at appropriate levels and locations, verify instrument function, and repeat/monitor as required.', technicalExplanation: 'Oxygen, flammables, and toxic contaminants may stratify or change during work. Follow competent gas tester procedure and instrument guidance.', practicalExample: 'A vessel with possible heavier-than-air vapour is sampled at multiple levels before entry and monitored during the task.'),
+  AbuDhabiInterviewQuestion(id: 69, question: 'How do you handle an unsafe contractor supervisor?', modelAnswer: 'Stop immediate danger, explain evidence and required controls, notify responsible management, document, and escalate through the agreed governance route.', technicalExplanation: 'Maintain professional communication and preserve the right to stop unsafe work regardless of schedule pressure.', practicalExample: 'A foreman orders work under a suspended load; the HSE officer stops access, informs the lift supervisor and project manager, and records resolution.'),
+  AbuDhabiInterviewQuestion(id: 70, question: 'What is an audit versus an inspection?', modelAnswer: 'An inspection checks conditions or activities at a point in time; an audit systematically evaluates whether a management system meets defined criteria and works effectively.', technicalExplanation: 'Both need competent people, evidence, findings, action owners, and follow-up; neither guarantees safety by itself.', practicalExample: 'A weekly walk checks housekeeping; a formal audit samples permit governance, competence records, field practice, and action closure.'),
+  AbuDhabiInterviewQuestion(id: 71, question: 'How do you manage change in a construction sequence?', modelAnswer: 'Screen the change, assess new hazards and interfaces, update risk assessment/method/permit/design, obtain approvals, brief workers, and verify before restart.', technicalExplanation: 'Changes may invalidate previous controls, especially temporary works, access, lifting, and emergency routes.', practicalExample: 'A delivery route crosses an excavation after a layout change; traffic and excavation controls are reassessed before opening.'),
+  AbuDhabiInterviewQuestion(id: 72, question: 'What is a leading indicator quality test?', modelAnswer: 'Check whether the measure is relevant to risk, has a reliable denominator, can be influenced, and demonstrates control effectiveness.', technicalExplanation: 'Avoid rewarding low reporting or counting activities without assessing quality.', practicalExample: 'Instead of counting toolbox talks, sample worker understanding and field compliance with the discussed critical control.'),
+  AbuDhabiInterviewQuestion(id: 73, question: 'How do you manage environmental monitoring?', modelAnswer: 'Define parameters, locations, methods, frequency, limits, calibration, responsible persons, records, and response to exceedance.', technicalExplanation: 'Use permit conditions and current authority requirements; never invent universal legal limits.', practicalExample: 'Dust monitoring near a boundary triggers investigation, suppression review, equipment maintenance, and documented follow-up.'),
+  AbuDhabiInterviewQuestion(id: 74, question: 'What should a high-risk work assurance visit verify?', modelAnswer: 'Observe the actual task, confirm permit and risk assessment match conditions, test worker understanding, inspect critical controls, and resolve gaps.', technicalExplanation: 'A document review from the office cannot substitute for field verification.', practicalExample: 'During lifting, verify load identity, exclusion zone, rigging condition, operator/rigger communication, and stop-work readiness.'),
+  AbuDhabiInterviewQuestion(id: 75, question: 'How do you ensure emergency readiness for remote work?', modelAnswer: 'Assess response time, access, communications, first aid, rescue capability, weather, transport, and coordination with external responders.', technicalExplanation: 'Remote work may need additional on-site capability; verify realistic response rather than assuming help is immediately available.', practicalExample: 'A pipeline workfront has mapped access coordinates, radio check, first-aid coverage, and a tested casualty transfer route.'),
+];
 
-class _AbuDhabiHseSafetyQuizPageState
-    extends State<AbuDhabiHseSafetyQuizPage> {
-  static const int _totalQuestions = 150;
-  static const int _passMark = 105;
-  static const Color _green = Color(0xFF075E46);
-  static const Color _pageBackground = Color(0xFFF4F7F5);
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel4Questions = [
+  AbuDhabiInterviewQuestion(id: 76, question: 'How would you lead a serious incident investigation?', modelAnswer: 'Secure scene and care, notify per procedure, preserve evidence, build timeline, interview, analyze barriers and system factors, assign actions, and verify effectiveness.', technicalExplanation: 'Maintain confidentiality and distinguish confirmed facts from hypotheses; follow current reporting duties and authority direction.', practicalExample: 'After a serious fall, preserve anchor and equipment evidence, interview separately, review design and supervision, then track corrective actions.'),
+  AbuDhabiInterviewQuestion(id: 77, question: 'How do you prepare an HSE plan for a new project?', modelAnswer: 'Review scope, legal/contract requirements, risk profile, organization, objectives, procedures, emergency arrangements, competence, monitoring, and interfaces.', technicalExplanation: 'Translate requirements into owners, resources, measurable controls, and review gates rather than generic statements.', practicalExample: 'A project mobilization plan assigns permit authority, lifting governance, environmental controls, training, and audit schedule.'),
+  AbuDhabiInterviewQuestion(id: 78, question: 'What is process safety versus personal safety?', modelAnswer: 'Personal safety focuses on injury prevention in routine work; process safety prevents loss of containment and major hazardous events.', technicalExplanation: 'Both matter; low personal injury rates do not demonstrate control of major accident hazards.', practicalExample: 'A plant has excellent PPE compliance but a bypassed high-level trip; process safety assurance must address the barrier impairment.'),
+  AbuDhabiInterviewQuestion(id: 79, question: 'Explain barrier management.', modelAnswer: 'Identify preventive and mitigative barriers, define performance standards, monitor health, manage impairment, and restore degraded barriers promptly.', technicalExplanation: 'A barrier must be specific, independent where required, and demonstrably capable of performing its safety function.', practicalExample: 'A gas detector is unavailable; assess risk, implement approved compensating measures, restrict work, and restore the detector.'),
+  AbuDhabiInterviewQuestion(id: 80, question: 'How do you conduct a bow-tie analysis?', modelAnswer: 'Define top event, threats, preventive barriers, consequences, mitigative barriers, escalation factors, and barrier owners.', technicalExplanation: 'Bow-tie is a communication and assurance tool, not a substitute for detailed engineering analysis.', practicalExample: 'For loss of fuel containment, threats include corrosion and impact; barriers include inspection and isolation; consequences include fire and environmental release.'),
+  AbuDhabiInterviewQuestion(id: 81, question: 'What is a major accident hazard?', modelAnswer: 'A hazard with potential for a high-consequence event such as major fire, explosion, toxic release, or structural collapse.', technicalExplanation: 'Assess credible scenarios, vulnerable people/assets, prevention, mitigation, emergency response, and assurance.', practicalExample: 'A bulk fuel facility evaluates tank overfill, ignition sources, bund integrity, detection, shutdown, and firefighting access.'),
+  AbuDhabiInterviewQuestion(id: 82, question: 'How do you manage a safety-critical maintenance backlog?', modelAnswer: 'Rank by risk and barrier function, assess impairment, apply compensating measures, assign accountable owners, set deadlines, and verify completion.', technicalExplanation: 'Do not prioritize solely by age or convenience; overdue critical equipment may require work restriction or shutdown.', practicalExample: 'A crane overload protection defect leads to immediate removal from lifting service until verified repair.'),
+  AbuDhabiInterviewQuestion(id: 83, question: 'How do you establish HSE governance?', modelAnswer: 'Define policy, roles, decision rights, escalation, assurance, management review, contractor interface, and action accountability.', technicalExplanation: 'Governance should make authority and accountability clear from executive level to workface.', practicalExample: 'A weekly high-risk review escalates overdue excavation support actions to the project director with documented decisions.'),
+  AbuDhabiInterviewQuestion(id: 84, question: 'How do you evaluate subcontractor risk?', modelAnswer: 'Consider task hazards, competence, equipment, supervision, incident history, resources, interfaces, and ability to meet site controls.', technicalExplanation: 'Prequalification is only a starting point; monitor actual performance and intervene when risk changes.', practicalExample: 'A subcontractor’s lifting crew lacks verified role competence; suspend the activity pending acceptable personnel and plan review.'),
+  AbuDhabiInterviewQuestion(id: 85, question: 'What is an HSE management review?', modelAnswer: 'Leadership evaluates system suitability, performance trends, compliance, incidents, audits, resources, risks, and improvement opportunities.', technicalExplanation: 'Review should produce decisions, owners, deadlines, and resource commitments.', practicalExample: 'Management reallocates supervisors after repeated high-risk permit deviations and checks whether field compliance improves.'),
+  AbuDhabiInterviewQuestion(id: 86, question: 'How do you manage a critical control verification program?', modelAnswer: 'Select controls for high-consequence scenarios, define observable standards, competent verifiers, frequency, escalation, and records.', technicalExplanation: 'Verification should test whether the control works, not merely whether a form is signed.', practicalExample: 'Supervisors physically verify excavation access and support before each shift and after conditions change.'),
+  AbuDhabiInterviewQuestion(id: 87, question: 'What is an HSE assurance map?', modelAnswer: 'A coordinated view of inspections, audits, technical assurance, management checks, and independent reviews across risks and controls.', technicalExplanation: 'It prevents gaps and duplicated checks and clarifies who provides first-, second-, and independent assurance.', practicalExample: 'The project maps daily equipment checks, weekly field verification, monthly system audits, and specialist design reviews.'),
+  AbuDhabiInterviewQuestion(id: 88, question: 'How do you manage an emergency involving multiple agencies?', modelAnswer: 'Activate incident command, establish safe access and communications, share site hazards, assign liaison, maintain accountability, and coordinate handover.', technicalExplanation: 'Use the site emergency plan and authority directions; avoid conflicting command structures.', practicalExample: 'A chemical release requires site control, fire service, medical responders, and environmental liaison using a shared incident briefing.'),
+  AbuDhabiInterviewQuestion(id: 89, question: 'How do you evaluate safety culture?', modelAnswer: 'Use multiple evidence sources: worker voice, reporting quality, leadership visibility, learning, fair accountability, and field control reliability.', technicalExplanation: 'Avoid reducing culture to a survey score or absence of incidents; examine how work is actually managed.', practicalExample: 'Workers report pressure to bypass permits; leaders investigate workload and incentives, protect reporting, and verify changed practice.'),
+  AbuDhabiInterviewQuestion(id: 90, question: 'How do you handle repeated nonconformance?', modelAnswer: 'Assess severity and recurrence, identify systemic causes, require corrective/preventive action, escalate accountability, and verify effectiveness.', technicalExplanation: 'Repeated findings indicate previous actions may not have addressed the cause or been sustained.', practicalExample: 'Repeated blocked exits lead to redesignated storage zones, ownership, daily checks, and unannounced verification.'),
+  AbuDhabiInterviewQuestion(id: 91, question: 'What is environmental aspect significance evaluation?', modelAnswer: 'Evaluate scale, severity, frequency, legal/permit obligations, stakeholder sensitivity, and ability to control the aspect using a defined method.', technicalExplanation: 'Use project criteria consistently and reassess when process or location changes.', practicalExample: 'Concrete washout near drainage is ranked significant; install designated contained washout and inspect discharge prevention.'),
+  AbuDhabiInterviewQuestion(id: 92, question: 'How do you prepare for authority inspection?', modelAnswer: 'Maintain accurate current records, responsible contacts, safe site access, evidence of field implementation, and a process to respond transparently to findings.', technicalExplanation: 'Do not conceal or fabricate records. Correct immediate risks and track formal actions through closure.', practicalExample: 'A site presents permits, training, inspection and waste records, and escorts the inspector to verify controls in the field.'),
+  AbuDhabiInterviewQuestion(id: 93, question: 'How do you control contractor interface risk?', modelAnswer: 'Define scope boundaries, simultaneous activities, shared routes, emergency roles, permit interfaces, communication, and coordination meetings.', technicalExplanation: 'Interface ownership must be explicit; each contractor’s local risk assessment may miss combined hazards.', practicalExample: 'A crane lift overlaps with scaffolding work; coordination suspends one activity and establishes a common exclusion zone.'),
+  AbuDhabiInterviewQuestion(id: 94, question: 'How do you evaluate HSE training effectiveness?', modelAnswer: 'Assess needs, learning, practical demonstration, field behaviour, refresher triggers, and incident/inspection trends.', technicalExplanation: 'Attendance is an input, not proof of competence. Use observed performance and reassessment.', practicalExample: 'After hand-signal training, observe banksmen and operators during controlled practice before authorizing live work.'),
+  AbuDhabiInterviewQuestion(id: 95, question: 'What is a management of fatigue program?', modelAnswer: 'Identify fatigue-sensitive roles, assess roster and journey risk, set work/rest controls, train supervisors, and provide confidential reporting.', technicalExplanation: 'Use current legal and company requirements; account for commuting and heat, not only shift duration.', practicalExample: 'A night-shift driver reports inadequate rest; transport and roster are adjusted before safety-critical driving resumes.'),
+  AbuDhabiInterviewQuestion(id: 96, question: 'How do you control simultaneous high-risk tasks?', modelAnswer: 'Build an activity map, identify conflicts, prioritize critical work, establish authorization, zones, communication, and stop criteria.', technicalExplanation: 'Daily coordination must reflect real-time changes and permit boundaries.', practicalExample: 'A pressure test and hot work share a work area; one is rescheduled and isolation boundaries are revalidated.'),
+  AbuDhabiInterviewQuestion(id: 97, question: 'How do you verify legal compliance?', modelAnswer: 'Maintain a requirements register with source, applicability, owner, evidence, review date, and change-monitoring process.', technicalExplanation: 'Confirm current authority publications and contract conditions; do not rely on outdated summaries.', practicalExample: 'A compliance review checks applicable permits, approved plans, monitoring evidence, and closure of authority observations.'),
+  AbuDhabiInterviewQuestion(id: 98, question: 'How do you report HSE performance to senior management?', modelAnswer: 'Present risk-weighted trends, critical control health, significant incidents, overdue actions, exposure, and decisions needed.', technicalExplanation: 'Explain limitations and avoid vanity metrics; connect data to operational decisions.', practicalExample: 'A dashboard highlights overdue lifting equipment defects and asks leadership to approve resources for replacement.'),
+  AbuDhabiInterviewQuestion(id: 99, question: 'What is a learning team?', modelAnswer: 'A facilitated discussion with people who do the work to understand how work succeeds, where pressures arise, and how controls can improve.', technicalExplanation: 'Use curiosity and psychological safety; do not turn learning sessions into blame or disciplinary interviews.', practicalExample: 'After a near miss, operators and supervisors map actual work sequence and redesign a confusing handover.'),
+  AbuDhabiInterviewQuestion(id: 100, question: 'How do you ensure action owners remain accountable?', modelAnswer: 'Set named accountable owners, risk-based deadlines, escalation triggers, evidence requirements, and leadership review.', technicalExplanation: 'Shared responsibility must not become ownerless work; overdue high-risk actions require escalation and risk reassessment.', practicalExample: 'A delayed guardrail action is escalated, interim access restrictions remain, and closure is verified in the field.'),
+];
 
-  int currentIndex = 0;
-  int score = 0;
-  bool answered = false;
-  bool finished = false;
-  bool reviewMode = false;
-  final Map<int, int> selectedAnswers = {};
-  List<int> reviewIndices = [];
-  int reviewPosition = 0;
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel5Questions = [
+  AbuDhabiInterviewQuestion(id: 100, question: 'How do you build a risk-based HSE strategy?', modelAnswer: 'Translate business and project objectives into material risk scenarios, critical controls, capability needs, leading measures, assurance, and review.', technicalExplanation: 'Prioritize by credible consequence and control weakness, not simply by incident frequency.', practicalExample: 'A contractor with few injuries but weak lifting assurance receives targeted engineering verification and leadership oversight.'),
+  AbuDhabiInterviewQuestion(id: 101, question: 'Explain ALARP in practical decision-making.', modelAnswer: 'Reduce risk as low as reasonably practicable by implementing controls unless the sacrifice is grossly disproportionate to the benefit, within applicable legal duties.', technicalExplanation: 'Do not use ALARP to justify noncompliance or ignore mandatory controls; document options, evidence, and decision authority.', practicalExample: 'For a high-risk roof task, compare elimination, permanent access, collective protection, and residual personal fall protection.'),
+  AbuDhabiInterviewQuestion(id: 102, question: 'How do you assure temporary works across a project?', modelAnswer: 'Set design briefs, categories/checking, register, permits/hold points, installation inspections, change control, loading limits, and striking authorization.', technicalExplanation: 'Responsibilities and check levels must follow the project’s approved temporary works procedure and competent design input.', practicalExample: 'A formwork pour is held until design check, foundation readiness, pre-pour inspection, and pour sequence are verified.'),
+  AbuDhabiInterviewQuestion(id: 103, question: 'How do you manage major incident learning across sites?', modelAnswer: 'Validate findings, identify transferable causes and controls, issue targeted alerts, assign local applicability reviews, and verify implementation.', technicalExplanation: 'Do not copy recommendations blindly; compare process, equipment, exposure, and local requirements.', practicalExample: 'A dropped-load alert prompts each site to inspect lifting exclusion arrangements and report evidence of improvement.'),
+  AbuDhabiInterviewQuestion(id: 104, question: 'What is human factors integration?', modelAnswer: 'Design tasks, interfaces, workload, alarms, procedures, environment, and staffing to account for human capabilities and limitations.', technicalExplanation: 'Avoid treating human error as a root cause; identify conditions that made error likely or difficult to detect.', practicalExample: 'A confusing valve lineup is redesigned with clear labels, independent verification, and improved handover.'),
+  AbuDhabiInterviewQuestion(id: 105, question: 'How do you manage safety-critical role assurance?', modelAnswer: 'Define competence standards, assessment, authorization, supervision, refresher triggers, and removal/reinstatement criteria.', technicalExplanation: 'Certificates, experience, and practical performance are separate evidence streams.', practicalExample: 'A lift supervisor is assessed on planning, communication, exclusion control, and emergency stop decisions before authorization.'),
+  AbuDhabiInterviewQuestion(id: 106, question: 'How do you evaluate contractor HSE maturity?', modelAnswer: 'Assess leadership, risk control, competence, learning, workforce participation, assurance, and sustained field outcomes.', technicalExplanation: 'Use evidence over time; maturity labels should guide support and controls, not replace risk-based oversight.', practicalExample: 'A contractor’s improved paperwork is checked against field observations and closeout effectiveness over several work cycles.'),
+  AbuDhabiInterviewQuestion(id: 107, question: 'How do you handle conflicting schedule and safety priorities?', modelAnswer: 'State the risk and required controls, stop uncontrolled work, present safe alternatives, escalate through governance, and document decisions.', technicalExplanation: 'Schedule pressure does not change the hazard; leaders must resource safe execution.', practicalExample: 'A critical lift cannot proceed with unverified ground capacity; reschedule while engineering assessment is completed.'),
+  AbuDhabiInterviewQuestion(id: 108, question: 'How do you establish a contractor corrective-action system?', modelAnswer: 'Classify findings by risk, assign accountable owner and due date, require cause-based actions, verify evidence, and trend recurrence.', technicalExplanation: 'Do not close actions based only on an uploaded photo or promise; verify the control in operation.', practicalExample: 'A repeated open-edge finding closes only after physical guardrails are installed and subsequent shifts confirm integrity.'),
+  AbuDhabiInterviewQuestion(id: 109, question: 'How do you manage an impaired safety barrier?', modelAnswer: 'Identify impairment, assess scenario risk, notify accountable authority, implement approved compensating measures, restrict activity if needed, and restore/test promptly.', technicalExplanation: 'Track impairment duration and authorization; never normalize temporary bypasses.', practicalExample: 'A fire alarm zone is unavailable during hot work; work is paused or controlled under an approved impairment plan until protection is restored.'),
+  AbuDhabiInterviewQuestion(id: 110, question: 'How do you evaluate emergency response capability?', modelAnswer: 'Compare credible scenarios with people, equipment, competence, communications, response times, access, mutual aid, and drill evidence.', technicalExplanation: 'A plan is credible only if resources are available on the actual shift and location.', practicalExample: 'A remote night shift tests rescue staffing and access rather than relying on day-shift arrangements.'),
+  AbuDhabiInterviewQuestion(id: 111, question: 'What is safety case thinking?', modelAnswer: 'Demonstrate that major hazards are understood and that preventive and mitigative measures are suitable, implemented, and assured.', technicalExplanation: 'Use structured claims, arguments, evidence, and review; apply only where required or adopted by the organization.', practicalExample: 'A high-hazard facility links a claim of safe operation to barrier standards, inspection records, impairment controls, and emergency readiness.'),
+  AbuDhabiInterviewQuestion(id: 112, question: 'How do you manage environmental compliance risk?', modelAnswer: 'Identify applicable permits and obligations, operational controls, monitoring, records, incident response, and change triggers.', technicalExplanation: 'Use official current requirements and permit conditions; do not assume one emirate’s rule automatically applies elsewhere.', practicalExample: 'A dewatering discharge is reviewed against approved discharge conditions, sampling plan, and authorized destination.'),
+  AbuDhabiInterviewQuestion(id: 113, question: 'How do you develop a learning organization?', modelAnswer: 'Encourage reporting, investigate system factors, share lessons, test corrective actions, and recognize transparent escalation.', technicalExplanation: 'Balance fair accountability with learning; intentional violations and system weaknesses require different responses.', practicalExample: 'After repeated PPE nonuse, leaders examine availability, fit, task design, supervision, and worker feedback before selecting interventions.'),
+  AbuDhabiInterviewQuestion(id: 114, question: 'How do you assess HSE resource adequacy?', modelAnswer: 'Compare risk profile, workfronts, shifts, geography, contractor complexity, emergency needs, and assurance workload with competent resources.', technicalExplanation: 'Headcount alone is not a reliable measure; determine coverage and authority at the point of work.', practicalExample: 'A project adds night-shift supervision and rescue coverage before opening a remote second workfront.'),
+  AbuDhabiInterviewQuestion(id: 115, question: 'How do you lead an HSE crisis briefing?', modelAnswer: 'Communicate verified facts, immediate risks, actions taken, uncertainties, decision needs, responsible owners, and next update time.', technicalExplanation: 'Avoid speculation and protect personal information; align with incident command and authorized communications.', practicalExample: 'After a major spill, brief leadership on source isolation, affected drains, response capability, notifications being verified, and recovery plan.'),
+  AbuDhabiInterviewQuestion(id: 116, question: 'How do you assure change in organizational structure?', modelAnswer: 'Review accountability, competence, coverage, escalation, permit authority, emergency roles, and handover before changes take effect.', technicalExplanation: 'Role changes can silently create gaps in safety-critical decisions.', practicalExample: 'A project transfers permit authority; competence and delegation are verified, and all contractors receive the revised contact route.'),
+  AbuDhabiInterviewQuestion(id: 117, question: 'How do you evaluate HSE technology?', modelAnswer: 'Define the problem, reliability, usability, data quality, privacy, integration, human factors, and fallback arrangements; pilot and measure outcomes.', technicalExplanation: 'Technology supplements competent decisions and physical controls; it must not create false confidence.', practicalExample: 'A digital permit pilot is tested offline and on night shift, with a controlled paper fallback and audit trail.'),
+  AbuDhabiInterviewQuestion(id: 118, question: 'How do you ensure quality of risk assessments?', modelAnswer: 'Use competent multidisciplinary input, task observation, realistic scenarios, hierarchy controls, worker participation, and field review.', technicalExplanation: 'Assessments should be concise enough to use and detailed enough to control risk; avoid copied generic hazards.', practicalExample: 'A lifting assessment is walked down with operator and rigger to verify actual access, load dimensions, and nearby services.'),
+  AbuDhabiInterviewQuestion(id: 119, question: 'How do you manage a serious allegation of falsified HSE records?', modelAnswer: 'Preserve records, protect evidence, notify authorized management/compliance channels, maintain fairness, and verify actual safety conditions immediately.', technicalExplanation: 'Do not alter or destroy evidence; follow investigation, privacy, and employment procedures.', practicalExample: 'Suspected backdated inspection forms trigger an independent equipment check and controlled record review.'),
+  AbuDhabiInterviewQuestion(id: 120, question: 'How do you set assurance sampling?', modelAnswer: 'Base sample size and frequency on risk, change, performance, criticality, and previous failures; define competent reviewers and escalation.', technicalExplanation: 'High-consequence controls need assurance proportionate to their failure potential, not a convenient fixed sample only.', practicalExample: 'After a lift-plan deviation, increase targeted field verification until performance stabilizes.'),
+  AbuDhabiInterviewQuestion(id: 121, question: 'How do you integrate HSE into procurement?', modelAnswer: 'Specify performance requirements, competence, certification/traceability, maintainability, safe access, lifecycle risks, and acceptance evidence.', technicalExplanation: 'Purchasing decisions can introduce hazards that are difficult to control after delivery.', practicalExample: 'Procurement requires lifting accessories with traceable identification, suitable ratings, documentation, and inspection arrangements.'),
+  AbuDhabiInterviewQuestion(id: 122, question: 'How do you manage worker participation meaningfully?', modelAnswer: 'Involve workers in hazard identification, planning, change review, incident learning, and control verification; close feedback loops.', technicalExplanation: 'Participation must be safe, accessible, and free from retaliation; show what changed because of input.', practicalExample: 'Operators identify a blind spot and help redesign a route; management reports the implemented change back to the crew.'),
+  AbuDhabiInterviewQuestion(id: 123, question: 'How do you evaluate whether corrective actions work?', modelAnswer: 'Define expected control outcome, evidence method, observation period, responsible verifier, and recurrence trigger.', technicalExplanation: 'Action completion is not effectiveness. Reopen or redesign actions when the risk persists.', practicalExample: 'After a new barrier is installed, conduct repeated shift checks and worker interviews before closing the systemic finding.'),
+  AbuDhabiInterviewQuestion(id: 124, question: 'How do you test the resilience of a critical control?', modelAnswer: 'Challenge it through realistic scenarios, impairment tests where safe, field observation, maintenance evidence, and response drills.', technicalExplanation: 'Testing must be authorized and must not itself create uncontrolled risk; failures require corrective action and reassessment.', practicalExample: 'A site tabletop exercise tests response when the primary gas detector and radio network are both unavailable.'),
+];
 
-  AbuDhabiHseQuestion get currentQuestion =>
-      abuDhabiHse150Questions[currentIndex];
+const List<AbuDhabiInterviewQuestion> abuDhabiLevel6Questions = [
+  AbuDhabiInterviewQuestion(id: 124, question: 'How would you present a 90-day HSE improvement plan?', modelAnswer: 'First establish baseline and critical risks; then stabilize urgent controls, engage leaders/workers, implement focused actions, and review measurable outcomes.', technicalExplanation: 'Set realistic owners, resources, milestones, and governance; do not promise zero incidents as a controllable output.', practicalExample: 'Days 1–30 verify high-risk work and overdue actions; days 31–60 strengthen competence and assurance; days 61–90 review effectiveness and sustain.'),
+  AbuDhabiInterviewQuestion(id: 125, question: 'How do you prioritize competing major risks?', modelAnswer: 'Compare credible consequence, exposure, barrier condition, uncertainty, legal duties, and potential for escalation; apply mandatory controls first.', technicalExplanation: 'A low-frequency catastrophic scenario may warrant priority despite few historical events.', practicalExample: 'A site prioritizes lifting integrity and process isolation over cosmetic audit findings while still assigning owners to both.'),
+  AbuDhabiInterviewQuestion(id: 126, question: 'How do you challenge a senior manager’s unsafe decision?', modelAnswer: 'Present observed facts, applicable requirement, credible consequence, control gap, and safe options; use stop-work/escalation authority and document outcome.', technicalExplanation: 'Remain respectful and evidence-based; escalate through defined governance when risk remains uncontrolled.', practicalExample: 'A manager requests operation with a disabled interlock; explain barrier impairment, prohibit affected operation under procedure, and escalate to accountable authority.'),
+  AbuDhabiInterviewQuestion(id: 127, question: 'How do you design an enterprise critical-risk framework?', modelAnswer: 'Standardize material risk scenarios, minimum controls, accountable owners, verification methods, impairment rules, and performance reporting across sites.', technicalExplanation: 'Allow local legal and operational additions while retaining a common core; avoid checklists that obscure site-specific hazards.', practicalExample: 'The framework defines minimum lifting controls while each project adds crane configuration, terrain, and authority-specific conditions.'),
+  AbuDhabiInterviewQuestion(id: 128, question: 'How do you evaluate HSE assurance independence?', modelAnswer: 'Clarify first-line ownership, second-line oversight, independent review, competence, conflicts of interest, reporting access, and action follow-up.', technicalExplanation: 'Independence should be proportionate to risk and not detach assurance from operational learning.', practicalExample: 'A high-risk lifting system receives independent technical review separate from the team delivering the lift.'),
+  AbuDhabiInterviewQuestion(id: 129, question: 'How do you manage a prolonged safety-critical equipment impairment?', modelAnswer: 'Reassess risk continuously, define strict compensating controls and expiry, obtain senior authorization, restrict work, prioritize repair, and independently verify restoration.', technicalExplanation: 'A temporary measure must not become routine; some impairments require shutdown or activity suspension.', practicalExample: 'A fixed gas detection system remains unavailable; only specifically authorized restricted operations proceed under approved temporary monitoring and response controls.'),
+  AbuDhabiInterviewQuestion(id: 130, question: 'How do you integrate HSE across design, construction, and operations?', modelAnswer: 'Apply lifecycle hazard reviews, maintain design risk registers, ensure maintainability and access, transfer residual risks, and verify operational readiness.', technicalExplanation: 'Late-stage handover cannot compensate for hazards designed into the facility.', practicalExample: 'A plant design review adds safe access and isolation points before construction, reducing future maintenance exposure.'),
+  AbuDhabiInterviewQuestion(id: 131, question: 'How do you lead a multi-site learning review?', modelAnswer: 'Compare event mechanisms and barriers, involve local teams, identify common systemic patterns, issue targeted actions, and independently sample adoption.', technicalExplanation: 'Do not assume a lesson transfers without checking local applicability and actual exposure.', practicalExample: 'A vehicle-pedestrian event prompts route and reversing reviews across all sites, not merely circulation of an alert.'),
+  AbuDhabiInterviewQuestion(id: 132, question: 'How do you assess HSE data integrity?', modelAnswer: 'Define source systems, ownership, classification, validation, denominator, audit trail, corrections, and access controls.', technicalExplanation: 'Avoid duplicate counts, underreporting incentives, and changing definitions that distort trends.', practicalExample: 'Monthly injury data is reconciled with medical and incident records, and corrections are documented with traceable approval.'),
+  AbuDhabiInterviewQuestion(id: 133, question: 'How do you respond to a regulator’s serious finding?', modelAnswer: 'Protect people immediately, comply with lawful directions, establish accountable response, preserve records, investigate causes, and provide evidence-based corrective action.', technicalExplanation: 'Do not speculate or conceal; confirm the exact requirement and due date from the official notice.', practicalExample: 'An authority identifies unsafe access; the area is isolated, compliant access is installed, and closure evidence is submitted through the required channel.'),
+  AbuDhabiInterviewQuestion(id: 134, question: 'How do you establish effective HSE leadership behaviours?', modelAnswer: 'Leaders visibly verify critical controls, listen to workers, resource risk reduction, act on concerns, and review whether decisions improve field conditions.', technicalExplanation: 'Visibility without follow-through can undermine trust; measure response quality and action completion.', practicalExample: 'A director joins a permit field check, resolves a resource gap, and returns to verify the agreed control.'),
+  AbuDhabiInterviewQuestion(id: 135, question: 'How do you manage an ethical conflict in incident reporting?', modelAnswer: 'Report accurately through authorized channels, preserve evidence, protect confidentiality, and escalate pressure to alter facts.', technicalExplanation: 'Never falsify, suppress, or selectively classify an event to improve performance metrics.', practicalExample: 'A supervisor asks to downgrade an injury; the HSE lead follows classification criteria and raises the concern to compliance leadership.'),
+  AbuDhabiInterviewQuestion(id: 136, question: 'How do you evaluate a proposed risk acceptance?', modelAnswer: 'Confirm legal compliance, credible scenarios, control options, residual risk, uncertainty, authority, affected-party consultation, and documented rationale.', technicalExplanation: 'Risk acceptance cannot waive legal duties or replace feasible controls; high-consequence decisions require appropriate authority.', practicalExample: 'A temporary access deviation is rejected until an engineered alternative and competent approval demonstrate acceptable controls.'),
+  AbuDhabiInterviewQuestion(id: 137, question: 'How do you build resilience into emergency management?', modelAnswer: 'Plan for degraded communications, unavailable routes, simultaneous casualties, resource shortages, weather, and prolonged response; test recovery and continuity.', technicalExplanation: 'Resilience requires realistic exercises, mutual aid coordination, and learning from failures.', practicalExample: 'A drill blocks the primary access road and tests alternate entry, radio fallback, and casualty transfer.'),
+  AbuDhabiInterviewQuestion(id: 138, question: 'How do you manage organizational learning after a fatality?', modelAnswer: 'Support affected people, preserve evidence, cooperate with authorities, communicate verified facts, investigate system causes, and implement independently verified actions.', technicalExplanation: 'Avoid premature conclusions, blame, or using the event as a publicity exercise; protect privacy and due process.', practicalExample: 'A cross-site review checks similar work-at-height arrangements and tracks implementation evidence at each location.'),
+  AbuDhabiInterviewQuestion(id: 139, question: 'How do you decide whether to stop an entire operation?', modelAnswer: 'Assess immediate threat, scope of exposure, critical barrier failure, ability to isolate affected work, and safe continuation conditions; use emergency and escalation protocols.', technicalExplanation: 'The decision should be timely, proportionate, documented, and reviewed as evidence changes.', practicalExample: 'A shared crane-support defect affects multiple lifts; all affected lifts stop until the extent is assessed and safe boundaries established.'),
+  AbuDhabiInterviewQuestion(id: 140, question: 'How do you govern HSE digital records?', modelAnswer: 'Set data ownership, access, version control, retention, audit trail, backup, privacy, and offline continuity; ensure records reflect actual field activity.', technicalExplanation: 'Digital signatures do not prove control effectiveness; protect personal and commercially sensitive data.', practicalExample: 'A permit platform logs revisions and approvals while supervisors verify physical isolations at the worksite.'),
+  AbuDhabiInterviewQuestion(id: 141, question: 'How do you measure whether a safety culture intervention worked?', modelAnswer: 'Define baseline behaviours, target mechanisms, worker feedback, field sampling, reporting quality, and sustained follow-up.', technicalExplanation: 'Avoid claiming causation from a single short-term metric; compare context and unintended effects.', practicalExample: 'After introducing stop-work coaching, sample whether workers raise concerns and whether supervisors respond constructively.'),
+  AbuDhabiInterviewQuestion(id: 142, question: 'How do you integrate climate and environmental resilience into HSE?', modelAnswer: 'Assess heat, extreme weather, water stress, flooding, dust, energy, waste, and emergency vulnerabilities; adapt design and work planning.', technicalExplanation: 'Use current official forecasts, permits, and local conditions; distinguish adaptation planning from legal thresholds.', practicalExample: 'A site revises heat work planning, drainage, dust suppression, and emergency access based on seasonal risk assessment.'),
+  AbuDhabiInterviewQuestion(id: 143, question: 'How do you resolve disagreement between engineering and operations on risk?', modelAnswer: 'Clarify assumptions and evidence, identify safety functions and operating constraints, involve independent competent review where needed, and document decision authority.', technicalExplanation: 'Do not settle technical safety disputes by hierarchy or schedule pressure alone.', practicalExample: 'Engineering proposes a lift configuration; operations identifies access constraints; a joint walkdown and revised calculation resolve the interface.'),
+  AbuDhabiInterviewQuestion(id: 144, question: 'How do you maintain competence in a changing regulatory environment?', modelAnswer: 'Track official authority updates, assess applicability, revise procedures and training, brief affected roles, and verify implementation.', technicalExplanation: 'Record source and effective date; do not treat informal summaries as legal authority.', practicalExample: 'A revised authority requirement triggers compliance review, document update, supervisor briefing, and targeted field audit.'),
+  AbuDhabiInterviewQuestion(id: 145, question: 'How do you design an HSE dashboard for executives?', modelAnswer: 'Show material risks, critical-control status, serious events, exposure, overdue high-risk actions, assurance findings, and decisions required.', technicalExplanation: 'Use definitions and context; avoid a single composite score that hides severe weaknesses.', practicalExample: 'Dashboard flags an overdue barrier test and identifies the accountable executive decision rather than only showing total training hours.'),
+  AbuDhabiInterviewQuestion(id: 146, question: 'How do you lead an HSE function under resource constraints?', modelAnswer: 'Prioritize critical risks, simplify low-value reporting, develop supervisors, coordinate shared expertise, and transparently escalate residual gaps.', technicalExplanation: 'Do not reduce statutory or essential controls to meet a budget target; document risk and resource decisions.', practicalExample: 'A small team focuses field assurance on lifting, excavation, and isolation while automating duplicate administrative reporting.'),
+  AbuDhabiInterviewQuestion(id: 147, question: 'What does excellent HSE performance mean to you?', modelAnswer: 'Reliable control of material risks, legal compliance, worker participation, honest reporting, effective learning, and protection of people and environment.', technicalExplanation: 'No single metric proves excellence; judge sustained control effectiveness and willingness to surface weak signals.', practicalExample: 'A project reports near misses openly, closes root causes, verifies critical barriers, and adapts plans when conditions change.'),
+  AbuDhabiInterviewQuestion(id: 148, question: 'How do you make HSE improvement sustainable?', modelAnswer: 'Embed controls into design, procurement, competence, operational routines, assurance, leadership decisions, and learning cycles.', technicalExplanation: 'Sustainability requires ownership and verification after initial project attention fades.', practicalExample: 'After a campaign reduces reversing events, retain route design, equipment controls, supervisor checks, and trend review.'),
+];
 
-  int get wrongCount => selectedAnswers.entries
-      .where((entry) =>
-          abuDhabiHse150Questions[entry.key].correctAnswer != entry.value)
-      .length;
+const List<AbuDhabiInterviewMcq> abuDhabiObjectiveQuestions = [
+  AbuDhabiInterviewMcq(id: 1, question: 'Which control is highest in the hierarchy?', options: ['Elimination','PPE','Warning signs','Training'], correctIndex: 0, explanation: 'Elimination removes the hazard rather than relying on exposure reduction.', practicalExample: 'Redesign a task to remove work at height instead of relying only on harnesses.'),
+  AbuDhabiInterviewMcq(id: 2, question: 'A worker finds an unmarked underground service during excavation. What is the first action?', options: ['Continue carefully','Stop work and secure the area','Move the service manually','Ask the operator to dig slower'], correctIndex: 1, explanation: 'Unexpected services require work to stop and the location to be assessed by competent personnel.', practicalExample: 'Isolate the excavation area and obtain utility verification before resuming.'),
+  AbuDhabiInterviewMcq(id: 3, question: 'Which item is essential before confined-space entry?', options: ['A signed attendance sheet only','Atmospheric assessment and rescue arrangements','A portable fan only','A supervisor’s verbal approval'], correctIndex: 1, explanation: 'Entry needs hazard assessment, isolation, testing, authorization, communication, and credible rescue.', practicalExample: 'Test the tank atmosphere, verify isolation, and keep trained rescue capability ready.'),
+  AbuDhabiInterviewMcq(id: 4, question: 'A damaged grinder guard is found. What should the worker do?', options: ['Use it briefly','Tape the guard','Remove it from service','Ask a coworker to hold the guard'], correctIndex: 2, explanation: 'Defective tools must be isolated and replaced or repaired through an authorized process.', practicalExample: 'Tag and quarantine the grinder; issue a sound tool.'),
+  AbuDhabiInterviewMcq(id: 5, question: 'Which is a leading indicator?', options: ['Lost-time injury count','Completed critical-control field verifications','Medical treatment cases','Property damage claims'], correctIndex: 1, explanation: 'Leading indicators monitor preventive activity or control health before harm occurs.', practicalExample: 'Track field verification quality for excavation support and access.'),
+  AbuDhabiInterviewMcq(id: 6, question: 'What is the purpose of lockout/tagout?', options: ['Identify the operator','Prevent unexpected energization or release of stored energy','Increase production speed','Replace risk assessment'], correctIndex: 1, explanation: 'Isolation controls hazardous energy and must be verified before work.', practicalExample: 'Lock electrical and mechanical sources, release stored energy, and prove zero energy.'),
+  AbuDhabiInterviewMcq(id: 7, question: 'Who may alter a scaffold?', options: ['Any experienced worker','Only a competent authorized person under the scaffold procedure','The user without approval','The delivery driver'], correctIndex: 1, explanation: 'Unauthorized alteration can compromise stability and protection.', practicalExample: 'Close the scaffold after an alteration until competent reinspection and release.'),
+  AbuDhabiInterviewMcq(id: 8, question: 'Which is a lagging indicator?', options: ['Overdue action closure rate','Safety training quality check','Recordable injury rate','Permit field verification'], correctIndex: 2, explanation: 'Lagging indicators record outcomes that have already occurred.', practicalExample: 'Review injury trends alongside preventive control data.'),
+  AbuDhabiInterviewMcq(id: 9, question: 'What is the safest response when a lift’s exclusion zone is breached?', options: ['Continue if load is light','Stop the lift and restore the zone','Ask pedestrians to hurry','Rely on the crane horn'], correctIndex: 1, explanation: 'People must be kept clear of suspended-load danger zones; stop and re-establish control.', practicalExample: 'Lower or secure the load safely, clear the area, and re-brief.'),
+  AbuDhabiInterviewMcq(id: 10, question: 'What should be done when weather exceeds the approved crane limit?', options: ['Proceed with extra banksmen','Stop or suspend lifting per approved procedure','Increase the load speed','Ignore if the operator agrees'], correctIndex: 1, explanation: 'Use manufacturer and approved lift-plan limits; stop when conditions exceed them.', practicalExample: 'Suspend the lift and reassess when wind conditions return within approved limits.'),
+  AbuDhabiInterviewMcq(id: 11, question: 'Which document explains chemical hazards and first aid?', options: ['Delivery note','Safety Data Sheet','Attendance register','Toolbox poster only'], correctIndex: 1, explanation: 'The product-specific SDS describes hazards, handling, exposure controls, and emergency measures.', practicalExample: 'Review the solvent SDS before use and make emergency details accessible.'),
+  AbuDhabiInterviewMcq(id: 12, question: 'A near miss occurs with no injury. What is appropriate?', options: ['Do not report it','Report, investigate, and improve controls','Wait for a repeat event','Blame the nearest worker'], correctIndex: 1, explanation: 'Near misses reveal control weaknesses before injury or loss occurs.', practicalExample: 'Report the swinging load near pedestrian route and revise the lift interface.'),
+  AbuDhabiInterviewMcq(id: 13, question: 'Which is an engineering control?', options: ['Local exhaust ventilation','Safety slogan','Warning email','PPE reminder'], correctIndex: 0, explanation: 'Engineering controls physically reduce exposure or separate people from hazards.', practicalExample: 'Install extraction at a dust-generating process.'),
+  AbuDhabiInterviewMcq(id: 14, question: 'A permit condition changes due to rain. What should happen?', options: ['Keep working under old permit','Suspend and reassess before reauthorization','Change the date only','Ask workers to be cautious'], correctIndex: 1, explanation: 'Changed conditions can invalidate risk controls and permit authorization.', practicalExample: 'Pause excavation work, reassess stability and access, then reauthorize.'),
+  AbuDhabiInterviewMcq(id: 15, question: 'Which is a sound incident-investigation approach?', options: ['Assume worker carelessness','Preserve evidence and examine system causes','Close after a toolbox talk','Avoid interviewing witnesses'], correctIndex: 1, explanation: 'Investigation should establish facts, causal factors, barrier failures, and effective actions.', practicalExample: 'Review equipment, planning, supervision, and worksite conditions after a dropped object.'),
+  AbuDhabiInterviewMcq(id: 16, question: 'What is a suitable response to a spill near a drain?', options: ['Wash it into the drain','Stop source if safe and protect the drain','Cover it with soil','Leave it for housekeeping'], correctIndex: 1, explanation: 'Containment prevents environmental spread; notify and manage waste through approved procedures.', practicalExample: 'Use drain covers and absorbents, notify environmental staff, and dispose of contaminated materials properly.'),
+  AbuDhabiInterviewMcq(id: 17, question: 'Which best describes a critical lift?', options: ['Any lift by a new worker','A lift meeting project-defined higher-risk criteria','Only a lift above one tonne','Any lift outdoors'], correctIndex: 1, explanation: 'Criticality is defined by project criteria and risk, not one universal load threshold.', practicalExample: 'A lift over operating equipment receives enhanced planning and interface controls.'),
+  AbuDhabiInterviewMcq(id: 18, question: 'What is a toolbox talk intended to do?', options: ['Replace formal training for all roles','Communicate task hazards and controls and check understanding','Only collect signatures','Approve a permit automatically'], correctIndex: 1, explanation: 'A toolbox talk supports task-specific communication and worker participation.', practicalExample: 'Brief night-shift staff on lighting, traffic, fatigue, and changed routes.'),
+  AbuDhabiInterviewMcq(id: 19, question: 'What is the correct response to a suspected defective safety-critical device?', options: ['Continue until next service','Stop affected operation and follow impairment procedure','Disable the alarm','Ask an unqualified person to reset it'], correctIndex: 1, explanation: 'A failed critical barrier requires risk assessment, restrictions, and verified restoration.', practicalExample: 'Remove a crane from service if a required limit device is defective.'),
+  AbuDhabiInterviewMcq(id: 20, question: 'Which is an example of a lagging environmental metric?', options: ['Spill incident count','Inspection completion','Drain protection verification','Waste segregation briefing'], correctIndex: 0, explanation: 'Spill count records an event that has already occurred.', practicalExample: 'Review spill events with leading checks of containment and storage integrity.'),
+  AbuDhabiInterviewMcq(id: 21, question: 'What does competency include?', options: ['Certificate only','Knowledge, practical skill, experience, and authorization','Seniority alone','Attendance only'], correctIndex: 1, explanation: 'Competence requires evidence appropriate to the task and current role.', practicalExample: 'Assess a banksman’s practical signals and site authorization before assigning duties.'),
+  AbuDhabiInterviewMcq(id: 22, question: 'Which action best supports worker participation?', options: ['Issue rules without discussion','Involve workers in task planning and close feedback loops','Discourage hazard reports','Only consult managers'], correctIndex: 1, explanation: 'Workers’ task knowledge helps identify practical hazards and workable controls.', practicalExample: 'Ask operators to help redesign a blind vehicle route and report the adopted change.'),
+  AbuDhabiInterviewMcq(id: 23, question: 'What is the purpose of a muster point?', options: ['Store equipment','Account for people after evacuation','Park contractor vehicles','Conduct routine toolbox talks'], correctIndex: 1, explanation: 'Muster arrangements support headcount and emergency accountability.', practicalExample: 'Wardens reconcile worker and visitor lists at the designated safe location.'),
+  AbuDhabiInterviewMcq(id: 24, question: 'Which control should be considered before PPE?', options: ['Elimination or engineering controls','More warning posters only','Disciplinary action','No change'], correctIndex: 0, explanation: 'The hierarchy prioritizes removing or controlling hazards at source before relying on PPE.', practicalExample: 'Use a guarded platform before selecting personal fall-arrest equipment.'),
+  AbuDhabiInterviewMcq(id: 25, question: 'A worker reports fatigue before driving. What is appropriate?', options: ['Tell them to continue','Stop safety-critical driving and arrange safe assessment/rest','Give energy drink and dispatch','Ignore if schedule is tight'], correctIndex: 1, explanation: 'Fatigue can impair performance and must be managed as a foreseeable risk.', practicalExample: 'Arrange safe transport/rest and review the roster before driving resumes.'),
+  AbuDhabiInterviewMcq(id: 26, question: 'What should a risk assessment identify?', options: ['Only PPE','Hazards, exposed people, risk, controls, and further actions','Only job title','Only incident history'], correctIndex: 1, explanation: 'A task-specific assessment connects hazards and consequences to controls and owners.', practicalExample: 'Assess load path, ground support, weather, and exclusion before lifting.'),
+  AbuDhabiInterviewMcq(id: 27, question: 'What is a safe scaffold status after unauthorized alteration?', options: ['Continue if it looks stable','Isolate until competent inspection and release','Allow only experienced workers','Remove the tag and proceed'], correctIndex: 1, explanation: 'Alteration may affect structural integrity and safe access.', practicalExample: 'Close the platform and request authorized inspection before reuse.'),
+  AbuDhabiInterviewMcq(id: 28, question: 'What is a suitable first step in emergency planning?', options: ['Copy another site’s plan unchanged','Identify credible site-specific scenarios and resources','Buy more signs only','Wait for an incident'], correctIndex: 1, explanation: 'Emergency plans must reflect hazards, layout, shifts, and response capability.', practicalExample: 'Map fire, medical, spill, and rescue scenarios for remote night work.'),
+  AbuDhabiInterviewMcq(id: 29, question: 'Which is a correct LOTO verification step?', options: ['Assume switch-off means safe','Test/verify zero energy using safe procedure','Remove another person’s lock','Start work before testing'], correctIndex: 1, explanation: 'Isolation must be verified and stored energy controlled before work begins.', practicalExample: 'Attempt a safe test after isolation and confirm zero energy.'),
+  AbuDhabiInterviewMcq(id: 30, question: 'Which is an example of a preventive barrier?', options: ['Emergency medical treatment','Overfill prevention system','Post-incident investigation','Muster headcount'], correctIndex: 1, explanation: 'Preventive barriers reduce the likelihood of a top event occurring.', practicalExample: 'A verified high-level shutdown helps prevent tank overfill.'),
+  AbuDhabiInterviewMcq(id: 31, question: 'How should an HSE action be closed?', options: ['When owner says done','After evidence and effectiveness verification','When deadline passes','When a photo is uploaded without review'], correctIndex: 1, explanation: 'Completion and effectiveness are distinct; verify the control works in the field.', practicalExample: 'Observe the installed guardrail on later shifts before closing recurrence action.'),
+  AbuDhabiInterviewMcq(id: 32, question: 'Which statement about PPE is correct?', options: ['It eliminates the hazard','It is generally a residual control and must fit and be maintained','Any PPE suits every task','It replaces training'], correctIndex: 1, explanation: 'PPE reduces exposure only when suitable, compatible, fitted, and used correctly.', practicalExample: 'Select task-specific eye and respiratory protection after source controls.'),
+  AbuDhabiInterviewMcq(id: 33, question: 'What should a site do with incompatible chemicals?', options: ['Store together to save space','Segregate according to SDS and approved storage controls','Remove labels','Place beside drains'], correctIndex: 1, explanation: 'Incompatibility can cause fire, reaction, or toxic release.', practicalExample: 'Separate oxidizers and flammables using designated compatible storage.'),
+  AbuDhabiInterviewMcq(id: 34, question: 'What is the purpose of a traffic management plan?', options: ['Improve vehicle speed only','Separate and control vehicle and pedestrian movements','Replace operator competence','Remove need for barriers'], correctIndex: 1, explanation: 'Traffic plans manage routes, crossings, reversing, visibility, and work zones.', practicalExample: 'Provide protected pedestrian route and controlled delivery gate.'),
+  AbuDhabiInterviewMcq(id: 35, question: 'Which is appropriate after an unexpected change in work scope?', options: ['Continue using original method statement','Review risk, method, permits, approvals, and briefing','Only update title','Ask workers to improvise'], correctIndex: 1, explanation: 'A scope change may invalidate the assessed controls and authorization.', practicalExample: 'Pause work and revise lift plan when load dimensions differ from the approved plan.'),
+  AbuDhabiInterviewMcq(id: 36, question: 'What is the main purpose of a training matrix?', options: ['Track only attendance','Map role requirements, competency evidence, and refresher needs','Replace field assessment','List employee phone numbers'], correctIndex: 1, explanation: 'A matrix helps prevent assignment without required competence and authorization.', practicalExample: 'Check current operator assessment and site authorization before MEWP use.'),
+  AbuDhabiInterviewMcq(id: 37, question: 'What is a good audit finding?', options: ['Vague statement: site unsafe','Evidence-based finding against a defined criterion','Personal opinion only','Unverified rumor'], correctIndex: 1, explanation: 'Audits require objective evidence, criteria, risk significance, and traceable actions.', practicalExample: 'Record the missing permit isolation verification against the applicable procedure.'),
+  AbuDhabiInterviewMcq(id: 38, question: 'Which response is appropriate to repeated unsafe behaviour?', options: ['Only repeat slogans','Investigate system causes and verify corrective action','Ignore it','Punish without checking conditions'], correctIndex: 1, explanation: 'Repeated nonconformance may indicate training, design, resources, supervision, or governance gaps.', practicalExample: 'Review access design and supervision after repeated unguarded-edge findings.'),
+  AbuDhabiInterviewMcq(id: 39, question: 'What should an HSE dashboard emphasize?', options: ['Only total toolbox talks','Material risks, critical-control health, serious events, overdue actions, and decisions','Only green percentages','Only monthly injury total'], correctIndex: 1, explanation: 'Risk-weighted information supports decisions and avoids vanity metrics.', practicalExample: 'Highlight overdue safety-critical equipment repair with accountable owner and required decision.'),
+  AbuDhabiInterviewMcq(id: 40, question: 'What is the purpose of management of change?', options: ['Approve paperwork after implementation','Assess risks and controls before changing people, equipment, process, or conditions','Avoid consulting workers','Remove need for permits'], correctIndex: 1, explanation: 'Change can introduce new hazards and invalidate prior controls.', practicalExample: 'Review night-shift change for lighting, traffic, supervision, and emergency access.'),
+  AbuDhabiInterviewMcq(id: 41, question: 'Which statement best describes environmental aspect?', options: ['The resulting damage only','An activity or element that interacts with environment','A legal fine','A waste receipt'], correctIndex: 1, explanation: 'An aspect is the interaction; an impact is the resulting environmental change.', practicalExample: 'Diesel storage is an aspect; soil contamination from a leak is an impact.'),
+  AbuDhabiInterviewMcq(id: 42, question: 'What should a rescue plan avoid?', options: ['Defined roles','Suitable equipment','Reliance on untrained spontaneous entry rescue','Communication checks'], correctIndex: 2, explanation: 'Unplanned rescue attempts can create additional casualties; use trained, scenario-matched arrangements.', practicalExample: 'Use planned non-entry retrieval where feasible and trained rescue personnel.'),
+  AbuDhabiInterviewMcq(id: 43, question: 'Which action best demonstrates leadership commitment?', options: ['Sign policy only','Resource controls, listen, act on concerns, and verify field improvement','Focus only on injury numbers','Delegate all responsibility'], correctIndex: 1, explanation: 'Leadership is shown through decisions and sustained control effectiveness.', practicalExample: 'Resolve a supervisor coverage gap and return to verify the workfront is protected.'),
+  AbuDhabiInterviewMcq(id: 44, question: 'What is the safest approach to uncertain legal requirements?', options: ['Guess from memory','Check current official source and project applicability','Copy an old checklist','Treat another emirate’s rule as identical'], correctIndex: 1, explanation: 'Legal requirements and authority rules can change and differ by jurisdiction.', practicalExample: 'Verify current Abu Dhabi authority guidance before citing a reporting deadline.'),
+  AbuDhabiInterviewMcq(id: 45, question: 'Which is a valid reason to stop work?', options: ['Worker raises credible uncontrolled hazard','Schedule is behind','A manager dislikes reporting','Toolbox talk is short'], correctIndex: 0, explanation: 'Stop-work authority addresses unsafe conditions and uncontrolled changes.', practicalExample: 'Pause lifting when an exclusion-zone breach occurs.'),
+  AbuDhabiInterviewMcq(id: 46, question: 'What should a site inspection record include?', options: ['Only a tick mark','Finding, risk, owner, due date, and closure evidence','Only inspector name','Only photographs'], correctIndex: 1, explanation: 'Traceable findings support prioritization and verified closeout.', practicalExample: 'Record an open edge, assign installation owner and due date, then verify guardrails.'),
+  AbuDhabiInterviewMcq(id: 47, question: 'Which best supports heat-stress prevention?', options: ['Water only','Risk-based work planning, shade/rest, hydration, monitoring, training, and emergency response','Ignore acclimatization','Rely on worker self-report only'], correctIndex: 1, explanation: 'Heat risk requires layered organizational and individual controls, aligned with current rules.', practicalExample: 'Adjust high-exertion work and monitor buddy pairs during hot conditions.'),
+  AbuDhabiInterviewMcq(id: 48, question: 'What is a suitable approach to HSE interview answers?', options: ['Memorize unsupported legal numbers','Explain principle, site application, verification, and official-source caveat where needed','Use only acronyms','Claim every rule is universal'], correctIndex: 1, explanation: 'Strong answers connect knowledge to practical controls and avoid unsupported statutory claims.', practicalExample: 'Explain how you would verify the current authority CoP before quoting a requirement.'),
+  AbuDhabiInterviewMcq(id: 49, question: 'Which is a strong corrective action for recurring dropped objects?', options: ['Send another email only','Improve tool tethering, storage, exclusion, supervision, and verification based on cause','Close as worker mistake','Count more toolbox talks'], correctIndex: 1, explanation: 'Actions should address the causal mechanism and verify sustained performance.', practicalExample: 'Install suitable retention, control access below, and inspect during subsequent shifts.'),
+  AbuDhabiInterviewMcq(id: 50, question: 'What does ALARP not permit?', options: ['Considering control options','Documenting residual risk','Ignoring mandatory legal requirements','Using risk evidence'], correctIndex: 2, explanation: 'ALARP does not waive law or mandatory controls.', practicalExample: 'Meet applicable legal requirements first, then assess further reasonably practicable risk reduction.'),
+];
 
-  void selectAnswer(int optionIndex) {
-    if (answered || finished || reviewMode) return;
-    setState(() {
-      selectedAnswers[currentIndex] = optionIndex;
-      answered = true;
-      if (optionIndex == currentQuestion.correctAnswer) score++;
-    });
-  }
+class AbuDhabiHseInterviewPage extends StatelessWidget {
+  const AbuDhabiHseInterviewPage({super.key});
 
-  void nextQuestion() {
-    if (reviewMode) {
-      if (reviewPosition + 1 < reviewIndices.length) {
-        setState(() {
-          reviewPosition++;
-          currentIndex = reviewIndices[reviewPosition];
-          answered = true;
-        });
-      } else {
-        setState(() => finished = true);
-      }
-      return;
-    }
-
-    if (currentIndex < _totalQuestions - 1) {
-      setState(() {
-        currentIndex++;
-        answered = false;
-      });
-    } else {
-      setState(() => finished = true);
-    }
-  }
-
-  void restartQuiz() {
-    setState(() {
-      currentIndex = 0;
-      score = 0;
-      answered = false;
-      finished = false;
-      reviewMode = false;
-      reviewIndices = [];
-      reviewPosition = 0;
-      selectedAnswers.clear();
-    });
-  }
-
-  void reviewWrongAnswers() {
-    reviewIndices = selectedAnswers.entries
-        .where((entry) =>
-            abuDhabiHse150Questions[entry.key].correctAnswer != entry.value)
-        .map((entry) => entry.key)
-        .toList()
-      ..sort();
-
-    if (reviewIndices.isEmpty) return;
-    setState(() {
-      reviewMode = true;
-      finished = false;
-      reviewPosition = 0;
-      currentIndex = reviewIndices.first;
-      answered = true;
-    });
-  }
-
-  Color optionColor(int optionIndex) {
-    if (!answered) return Colors.white;
-    if (optionIndex == currentQuestion.correctAnswer) {
-      return Colors.green.shade100;
-    }
-    if (selectedAnswers[currentIndex] == optionIndex) {
-      return Colors.red.shade100;
-    }
-    return Colors.white;
-  }
+  static const Color _green = Color(0xFF176B45);
 
   @override
   Widget build(BuildContext context) {
-    if (finished) return _buildResult();
+    final levels = <(String, String, List<AbuDhabiInterviewQuestion>)>[
+      ('Level 1 — Foundation & Questions', 'Basic interview questions & model answers', abuDhabiLevel1Questions),
+      ('Level 2 — Field Safety & Operational Controls', 'Questions & detailed model answers', abuDhabiLevel2Questions),
+      ('Level 3 — Advanced Technical & Site Scenario', 'Questions & detailed model answers', abuDhabiLevel3Questions),
+      ('Level 4 — Leadership Governance & Assurance', 'Questions & detailed model answers', abuDhabiLevel4Questions),
+      ('Level 5 — Senior HSE Officer / Manager', 'Questions & detailed model answers', abuDhabiLevel5Questions),
+      ('Level 6 — Expert & Interview Mastery', 'Questions & detailed model answers', abuDhabiLevel6Questions),
+    ];
 
     return Scaffold(
-      backgroundColor: _pageBackground,
       appBar: AppBar(
-        title: Text(
-          reviewMode ? 'Review Wrong Answers' : 'Abu Dhabi HSE Safety Quiz',
-        ),
+        title: const Text('Abu Dhabi HSE Interview'),
         backgroundColor: _green,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            onPressed: restartQuiz,
-            tooltip: 'Restart Quiz',
-            icon: const Icon(Icons.refresh),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(12),
+        children: [
+          for (final entry in levels)
+            Card(
+              margin: const EdgeInsets.symmetric(vertical: 9, horizontal: 2),
+              color: const Color(0xFFF3F7F2),
+              elevation: 1.2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: Color(0xFFE3E9E5)),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: ExpansionTile(
+                minTileHeight: 112,
+                tilePadding: const EdgeInsets.fromLTRB(20, 14, 18, 14),
+                childrenPadding: const EdgeInsets.only(bottom: 8),
+                leading: const Icon(Icons.menu_book_rounded, color: Color(0xFF23964F), size: 42),
+                title: Text(
+                  entry.$1,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF171A18),
+                    height: 1.28,
+                  ),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text(
+                    entry.$2,
+                    style: const TextStyle(
+                      fontSize: 15.5,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF777D79),
+                      height: 1.25,
+                    ),
+                  ),
+                ),
+                iconColor: const Color(0xFF3C4540),
+                collapsedIconColor: const Color(0xFF3C4540),
+                children: [
+                  for (final q in entry.$3)
+                    ExpansionTile(
+                      title: Text('${q.id}. ${q.question}'),
+                      children: [
+                        _detail('Model Answer', q.modelAnswer),
+                        _detail('Technical Explanation', q.technicalExplanation),
+                        _detail('Practical Site Example', q.practicalExample),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 10),
+          Card(
+            color: const Color(0xFFF3F7F2),
+            elevation: 1.2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Color(0xFFE3E9E5)),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              minTileHeight: 112,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              leading: Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0EAF7),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.quiz_rounded, color: Color(0xFF673AB7), size: 30),
+              ),
+              title: const Text(
+                'Abu Dhabi HSE Safety Quiz – 150 MCQs',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400, color: Color(0xFF171A18)),
+              ),
+              subtitle: const Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: Text(
+                  'Interactive Quiz • Score /150 • Pass Mark 70%',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Color(0xFF777D79)),
+                ),
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const AbuDhabiHseSafetyQuizPage(),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(12, 4, 12, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildProgress(),
-              const SizedBox(height: 12),
-
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      currentQuestion.question,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        height: 1.28,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    ...List.generate(4, (optionIndex) {
-                      final correct =
-                          optionIndex == currentQuestion.correctAnswer;
-                      final selected =
-                          selectedAnswers[currentIndex] == optionIndex;
-
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 9),
-                        child: InkWell(
-                          onTap: () => selectAnswer(optionIndex),
-                          borderRadius: BorderRadius.circular(14),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 11,
-                            ),
-                            decoration: BoxDecoration(
-                              color: optionColor(optionIndex),
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: answered && correct
-                                    ? Colors.green
-                                    : answered && selected
-                                        ? Colors.red
-                                        : Colors.grey.shade300,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: _green,
-                                  child: Text(
-                                    String.fromCharCode(65 + optionIndex),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 9),
-                                Expanded(
-                                  child: Text(
-                                    currentQuestion.options[optionIndex],
-                                    style: const TextStyle(
-                                      fontSize: 15.5,
-                                      height: 1.2,
-                                    ),
-                                  ),
-                                ),
-                                if (answered && correct)
-                                  const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                  ),
-                                if (answered && selected && !correct)
-                                  const Icon(Icons.cancel, color: Colors.red),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                    if (answered) ...[
-                      const SizedBox(height: 12),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: Colors.blue.shade200),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              selectedAnswers[currentIndex] ==
-                                      currentQuestion.correctAnswer
-                                  ? '✓ Correct Answer'
-                                  : '✗ Incorrect Answer',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                color: selectedAnswers[currentIndex] ==
-                                        currentQuestion.correctAnswer
-                                    ? Colors.green.shade800
-                                    : Colors.red.shade800,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Technical Explanation',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              currentQuestion.explanation,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                height: 1.25,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Practical UAE Site Example',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              currentQuestion.siteExample,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                height: 1.25,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: nextQuestion,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: _green,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                          ),
-                          child: Text(
-                            reviewMode
-                                ? (reviewPosition + 1 == reviewIndices.length
-                                    ? 'Finish Review'
-                                    : 'Next Wrong Answer')
-                                : (currentIndex == _totalQuestions - 1
-                                    ? 'View Final Result'
-                                    : 'Next Question →'),
-                          ),
-                        ),
-                      ),
-                    ],
-            ],
-          ),
-        ),
-      ),
     );
   }
 
-  Widget _buildProgress() => Container(
-        padding: const EdgeInsets.all(16),
-        color: Colors.white,
+  Widget _detail(String title, String body) => Padding(
+        padding: const EdgeInsets.fromLTRB(16, 5, 16, 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  reviewMode
-                      ? 'Review: ${reviewPosition + 1} / ${reviewIndices.length}'
-                      : 'Progress: ${currentIndex + 1} / $_totalQuestions',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Score: $score',
-                  style: const TextStyle(
-                    color: _green,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: _green,
+              ),
             ),
-            const SizedBox(height: 10),
-            LinearProgressIndicator(
-              value: reviewMode
-                  ? (reviewPosition + 1) / reviewIndices.length
-                  : (currentIndex + 1) / _totalQuestions,
-              minHeight: 8,
-              backgroundColor: Colors.grey.shade200,
-              color: const Color(0xFF16A34A),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ],
-        ),
-      );
-
-  Widget _buildResult() {
-    final passed = score >= _passMark;
-    final percentage = (score / _totalQuestions * 100).round();
-
-    return Scaffold(
-      backgroundColor: _pageBackground,
-      appBar: AppBar(
-        title: const Text('Quiz Result'),
-        backgroundColor: _green,
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Icon(
-                  passed ? Icons.emoji_events : Icons.school,
-                  size: 90,
-                  color: passed ? Colors.amber : Colors.orange,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  passed ? 'Congratulations!' : 'Keep Learning!',
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  '$score / $_totalQuestions',
-                  style: const TextStyle(
-                    fontSize: 52,
-                    fontWeight: FontWeight.bold,
-                    color: _green,
-                  ),
-                ),
-                Text(
-                  '$percentage%',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: passed
-                        ? Colors.green.shade100
-                        : Colors.orange.shade100,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    passed ? 'PASS – 70% Threshold' : 'NEEDS IMPROVEMENT',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: passed
-                          ? Colors.green.shade900
-                          : Colors.orange.shade900,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                _resultRow('Total Questions', '$_totalQuestions'),
-                _resultRow('Correct Answers', '$score'),
-                _resultRow('Wrong Answers', '$wrongCount'),
-                _resultRow('Pass Mark', '$_passMark / $_totalQuestions (70%)'),
-                const SizedBox(height: 28),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: restartQuiz,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Retake Quiz'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _green,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.all(16),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                if (wrongCount > 0)
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: reviewWrongAnswers,
-                      icon: const Icon(Icons.menu_book),
-                      label: Text('Review Wrong Answers ($wrongCount)'),
-                    ),
-                  ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () => Navigator.of(context).maybePop(),
-                  child: const Text('Back to Interview Levels'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _resultRow(String label, String value) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(label),
-            Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 4),
+            Text(body),
           ],
         ),
       );
