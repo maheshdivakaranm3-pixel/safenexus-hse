@@ -322,17 +322,21 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
         children: [
           for (var i = 0; i < _levelTitles.length; i++)
             Card(
-              margin: const EdgeInsets.symmetric(vertical: 6),
+              margin: const EdgeInsets.symmetric(vertical: 4),
               clipBehavior: Clip.antiAlias,
               child: ListTile(
+                dense: true,
+                visualDensity: const VisualDensity(vertical: -2),
+                minVerticalPadding: 4,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+                  horizontal: 14,
+                  vertical: 4,
                 ),
-                minLeadingWidth: 44,
+                minLeadingWidth: 34,
                 leading: const Icon(
                   Icons.menu_book_rounded,
                   color: Color(0xFF159447),
+                  size: 30,
                 ),
                 title: Text(
                   _levelTitles[i],
@@ -347,7 +351,8 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                   child: Text(
                     _levelSubtitles[i],
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
+                      height: 1.15,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF777D79),
                     ),
@@ -356,7 +361,7 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                 trailing: const Icon(
                   Icons.chevron_right,
                   color: Color(0xFF424744),
-                  size: 30,
+                  size: 26,
                 ),
                 onTap: () => Navigator.push(
                   context,
@@ -371,11 +376,19 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
             ),
           const SizedBox(height: 10),
           Card(
-            margin: const EdgeInsets.symmetric(vertical: 6),
+            margin: const EdgeInsets.symmetric(vertical: 4),
             clipBehavior: Clip.antiAlias,
             child: ListTile(
+              dense: true,
+              visualDensity: const VisualDensity(vertical: -2),
+              minVerticalPadding: 4,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 4,
+              ),
+              minLeadingWidth: 34,
               leading: const CircleAvatar(
-                radius: 25,
+                radius: 20,
                 backgroundColor: Color(0xFFF0E8F6),
                 child: Icon(
                   Icons.quiz_outlined,
@@ -385,7 +398,8 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
               title: const Text(
                 'Abu Dhabi HSE Safety Quiz – 150 MCQs',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
+                  height: 1.12,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF171B19),
                 ),
@@ -395,7 +409,8 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                 child: Text(
                   'Interactive Quiz • Score /150 • Pass Mark 70%',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
+                    height: 1.15,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF777D79),
                   ),
