@@ -1212,57 +1212,469 @@ const List<AbuDhabiHseQuestion> abuDhabiHse150Questions = [
 
 class AbuDhabiHseSafetyQuizPage extends StatefulWidget {
   const AbuDhabiHseSafetyQuizPage({super.key});
-  @override State<AbuDhabiHseSafetyQuizPage> createState() => _AbuDhabiHseSafetyQuizPageState();
+
+  @override
+  State<AbuDhabiHseSafetyQuizPage> createState() =>
+      _AbuDhabiHseSafetyQuizPageState();
 }
 
-class _AbuDhabiHseSafetyQuizPageState extends State<AbuDhabiHseSafetyQuizPage> {
-  int index = 0; int score = 0; int? selected; bool answered = false; bool finished = false;
-  final Set<int> wrong = {};
-  AbuDhabiHseQuestion get q => abuDhabiHse150Questions[index];
-  void choose(int value) { if (answered || finished) return; setState(() { selected = value; answered = true;
-    if (value == q.correctAnswer) { score++; } else { wrong.add(index); } }); }
-  void next() { setState(() { if (index == abuDhabiHse150Questions.length - 1) { finished = true; }
-    else { index++; selected = null; answered = false; } }); }
-  void restart() { setState(() { index = 0; score = 0; selected = null; answered = false; finished = false; wrong.clear(); }); }
-  void reviewWrong() { if (wrong.isEmpty) return; setState(() { index = wrong.first; selected = null; answered = false; finished = false; }); }
-  @override Widget build(BuildContext context) {
-    final green = const Color(0xFF14532D);
-    return Scaffold(backgroundColor: const Color(0xFFF4F7F5), appBar: AppBar(backgroundColor: green, foregroundColor: Colors.white,
-      title: const Text('Abu Dhabi HSE Safety Quiz'), actions: [IconButton(onPressed: restart, tooltip: 'Restart', icon: const Icon(Icons.refresh))]),
-      body: SafeArea(child: finished ? _result(green) : _questionBody(green)));
+class _AbuDhabiHseSafetyQuizPageState
+    extends State<AbuDhabiHseSafetyQuizPage> {
+  static const int _totalQuestions = 150;
+  static const int _passMark = 105;
+  static const Color _green = Color(0xFF075E46);
+  static const Color _pageBackground = Color(0xFFF4F7F5);
+
+  int currentIndex = 0;
+  int score = 0;
+  bool answered = false;
+  bool finished = false;
+  bool reviewMode = false;
+  final Map<int, int> selectedAnswers = {};
+  List<int> reviewIndices = [];
+  int reviewPosition = 0;
+
+  AbuDhabiHseQuestion get currentQuestion =>
+      abuDhabiHse150Questions[currentIndex];
+
+  int get wrongCount => selectedAnswers.entries
+      .where((entry) =>
+          abuDhabiHse150Questions[entry.key].correctAnswer != entry.value)
+      .length;
+
+  void selectAnswer(int optionIndex) {
+    if (answered || finished || reviewMode) return;
+    setState(() {
+      selectedAnswers[currentIndex] = optionIndex;
+      answered = true;
+      if (optionIndex == currentQuestion.correctAnswer) score++;
+    });
   }
-  Widget _result(Color green) { final percent = (score / 150 * 100).round(); final passed = score >= 105;
-    return Center(child: SingleChildScrollView(padding: const EdgeInsets.all(24), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(passed ? Icons.emoji_events : Icons.menu_book, size: 72, color: passed ? Colors.green : Colors.orange),
-      const SizedBox(height: 16), Text(passed ? 'Quiz Passed!' : 'Keep Practicing', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 12), Text('Score: $score / 150', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-      Text('Percentage: $percent%  •  Pass mark: 105/150 (70%)'), Text('Incorrect answers: ${wrong.length}'),
-      const SizedBox(height: 20), SizedBox(width: double.infinity, child: ElevatedButton(onPressed: restart, child: const Text('Retake Quiz'))),
-      if (wrong.isNotEmpty) SizedBox(width: double.infinity, child: OutlinedButton(onPressed: reviewWrong, child: const Text('Review Wrong Answers'))),
-    ])));
+
+  void nextQuestion() {
+    if (reviewMode) {
+      if (reviewPosition + 1 < reviewIndices.length) {
+        setState(() {
+          reviewPosition++;
+          currentIndex = reviewIndices[reviewPosition];
+          answered = true;
+        });
+      } else {
+        setState(() => finished = true);
+      }
+      return;
+    }
+
+    if (currentIndex < _totalQuestions - 1) {
+      setState(() {
+        currentIndex++;
+        answered = false;
+      });
+    } else {
+      setState(() => finished = true);
+    }
   }
-  Widget _questionBody(Color green) { return Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Question ${index + 1} / 150', style: const TextStyle(fontWeight: FontWeight.bold)), Text('Score: $score', style: TextStyle(color: green, fontWeight: FontWeight.bold))]),
-    const SizedBox(height: 10), LinearProgressIndicator(value: (index + 1) / 150, minHeight: 7, color: Colors.green, borderRadius: BorderRadius.circular(8)),
-    const SizedBox(height: 18), Text(q.topic, style: TextStyle(color: green, fontWeight: FontWeight.w600)), const SizedBox(height: 8),
-    Text(q.question, style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold, height: 1.35)), const SizedBox(height: 16),
-    Expanded(child: ListView.builder(itemCount: 4, itemBuilder: (context, i) { final correct = i == q.correctAnswer; final chosen = i == selected;
-      Color bg = Colors.white; Color border = Colors.grey.shade300;
-      if (answered && correct) { bg = const Color(0xFFE3F5E8); border = Colors.green; }
-      else if (answered && chosen) { bg = const Color(0xFFFFE7E7); border = Colors.red; }
-      return Card(color: bg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14), side: BorderSide(color: border, width: 1.4)),
-        child: InkWell(borderRadius: BorderRadius.circular(14), onTap: () => choose(i), child: Padding(padding: const EdgeInsets.all(15), child: Row(children: [
-          CircleAvatar(backgroundColor: green, foregroundColor: Colors.white, child: Text(String.fromCharCode(65 + i))), const SizedBox(width: 12),
-          Expanded(child: Text(q.options[i])), if (answered && correct) const Icon(Icons.check_circle, color: Colors.green),
-          if (answered && chosen && !correct) const Icon(Icons.cancel, color: Colors.red),
-        ]))));
-    })),
-    if (answered) Container(width: double.infinity, padding: const EdgeInsets.all(14), margin: const EdgeInsets.only(top: 8), decoration: BoxDecoration(color: const Color(0xFFEAF2EC), borderRadius: BorderRadius.circular(12)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(selected == q.correctAnswer ? 'Correct Answer!' : 'Incorrect Answer', style: TextStyle(fontWeight: FontWeight.bold, color: selected == q.correctAnswer ? Colors.green.shade800 : Colors.red.shade800)),
-        const SizedBox(height: 8), const Text('Technical Explanation', style: TextStyle(fontWeight: FontWeight.bold)), Text(q.explanation),
-        const SizedBox(height: 8), const Text('Practical UAE Site Example', style: TextStyle(fontWeight: FontWeight.bold)), Text(q.siteExample),
-      ])),
-    if (answered) SizedBox(width: double.infinity, child: Padding(padding: const EdgeInsets.only(top: 10), child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: green, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)), onPressed: next, child: Text(index == 149 ? 'View Result' : 'Next Question')))),
-  ])); }
+
+  void restartQuiz() {
+    setState(() {
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+      finished = false;
+      reviewMode = false;
+      reviewIndices = [];
+      reviewPosition = 0;
+      selectedAnswers.clear();
+    });
+  }
+
+  void reviewWrongAnswers() {
+    reviewIndices = selectedAnswers.entries
+        .where((entry) =>
+            abuDhabiHse150Questions[entry.key].correctAnswer != entry.value)
+        .map((entry) => entry.key)
+        .toList()
+      ..sort();
+
+    if (reviewIndices.isEmpty) return;
+    setState(() {
+      reviewMode = true;
+      finished = false;
+      reviewPosition = 0;
+      currentIndex = reviewIndices.first;
+      answered = true;
+    });
+  }
+
+  Color optionColor(int optionIndex) {
+    if (!answered) return Colors.white;
+    if (optionIndex == currentQuestion.correctAnswer) {
+      return Colors.green.shade100;
+    }
+    if (selectedAnswers[currentIndex] == optionIndex) {
+      return Colors.red.shade100;
+    }
+    return Colors.white;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (finished) return _buildResult();
+
+    return Scaffold(
+      backgroundColor: _pageBackground,
+      appBar: AppBar(
+        title: Text(
+          reviewMode ? 'Review Wrong Answers' : 'Abu Dhabi HSE Safety Quiz',
+        ),
+        backgroundColor: _green,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: restartQuiz,
+            tooltip: 'Restart Quiz',
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProgress(),
+              const SizedBox(height: 12),
+                    Text(
+                      currentQuestion.topic,
+                      style: const TextStyle(
+                        color: _green,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      currentQuestion.question,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        height: 1.28,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    ...List.generate(4, (optionIndex) {
+                      final correct =
+                          optionIndex == currentQuestion.correctAnswer;
+                      final selected =
+                          selectedAnswers[currentIndex] == optionIndex;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 9),
+                        child: InkWell(
+                          onTap: () => selectAnswer(optionIndex),
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 11,
+                            ),
+                            decoration: BoxDecoration(
+                              color: optionColor(optionIndex),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: answered && correct
+                                    ? Colors.green
+                                    : answered && selected
+                                        ? Colors.red
+                                        : Colors.grey.shade300,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: _green,
+                                  child: Text(
+                                    String.fromCharCode(65 + optionIndex),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 9),
+                                Expanded(
+                                  child: Text(
+                                    currentQuestion.options[optionIndex],
+                                    style: const TextStyle(
+                                      fontSize: 15.5,
+                                      height: 1.2,
+                                    ),
+                                  ),
+                                ),
+                                if (answered && correct)
+                                  const Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  ),
+                                if (answered && selected && !correct)
+                                  const Icon(Icons.cancel, color: Colors.red),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                    if (answered) ...[
+                      const SizedBox(height: 12),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: Colors.blue.shade200),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              selectedAnswers[currentIndex] ==
+                                      currentQuestion.correctAnswer
+                                  ? '✓ Correct Answer'
+                                  : '✗ Incorrect Answer',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color: selectedAnswers[currentIndex] ==
+                                        currentQuestion.correctAnswer
+                                    ? Colors.green.shade800
+                                    : Colors.red.shade800,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Technical Explanation',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              currentQuestion.explanation,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                height: 1.25,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Practical UAE Site Example',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              currentQuestion.siteExample,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                height: 1.25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: nextQuestion,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          child: Text(
+                            reviewMode
+                                ? (reviewPosition + 1 == reviewIndices.length
+                                    ? 'Finish Review'
+                                    : 'Next Wrong Answer')
+                                : (currentIndex == _totalQuestions - 1
+                                    ? 'View Final Result'
+                                    : 'Next Question →'),
+                          ),
+                        ),
+                      ),
+                    ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgress() => Container(
+        padding: const EdgeInsets.all(16),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  reviewMode
+                      ? 'Review: ${reviewPosition + 1} / ${reviewIndices.length}'
+                      : 'Progress: ${currentIndex + 1} / $_totalQuestions',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Score: $score',
+                  style: const TextStyle(
+                    color: _green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            LinearProgressIndicator(
+              value: reviewMode
+                  ? (reviewPosition + 1) / reviewIndices.length
+                  : (currentIndex + 1) / _totalQuestions,
+              minHeight: 8,
+              backgroundColor: Colors.grey.shade200,
+              color: const Color(0xFF16A34A),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildResult() {
+    final passed = score >= _passMark;
+    final percentage = (score / _totalQuestions * 100).round();
+
+    return Scaffold(
+      backgroundColor: _pageBackground,
+      appBar: AppBar(
+        title: const Text('Quiz Result'),
+        backgroundColor: _green,
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+      ),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                Icon(
+                  passed ? Icons.emoji_events : Icons.school,
+                  size: 90,
+                  color: passed ? Colors.amber : Colors.orange,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  passed ? 'Congratulations!' : 'Keep Learning!',
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  '$score / $_totalQuestions',
+                  style: const TextStyle(
+                    fontSize: 52,
+                    fontWeight: FontWeight.bold,
+                    color: _green,
+                  ),
+                ),
+                Text(
+                  '$percentage%',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: passed
+                        ? Colors.green.shade100
+                        : Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Text(
+                    passed ? 'PASS – 70% Threshold' : 'NEEDS IMPROVEMENT',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: passed
+                          ? Colors.green.shade900
+                          : Colors.orange.shade900,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                _resultRow('Total Questions', '$_totalQuestions'),
+                _resultRow('Correct Answers', '$score'),
+                _resultRow('Wrong Answers', '$wrongCount'),
+                _resultRow('Pass Mark', '$_passMark / $_totalQuestions (70%)'),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: restartQuiz,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retake Quiz'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _green,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.all(16),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (wrongCount > 0)
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: reviewWrongAnswers,
+                      icon: const Icon(Icons.menu_book),
+                      label: Text('Review Wrong Answers ($wrongCount)'),
+                    ),
+                  ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () => Navigator.of(context).maybePop(),
+                  child: const Text('Back to Interview Levels'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _resultRow(String label, String value) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 7),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label),
+            Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      );
 }
