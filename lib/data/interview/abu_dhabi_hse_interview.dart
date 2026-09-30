@@ -281,10 +281,10 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final levels = <(String, List<AbuDhabiInterviewQuestion>)>[
-      ('Level 1 — Foundation & 40 Questionnaire Questions', abuDhabiLevel1Questions),
+      ('Level 1 — Foundation & Questions', abuDhabiLevel1Questions),
       ('Level 2 — Field Safety & Operational Controls', abuDhabiLevel2Questions),
-      ('Level 3 — Advanced Technical & Site Scenarios', abuDhabiLevel3Questions),
-      ('Level 4 — Leadership, Governance & Assurance', abuDhabiLevel4Questions),
+      ('Level 3 — Advanced Technical & Site Scenario', abuDhabiLevel3Questions),
+      ('Level 4 — Leadership Governance & Assurance', abuDhabiLevel4Questions),
       ('Level 5 — Senior HSE Officer / Manager', abuDhabiLevel5Questions),
       ('Level 6 — Expert & Interview Mastery', abuDhabiLevel6Questions),
     ];
@@ -298,18 +298,6 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(12),
         children: [
-          Card(
-            color: const Color(0xFFEAF5EE),
-            child: const Padding(
-              padding: EdgeInsets.all(14),
-              child: Text(
-                '240 interview questions • 6 levels • 50 objective MCQs\\n'
-                'Study answers with technical reasoning and site examples. '
-                'Verify current authority requirements before quoting legal values.',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
           for (final entry in levels)
             Card(
               child: ExpansionTile(
@@ -331,38 +319,6 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                 ],
               ),
             ),
-          Card(
-            child: ExpansionTile(
-              title: const Text(
-                'Objective — 50 MCQs',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: const Text('Answer key, explanation and practical example'),
-              children: [
-                for (final q in abuDhabiObjectiveQuestions)
-                  ExpansionTile(
-                    title: Text('${q.id}. ${q.question}'),
-                    children: [
-                      for (var i = 0; i < q.options.length; i++)
-                        ListTile(
-                          dense: true,
-                          leading: Text('${String.fromCharCode(65 + i)}.'),
-                          title: Text(q.options[i]),
-                          trailing: i == q.correctIndex
-                              ? const Icon(Icons.check_circle, color: Colors.green)
-                              : null,
-                        ),
-                      _detail(
-                        'Correct Answer',
-                        '${String.fromCharCode(65 + q.correctIndex)}. ${q.options[q.correctIndex]}',
-                      ),
-                      _detail('Technical Explanation', q.explanation),
-                      _detail('Practical Site Example', q.practicalExample),
-                    ],
-                  ),
-              ],
-            ),
-          ),
         ],
       ),
     );
