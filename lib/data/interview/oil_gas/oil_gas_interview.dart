@@ -540,7 +540,7 @@ const List<Map<String, String>> oilGasLevel4Questions = [
     'answer': 'Thank the worker, explain the purpose of learning and the site reporting options, and protect confidentiality as far as the process permits. Capture factual event details and escalate any immediate risk. Follow the organisation’s reporting and privacy rules without promising absolute anonymity if it cannot be guaranteed.',
     'technicalExplanation': 'A fair reporting culture encourages early reporting while preserving accurate investigation and statutory or company reporting obligations.',
     'practicalExample': 'Record the location, task, equipment, and event sequence, then investigate the failed barrier and communicate lessons without unnecessary personal details.'
-  }
+  },
   {
     'question': 'A gas detector alarms during hot work. What do you do?',
     'answer': 'Stop work, make tools safe if this can be done without exposure, withdraw to the designated safe area, warn others and notify the control room or permit authority. Do not re-enter until authorised and conditions are reassessed.',
@@ -666,7 +666,7 @@ const List<Map<String, String>> oilGasLevel5Questions = [
     'answer': 'Present a balanced view of exposure, critical-control health, high-potential events, leading and lagging trends, overdue risk actions, audit findings, competence, contractor performance, environmental events, and key decisions needed. Define metrics and explain data limitations so leaders can act on risk rather than chase numbers.',
     'technicalExplanation': 'Dashboard data should be accurate, comparable, and disaggregated where useful by work type, contractor, phase, or exposure. Avoid presenting raw counts without context.',
     'practicalExample': 'A dashboard shows recurring isolation verification gaps by workstream, the affected tasks, action owners, due dates, and whether field rechecks confirm improvement.'
-  }
+  },
   {
     'question': 'How do you ensure contractor HSE performance?',
     'answer': 'Prequalify competence and resources, communicate requirements, review plans, verify induction and task training, monitor field execution, address deviations, review trends and close corrective actions with evidence.',
@@ -793,7 +793,7 @@ const List<Map<String, String>> oilGasLevel6Questions = [
     'answer': 'Pause the affected activity if compliance or safety is uncertain, preserve the current condition, notify the responsible manager and compliance or legal function, verify the official requirement and applicability, and obtain an approved procedure correction or formal direction before proceeding. Communicate the resolution and update training and records.',
     'technicalExplanation': 'Do not resolve a legal conflict informally at the workface or select the less demanding interpretation without authority. Document the assessment and approval trail.',
     'practicalExample': 'A work instruction references an outdated requirement. The supervisor holds the affected work, compliance verifies the current source, and the controlled instruction is revised and re-briefed.'
-  }
+  },
   {
     'question': 'How do you confirm ADOSH or other UAE requirements apply to a site?',
     'answer': 'Identify emirate, sector, asset owner, activity and contractual requirements; consult current official regulations, codes and operator procedures; confirm applicability with the responsible compliance or HSE function; maintain a controlled legal register.',
