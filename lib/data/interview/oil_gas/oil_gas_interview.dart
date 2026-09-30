@@ -1,6 +1,6 @@
-/// SafeNexus HSE — Oil & Gas Interview Question Bank
-/// Consolidated source: Levels 1–6. Preserve current site/operator procedures
-/// and verify applicable authority requirements before field use.
+/// SafeNexus HSE — Oil & Gas Interview consolidated source data.
+/// Contains the supplied Level 1–6 source content. Verify current UAE/operator
+/// requirements against official documents before field application.
 
 /// SafeNexus HSE — Oil & Gas Interview
 /// Level 1: Basic Interview
@@ -366,8 +366,8 @@ class OilGasLevel1BasicInterview {
   ];
 }
 
-// LEVEL 2–6 QUESTION BANKS
 
+/// SafeNexus HSE — Oil & Gas Interview | Level 2: Technical Interview
 const List<Map<String, String>> oilGasLevel2Questions = [
   {'question':'Explain the Permit to Work process.','answer':'Define the exact task, location and duration; review the risk assessment and method statement; identify isolations, gas tests and SIMOPS; implement and verify precautions; obtain authorisation; brief the work party; monitor conditions; suspend or revalidate when conditions change; and close and hand back the worksite under the facility procedure.','technicalExplanation':'A permit authorises controlled work but does not itself make the work safe. The field conditions must match the permit, and each designated role must fulfil its responsibilities.','siteExample':'Before pump maintenance, match equipment tags to the permit, verify isolation and zero-energy status, review gas-test requirements, brief the crew and check the worksite before starting.'},
   {'question':'How do you apply LOTO and verify isolation?','answer':'Identify all energy sources, use the approved isolation plan, shut down in the authorised sequence, isolate and lock/tag each source, release or restrain stored energy, and verify the safe state using the approved test or try method. Only authorised personnel perform isolation and restoration.','technicalExplanation':'Energy can be electrical, mechanical, hydraulic, pneumatic, chemical, thermal, pressure or gravitational. A control switch or emergency stop is not normally an energy-isolating device.','siteExample':'For a pump, verify electrical isolation, suction/discharge boundaries, drain and vent status, zero pressure and prevention of unexpected rotation; confirm tags match the isolation certificate.'},
@@ -384,6 +384,8 @@ const List<Map<String, String>> oilGasLevel2Questions = [
   {'question':'Distinguish process safety from personal safety.','answer':'Personal safety prevents individual harm such as slips, trips and hand injuries. Process safety prevents loss of containment of hazardous substances or energy that could cause fire, explosion, toxic release or major accident. Both require leadership, engineering, operating discipline and learning.','technicalExplanation':'Process safety depends on design integrity, operating limits, alarms, safeguards, inspection, maintenance, competence and emergency preparedness. Low injury rates alone do not demonstrate healthy process safety.','siteExample':'A worker may wear PPE yet remain exposed to a major release from a degraded pressure boundary. Reporting leaks, corrosion, abnormal vibration and impaired safeguards supports process safety.'}
 ];
 
+
+/// SafeNexus HSE — Oil & Gas Interview | Level 3: Advanced Interview
 const List<Map<String, String>> oilGasLevel3Questions = [
   {'question':'How would you build a risk-based HSE assurance programme?','answer':'Use the facility risk profile, legal and company obligations, major accident hazards, critical controls, incident trends and operational changes to define assurance activities, competent reviewers, sampling, frequency, evidence standards, escalation and effectiveness checks. Combine field verification, records review and workforce engagement.','technicalExplanation':'Assurance tests whether controls are present, suitable, used and effective—not merely whether a procedure exists.','siteExample':'For lifting, sample lift plans, inspect accessories, observe lifts, interview crews and track recurring findings to closure.'},
   {'question':'Explain bow-tie analysis.','answer':'Bow-tie analysis places a top event, such as loss of containment, between threats and consequences. Preventive barriers act before the top event; mitigative barriers reduce consequences after it. Each barrier should have an owner, performance standard and verification method.','technicalExplanation':'Barriers must be specific and verifiable. General phrases such as “good supervision” need to be translated into observable controls.','siteExample':'For a hydrocarbon release, threats may include corrosion or overpressure; preventive barriers include inspection and pressure protection, while mitigation includes detection, isolation, fire protection and evacuation.'},
@@ -401,6 +403,9 @@ const List<Map<String, String>> oilGasLevel3Questions = [
   {'question':'How do you prioritise HSE work when resources are limited?','answer':'Prioritise credible consequence, exposure, control reliability, legal obligations and urgency. Address imminent danger and uncontrolled major-accident hazards first, then use a transparent risk-based plan. Escalate resource gaps and document authorised interim safeguards.','technicalExplanation':'A risk score must not override mandatory requirements or critical-control failures. Decisions should involve operational and technical owners.','siteExample':'Prioritise overdue safety-critical equipment and high-risk interfaces, escalate staffing constraints and arrange approved interim controls.'}
 ];
 
+
+/// SafeNexus HSE — Oil & Gas Interview
+/// Level 4: Practical Site Scenario
 const List<Map<String, String>> oilGasLevel4Questions = [
   {
     'question': 'You arrive at a job and find the permit is valid, but the worksite conditions differ from the JSA. What do you do?',
@@ -494,6 +499,9 @@ const List<Map<String, String>> oilGasLevel4Questions = [
   }
 ];
 
+
+/// SafeNexus HSE — Oil & Gas Interview
+/// Level 5: Supervisor / Engineer Interview
 const List<Map<String, String>> oilGasLevel5Questions = [
   {
     'question': 'How do you plan and lead a safe daily work programme?',
@@ -587,6 +595,10 @@ const List<Map<String, String>> oilGasLevel5Questions = [
   }
 ];
 
+
+/// SafeNexus HSE — Oil & Gas Interview
+/// Level 6: UAE Authority-Specific
+/// Authority requirements change; verify current official instruments and site/operator rules.
 const List<Map<String, String>> oilGasLevel6Questions = [
   {
     'question': 'How do you identify which UAE and emirate HSE requirements apply to an Oil & Gas worksite?',
