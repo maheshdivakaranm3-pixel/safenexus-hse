@@ -1345,13 +1345,7 @@ class _AbuDhabiHseSafetyQuizPageState
             children: [
               _buildProgress(),
               const SizedBox(height: 12),
-                    Text(
-                      currentQuestion.topic,
-                      style: const TextStyle(
-                        color: _green,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
+
                     ),
                     const SizedBox(height: 8),
                     Text(
