@@ -160,7 +160,26 @@ class _AbuDhabiHseInterviewPageState extends State<AbuDhabiHseInterviewPage> {
                             Text('MCQ ${item.number} • ${item.category}', style: const TextStyle(color: Color(0xFF176B45), fontWeight: FontWeight.bold)),
                             const SizedBox(height: 8),
                             Text(item.question, style: const TextStyle(fontWeight: FontWeight.w600)),
-                            ...List.generate(item.options.length, (i) => RadioListTile<int>(contentPadding: EdgeInsets.zero, value: i, groupValue: selected, onChanged: (value) => setState(() => _selectedAnswers[item.number] = value!), title: Text('${String.fromCharCode(65 + i)}. ${item.options[i]}'))),
+                            RadioGroup<int>(
+                              groupValue: selected,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() => _selectedAnswers[item.number] = value);
+                                }
+                              },
+                              child: Column(
+                                children: List.generate(
+                                  item.options.length,
+                                  (i) => RadioListTile<int>(
+                                    contentPadding: EdgeInsets.zero,
+                                    value: i,
+                                    title: Text(
+                                      '${String.fromCharCode(65 + i)}. ${item.options[i]}',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             if (selected != null) Container(width: double.infinity, padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: selected == item.correctIndex ? Colors.green.withValues(alpha: 0.12) : Colors.orange.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)), child: Text('${selected == item.correctIndex ? 'Correct' : 'Correct answer: ${String.fromCharCode(65 + item.correctIndex)}. ${item.options[item.correctIndex]}'}\n${item.explanation}')),
                           ]),
                         ),
