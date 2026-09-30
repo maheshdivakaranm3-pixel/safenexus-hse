@@ -305,8 +305,7 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                   entry.$1,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text('${entry.$2.length} questions'),
-                children: [
+                                children: [
                   for (final q in entry.$2)
                     ExpansionTile(
                       title: Text('${q.id}. ${q.question}'),
