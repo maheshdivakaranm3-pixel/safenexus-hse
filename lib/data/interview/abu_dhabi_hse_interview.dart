@@ -2,6 +2,7 @@
 // Single-file data + UI. 240 questions: Level 1 (65), Levels 2–6 (25 each), Objective (50).
 // Regulatory values, CoP numbering, deadlines and statutory percentages must be checked against current official sources before use.
 import 'package:flutter/material.dart';
+import 'abu_dhabi_hse_safety_quiz.dart';
 
 class AbuDhabiInterviewQuestion {
   final int id; final String question, modelAnswer, technicalExplanation, practicalExample;
@@ -318,6 +319,31 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                 ],
               ),
             ),
+          const SizedBox(height: 10),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Color(0xFFE5F3EA),
+                child: Icon(Icons.quiz_outlined, color: _green),
+              ),
+              title: const Text(
+                'Abu Dhabi HSE Safety Quiz – 150 MCQs',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: const Text(
+                'Interactive Quiz • Score /150 • Pass Mark 70%',
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const AbuDhabiHseSafetyQuizPage(),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
