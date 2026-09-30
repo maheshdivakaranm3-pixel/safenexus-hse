@@ -228,33 +228,24 @@ class _OilGasSafetyQuizPageState extends State<OilGasSafetyQuizPage> {
             _buildProgress(),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Chip(label: Text(currentQuestion.topic.toUpperCase())),
-                    const SizedBox(height: 12),
-                    Text(
-                      reviewMode
-                          ? 'Review ${reviewPosition + 1} / ${reviewIndices.length}'
-                          : 'Question ${currentIndex + 1} / 100',
-                      style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 10),
                     Text(currentQuestion.question,
-                      style: const TextStyle(fontSize: 21, fontWeight: FontWeight.bold, height: 1.4)),
-                    const SizedBox(height: 24),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, height: 1.28)),
+                    const SizedBox(height: 14),
                     ...List.generate(4, (index) {
                       final correct = index == currentQuestion.correctAnswer;
                       final selected = selectedAnswers[currentIndex] == index;
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 9),
                         child: InkWell(
                           onTap: () => selectAnswer(index),
                           borderRadius: BorderRadius.circular(14),
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
                             decoration: BoxDecoration(
                               color: optionColor(index),
                               borderRadius: BorderRadius.circular(14),
@@ -270,8 +261,13 @@ class _OilGasSafetyQuizPageState extends State<OilGasSafetyQuizPage> {
                                 child: Text(String.fromCharCode(65 + index),
                                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(child: Text(currentQuestion.options[index])),
+                              const SizedBox(width: 9),
+                              Expanded(
+                                child: Text(
+                                  currentQuestion.options[index],
+                                  style: const TextStyle(fontSize: 15.5, height: 1.2),
+                                ),
+                              ),
                               if (answered && correct) const Icon(Icons.check_circle, color: Colors.green),
                               if (answered && selected && !correct) const Icon(Icons.cancel, color: Colors.red),
                             ]),
@@ -298,13 +294,13 @@ class _OilGasSafetyQuizPageState extends State<OilGasSafetyQuizPage> {
                                   ? Colors.green.shade800 : Colors.red.shade800),
                           ),
                           const SizedBox(height: 10),
-                          const Text('Technical Explanation', style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Text('Technical Explanation', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                           const SizedBox(height: 5),
-                          Text(currentQuestion.explanation),
+                          Text(currentQuestion.explanation, style: const TextStyle(fontSize: 14, height: 1.25)),
                           const SizedBox(height: 12),
-                          const Text('Practical Site Application', style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Text('Practical Site Application', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                           const SizedBox(height: 5),
-                          Text(currentQuestion.application),
+                          Text(currentQuestion.application, style: const TextStyle(fontSize: 14, height: 1.25)),
                         ]),
                       ),
                       const SizedBox(height: 20),
