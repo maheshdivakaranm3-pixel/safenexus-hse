@@ -275,8 +275,11 @@ const List<AbuDhabiInterviewMcq> abuDhabiObjectiveQuestions = [
 
 class AbuDhabiHseInterviewPage extends StatelessWidget {
   const AbuDhabiHseInterviewPage({super.key});
+
   static const Color _green = Color(0xFF176B45);
-  @override Widget build(BuildContext context) {
+
+  @override
+  Widget build(BuildContext context) {
     final levels = <(String, List<AbuDhabiInterviewQuestion>)>[
       ('Level 1 — Foundation & 40 Questionnaire Questions', abuDhabiLevel1Questions),
       ('Level 2 — Field Safety & Operational Controls', abuDhabiLevel2Questions),
@@ -285,17 +288,101 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
       ('Level 5 — Senior HSE Officer / Manager', abuDhabiLevel5Questions),
       ('Level 6 — Expert & Interview Mastery', abuDhabiLevel6Questions),
     ];
-    return Scaffold(appBar: AppBar(title: const Text('Abu Dhabi HSE Interview'), backgroundColor: _green, foregroundColor: Colors.white),
-      body: ListView(padding: const EdgeInsets.all(12), children: [
-        Card(color: const Color(0xFFEAF5EE), child: const Padding(padding: EdgeInsets.all(14), child: Text('240 interview questions • 6 levels • 50 objective MCQs\nStudy answers with technical reasoning and site examples. Verify current authority requirements before quoting legal values.', style: TextStyle(fontWeight: FontWeight.w600)))),
-        ...levels.map((entry) => Card(child: ExpansionTile(title: Text(entry.$1, style: const TextStyle(fontWeight: FontWeight.bold)), subtitle: Text('${entry.$2.length} questions'), children: entry.$2.map((q) => ExpansionTile(title: Text('${q.id}. ${q.question}'), children: [
-          _detail('Model Answer', q.modelAnswer), _detail('Technical Explanation', q.technicalExplanation), _detail('Practical Site Example', q.practicalExample),
-        ])).toList())),
-        Card(child: ExpansionTile(title: const Text('Objective — 50 MCQs', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: const Text('Answer key, explanation and practical example'), children: abuDhabiObjectiveQuestions.map((q) => ExpansionTile(title: Text('${q.id}. ${q.question}'), children: [
-          ...List.generate(q.options.length, (i) => ListTile(dense: true, leading: Text('${String.fromCharCode(65+i)}.'), title: Text(q.options[i]), trailing: i == q.correctIndex ? const Icon(Icons.check_circle, color: Colors.green) : null)),
-          _detail('Correct Answer', '${String.fromCharCode(65+q.correctIndex)}. ${q.options[q.correctIndex]}'), _detail('Technical Explanation', q.explanation), _detail('Practical Site Example', q.practicalExample),
-        ])).toList())),
-      ]));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Abu Dhabi HSE Interview'),
+        backgroundColor: _green,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(12),
+        children: [
+          Card(
+            color: const Color(0xFFEAF5EE),
+            child: const Padding(
+              padding: EdgeInsets.all(14),
+              child: Text(
+                '240 interview questions • 6 levels • 50 objective MCQs\\n'
+                'Study answers with technical reasoning and site examples. '
+                'Verify current authority requirements before quoting legal values.',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          for (final entry in levels)
+            Card(
+              child: ExpansionTile(
+                title: Text(
+                  entry.$1,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text('${entry.$2.length} questions'),
+                children: [
+                  for (final q in entry.$2)
+                    ExpansionTile(
+                      title: Text('${q.id}. ${q.question}'),
+                      children: [
+                        _detail('Model Answer', q.modelAnswer),
+                        _detail('Technical Explanation', q.technicalExplanation),
+                        _detail('Practical Site Example', q.practicalExample),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          Card(
+            child: ExpansionTile(
+              title: const Text(
+                'Objective — 50 MCQs',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: const Text('Answer key, explanation and practical example'),
+              children: [
+                for (final q in abuDhabiObjectiveQuestions)
+                  ExpansionTile(
+                    title: Text('${q.id}. ${q.question}'),
+                    children: [
+                      for (var i = 0; i < q.options.length; i++)
+                        ListTile(
+                          dense: true,
+                          leading: Text('${String.fromCharCode(65 + i)}.'),
+                          title: Text(q.options[i]),
+                          trailing: i == q.correctIndex
+                              ? const Icon(Icons.check_circle, color: Colors.green)
+                              : null,
+                        ),
+                      _detail(
+                        'Correct Answer',
+                        '${String.fromCharCode(65 + q.correctIndex)}. ${q.options[q.correctIndex]}',
+                      ),
+                      _detail('Technical Explanation', q.explanation),
+                      _detail('Practical Site Example', q.practicalExample),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
-  Widget _detail(String title, String body) => Padding(padding: const EdgeInsets.fromLTRB(16, 5, 16, 12), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: _green)), const SizedBox(height: 4), Text(body)]));
+
+  Widget _detail(String title, String body) => Padding(
+        padding: const EdgeInsets.fromLTRB(16, 5, 16, 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: _green,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(body),
+          ],
+        ),
+      );
 }
