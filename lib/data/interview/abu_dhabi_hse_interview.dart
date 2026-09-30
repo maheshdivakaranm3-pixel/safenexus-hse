@@ -333,7 +333,6 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
                 leading: const Icon(
                   Icons.menu_book_rounded,
                   color: Color(0xFF159447),
-                  size: 34,
                 ),
                 title: Text(
                   _levelTitles[i],
@@ -375,24 +374,18 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 6),
             clipBehavior: Clip.antiAlias,
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              minLeadingWidth: 44,
               leading: const CircleAvatar(
                 radius: 25,
                 backgroundColor: Color(0xFFF0E8F6),
                 child: Icon(
                   Icons.quiz_outlined,
                   color: Colors.deepPurple,
-                  size: 30,
                 ),
               ),
               title: const Text(
                 'Abu Dhabi HSE Safety Quiz – 150 MCQs',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF171B19),
                 ),
