@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'data/interview/oil_gas/oil_gas_interview.dart';
+import 'data/interview/abu_dhabi_hse_interview.dart';
 
 class LearningInterviewPage extends StatelessWidget {
   const LearningInterviewPage({super.key});
@@ -10,6 +11,21 @@ class LearningInterviewPage extends StatelessWidget {
       const Text('Interview Preparation', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       const SizedBox(height: 8), const Text('Choose a sector to begin interview practice.'),
       Card(child: ListTile(leading: const Icon(Icons.local_gas_station, color: Colors.green), title: const Text('Oil & Gas'), subtitle: const Text('150 questions across six interview levels'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OilGasInterviewLevelsPage())))),
+      const SizedBox(height: 10),
+      Card(
+        child: ListTile(
+          leading: const Icon(Icons.location_city, color: Colors.deepPurple),
+          title: const Text('Abu Dhabi HSE Interview'),
+          subtitle: const Text('Interview questions and objective practice'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AbuDhabiHseInterviewPage(),
+            ),
+          ),
+        ),
+      ),
     ]),
   );
 }
