@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'data/interview/oil_gas/oil_gas_interview.dart';
 import 'data/interview/abu_dhabi_hse_interview.dart';
+import 'data/interview/oil_gas/oil_gas_safety_quiz.dart';
 
 class LearningInterviewPage extends StatelessWidget {
   const LearningInterviewPage({super.key});
@@ -34,7 +35,49 @@ class OilGasInterviewLevelsPage extends StatelessWidget {
   const OilGasInterviewLevelsPage({super.key});
   static const titles = ['Level 1 – Basic Interview','Level 2 – Technical Interview','Level 3 – Advanced Interview','Level 4 – Practical Site Scenario','Level 5 – Supervisor / Engineer Interview','Level 6 – UAE Authority-Specific Questions'];
   @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('Oil & Gas Interview')), body: ListView.builder(padding: const EdgeInsets.all(12), itemCount: titles.length, itemBuilder: (context, i) => Card(child: ListTile(leading: const Icon(Icons.menu_book, color: Colors.green), title: Text(titles[i]), subtitle: const Text('Questions & detailed model answers'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => OilGasQuestionListPage(level: i+1, title: titles[i])))))));
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('Oil & Gas Interview')),
+    body: ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        for (var i = 0; i < titles.length; i++)
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.menu_book, color: Colors.green),
+              title: Text(titles[i]),
+              subtitle: const Text('Questions & detailed model answers'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => OilGasQuestionListPage(
+                    level: i + 1,
+                    title: titles[i],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: 10),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.quiz, color: Colors.deepPurple),
+            title: const Text('Oil & Gas Safety Quiz – 100 MCQs'),
+            subtitle: const Text(
+              'Interactive quiz • Score /100 • Pass mark 70%',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const OilGasSafetyQuizPage(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class OilGasQuestionListPage extends StatelessWidget {
