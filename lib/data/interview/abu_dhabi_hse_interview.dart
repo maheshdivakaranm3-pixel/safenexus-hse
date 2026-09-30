@@ -279,90 +279,235 @@ class AbuDhabiHseInterviewPage extends StatelessWidget {
 
   static const Color _green = Color(0xFF176B45);
 
+  static const List<String> _levelTitles = [
+    'Level 1 — Foundation & Questions',
+    'Level 2 — Field Safety & Operational Controls',
+    'Level 3 — Advanced Technical & Site Scenario',
+    'Level 4 — Leadership Governance & Assurance',
+    'Level 5 — Senior HSE Officer / Manager',
+    'Level 6 — Expert & Interview Mastery',
+  ];
+
+  static const List<String> _levelSubtitles = [
+    'Basic interview questions & model answers',
+    'Questions & detailed model answers',
+    'Questions & detailed model answers',
+    'Questions & detailed model answers',
+    'Questions & detailed model answers',
+    'Questions & detailed model answers',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final levels = <(String, List<AbuDhabiInterviewQuestion>)>[
-      ('Level 1 — Foundation & Questions', abuDhabiLevel1Questions),
-      ('Level 2 — Field Safety & Operational Controls', abuDhabiLevel2Questions),
-      ('Level 3 — Advanced Technical & Site Scenario', abuDhabiLevel3Questions),
-      ('Level 4 — Leadership Governance & Assurance', abuDhabiLevel4Questions),
-      ('Level 5 — Senior HSE Officer / Manager', abuDhabiLevel5Questions),
-      ('Level 6 — Expert & Interview Mastery', abuDhabiLevel6Questions),
+    final levels = <List<AbuDhabiInterviewQuestion>>[
+      abuDhabiLevel1Questions,
+      abuDhabiLevel2Questions,
+      abuDhabiLevel3Questions,
+      abuDhabiLevel4Questions,
+      abuDhabiLevel5Questions,
+      abuDhabiLevel6Questions,
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Abu Dhabi HSE Interview'),
+        title: const Text(
+          'Abu Dhabi HSE Interview',
+          style: TextStyle(fontWeight: FontWeight.w400),
+        ),
         backgroundColor: _green,
         foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: const EdgeInsets.all(12),
         children: [
-          for (final entry in levels)
+          for (var i = 0; i < _levelTitles.length; i++)
             Card(
-              child: ExpansionTile(
-                title: Text(
-                  entry.$1,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              clipBehavior: Clip.antiAlias,
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
                 ),
-                                children: [
-                  for (final q in entry.$2)
-                    ExpansionTile(
-                      title: Text('${q.id}. ${q.question}'),
-                      children: [
-                        _detail('Model Answer', q.modelAnswer),
-                        _detail('Technical Explanation', q.technicalExplanation),
-                        _detail('Practical Site Example', q.practicalExample),
-                      ],
+                minLeadingWidth: 44,
+                leading: const Icon(
+                  Icons.menu_book_rounded,
+                  color: Color(0xFF159447),
+                  size: 34,
+                ),
+                title: Text(
+                  _levelTitles[i],
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF171B19),
+                  ),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    _levelSubtitles[i],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF777D79),
                     ),
-                ],
+                  ),
+                ),
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: Color(0xFF424744),
+                  size: 30,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => _AbuDhabiQuestionListPage(
+                      title: _levelTitles[i],
+                      questions: levels[i],
+                    ),
+                  ),
+                ),
               ),
             ),
           const SizedBox(height: 10),
           Card(
+            margin: const EdgeInsets.symmetric(vertical: 6),
             clipBehavior: Clip.antiAlias,
             child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
+              ),
+              minLeadingWidth: 44,
               leading: const CircleAvatar(
-                backgroundColor: Color(0xFFE5F3EA),
-                child: Icon(Icons.quiz_outlined, color: _green),
+                radius: 25,
+                backgroundColor: Color(0xFFF0E8F6),
+                child: Icon(
+                  Icons.quiz_outlined,
+                  color: Colors.deepPurple,
+                  size: 30,
+                ),
               ),
               title: const Text(
                 'Abu Dhabi HSE Safety Quiz – 150 MCQs',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF171B19),
+                ),
               ),
-              subtitle: const Text(
-                'Interactive Quiz • Score /150 • Pass Mark 70%',
-              ),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const AbuDhabiHseSafetyQuizPage(),
+              subtitle: const Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: Text(
+                  'Interactive Quiz • Score /150 • Pass Mark 70%',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF777D79),
                   ),
-                );
-              },
+                ),
+              ),
+              trailing: const Icon(
+                Icons.chevron_right,
+                color: Color(0xFF424744),
+                size: 30,
+              ),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const AbuDhabiHseSafetyQuizPage(),
+                ),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _detail(String title, String body) => Padding(
-        padding: const EdgeInsets.fromLTRB(16, 5, 16, 12),
+class _AbuDhabiQuestionListPage extends StatelessWidget {
+  final String title;
+  final List<AbuDhabiInterviewQuestion> questions;
+
+  const _AbuDhabiQuestionListPage({
+    required this.title,
+    required this.questions,
+  });
+
+  static const Color _green = Color(0xFF176B45);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w400)),
+        backgroundColor: _green,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(12),
+        itemCount: questions.length,
+        itemBuilder: (context, index) {
+          final q = questions[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            clipBehavior: Clip.antiAlias,
+            child: ExpansionTile(
+              title: Text(
+                '${q.id}. ${q.question}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              children: [
+                _AbuDhabiAnswerBlock(
+                  label: 'Model Answer',
+                  text: q.modelAnswer,
+                ),
+                _AbuDhabiAnswerBlock(
+                  label: 'Technical Explanation',
+                  text: q.technicalExplanation,
+                ),
+                _AbuDhabiAnswerBlock(
+                  label: 'Practical Site Example',
+                  text: q.practicalExample,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _AbuDhabiAnswerBlock extends StatelessWidget {
+  final String label;
+  final String text;
+
+  const _AbuDhabiAnswerBlock({
+    required this.label,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              label,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: _green,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF159447),
               ),
             ),
             const SizedBox(height: 4),
-            Text(body),
+            Text(text),
           ],
         ),
       );
