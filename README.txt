@@ -1,10 +1,6 @@
-SafeNexus HSE Topics 26–50 continuation
-
-File: lib/data/hse_reference/hse_topics_26_50.dart
-Imports HseTopic from sibling hse_topics_01_25.dart; does not modify the original.
-To use, import both files in the handbook registry/router and combine lists as appropriate:
-final allTopics = [...hseTopics01To25, ...hseTopics26To50];
-
-Topic 26 title used here: Emergency Preparedness, Incident Command & Crisis Management.
-Check against your approved master registry before integration.
-Content is an educational draft; verify current authority/client/operator requirements.
+Apply these files to the existing repository (do not replace the whole project):
+1) Replace lib/main.dart with main.dart from this ZIP.
+2) Add hse_topic_browser.dart to lib/data/hse_reference/hse_topic_browser.dart.
+3) Keep existing lib/data/hse_reference/hse_topics_01_25.dart and hse_topics_26_50.dart unchanged.
+The Home HSE Reference cards route Specialist / Cross-Sector and Complete HSE Guide to the browser, with visible sections Topics 01–25 and Topics 26–50.
+Then run flutter analyze and build the APK. This patch has not been built in Flutter here.
