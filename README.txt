@@ -1,6 +1,1 @@
-Replace only:
-lib/data/hse_reference/hse_topic_browser.dart
-
-This removes the two range header blocks and the gap between ranges. Topics 01–50 render as one continuous numbered list, so topic 25 is followed immediately by topic 26.
-
-Keep both existing topic data files unchanged. Then run Flutter Analyze and build/install a fresh APK to verify on device.
+Replace lib/main.dart and lib/data/hse_reference/hse_topic_browser.dart. Keep both hse_topics_01_25.dart and hse_topics_26_50.dart unchanged. Specialist/Cross-Sector routes to continuous Topics 01–50; numbered circles are replaced with topic icons and app bars are green. Run flutter analyze and build/install a fresh APK to validate.
