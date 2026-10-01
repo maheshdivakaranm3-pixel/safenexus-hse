@@ -1,3 +1,10 @@
-SafeNexus HSE Topics 01–25 consolidated Dart source.
-Copy lib/data/hse_reference/hse_topics_01_25.dart into your Flutter project.
-Note: Topics 1–11 are reconstructed foundational drafts, not verified copies of earlier source files. Review against approved project content before release.
+SafeNexus HSE Topics 26–50 continuation
+
+File: lib/data/hse_reference/hse_topics_26_50.dart
+Imports HseTopic from sibling hse_topics_01_25.dart; does not modify the original.
+To use, import both files in the handbook registry/router and combine lists as appropriate:
+final allTopics = [...hseTopics01To25, ...hseTopics26To50];
+
+Topic 26 title used here: Emergency Preparedness, Incident Command & Crisis Management.
+Check against your approved master registry before integration.
+Content is an educational draft; verify current authority/client/operator requirements.
