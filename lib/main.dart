@@ -20,6 +20,7 @@ import 'emergency_rescue_page.dart';
 import 'fire_life_safety_topics_page.dart';
 import 'environmental_reference_page.dart';
 import 'oil_gas_interview_page.dart';
+import 'data/hse_reference/hse_topic_browser.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1328,6 +1329,10 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     String title,
     String subtitle,
   ) async {
+    if (title == 'Specialist / Cross-Sector' || title == 'Complete HSE Guide') {
+      await _openPage(const HseTopicBrowserPage());
+      return;
+    }
     if (title == 'Learning + Interview') {
       await _openPage(const LearningInterviewPage());
       return;
