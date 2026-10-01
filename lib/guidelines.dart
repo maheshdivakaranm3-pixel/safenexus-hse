@@ -157,7 +157,8 @@ class GuidelinesPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute<void>(
-                              builder: (_) => section.kind == _ReferenceKind.completeGuide
+                              builder: (_) => (section.kind == _ReferenceKind.completeGuide ||
+                                      section.kind == _ReferenceKind.specialist)
                                   ? const _HseTopicListPage()
                                   : _ReferencePlaceholderPage(section: section),
                             ),
