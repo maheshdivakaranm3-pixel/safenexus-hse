@@ -1357,6 +1357,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
       return;
     }
 
+    if (title == 'Specialist / Cross-Sector') {
+      await _openPage(const HseTopicBrowserPage());
+      return;
+    }
+
     await _openPage(
       _SectorReferencePage(
         title: title,
