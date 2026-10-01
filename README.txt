@@ -1,11 +1,3 @@
-SafeNexus HSE — EMP Phase 1 content framework
-
-Included:
-- 16 EMP sections with explanatory guidance, required evidence, editable field names, source IDs, and jurisdiction applicability prompts.
-- Official source register links for EAD and Dubai Municipality.
-- Project cover field list.
-
-This is an additive content/data file, not wired into the app router or PDF/DOCX/XLSX export handlers.
-Do not delete/replace existing Environmental files. Integrate as a separate EMP document page after checking the current project model and navigation.
-Legal applicability, permits, numeric limits, submission deadlines and retention periods must be verified against the actual project, current authority instruments and approved permit conditions.
-Flutter analyze/APK build not run here.
+SafeNexus HSE Topics 01–25 consolidated Dart source.
+Copy lib/data/hse_reference/hse_topics_01_25.dart into your Flutter project.
+Note: Topics 1–11 are reconstructed foundational drafts, not verified copies of earlier source files. Review against approved project content before release.
