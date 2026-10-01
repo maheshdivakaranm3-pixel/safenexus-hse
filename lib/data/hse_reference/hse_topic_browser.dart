@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'hse_topics_01_25.dart';
 import 'hse_topics_26_50.dart';
+import 'safenexus_hse_office_documents_checklist.dart';
 
 /// Continuous 01–50 handbook list with icon tiles and a green app bar.
 class HseTopicBrowserPage extends StatelessWidget {
@@ -51,10 +52,31 @@ class HseTopicBrowserPage extends StatelessWidget {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ListView.builder(
+      body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
-        itemCount: _topics.length,
-        itemBuilder: (context, index) => _topicTile(context, _topics[index]),
+        children: [
+          Card(
+            color: const Color(0xFFE3F3EA),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            child: ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Color(0xFF075B45),
+                child: Icon(Icons.folder_copy_rounded, color: Colors.white),
+              ),
+              title: const Text('Office Documents & Templates',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text('40 editable HSE document checklists and form details'),
+              trailing: const Icon(Icons.chevron_right_rounded, color: _green),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const HseOfficeDocumentsPage(),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          ..._topics.map((topic) => _topicTile(context, topic)),
+        ],
       ),
     );
   }
