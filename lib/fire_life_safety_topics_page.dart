@@ -29,18 +29,6 @@ class FireLifeSafetyTopicsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
-          const Text(
-            'Fire Safety Learning',
-            style: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'Select a topic to study practical fire prevention and life-safety guidance.',
-            style: TextStyle(color: Colors.grey.shade700),
-          ),
           const SizedBox(height: 16),
 
           ...topics.map(
