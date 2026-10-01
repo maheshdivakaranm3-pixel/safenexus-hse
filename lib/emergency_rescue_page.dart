@@ -49,124 +49,13 @@ class EmergencyRescuePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
         children: [
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF0B5D4B), Color(0xFF16865F)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.health_and_safety, color: Colors.white, size: 34),
-                SizedBox(height: 12),
-                Text(
-                  'Professional HSE Field Handbook',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: 7),
-                Text(
-                  'Emergency preparedness, response, evacuation and rescue guidance for HSE Officers, Supervisors and Emergency Team members.',
-                  style: TextStyle(color: Colors.white, height: 1.45),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'PART 1 — EMERGENCY FUNDAMENTALS',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart1.map((topic) => _topicTile(context, topic)),
-          const SizedBox(height: 12),
-          const Text(
-            'PART 2 — EVACUATION, FIRE, MEDICAL & RESCUE',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart2.map((topic) => _topicTile(context, topic)),
-          const SizedBox(height: 12),
-          const Text(
-            'PART 3 — WORK AT HEIGHT, LIFTING, ELECTRICAL & CHEMICAL RESPONSE',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart3.map((topic) => _topicTile(context, topic)),
-          const SizedBox(height: 12),
-          const Text(
-            'PART 4 — TRAFFIC, MACHINERY, WATER & HEAT EMERGENCIES',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart4.map((topic) => _topicTile(context, topic)),
-          const SizedBox(height: 12),
-          const Text(
-            'PART 5 — SPECIAL EMERGENCIES, DRILLS & CONTINUOUS IMPROVEMENT',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart5.map((topic) => _topicTile(context, topic)),
-
-          const SizedBox(height: 12),
-          const Text(
-            'PART 6 — EMERGENCY PREPAREDNESS & RESPONSE (TOPICS 21–30)',
-            style: TextStyle(
-              color: _green,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart6.map((topic) => _topicTile(context, topic)),
-
-          const SizedBox(height: 12),
-          const Text(
-            'PART 7 — SPECIALIST RESCUE OPERATIONS (TOPICS 31–40)',
-            style: TextStyle(color: _green, fontWeight: FontWeight.w800, letterSpacing: 0.5, fontSize: 13),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart7.map((topic) => _topicTile(context, topic)),
-          const SizedBox(height: 12),
-          const Text(
-            'PART 8 — SPECIALIST RESPONSE, MEDICAL CARE & RECOVERY (TOPICS 41–50)',
-            style: TextStyle(color: _green, fontWeight: FontWeight.w800, letterSpacing: 0.5, fontSize: 13),
-          ),
-          const SizedBox(height: 10),
           ...emergencyRescuePart8.map((topic) => _topicTile(context, topic)),
 
 
@@ -192,6 +81,24 @@ class EmergencyRescuePage extends StatelessWidget {
     );
   }
 
+  IconData _topicIcon(String title) {
+    final t = title.toLowerCase();
+    if (t.contains('fire') || t.contains('smoke')) return Icons.local_fire_department;
+    if (t.contains('first aid') || t.contains('medical') || t.contains('injury')) return Icons.medical_services;
+    if (t.contains('evacuat') || t.contains('assembly')) return Icons.directions_walk;
+    if (t.contains('confined')) return Icons.sensor_door;
+    if (t.contains('height') || t.contains('fall')) return Icons.personal_injury;
+    if (t.contains('crane') || t.contains('lifting')) return Icons.precision_manufacturing;
+    if (t.contains('electric') || t.contains('shock')) return Icons.electrical_services;
+    if (t.contains('chemical') || t.contains('spill') || t.contains('gas')) return Icons.science;
+    if (t.contains('water') || t.contains('drowning') || t.contains('marine')) return Icons.water;
+    if (t.contains('vehicle') || t.contains('traffic') || t.contains('road')) return Icons.car_crash;
+    if (t.contains('heat') || t.contains('weather')) return Icons.wb_sunny;
+    if (t.contains('rescue')) return Icons.health_and_safety;
+    if (t.contains('drill') || t.contains('exercise')) return Icons.groups;
+    return Icons.emergency;
+  }
+
   Widget _topicTile(BuildContext context, EmergencyRescueTopic topic) {
     return Card(
       elevation: 0,
@@ -204,13 +111,10 @@ class EmergencyRescuePage extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         leading: CircleAvatar(
-          radius: 23,
+          radius: 27,
           backgroundColor: const Color(0xFFE1F2E9),
           foregroundColor: _green,
-          child: Text(
-            topic.id.replaceFirst('ER-', ''),
-            style: const TextStyle(fontWeight: FontWeight.w800),
-          ),
+          child: Icon(_topicIcon(topic.title), size: 27),
         ),
         title: Text(
           topic.title,
