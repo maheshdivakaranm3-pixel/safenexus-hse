@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'data/hse_reference/hse_topics_01_25.dart';
+import 'data/hse_reference/hse_topics_26_50.dart';
 
 /// SafeNexus HSE — Reference screen
 ///
@@ -21,6 +23,13 @@ class GuidelinesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sections = <_ReferenceSection>[
+      const _ReferenceSection(
+        title: 'Complete HSE Guide',
+        subtitle: 'Master handbook • Topics 01–50',
+        icon: Icons.menu_book,
+        color: Color(0xFF6A1B9A),
+        kind: _ReferenceKind.completeGuide,
+      ),
       const _ReferenceSection(
         title: 'UAE HSE',
         subtitle: 'UAE-wide HSE reference',
@@ -148,9 +157,9 @@ class GuidelinesPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute<void>(
-                              builder: (_) => _ReferencePlaceholderPage(
-                                section: section,
-                              ),
+                              builder: (_) => section.kind == _ReferenceKind.completeGuide
+                                  ? const _HseTopicListPage()
+                                  : _ReferencePlaceholderPage(section: section),
                             ),
                           );
                         },
@@ -456,6 +465,7 @@ enum _ReferenceKind {
   fireLifeSafety,
   specialist,
   learning,
+  completeGuide,
 }
 
 class _ReferenceSection {
@@ -472,4 +482,58 @@ class _ReferenceSection {
   final IconData icon;
   final Color color;
   final _ReferenceKind kind;
+}
+
+
+class _HseTopicListPage extends StatelessWidget {
+  const _HseTopicListPage();
+
+  static const List<HseTopic> _topics = <HseTopic>[
+    ...hseTopics01To25,
+    ...hseTopics26To50,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Complete HSE Guide • 01–50')),
+      body: ListView.separated(
+        itemCount: _topics.length,
+        separatorBuilder: (_, __) => const Divider(height: 1),
+        itemBuilder: (context, index) {
+          final topic = _topics[index];
+          return ListTile(
+            leading: CircleAvatar(child: Text(topic.number.toString().padLeft(2, '0'))),
+            title: Text(topic.title, style: const TextStyle(fontWeight: FontWeight.w600)),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => _HseTopicDetailPage(topic: topic),
+            )),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _HseTopicDetailPage extends StatelessWidget {
+  const _HseTopicDetailPage({required this.topic});
+  final HseTopic topic;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Topic ${topic.number.toString().padLeft(2, '0')}')),
+      body: SelectionArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(18),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(topic.title, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            Text(topic.content, style: const TextStyle(fontSize: 15, height: 1.55)),
+          ]),
+        ),
+      ),
+    );
+  }
 }
