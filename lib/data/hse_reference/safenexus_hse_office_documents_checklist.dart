@@ -104,8 +104,8 @@ class _HseWorkReadyDocumentsPageState extends State<HseWorkReadyDocumentsPage> {
     appBar: AppBar(title: const Text('Work-Ready HSE Documents')),
     body: Form(key: _formKey, child: ListView(padding: const EdgeInsets.all(16), children: [
       const Card(child: Padding(padding: EdgeInsets.all(12), child: Text('Prepare a site-specific work package. Complete actual site details; obtain competent-person review and client/consultant approval where required before work starts.'))),
-      DropdownButtonFormField<String>(value: _stage, decoration: const InputDecoration(labelText: 'Workflow stage'), items: ['Prepare','Review','Approve','Ready for issue','Work closeout'].map((s)=>DropdownMenuItem(value:s,child:Text(s))).toList(), onChanged:(v)=>setState(()=>_stage=v??'Prepare')),
-      DropdownButtonFormField<String>(value: _status, decoration: const InputDecoration(labelText: 'Document status'), items: ['Draft','Under Review','Comments Returned','Approved','Rejected','Closed'].map((s)=>DropdownMenuItem(value:s,child:Text(s))).toList(), onChanged:(v)=>setState(()=>_status=v??'Draft')),
+      DropdownButtonFormField<String>(initialValue: _stage, decoration: const InputDecoration(labelText: 'Workflow stage'), items: ['Prepare','Review','Approve','Ready for issue','Work closeout'].map((s)=>DropdownMenuItem(value:s,child:Text(s))).toList(), onChanged:(v)=>setState(()=>_stage=v??'Prepare')),
+      DropdownButtonFormField<String>(initialValue: _status, decoration: const InputDecoration(labelText: 'Document status'), items: ['Draft','Under Review','Comments Returned','Approved','Rejected','Closed'].map((s)=>DropdownMenuItem(value:s,child:Text(s))).toList(), onChanged:(v)=>setState(()=>_status=v??'Draft')),
       const SizedBox(height: 12),
       for (final k in _fields) Padding(padding: const EdgeInsets.only(bottom: 10), child: TextFormField(controller:_c[k], minLines: k.contains('Sequence')||k.contains('Hazard')||k.contains('Control')||k.contains('Scope')||k.contains('Arrangements')||k.contains('Conditions')||k.contains('Comments') ? 3 : 1, maxLines: 6, decoration: InputDecoration(labelText:k, border: const OutlineInputBorder(), alignLabelWithHint:true))),
       const Text('Export / Save & Share', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -119,4 +119,9 @@ class _HseWorkReadyDocumentsPageState extends State<HseWorkReadyDocumentsPage> {
       const Text('Safety gate: this app-generated draft does not itself authorize work. Verify site conditions, permits, isolations, risk acceptance, competent review and required client/consultant approval.'),
     ])),
   );
+}
+
+/// Compatibility name used by hse_topic_browser.dart navigation.
+class HseOfficeDocumentsPage extends HseWorkReadyDocumentsPage {
+  const HseOfficeDocumentsPage({super.key});
 }
