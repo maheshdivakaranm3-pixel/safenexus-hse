@@ -123,7 +123,38 @@ class _FireEditableDocumentPageState extends State<FireEditableDocumentPage> {
         Text(widget.name, style: const TextStyle(color: green, fontSize: 20, fontWeight: FontWeight.w900)),
         const SizedBox(height: 5), Text(widget.group, style: const TextStyle(color: green)),
         const SizedBox(height: 10),
-        Row(children: [for (final label in ['Company Logo', 'Client Logo', 'Consultant Logo']) Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 3), child: Container(height: 62, decoration: BoxDecoration(color: Colors.white, border: Border.all(color: const Color(0xFF9DB8AC), style: BorderStyle.solid), borderRadius: BorderRadius.circular(8)), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [const Icon(Icons.image_outlined, color: green), Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 10, color: green))])))]),
+        Row(
+          children: [
+            for (final label in ['Company Logo', 'Client Logo', 'Consultant Logo'])
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Container(
+                    height: 62,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: const Color(0xFF9DB8AC),
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.image_outlined, color: green),
+                        Text(
+                          label,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 10, color: green),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
         const SizedBox(height: 10), const Text('Logo boxes are reserved in this form layout. Add actual logo assets and export branding in the document package before formal issue.', style: TextStyle(fontSize: 12, height: 1.35)),
       ]))),
       ...fields.map((f) => Padding(padding: const EdgeInsets.only(bottom: 10), child: TextField(controller: controllers[f], minLines: _multi(f) ? 3 : 1, maxLines: _multi(f) ? 5 : 1, decoration: InputDecoration(labelText: f, alignLabelWithHint: true, filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none))))),
