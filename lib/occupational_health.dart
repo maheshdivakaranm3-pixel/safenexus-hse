@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'occupational_health_part1.dart';
+import 'data/occupational_health/occupational_health_part1.dart';
 
 class OccupationalHealthPage extends StatefulWidget {
   const OccupationalHealthPage({super.key});
