@@ -193,7 +193,7 @@ class OccupationalHealthHandbookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: const Color(0xFFF6F8F7),
-    appBar: AppBar(title: const Text('Occupational Health Handbook'), backgroundColor: const Color(0xFF0B5D4B), foregroundColor: Colors.white),
+    appBar: AppBar(title: const Text('Occupational Health'), backgroundColor: const Color(0xFF0B5D4B), foregroundColor: Colors.white),
     body: ListView.builder(padding: const EdgeInsets.all(12), itemCount: occupationalHealthPart1.length, itemBuilder: (context, i) {
       final t = occupationalHealthPart1[i];
       return Card(color: Colors.white, child: ListTile(leading: const CircleAvatar(backgroundColor: Color(0xFFE5F4E9), child: Icon(Icons.health_and_safety, color: Color(0xFF159447))), title: Text(t.title, style: const TextStyle(fontWeight: FontWeight.w600)), subtitle: const Text('Professional field handbook'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => _TopicDetail(topic: t)))));
