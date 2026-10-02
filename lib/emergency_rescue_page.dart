@@ -49,6 +49,8 @@ class EmergencyRescuePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
         children: [
+          _officeDocumentsCard(context),
+          const SizedBox(height: 16),
           ...emergencyRescuePart1.map((topic) => _topicTile(context, topic)),
           ...emergencyRescuePart2.map((topic) => _topicTile(context, topic)),
           ...emergencyRescuePart3.map((topic) => _topicTile(context, topic)),
@@ -80,6 +82,79 @@ class EmergencyRescuePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _officeDocumentsCard(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Material(
+          color: const Color(0xFFE5F3EC),
+          borderRadius: BorderRadius.circular(18),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const EmergencyManagementPage(),
+              ),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.grey.shade200),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: const BoxDecoration(
+                      color: _green,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.folder_open,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Office Documents & Templates',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF17211D),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Emergency plans, rescue forms, checklists and records',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF53635B),
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right, color: _green, size: 28),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
 
   IconData _topicIcon(String title) {
     final t = title.toLowerCase();
