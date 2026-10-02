@@ -21,7 +21,7 @@ import 'fire_life_safety_topics_page.dart';
 import 'environmental_reference_page.dart';
 import 'oil_gas_interview_page.dart';
 import 'data/hse_reference/hse_topic_browser.dart';
-import 'data/occupational_health/occupational_health_part1.dart';
+import 'data/occupational_health/occupational_health_handbook_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
