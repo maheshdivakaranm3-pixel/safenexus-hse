@@ -4,6 +4,7 @@ import 'data/fire_life_safety/fire_science_prevention.dart';
 import 'data/fire_life_safety/fire_science_prevention_11_20.dart';
 import 'data/fire_life_safety/fire_science_prevention_21_30.dart';
 import 'data/fire_life_safety/fire_science_prevention_31_40.dart';
+import 'fire_life_safety_office_documents.dart';
 
 class FireLifeSafetyTopicsPage extends StatelessWidget {
   const FireLifeSafetyTopicsPage({super.key});
@@ -29,6 +30,7 @@ class FireLifeSafetyTopicsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
+          _officeDocumentsCard(context),
           const SizedBox(height: 16),
 
           ...topics.map(
@@ -107,6 +109,33 @@ class FireLifeSafetyTopicsPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _officeDocumentsCard(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: 16),
+    child: Material(
+      color: const Color(0xFFE5F3EC),
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
+          builder: (_) => const FireLifeSafetyOfficeDocumentsPage(),
+        )),
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), border: Border.all(color: Colors.grey.shade200), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))]),
+          child: Row(children: [
+            Container(width: 64, height: 64, decoration: BoxDecoration(color: _green, borderRadius: BorderRadius.circular(32)), child: const Icon(Icons.folder_open, color: Colors.white, size: 32)),
+            const SizedBox(width: 16),
+            const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Office Documents & Templates', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800, color: Color(0xFF17211D))),
+              SizedBox(height: 5), Text('Fire safety forms, checklists and document records', style: TextStyle(fontSize: 14, color: Color(0xFF53635B), height: 1.4)),
+            ])),
+            const Icon(Icons.chevron_right, color: _green, size: 28),
+          ]),
+        ),
+      ),
+    ),
+  );
 }
 
 class FireSafetyTopicDetailPage extends StatelessWidget {
