@@ -1,0 +1,186 @@
+import 'occupational_health_part1.dart';
+
+/// Occupational Health Handbook — File 03, topics 61–90.
+/// HandbookTopic is declared in occupational_health_part1.dart.
+const occupationalHealthPart3 = <HandbookTopic>[
+  HandbookTopic(
+    title: "Occupational Medical Examination",
+    overview: "A job-related medical examination evaluates whether a worker can safely perform defined duties and identifies health risks requiring prevention or accommodation. It is not a general guarantee of fitness or a substitute for workplace exposure control. Scope depends on job demands, hazards, applicable law and clinical judgement.",
+    field: "Provide the clinician with an accurate job description, exposure profile, physical demands and emergency requirements. Use a qualified authorized provider; explain the purpose and confidentiality limits to the worker. The clinician determines appropriate history, examination and tests, communicates fitness restrictions or recommendations through an agreed privacy-preserving channel, and refers clinical findings for care. Avoid collecting unnecessary diagnoses in operational files.",
+    records: "Job description and hazard profile; examination protocol; appointment/completion tracker; fitness certificate or work restrictions as permitted; confidential clinical file held by provider; referral/follow-up and programme review.",
+  ),
+  HandbookTopic(
+    title: "Pre-Employment Medical Fitness",
+    overview: "Pre-employment fitness assessment considers the essential tasks, foreseeable exposures and emergency demands of a role before placement. It should be relevant, proportionate, non-discriminatory and consistent with applicable employment and health requirements.",
+    field: "Give the provider task-specific demands, PPE, shift pattern, access/egress and exposure information. Assess only job-relevant capabilities and risks; consider reasonable adjustments or alternative duties where appropriate. Do not treat a screening result as a diagnosis or automatically exclude a person without qualified review and applicable process. Record only the fitness outcome and necessary restrictions in employer operational records.",
+    records: "Role profile; hazard assessment; referral and consent process; fitness outcome/restrictions; confidential medical records; accommodation decision and review date; onboarding communication.",
+  ),
+  HandbookTopic(
+    title: "Periodic Medical Examination",
+    overview: "Periodic medical examinations are planned reviews for worker groups with defined occupational health risks. Frequency and test selection should be based on exposure, legal requirements, clinical guidance and changes in work rather than applying identical tests to every employee.",
+    field: "Create a risk-based surveillance matrix showing eligible groups, tests, interval, provider, referral criteria and follow-up. Notify workers in accessible language, arrange attendance without compromising privacy, and use qualified clinicians to interpret findings. Track completion and anonymized trends; investigate adverse patterns by reviewing exposures and controls. Update the programme when tasks, substances or requirements change.",
+    records: "Surveillance matrix; risk-based rationale; appointment and completion register; provider quality credentials; confidential results; anonymized trend analysis; referral/action tracking; annual programme review.",
+  ),
+  HandbookTopic(
+    title: "Fitness to Work Assessment",
+    overview: "Fitness to work is a task-specific opinion about a person's ability to perform essential duties safely at a particular time, with or without restrictions. It may be relevant after illness, injury, medication changes, symptoms or changes in job demands.",
+    field: "Refer to an authorized clinician with accurate essential-task and emergency-response demands. Obtain a clear outcome such as fit, fit with restrictions, temporarily unfit or further assessment required, using the applicable system. Share only necessary restrictions with line management, agree controls and review dates, and reassess when duties or health circumstances materially change. Supervisors should not independently diagnose.",
+    records: "Referral form and job demands; fitness outcome; restriction/accommodation plan; review date; communication acknowledgement; confidential clinical record; return/reassessment record.",
+  ),
+  HandbookTopic(
+    title: "Return-to-Work Medical Assessment",
+    overview: "Return-to-work assessment supports safe, sustainable resumption after illness, injury or absence. It considers functional capacity, task demands, residual limitations and workplace adjustments without requiring disclosure of unrelated medical details.",
+    field: "Coordinate worker, clinician, HR and supervisor with consent and role-appropriate information. Identify essential duties and potential triggers, agree phased hours, modified tasks, breaks or temporary restrictions where indicated, and define review milestones. Monitor whether adjustments work in practice and revise them with clinical input; protect the worker from premature full-duty assignment.",
+    records: "Return-to-work referral; functional job demands; agreed plan and restrictions; adjustment review dates; supervisor briefing limited to need-to-know; follow-up notes; closure decision.",
+  ),
+  HandbookTopic(
+    title: "Medical Restrictions & Job Modification",
+    overview: "Medical restrictions are work-related limitations or recommendations issued by an authorized clinician. Job modification adapts duties, equipment, schedule or environment to manage risk while respecting confidentiality and applicable employment requirements.",
+    field: "Translate clinical restrictions into practical controls with the worker and relevant managers, without requesting unnecessary diagnostic details. Check compatibility with emergency duties, PPE, driving, heights, confined spaces and shift work as relevant. Assign an owner and expiry/review date; verify the modified job is actually followed and obtain reassessment before removing restrictions.",
+    records: "Confidential clinical recommendation; restricted-access fitness register; job modification assessment; approval and communication record; review/expiry alerts; verification and reassessment evidence.",
+  ),
+  HandbookTopic(
+    title: "Occupational Health Surveillance Programme",
+    overview: "A surveillance programme systematically monitors health in worker groups exposed to identified occupational hazards, aiming for early detection and evaluation of control effectiveness. It must be linked to a documented exposure assessment and clinically appropriate methods.",
+    field: "Define scope, eligibility, baseline, periodic interval, tests, provider competency, referral thresholds, worker communication, confidentiality, data retention and escalation. Use only tests relevant to the risk and applicable requirements. Review anonymized patterns alongside exposure monitoring and control performance; do not use surveillance as a replacement for prevention or as an automatic employment-screening tool.",
+    records: "Approved programme; exposure-to-surveillance matrix; provider agreement; worker information; completion and referral tracking; confidential clinical files; anonymized trend reports; effectiveness review.",
+  ),
+  HandbookTopic(
+    title: "Biological Monitoring",
+    overview: "Biological monitoring measures a chemical or its metabolite, or a biological effect, in a suitable specimen to help evaluate absorbed dose or effect. Interpretation depends on substance, specimen timing, analytical method, background sources and appropriate biological guidance values.",
+    field: "Use a competent occupational hygienist and qualified clinician/laboratory to select the analyte, specimen, timing and interpretation criteria. Explain purpose and consent, maintain chain of custody and privacy, and interpret results with air monitoring and work history. A result is not a standalone diagnosis or proof of a specific source; investigate elevated findings promptly and verify controls.",
+    records: "Monitoring protocol and rationale; worker information/consent as applicable; sampling and chain-of-custody record; laboratory accreditation and quality data; confidential results; exposure investigation and control actions.",
+  ),
+  HandbookTopic(
+    title: "Audiometry & Hearing Assessment",
+    overview: "Audiometry is a clinical hearing assessment used in hearing conservation to establish baseline and identify changes that may require follow-up. Results require appropriate test conditions, calibrated equipment and qualified interpretation; screening alone does not establish occupational causation.",
+    field: "Identify noise-exposed groups from the noise risk assessment. Arrange baseline and periodic testing through competent providers, control recent noise exposure before testing as required by protocol, and ensure equipment calibration and suitable test environment. Refer significant changes for clinical review, investigate noise sources and hearing-protector fit/use, and communicate individual results confidentially.",
+    records: "Noise exposure group list; audiometry protocol; appointment/completion register; audiometer calibration; confidential audiograms; referral and threshold-shift follow-up; engineering-control review.",
+  ),
+  HandbookTopic(
+    title: "Spirometry & Lung Function Testing",
+    overview: "Spirometry measures aspects of airflow and lung function and may support surveillance for selected respiratory exposures. Test quality depends on trained operators, calibrated equipment, worker cooperation and clinical interpretation; it is not appropriate as universal screening for every job.",
+    field: "Select workers and intervals from exposure assessment and clinical guidance. Use trained operators, infection prevention, calibration/verification procedures and quality criteria. Explain the test, refer abnormal or changing results to an occupational health clinician, and interpret trends with symptoms, exposure history and other clinical information. Keep individual results confidential.",
+    records: "Exposure-based eligibility; spirometry protocol; operator competency; equipment calibration and quality logs; confidential test results; clinical referral; anonymized trend/control review.",
+  ),
+  HandbookTopic(
+    title: "Ergonomics Risk Assessment",
+    overview: "Ergonomics assessment examines how task, equipment, environment and work organization interact with human capabilities. Risk factors include force, awkward or static posture, repetition, duration, vibration, pace and insufficient recovery.",
+    field: "Observe the real task across representative cycles and shifts; consult workers and include variations, maintenance and peak demand. Use a suitable screening or detailed assessment method by competent personnel. Prioritize redesign, mechanical assistance, adjustable workstations, layout changes and workload/recovery improvements. Trial controls with users, verify adoption and reassess after changes or symptoms.",
+    records: "Task inventory; assessment method and findings; worker consultation; photographs/video only with authorization; redesign proposals; trial/verification record; action owner and closure; review.",
+  ),
+  HandbookTopic(
+    title: "Manual Handling & Lifting",
+    overview: "Manual handling includes lifting, lowering, carrying, pushing, pulling and holding loads. Injury risk depends on load characteristics, reach, posture, grip, frequency, distance, environment and individual/task factors; there is no single universal safe weight for every situation.",
+    field: "Avoid hazardous manual handling where feasible through delivery planning, mechanical aids and load redesign. Assess the whole task, including stairs, uneven ground, team lifts and repeated handling. Set routes and staging, maintain trolleys/hoists, train workers on equipment and task-specific methods, and stop/reassess when load or conditions change. Do not rely solely on generic “lift with your legs” training.",
+    records: "Manual handling assessment; load/equipment specifications; mechanical-aid inspection; route and layout checks; worker instruction; incident/near-miss data; control verification and review.",
+  ),
+  HandbookTopic(
+    title: "Repetitive Motion Injuries",
+    overview: "Repetitive motion risk arises when similar movements are repeated with force, awkward posture, sustained muscle activity or inadequate recovery. Examples include assembly, tool use, data entry and repetitive inspection; symptoms can develop gradually.",
+    field: "Map repetition rate, force, posture, cycle time, exposure duration and recovery periods. Reduce repetition through automation, task redesign, tool selection and balanced job rotation only where it genuinely changes exposure. Adjust pace and staffing, involve workers in trials, and provide early reporting and occupational health referral. Monitor whether rotation transfers risk rather than reducing it.",
+    records: "Repetitive-task inventory; ergonomic assessment; cycle and workload observations; tool procurement/maintenance; worker consultation; rotation/rest plan; symptom trend and corrective-action log.",
+  ),
+  HandbookTopic(
+    title: "Workstation Ergonomics",
+    overview: "Workstation ergonomics addresses fit between the worker, furniture, display, tools and task, including posture, reach, visual demand and work-rest pattern. Poor setup can contribute to discomfort, fatigue and upper-limb or back symptoms.",
+    field: "Assess actual users and tasks, not just furniture dimensions. Arrange chair support, feet support, screen height/distance, keyboard/mouse reach, lighting and glare control to suit the worker. Provide adjustability and brief users on setup; vary posture and include suitable breaks. Reassess for workers with specific needs and after equipment or role changes.",
+    records: "Workstation assessment; adjustment checklist; equipment inventory; user briefing; accommodation requests; corrective-action record; periodic review and reported discomfort follow-up.",
+  ),
+  HandbookTopic(
+    title: "Upper Limb Disorders",
+    overview: "Upper limb disorders affect shoulder, arm, elbow, wrist or hand and may involve tendons, nerves, muscles or joints. Work contributors include forceful grip, repetition, overhead reach, vibration, contact stress and sustained posture; clinical diagnosis belongs to healthcare professionals.",
+    field: "Identify high-risk tasks and tool interactions, measure or characterize force and repetition, and redesign handles, reach, work height and process sequence. Reduce vibration and contact pressure, provide recovery and early symptom reporting, and refer persistent symptoms for clinical assessment. Review job modifications and confirm controls are effective without disclosing diagnoses broadly.",
+    records: "Upper-limb task assessment; tool specification and vibration data; worker consultation; symptom/referral pathway; adjustments and restrictions; action verification and trend review.",
+  ),
+  HandbookTopic(
+    title: "Back Injury Prevention",
+    overview: "Back injuries may be associated with lifting, pushing, pulling, awkward posture, sudden movement, vibration and poorly designed work. Risk is not determined by load weight alone; individual symptoms require appropriate clinical assessment.",
+    field: "Reduce handling demand through mechanical aids, suitable load size, access planning and storage heights. Assess combined exposures such as repeated bending, twisting, carrying distance and vehicle vibration. Maintain floors and routes, train on task-specific equipment and team coordination, and encourage prompt reporting. After injury, use clinician-guided restrictions and return-to-work planning rather than assuming complete rest or immediate full duty.",
+    records: "Back-risk assessment; handling and route plan; mechanical-aid inspection; worker training; incident/near-miss records; confidential referral; return-to-work adjustments and effectiveness review.",
+  ),
+  HandbookTopic(
+    title: "Musculoskeletal Health Management",
+    overview: "A musculoskeletal health programme integrates prevention, early reporting, assessment, clinical referral, work modification and review across physical tasks. It should use aggregated trends to improve design while protecting personal health information.",
+    field: "Assign programme ownership and define reporting channels, assessment triggers, referral access and escalation. Review task-level patterns by department or exposure group, consult workers and prioritize engineering redesign. Coordinate temporary modifications with clinicians and supervisors, verify completion and review recurrence. Avoid punitive reporting practices or using symptom data to blame individuals.",
+    records: "Programme plan; ergonomic risk register; worker consultation; reports and referrals with access controls; job modification tracker; anonymized trend analysis; corrective actions and management review.",
+  ),
+  HandbookTopic(
+    title: "Ergonomic Assessment of Tools & Equipment",
+    overview: "Tool and equipment ergonomics considers handle geometry, grip force, weight, balance, trigger design, vibration, reach, visibility and compatibility with gloves or other PPE. Poorly selected equipment can increase fatigue and injury risk even when it meets basic mechanical requirements.",
+    field: "Include end users in procurement and trial tools under realistic conditions. Compare task force, posture, vibration, noise, access and maintenance needs; choose adjustable or lower-vibration options where appropriate. Inspect and maintain tools, remove defective units and verify that PPE does not impair grip or control. Reassess after process or user changes.",
+    records: "Procurement ergonomic specification; trial and user feedback; tool inventory; vibration/noise data; inspection and maintenance logs; training; defect reports and post-implementation review.",
+  ),
+  HandbookTopic(
+    title: "Human Factors in Occupational Health",
+    overview: "Human factors considers how workload, fatigue, staffing, procedures, interface design, communication and organizational culture influence health and performance. It recognizes that error and ill-health often reflect interacting system conditions rather than individual failure alone.",
+    field: "Review task demands, shift pattern, staffing, breaks, alarm/interface design, procedure usability and reporting climate. Consult workers and supervisors; simplify controls, reduce avoidable time pressure and provide recovery opportunities. Integrate human factors into change management and incident learning, and check whether controls work during busy or abnormal operations.",
+    records: "Human factors assessment; shift/workload data; worker consultation; change-management review; procedure usability findings; fatigue controls; incident learning and action effectiveness checks.",
+  ),
+  HandbookTopic(
+    title: "Occupational Rehabilitation & Recovery",
+    overview: "Occupational rehabilitation supports recovery and safe participation at work following injury or illness. It may involve clinical care, functional assessment, graduated duties, workplace adjustments and coordinated follow-up while respecting worker choice and confidentiality.",
+    field: "Coordinate with the worker and treating/occupational health professionals within consent and legal boundaries. Define functional goals, safe duties, hours, restrictions and review milestones; ensure supervisors understand practical limits but not unnecessary diagnoses. Monitor symptoms and task tolerance, revise the plan when needed and document a clear completion or escalation decision.",
+    records: "Rehabilitation referral; functional capability and job demands; agreed graduated plan; adjustment and review log; confidential clinical correspondence; supervisor communication; outcome and closure record.",
+  ),
+  HandbookTopic(
+    title: "Fatigue Risk Management",
+    overview: "Fatigue can reduce alertness, reaction time, memory and judgement and may increase error and injury risk. Contributors include long or irregular shifts, night work, insufficient sleep, heat, workload, travel and inadequate recovery; fatigue is a system risk as well as an individual experience.",
+    field: "Assess roster design, consecutive shifts, overtime, night work, commute, workload and safety-critical tasks. Apply scheduling and staffing controls, protected breaks, suitable accommodation/transport arrangements and fit-for-duty escalation. Train supervisors to recognize concerns and provide a non-punitive reporting route. Avoid relying solely on caffeine or self-declaration; review incidents and roster changes for fatigue contribution.",
+    records: "Fatigue risk assessment; approved roster and overtime records; rest/break verification; worker briefings; fit-for-duty escalation records with privacy; fatigue-related incident reviews; action and roster review.",
+  ),
+  HandbookTopic(
+    title: "Shift Work & Sleep Management",
+    overview: "Shift work can disrupt circadian rhythm and sleep, affecting alertness, recovery and health. Risk varies with shift timing, rotation direction, consecutive nights, quick returns, commute and individual circumstances.",
+    field: "Review roster patterns against applicable requirements and recognized fatigue-management principles. Avoid excessive consecutive duties and short recovery intervals where practicable; plan predictable rosters, protected breaks and safe transport after demanding shifts. Provide sleep-health education and confidential access to occupational health support. Monitor fatigue reports and operational indicators without treating them as proof of individual fault.",
+    records: "Shift-work assessment; roster design rationale; hours/rest records; transport and break arrangements; worker education; confidential referrals; fatigue trend and corrective-action review.",
+  ),
+  HandbookTopic(
+    title: "Occupational Stress Management",
+    overview: "Work-related stress can arise when demands, control, support, role clarity, relationships or change are poorly balanced. Prolonged stress may affect wellbeing, concentration and physical health; assessment should focus on work conditions and supportive response, not stigmatizing individuals.",
+    field: "Identify psychosocial stressors through confidential surveys, consultation, workload review and reporting channels. Address causes such as staffing, conflicting priorities, bullying, unclear roles or poorly managed change. Train managers in supportive conversations and referral routes; protect confidentiality and prohibit retaliation. Escalate immediate safety or crisis concerns through established emergency and clinical pathways.",
+    records: "Psychosocial risk assessment; anonymized survey/consultation results; workload and change review; manager training; support/referral pathway; action tracker; effectiveness and confidentiality review.",
+  ),
+  HandbookTopic(
+    title: "Workplace Mental Health & Wellbeing",
+    overview: "Workplace mental health and wellbeing includes psychological safety, manageable demands, supportive leadership, inclusion, recovery and access to help. Employers can reduce work-related risks and support workers but should not diagnose mental health conditions through workplace checklists.",
+    field: "Establish accessible support and referral pathways, clear anti-harassment processes, reasonable workload practices and manager training. Consult workers on barriers to seeking help and protect private information. Respond to concerns promptly, assess immediate risk through qualified services where needed, and consider temporary work adjustments with consent. Evaluate organizational improvements using anonymized indicators.",
+    records: "Wellbeing policy and support contacts; psychosocial risk review; training and awareness records; confidential accommodation/referral process; anonymized participation/trend data; action review.",
+  ),
+  HandbookTopic(
+    title: "Psychosocial Risk Assessment",
+    overview: "Psychosocial risk assessment identifies work design and social conditions that may harm psychological or physical health, including high demands, low control, poor support, role conflict, bullying, violence and poorly managed change.",
+    field: "Define work groups and consult workers using safe, confidential methods. Examine work intensity, staffing, autonomy, schedules, role clarity, support and incident/absence patterns without assuming causation. Prioritize organizational controls, assign accountable owners and timelines, communicate actions and reassess. Protect anonymity in small teams and provide individual support routes alongside system-level action.",
+    records: "Assessment scope/method; consultation plan; anonymized findings; risk register; action owners and deadlines; anti-retaliation safeguards; follow-up measures and management review.",
+  ),
+  HandbookTopic(
+    title: "Workplace Violence & Aggression Prevention",
+    overview: "Workplace violence and aggression includes threats, verbal abuse, physical assault and other harmful conduct from customers, members of the public, coworkers or third parties. Risk can be higher in isolated work, cash handling, enforcement, healthcare, transport and late shifts.",
+    field: "Assess location, interaction type, staffing, lone work, access control, alarm systems and prior events. Use environmental design, safe staffing, de-escalation training, clear response protocols and prompt reporting. Provide immediate medical and psychological support after incidents, preserve evidence appropriately and investigate system improvements. Do not encourage workers to confront violent persons beyond their training.",
+    records: "Violence risk assessment; site/security controls; lone-worker and alarm checks; training; incident and near-miss reports; support/referral records; investigation and corrective-action verification.",
+  ),
+  HandbookTopic(
+    title: "Biological Hazard Management",
+    overview: "Biological hazards include microorganisms, blood and body fluids, contaminated materials, animals, vectors, wastewater and biological toxins. Exposure routes include inhalation, ingestion, skin contact, mucous membranes and sharps injury; controls depend on agent and task.",
+    field: "Identify sources and exposure pathways before work, including cleaning, waste, maintenance and emergency tasks. Apply containment, hygiene, handwashing, safe sharps/waste handling, cleaning and disinfection validated for the hazard. Use risk-based PPE, vaccination or medical advice where appropriate, and train workers on reporting and post-exposure response. Avoid unsupported claims that an area is pathogen-free based on visual cleanliness.",
+    records: "Biological risk assessment; task and agent inventory; cleaning/disinfection procedures and logs; PPE and training records; vaccination programme where applicable; exposure incident/referral records; waste controls and review.",
+  ),
+  HandbookTopic(
+    title: "Infectious Disease Prevention at Work",
+    overview: "Workplace infectious disease prevention combines routine hygiene, ventilation, cleaning, illness reporting, exposure response and continuity planning. Measures should be proportionate to transmission route, current public health advice, workforce conditions and applicable requirements.",
+    field: "Assess shared air, close contact, sanitation, accommodation, transport and vulnerable tasks. Maintain ventilation and hygiene facilities, establish clear illness and return-to-work guidance consistent with current health advice, and provide accessible reporting without stigma. For outbreaks, coordinate with competent public health/medical authorities, communicate verified instructions and protect health information. Review effectiveness and update plans as risks change.",
+    records: "Infection prevention plan; ventilation and sanitation maintenance; cleaning records; worker communications; outbreak response and authority coordination; confidential referral/absence data; after-action review.",
+  ),
+  HandbookTopic(
+    title: "Food Hygiene & Occupational Health",
+    overview: "Food hygiene in workplaces protects workers and consumers from contamination and foodborne illness, especially in camps, catering, kitchens and welfare facilities. Hazards include unsafe temperatures, cross-contamination, poor hand hygiene, pests, allergens and inadequate potable water.",
+    field: "Define responsibilities for food handlers and welfare contractors; maintain approved suppliers, potable water, handwashing, clean storage and separation of raw/cooked foods. Monitor refrigeration and hot-holding against applicable local food-code requirements, control allergens and pests, and ensure illness reporting and exclusion decisions follow competent public-health advice. Inspect facilities and close findings promptly.",
+    records: "Catering/welfare contract requirements; supplier and food-handler competency records; temperature and cleaning logs; potable-water evidence; pest-control records; inspection findings; illness response and corrective actions.",
+  ),
+  HandbookTopic(
+    title: "Occupational Health Promotion & Wellness",
+    overview: "Occupational health promotion supports worker wellbeing through preventive education, access to services and healthier work organization. It complements, but never replaces, hazard elimination and exposure control or required clinical care.",
+    field: "Select activities based on worker needs and consultation; ensure participation is voluntary where appropriate and avoid collecting unnecessary personal health data. Provide accessible information on hydration, sleep, physical activity, smoking cessation or other relevant topics through qualified sources. Evaluate reach and usefulness with anonymized feedback, and avoid blaming workers for health outcomes driven by work conditions.",
+    records: "Approved promotion plan; needs assessment; qualified content/provider review; participation and feedback in aggregate; referral information; privacy safeguards; evaluation and improvement record.",
+  ),
+];
