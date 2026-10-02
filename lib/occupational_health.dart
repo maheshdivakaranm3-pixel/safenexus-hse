@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'occupational_health_part1.dart';
 
 class OccupationalHealthPage extends StatefulWidget {
   const OccupationalHealthPage({super.key});
@@ -224,6 +225,7 @@ class _OccupationalHealthPageState extends State<OccupationalHealthPage> {
         title: const Text('Occupational Health'),
         backgroundColor: darkGreen,
         foregroundColor: Colors.white,
+        actions: [IconButton(tooltip: 'Open Handbook', icon: const Icon(Icons.menu_book_outlined), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OccupationalHealthHandbookPage())))],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => openForm(),
