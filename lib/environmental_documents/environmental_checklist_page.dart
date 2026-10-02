@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EnvironmentalChecklistPage extends StatefulWidget {
   const EnvironmentalChecklistPage({super.key});
@@ -67,6 +68,32 @@ class _EnvironmentalChecklistPageState
   };
 
   final Map<String, bool> checked = {};
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadChecklist();
+  }
+
+  String _key(String group, String item) =>
+      'env_check_${group.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_')}__${item.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_')}';
+
+  Future<void> _loadChecklist() async {
+    final prefs = await SharedPreferences.getInstance();
+    for (final entry in checklists.entries) {
+      for (final item in entry.value) {
+        checked['${entry.key}::$item'] = prefs.getBool(_key(entry.key, item)) ?? false;
+      }
+    }
+    if (mounted) setState(() => loading = false);
+  }
+
+  Future<void> _setChecked(String group, String item, bool value) async {
+    setState(() => checked['$group::$item'] = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_key(group, item), value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +106,7 @@ class _EnvironmentalChecklistPageState
         backgroundColor: green,
         foregroundColor: Colors.white,
       ),
-      body: ListView(
+      body: loading ? const Center(child: CircularProgressIndicator()) : ListView(
         padding: const EdgeInsets.all(14),
         children: [
           Container(
@@ -141,7 +168,7 @@ class _EnvironmentalChecklistPageState
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(item, style: const TextStyle(fontSize: 13)),
                     onChanged: (value) =>
-                        setState(() => checked[key] = value ?? false),
+                        _setChecked(group.key, item, value ?? false),
                   );
                 }).toList(),
               ),
@@ -150,7 +177,15 @@ class _EnvironmentalChecklistPageState
           Align(
             alignment: Alignment.centerRight,
             child: TextButton.icon(
-              onPressed: () => setState(checked.clear),
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                for (final entry in checklists.entries) {
+                  for (final item in entry.value) {
+                    await prefs.remove(_key(entry.key, item));
+                  }
+                }
+                setState(checked.clear);
+              },
               icon: const Icon(Icons.restart_alt),
               label: const Text('Reset checklist'),
             ),
