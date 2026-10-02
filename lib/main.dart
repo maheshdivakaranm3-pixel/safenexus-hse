@@ -21,6 +21,7 @@ import 'fire_life_safety_topics_page.dart';
 import 'environmental_reference_page.dart';
 import 'oil_gas_interview_page.dart';
 import 'data/hse_reference/hse_topic_browser.dart';
+import 'data/occupational_health/occupational_health_part1.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1490,7 +1491,15 @@ class _SectorReferencePage extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      if (title == 'Occupational Health') {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const OccupationalHealthHandbookPage(),
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context).pop();
+                      }
                     },
                     icon: const Icon(Icons.menu_book_rounded),
                     label: const Text('Open HSE Reference Topics'),
