@@ -1330,6 +1330,13 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
     String title,
     String subtitle,
   ) async {
+    // Occupational Health category opens the handbook topic list directly,
+    // bypassing the intermediate OccupationalHealthPage landing screen.
+    if (title.trim().toLowerCase() == 'occupational health') {
+      await _openPage(const OccupationalHealthHandbookPage());
+      return;
+    }
+
     if (title == 'Specialist / Cross-Sector' || title == 'Complete HSE Guide') {
       await _openPage(const HseTopicBrowserPage());
       return;
