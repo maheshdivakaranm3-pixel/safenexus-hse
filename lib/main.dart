@@ -1491,15 +1491,18 @@ class _SectorReferencePage extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     onPressed: () {
-                      if (title == 'Occupational Health') {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const OccupationalHealthHandbookPage(),
+                      final isOccupationalHealth =
+                          title.trim().toLowerCase() == 'occupational health';
+                      if (isOccupationalHealth) {
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute<void>(
+                            builder: (context) =>
+                                const OccupationalHealthHandbookPage(),
                           ),
                         );
-                      } else {
-                        Navigator.of(context).pop();
+                        return;
                       }
+                      Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.menu_book_rounded),
                     label: const Text('Open HSE Reference Topics'),
