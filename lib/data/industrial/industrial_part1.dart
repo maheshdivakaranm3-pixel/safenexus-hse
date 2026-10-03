@@ -10,6 +10,12 @@ class IndustrialTopic {
   final List<String> commonNonComplianceCorrectiveActions;
   final List<String> interviewPreparation;
   final List<String> siteVerificationChecklist;
+  // Compatibility getters used by the existing handbook detail page.
+  List<String> get documents => permitsDocumentsRecords;
+  String get emergency => emergencyRescueAbnormal.join('\n');
+  String get siteExample => practicalSiteExample.join('\n');
+  List<String> get controls => commonNonComplianceCorrectiveActions;
+
   const IndustrialTopic({
     required this.id, required this.title, required this.image,
     required this.permitsDocumentsRecords, required this.emergencyRescueAbnormal,
