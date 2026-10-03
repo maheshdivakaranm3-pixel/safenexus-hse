@@ -4,13 +4,6 @@ class IndustrialTopic {
   final int id;
   final String title;
   final String image;
-  // Compatibility fields for Parts 2–4 during staged migration.
-  final String purpose;
-  final List<String> hazards;
-  final List<String> controls;
-  final List<String> documents;
-  final String emergency;
-  final String siteExample;
   final List<String> permitsDocumentsRecords;
   final List<String> emergencyRescueAbnormal;
   final List<String> practicalSiteExample;
@@ -19,9 +12,7 @@ class IndustrialTopic {
   final List<String> siteVerificationChecklist;
   const IndustrialTopic({
     required this.id, required this.title, required this.image,
-    this.purpose = '', this.hazards = const [], this.controls = const [],
-    this.documents = const [], this.emergency = '', this.siteExample = '',
-    this.permitsDocumentsRecords, required this.emergencyRescueAbnormal,
+    required this.permitsDocumentsRecords, required this.emergencyRescueAbnormal,
     required this.practicalSiteExample, required this.commonNonComplianceCorrectiveActions,
     required this.interviewPreparation, required this.siteVerificationChecklist,
   });
@@ -30,7 +21,7 @@ class IndustrialTopic {
 const String _base = 'assets/images/industrial';
 const List<IndustrialTopic> industrialPart1 = [
   IndustrialTopic(
-    id: 1, title: 'Industrial HSE Management System', image: '\$_base/management/industrial_hse_management.png',
+    id: 1, title: 'Industrial HSE Management System', image: '$_base/management/industrial_hse_management.png',
     permitsDocumentsRecords: [
       'Before industrial hse management system, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Approved audit/inspection schedule, criteria, checklists, reports, evidence references and risk-ranked findings register.',
@@ -63,7 +54,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 2, title: 'UAE Industrial HSE Legal & Regulatory Compliance', image: '\$_base/management/industrial_legal_compliance.png',
+    id: 2, title: 'UAE Industrial HSE Legal & Regulatory Compliance', image: '$_base/management/industrial_legal_compliance.png',
     permitsDocumentsRecords: [
       'Before uae industrial hse legal & regulatory compliance, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Approved audit/inspection schedule, criteria, checklists, reports, evidence references and risk-ranked findings register.',
@@ -96,7 +87,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 3, title: 'Industrial Hazard Identification & Risk Assessment', image: '\$_base/management/industrial_risk_assessment.png',
+    id: 3, title: 'Industrial Hazard Identification & Risk Assessment', image: '$_base/management/industrial_risk_assessment.png',
     permitsDocumentsRecords: [
       'Before industrial hazard identification & risk assessment, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -129,7 +120,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 4, title: 'JSA & Safe Work Method Statements', image: '\$_base/management/industrial_jsa_swms.png',
+    id: 4, title: 'JSA & Safe Work Method Statements', image: '$_base/management/industrial_jsa_swms.png',
     permitsDocumentsRecords: [
       'Before jsa & safe work method statements, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -162,7 +153,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 5, title: 'Industrial PTW System', image: '\$_base/management/industrial_ptw.png',
+    id: 5, title: 'Industrial PTW System', image: '$_base/management/industrial_ptw.png',
     permitsDocumentsRecords: [
       'Before industrial ptw system, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -195,7 +186,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 6, title: 'Management of Change', image: '\$_base/management/industrial_moc.png',
+    id: 6, title: 'Management of Change', image: '$_base/management/industrial_moc.png',
     permitsDocumentsRecords: [
       'Before management of change, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -228,7 +219,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 7, title: 'Contractor & Subcontractor HSE Management', image: '\$_base/management/industrial_contractor_hse.png',
+    id: 7, title: 'Contractor & Subcontractor HSE Management', image: '$_base/management/industrial_contractor_hse.png',
     permitsDocumentsRecords: [
       'Before contractor & subcontractor hse management, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -261,7 +252,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 8, title: 'Industrial HSE Inspection & Audit', image: '\$_base/management/industrial_hse_inspection.png',
+    id: 8, title: 'Industrial HSE Inspection & Audit', image: '$_base/management/industrial_hse_inspection.png',
     permitsDocumentsRecords: [
       'Before industrial hse inspection & audit, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Approved audit/inspection schedule, criteria, checklists, reports, evidence references and risk-ranked findings register.',
@@ -294,7 +285,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 9, title: 'Incident/Near-Miss Investigation & Reporting', image: '\$_base/management/industrial_incident_investigation.png',
+    id: 9, title: 'Incident/Near-Miss Investigation & Reporting', image: '$_base/management/industrial_incident_investigation.png',
     permitsDocumentsRecords: [
       'Before incident/near-miss investigation & reporting, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -327,7 +318,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 10, title: 'HSE Performance Monitoring, KPI & Continuous Improvement', image: '\$_base/management/industrial_hse_kpi.png',
+    id: 10, title: 'HSE Performance Monitoring, KPI & Continuous Improvement', image: '$_base/management/industrial_hse_kpi.png',
     permitsDocumentsRecords: [
       'Before hse performance monitoring, kpi & continuous improvement, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Approved audit/inspection schedule, criteria, checklists, reports, evidence references and risk-ranked findings register.',
@@ -360,7 +351,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 11, title: 'Industrial Machinery Guarding', image: '\$_base/machinery/industrial_machine_guarding.png',
+    id: 11, title: 'Industrial Machinery Guarding', image: '$_base/machinery/industrial_machine_guarding.png',
     permitsDocumentsRecords: [
       'Before industrial machinery guarding, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -393,7 +384,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 12, title: 'Machine Operation & Safe Operating Procedures', image: '\$_base/machinery/industrial_machine_sop.png',
+    id: 12, title: 'Machine Operation & Safe Operating Procedures', image: '$_base/machinery/industrial_machine_sop.png',
     permitsDocumentsRecords: [
       'Before machine operation & safe operating procedures, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -426,7 +417,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 13, title: 'CNC, Lathe, Milling & Drilling Machine Safety', image: '\$_base/machinery/industrial_cnc_safety.png',
+    id: 13, title: 'CNC, Lathe, Milling & Drilling Machine Safety', image: '$_base/machinery/industrial_cnc_safety.png',
     permitsDocumentsRecords: [
       'Before cnc, lathe, milling & drilling machine safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -459,7 +450,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 14, title: 'Press, Punching & Shearing Machine Safety', image: '\$_base/machinery/industrial_press_safety.png',
+    id: 14, title: 'Press, Punching & Shearing Machine Safety', image: '$_base/machinery/industrial_press_safety.png',
     permitsDocumentsRecords: [
       'Before press, punching & shearing machine safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -492,7 +483,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 15, title: 'Grinding, Cutting & Abrasive Wheel Safety', image: '\$_base/machinery/industrial_grinding_safety.png',
+    id: 15, title: 'Grinding, Cutting & Abrasive Wheel Safety', image: '$_base/machinery/industrial_grinding_safety.png',
     permitsDocumentsRecords: [
       'Before grinding, cutting & abrasive wheel safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -525,7 +516,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 16, title: 'Conveyor Systems & Nip-Point Protection', image: '\$_base/machinery/industrial_conveyor_safety.png',
+    id: 16, title: 'Conveyor Systems & Nip-Point Protection', image: '$_base/machinery/industrial_conveyor_safety.png',
     permitsDocumentsRecords: [
       'Before conveyor systems & nip-point protection, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -558,7 +549,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 17, title: 'Robotics, Automation & Industrial Control Safety', image: '\$_base/machinery/industrial_robot_safety.png',
+    id: 17, title: 'Robotics, Automation & Industrial Control Safety', image: '$_base/machinery/industrial_robot_safety.png',
     permitsDocumentsRecords: [
       'Before robotics, automation & industrial control safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -591,7 +582,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 18, title: 'Mechanical Workshop Safety', image: '\$_base/machinery/industrial_mechanical_workshop.png',
+    id: 18, title: 'Mechanical Workshop Safety', image: '$_base/machinery/industrial_mechanical_workshop.png',
     permitsDocumentsRecords: [
       'Before mechanical workshop safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -624,7 +615,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 19, title: 'Hand Tools & Portable Power Tools', image: '\$_base/machinery/industrial_power_tools.png',
+    id: 19, title: 'Hand Tools & Portable Power Tools', image: '$_base/machinery/industrial_power_tools.png',
     permitsDocumentsRecords: [
       'Before hand tools & portable power tools, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -657,7 +648,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 20, title: 'Industrial Equipment Inspection & Maintenance', image: '\$_base/machinery/industrial_equipment_inspection.png',
+    id: 20, title: 'Industrial Equipment Inspection & Maintenance', image: '$_base/machinery/industrial_equipment_inspection.png',
     permitsDocumentsRecords: [
       'Before industrial equipment inspection & maintenance, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Approved audit/inspection schedule, criteria, checklists, reports, evidence references and risk-ranked findings register.',
@@ -690,7 +681,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 21, title: 'Industrial Electrical Safety', image: '\$_base/electrical/industrial_electrical_safety.png',
+    id: 21, title: 'Industrial Electrical Safety', image: '$_base/electrical/industrial_electrical_safety.png',
     permitsDocumentsRecords: [
       'Before industrial electrical safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -723,7 +714,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 22, title: 'Electrical Panels, Switchgear & Distribution', image: '\$_base/electrical/industrial_switchgear.png',
+    id: 22, title: 'Electrical Panels, Switchgear & Distribution', image: '$_base/electrical/industrial_switchgear.png',
     permitsDocumentsRecords: [
       'Before electrical panels, switchgear & distribution, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -756,7 +747,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 23, title: 'Electrical Arc Flash & Arc Blast', image: '\$_base/electrical/industrial_arc_flash.png',
+    id: 23, title: 'Electrical Arc Flash & Arc Blast', image: '$_base/electrical/industrial_arc_flash.png',
     permitsDocumentsRecords: [
       'Before electrical arc flash & arc blast, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -789,7 +780,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 24, title: 'LOTO & Energy Isolation', image: '\$_base/electrical/industrial_loto.png',
+    id: 24, title: 'LOTO & Energy Isolation', image: '$_base/electrical/industrial_loto.png',
     permitsDocumentsRecords: [
       'Before loto & energy isolation, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit-to-work where the site permit matrix requires it; attach isolation certificate, lock register, line-break certificate or electrical work authorization as applicable.',
@@ -822,7 +813,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 25, title: 'Stored Energy & Zero-Energy Verification', image: '\$_base/electrical/industrial_zero_energy.png',
+    id: 25, title: 'Stored Energy & Zero-Energy Verification', image: '$_base/electrical/industrial_zero_energy.png',
     permitsDocumentsRecords: [
       'Before stored energy & zero-energy verification, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -855,7 +846,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 26, title: 'Hydraulic & Pneumatic System Safety', image: '\$_base/electrical/industrial_hydraulic_pneumatic.png',
+    id: 26, title: 'Hydraulic & Pneumatic System Safety', image: '$_base/electrical/industrial_hydraulic_pneumatic.png',
     permitsDocumentsRecords: [
       'Before hydraulic & pneumatic system safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -888,7 +879,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 27, title: 'Compressed Air System Safety', image: '\$_base/electrical/industrial_compressed_air.png',
+    id: 27, title: 'Compressed Air System Safety', image: '$_base/electrical/industrial_compressed_air.png',
     permitsDocumentsRecords: [
       'Before compressed air system safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -921,7 +912,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 28, title: 'Pressure Vessels & Pressure Systems', image: '\$_base/electrical/industrial_pressure_vessel.png',
+    id: 28, title: 'Pressure Vessels & Pressure Systems', image: '$_base/electrical/industrial_pressure_vessel.png',
     permitsDocumentsRecords: [
       'Before pressure vessels & pressure systems, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -954,7 +945,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 29, title: 'Boiler, Steam & Thermal System Safety', image: '\$_base/electrical/industrial_boiler_steam.png',
+    id: 29, title: 'Boiler, Steam & Thermal System Safety', image: '$_base/electrical/industrial_boiler_steam.png',
     permitsDocumentsRecords: [
       'Before boiler, steam & thermal system safety, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit and authorizations required by the site PTW matrix; include isolation, equipment certification, inspection or specialist approval when applicable.',
@@ -987,7 +978,7 @@ const List<IndustrialTopic> industrialPart1 = [
     ],
   ),
   IndustrialTopic(
-    id: 30, title: 'Industrial Utility Systems & Service Isolation', image: '\$_base/electrical/industrial_utility_isolation.png',
+    id: 30, title: 'Industrial Utility Systems & Service Isolation', image: '$_base/electrical/industrial_utility_isolation.png',
     permitsDocumentsRecords: [
       'Before industrial utility systems & service isolation, define the work boundary, equipment/tag numbers, operating state and interfaces in the approved risk assessment and JSA/SWMS; list each step, hazard, control, owner and stop-work trigger.',
       'Permit-to-work where the site permit matrix requires it; attach isolation certificate, lock register, line-break certificate or electrical work authorization as applicable.',
