@@ -1,6 +1,4 @@
 
-class IndustrialSection { final String heading; final String content; const IndustrialSection(this.heading, this.content); }
-
 class IndustrialTopic {
   final int id;
   final String title;
@@ -23,27 +21,6 @@ class IndustrialTopic {
     required this.emergency,
     required this.siteExample,
   });
-
-  List<IndustrialSection> get sections => [
-    IndustrialSection('1. Purpose & Objectives', '$purpose This topic establishes a controlled, verifiable approach for managing $title risks and protecting people, assets, environment and continuity.'),
-    IndustrialSection('2. Scope & Applicability', 'Apply to relevant industrial operations, maintenance, contractors and affected work areas. Confirm boundaries against the actual plant, process, equipment and approved work pack.'),
-    IndustrialSection('3. Regulatory & Technical Basis', 'Identify applicable UAE federal and emirate legislation, authority requirements, approved standards, manufacturer instructions and client procedures. Confirm the governing requirement with site HSE and engineering; do not assume one rule applies to every facility.'),
-    IndustrialSection('4. Definitions & Technical Terms', 'Use the definitions, operating limits, alarms, isolation points and acceptance criteria in approved site documents and equipment manuals. Brief workers on terms that affect safe execution.'),
-    IndustrialSection('5. Roles, Responsibilities & Competency', 'Management provides resources; area owner confirms plant status; supervisor briefs and coordinates; competent persons perform specialist tasks and inspections; workers follow controls and stop unsafe work; HSE verifies implementation.'),
-    IndustrialSection('6. Hazard Identification', 'Topic-specific hazards include: ${hazards.join('; ')}. Validate by site walk-through, worker consultation, review of incidents and simultaneous operations, and examination of actual work conditions.'),
-    IndustrialSection('7. Risk Evaluation & Potential Consequences', 'Assess likelihood and severity using the approved site matrix. Consider exposure, failure modes, nearby personnel, environmental pathways and credible worst outcomes. Work proceeds only when residual risk meets site acceptance criteria.'),
-    IndustrialSection('8. Hierarchy of Controls', 'Prioritize elimination and substitution, then engineering safeguards, administrative controls and PPE. Topic controls: ${controls.join('; ')}. PPE is supplementary and must not replace feasible higher-level controls.'),
-    IndustrialSection('9. Detailed Safe Work Procedure', 'Define scope and sequence; verify competency; inspect area; conduct JSA/toolbox briefing; confirm permits and isolations where applicable; establish barriers; test safeguards; execute under supervision; monitor changing conditions; stop and reassess after alarms, deviations or scope changes; hand back safely.'),
-    IndustrialSection('10. Equipment & Engineering Safeguards', 'Verify applicable guarding, interlocks, emergency stops, barriers, rated capacity, access, ventilation and protective devices. Never defeat a safety function without formal authorization, documented risk assessment and approved compensating measures.'),
-    IndustrialSection('11. Inspection & Monitoring', 'Complete pre-use and planned checks at intervals required by applicable rules, manufacturer, competent-person scheme or site procedure. Record results, remove defective equipment from service, assign corrective actions and verify closure.'),
-    IndustrialSection('12. PPE Selection & Requirements', 'Select PPE through task risk assessment and compatibility review. Confirm fit, condition, training and replacement criteria. Use task-specific eye, hand, hearing, respiratory, head, foot or fall protection as indicated; inspect before use.'),
-    IndustrialSection('13. Permits, Documents & Records', 'Relevant topic records: ${documents.join('; ')}. Maintain approved risk assessment/JSA, method statement, briefing, competency evidence, inspection records, permits and close-out documents under site document control.'),
-    IndustrialSection('14. Emergency, Rescue & Abnormal Conditions', '$emergency Stop work, alert others, raise the alarm and isolate only if safe. Follow the facility emergency plan. Rescue must be undertaken only by trained, equipped and authorized responders.'),
-    IndustrialSection('15. Practical Industrial Site Example', '$siteExample Validate this example against actual layout, process conditions, equipment and approved work pack; assign responsible persons and record site-specific controls.'),
-    IndustrialSection('16. Common Non-compliance & Corrective Actions', 'Typical gaps include incomplete briefing, outdated assessment, poor housekeeping, missing inspection evidence, unauthorized bypass and failure to reassess change. Make safe, document the finding, assign owner and due date, implement correction and verify effectiveness.'),
-    IndustrialSection('17. HSE Officer Interview Preparation', 'Prepare to explain principal hazards, risk method, hierarchy of controls, permit/interface requirements, inspection evidence, emergency actions and stop-work authority. Give a practical site example and describe how you verify corrective-action effectiveness.'),
-    IndustrialSection('18. Site Verification Checklist', 'Confirm approved plan; competent people; briefing; area inspection; hazards and controls understood; safeguards functional; PPE suitable; permits and records valid; emergency arrangements known; monitoring assigned; defects closed; and handover recorded.'),
-  ];
 }
 
 const String _base = 'assets/images/industrial';
