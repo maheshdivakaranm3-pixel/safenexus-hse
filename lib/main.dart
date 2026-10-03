@@ -22,6 +22,7 @@ import 'environmental_reference_page.dart';
 import 'oil_gas_interview_page.dart';
 import 'data/hse_reference/hse_topic_browser.dart';
 import 'data/occupational_health/occupational_health_handbook_page.dart';
+import 'data/industrial/industrial_handbook_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -1332,6 +1333,11 @@ class _SafeNexusHomePageState extends State<SafeNexusHomePage> {
   ) async {
     // Occupational Health category opens the handbook topic list directly,
     // bypassing the intermediate OccupationalHealthPage landing screen.
+    if (title.trim().toLowerCase() == 'industrial') {
+      await _openPage(const IndustrialHandbookPage());
+      return;
+    }
+
     if (title.trim().toLowerCase() == 'occupational health') {
       await _openPage(const OccupationalHealthHandbookPage());
       return;
