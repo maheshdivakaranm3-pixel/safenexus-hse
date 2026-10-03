@@ -196,34 +196,47 @@ const List<IndustrialTopic> industrialPart3 = [
   ),
   IndustrialTopic(id: 67, title: 'Overhead Crane & Gantry Crane Safety', image: 'assets/images/industrial/warehouse/overhead_crane.png',
     permitsDocumentsRecords: [
-      'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
-      'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
-      'Loading plan, delivery/dispatch records, load restraint/stacking criteria, dock or racking inspection records and defect/quarantine log.',
-      'Toolbox talk, shift handover, incident/near-miss records, emergency access plan and signed close-out/handback.',
+      'Approved lift plan or task-specific lifting procedure identifying the crane ID, lift location, load description, verified gross load (including rigging), lifting points, centre of gravity, travel path, landing area, communication method and assigned lift-team roles. A routine lift may use an approved standard plan only where site rules permit and conditions match it.',
+      'Current crane register and manufacturer data: safe working load (SWL) by configuration, bridge/hoist/trolley limits, duty classification where applicable, operating instructions, inspection and maintenance history, and statutory/client examination records required for the jurisdiction and site.',
+      'Operator authorization and competency evidence; appointed lifting supervisor, rigger/slinger and signaler competency; pre-use inspection record; rigging gear register with unique IDs, rated capacities, colour code where used, examination status and quarantine records.',
+      'Task risk assessment/JSA, permit-to-work where site procedure requires it, toolbox talk, exclusion-zone sketch, simultaneous-operations/interface review, emergency response and power-isolation arrangements, shift handover and lift completion/defect report.',
+      'For non-routine, critical, tandem, blind or near-capacity lifts: documented engineering review and approval, load calculations, crane/structure support verification, trial-lift criteria and hold points defined by the site lifting standard.'
     ],
     emergencyRescueAbnormal: [
-      'Stop vehicle or handling operation using safe controls; warn people and prevent entry into the danger zone. Do not approach an unstable load or suspended load.',
-      'Isolate traffic lanes and secure equipment only through trained personnel; lower a load only if the approved procedure allows it safely.',
-      'Raise alarm for collision, crush, fall or load collapse; summon trained first aid/emergency response and keep routes clear.',
-      'Preserve scene, report damage/near miss, inspect equipment and barriers, and permit restart only after competent clearance.',
+      'If a load swings, snags, shifts or becomes unstable: stop travel, warn the team, keep everyone outside the fall/swing zone and do not try to steady the load by hand. Lower only when the operator and lifting supervisor determine the route and landing area are safe under the approved recovery method.',
+      'For power loss or control failure: use the site emergency communication method, prevent access beneath or around the suspended load, and follow the manufacturer/site procedure. Do not improvise brake release, bypass limit devices or enter the crane structure without authorized isolation and rescue controls.',
+      'For suspected brake, rope, hook, limit-switch, runway or structural failure: stop operation, isolate and tag the crane out of service, secure the area, notify the responsible competent person and arrange inspection before return to service.',
+      'For collision, dropped load, electrical contact or injury: raise the site alarm, call trained responders, isolate energy only by authorized personnel, keep access clear, provide first aid within competence and preserve the scene for investigation. Never place a rescuer beneath an unsupported load.',
+      'Restart only after the cause and equipment condition have been assessed, required repairs/examinations completed, the lift plan and risk assessment reviewed, and written clearance given by the designated responsible person.'
     ],
     practicalSiteExample: [
-      'At a UAE warehouse or industrial yard, the supervisor plans overhead crane & gantry crane safety. The team checks route width, floor condition, visibility, load stability, rated capacity, pedestrian separation, spotter communication and emergency access. The HSE Officer observes the first operating cycle and stops work if the route or load condition changes.',
+      'A maintenance team must move a 2.4-tonne pump motor using a 5-tonne overhead crane. Before rigging, the lifting supervisor confirms the motor mass from an approved drawing/nameplate, checks lifting-point suitability and centre of gravity, verifies crane capacity for the actual hoist/trolley position, and selects certified slings and shackles with adequate configuration-specific capacity.',
+      'The team holds a pre-lift briefing: operator, rigger and one designated signaler are identified; the travel path and landing supports are checked; barriers prevent entry below the load; radios/standard signals are tested; and the stop signal is agreed. A short trial lift just clear of the supports confirms balance, brake holding and rigging seating before controlled travel.',
+      'During travel, the operator follows the signaler, avoids side-pull and shock loading, keeps the load as low as practicable without striking obstacles, and stops if communication is lost or anyone enters the exclusion zone. The load is landed on prepared supports, rigging is removed only after stability is confirmed, and the crane/gear are checked and records closed.'
     ],
     commonNonComplianceCorrectiveActions: [
-      'Pedestrians enter vehicle or suspended-load exclusion zone: stop movement, re-establish physical segregation and revise route/spotter controls.',
-      'Equipment inspection, operator authorization or load rating is missing: quarantine equipment/load, verify certification and competency before use.',
-      'Unstable stacking, overloading or blocked aisle is observed: cordon area, restack using an approved method and record corrective action.',
+      'Load weight or centre of gravity is assumed rather than verified: stop planning, obtain reliable mass/lifting-point data and revise the lift plan before proceeding.',
+      'Operator, rigger or signaler authorization is absent or roles are unclear: suspend the lift, assign competent authorized personnel and repeat the briefing.',
+      'Damaged wire rope, distorted hook, missing/ineffective safety latch, defective sling/shackle, illegible identification or overdue examination is found: quarantine and tag the item; do not repair or return it to service without competent-person disposition.',
+      'People are allowed beneath a suspended load, barriers are missing, or a second person gives conflicting signals: stop movement, clear and re-establish the exclusion zone, appoint one signaler and brief all affected workers.',
+      'Side-pulling, dragging, shock loading, overloading, bypassed limit switch or use of the crane to lift people is observed: stop immediately, isolate where needed, investigate, retrain/revise controls and obtain competent clearance before restart.',
+      'Runway/bridge abnormal noise, skewing, end-stop impact, brake drift or repeated overload alarm occurs: remove crane from service, record the defect and require authorized inspection/repair and functional checks.'
     ],
     interviewPreparation: [
-      'Q: How do you prevent forklift-pedestrian collision? A: Physical segregation first, controlled crossings, speed/visibility rules, trained operators, maintained routes and active supervision.',
-      'Q: What do you verify before a lift or load movement? A: Weight and centre of gravity, capacity, accessories, ground/support, route, exclusion zone, competent team and communication.',
-      'Q: What if a load becomes unstable? A: Stop, keep people clear, do not attempt manual rescue under the load, and follow the approved recovery plan.',
+      'Q: What must be confirmed before an overhead-crane lift? A: Verified load mass and lifting points, crane capacity for the actual configuration, suitable inspected rigging, competent assigned team, approved lift method, clear travel/landing path, exclusion zone, communications and emergency arrangements.',
+      'Q: Why is a trial lift performed? A: To confirm balance, rigging seating, brake holding and control response while the load is only slightly clear of its support, before committing to travel.',
+      'Q: What is the response to a failed radio or lost signal? A: Stop movement safely and hold position; resume only when communication is restored and the designated signaler is clearly identified.',
+      'Q: Can a crane be side-loaded or used to pull a stuck item? A: Not unless the manufacturer-approved design and an engineered procedure explicitly allow the specific operation; ordinary overhead cranes must not be side-pulled.',
+      'Q: What do you do when a hook latch or wire rope is defective? A: Stop use, quarantine/tag the equipment, report it and obtain competent inspection/disposition; never make an informal field repair.',
+      'Q: What UAE compliance basis do you check? A: The current applicable UAE federal requirements, relevant emirate/client HSE system, site lifting standard, manufacturer instructions and required competent-person examination records; confirm the exact applicable revision with the project compliance register rather than guessing a clause number.'
     ],
     siteVerificationChecklist: [
-      'Before: verify route and floor, load weight/stability, capacity, operator authorization, pre-use checks, spotter, segregation, lighting and emergency access.',
-      'During: maintain exclusion zones, speed and communication; monitor pedestrians, weather/visibility, load shift and equipment alarms; stop for deviation.',
-      'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
+      'DOCUMENTS: crane ID matches register; manufacturer capacity chart/manual available; required examination and maintenance status current; operator and lifting-team competency verified; approved lift plan/JSA and permit triggers checked.',
+      'LOAD & RIGGING: load mass and centre of gravity evidenced; lifting points approved; sling angle/configuration and accessory capacity checked; gear IDs and condition acceptable; hook, latch, rope and reeving visually checked; no knots, kinks, bird-caging, cuts or unauthorized repairs.',
+      'CRANE & AREA: rated capacity not exceeded; controls, brakes, hoist limit and warning devices checked as prescribed; runway/bridge/trolley path clear; landing supports stable; lighting and headroom adequate; no unauthorized modification or bypass.',
+      'PEOPLE & CONTROL: operator, rigger and signaler identified; one signaler controls routine movement; agreed stop signal understood; radio/signals tested; exclusion zone physically controlled; no person beneath the load; nearby work and vehicle/pedestrian interfaces controlled.',
+      'DURING LIFT: smooth movement without shock loading or side-pull; load remains controlled; travel path clear; stop if communication fails, load snags/swings, alarm activates or conditions change.',
+      'CLOSE-OUT: load landed and stable before de-rigging; crane parked/secured as required; defects tagged and reported; area restored; lift records and handover completed. Any abnormal event triggers competent review before reuse.'
     ],
   ),
   IndustrialTopic(id: 68, title: 'Lifting Operations, Rigging & Slinging', image: 'assets/images/industrial/warehouse/rigging_slinging.png',
