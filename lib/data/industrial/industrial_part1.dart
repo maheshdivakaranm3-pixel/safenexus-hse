@@ -4,6 +4,13 @@ class IndustrialTopic {
   final int id;
   final String title;
   final String image;
+  // Compatibility fields for Parts 2–4 during staged migration.
+  final String purpose;
+  final List<String> hazards;
+  final List<String> controls;
+  final List<String> documents;
+  final String emergency;
+  final String siteExample;
   final List<String> permitsDocumentsRecords;
   final List<String> emergencyRescueAbnormal;
   final List<String> practicalSiteExample;
@@ -12,7 +19,9 @@ class IndustrialTopic {
   final List<String> siteVerificationChecklist;
   const IndustrialTopic({
     required this.id, required this.title, required this.image,
-    required this.permitsDocumentsRecords, required this.emergencyRescueAbnormal,
+    this.purpose = '', this.hazards = const [], this.controls = const [],
+    this.documents = const [], this.emergency = '', this.siteExample = '',
+    this.permitsDocumentsRecords, required this.emergencyRescueAbnormal,
     required this.practicalSiteExample, required this.commonNonComplianceCorrectiveActions,
     required this.interviewPreparation, required this.siteVerificationChecklist,
   });
