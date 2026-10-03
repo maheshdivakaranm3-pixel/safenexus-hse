@@ -1,9 +1,8 @@
 import 'industrial_part1.dart';
 
-const String _base = 'assets/images/industrial';
 
 const List<IndustrialTopic> industrialPart3 = [
-  IndustrialTopic(id: 61, title: 'Warehouse HSE Management', image: '\$_base/warehouse/warehouse_hse.png',
+  IndustrialTopic(id: 61, title: 'Warehouse HSE Management', image: 'assets/images/industrial/warehouse/warehouse_hse.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -35,7 +34,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 62, title: 'Forklift & Powered Industrial Trucks', image: '\$_base/warehouse/forklift_safety.png',
+  IndustrialTopic(id: 62, title: 'Forklift & Powered Industrial Trucks', image: 'assets/images/industrial/warehouse/forklift_safety.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -67,7 +66,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 63, title: 'Industrial Traffic & Pedestrian Management', image: '\$_base/warehouse/traffic_management.png',
+  IndustrialTopic(id: 63, title: 'Industrial Traffic & Pedestrian Management', image: 'assets/images/industrial/warehouse/traffic_management.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -99,7 +98,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 64, title: 'Industrial Racking & Storage Safety', image: '\$_base/warehouse/racking_storage.png',
+  IndustrialTopic(id: 64, title: 'Industrial Racking & Storage Safety', image: 'assets/images/industrial/warehouse/racking_storage.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -131,7 +130,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 65, title: 'Loading, Unloading & Dock Safety', image: '\$_base/warehouse/loading_dock.png',
+  IndustrialTopic(id: 65, title: 'Loading, Unloading & Dock Safety', image: 'assets/images/industrial/warehouse/loading_dock.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -163,7 +162,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 66, title: 'Manual Material Handling & Ergonomics', image: '\$_base/warehouse/manual_handling.png',
+  IndustrialTopic(id: 66, title: 'Manual Material Handling & Ergonomics', image: 'assets/images/industrial/warehouse/manual_handling.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -195,7 +194,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 67, title: 'Overhead Crane & Gantry Crane Safety', image: '\$_base/warehouse/overhead_crane.png',
+  IndustrialTopic(id: 67, title: 'Overhead Crane & Gantry Crane Safety', image: 'assets/images/industrial/warehouse/overhead_crane.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -227,7 +226,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 68, title: 'Lifting Operations, Rigging & Slinging', image: '\$_base/warehouse/rigging_slinging.png',
+  IndustrialTopic(id: 68, title: 'Lifting Operations, Rigging & Slinging', image: 'assets/images/industrial/warehouse/rigging_slinging.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -259,7 +258,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 69, title: 'Pallet, Container & Bulk Material Handling', image: '\$_base/warehouse/bulk_material_handling.png',
+  IndustrialTopic(id: 69, title: 'Pallet, Container & Bulk Material Handling', image: 'assets/images/industrial/warehouse/bulk_material_handling.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -291,7 +290,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 70, title: 'Automated Warehouse & Material Handling Systems', image: '\$_base/warehouse/automated_warehouse.png',
+  IndustrialTopic(id: 70, title: 'Automated Warehouse & Material Handling Systems', image: 'assets/images/industrial/warehouse/automated_warehouse.png',
     permitsDocumentsRecords: [
       'Approved material-flow plan, traffic management plan and task risk assessment/JSA showing vehicle routes, pedestrian segregation, load characteristics and exclusion zones.',
       'Operator/driver and lifting-team authorization, equipment capacity data, pre-use inspection, maintenance status and any required lifting/vehicle permit.',
@@ -323,7 +322,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: park/secure equipment, lower forks/attachments, isolate defects, clear routes, report incidents and close inspection/dispatch records.',
     ],
   ),
-  IndustrialTopic(id: 71, title: 'Preventive & Predictive Maintenance', image: '\$_base/maintenance/preventive_maintenance.png',
+  IndustrialTopic(id: 71, title: 'Preventive & Predictive Maintenance', image: 'assets/images/industrial/maintenance/preventive_maintenance.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -355,7 +354,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 72, title: 'Hot Work, Welding & Gas Cutting', image: '\$_base/maintenance/hot_work_welding.png',
+  IndustrialTopic(id: 72, title: 'Hot Work, Welding & Gas Cutting', image: 'assets/images/industrial/maintenance/hot_work_welding.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -387,7 +386,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 73, title: 'Confined Space Entry & Rescue', image: '\$_base/maintenance/confined_space.png',
+  IndustrialTopic(id: 73, title: 'Confined Space Entry & Rescue', image: 'assets/images/industrial/maintenance/confined_space.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -419,7 +418,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 74, title: 'Industrial Work at Height', image: '\$_base/maintenance/work_at_height.png',
+  IndustrialTopic(id: 74, title: 'Industrial Work at Height', image: 'assets/images/industrial/maintenance/work_at_height.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -451,7 +450,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 75, title: 'Scaffolding & Temporary Access', image: '\$_base/maintenance/scaffolding.png',
+  IndustrialTopic(id: 75, title: 'Scaffolding & Temporary Access', image: 'assets/images/industrial/maintenance/scaffolding.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -483,7 +482,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 76, title: 'Shutdown & Turnaround Safety', image: '\$_base/maintenance/shutdown_turnaround.png',
+  IndustrialTopic(id: 76, title: 'Shutdown & Turnaround Safety', image: 'assets/images/industrial/maintenance/shutdown_turnaround.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -515,7 +514,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 77, title: 'Equipment Dismantling & Reassembly', image: '\$_base/maintenance/equipment_dismantling.png',
+  IndustrialTopic(id: 77, title: 'Equipment Dismantling & Reassembly', image: 'assets/images/industrial/maintenance/equipment_dismantling.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -547,7 +546,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 78, title: 'Industrial Cleaning & Tank Cleaning', image: '\$_base/maintenance/tank_cleaning.png',
+  IndustrialTopic(id: 78, title: 'Industrial Cleaning & Tank Cleaning', image: 'assets/images/industrial/maintenance/tank_cleaning.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -579,7 +578,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 79, title: 'NDT & Industrial Radiography Safety', image: '\$_base/maintenance/ndt_radiography.png',
+  IndustrialTopic(id: 79, title: 'NDT & Industrial Radiography Safety', image: 'assets/images/industrial/maintenance/ndt_radiography.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -611,7 +610,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 80, title: 'Pressure Testing, Hydrotesting & Pneumatic Testing', image: '\$_base/maintenance/pressure_testing.png',
+  IndustrialTopic(id: 80, title: 'Pressure Testing, Hydrotesting & Pneumatic Testing', image: 'assets/images/industrial/maintenance/pressure_testing.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -643,7 +642,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 81, title: 'Industrial Occupational Hygiene', image: '\$_base/occupational_health/occupational_hygiene.png',
+  IndustrialTopic(id: 81, title: 'Industrial Occupational Hygiene', image: 'assets/images/industrial/occupational_health/occupational_hygiene.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -675,7 +674,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 82, title: 'Noise Exposure & Hearing Conservation', image: '\$_base/occupational_health/noise_hearing.png',
+  IndustrialTopic(id: 82, title: 'Noise Exposure & Hearing Conservation', image: 'assets/images/industrial/occupational_health/noise_hearing.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -707,7 +706,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 83, title: 'Hand-Arm & Whole-Body Vibration', image: '\$_base/occupational_health/vibration_safety.png',
+  IndustrialTopic(id: 83, title: 'Hand-Arm & Whole-Body Vibration', image: 'assets/images/industrial/occupational_health/vibration_safety.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -739,7 +738,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 84, title: 'Dust, Fumes & Airborne Contaminants', image: '\$_base/occupational_health/dust_fumes.png',
+  IndustrialTopic(id: 84, title: 'Dust, Fumes & Airborne Contaminants', image: 'assets/images/industrial/occupational_health/dust_fumes.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -771,7 +770,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 85, title: 'Welding Fume & Respiratory Protection', image: '\$_base/occupational_health/welding_fume.png',
+  IndustrialTopic(id: 85, title: 'Welding Fume & Respiratory Protection', image: 'assets/images/industrial/occupational_health/welding_fume.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -803,7 +802,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 86, title: 'Heat Stress & Thermal Environment', image: '\$_base/occupational_health/heat_stress.png',
+  IndustrialTopic(id: 86, title: 'Heat Stress & Thermal Environment', image: 'assets/images/industrial/occupational_health/heat_stress.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -835,7 +834,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 87, title: 'Occupational Health Surveillance & Fitness', image: '\$_base/occupational_health/health_surveillance.png',
+  IndustrialTopic(id: 87, title: 'Occupational Health Surveillance & Fitness', image: 'assets/images/industrial/occupational_health/health_surveillance.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -867,7 +866,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 88, title: 'Industrial Ergonomics & Musculoskeletal Risk', image: '\$_base/occupational_health/ergonomics.png',
+  IndustrialTopic(id: 88, title: 'Industrial Ergonomics & Musculoskeletal Risk', image: 'assets/images/industrial/occupational_health/ergonomics.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -899,7 +898,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 89, title: 'Biological Hazards & Workplace Hygiene', image: '\$_base/occupational_health/biological_hygiene.png',
+  IndustrialTopic(id: 89, title: 'Biological Hazards & Workplace Hygiene', image: 'assets/images/industrial/occupational_health/biological_hygiene.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -931,7 +930,7 @@ const List<IndustrialTopic> industrialPart3 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 90, title: 'Fatigue, Shift Work & Worker Welfare', image: '\$_base/occupational_health/fatigue_welfare.png',
+  IndustrialTopic(id: 90, title: 'Fatigue, Shift Work & Worker Welfare', image: 'assets/images/industrial/occupational_health/fatigue_welfare.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',

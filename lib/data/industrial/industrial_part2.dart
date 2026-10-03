@@ -1,9 +1,8 @@
 import 'industrial_part1.dart';
 
-const String _base = 'assets/images/industrial';
 
 const List<IndustrialTopic> industrialPart2 = [
-  IndustrialTopic(id: 31, title: 'Process Safety Management', image: '\$_base/process_safety/industrial_process_safety_management.png',
+  IndustrialTopic(id: 31, title: 'Process Safety Management', image: 'assets/images/industrial/process_safety/industrial_process_safety_management.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -35,7 +34,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 32, title: 'Process Hazard Analysis', image: '\$_base/process_safety/industrial_process_hazard_analysis.png',
+  IndustrialTopic(id: 32, title: 'Process Hazard Analysis', image: 'assets/images/industrial/process_safety/industrial_process_hazard_analysis.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -67,7 +66,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 33, title: 'HAZOP & HAZID', image: '\$_base/process_safety/industrial_hazop_hazid.png',
+  IndustrialTopic(id: 33, title: 'HAZOP & HAZID', image: 'assets/images/industrial/process_safety/industrial_hazop_hazid.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -99,7 +98,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 34, title: 'Process Safety Information & Operating Limits', image: '\$_base/process_safety/industrial_process_operating_limits.png',
+  IndustrialTopic(id: 34, title: 'Process Safety Information & Operating Limits', image: 'assets/images/industrial/process_safety/industrial_process_operating_limits.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -131,7 +130,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 35, title: 'Safety Instrumented Systems', image: '\$_base/process_safety/industrial_safety_instrumented_system.png',
+  IndustrialTopic(id: 35, title: 'Safety Instrumented Systems', image: 'assets/images/industrial/process_safety/industrial_safety_instrumented_system.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -163,7 +162,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 36, title: 'Emergency Shutdown Systems', image: '\$_base/process_safety/industrial_emergency_shutdown.png',
+  IndustrialTopic(id: 36, title: 'Emergency Shutdown Systems', image: 'assets/images/industrial/process_safety/industrial_emergency_shutdown.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -195,7 +194,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 37, title: 'Pressure Relief Devices & Rupture Protection', image: '\$_base/process_safety/industrial_pressure_relief.png',
+  IndustrialTopic(id: 37, title: 'Pressure Relief Devices & Rupture Protection', image: 'assets/images/industrial/process_safety/industrial_pressure_relief.png',
     permitsDocumentsRecords: [
       'Approved task risk assessment/JSA, operating or emergency procedure, responsible-person authorization and applicable site permit under the PTW matrix.',
       'Current drawings, manufacturer instructions, inspection/test certificates, maintenance and pre-use records; confirm suitability and status before operation.',
@@ -227,7 +226,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: leave area safe, account for tools/people, close permits, report defects, record lessons and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 38, title: 'Process Line Breaking & Opening', image: '\$_base/process_safety/industrial_line_breaking.png',
+  IndustrialTopic(id: 38, title: 'Process Line Breaking & Opening', image: 'assets/images/industrial/process_safety/industrial_line_breaking.png',
     permitsDocumentsRecords: [
       'Approved task risk assessment/JSA, operating or emergency procedure, responsible-person authorization and applicable site permit under the PTW matrix.',
       'Current drawings, manufacturer instructions, inspection/test certificates, maintenance and pre-use records; confirm suitability and status before operation.',
@@ -259,7 +258,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: leave area safe, account for tools/people, close permits, report defects, record lessons and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 39, title: 'Startup, Shutdown & Plant Commissioning Safety', image: '\$_base/process_safety/industrial_plant_commissioning.png',
+  IndustrialTopic(id: 39, title: 'Startup, Shutdown & Plant Commissioning Safety', image: 'assets/images/industrial/process_safety/industrial_plant_commissioning.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -291,7 +290,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 40, title: 'Process Upset, Loss of Containment & Major Accident Prevention', image: '\$_base/process_safety/industrial_loss_of_containment.png',
+  IndustrialTopic(id: 40, title: 'Process Upset, Loss of Containment & Major Accident Prevention', image: 'assets/images/industrial/process_safety/industrial_loss_of_containment.png',
     permitsDocumentsRecords: [
       'Current process safety information, P&IDs, design limits, operating procedures and safety-critical element register.',
       'Approved PHA/HAZOP/HAZID with risk-ranked actions, named owners, due dates and documented closure evidence.',
@@ -323,7 +322,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: document event/actions, restore safeguards, update controlled records and obtain authorized readiness/return-to-service approval.',
     ],
   ),
-  IndustrialTopic(id: 41, title: 'Chemical Handling & Storage', image: '\$_base/chemicals/industrial_chemical_handling.png',
+  IndustrialTopic(id: 41, title: 'Chemical Handling & Storage', image: 'assets/images/industrial/chemicals/industrial_chemical_handling.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -355,7 +354,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 42, title: 'SDS & Chemical Labelling', image: '\$_base/chemicals/industrial_sds_labelling.png',
+  IndustrialTopic(id: 42, title: 'SDS & Chemical Labelling', image: 'assets/images/industrial/chemicals/industrial_sds_labelling.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -387,7 +386,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 43, title: 'Hazardous Material Classification & Compatibility', image: '\$_base/chemicals/industrial_chemical_compatibility.png',
+  IndustrialTopic(id: 43, title: 'Hazardous Material Classification & Compatibility', image: 'assets/images/industrial/chemicals/industrial_chemical_compatibility.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -419,7 +418,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 44, title: 'Flammable & Combustible Liquid Safety', image: '\$_base/chemicals/industrial_flammable_liquids.png',
+  IndustrialTopic(id: 44, title: 'Flammable & Combustible Liquid Safety', image: 'assets/images/industrial/chemicals/industrial_flammable_liquids.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -451,7 +450,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 45, title: 'Industrial Gas Cylinder Safety', image: '\$_base/chemicals/industrial_gas_cylinders.png',
+  IndustrialTopic(id: 45, title: 'Industrial Gas Cylinder Safety', image: 'assets/images/industrial/chemicals/industrial_gas_cylinders.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -483,7 +482,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 46, title: 'LPG, LNG & Fuel Gas Safety', image: '\$_base/chemicals/industrial_lpg_lng_safety.png',
+  IndustrialTopic(id: 46, title: 'LPG, LNG & Fuel Gas Safety', image: 'assets/images/industrial/chemicals/industrial_lpg_lng_safety.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -515,7 +514,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 47, title: 'Toxic Gas Exposure & Control', image: '\$_base/chemicals/industrial_toxic_gas_detection.png',
+  IndustrialTopic(id: 47, title: 'Toxic Gas Exposure & Control', image: 'assets/images/industrial/chemicals/industrial_toxic_gas_detection.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -547,7 +546,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 48, title: 'Corrosive & Reactive Chemical Safety', image: '\$_base/chemicals/industrial_corrosive_reactive.png',
+  IndustrialTopic(id: 48, title: 'Corrosive & Reactive Chemical Safety', image: 'assets/images/industrial/chemicals/industrial_corrosive_reactive.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -579,7 +578,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 49, title: 'Chemical Transfer, Pumping & Dispensing', image: '\$_base/chemicals/industrial_chemical_transfer.png',
+  IndustrialTopic(id: 49, title: 'Chemical Transfer, Pumping & Dispensing', image: 'assets/images/industrial/chemicals/industrial_chemical_transfer.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -611,7 +610,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 50, title: 'Chemical Spill Containment & Decontamination', image: '\$_base/chemicals/industrial_chemical_spill.png',
+  IndustrialTopic(id: 50, title: 'Chemical Spill Containment & Decontamination', image: 'assets/images/industrial/chemicals/industrial_chemical_spill.png',
     permitsDocumentsRecords: [
       'Current SDS for each substance, chemical inventory, compatibility/segregation matrix and approved risk assessment for receipt, storage, transfer and use.',
       'Site authorization and transfer/decanting procedure; inspection records for containers, hoses and regulators; trained-user evidence and gas tests where specified.',
@@ -643,7 +642,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: secure containers, clean/contain residues as approved, classify waste, report defects and update inventory/records.',
     ],
   ),
-  IndustrialTopic(id: 51, title: 'Industrial Fire Prevention & Protection', image: '\$_base/fire_emergency/industrial_fire_prevention.png',
+  IndustrialTopic(id: 51, title: 'Industrial Fire Prevention & Protection', image: 'assets/images/industrial/fire_emergency/industrial_fire_prevention.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -675,7 +674,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 52, title: 'Fire Detection & Alarm Systems', image: '\$_base/fire_emergency/industrial_fire_alarm.png',
+  IndustrialTopic(id: 52, title: 'Fire Detection & Alarm Systems', image: 'assets/images/industrial/fire_emergency/industrial_fire_alarm.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -707,7 +706,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 53, title: 'Fire Extinguishers & Firefighting Equipment', image: '\$_base/fire_emergency/industrial_fire_extinguisher.png',
+  IndustrialTopic(id: 53, title: 'Fire Extinguishers & Firefighting Equipment', image: 'assets/images/industrial/fire_emergency/industrial_fire_extinguisher.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -739,7 +738,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 54, title: 'Fire Water, Hydrant & Sprinkler Systems', image: '\$_base/fire_emergency/industrial_fire_water.png',
+  IndustrialTopic(id: 54, title: 'Fire Water, Hydrant & Sprinkler Systems', image: 'assets/images/industrial/fire_emergency/industrial_fire_water.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -771,7 +770,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 55, title: 'Explosion Prevention & Protection', image: '\$_base/fire_emergency/industrial_explosion_protection.png',
+  IndustrialTopic(id: 55, title: 'Explosion Prevention & Protection', image: 'assets/images/industrial/fire_emergency/industrial_explosion_protection.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -803,7 +802,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 56, title: 'Hazardous Area Classification & Ex Equipment', image: '\$_base/fire_emergency/industrial_hazardous_area_ex.png',
+  IndustrialTopic(id: 56, title: 'Hazardous Area Classification & Ex Equipment', image: 'assets/images/industrial/fire_emergency/industrial_hazardous_area_ex.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -835,7 +834,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 57, title: 'Combustible Dust Explosion Prevention', image: '\$_base/fire_emergency/industrial_dust_explosion.png',
+  IndustrialTopic(id: 57, title: 'Combustible Dust Explosion Prevention', image: 'assets/images/industrial/fire_emergency/industrial_dust_explosion.png',
     permitsDocumentsRecords: [
       'Current fire-risk assessment, fire strategy, area classification/equipment register where applicable, and inspection/test records for alarms, extinguishers and fixed systems.',
       'Hot-work or fire-system impairment permit, fire-watch records, impairment register, notifications and compensatory measures.',
@@ -867,7 +866,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: restore affected systems, test functionality, close permit/register, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 58, title: 'Emergency Response & Evacuation', image: '\$_base/fire_emergency/industrial_evacuation.png',
+  IndustrialTopic(id: 58, title: 'Emergency Response & Evacuation', image: 'assets/images/industrial/fire_emergency/industrial_evacuation.png',
     permitsDocumentsRecords: [
       'Approved task risk assessment/JSA, operating or emergency procedure, responsible-person authorization and applicable site permit under the PTW matrix.',
       'Current drawings, manufacturer instructions, inspection/test certificates, maintenance and pre-use records; confirm suitability and status before operation.',
@@ -899,7 +898,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: leave area safe, account for tools/people, close permits, report defects, record lessons and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 59, title: 'Emergency Control Centre & Incident Command', image: '\$_base/fire_emergency/industrial_emergency_control_centre.png',
+  IndustrialTopic(id: 59, title: 'Emergency Control Centre & Incident Command', image: 'assets/images/industrial/fire_emergency/industrial_emergency_control_centre.png',
     permitsDocumentsRecords: [
       'Approved task risk assessment/JSA, operating or emergency procedure, responsible-person authorization and applicable site permit under the PTW matrix.',
       'Current drawings, manufacturer instructions, inspection/test certificates, maintenance and pre-use records; confirm suitability and status before operation.',
@@ -931,7 +930,7 @@ const List<IndustrialTopic> industrialPart2 = [
       'After: leave area safe, account for tools/people, close permits, report defects, record lessons and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 60, title: 'Rescue, First Aid & Medical Emergency', image: '\$_base/fire_emergency/industrial_first_aid_rescue.png',
+  IndustrialTopic(id: 60, title: 'Rescue, First Aid & Medical Emergency', image: 'assets/images/industrial/fire_emergency/industrial_first_aid_rescue.png',
     permitsDocumentsRecords: [
       'Approved task risk assessment/JSA, operating or emergency procedure, responsible-person authorization and applicable site permit under the PTW matrix.',
       'Current drawings, manufacturer instructions, inspection/test certificates, maintenance and pre-use records; confirm suitability and status before operation.',

@@ -1,9 +1,8 @@
 import 'industrial_part1.dart';
 
-const String _base = 'assets/images/industrial';
 
 const List<IndustrialTopic> industrialPart4 = [
-  IndustrialTopic(id: 91, title: 'Metal Fabrication & Foundry Safety', image: '\$_base/manufacturing/metal_fabrication.png',
+  IndustrialTopic(id: 91, title: 'Metal Fabrication & Foundry Safety', image: 'assets/images/industrial/manufacturing/metal_fabrication.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -35,7 +34,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 92, title: 'Casting, Furnace & Molten Metal Safety', image: '\$_base/manufacturing/molten_metal.png',
+  IndustrialTopic(id: 92, title: 'Casting, Furnace & Molten Metal Safety', image: 'assets/images/industrial/manufacturing/molten_metal.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -67,7 +66,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 93, title: 'Heat Treatment & Industrial Furnace Safety', image: '\$_base/manufacturing/heat_treatment.png',
+  IndustrialTopic(id: 93, title: 'Heat Treatment & Industrial Furnace Safety', image: 'assets/images/industrial/manufacturing/heat_treatment.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -99,7 +98,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 94, title: 'Plastic, Polymer & Injection Moulding Safety', image: '\$_base/manufacturing/plastic_moulding.png',
+  IndustrialTopic(id: 94, title: 'Plastic, Polymer & Injection Moulding Safety', image: 'assets/images/industrial/manufacturing/plastic_moulding.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -131,7 +130,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 95, title: 'Rubber & Tyre Manufacturing Safety', image: '\$_base/manufacturing/rubber_tyre.png',
+  IndustrialTopic(id: 95, title: 'Rubber & Tyre Manufacturing Safety', image: 'assets/images/industrial/manufacturing/rubber_tyre.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -163,7 +162,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 96, title: 'Food & Beverage Manufacturing Safety', image: '\$_base/manufacturing/food_beverage.png',
+  IndustrialTopic(id: 96, title: 'Food & Beverage Manufacturing Safety', image: 'assets/images/industrial/manufacturing/food_beverage.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -195,7 +194,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 97, title: 'Pharmaceutical & Cleanroom Safety', image: '\$_base/manufacturing/pharmaceutical_cleanroom.png',
+  IndustrialTopic(id: 97, title: 'Pharmaceutical & Cleanroom Safety', image: 'assets/images/industrial/manufacturing/pharmaceutical_cleanroom.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -227,7 +226,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 98, title: 'Paint, Coating & Surface Treatment Safety', image: '\$_base/manufacturing/paint_coating.png',
+  IndustrialTopic(id: 98, title: 'Paint, Coating & Surface Treatment Safety', image: 'assets/images/industrial/manufacturing/paint_coating.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -259,7 +258,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 99, title: 'Cement, Concrete & Building Material Manufacturing', image: '\$_base/manufacturing/cement_concrete.png',
+  IndustrialTopic(id: 99, title: 'Cement, Concrete & Building Material Manufacturing', image: 'assets/images/industrial/manufacturing/cement_concrete.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -291,7 +290,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 100, title: 'Textile, Paper & Packaging Manufacturing Safety', image: '\$_base/manufacturing/textile_paper_packaging.png',
+  IndustrialTopic(id: 100, title: 'Textile, Paper & Packaging Manufacturing Safety', image: 'assets/images/industrial/manufacturing/textile_paper_packaging.png',
     permitsDocumentsRecords: [
       'Approved process/task risk assessment and operating procedure covering machine/process limits, material hazards, guarding, ventilation and abnormal conditions.',
       'Required work permits, equipment inspection and maintenance records, safety-device tests, calibration and competent operator/maintenance authorization.',
@@ -323,7 +322,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: safe shutdown, isolate for cleaning/maintenance, reconcile materials, record defects and obtain documented handback.',
     ],
   ),
-  IndustrialTopic(id: 101, title: 'Industrial Environmental Management', image: '\$_base/environmental/environmental_management.png',
+  IndustrialTopic(id: 101, title: 'Industrial Environmental Management', image: 'assets/images/industrial/environmental/environmental_management.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -355,7 +354,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 102, title: 'Industrial Waste Segregation & Disposal', image: '\$_base/environmental/waste_segregation.png',
+  IndustrialTopic(id: 102, title: 'Industrial Waste Segregation & Disposal', image: 'assets/images/industrial/environmental/waste_segregation.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -387,7 +386,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 103, title: 'Hazardous Waste Management', image: '\$_base/environmental/hazardous_waste.png',
+  IndustrialTopic(id: 103, title: 'Hazardous Waste Management', image: 'assets/images/industrial/environmental/hazardous_waste.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -419,7 +418,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 104, title: 'Air Emissions & Pollution Control', image: '\$_base/environmental/air_emissions.png',
+  IndustrialTopic(id: 104, title: 'Air Emissions & Pollution Control', image: 'assets/images/industrial/environmental/air_emissions.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -451,7 +450,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 105, title: 'Wastewater & Effluent Management', image: '\$_base/environmental/wastewater_effluent.png',
+  IndustrialTopic(id: 105, title: 'Wastewater & Effluent Management', image: 'assets/images/industrial/environmental/wastewater_effluent.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -483,7 +482,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 106, title: 'Oil, Chemical & Fuel Spill Prevention', image: '\$_base/environmental/spill_prevention.png',
+  IndustrialTopic(id: 106, title: 'Oil, Chemical & Fuel Spill Prevention', image: 'assets/images/industrial/environmental/spill_prevention.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -515,7 +514,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 107, title: 'Noise Pollution & Boundary Monitoring', image: '\$_base/environmental/noise_monitoring.png',
+  IndustrialTopic(id: 107, title: 'Noise Pollution & Boundary Monitoring', image: 'assets/images/industrial/environmental/noise_monitoring.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -547,7 +546,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 108, title: 'Resource, Energy & Water Conservation', image: '\$_base/environmental/resource_conservation.png',
+  IndustrialTopic(id: 108, title: 'Resource, Energy & Water Conservation', image: 'assets/images/industrial/environmental/resource_conservation.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -579,7 +578,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 109, title: 'Industrial Site Housekeeping & 5S', image: '\$_base/management/industrial_5s.png',
+  IndustrialTopic(id: 109, title: 'Industrial Site Housekeeping & 5S', image: 'assets/images/industrial/management/industrial_5s.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -611,7 +610,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 110, title: 'Environmental Emergency & Regulatory Reporting', image: '\$_base/environmental/environmental_emergency.png',
+  IndustrialTopic(id: 110, title: 'Environmental Emergency & Regulatory Reporting', image: 'assets/images/industrial/environmental/environmental_emergency.png',
     permitsDocumentsRecords: [
       'Current environmental aspect-impact register and activity-specific environmental risk assessment, including receptors, drains, boundaries and abnormal conditions.',
       'Applicable site/client permits and approvals, monitoring plan, calibration/laboratory reports and inspection schedule; verify jurisdictional conditions with responsible environmental lead.',
@@ -643,7 +642,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: secure materials, remove waste through approved route, document quantities/monitoring, close findings and update registers.',
     ],
   ),
-  IndustrialTopic(id: 111, title: 'Industrial Construction', image: '\$_base/construction/industrial_construction.png',
+  IndustrialTopic(id: 111, title: 'Industrial Construction', image: 'assets/images/industrial/construction/industrial_construction.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -675,7 +674,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 112, title: 'Temporary Works & Structural Stability', image: '\$_base/construction/temporary_works.png',
+  IndustrialTopic(id: 112, title: 'Temporary Works & Structural Stability', image: 'assets/images/industrial/construction/temporary_works.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -707,7 +706,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 113, title: 'Industrial Demolition & Decommissioning', image: '\$_base/construction/industrial_demolition.png',
+  IndustrialTopic(id: 113, title: 'Industrial Demolition & Decommissioning', image: 'assets/images/industrial/construction/industrial_demolition.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -739,7 +738,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 114, title: 'Industrial Refrigeration & Ammonia Safety', image: '\$_base/process_safety/industrial_ammonia.png',
+  IndustrialTopic(id: 114, title: 'Industrial Refrigeration & Ammonia Safety', image: 'assets/images/industrial/process_safety/industrial_ammonia.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -771,7 +770,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 115, title: 'Battery Charging & Industrial Battery Safety', image: '\$_base/electrical/battery_charging.png',
+  IndustrialTopic(id: 115, title: 'Battery Charging & Industrial Battery Safety', image: 'assets/images/industrial/electrical/battery_charging.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -803,7 +802,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 116, title: 'Lithium-Ion Battery & Energy Storage Fire Safety', image: '\$_base/electrical/lithium_energy_storage.png',
+  IndustrialTopic(id: 116, title: 'Lithium-Ion Battery & Energy Storage Fire Safety', image: 'assets/images/industrial/electrical/lithium_energy_storage.png',
     permitsDocumentsRecords: [
       'Approved risk assessment/JSA and safe work method for the specific activity, including sequence, hazards, control owners and stop-work criteria.',
       'Permit/authorization required by site matrix, current drawings/manuals, inspection certificates, pre-use checks and competent-person acceptance.',
@@ -835,7 +834,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: leave safe, account for people/tools, close permits, record defects and obtain authorized handback.',
     ],
   ),
-  IndustrialTopic(id: 117, title: 'Solar PV & Industrial Renewable Energy Safety', image: '\$_base/electrical/solar_pv_safety.png',
+  IndustrialTopic(id: 117, title: 'Solar PV & Industrial Renewable Energy Safety', image: 'assets/images/industrial/electrical/solar_pv_safety.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -867,7 +866,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 118, title: 'Industrial Cyber-Physical Safety & Control System Risks', image: '\$_base/process_safety/control_system_safety.png',
+  IndustrialTopic(id: 118, title: 'Industrial Cyber-Physical Safety & Control System Risks', image: 'assets/images/industrial/process_safety/control_system_safety.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -899,7 +898,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 119, title: 'Industrial HSE Documentation, Records & Compliance', image: '\$_base/management/hse_document_control.png',
+  IndustrialTopic(id: 119, title: 'Industrial HSE Documentation, Records & Compliance', image: 'assets/images/industrial/management/hse_document_control.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
@@ -931,7 +930,7 @@ const List<IndustrialTopic> industrialPart4 = [
       'After: record findings confidentially, arrange follow-up, verify corrective controls and trend anonymized data for prevention.',
     ],
   ),
-  IndustrialTopic(id: 120, title: 'Industrial HSE Leadership, Training & Competency', image: '\$_base/management/hse_leadership_competency.png',
+  IndustrialTopic(id: 120, title: 'Industrial HSE Leadership, Training & Competency', image: 'assets/images/industrial/management/hse_leadership_competency.png',
     permitsDocumentsRecords: [
       'Exposure risk assessment identifying agents, tasks, affected groups, duration, routes of exposure and existing engineering controls.',
       'Monitoring plan and calibrated instrument records where applicable; occupational health surveillance/referral records maintained confidentially by authorized health professionals.',
